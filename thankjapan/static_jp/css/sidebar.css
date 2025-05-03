@@ -49,15 +49,22 @@
         margin-top: 100px;
         height: 150px;
         width: 100%;
-        background: linear-gradient(skyblue, yellowgreen, red, pink);
+        background-image: url("kabuki.png");
+        background-size: 100%;
         overflow-x: scroll;
         
     }
 
+    .home {
+        color: white;
+    }
+
     .category {
+        color: white;
         padding-left: 10px;
         font-size: 40px;
         text-align: center;
+
     }
 
     .ul {
@@ -68,6 +75,7 @@
     }
 
     .li {
+        color: white;
         padding-left: 10px;
         padding-right: 10px;
         font-size: 30px;

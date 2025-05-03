@@ -9,6 +9,11 @@
     
 }
 
+.undermain {
+    background-color: black;
+    color: white;
+}
+
 .document {
     font-size: 30px;
     padding-top: 10px;
@@ -58,5 +63,6 @@
         margin-top: 250px;
         width: 100%;
         margin-left: 0px;
+        color: white;
     }
 }
