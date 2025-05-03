@@ -52,3 +52,11 @@
 .a:hover {
     color: red;
 }
+
+@media (max-width: 500px) {
+    .main {
+        margin-top: 250px;
+        width: 100%;
+        margin-left: 0px;
+    }
+}

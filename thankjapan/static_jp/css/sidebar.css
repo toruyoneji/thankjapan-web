@@ -43,3 +43,38 @@
 .href:hover {
     color: red;
 }
+
+@media (max-width: 500px) {
+    .sidebar {
+        margin-top: 100px;
+        height: 150px;
+        width: 100%;
+        background: linear-gradient(skyblue, yellowgreen, red, pink);
+        overflow-x: scroll;
+        
+    }
+
+    .category {
+        padding-left: 10px;
+        font-size: 40px;
+        text-align: center;
+    }
+
+    .ul {
+        list-style: none;
+        display: flex;
+        flex-wrap: wrap;
+        margin-left: 0px;
+    }
+
+    .li {
+        padding-left: 10px;
+        padding-right: 10px;
+        font-size: 30px;
+    }
+
+    .href:hover {
+        color: blue;
+    }
+}
+
