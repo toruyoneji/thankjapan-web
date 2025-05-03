@@ -1,0 +1,54 @@
+.main {
+    width: auto;
+    flex-grow: 1;
+    margin-top: 120px;
+    margin-left: 250px;
+    box-sizing: border-box;
+    border: 2px solid green;
+    background: linear-gradient(skyblue, orange, red, blue, pink);
+    
+}
+
+.document {
+    font-size: 30px;
+    padding-top: 10px;
+    margin-left: 5px;
+}
+
+.image {
+    margin-top: 10px;
+    width: 100%;
+}
+
+.dt {
+    font-size: 40px;
+    text-align: center;
+}
+
+.dd {
+    font-size: 30px;
+}
+
+.h2 {
+    text-align: center;
+    color: red;
+    font-size: 40px;
+    margin-top: 10px;
+}
+
+.yajirushi {
+    text-align: center;
+    font-size: 50px;
+}
+
+.return {
+    font-size: 30px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-left: 5px;
+    text-align: center;
+}
+
+.a:hover {
+    color: red;
+}
