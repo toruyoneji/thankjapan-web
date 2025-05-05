@@ -1,11 +1,16 @@
 from django.shortcuts import render
 from django.views import View
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
 from .models import ThankJapanModel
 
 class TopView(ListView):
     template_name = "thank_japan_app/toppage.html"
     model = ThankJapanModel
+
+class ImgDetailView(DetailView):
+    tamplate_name = "thank_japan_app/detail.html"
+    model = ThankJapanModel
+    
 
 class FoodView(ListView):
     template_name = "thank_japan_app/food.html"

@@ -1,5 +1,8 @@
 from django.urls import path
-from .views import TopView, FoodView, NatureView, FashionView, CultureView, CookView, AppliancesView, AnimalView
+from .views import (TopView, FoodView, NatureView, FashionView, 
+                    CultureView, CookView, AppliancesView, AnimalView,
+                    ImgDetailView)
+
 
 urlpatterns = [
     path("", TopView.as_view(), name="toppage"),
@@ -10,5 +13,5 @@ urlpatterns = [
     path("cook/", CookView.as_view(), name="cookpage"),
     path("appliances/", AppliancesView.as_view(), name="appliancespage"),
     path("animal/", AnimalView.as_view(), name="animalpage"),
-
+    path("detail/<int:pk>/", ImgDetailView.as_view(), name="detail"),
 ]
