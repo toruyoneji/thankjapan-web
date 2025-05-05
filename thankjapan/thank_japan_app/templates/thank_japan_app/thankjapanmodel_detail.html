@@ -5,10 +5,10 @@
 
     {% load static %}
     <div class="main2">
-        <img class="image" src="{{ object.image.url }}" alt="detailImage" width={900} height={500}/>
+        <img class="detailgazou" src="{{ object.image.url }}" alt="detailImage" />
             <dl>
-                <dt class="dt">Name: {{ object.name }}</dt>
-                <dd class="dd">description:<br />
+                <dt class="detaildt">Name: {{ object.name }}</dt>
+                <dd class="detaildd">description:<br />
                     {{ object.description }}
                 </dd>
             </dl>
