@@ -28,10 +28,10 @@
     }
 
     .gazou {
-        padding-left: 10px;
-        padding-right: 10px;
+        padding-left: 5px;
+        padding-right: 5px;
         border-radius: 30px;
-        width: 20%;
+        width: 15%;
         height: 100px;
     }
 }
