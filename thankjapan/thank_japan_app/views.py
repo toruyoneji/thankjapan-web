@@ -39,3 +39,23 @@ class AppliancesView(ListView):
 class AnimalView(ListView):
     template_name = "thank_japan_app/animal.html"
     model = ThankJapanModel
+
+class BuildingView(ListView):
+    template_name = "thank_japan_app/building.html"
+    model = ThankJapanModel
+
+class FlowerView(ListView):
+    template_name = "thank_japan_app/flower.html"
+    model = ThankJapanModel
+
+class HouseholdItemsView(ListView):
+    template_name = "thank_japan_app/householditems.html"
+    model = ThankJapanModel
+
+class SportsView(ListView):
+    template_name = "thank_japan_app/sports.html"
+    model = ThankJapanModel
+
+class WorkView(ListView):
+    template_name = "thank_japan_app/work.html"
+    model = ThankJapanModel
