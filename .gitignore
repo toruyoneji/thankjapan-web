@@ -7,6 +7,7 @@ auth
 media_jp/
 manage.py
 requirements.txt
+settings.*
 
 # Created by https://www.toptal.com/developers/gitignore/api/django
 # Edit at https://www.toptal.com/developers/gitignore?templates=django
