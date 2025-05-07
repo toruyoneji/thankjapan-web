@@ -8,6 +8,7 @@ app_name = "thank_japan_app"
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('thankjp/', include('thank_japan_app.urls')),
+   
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

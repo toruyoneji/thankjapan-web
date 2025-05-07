@@ -29,9 +29,8 @@
 
     .gazou {
         padding-left: 5px;
-        padding-right: 5px;
         border-radius: 30px;
-        width: 15%;
+        width: 20%;
         height: 100px;
     }
 }
