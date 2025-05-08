@@ -18,7 +18,6 @@
     list-style: disc;
     font-size: 30px;
     margin: 10px 0px 50px 50px;
-
 }
 
 .li {
@@ -37,6 +36,12 @@
 }
 
 .home {
+    font-size: 30px;
+    margin-top: 10px;
+    padding-left: 10px;
+}
+
+.accounthome {
     font-size: 30px;
     margin-top: 10px;
     padding-left: 10px;
@@ -62,6 +67,10 @@
     }
 
     .home {
+        color: white;
+    }
+
+    .accounthome {
         color: white;
     }
 

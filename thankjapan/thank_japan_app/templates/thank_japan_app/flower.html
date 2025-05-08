@@ -1,17 +1,38 @@
 {% extends 'basecategory.html' %}
-{% block title %}Food{% endblock %}
+{% block title %}Flower{% endblock %}
 
 {% block content %}
 
     {% load static %}
     <div class="main2">
+    
+    {% if request.user.is_authenticated %}
         {% for item in object_list %}
             {% if item.category == "flower" %}
+                               
                 <a href="{% url 'detail' item.id %}">
                     <img class="gazou" src="{{ item.image.url }}" alt="No image..." />
                 </a>
+
             {% endif %}
         {% endfor %}
+    {% else %}
+        {% for item in object_list %}
+            {% if item.category == "flower" %}
+                {% if forloop.counter < 200 %}
+                <a href="{% url 'detail' item.id %}">
+                    <img class="gazou" src="{{ item.image.url }}" alt="No image..." />
+                </a>
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+        <img class="image" src="{% static 'css/member.png'%}" alt="">
+        <p class="h2">↓↓</p>
+        <p class="h2"><a href="{% url 'account_login' %}">login</a> or <a href="{% url 'account_signup' %}">sign in</a></p>
+
+
+    {% endif %}
+    
     </div>
 
  
