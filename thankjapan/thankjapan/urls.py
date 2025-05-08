@@ -8,6 +8,7 @@ app_name = "thank_japan_app"
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('thankjp/', include('thank_japan_app.urls')),
+    path('accounts/', include('allauth.urls')),
    
 ]
 

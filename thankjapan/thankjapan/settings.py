@@ -29,6 +29,12 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'thank_japan_app.apps.ThankJapanAppConfig',
     'accounts.apps.AccountsConfig',
+
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+   
 ]
 
 MIDDLEWARE = [
@@ -39,6 +45,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'allauth.account.middleware.AccountMiddleware',
 ]
 
 ROOT_URLCONF = 'thankjapan.urls'
@@ -68,8 +75,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'thankjapanDB',
-        'USER': 'thankjapanstaff',
-        'PASSWORD': 'toruyoneji0514',
+        'USER': 'postgres',
+        'PASSWORD': 'postgres',
         'HOST': 'localhost',
         'PORT': '5432',
     }
@@ -94,11 +101,16 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+AUTHENTICATION_BACKENDS = [
+    "django.contrib.auth.backends.ModelBackend",
+    "allauth.account.auth_backends.AuthenticationBackend",
+]
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
 
-LANGUAGE_CODE = 'ja'
+LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'Asia/Tokyo'
 
@@ -123,6 +135,35 @@ STATICFILES_DIRS = [BASE_DIR / 'static_jp']
 
 MEDIA_ROOT = BASE_DIR / 'media_jp'
 
+
+SITE_ID = 1
+
+# ユーザー認証にメールアドレスを使用
+ACCOUNT_AUTHENTICATION_METHOD = "email"
+# ユーザー登録にメールアドレスを必須にする
+ACCOUNT_EMAIL_REQUIRED = True
+# ユーザー名の登録を不要にする
+ACCOUNT_USERNAME_REQUIRED = False
+# 登録後、メールアドレスに確認メールが送信される
+ACCOUNT_EMAIL_VERIFICATION = "mandatory"
+# 連続してログイン失敗できる回数を5回に制限
+ACCOUNT_LOGIN_ATTEMPTS_LIMIT = 5
+# ログインがロックされた後に再試行できるまでの時間
+ACCOUNT_LOGIN_ATTEMPTS_TIMEOUT = 24
+
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = "your-email@gmail.com"
+EMAIL_HOST_PASSWORD = "your-password"
+
+from django.urls import reverse_lazy
+
+LOGIN_REDIRECT_URL = reverse_lazy('toppage')
+ACCOUNT_LOGOUT_REDIRECT_URL = reverse_lazy('account_login')
+
+ACCOUNT_LOGOUT_ON_GET = True
 
 
 

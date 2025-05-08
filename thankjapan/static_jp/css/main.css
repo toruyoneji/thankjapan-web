@@ -10,6 +10,14 @@
     
 }
 
+.accountul {
+    display: flex;
+}
+
+.accountli {
+    font-size: 20px;
+}
+
 .undermain {
     background-color: black;
     color: white;

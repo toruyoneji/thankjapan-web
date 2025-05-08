@@ -1,0 +1,15 @@
+.accountbody {
+    background-image: url("haikei.png");
+    font-size: 30px;
+    color: black;
+    text-align: center;
+}
+
+.accountul {
+    margin-top: 10px;
+    padding-top: 20px;
+}
+
+.accountli:hover {
+    color: red;
+}

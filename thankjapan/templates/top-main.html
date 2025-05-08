@@ -1,5 +1,12 @@
 {% load static %}
 <div class="main">
+
+    <ul class="accountul">
+        <li class="accountli"><a href="{% url 'account_login' %}">Login</a></li>
+        <li class="accountli"><a href="">Signup</a></li>
+        <li class="accountli"><a href="{% url 'account_logout' %}">Logout</a></li>
+    </ul>
+    
     <p class="document">
         Hello everyone, this is Thank_Japan.
         I'm sending this message from Japan.

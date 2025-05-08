@@ -57,7 +57,7 @@
         width: 100%;
         background-image: url("kabuki.png");
         background-size: 100%;
-        overflow-x: scroll;
+        overflow: auto;
         
     }
 
