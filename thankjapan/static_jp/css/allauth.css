@@ -1,5 +1,5 @@
 .accountbody {
-    background-image: url("haikei.png");
+    background-image: url("kanin01.png");
     font-size: 30px;
     color: black;
     text-align: center;
@@ -16,6 +16,7 @@
 
 .accountli:hover {
     color: red;
+    width: 20px;
 }
 
 .accounth1:hover {

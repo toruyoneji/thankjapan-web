@@ -7,24 +7,22 @@
     <div class="main2">
     
     {% if request.user.is_authenticated %}
-        {% for item in object_list %}
-            {% if item.category == "householditems" %}
+        {% for item in object_list %}            
                                
                 <a href="{% url 'detail' item.id %}">
                     <img class="gazou" src="{{ item.image.url }}" alt="No image..." />
                 </a>
-
-            {% endif %}
+          
         {% endfor %}
     {% else %}
         {% for item in object_list %}
-            {% if item.category == "householditems" %}
-                {% if forloop.counter < 200 %}
+            
+                {% if forloop.counter < 25 %}
                 <a href="{% url 'detail' item.id %}">
                     <img class="gazou" src="{{ item.image.url }}" alt="No image..." />
                 </a>
                 {% endif %}
-            {% endif %}
+          
         {% endfor %}
         <img class="image" src="{% static 'css/member.png'%}" alt="login or sign in">
         <p class="h2">↓↓</p>
