@@ -1,7 +1,7 @@
 .accountbody {
-    background-image: url("kanin01.png");
+    background-image: url("kanin02.png");
     font-size: 30px;
-    color: black;
+    color: white;
     text-align: center;
 }
 
@@ -20,5 +20,14 @@
 }
 
 .accounth1:hover {
+    color: red;
+}
+
+.kiyaku {
+    text-decoration: underline solid black;
+    color: yellow;
+}
+
+.kiyaku:hover {
     color: red;
 }

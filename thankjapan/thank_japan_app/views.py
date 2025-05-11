@@ -1,9 +1,12 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import ListView, DetailView
+from django.views.generic.edit import FormView
 from .models import ThankJapanModel
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth import logout
+from .forms import DeleteUserForm
 
 class TopView(ListView):
     template_name = "thank_japan_app/toppage.html"
@@ -13,7 +16,26 @@ class ImgDetailView(DetailView):
     tamplate_name = "thank_japan_app/detail.html"
     model = ThankJapanModel
     
+class KiyakuView(ListView):
+    template_name = "thank_japan_app/riyoukiyaku.html"
+    model = ThankJapanModel
 
+class UserDeleteFormView(FormView):
+    template_name = "thank_japan_app/userdelete.html"
+    form_class = DeleteUserForm
+    success_url = "thank_japan_app/toppage"
+
+class UserDeleteView(LoginRequiredMixin, View):
+
+    def post(self, request, *args, **kwargs):
+        form = DeleteUserForm(request.POST)
+        if form.is_valid():
+            user = request.user
+            logout(request)
+            user.delete()
+            return redirect(reverse_lazy("toppage"))
+            
+    
 class FoodView(ListView):
     template_name = "thank_japan_app/food.html"
     

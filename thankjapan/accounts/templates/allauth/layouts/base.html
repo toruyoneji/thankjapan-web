@@ -27,7 +27,7 @@
                 <strong>{% trans "Menu:" %}</strong>
                 <h1 class="accounth1"><a href="{% url 'toppage' %}">Home</a></h1>
                 <h2>↑↑</h2>
-                <h2>Clicking 'Home' takes you back to the top page.</h2>
+                <h3>Clicking 'Home' takes you back to the top page.</h3>
                 <ul class="accountul">
                     {% if user.is_authenticated %}
                         {% url 'account_email' as email_url_ %}

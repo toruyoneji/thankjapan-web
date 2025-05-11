@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Deletion Page</title>
+    {% include 'css.html' %}
+</head>
+<body class="deletemain">
+    <div>
+        <h1 class="deleteh1">Account Deletion Page</h1>
+        <form class="deleteform" method="POST" action="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button class="deletebutton" type="submit" name="action">Confirm</button>
+        </form>
+        <p class="deletep">※Please enter your email and password, then click the Confirm button.</p>
+        <h2 class="deleteh2"><a href="{% url 'toppage' %}">Home</a></h2>
+   </div>
+</body>
+</html>

@@ -2,7 +2,14 @@
 <div class="main">
     
     <p class="document">
-        Hello everyone, this is Thank_Japan.
+        Hello
+        {% if request.user.is_authenticated %}
+            {{ user.username }}
+        {% else %}
+            everyone
+        {% endif %} 
+
+        , this is Thank_Japan.
         I'm sending this message from Japan.
         Have you ever been to Japan?
         Japan is a country surrounded by the sea.
@@ -10,9 +17,22 @@
         Let’s study Japanese together!
         I’m looking forward to the day I can meet you all.
         Have a great day!<br>
-        You can log in or sign up from the left side, just below "Home" and above "Category."<br>
-        (On smartphones and similar devices, it's located between "Home" and "Category" at the top.)
-    </p>
+        You can log in or sign up from the left side, just below "Home" and above "Category."<br><hr>
+        <p class="document">
+        To register as a member, click on Sign Up, then enter your email address and password, and press the Sign Up button.
+        Next, a verification URL will be sent to the email address you provided. 
+        Click on that link to return to the Sign Up screen, then click the Confirm button to complete your registration.
+        After that, go back to the home page and log in.<br>
+        ※Please note that if your password is too similar to your email address, it may result in an error. 
+        Also, please make sure to keep your password and email address secure and confidential.
+        </p>
+        <br><hr>
+        <p class="document">
+        When you click "Logout," you will be automatically logged out.ease return to the Home page by clicking Home after logging out.
+        To log in again, simply click Login.
+        During the tournament, please click Withdrawal on the right and enter your email address and password.<br>
+        (On smartphones and similar devices, it's located between "Home" and "Category" at the top.)</p>
+    </p><hr>
 
     <h2 class="h2">How to use this site:</h2>
         <p class="document">

@@ -6,7 +6,11 @@
         <ul class="ul">
             <li class="li"><a href="{% url 'account_login' %}">Login</a></li>
             <li class="li"><a href="{% url 'account_signup' %}">Signup</a></li>
+            {% if request.user.is_authenticated %}
             <li class="li"><a href="{% url 'account_logout' %}">Logout</a></li>
+            <li class="li"><a href="{% url 'userdeleteform' %}">Withdrawal</a></li>
+            {% endif %}
+
         </ul>
 
         <h3 class="category">Category</h3>
