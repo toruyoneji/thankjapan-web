@@ -18,7 +18,7 @@
     {% else %}
         {% for item in object_list %}
             
-                {% if forloop.counter < 25 %}
+                {% if forloop.counter < 13 %}
                 <a href="{% url 'detail' item.id %}">
                     <img class="gazou" src="{{ item.image.url }}" alt="No image..." />
                 </a>
