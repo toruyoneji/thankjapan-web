@@ -26,6 +26,25 @@
     text-align: center;
 }
 
+@media (max-width: 1024px) {
+    
+    .gazou {
+        padding-left: 5px;
+        border-radius: 30px;
+        width: 30%;
+        height: 150px;
+    }
+}
+
+@media (max-width: 770px) {
+    
+    .gazou {
+        padding-left: 5px;
+        border-radius: 30px;
+        width: 28%;
+        height: 150px;
+    }
+}
 
 @media (max-width: 500px) {
     .main2 {

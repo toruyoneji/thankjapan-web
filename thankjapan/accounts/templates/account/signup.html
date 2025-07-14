@@ -7,7 +7,7 @@
     {% element h1 %}
         {% trans "Sign Up" %}
     {% endelement %}
-    <br><h3>"By becoming a member, you will be charged about $2 per month."</h3>
+    <br>
     <h2 class="kiyaku"><a href="{% url 'riyoukiyaku' %}">Click here the Terms of Service</a></h2>
     {% setvar link %}
         <a href="{{ login_url }}">
@@ -16,7 +16,7 @@
         </a>
     {% endsetvar %}
     {% element p %}
-        {% blocktranslate %}Already have an account? Then please {{ link }}sign in{{ end_link }}.{% endblocktranslate %}
+        {% blocktranslate %}Already have an account? Then please {{ link }}Login{{ end_link }}.{% endblocktranslate %}
     {% endelement %}
     {% if not SOCIALACCOUNT_ONLY %}
         {% url 'account_signup' as action_url %}
