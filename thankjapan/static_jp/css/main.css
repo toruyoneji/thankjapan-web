@@ -70,6 +70,13 @@
     color: red;
 }
 
+.sendbutton {
+    height: 20px;
+    width: 30px;
+    background-color: blue;
+    font-color: white;
+}
+
 @media (max-width: 500px) {
     .main {
         margin-top: 250px;

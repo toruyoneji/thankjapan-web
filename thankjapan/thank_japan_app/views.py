@@ -1,12 +1,12 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views import View
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, FormView
 from django.views.generic.edit import FormView
 from .models import ThankJapanModel
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import logout
-from .forms import DeleteUserForm
+from .forms import DeleteUserForm, CompanyForm
 
 class TopView(ListView):
     template_name = "thank_japan_app/toppage.html"
@@ -34,8 +34,27 @@ class UserDeleteView(LoginRequiredMixin, View):
             logout(request)
             user.delete()
             return redirect(reverse_lazy("toppage"))
-            
-    
+        
+#company infomation
+class CompanyFormView(FormView):
+     template_name = 'thank_japan_app/company.html'
+     form_class = CompanyForm
+
+# def form_company(request):
+#     if request.method == 'POST':
+#         form = CompanyForm(request.POST)
+#         if form.is_valid():
+#             username = form.cleaned_data['username']
+#             email = form.cleaned_data['email']
+#             title = form.cleaned_data['title']
+#             message = form.cleaned_data['message']
+#             print('username: ', username)
+#             return render(request, 'thank_japan_app/company.html', {'form': CompanyForm()})
+#     else:
+#         form = CompanyForm()
+#     return render(request, 'thank_japan_app/company.html', {'form':form})
+                
+                
 class FoodView(ListView):
     template_name = "thank_japan_app/food.html"
     

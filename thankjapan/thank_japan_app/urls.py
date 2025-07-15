@@ -2,11 +2,15 @@ from django.urls import path
 from .views import (TopView, KiyakuView, FoodView, NatureView, FashionView, 
                     CultureView, CookView, AppliancesView, AnimalView,
                     ImgDetailView, BuildingView, FlowerView, HouseholdItemsView,
-                    SportsView, WorkView, UserDeleteFormView, UserDeleteView)
+                    SportsView, WorkView, UserDeleteFormView, UserDeleteView,
+                    CompanyFormView)
 
 
 urlpatterns = [
+    #top page
     path("", TopView.as_view(), name="toppage"),
+    
+    #category list page
     path("food/", FoodView.as_view(), name="foodpage"),
     path("nature/", NatureView.as_view(), name="naturepage"),
     path("fashion/", FashionView.as_view(), name="fashionpage"),
@@ -20,8 +24,10 @@ urlpatterns = [
     path("sports/", SportsView.as_view(), name="sportspage"),
     path("work/", WorkView.as_view(), name="workpage"),
 
+    #user look page
     path("detail/<int:pk>/", ImgDetailView.as_view(), name="detail"),
     path("riyoukiyaku/", KiyakuView.as_view(), name="riyoukiyaku"),
     path("delete/", UserDeleteFormView.as_view(), name="userdeleteform"),
     path("delete/post", UserDeleteView.as_view(), name="userdelete"),
+    path("infomation/", CompanyFormView.as_view(), name="infomationpage"),
 ]

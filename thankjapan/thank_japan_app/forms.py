@@ -8,3 +8,28 @@ class DeleteUserForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ['email', 'password']
+        
+class CompanyForm(forms.Form):
+    
+    username = forms.CharField(label="UserName",max_length=50,
+                               error_messages={'required':'required'},
+                               widget=forms.TextInput(attrs={'size': '30', 'style': 'height: 30px'}))
+    
+    email = forms.EmailField(label="Email", error_messages={'required': 'requeired'},
+                             widget=forms.TextInput(attrs={'size': '40', 'style': 'height: 30px'}))
+    
+    title = forms.CharField(label="Title", max_length=50, required=False,
+                            widget=forms.TextInput(attrs={'size': '40', 'style': 'height: 30px;'}))
+    
+    message = forms.CharField(label="Message", widget=forms.Textarea, required=False)
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        
+        self.fields['username'].widget.attrs['placeholder'] = "name"
+        self.fields['email'].widget.attrs['placeholder'] = "sample@example.com"
+        self.fields['title'].widget.attrs['placeholder'] = "title"
+        self.fields['message'].widget.attrs['placeholder'] = "message..."
+        
+        
+    
