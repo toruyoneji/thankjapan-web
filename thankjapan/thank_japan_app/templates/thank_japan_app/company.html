@@ -16,8 +16,19 @@
     <hr><br>
         <h2>Company introduction</h2>
         <p>Company's description</p>
-
+        <br>
+        
     <hr><br>
+
+        {% if messages %}
+            <ul>
+                {% for message in messages %}
+                    <h1><li class="sendmail">{{ message }}</li></h1>
+                {% endfor %}
+            </ul>
+
+        {% endif %}
+
         <h1>------------ Inquiry ------------</h1>
         <br>
             <form action="" method="post">

@@ -6,7 +6,11 @@ from django.views.generic.edit import FormView
 from .models import ThankJapanModel
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import logout
+from django.contrib import messages
 from .forms import DeleteUserForm, CompanyForm
+import logging
+
+logger = logging.getLogger(__name__)
 
 class TopView(ListView):
     template_name = "thank_japan_app/toppage.html"
@@ -39,6 +43,13 @@ class UserDeleteView(LoginRequiredMixin, View):
 class CompanyFormView(FormView):
      template_name = 'thank_japan_app/company.html'
      form_class = CompanyForm
+     success_url = reverse_lazy('infomationpage')
+     
+     def form_valid(self, form):
+         form.send_email()
+         messages.success(self.request, 'send success!!')
+         logger.info('Contact sent by {}'.format(form.cleaned_data['username']))
+         return super().form_valid(form)
 
 # def form_company(request):
 #     if request.method == 'POST':

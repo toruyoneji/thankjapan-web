@@ -1,6 +1,7 @@
 from django import forms
 #from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
+from django.core.mail import send_mail
 
 User = get_user_model()
 
@@ -32,4 +33,10 @@ class CompanyForm(forms.Form):
         self.fields['message'].widget.attrs['placeholder'] = "message..."
         
         
-    
+    def send_email(self):
+        send_mail(
+            subject=f"Contact from {self.cleaned_data['username']}",
+            message=self.cleaned_data['message'],
+            from_email=self.cleaned_data['email'],
+            recipient_list=['your_destination@example.com'],
+        )
