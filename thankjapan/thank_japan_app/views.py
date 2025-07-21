@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views import View
-from django.views.generic import ListView, DetailView, FormView
+from django.views.generic import ListView, DetailView, FormView, TemplateView
 from django.views.generic.edit import FormView
 from .models import ThankJapanModel
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -9,6 +9,7 @@ from django.contrib.auth import logout
 from django.contrib import messages
 from .forms import DeleteUserForm, CompanyForm
 import logging
+import random
 
 logger = logging.getLogger(__name__)
 
@@ -64,7 +65,19 @@ class CompanyFormView(FormView):
 #     else:
 #         form = CompanyForm()
 #     return render(request, 'thank_japan_app/company.html', {'form':form})
-                
+
+#Game
+class GameView(TemplateView):
+    template_name = 'thank_japan_app/game.html'
+    
+    def get_context_data(self, **kwargs):
+        pkmax = ThankJapanModel.objects.last().pk
+        pk = random.randint(1, pkmax)
+        context =  super().get_context_data(**kwargs)
+        context['object'] = ThankJapanModel.objects.get(id=pk)
+        return context
+    
+   
                 
 class FoodView(ListView):
     template_name = "thank_japan_app/food.html"

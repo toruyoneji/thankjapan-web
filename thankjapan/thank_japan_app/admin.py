@@ -1,6 +1,9 @@
 from django.contrib import admin
 from .models import ThankJapanModel
 
-
-admin.site.register(ThankJapanModel)
+class ThankJapanAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name')
+    
+    
+admin.site.register(ThankJapanModel, ThankJapanAdmin)
 

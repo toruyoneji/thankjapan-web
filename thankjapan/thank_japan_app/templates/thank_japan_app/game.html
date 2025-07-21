@@ -1,0 +1,33 @@
+{% extends 'basecategory.html' %}
+{% block title %}Game{% endblock %}
+
+{% block content %}
+
+    {% load static %}
+    <div class="main2">
+        <h1>Quesition & Answer</h1>
+            <img class="gazou" src="{{ object.image.url }}" alt="No image..." />
+            <hr>
+            <h1 class=>category: {{ object.category }}</h1>
+            <form action="POST">
+                {% csrf_token %}
+                <br>
+                <h1><label for="">What's name?(romaji)</label></h1>
+                <br>
+                <p><input class="answerinput" type="text" placeholder="answer"></p>
+                <br>
+                
+                <button class="answerbutton" type="submit">Answer</button>
+            </form>
+        
+       
+        <img class="image" src="{% static 'css/member.png'%}" alt="">
+        <p class="h2">↓↓</p>
+        <p class="h2"><a href="{% url 'account_login' %}">login</a> or <a href="{% url 'account_signup' %}">sign in</a></p>
+
+
+    
+    </div>
+
+ 
+{% endblock %}
