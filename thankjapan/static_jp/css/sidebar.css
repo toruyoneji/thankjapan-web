@@ -21,7 +21,7 @@
 }
 
 .li {
-   
+
     padding-bottom: 10px;
 }
 
@@ -54,6 +54,7 @@
 .href:hover {
     color: red;
 }
+
 
 @media (max-width: 500px) {
     .sidebar {

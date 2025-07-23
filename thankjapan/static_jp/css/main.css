@@ -69,9 +69,6 @@
     text-align: center;
 }
 
-.a:hover {
-    color: red;
-}
 
 .sendbutton {
     height: 50px;
@@ -95,6 +92,15 @@
     background-color: blue;
     color: white;
     border-radius: 20px;
+}
+
+.anchor {
+    text-decoration: none;
+    color: inherit;
+}
+
+.anchor:hover {
+    color: red;
 }
 
 @media (max-width: 500px) {
