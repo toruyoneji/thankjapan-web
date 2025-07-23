@@ -5,9 +5,12 @@
     margin-left: 250px;
     box-sizing: border-box;
     border: 2px solid green;
-    background: linear-gradient(skyblue, orange, red, blue, pink);
+    background: linear-gradient(skyblue, orange, red, blue, pink);  
     
-    
+}
+
+.sns {
+    margin-left: 250px;
 }
 
 
@@ -100,5 +103,10 @@
         width: 100%;
         margin-left: 0px;
         color: white;
+    }
+
+    .sns {
+        margin-left: 0px;
+        display: block;
     }
 }
