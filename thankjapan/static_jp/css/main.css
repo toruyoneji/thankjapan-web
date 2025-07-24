@@ -92,6 +92,7 @@
     background-color: blue;
     color: white;
     border-radius: 20px;
+    width: 150px;
 }
 
 .anchor {
@@ -100,6 +101,10 @@
 }
 
 .anchor:hover {
+    color: red;
+}
+
+.answermsg {
     color: red;
 }
 

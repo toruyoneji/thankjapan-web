@@ -7,7 +7,8 @@ from .models import ThankJapanModel
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import logout
 from django.contrib import messages
-from .forms import DeleteUserForm, CompanyForm
+from .forms import DeleteUserForm, CompanyForm, AnswerForm
+from django.http import Http404
 import logging
 import random
 
@@ -67,15 +68,40 @@ class CompanyFormView(FormView):
 #     return render(request, 'thank_japan_app/company.html', {'form':form})
 
 #Game
-class GameView(TemplateView):
+class GameView(FormView):
     template_name = 'thank_japan_app/game.html'
+    form_class = AnswerForm
+
     
     def get_context_data(self, **kwargs):
-        pkmax = ThankJapanModel.objects.last().pk
-        pk = random.randint(1, pkmax)
-        context =  super().get_context_data(**kwargs)
-        context['object'] = ThankJapanModel.objects.get(id=pk)
-        return context
+         objects = ThankJapanModel.objects.all()
+         if not objects.exists():
+             raise Http404("Sorry No data...")     
+         obj = random.choice(objects)
+         
+         context = super().get_context_data(**kwargs)
+         context['object'] = obj
+         return context
+     
+def answer(request, pk):
+    
+    if request.method == 'POST':
+        form = AnswerForm(request.POST)
+        if form.is_valid():
+            data = form.cleaned_data['answer']
+            answer = ThankJapanModel.objects.get(id=pk)
+            if data == answer.name:
+                message = 'Correct!!'
+            else:
+                message = f'Incorrect!!->Answer name : {answer.name}'
+            return render(request, 'thank_japan_app/game.html',
+                          {'message':message, 'object': answer })
+        else:
+            form = AnswerForm()
+    return render(request, 'thank_japan_app/game.html', {'form': form})
+            
+                
+         
     
    
                 

@@ -40,3 +40,13 @@ class CompanyForm(forms.Form):
             from_email=self.cleaned_data['email'],
             recipient_list=['your_destination@example.com'],
         )
+        
+class AnswerForm(forms.Form):
+    answer = forms.CharField(label="What's name?",max_length=100,
+                             error_messages={'required': 'required'},
+                             widget=forms.TextInput(attrs={'size': '40', 'style': 'height: 30px; font-size: 1.5rem;'}))
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        
+        self.fields['answer'].widget.attrs['placeholder'] = 'Answer Name'

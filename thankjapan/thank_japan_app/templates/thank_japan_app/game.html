@@ -6,19 +6,36 @@
     {% load static %}
     <div class="main2">
         <h1>Quesition & Answer</h1>
-            <img class="gazou" src="{{ object.image.url }}" alt="No image..." />
+            <img class="questiongazou" src="{{ object.image.url }}" alt="No image..." />
             <hr>
             <h1 class=>category: {{ object.category }}</h1>
-            <form action="POST">
-                {% csrf_token %}
-                <br>
-                <h1><label for="">What's name?(romaji)</label></h1>
-                <br>
-                <p><input class="answerinput" type="text" placeholder="answer"></p>
-                <br>
+            {% if message %}
+                <h1 class="answermsg">{{ message }}</h1>
+            
+            {% else %}
+                <form method="POST" action="{% url 'answer' object.id %}">
+                    {% csrf_token %}
+
+                    {{ form.non_field_errors }}
+
+                    {% for field in form %}
+                        <br>
+                            {{ field.errors }}
+                        <h2>{{ field.label_tag }}</h2>
+                        <h5>"For items with the same name,
+                            <br>include the category name in parentheses. etc->kaki(kudamono)"</h5>
+                        <br>
+                            {{ field }}
+                        <br>
+                    {% endfor %}
+                    <br>
                 
-                <button class="answerbutton" type="submit">Answer</button>
-            </form>
+                    <button class="answerbutton" type="submit">Answer</button>
+                </form>
+            {% endif %}
+            <br>
+            <a href="{% url 'game' %}"><button class="answerbutton">Next</button></a>
+
         
        
         <img class="image" src="{% static 'css/member.png'%}" alt="">

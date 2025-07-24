@@ -3,13 +3,14 @@ from .views import (TopView, KiyakuView, FoodView, NatureView, FashionView,
                     CultureView, CookView, AppliancesView, AnimalView,
                     ImgDetailView, BuildingView, FlowerView, HouseholdItemsView,
                     SportsView, WorkView, UserDeleteFormView, UserDeleteView,
-                    CompanyFormView, GameView)
+                    CompanyFormView, GameView, answer)
 
 
 urlpatterns = [
     #top page
     path("", TopView.as_view(), name="toppage"),
     path("game/", GameView.as_view(), name="game"),
+    path("answer/<int:pk>", answer, name="answer"),
     
     #category list page
     path("food/", FoodView.as_view(), name="foodpage"),
