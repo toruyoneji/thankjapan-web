@@ -5,8 +5,27 @@
     margin-left: 250px;
     box-sizing: border-box;
     border: 2px solid green;
-    background: linear-gradient(skyblue, orange, red, blue, pink);
+    background: linear-gradient(skyblue, orange, red, blue, pink);  
     
+}
+
+.sns {
+    margin-left: 250px;
+}
+
+
+
+.accountul {
+    display: flex;
+}
+
+.accountli {
+    font-size: 20px;
+}
+
+.undermain {
+    background-color: black;
+    color: white;
 }
 
 .document {
@@ -23,6 +42,7 @@
 .dt {
     font-size: 40px;
     text-align: center;
+    color: white;
 }
 
 .dd {
@@ -49,8 +69,43 @@
     text-align: center;
 }
 
-.a:hover {
+
+.sendbutton {
+    height: 50px;
+    width: 80px;
+    border-radius: 40px;
+    background-color: blue;
+    color: white;
+    font-size: 1.5rem;
+}
+
+.sendmail {
+    color: yellow;
+}
+
+.answerinput {
+    font-size: 1.5rem;
+}
+
+.answerbutton {
+    font-size: 2.0rem;
+    background-color: blue;
+    color: white;
+    border-radius: 20px;
+    width: 150px;
+}
+
+.anchor {
+    text-decoration: none;
+    color: inherit;
+}
+
+.anchor:hover {
     color: red;
+}
+
+.answermsg {
+    color: yellow;
 }
 
 @media (max-width: 500px) {
@@ -58,5 +113,11 @@
         margin-top: 250px;
         width: 100%;
         margin-left: 0px;
+        color: white;
+    }
+
+    .sns {
+        margin-left: 0px;
+        display: block;
     }
 }

@@ -13,12 +13,14 @@
     color: yellow;
   }
 
+ 
+
   @media (max-width: 500px) {
     .header {
       height: 100px;
     }
     .title {
-      font-size: 50px;
-      color: red;
+      font-size: 55px;
+      color: yellow;
     }
   }
