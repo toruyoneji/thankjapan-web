@@ -4,18 +4,9 @@
     <a class="anchor" href="{% url 'toppage' %}"><h2 class="home">Home</h2></a>
 
         <ul class="ul">
-            {% if request.user.is_authenticated %}
-                <a class="anchor" href="{% url 'account_logout' %}"><li class="li">Logout</li></a>
-                <a class="anchor" href="{% url 'userdeleteform' %}"><li class="li">Withdrawal</li></a>
-                <a class="anchor" href="{% url 'infomationpage' %}"><li class="li">Company</li></a>
-            {% else %}
-                <a class="anchor" href="{% url 'account_login' %}"><li class="li">Login</li></a>
-                <a class="anchor" href="{% url 'account_signup' %}"><li class="li">Signup</li></a>
-            {% endif %}
-                <hr>
                 <a class="anchor" href="{% url 'game' %}"><li class="li">Game</li></a>
+                <a class="anchor" href="{% url 'infomationpage' %}"><li class="li">Company</li></a>
                 
-
         </ul>
 
         <h3 class="category">Category</h3>

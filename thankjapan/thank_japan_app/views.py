@@ -1,13 +1,10 @@
-from django.shortcuts import render, redirect
-from django.urls import reverse_lazy
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
 from django.views.generic import ListView, DetailView, FormView, TemplateView
 from django.views.generic.edit import FormView
 from .models import ThankJapanModel
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth import logout
 from django.contrib import messages
-from .forms import DeleteUserForm, CompanyForm, AnswerForm
+from .forms import AnswerForm
 from django.http import Http404
 import logging
 import random
@@ -26,46 +23,10 @@ class KiyakuView(ListView):
     template_name = "thank_japan_app/riyoukiyaku.html"
     model = ThankJapanModel
 
-class UserDeleteFormView(FormView):
-    template_name = "thank_japan_app/userdelete.html"
-    form_class = DeleteUserForm
-    success_url = "thank_japan_app/toppage"
-
-class UserDeleteView(LoginRequiredMixin, View):
-
-    def post(self, request, *args, **kwargs):
-        form = DeleteUserForm(request.POST)
-        if form.is_valid():
-            user = request.user
-            logout(request)
-            user.delete()
-            return redirect(reverse_lazy("toppage"))
         
 #company infomation
-class CompanyFormView(FormView):
+class CompanyFormView(TemplateView):
      template_name = 'thank_japan_app/company.html'
-     form_class = CompanyForm
-     success_url = reverse_lazy('infomationpage')
-     
-     def form_valid(self, form):
-         form.send_email()
-         messages.success(self.request, 'send success!!')
-         logger.info('Contact sent by {}'.format(form.cleaned_data['username']))
-         return super().form_valid(form)
-
-# def form_company(request):
-#     if request.method == 'POST':
-#         form = CompanyForm(request.POST)
-#         if form.is_valid():
-#             username = form.cleaned_data['username']
-#             email = form.cleaned_data['email']
-#             title = form.cleaned_data['title']
-#             message = form.cleaned_data['message']
-#             print('username: ', username)
-#             return render(request, 'thank_japan_app/company.html', {'form': CompanyForm()})
-#     else:
-#         form = CompanyForm()
-#     return render(request, 'thank_japan_app/company.html', {'form':form})
 
 #Game
 class GameView(FormView):
@@ -84,20 +45,24 @@ class GameView(FormView):
          return context
      
 def answer(request, pk):
-    
+    answer = get_object_or_404(ThankJapanModel, id=pk)
     if request.method == 'POST':
         form = AnswerForm(request.POST)
         if form.is_valid():
-            data = form.cleaned_data['answer']
-            answer = ThankJapanModel.objects.get(id=pk)
-            if data == answer.name:
+            data = form.cleaned_data['answer'].strip().lower()
+            corret_answer = answer.name.strip().lower()
+            if data == corret_answer:
                 message = 'Correct!!'
             else:
-                message = f'Incorrect!!->Answer name : {answer.name}'
+                message = f'Incorrect!! Answer --> {answer.name}'
+                
             return render(request, 'thank_japan_app/game.html',
                           {'message':message, 'object': answer })
         else:
-            form = AnswerForm()
+            return render(request, 'thank_japan_app/game.html',
+                          {'form':form, 'object': answer })
+    
+    form = AnswerForm()
     return render(request, 'thank_japan_app/game.html', {'form': form})
             
                 
@@ -109,70 +74,70 @@ class FoodView(ListView):
     template_name = "thank_japan_app/food.html"
     
     def get_queryset(self):
-        return ThankJapanModel.objects.filter(category="food")
+        return ThankJapanModel.objects.filter(category="food").order_by('-timestamp')
 
 class NatureView(ListView):
     template_name = "thank_japan_app/Nature.html"
     
     def get_queryset(self):
-        return ThankJapanModel.objects.filter(category="nature")
+        return ThankJapanModel.objects.filter(category="nature").order_by('-timestamp')
 
 class FashionView(ListView):
     template_name = "thank_japan_app/fashion.html"
     
     def get_queryset(self):
-        return ThankJapanModel.objects.filter(category="fashion")
+        return ThankJapanModel.objects.filter(category="fashion").order_by('-timestamp')
 
 class CultureView(ListView):
     template_name = "thank_japan_app/culture.html"
     
     def get_queryset(self):
-        return ThankJapanModel.objects.filter(category="culture")
+        return ThankJapanModel.objects.filter(category="culture").order_by('-timestamp')
     
 class CookView(ListView):
     template_name = "thank_japan_app/cook.html"
     
     def get_queryset(self):
-        return ThankJapanModel.objects.filter(category="cook")
+        return ThankJapanModel.objects.filter(category="cook").order_by('-timestamp')
     
 class AppliancesView(ListView):
     template_name = "thank_japan_app/appliances.html"
     
     def get_queryset(self):
-        return ThankJapanModel.objects.filter(category="appliances")
+        return ThankJapanModel.objects.filter(category="appliances").order_by('-timestamp')
 
 class AnimalView(ListView):
     template_name = "thank_japan_app/animal.html"
     
     def get_queryset(self):
-        return ThankJapanModel.objects.filter(category="animal")
+        return ThankJapanModel.objects.filter(category="animal").order_by('-timestamp')
 
 class BuildingView(ListView):
     template_name = "thank_japan_app/building.html"
     
     def get_queryset(self):
-        return ThankJapanModel.objects.filter(category="building")
+        return ThankJapanModel.objects.filter(category="building").order_by('-timestamp')
 
 class FlowerView(ListView):
     template_name = "thank_japan_app/flower.html"
     
     def get_queryset(self):
-        return ThankJapanModel.objects.filter(category="flower")
+        return ThankJapanModel.objects.filter(category="flower").order_by('-timestamp')
 
 class HouseholdItemsView(ListView):
     template_name = "thank_japan_app/householditems.html"
     
     def get_queryset(self):
-        return ThankJapanModel.objects.filter(category="householditems")
+        return ThankJapanModel.objects.filter(category="householditems").order_by('-timestamp')
 
 class SportsView(ListView):
     template_name = "thank_japan_app/sports.html"
     
     def get_queryset(self):
-        return ThankJapanModel.objects.filter(category="sports")
+        return ThankJapanModel.objects.filter(category="sports").order_by('-timestamp')
     
 class WorkView(ListView):
     template_name = "thank_japan_app/work.html"
     
     def get_queryset(self):
-        return ThankJapanModel.objects.filter(category="work")
+        return ThankJapanModel.objects.filter(category="work").order_by('-timestamp')

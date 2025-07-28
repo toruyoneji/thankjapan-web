@@ -2,8 +2,7 @@ from django.urls import path
 from .views import (TopView, KiyakuView, FoodView, NatureView, FashionView, 
                     CultureView, CookView, AppliancesView, AnimalView,
                     ImgDetailView, BuildingView, FlowerView, HouseholdItemsView,
-                    SportsView, WorkView, UserDeleteFormView, UserDeleteView,
-                    CompanyFormView, GameView, answer)
+                    SportsView, WorkView, CompanyFormView, GameView, answer)
 
 
 urlpatterns = [
@@ -29,7 +28,5 @@ urlpatterns = [
     #user look page
     path("detail/<int:pk>/", ImgDetailView.as_view(), name="detail"),
     path("riyoukiyaku/", KiyakuView.as_view(), name="riyoukiyaku"),
-    path("delete/", UserDeleteFormView.as_view(), name="userdeleteform"),
-    path("delete/post", UserDeleteView.as_view(), name="userdelete"),
     path("infomation/", CompanyFormView.as_view(), name="infomationpage"),
 ]
