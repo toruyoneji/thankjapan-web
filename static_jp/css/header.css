@@ -1,0 +1,24 @@
+.header {
+    width: 100%;
+    height: 120px;
+    justify-items: center;
+    background-image: url("header.png");
+    background-size: 100%;
+    position: fixed;
+  }
+  
+  .title {
+    font-size: 80px;
+    margin-top: 10px;
+    color: yellow;
+  }
+
+  @media (max-width: 500px) {
+    .header {
+      height: 100px;
+    }
+    .title {
+      font-size: 50px;
+      color: red;
+    }
+  }

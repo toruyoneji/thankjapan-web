@@ -1,0 +1,27 @@
+.footer {
+    
+    height: 70px;
+    width: auto;
+    background-color: white;
+    box-sizing: border-box;
+    border: 2px solid darkmagenta;
+    background-image: url("footer.png");
+    background-size: 100%;
+    margin-left: 250px;
+}
+
+.copyRight { 
+
+    text-align: center;
+    padding-top: 20px;
+    font-size: 20px;
+}
+
+@media (max-width: 500px) {
+    .footer {
+        margin-top: 500x;
+        width: 100%;
+        margin-left: 0px;       
+    }
+}
+
