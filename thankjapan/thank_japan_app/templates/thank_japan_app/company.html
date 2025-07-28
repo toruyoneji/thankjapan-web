@@ -21,36 +21,6 @@
     <hr><br>
 
         <a class="anchor" href="{% url 'riyoukiyaku' %}"><h3>Terms of Use</h3></a>
-
-        <!-- {% if messages %}
-            <ul>
-                {% for message in messages %}
-                    <h1><li class="sendmail">{{ message }}</li></h1>
-                {% endfor %}
-            </ul>
-
-        {% endif %}
-
-        <h1>------------ Inquiry ------------</h1>
-        <br>
-            <form action="" method="post">
-                
-                {% csrf_token %}
-
-                {{ form.non_field_errors }}
-
-                {% for field in form %}
-                    <h2>
-                        {{ field.errors }}
-                        {{ field.label_tag }}
-                        {{ field }}
-                        
-                    </h2><br>
-                {% endfor %}
-                <button class="sendbutton" type="submit">send</button>
-
-            </form> -->
-
         
 </div>
 {% endblock %}

@@ -10,15 +10,15 @@
         <h1>Quesition & Answer</h1>
             <img class="questiongazou" src="{{ object.image.url }}" alt="No image..." />
             <hr>
-            <h1>category: {{ object.category }}</h1>
+            <h2>category: {{ object.category }}</h2>
 
             {% if message %}
                 {% if message == "Correct!!" %}
-                    <h1 class="answermsg"><img src="{% static 'css/seikai.png' %}" alt="correct" width="50" height="50">
-                    {{ message }}</h1>
+                    <p class="answermsg"><img src="{% static 'css/seikai.png' %}" alt="correct" width="50" height="50">
+                    {{ message }}</p>
                 {% else %}
-                    <h1 class="answermsg"><img src="{% static 'css/fuseikai.png' %}" alt="incorrect" width="50" height="50">
-                    {{ message }}</h1>
+                    <p class="answermsg"><img src="{% static 'css/fuseikai.png' %}" alt="incorrect" width="50" height="50">
+                    {{ message }}</p>
                 {% endif %}
             {% endif %}
 
