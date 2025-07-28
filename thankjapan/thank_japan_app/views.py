@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
 from django.views import View
 from django.views.generic import ListView, DetailView, FormView, TemplateView
 from django.views.generic.edit import FormView
@@ -52,7 +52,7 @@ def answer(request, pk):
             data = form.cleaned_data['answer'].strip().lower()
             corret_answer = answer.name.strip().lower()
             if data == corret_answer:
-                message = 'Correct!!'
+                message = "Correct!!"
             else:
                 message = f'Incorrect!! Answer --> {answer.name}'
                 
