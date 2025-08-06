@@ -1,6 +1,8 @@
 {% extends 'basecategory.html' %}
 {% block title %}Game{% endblock %}
 
+{% load static %}
+
 {% block content %}
 
     {% load static %}
@@ -8,10 +10,16 @@
         <h1>Quesition & Answer</h1>
             <img class="questiongazou" src="{{ object.image.url }}" alt="No image..." />
             <hr>
-            <h1 class=>category: {{ object.category }}</h1>
+            <h2>category: {{ object.category }}</h2>
 
             {% if message %}
-                <h1 class="answermsg">{{ message }}</h1>
+                {% if message == "Correct!!" %}
+                    <p class="answermsg"><img src="{% static 'css/seikai.png' %}" alt="correct" width="50" height="50">
+                    {{ message }}</p>
+                {% else %}
+                    <p class="answermsg"><img src="{% static 'css/fuseikai.png' %}" alt="incorrect" width="50" height="50">
+                    {{ message }}</p>
+                {% endif %}
             {% endif %}
 
                 <form method="POST" action="{% url 'answer' object.id %}">
