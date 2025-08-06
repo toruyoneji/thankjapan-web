@@ -1,14 +1,14 @@
-#あとから追記分（オリジナル）
+
 local.py
 auth/
 auth
 
-static_jp/
+
 manage.py
 
 settings.*
 settings.py
-.css
+
 
 *.sqlite3
 *.pyc
