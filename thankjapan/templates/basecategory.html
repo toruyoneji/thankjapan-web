@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    {% include 'css.html' %}
+    <meta charset="UTF-8">
+    <meta name="description" content="Let's try Japanese lesson" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <meta name="description"content="This site introduces aspects of Japanese life, culture, food, and more.
+                                     Romanized readings are provided for each term. 
+                                     We hope to share Japan with people from around the world.">
+    <meta name=”robots” content=”noindex,nofollow”>
+    <meta name="keywords" content="Japanese, japan">
+
+    <meta property="og:title" content="ThankJapan sharing" />
+    <meta property="og:description" content="japanese introduction." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="ページの URL" />
+    <meta property="og:image" content="{% static 'css/thank_japan.ico' %}" />
+    <meta property="og:site_name" content="ThankJapan" />
+    <meta property="og:locale" content="en_US"  />
+
+   
+
+    <title>{% block title %}{% endblock %}</title>
+    
+</head>
+
+<body>
+    
+    {% include 'header.html' %}
+
+    {% include 'sidebar.html' %}
+
+    {% block content %}{% endblock %}
+
+    
+</body>
+</html>

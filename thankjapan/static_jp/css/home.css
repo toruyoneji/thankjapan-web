@@ -1,0 +1,22 @@
+.app {
+    width: 100vw;
+    htight: 100vh;
+    display: flex;
+    flex-direction: column;
+    
+}
+
+.main {
+    display: flex;
+    flex-direction: row;
+    flex-grow: 1;
+    
+    
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
