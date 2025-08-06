@@ -2,7 +2,7 @@
     width: 100%;
     height: 120px;
     justify-items: center;
-    background-image: url("header.png");
+    background-image: url("/static/css/header.png");
     background-size: 100%;
     position: fixed;
   }
