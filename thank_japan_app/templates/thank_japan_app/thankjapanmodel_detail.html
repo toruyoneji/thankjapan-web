@@ -5,7 +5,11 @@
 
     {% load static %}
     <div class="main2">
-        <img class="detailgazou" src="{{ object.image.url }}" alt="detailImage" />
+        {% if object.image %}
+            <img class="detailgazou" src="{{ object.image.url }}" alt="detailImage" />
+        {% else %}
+            <p>No image available</p>
+        {% endif %}
             <dl>
                 <dt class="detaildt">Name: {{ object.name }}</dt>
                 <hr>
