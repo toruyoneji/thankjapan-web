@@ -1,6 +1,7 @@
 from pathlib import Path
 import os 
 from dotenv import load_dotenv
+import dj_database_url
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -69,14 +70,17 @@ WSGI_APPLICATION = 'thankjapan.wsgi.application'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-         'NAME': os.environ.get('NAME'),
-         'USER': os.environ.get('USER'),
-         'PASSWORD': os.environ.get('PASSWORD'),
-         'HOST': 'localhost',
-         'PORT': os.environ.get('PORT'),
-     }
+    # 'default': {
+    #      'ENGINE': 'django.db.backends.postgresql_psycopg2',
+    #      'NAME': os.environ.get('NAME'),
+    #      'USER': os.environ.get('USER'),
+    #      'PASSWORD': os.environ.get('PASSWORD'),
+    #      'HOST': 'localhost',
+    #      'PORT': os.environ.get('PORT'),
+    #  }
+    {
+    'default': dj_database_url.config(default=os.getenv('HEROKU_POSTGRESQL_BLUE_URL'))
+    }
  }
 
 
