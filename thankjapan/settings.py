@@ -18,7 +18,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG', 'True') == 'True'
 
-ALLOWED_HOSTS = ['https://thankjapan-aaa090ee21df.herokuapp.com/', 'localhost']
+ALLOWED_HOSTS = ['https://thankjapan-aaa090ee21df.herokuapp.com/']
 
 
 # Application definition
@@ -78,9 +78,9 @@ DATABASES = {
     #      'HOST': 'localhost',
     #      'PORT': os.environ.get('PORT'),
     #  }
-    {
+    
     'default': dj_database_url.config(default=os.getenv('HEROKU_POSTGRESQL_BLUE_URL'))
-    }
+    
  }
 
 
