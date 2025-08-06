@@ -1,1 +1,1 @@
-web: gunicorn thankjapan.wsgi
+web: gunicorn thankjapan.wsgi --log-file -
