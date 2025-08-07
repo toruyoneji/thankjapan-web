@@ -1,2 +1,1 @@
-
-"# thankjapan3" 
+ 
