@@ -2,12 +2,11 @@ from pathlib import Path
 import os 
 from dotenv import load_dotenv
 import dj_database_url
-<<<<<<< HEAD
-=======
+
 import cloudinary
 import cloudinary.uploader
 import cloudinary.api
->>>>>>> 9e016db (Initial commit with Cloudinary integration)
+
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -24,12 +23,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-<<<<<<< HEAD
-ALLOWED_HOSTS = ['thankjapan.herokuapp.com', 'thankjapan-aaa090ee21df.herokuapp.com']
-=======
 ALLOWED_HOSTS = []
->>>>>>> 9e016db (Initial commit with Cloudinary integration)
-
 
 # Application definition
 
@@ -84,29 +78,9 @@ WSGI_APPLICATION = 'thankjapan.wsgi.application'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
 DATABASES = {
-<<<<<<< HEAD
-    # 'default': {
-    #      'ENGINE': 'django.db.backends.postgresql_psycopg2',
-    #      'NAME': os.environ.get('NAME'),
-    #      'USER': os.environ.get('USER'),
-    #      'PASSWORD': os.environ.get('PASSWORD'),
-    #      'HOST': 'localhost',
-    #      'PORT': os.environ.get('PORT'),
-    #  }
     
     'default': dj_database_url.config(default=os.getenv('HEROKU_POSTGRESQL_BLUE_URL'))
-=======
-     'default': {
-          'ENGINE': 'django.db.backends.postgresql_psycopg2',
-          'NAME': os.environ.get('NAME'),
-          'USER': os.environ.get('USER'),
-          'PASSWORD': os.environ.get('PASSWORD'),
-          'HOST': 'localhost',
-          'PORT': os.environ.get('PORT'),
-      }
-    
-    #'default': dj_database_url.config(default=os.getenv('HEROKU_POSTGRESQL_BLUE_URL'))
->>>>>>> 9e016db (Initial commit with Cloudinary integration)
+
     
  }
 
@@ -175,20 +149,16 @@ MEDIA_URL = '/media/'
 
 #MEDIA_ROOT = BASE_DIR / 'media_jp'
 
-<<<<<<< HEAD
-if not DEBUG:
-    DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
-=======
+
 
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
->>>>>>> 9e016db (Initial commit with Cloudinary integration)
+
     
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-<<<<<<< HEAD
 
 
 
@@ -202,5 +172,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 
-=======
->>>>>>> 9e016db (Initial commit with Cloudinary integration)
+
+
