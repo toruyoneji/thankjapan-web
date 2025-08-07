@@ -4,4 +4,11 @@ pillow==11.2.1
 psycopg2==2.9.10
 python-dotenv==1.1.0
 whitenoise==6.9.0
+<<<<<<< HEAD
 dj_database_url==3.0.1
+=======
+cloudinary==1.44.1
+django-cloudinary-storage==0.3.0
+pillow==11.2.1
+
+>>>>>>> 9e016db (Initial commit with Cloudinary integration)

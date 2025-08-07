@@ -3,18 +3,25 @@ local.py
 auth/
 auth
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 9e016db (Initial commit with Cloudinary integration)
 manage.py
 
 settings.*
 settings.py
+<<<<<<< HEAD
 
+=======
+>>>>>>> 9e016db (Initial commit with Cloudinary integration)
 
+thankjapan/db.sqlite3
 *.sqlite3
 *.pyc
 __pycache__/
 thankjapan/media_jp/
-staticfiles/
+
 .env
 
 
