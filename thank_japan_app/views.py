@@ -16,7 +16,7 @@ class TopView(ListView):
     model = ThankJapanModel
 
 class ImgDetailView(DetailView):
-    tamplate_name = "thank_japan_app/detail.html"
+    template_name = "thank_japan_app/detail.html"
     model = ThankJapanModel
     
 class KiyakuView(ListView):
@@ -77,7 +77,7 @@ class FoodView(ListView):
         return ThankJapanModel.objects.filter(category="food").order_by('-timestamp')
 
 class NatureView(ListView):
-    template_name = "thank_japan_app/Nature.html"
+    template_name = "thank_japan_app/nature.html"
     
     def get_queryset(self):
         return ThankJapanModel.objects.filter(category="nature").order_by('-timestamp')
