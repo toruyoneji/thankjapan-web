@@ -6,7 +6,7 @@
     box-sizing: border-box;
     border: 2px solid black;
     /* background: linear-gradient(skyblue, yellowgreen, blue, pink);  */
-    background-image: url("sidebar.png");
+    background-image: url("https://res.cloudinary.com/dotekofm5/image/upload/v1754642662/thankjapan/backgrounds/xvsdstjvcia8baxqibpm.png");
     margin-top: 120px;
     position: fixed;
     overflow: auto;
@@ -61,7 +61,7 @@
         margin-top: 100px;
         height: 150px;
         width: 100%;
-        background-image: url("kabuki.png");
+        background-image: url("https://res.cloudinary.com/dotekofm5/image/upload/v1754642770/thankjapan/backgrounds/ntpvmxgudcmvp0snpiur.png");
         background-size: 100%;
         overflow: auto;
         
