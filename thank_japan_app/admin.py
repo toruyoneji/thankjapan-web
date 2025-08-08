@@ -1,6 +1,7 @@
 from django.contrib import admin
 from .models import ThankJapanModel, ThankJapanBackgroundModel
 import logging
+from django.core.exceptions import ValidationError
 
 logger = logging.getLogger(__name__)
 
