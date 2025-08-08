@@ -85,7 +85,7 @@ WSGI_APPLICATION = 'thankjapan.wsgi.application'
 
 DATABASES = {
     
-    'default': dj_database_url.config(default=os.getenv('HEROKU_POSTGRESQL_BLUE_URL'))
+    'default': dj_database_url.config(default=os.getenv('DATABASE_URL'))
 
     
  }
