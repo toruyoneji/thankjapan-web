@@ -8,7 +8,7 @@
     
         {% for item in object_list %}
                                            
-                {% if item.image %}
+            {% if item.image %}
                                            
                 <a href="{% url 'detail' item.id %}">
                     <img class="gazou" src="{{ item.image.url }}" alt="No image..." />
