@@ -17,7 +17,10 @@ class ThankJapanBackgroundModel(models.Model):
     
 
     def __str__(self):
-        return self.background_image
+        if self.background_image:
+            return str(self.background_image.url)
+        else:
+            return "No Background Image"
 
 
 
