@@ -5,7 +5,7 @@
 
     {% load static %}
     <div class="main2">
-        {% if object.image %}
+        {% if object.image and object.image.url %}
             <img class="detailgazou" src="{{ object.image.url }}" alt="detailImage" />
         {% else %}
             <p>No image available</p>
