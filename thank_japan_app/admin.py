@@ -19,6 +19,14 @@ class ThankJapanAdmin(admin.ModelAdmin):
 class ThankJapanBackgroundAdmin(admin.ModelAdmin):
     list_display = ('id', 'background_image')
     
+    def save_model(self, request, obj, form, change):
+        try:
+            obj.save()
+        except ValidationError as e:
+            logger.error(f"Validation error: {e}")
+        except Exception as e:
+            logger.error(f"Unexpected error: {e}")
+    
 admin.site.register(ThankJapanModel, ThankJapanAdmin)
 admin.site.register(ThankJapanBackgroundModel, ThankJapanBackgroundAdmin)
 
