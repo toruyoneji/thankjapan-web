@@ -16,7 +16,7 @@ class TopView(ListView):
     model = ThankJapanModel
 
 class ImgDetailView(DetailView):
-    template_name = "thank_japan_app/detail.html"
+    template_name = "thank_japan_app/thankjapanmodel_detail.html"
     model = ThankJapanModel
     
 class KiyakuView(ListView):
