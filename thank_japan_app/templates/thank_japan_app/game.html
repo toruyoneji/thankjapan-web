@@ -18,10 +18,12 @@
 
             {% if message %}
                 {% if message == "Correct!!" %}
-                    <p class="answermsg"><img src="{% static 'css/seikai.png' %}" alt="correct" width="50" height="50">
+                    <p class="answermsg"><img src="https://res.cloudinary.com/dotekofm5/image/upload/v1754645686/thankjapan/backgrounds/j4ne69cyhum6kyr4v4ra.png"
+                         alt="correct" width="50" height="50">
                     {{ message }}</p>
                 {% else %}
-                    <p class="answermsg"><img src="{% static 'css/fuseikai.png' %}" alt="incorrect" width="50" height="50">
+                    <p class="answermsg"><img src="https://res.cloudinary.com/dotekofm5/image/upload/v1754645694/thankjapan/backgrounds/apkozmumrdmarkvy3qq9.png"
+                         alt="incorrect" width="50" height="50">
                     {{ message }}</p>
                 {% endif %}
             {% endif %}
