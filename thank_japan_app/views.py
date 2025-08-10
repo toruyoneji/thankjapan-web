@@ -18,6 +18,9 @@ Allow: /$
 """
     return HttpResponse(content, content_type="text/plain")
 
+class LegalNoticeView(TemplateView):
+    template_name = "thank_japan_app/legal_notice.html"
+
 class TopView(ListView):
     template_name = "thank_japan_app/toppage.html"
     model = ThankJapanModel
