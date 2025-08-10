@@ -11,6 +11,13 @@ import random
 
 logger = logging.getLogger(__name__)
 
+def robots_txt(request):
+    content = """User-agent: *
+Disallow: /
+Allow: /$
+"""
+    return HttpResponse(content, content_type="text/plain")
+
 class TopView(ListView):
     template_name = "thank_japan_app/toppage.html"
     model = ThankJapanModel
