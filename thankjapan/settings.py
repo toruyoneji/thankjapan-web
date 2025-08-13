@@ -24,17 +24,17 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 STRIPE_SECRET_KEY = os.environ.get('STRIPE_SECRET_KEY')
 STRIPE_TEST_PUBLISHABLE_KEY = os.environ.get('STRIPE_TEST_PUBLISHABLE_KEY')
 
-# Stripe API キーを設定
+
 stripe.api_key = STRIPE_SECRET_KEY
 
-# SECURITY WARNING: don't run with debug turned on in production!
+
 DEBUG = False
 
 ALLOWED_HOSTS = ['www.thankjapan.com', 'thankjapan.herokuapp.com', 'thankjapan-4c187061757b.herokuapp.com']
 
 CORS_ALLOWED_ORIGINS = [
     "https://thankjapan-4c187061757b.herokuapp.com",
-    "https://www.thankjapan.com",  # ここにフロントエンドURLを追加
+    "https://www.thankjapan.com",
 ]
 
 
@@ -162,11 +162,8 @@ MEDIA_URL = '/media/'
 
 #MEDIA_ROOT = BASE_DIR / 'media_jp'
 
-
-
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
-    
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
