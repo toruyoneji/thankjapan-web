@@ -20,6 +20,9 @@ Allow: /$
 
 class LegalNoticeView(TemplateView):
     template_name = "thank_japan_app/legal_notice.html"
+    
+class PrivacyPolicy(TemplateView):
+    template_name = "thank_japan_app/privacy_policy.html"
 
 class TopView(ListView):
     template_name = "thank_japan_app/toppage.html"

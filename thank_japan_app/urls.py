@@ -2,7 +2,8 @@ from django.urls import path
 from .views import (TopView, KiyakuView, FoodView, NatureView, FashionView, 
                     CultureView, CookView, AppliancesView, AnimalView,
                     ImgDetailView, BuildingView, FlowerView, HouseholdItemsView,
-                    SportsView, WorkView, CompanyFormView, GameView, answer, LegalNoticeView)
+                    SportsView, WorkView, CompanyFormView, GameView, answer, LegalNoticeView,
+                    PrivacyPolicy)
 
 
 urlpatterns = [
@@ -31,4 +32,5 @@ urlpatterns = [
     path("infomation/", CompanyFormView.as_view(), name="infomationpage"),
     
     path('legal-notice/', LegalNoticeView.as_view(), name='legal_notice'),
+    path('privacy-policy', PrivacyPolicy.as_view(), name="privacy_policy"),
 ]

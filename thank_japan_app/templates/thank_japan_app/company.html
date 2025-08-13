@@ -5,28 +5,33 @@
 
 {% block content %}
 <div class="main2">
-    <h1>Company Infomation</h1>
+    <h1>Company Information</h1>
     <hr><br>
-        <h2>
+        <h2>Company</h2>
             <ul>
-                <li>Company: ThankJapan</li>      
+                <li>Company Name: ThankJapan</li>      
                 <li>Company address: Kanazawashi Ishikawaken Japan</li>
             </ul>
-        </h2>
         <hr>
         <br>
         <h2>Company introduction</h2>
-            <p>company's description</p>
+            <h2>Company Introduction</h2>
+            <p>ThankJapan is a platform that allows users to express their gratitude and 
+                support for Japan through messages and voluntary financial contributions. 
+                We aim to foster global appreciation for Japanese culture, technology, and community spirit.</p>
             <ul>
                 <li>japan introduction</li>
             </ul>
         <hr>
         <br>
-            <p>Our company uses cookies to help you make better use of this website.</p>
+            <p><p>We use cookies to improve your experience on this website. 
+                By continuing to browse, you agree to our use of cookies.</p>
+</p>
     <hr><br>
 
-        <a class="anchor" href="{% url 'riyoukiyaku' %}"><h3>Terms of Use</h3></a>
-        <a class="anchor" href="{% url 'legal_notice' %}"><h3>Legal Notice</h3></a>
+        <h3><a class="anchor" href="{% url 'riyoukiyaku' %}">Terms of Use</a></h3>
+        <h3><a class="anchor" href="{% url 'legal_notice' %}"><h3>Legal Notice</a></h3>
+        <h3><a class="anchor" href="{% url 'pravacy_policy' %}">Pravacy Policy</a></h3>
         
 </div>
 {% endblock %}
