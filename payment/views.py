@@ -2,7 +2,6 @@ import stripe
 from django.conf import settings
 from django.shortcuts import render
 from django.http import JsonResponse
-import settings
 
 stripe.api_key = settings.STRIPE_TEST_SECRET_KEY
 
