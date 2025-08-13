@@ -3,6 +3,9 @@ from django.conf import settings
 from django.shortcuts import render
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+import logging
+
+logger = logging.getLogger(__name__)
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
@@ -34,10 +37,12 @@ def create_checkout_session(request):
 
     except stripe.error.StripeError as e:
         # Stripeのエラーを捕まえる
+        logger.error(f"Stripe error: {str(e)}")
         return JsonResponse({'error': f"Stripe error: {str(e)}"}, status=500)
     
     except Exception as e:
         # 一般的なエラーを捕まえる
+        logger.error(f"General error: {str(e)}")
         return JsonResponse({'error': f"General error: {str(e)}"}, status=500)
 
 def checkout(request):
