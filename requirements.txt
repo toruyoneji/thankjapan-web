@@ -11,3 +11,4 @@ cloudinary==1.44.1
 django-cloudinary-storage==0.3.0
 
 stripe==12.4.0
+django-cors-headers==4.7.0
