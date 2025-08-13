@@ -1,5 +1,6 @@
 from pathlib import Path
 import os 
+import stripe
 from dotenv import load_dotenv
 import dj_database_url
 
@@ -19,6 +20,12 @@ load_dotenv()
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get('SECRET_KEY')
+
+STRIPE_SECRET_KEY = os.environ.get('STRIPE_SECRET_KEY')
+STRIPE_TEST_PUBLISHABLE_KEY = os.environ.get('STRIPE_TEST_PUBLISHABLE_KEY')
+
+# Stripe API キーを設定
+stripe.api_key = STRIPE_SECRET_KEY
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
@@ -44,6 +51,7 @@ INSTALLED_APPS = [
     'thank_japan_app.apps.ThankJapanAppConfig',
     'cloudinary',
     'cloudinary_storage',
+    'payment',
     
    
 ]
