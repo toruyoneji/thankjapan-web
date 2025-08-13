@@ -2,9 +2,11 @@ import stripe
 from django.conf import settings
 from django.shortcuts import render
 from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
+@csrf_exempt
 def create_checkout_session(request):
     YOUR_DOMAIN = "http://www.thankjapan.com" 
 
