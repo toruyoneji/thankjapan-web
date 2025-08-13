@@ -32,6 +32,12 @@ DEBUG = False
 
 ALLOWED_HOSTS = ['www.thankjapan.com', 'thankjapan.herokuapp.com', 'thankjapan-4c187061757b.herokuapp.com']
 
+CORS_ALLOWED_ORIGINS = [
+    "https://thankjapan-4c187061757b.herokuapp.com",
+    "https://www.thankjapan.com",  # ここにフロントエンドURLを追加
+]
+
+
 SECURE_SSL_REDIRECT = True
 
 SECURE_HSTS_SECONDS = 31536000  
@@ -151,14 +157,6 @@ STATICFILES_DIRS = [BASE_DIR / 'static_jp']
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-
-
-STATIC_ROOT = BASE_DIR / 'staticfiles'
-
-STATICFILES_DIRS = [BASE_DIR / 'static_jp']
-
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-
 
 MEDIA_URL = '/media/'
 
