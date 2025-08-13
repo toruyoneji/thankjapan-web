@@ -1,0 +1,104 @@
+
+.sidebar {
+    width: 250px;
+    height: 100%;
+    background-color: white;
+    box-sizing: border-box;
+    border: 2px solid black;
+    /* background: linear-gradient(skyblue, yellowgreen, blue, pink);  */
+    background-image: url("https://res.cloudinary.com/dotekofm5/image/upload/v1754642662/thankjapan/backgrounds/xvsdstjvcia8baxqibpm.png");
+    margin-top: 120px;
+    position: fixed;
+    overflow: auto;
+}
+
+
+
+.ul {
+    list-style: disc;
+    font-size: 30px;
+    margin: 10px 0px 50px 50px;
+}
+
+.li {
+
+    padding-bottom: 10px;
+}
+
+.li:hover {
+    color: red;
+}
+
+.category {
+    font-size: 30px;
+    margin-top: 10px;
+    padding-left: 20px;
+}
+
+.home {
+    font-size: 30px;
+    margin-top: 10px;
+    padding-left: 10px;
+}
+
+.accounthome {
+    font-size: 30px;
+    margin-top: 10px;
+    padding-left: 10px;
+}
+
+.home:hover {
+    color: red;
+}
+
+.href:hover {
+    color: red;
+}
+
+
+@media (max-width: 500px) {
+    .sidebar {
+        margin-top: 100px;
+        height: 150px;
+        width: 100%;
+        background-image: url("https://res.cloudinary.com/dotekofm5/image/upload/v1754642770/thankjapan/backgrounds/ntpvmxgudcmvp0snpiur.png");
+        background-size: 100%;
+        overflow: auto;
+        
+    }
+
+    .home {
+        color: white;
+    }
+
+    .accounthome {
+        color: white;
+    }
+
+    .category {
+        color: yellow;
+        padding-left: 10px;
+        font-size: 40px;
+        text-align: center;
+
+    }
+
+    .ul {
+        list-style: none;
+        display: flex;
+        flex-wrap: wrap;
+        margin-left: 0px;
+    }
+
+    .li {
+        color: white;
+        padding-left: 10px;
+        padding-right: 10px;
+        font-size: 30px;
+    }
+
+    .href:hover {
+        color: blue;
+    }
+}
+
