@@ -5,6 +5,7 @@ from .views import (TopView, KiyakuView, FoodView, NatureView, FashionView,
                     SportsView, WorkView, CompanyFormView, GameView, answer, LegalNoticeView,
                     PrivacyPolicy)
 
+app_name = 'thank_japan_app'
 
 urlpatterns = [
     #top page
