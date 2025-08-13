@@ -52,10 +52,10 @@ def checkout(request):
     
 
 def success(request):
-    return render(request, 'success.html')
+    return render(request, 'payment/success.html')
 
 def cancel(request):
-    return render(request, 'cancel.html')
+    return render(request, 'payment/cancel.html')
 
 
 @csrf_exempt

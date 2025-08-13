@@ -28,7 +28,7 @@ STRIPE_TEST_PUBLISHABLE_KEY = os.environ.get('STRIPE_TEST_PUBLISHABLE_KEY')
 stripe.api_key = STRIPE_SECRET_KEY
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['www.thankjapan.com', 'thankjapan.herokuapp.com', 'thankjapan-4c187061757b.herokuapp.com']
 
