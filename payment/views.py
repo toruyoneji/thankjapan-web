@@ -3,7 +3,7 @@ from django.conf import settings
 from django.shortcuts import render
 from django.http import JsonResponse
 
-stripe.api_key = settings.STRIPE_TEST_SECRET_KEY
+stripe.api_key = settings.STRIPE_SECRET_KEY
 
 def create_checkout_session(request):
     YOUR_DOMAIN = "http://www.thankjapan.com" 
