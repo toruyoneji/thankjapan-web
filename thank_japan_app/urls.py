@@ -32,5 +32,5 @@ urlpatterns = [
     path("infomation/", CompanyFormView.as_view(), name="infomationpage"),
     
     path('legal-notice/', LegalNoticeView.as_view(), name='legal_notice'),
-    path('privacy-policy', PrivacyPolicy.as_view(), name="privacy_policy"),
+    path('privacy-policy/', PrivacyPolicy.as_view(), name="privacy_policy"),
 ]
