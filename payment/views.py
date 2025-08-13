@@ -8,30 +8,37 @@ stripe.api_key = settings.STRIPE_SECRET_KEY
 
 @csrf_exempt
 def create_checkout_session(request):
-    YOUR_DOMAIN = "https://www.thankjapan.com" 
+    YOUR_DOMAIN = "https://www.thankjapan.com"  # 本番のURLを確認
 
-    checkout_session = stripe.checkout.Session.create(
-        payment_method_types=['card'],
-        line_items=[
-            {
+    try:
+        checkout_session = stripe.checkout.Session.create(
+            payment_method_types=['card'],
+            line_items=[{
                 'price_data': {
                     'currency': 'usd',
                     'product_data': {
-                        'name': 'ThankJapan support',  
+                        'name': 'ThankJapan support',
                     },
-                    'unit_amount': 20000,
+                    'unit_amount': 2000,  # 価格は最小単位（例: 2000 = 20 USD）
                 },
                 'quantity': 1,
-            },
-        ],
-        mode='payment',
-        success_url=YOUR_DOMAIN + '/payment/success/',
-        cancel_url=YOUR_DOMAIN + '/payment/cancel/',
-    )
+            }],
+            mode='payment',
+            success_url=YOUR_DOMAIN + '/payment/success/',
+            cancel_url=YOUR_DOMAIN + '/payment/cancel/',
+        )
 
-    return JsonResponse({
-        'id': checkout_session.id
-    })
+        return JsonResponse({
+            'id': checkout_session.id
+        })
+
+    except stripe.error.StripeError as e:
+        # Stripeのエラーを捕まえる
+        return JsonResponse({'error': f"Stripe error: {str(e)}"}, status=500)
+    
+    except Exception as e:
+        # 一般的なエラーを捕まえる
+        return JsonResponse({'error': f"General error: {str(e)}"}, status=500)
 
 def checkout(request):
     return render(request, 'payment/checkout.html', {
