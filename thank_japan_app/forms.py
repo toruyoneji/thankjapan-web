@@ -22,4 +22,24 @@ class AnswerForm(forms.Form):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         
-        
+
+
+class ContactForm(forms.Form):
+    name = forms.CharField(
+        max_length=50, 
+        required=True,
+        widget=forms.TextInput(attrs={'placeholder': 'Your Name'})
+    )
+    title = forms.CharField(
+        max_length=100, 
+        required=True,
+        widget=forms.TextInput(attrs={'placeholder': 'Subject/Title'})
+    )
+    email = forms.EmailField(
+        required=True,
+        widget=forms.EmailInput(attrs={'placeholder': 'your-email@example.com'})
+    )
+    message = forms.CharField(
+        widget=forms.Textarea(attrs={'placeholder': 'Your message here...'}),
+        required=True
+    )

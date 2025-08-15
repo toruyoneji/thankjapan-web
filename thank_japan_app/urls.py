@@ -3,7 +3,7 @@ from .views import (TopView, KiyakuView, FoodView, NatureView, FashionView,
                     CultureView, CookView, AppliancesView, AnimalView,
                     ImgDetailView, BuildingView, FlowerView, HouseholdItemsView,
                     SportsView, WorkView, CompanyFormView, GameView, answer, LegalNoticeView,
-                    PrivacyPolicy)
+                    PrivacyPolicy, contact_view, contact_thanks)
 
 
 urlpatterns = [
@@ -30,6 +30,8 @@ urlpatterns = [
     path("detail/<int:pk>/", ImgDetailView.as_view(), name="detail"),
     path("riyoukiyaku/", KiyakuView.as_view(), name="riyoukiyaku"),
     path("infomation/", CompanyFormView.as_view(), name="infomationpage"),
+    path('contact/', contact_view, name='contact'),
+    path('contact/thanks/', contact_thanks, name='contact_thanks'),
     
     path('legal-notice/', LegalNoticeView.as_view(), name='legal_notice'),
     path('privacy-policy/', PrivacyPolicy.as_view(), name="privacy_policy"),

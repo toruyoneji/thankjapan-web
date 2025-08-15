@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Message Sent</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f4f4f4; padding: 30px; text-align: center; }
+        .container { max-width: 500px; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1);}
+        a { color: #0070ba; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Thank you, {{ name }}!</h2>
+        <p>Your message has been successfully sent. We will reply as soon as possible.</p>
+        <a href="{% url 'toppage' %}">Back to Home</a>
+    </div>
+</body>
+</html>

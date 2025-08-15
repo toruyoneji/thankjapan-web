@@ -1,11 +1,14 @@
-from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
+from django.shortcuts import render, redirect, get_object_or_404, HttpResponse, HttpResponseRedirect
 from django.views import View
 from django.views.generic import ListView, DetailView, FormView, TemplateView
 from django.views.generic.edit import FormView
 from .models import ThankJapanModel
 from django.contrib import messages
+from django.core.mail import send_mail
+from django.conf import settings
 from .forms import AnswerForm
 from django.http import Http404
+from .forms import ContactForm
 import logging
 import random
 
@@ -40,6 +43,37 @@ class KiyakuView(ListView):
 #company infomation
 class CompanyFormView(TemplateView):
      template_name = 'thank_japan_app/company.html'
+     
+
+def contact_view(request):
+    if request.method == "POST":
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            name = form.cleaned_data['name']
+            title = form.cleaned_data['title']
+            email = form.cleaned_data['email']
+            message = form.cleaned_data['message']
+
+            # Gmail 送信用
+            full_message = f"From: {name} <{email}>\nTitle: {title}\n\n{message}"
+
+            send_mail(
+                subject=f"[Support] {title}",
+                message=full_message,
+                from_email=settings.DEFAULT_FROM_EMAIL,
+                recipient_list=['yonetoru0@gmail.com'],  # 送信先
+                fail_silently=False,
+            )
+            return render(request, 'thank_japan_app/contact_thanks.html', {'name': name})
+    else:
+        form = ContactForm()
+    return render(request, 'thank_japan_app/contact.html', {'form': form})
+
+
+   
+def contact_thanks(request):
+    template = 'thank_japan_app/contact_thanks.html'
+    return render(request, template)
 
 #Game
 class GameView(FormView):
