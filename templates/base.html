@@ -4,7 +4,6 @@
 <head>
     {% include 'css.html' %}
     <meta charset="UTF-8">
-    <meta name="description" content="Let's try Japanese lesson" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <meta name="description"content="This site introduces aspects of Japanese life, culture, food, and more.
@@ -23,6 +22,15 @@
 
 
     <title>{% block title %}{% endblock %}</title>
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-V91GG17980"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-V91GG17980');
+</script>
     
 </head>
 
