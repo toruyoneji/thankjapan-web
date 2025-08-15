@@ -59,8 +59,6 @@ INSTALLED_APPS = [
     'cloudinary_storage',
     'payment',
     'corsheaders',
-    'django.contrib.staticfiles',
-   
 ]
 
 MIDDLEWARE = [
