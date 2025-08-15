@@ -17,7 +17,7 @@ settings.py
 *.mov
 *.zip
 /media_jp/
-/static_jp/css/
+#/static_jp/css/
 
 .env
 .env.example
