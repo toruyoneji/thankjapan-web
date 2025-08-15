@@ -1,12 +1,11 @@
 from pathlib import Path
 import os 
-import stripe
 from dotenv import load_dotenv
 import dj_database_url
-
 import cloudinary
 import cloudinary.uploader
 import cloudinary.api
+import paypalrestsdk
 
 
 
@@ -15,34 +14,35 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 load_dotenv()
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
-STRIPE_SECRET_KEY = os.environ.get('STRIPE_SECRET_KEY')
-STRIPE_TEST_PUBLISHABLE_KEY = os.environ.get('STRIPE_TEST_PUBLISHABLE_KEY')
+PAYPAL_MODE = os.getenv('PAYPAL_MODE', 'live')
+PAYPAL_CLIENT_ID = os.getenv('PAYPAL_CLIENT_ID')
+PAYPAL_CLIENT_SECRET = os.getenv('PAYPAL_CLIENT_SECRET')
 
-
-stripe.api_key = STRIPE_SECRET_KEY
+paypalrestsdk.configure({
+    "mode": os.getenv('PAYPAL_MODE', "live"),  
+    "client_id": os.getenv('PAYPAL_CLIENT_ID'),
+    "client_secret": os.getenv('PAYPAL_CLIENT_SECRET')
+})
 
 
 DEBUG = False
 
-ALLOWED_HOSTS = ['www.thankjapan.com', 'thankjapan.herokuapp.com', 'thankjapan-4c187061757b.herokuapp.com']
+ALLOWED_HOSTS = ['www.thankjapan.com', 'thankjapan.com', 'thankjapan-4c187061757b.herokuapp.com']
+
 
 CORS_ALLOWED_ORIGINS = [
-    "https://thankjapan-4c187061757b.herokuapp.com",
-    "https://www.thankjapan.com",
-]
+     "https://thankjapan-4c187061757b.herokuapp.com",
+     "https://www.thankjapan.com",
+ ]
 
 
 SECURE_SSL_REDIRECT = True
-
-SECURE_HSTS_SECONDS = 31536000  
+SECURE_HSTS_SECONDS = 3600  
 SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 SECURE_HSTS_PRELOAD = True
+
 
 # Application definition
 
@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     'cloudinary',
     'cloudinary_storage',
     'payment',
+    'corsheaders',
     
    
 ]
@@ -72,6 +73,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'thank_japan_app.middleware.RedirectToWwwMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     
 ]
 
@@ -160,7 +162,6 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 MEDIA_URL = '/media/'
 
-#MEDIA_ROOT = BASE_DIR / 'media_jp'
 
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
@@ -170,14 +171,29 @@ DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# settings.py
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+            'level': 'WARNING',  # WARNING 以上を出力
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'WARNING',
+    },
+}
 
-
-
-
-
-
-
-
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = os.environ.get('EMAIL_PORT')
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')  
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_PASSWORD')  
+DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL')
 
 
 
