@@ -98,6 +98,9 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'thankjapan.wsgi.application'
+# URL configuration
+ROOT_URLCONF = 'thankjapan.urls'
+
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
