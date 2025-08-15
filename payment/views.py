@@ -1,89 +1,112 @@
-import stripe
-from django.conf import settings
-from django.shortcuts import render
-from django.http import JsonResponse
+import paypalrestsdk
+from django.shortcuts import render, redirect
+from django.http import HttpResponse
+from django.conf import settings  
 from django.views.decorators.csrf import csrf_exempt
+import json
+import os
 import logging
+from django.core.mail import send_mail
+
 
 logger = logging.getLogger(__name__)
 
-stripe.api_key = settings.STRIPE_SECRET_KEY
+paypalrestsdk.configure({
+    "mode": settings.PAYPAL_MODE,  
+    "client_id": settings.PAYPAL_CLIENT_ID,
+    "client_secret": settings.PAYPAL_CLIENT_SECRET
+})
 
-@csrf_exempt
-def create_checkout_session(request):
-    YOUR_DOMAIN = "https://www.thankjapan.com"  # 本番のURLを確認
 
-    try:
-        checkout_session = stripe.checkout.Session.create(
-            payment_method_types=['card'],
-            line_items=[{
-                'price_data': {
-                    'currency': 'usd',
-                    'product_data': {
-                        'name': 'ThankJapan support',
-                    },
-                    'unit_amount': 2000,  # 価格は最小単位（例: 2000 = 20 USD）
-                },
-                'quantity': 1,
-            }],
-            mode='payment',
-            success_url=YOUR_DOMAIN + '/payment/success/',
-            cancel_url=YOUR_DOMAIN + '/payment/cancel/',
-        )
-
-        return JsonResponse({
-            'id': checkout_session.id
-        })
-
-    except stripe.error.StripeError as e:
-        # Stripeのエラーを捕まえる
-        logger.error(f"Stripe error: {str(e)}")
-        return JsonResponse({'error': f"Stripe error: {str(e)}"}, status=500)
-    
-    except Exception as e:
-        # 一般的なエラーを捕まえる
-        logger.error(f"General error: {str(e)}")
-        return JsonResponse({'error': f"General error: {str(e)}"}, status=500)
-
-def checkout(request):
-    return render(request, 'payment/checkout.html', {
-        'stripe_publishable_key': settings.STRIPE_TEST_PUBLISHABLE_KEY
+def create_payment(amount="2.00", currency="USD"):
+    payment = paypalrestsdk.Payment({
+        "intent": "sale",
+        "payer": {"payment_method": "paypal"},
+        "redirect_urls": {
+            "return_url": "https://www.thankjapan.com/payment/success",
+            "cancel_url": "https://www.thankjapan.com/payment/cancel"
+        },
+        "transactions": [{
+            "amount": {"total": amount, "currency": currency},
+            "description": f"ThankJapan Support {amount} {currency}"
+        }]
     })
-    
 
-def success(request):
+    if payment.create():
+        for link in payment.links:
+            if link.method == "REDIRECT":
+                return link.href
+    else:
+        logger.error(f"Payment creation failed: {payment.error}")
+        return payment.error
+
+def create_payment_view(request):
+    amount = request.GET.get("amount", "2.00")
+    redirect_url_or_error = create_payment(amount)
+    
+    if isinstance(redirect_url_or_error, dict):
+        return HttpResponse(f"Payment creation failed: {redirect_url_or_error}")
+    return redirect(redirect_url_or_error)
+
+
+def success_view(request):
     return render(request, 'payment/success.html')
 
-def cancel(request):
+def cancel_view(request):
     return render(request, 'payment/cancel.html')
 
+def select_amount_view(request):
+    return render(request, "payment/kurikku_payment.html")
+
+
+def payment_success(request):
+    payment_id = request.GET.get("paymentId")
+    payer_id = request.GET.get("PayerID")
+    payment = paypalrestsdk.Payment.find(payment_id)
+
+    if payment.execute({"payer_id": payer_id}):
+        logger.info(f"Payment executed successfully: {payment_id}")
+        return render(request, "payment/success.html", {"payment": payment})
+    else:
+        logger.error(f"Payment execution failed: {payment.error}")
+        return render(request, "payment/failure.html", {"error": payment.error})
+
+
+WEBHOOK_ID = os.environ.get("PAYPAL_WEBHOOK_ID")  
 
 @csrf_exempt
-def stripe_webhook(request):
-    payload = request.body
-    sig_header = request.META['HTTP_STRIPE_SIGNATURE']
-    endpoint_secret = settings.STRIPE_ENDPOINT_SECRET
+def paypal_webhook(request):
+    payload = request.body.decode('utf-8')
+    headers = {k: v for k, v in request.headers.items()}
 
     
-    event = None
-    try:
-        event = stripe.Webhook.construct_event(
-            payload, sig_header, endpoint_secret
-        )
-    except ValueError as e:
-        return JsonResponse({'error': 'Invalid payload'}, status=400)
-    except stripe.error.SignatureVerificationError as e:
-        return JsonResponse({'error': 'Invalid signature'}, status=400)
+    if not paypalrestsdk.WebhookEvent.verify(payload, headers, WEBHOOK_ID):
+        logger.warning("⚠️ Webhook signature verification failed")
+        return HttpResponse(status=400)
 
-    
-    if event['type'] == 'payment_intent.succeeded':
-        payment_intent = event['data']['object']
-        print('PaymentIntent was successful!', payment_intent)
-    
+    event = json.loads(payload)
+    event_type = event.get('event_type')
 
-    elif event['type'] == 'payment_intent.failed':
-        payment_intent = event['data']['object']
-        print('PaymentIntent failed.', payment_intent)
+    if event_type == 'PAYMENT.SALE.COMPLETED':
+        sale = event['resource']
+        payment_id = sale['id']
+        payer_email = sale['payer']['payer_info']['email']
+        amount = sale['amount']['total']
+        currency = sale['amount']['currency']
 
-    return JsonResponse({'status': 'success'}, status=200)
+        logger.info(f"✅ Payment received: {amount} {currency} from {payer_email}")
 
+        
+        try:
+            send_mail(
+                subject=f"New Payment Received: {amount} {currency}",
+                message=f"A payment has been received.\n\nPayment ID: {payment_id}\nAmount: {amount} {currency}\nPayer Email: {payer_email}",
+                from_email=os.environ.get("DEFAULT_FROM_EMAIL"),
+                recipient_list=[os.environ.get("DEFAULT_FROM_EMAIL")],
+                fail_silently=False,
+            )
+            logger.info("Payment notification email sent successfully")
+        except Exception as e:
+            logger.error(f"Failed to send payment notification email: {e}")
+
+    return HttpResponse(status=200)

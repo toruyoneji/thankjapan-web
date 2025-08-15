@@ -1,0 +1,66 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Support ThankJapan</title>
+    <link rel="stylesheet" href="{% static 'payment/styles.css' %}">
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; padding: 30px; background-color: #f4f4f4; }
+        h1 { color: #00457c; margin-bottom: 20px; }
+        h2 { color: #00457c; margin-bottom: 15px; }
+        .currency-section { margin-bottom: 30px; }
+        .amount-button {
+            display: inline-block;
+            margin: 8px;
+            padding: 12px 25px;
+            font-size: 16px;
+            background-color: #0070ba;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            transition: background-color 0.2s;
+        }
+        .amount-button:hover { background-color: #005c99; }
+        @media (max-width: 600px) {
+            .amount-button { width: 80%; margin: 5px 0; font-size: 18px; }
+        }
+    </style>
+</head>
+<body>
+    <h1>Support ThankJapan</h1>
+
+    <div class="currency-section">
+        <h2>USD</h2>
+        <a class="amount-button" href="{% url 'create_payment' %}?amount=2.00&currency=USD">$2</a>
+        <a class="amount-button" href="{% url 'create_payment' %}?amount=5.00&currency=USD">$5</a>
+        <a class="amount-button" href="{% url 'create_payment' %}?amount=7.00&currency=USD">$7</a>
+        <a class="amount-button" href="{% url 'create_payment' %}?amount=10.00&currency=USD">$10</a>
+    </div>
+
+    <div class="currency-section">
+        <h2>EUR</h2>
+        <a class="amount-button" href="{% url 'create_payment' %}?amount=2.00&currency=EUR">€2</a>
+        <a class="amount-button" href="{% url 'create_payment' %}?amount=5.00&currency=EUR">€5</a>
+        <a class="amount-button" href="{% url 'create_payment' %}?amount=7.00&currency=EUR">€7</a>
+        <a class="amount-button" href="{% url 'create_payment' %}?amount=10.00&currency=EUR">€10</a>
+    </div>
+
+    <div class="currency-section">
+        <h2>GBP</h2>
+        <a class="amount-button" href="{% url 'create_payment' %}?amount=2.00&currency=GBP">£2</a>
+        <a class="amount-button" href="{% url 'create_payment' %}?amount=5.00&currency=GBP">£5</a>
+        <a class="amount-button" href="{% url 'create_payment' %}?amount=7.00&currency=GBP">£7</a>
+        <a class="amount-button" href="{% url 'create_payment' %}?amount=10.00&currency=GBP">£10</a>
+    </div>
+
+    <div class="currency-section">
+        <h2>JPY</h2>
+        <a class="amount-button" href="{% url 'create_payment' %}?amount=200&currency=JPY">¥200</a>
+        <a class="amount-button" href="{% url 'create_payment' %}?amount=500&currency=JPY">¥500</a>
+        <a class="amount-button" href="{% url 'create_payment' %}?amount=700&currency=JPY">¥700</a>
+        <a class="amount-button" href="{% url 'create_payment' %}?amount=1000&currency=JPY">¥1000</a>
+    </div>
+</body>
+</html>

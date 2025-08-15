@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Support Sent Successfully</title>
+    <title>Support Sending Failed</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         body {
@@ -22,11 +22,11 @@
             text-align: center;
             box-shadow: 0 10px 25px rgba(0,0,0,0.1);
         }
-        h2 { color: #0070ba; margin-bottom: 15px; }
+        h2 { color: #d32f2f; margin-bottom: 15px; }
         p { font-size: 1.1rem; margin-bottom: 20px; }
         a.button {
             display: inline-block;
-            background: #0070ba;
+            background: #d32f2f;
             color: #fff;
             padding: 12px 25px;
             border-radius: 8px;
@@ -35,16 +35,16 @@
             transition: background 0.3s ease, transform 0.2s ease;
         }
         a.button:hover {
-            background: #005ea6;
+            background: #a52727;
             transform: translateY(-2px);
         }
     </style>
 </head>
 <body>
     <div class="message-box">
-        <h2>Thank You!</h2>
-        <p>Your support message has been sent successfully. We will get back to you soon.</p>
-        <a href="{% url 'toppage' %}" class="button">Back to Home</a>
+        <h2>Oops!</h2>
+        <p>Something went wrong while sending your support message. Please try again later.</p>
+        <a href="{% url 'contact' %}" class="button">Back to Contact Form</a>
     </div>
 </body>
 </html>
