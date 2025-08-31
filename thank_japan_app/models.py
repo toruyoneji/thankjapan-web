@@ -3,8 +3,8 @@ from cloudinary.models import CloudinaryField
 
 class ThankJapanModel(models.Model):
     name = models.CharField(max_length=100, unique=True)
-    englishname = models.CharField(max_length=100, unique=True)
-    jpname = models.CharField(max_length=100, unique=True)
+    englishname = models.CharField(max_length=100)
+    jpname = models.CharField(max_length=100)
     category = models.CharField(max_length=100)
     description = models.TextField(max_length=1000)
     history = models.TextField(max_length=1000)
