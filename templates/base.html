@@ -32,22 +32,6 @@
         gtag('config', 'G-V91GG17980');
     </script>
     
-    {% block jsonld %}
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "Thing",
-        "name": "{{ object.englishname }}",
-        "alternateName": "{{ object.jpname }}",
-        "description": "{{ object.description|striptags|truncatewords:50 }}",
-        "image": "{{ object.image.url }}",
-        "mainEntityOfPage": {
-        "@type": "WebPage",
-        "@id": "{{ request.build_absolute_uri }}"
-        }
-    }
-    </script>
-{% endblock %}
 
 </head>
 
