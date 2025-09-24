@@ -10,14 +10,19 @@
         {% else %}
             <p>No image available</p>
         {% endif %}
-            <dl>
-                <dt class="detaildt">Name: {{ object.name }}</dt>
+            <h1 class="detaildt">English name: {{object.englishname }}</h1> 
+            <hr>
+            <h2>japanese name: {{ object.jpname }}</h2>
+                <p class="detaildt">Romaji name: {{ object.name }}</p>
                 <hr>
-                <dd class="detaildd">description:<br />
-                <hr>
+                <p class="detaildd">description:<br />
                     {{ object.description }}
-                </dd>
-            </dl>
+                </p>
+                <hr>
+                <p class="detaildd">history:<br />
+                    {{ object.history}}
+                </p>
+            
     </div>
 
  
