@@ -1,5 +1,5 @@
 {% extends 'basecategory.html' %}
-{% block title %}Animal{% endblock %}
+{% block title %}日本の動物一覧 - Animal Category | ThankJapan{% endblock %}
 
 {% block content %}
 
@@ -11,7 +11,7 @@
             {% if item.image %}
                                            
                 <a href="{% url 'detail' item.id %}">
-                    <img class="gazou" src="{{ item.image.url }}" alt="No image..." />
+                    <img class="gazou" src="{{ item.image.url }}" alt="{{ item.englishname }}" />
                 </a>
 
             {% else %}
