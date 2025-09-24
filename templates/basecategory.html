@@ -6,9 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <meta name="description"content="This site introduces aspects of Japanese life, culture, food, and more.
-                                     Romanized readings are provided for each term. 
-                                     We hope to share Japan with people from around the world.">
+    <meta name="description" content="{% block description %}This site introduces aspects of Japanese life, culture, food, and more.{% endblock %}" />
     <meta name="robots" content="index,follow">
     <meta name="keywords" content="Japanese, japan">
 
@@ -33,6 +31,8 @@
 
         gtag('config', 'G-V91GG17980');
     </script>
+
+    {% block jsonld %}{% endblock %}
     
 </head>
 
