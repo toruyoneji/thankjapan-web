@@ -6,7 +6,7 @@
         Made for curious minds and global learners.</strong></p>
         <hr>
         <p class="document">
-            Trending Categories -> 
+            <h2>Trending Categories</h2> -> 
             <strong><a href="{% url 'foodpage' %}">Food</a></strong>  <strong><a href="{% url 'culturepage' %}">culture</a></strong>  
             <strong><a href="{% url 'animalpage' %}">Animal</a></strong>  <strong><a href="{% url 'flowerpage' %}">Flower</a></strong>
         </p>
@@ -42,8 +42,8 @@
 
         <p class="yajirushi">↓↓</p>
         
-        <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1754645312/thankjapan/backgrounds/hutwikylfzofnnzrahgh.png" 
-        alt="fujisan" width="900" height="500"/>
+        <a href="{% url 'naturepage' %}"><img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1754645312/thankjapan/backgrounds/hutwikylfzofnnzrahgh.png" 
+        alt="fujisan" width="900" height="500"/></a>
             <dl>
                 <dt class="dt">Mount Fuji(English Name)</dt>
                 <dt class="dt">Japanese Name: 富士山 ← Kanji or Hiragana or Katakana</dt>
@@ -64,37 +64,43 @@
             </dl>
             <br>
         <hr />
-        <p class="dt">From here, these are the kinds of food we eat at my house (for example)</p>
+        <p class="dt">From here, I’ll show you some of the foods we eat at my house — just a few examples!</p>
         <p class="yajirushi">↓↓</p>
         <hr>
         <p class="dt">This is tonkotsu ramen made from instant noodles.</p>
-        <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1754645502/thankjapan/backgrounds/eerlcbkiwnesgz4g5yuw.png" 
-         alt="tonkotsuramen"/>
+        <a href="{% url 'cookpage' %}"><img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1754645502/thankjapan/backgrounds/eerlcbkiwnesgz4g5yuw.png" 
+         alt="tonkotsuramen"/></a>
+
         <p class="dt">This is the miso soup we make at home.</p>
-        <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1754645480/thankjapan/backgrounds/efyejn2fmwas2ogvdip4.png"
-         alt="misoshiru"/>
+        <a href="{% url 'cookpage' %}"><img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1754645480/thankjapan/backgrounds/efyejn2fmwas2ogvdip4.png"
+         alt="misoshiru"/></a>
+
         <p class="dt">This is natto on rice.</p>
-        <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1754645548/thankjapan/backgrounds/a6oisaruk463hbfywpl9.png"
-         alt="nattougohan"/>
+        <a href="{% url 'cookpage' %}"><img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1754645548/thankjapan/backgrounds/a6oisaruk463hbfywpl9.png"
+         alt="nattougohan"/></a>
+
         <p class="dt">Every now and then, I have takikomi gohan, but it's pretty rare.</p>
-        <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1754645533/thankjapan/backgrounds/gkyce0htgx1rrh9tbaun.png"
-         alt="takikomigohan"/>
+        <a href="{% url 'cookpage' %}"><img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1754645533/thankjapan/backgrounds/gkyce0htgx1rrh9tbaun.png"
+         alt="takikomigohan"/></a>
+
         <p class="dt">These are tri-colored dumplings made from deep-fried shrimp paste.</p>
-        <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1754645575/thankjapan/backgrounds/ifqqmdqedadu4vg8ilgw.png"
-         alt="sanshokudango"/>
+        <a href="{% url 'foodpage' %}"><img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1754645575/thankjapan/backgrounds/ifqqmdqedadu4vg8ilgw.png"
+         alt="sanshokudango"/></a>
 
         <p class="dt">This is Kashiwa Mochi, a traditional Japanese sweet eaten in May.</p>
-        <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1754645592/thankjapan/backgrounds/ldhlg7gelekxhnvh8srr.png"
-         alt="kashiwamochi"/>
+        <a href="{% url 'foodpage' %}"><img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1754645592/thankjapan/backgrounds/ldhlg7gelekxhnvh8srr.png"
+         alt="kashiwamochi"/></a>
+
         <p class="dt">This is grilled salmon.</p>
-        <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1754645644/thankjapan/backgrounds/s7qflkaitfrusrsjkoxa.png"
-         alt="yakisake" />
+        <a href="{% url 'foodpage' %}"><img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1754645644/thankjapan/backgrounds/s7qflkaitfrusrsjkoxa.png"
+         alt="yakisake" /></a>
+
         <p class="dt">Hiyashi Chuka is a type of cold ramen eaten in the summer.</p>
-        <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1754645614/thankjapan/backgrounds/xod0qhqztcnflvwk5j2s.png"
-         alt="hiyashichuka" />
+        <a href="{% url 'cookpage' %}"><img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1754645614/thankjapan/backgrounds/xod0qhqztcnflvwk5j2s.png"
+         alt="hiyashichuka" /></a>
         <p class="dt">Katsuo no Tataki is one type of Japanese sashimi, featuring lightly seared skipjack tuna.</p>
-        <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1754645624/thankjapan/backgrounds/ul34siwlrmvimtmyiyx7.png"
-         alt="katsuonotataki" />
+        <a href="{% url 'foodpage' %}"><img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1754645624/thankjapan/backgrounds/ul34siwlrmvimtmyiyx7.png"
+         alt="katsuonotataki" /></a>
 
         
 
