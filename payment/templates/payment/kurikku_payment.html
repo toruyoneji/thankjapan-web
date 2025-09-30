@@ -4,7 +4,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Support ThankJapan from Anywhere | Help Us Share Japanese Culture Worldwide</title>
+    <title>Support ThankJapan | Donate to Help Share Japanese Culture Globally</title>
+
+    <meta name="description" content="Support ThankJapan by donating as little as the price of a coffee. Help us share the beauty and gratitude of Japanese culture with the world.">
+
+    <meta property="og:title" content="Support ThankJapan" />
+    <meta property="og:description" content="Help us share Japanese culture with the world through your kind support. Even a small donation makes a big difference." />
+    <meta property="og:image" content="{% static 'css/thank_japan.ico' %}" />
+    <meta property="og:url" content="https://www.thankjapan.com/support" />
+    <meta property="og:type" content="website" />
+
+
     <link rel="stylesheet" href="{% static 'payment/styles.css' %}">
     <style>
         body { font-family: Arial, sans-serif; text-align: center; padding: 30px; background-color: #f4f4f4; }
@@ -23,6 +33,13 @@
             transition: background-color 0.2s;
         }
         .amount-button:hover { background-color: #005c99; }
+        .seo-text {
+            font-size: 16px;
+            color: #444;
+            margin-top: 20px;
+            line-height: 1.6;
+        }
+
         @media (max-width: 600px) {
             .amount-button { width: 80%; margin: 5px 0; font-size: 18px; }
         }
@@ -30,6 +47,18 @@
 </head>
 <body>
     <h1>Support ThankJapan</h1>
+
+    <h2>Like what we do? Buy us a coffee ☕️</h2>
+
+    <p>Thank you for liking ThankJapan!<br>
+    This project is a small attempt to share the beauty of Japan and the spirit of gratitude with the world.<br>
+    If you enjoyed what you saw, we’d be so happy if you could send us a little tip — even just the price of a coffee ☕️<br>
+    Your support helps us keep the site running and create new content.
+    </p><br>
+    <p class="seo-text">
+    ThankJapan is a global project dedicated to sharing Japanese culture, tradition, and gratitude with people around the world.
+    Your donation helps us create content, reach new audiences, and keep this mission alive.
+    </p>
 
     <div class="currency-section">
         <h2>USD</h2>
