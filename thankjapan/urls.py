@@ -10,7 +10,7 @@ urlpatterns = [
     path('robots.txt', robots_txt),
     path('kanrisha/', admin.site.urls),
     path('', include('thank_japan_app.urls')),
-    path('payment/', include('payment.urls')),
+    path('support/', include('payment.urls')),
    
 ]
 
