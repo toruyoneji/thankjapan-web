@@ -12,7 +12,7 @@ def validform(value):
     
 
 class AnswerForm(forms.Form):
-    answer = forms.CharField(label="What's name?",max_length=50,
+    answer = forms.CharField(label="Can you name what's in this image? Use romaji to answer.",max_length=50,
                              error_messages={'required': 'required'},
                              widget=forms.TextInput(attrs={'size': '40', 
                                                            'style': 'height: 30px; font-size: 1.5rem;',
