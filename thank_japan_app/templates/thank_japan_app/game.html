@@ -1,5 +1,5 @@
 {% extends 'basecategory.html' %}
-{% block title %}Japanese Game Quiz | Test Your Knowledge of Japan’s Games | ThankJapan{% endblock %}
+{% block title %}Japanese Game Quiz | Japan Knowledge Challenge | ThankJapan{% endblock %}
 
 {% load static %}
 
@@ -7,9 +7,9 @@
 
     {% load static %}
     <div class="main2">
-        <h1>Quesition & Answer</h1>
+        <h1>Question & Answer</h1>
             {% if object.image %}
-                <img class="questiongazou" src="{{ object.image.url }}" alt="No image..." />
+                <img class="questiongazou" src="{{ object.image.url }}" alt="{{ object.category }} question image" />
             {% else %}
                 <p>No image available</p>
             {% endif %}
