@@ -6,6 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
+    {% block meta %}
     <meta name="description"content="This site introduces aspects of Japanese life, culture, food, and more.
                                      Romanized readings are provided for each term. 
                                      We hope to share Japan with people from around the world.">
@@ -25,9 +26,10 @@
     <meta name="twitter:description" content="This site introduces Japanese culture, food, and language to the world.">
     <meta name="twitter:image" content="https://res.cloudinary.com/dotekofm5/image/upload/v1754642770/thankjapan/backgrounds/ntpvmxgudcmvp0snpiur.png">
     <meta name="twitter:site" content="@thankjapan0514">
+    {% endblock %}
 
 
-    <title>{% block title %}{% endblock %}</title>
+    <title>{% block title %}ThankJapan{% endblock %}</title>
 
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-V91GG17980"></script>
     <script>
