@@ -111,6 +111,8 @@ def game_play(request):
     player_id = request.session.get('player_id')
     if not player_id:
         return redirect('game_start')
+    
+    player = get_object_or_404(Player, id=player_id)
 
     index = request.session.get('game_current_index', 0)
     ids = request.session.get('game_question_ids', [])
@@ -131,6 +133,7 @@ def game_play(request):
         'current_index': index + 1,
         'score': request.session.get('game_score', 0),
         'message': message,
+        'player': player,
     })
 
 
