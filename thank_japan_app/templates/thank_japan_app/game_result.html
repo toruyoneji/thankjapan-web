@@ -1,8 +1,6 @@
 {% extends 'base.html' %}
 {% block title %}Game Result | ThankJapan - Challenge your knowledge!{% endblock %}
 
-{% block content %}
-
 
 {% block meta %}
   <meta name="description" content="Check your game result and see the top 20 players on ThankJapan! Test your knowledge about Japan.">
@@ -12,7 +10,28 @@
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://www.thankjapan.com/game/result/">
   <meta name="twitter:card" content="summary_large_image">
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "name": "ThankJapan Top 20 Players Ranking",
+  "itemListElement": [
+    {% for r in ranking %}
+    {
+      "@type": "ListItem",
+      "position": {{ forloop.counter }},
+      "name": "{{ r.username|escapejs }}",
+      "url": "https://www.thankjapan.com/",
+      "description": "Score: {{ r.total_score }}, Country: {{ r.country|default:'Unknown'|escapejs }}"
+    }{% if not forloop.last %},{% endif %}
+    {% endfor %}
+  ]
+}
+</script>
 {% endblock %}
+
+{% block content %}
 
 <div class="main2" style="text-align: center;">
 
