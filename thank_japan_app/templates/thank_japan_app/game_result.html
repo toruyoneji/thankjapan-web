@@ -1,49 +1,79 @@
 {% extends 'base.html' %}
-{% block title %}Game Result & Ranking | ThankJapan{% endblock %}
+{% block title %}Game Result | ThankJapan - Challenge your knowledge!{% endblock %}
 
 {% block content %}
 
-<div class="main2">
 
-<h2>Game Result</h2>
-<p style="font-size: 1.8rem;">Player: {{ player.username }} ({{ player.country }})</p>
-<p style="font-size: 1.8rem;">Your score: {{ score }}</p>
+{% block meta %}
+  <meta name="description" content="Check your game result and see the top 20 players on ThankJapan! Test your knowledge about Japan.">
+  <meta property="og:title" content="Game Result | ThankJapan">
+  <meta property="og:description" content="Did you rank among the top 20? Check your score now!">
+  <meta property="og:image" content="https://res.cloudinary.com/dotekofm5/image/upload/v1754642770/thankjapan/backgrounds/ntpvmxgudcmvp0snpiur.png">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.thankjapan.com/game/result/">
+  <meta name="twitter:card" content="summary_large_image">
+{% endblock %}
 
-<hr>
-<h3 style="text-align: center;">🏆 Top 20 Players</h3>
-<hr>
-<p style="text-align: center; font-size: 1.9rem;">username - point - countryname</p>
-<hr>
-<ul style="list-style: none; padding: 0;">
-  {% for r in ranking %}
-    <li style="text-align: center; border-bottom: 1px solid #ccc; padding: 10px 0; font-size: 1.7rem;">
-      <strong>{{ forloop.counter }}.</strong> {{ r.username }} - {{ r.total_score }}pts - {{ r.country }}
-    </li>
-  {% empty %}
-    <li>No scores yet.</li>
-  {% endfor %}
-</ul>
+<div class="main2" style="text-align: center;">
 
+  <h1 style="font-size: 2.5rem; margin-bottom: 20px; color: #ff6600;">🎉 Game Result 🎉</h1>
 
-<div style="margin-top: 30px;">
+  <div style="background-color: yellow; padding: 20px; border-radius: 10px; display: inline-block; margin-bottom: 30px;">
+    <p style="font-size: 1.8rem; margin: 10px 0; color: black;"><strong>Player:</strong> {{ player.username }} ({{ player.country|default:"Unknown" }})</p>
+    <p style="font-size: 2rem; color: #10b981;"><strong>Your Score:</strong> {{ score }} pts</p>
+  </div>
+
+  <hr style="margin: 30px 0;">
+
+  <h2 style="font-size: 2rem; color: #3b82f6;">🏆 Top 20 Players</h2>
+  <p style="font-size: 1.2rem; color: #555;">Can you reach the top?</p>
+
+  <table style="width: 90%; max-width: 600px; margin: 0 auto; font-size: 1.2rem; border-collapse: collapse;">
+    <thead style="background-color: yellowgreen;">
+      <tr>
+        <th>#</th>
+        <th>Username</th>
+        <th>Points</th>
+        <th>Country</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for r in ranking %}
+        <tr style="border-bottom: 1px solid #ddd;">
+          <td>{{ forloop.counter }}</td>
+          <td><strong>{{ r.username }}</strong></td>
+          <td>{{ r.total_score }}</td>
+          <td>{{ r.country|default:"-" }}</td>
+        </tr>
+      {% empty %}
+        <tr><td colspan="4">No rankings yet.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <div style="margin-top: 40px;">
     <a href="{% url 'game_restart' %}">
-        <button style="padding: 10px 20px; font-size: 1.2rem;">🔁 Play Again</button>
+      <button style="background-color: #3b82f6; color: white; border: none; padding: 12px 24px; font-size: 1.1rem; border-radius: 8px; cursor: pointer;">
+        🔁 Play Again
+      </button>
     </a>
-</div>
+  </div>
 
-<div style="margin-top: 20px;">
+  <div style="margin-top: 20px;">
     <a href="{% url 'logout_player' %}">
-        <button style="padding: 10px 20px; font-size: 1.1rem;">🚪 Logout</button>
+      <button style="background-color: #6b7280; color: white; border: none; padding: 10px 20px; font-size: 1rem; border-radius: 6px; cursor: pointer;">
+        🚪 Logout
+      </button>
     </a>
-</div>
+  </div>
 
-<form method="post" action="{% url 'delete_player' %}" onsubmit="return confirm('Are you sure you want to delete your account?');">
+  <form method="post" action="{% url 'delete_player' %}" onsubmit="return confirm('Are you sure you want to delete your account?');" style="margin-top: 20px;">
     {% csrf_token %}
-    <button type="submit" style="background-color: red; color: white; padding: 8px 16px;">
-        🗑️ Delete My Account
+    <button type="submit" style="background-color: #dc2626; color: white; padding: 10px 20px; border: none; font-size: 1rem; border-radius: 6px;">
+      🗑️ Delete My Account
     </button>
-</form>
-
+  </form>
 
 </div>
+
 {% endblock %}
