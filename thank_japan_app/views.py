@@ -8,6 +8,7 @@ from django.core.mail import send_mail
 from django.conf import settings
 from .forms import AnswerForm, ContactForm, UsernameForm
 from django.views.decorators.http import require_POST
+from ratelimit.decorators import ratelimit
 from django.http import Http404
 import logging
 import random
@@ -76,6 +77,9 @@ def contact_thanks(request):
     return render(request, template)
 
 #Game
+from ratelimit.decorators import ratelimit
+
+@ratelimit(key='ip', rate='5/m', block=True)
 def game_start(request):
     if request.session.get('player_id'):
         return redirect('game_play')
@@ -86,11 +90,13 @@ def game_start(request):
             username = form.cleaned_data['username']
             country = form.cleaned_data['country']
 
-            from .models import Player
             player, created = Player.objects.get_or_create(username=username)
-            if created:
-                player.country = country
-                player.save()
+            if not created:
+                messages.error(request, "This username is already taken. Please choose another.")
+                return render(request, 'thank_japan_app/game_start.html', {'form': form})
+
+            player.country = country
+            player.save()
 
             request.session['player_id'] = player.id
             request.session['game_score'] = 0

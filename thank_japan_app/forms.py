@@ -10,6 +10,11 @@ def validform(value):
     if re.search(r'[!<>&%$#:;"\'=\?\\*\+\|/0-9|]', value):
         raise ValidationError(f'{value} is Invalid characters are included.', code='error_msg')
     
+def uservalidform(value):
+    if not re.match(r'^[a-zA-Z_]+$', value):
+        raise ValidationError('Username must contain only letters and underscores.', code='invalid')
+
+    
     
 
 class AnswerForm(forms.Form):
@@ -49,6 +54,7 @@ class UsernameForm(forms.Form):
     username = forms.CharField(
         label="Username",
         max_length=50,
+        validators=[uservalidform],
         widget=forms.TextInput(attrs={'placeholder': 'Enter your username'})
     )
     country = forms.CharField(
