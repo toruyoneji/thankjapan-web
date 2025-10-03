@@ -55,7 +55,7 @@ class UsernameForm(forms.Form):
         label="Country",
         max_length=50,
         required=False,
-        widget=forms.TextInput(attrs={'placeholder': 'Country (optional)'})
+        widget=forms.TextInput(attrs={'placeholder': 'Your Country (optional)'})
     )
 
 
