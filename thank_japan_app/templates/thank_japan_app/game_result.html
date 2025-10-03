@@ -9,6 +9,22 @@
 <p style="font-size: 1.8rem;">Player: {{ player.username }} ({{ player.country }})</p>
 <p style="font-size: 1.8rem;">Your score: {{ score }}</p>
 
+<hr>
+<h3 style="text-align: center;">🏆 Top 20 Players</h3>
+<hr>
+<p style="text-align: center; font-size: 1.9rem;">username - point - countryname</p>
+<hr>
+<ul style="list-style: none; padding: 0;">
+  {% for r in ranking %}
+    <li style="text-align: center; border-bottom: 1px solid #ccc; padding: 10px 0; font-size: 1.7rem;">
+      <strong>{{ forloop.counter }}.</strong> {{ r.username }} - {{ r.total_score }}pts - {{ r.country }}
+    </li>
+  {% empty %}
+    <li>No scores yet.</li>
+  {% endfor %}
+</ul>
+
+
 <div style="margin-top: 30px;">
     <a href="{% url 'game_restart' %}">
         <button style="padding: 10px 20px; font-size: 1.2rem;">🔁 Play Again</button>
@@ -28,20 +44,6 @@
     </button>
 </form>
 
-<hr>
-<h3 style="text-align: center;">🏆 Top 20 Players</h3>
-<hr>
-<p style="text-align: center; font-size: 1.9rem;">username - point - countryname</p>
-<hr>
-<ul style="list-style: none; padding: 0;">
-  {% for r in ranking %}
-    <li style="text-align: center; border-bottom: 1px solid #ccc; padding: 10px 0; font-size: 1.7rem;">
-      <strong>{{ forloop.counter }}.</strong> {{ r.username }} - {{ r.total_score }}pts - {{ r.country }}
-    </li>
-  {% empty %}
-    <li>No scores yet.</li>
-  {% endfor %}
-</ul>
 
 </div>
 {% endblock %}
