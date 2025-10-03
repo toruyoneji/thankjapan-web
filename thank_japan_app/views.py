@@ -2,13 +2,13 @@ from django.shortcuts import render, redirect, get_object_or_404, HttpResponse, 
 from django.views import View
 from django.views.generic import ListView, DetailView, FormView, TemplateView
 from django.views.generic.edit import FormView
-from .models import ThankJapanModel
+from .models import ThankJapanModel, Player
 from django.contrib import messages
 from django.core.mail import send_mail
 from django.conf import settings
-from .forms import AnswerForm
+from .forms import AnswerForm, ContactForm, UsernameForm
+from django.views.decorators.http import require_POST
 from django.http import Http404
-from .forms import ContactForm
 import logging
 import random
 
@@ -76,47 +76,152 @@ def contact_thanks(request):
     return render(request, template)
 
 #Game
-class GameView(FormView):
-    template_name = 'thank_japan_app/game.html'
-    form_class = AnswerForm
+def game_start(request):
+    if request.session.get('player_id'):
+        return redirect('game_play')
 
-    
-    def get_context_data(self, **kwargs):
-         objects = ThankJapanModel.objects.all()
-         if not objects.exists():
-             raise Http404("Sorry No data...")     
-         obj = random.choice(objects)
-         
-         context = super().get_context_data(**kwargs)
-         context['object'] = obj
-         return context
-     
-def answer(request, pk):
-    answer = get_object_or_404(ThankJapanModel, id=pk)
     if request.method == 'POST':
-        form = AnswerForm(request.POST)
+        form = UsernameForm(request.POST)
         if form.is_valid():
-            data = form.cleaned_data['answer'].strip().lower()
-            corret_answer = answer.name.strip().lower()
-            if data == corret_answer:
-                message = "Correct!!"
-            else:
-                message = f'Incorrect!! Answer --> {answer.name}'
-                
-            return render(request, 'thank_japan_app/game.html',
-                          {'message':message, 'object': answer })
-        else:
-            return render(request, 'thank_japan_app/game.html',
-                          {'form':form, 'object': answer })
-    
+            username = form.cleaned_data['username']
+            country = form.cleaned_data['country']
+
+            from .models import Player
+            player, created = Player.objects.get_or_create(username=username)
+            if created:
+                player.country = country
+                player.save()
+
+            request.session['player_id'] = player.id
+            request.session['game_score'] = 0
+            request.session['game_current_index'] = 0
+
+            question_ids = list(ThankJapanModel.objects.values_list('id', flat=True))
+            random.shuffle(question_ids)
+            request.session['game_question_ids'] = question_ids[:10]
+
+            return redirect('game_play')
+    else:
+        form = UsernameForm()
+
+    return render(request, 'thank_japan_app/game_start.html', {'form': form})
+
+           
+def game_play(request):
+    player_id = request.session.get('player_id')
+    if not player_id:
+        return redirect('game_start')
+
+    index = request.session.get('game_current_index', 0)
+    ids = request.session.get('game_question_ids', [])
+
+    if index >= len(ids):
+        return redirect('game_result')
+
+    question_id = ids[index]
+    question = get_object_or_404(ThankJapanModel, id=question_id)
+
     form = AnswerForm()
-    return render(request, 'thank_japan_app/game.html', {'form': form})
-            
-                
-         
+
+    message = request.session.pop('game_message', None)
+
+    return render(request, 'thank_japan_app/game_play.html', {
+        'object': question,
+        'form': form,
+        'current_index': index + 1,
+        'score': request.session.get('game_score', 0),
+        'message': message,
+    })
+
+
+def game_answer(request, pk):
+    player_id = request.session.get('player_id')
+    if not player_id:
+        return redirect('game_start')
+
+    question = get_object_or_404(ThankJapanModel, id=pk)
+    form = AnswerForm(request.POST)
+
+    if form.is_valid():
+        user_input = form.cleaned_data['answer'].strip().lower()
+        correct_answer = question.name.strip().lower()
+
+        if user_input == correct_answer:
+            message = "Correct!"
+            request.session['game_score'] += 1
+        else:
+            message = f"Incorrect! The correct answer was: {question.name}"
+
+        request.session['game_message'] = message
+
+        request.session['game_current_index'] += 1
+        return redirect('game_play')
+    else:
+        
+        return render(request, 'thank_japan_app/game_play.html', {
+            'object': question,
+            'form': form,
+            'message': "Please enter a valid answer."
+        })
+
+
+def game_result(request):
+
+    player_id = request.session.get('player_id')
+    score = request.session.get('game_score', 0)
+
+    player = get_object_or_404(Player, id=player_id)
+    player.total_score += score
+    player.save()
+
+    for key in ['game_question_ids', 'game_current_index', 'game_score']:
+        request.session.pop(key, None)
+
+    ranking = Player.objects.order_by('-total_score')[:20]
+
+    return render(request, 'thank_japan_app/game_result.html', {
+        'player': player,
+        'score': score,
+        'ranking': ranking
+    })
+
+def game_restart(request):
     
-   
-                
+    keys_to_clear = ['game_question_ids', 'game_current_index', 'game_score']
+    for key in keys_to_clear:
+        request.session.pop(key, None)
+    
+    question_ids = list(ThankJapanModel.objects.values_list('id', flat=True))
+    random.shuffle(question_ids)
+    request.session['game_question_ids'] = question_ids[:10]
+    request.session['game_current_index'] = 0
+    request.session['game_score'] = 0
+
+    return redirect('game_play')
+
+
+def logout_player(request):
+    
+    for key in ['player_id', 'game_question_ids', 'game_current_index', 'game_score']:
+        request.session.pop(key, None)
+    return redirect('game_start')  
+
+
+@require_POST
+def delete_player(request):
+    player_id = request.session.get('player_id')
+    if not player_id:
+        return redirect('game_start')  
+
+    player = get_object_or_404(Player, id=player_id)
+    player.delete()
+
+    request.session.flush()
+
+    messages.error(request, "Your account has been deleted.")
+    return redirect('game_start')
+            
+                                
 class FoodView(ListView):
     template_name = "thank_japan_app/food.html"
     

@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
+from .models import Player
 import re
 
 User = get_user_model()
@@ -43,3 +44,18 @@ class ContactForm(forms.Form):
         widget=forms.Textarea(attrs={'placeholder': 'Your message here...'}),
         required=True
     )
+    
+class UsernameForm(forms.Form):
+    username = forms.CharField(
+        label="Username",
+        max_length=50,
+        widget=forms.TextInput(attrs={'placeholder': 'Enter your username'})
+    )
+    country = forms.CharField(
+        label="Country",
+        max_length=50,
+        required=False,
+        widget=forms.TextInput(attrs={'placeholder': 'Country (optional)'})
+    )
+
+

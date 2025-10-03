@@ -2,15 +2,22 @@ from django.urls import path
 from .views import (TopView, KiyakuView, FoodView, NatureView, FashionView, 
                     CultureView, CookView, AppliancesView, AnimalView,
                     ImgDetailView, BuildingView, FlowerView, HouseholdItemsView,
-                    SportsView, WorkView, CompanyFormView, GameView, answer, LegalNoticeView,
-                    PrivacyPolicy, contact_view, contact_thanks)
+                    SportsView, WorkView, CompanyFormView, game_start, game_play,
+                    game_answer, game_result, game_restart, logout_player, 
+                    delete_player, LegalNoticeView,PrivacyPolicy, contact_view, contact_thanks)
 
 
 urlpatterns = [
     #top page
     path("", TopView.as_view(), name="toppage"),
-    path("game/", GameView.as_view(), name="game"),
-    path("answer/<int:pk>", answer, name="answer"),
+    #game
+    path('game/start/', game_start, name='game_start'),
+    path('game/play/', game_play, name='game_play'),
+    path('game/answer/<int:pk>/', game_answer, name='game_answer'),
+    path('game/result/', game_result, name='game_result'),
+    path('game/restart/', game_restart, name='game_restart'),
+    path('logout/', logout_player, name='logout_player'),
+    path('player/delete/', delete_player, name='delete_player'),
     
     #category list page
     path("food/", FoodView.as_view(), name="foodpage"),

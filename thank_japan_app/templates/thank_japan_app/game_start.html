@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% block title %}Start Game | ThankJapan{% endblock %}
+
+{% block content %}
+
+<style>
+.fancy-button {
+  background: linear-gradient(45deg, #ff6b6b, #f06595);
+  border: none;
+  border-radius: 30px;
+  color: white;
+  padding: 15px 40px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(240, 101, 149, 0.6);
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+
+.fancy-button:hover {
+  background: linear-gradient(45deg, #f06595, #ff6b6b);
+  box-shadow: 0 6px 20px rgba(255, 107, 107, 0.8);
+}
+</style>
+
+
+<div class="main2">
+  <h1>Enter Your Username to Start the Quiz</h1>
+
+  <h2>Enter your username and country</h2>
+
+  {% if messages %}
+      <ul class="messages" style="list-style: none; padding: 0;">
+          {% for message in messages %}
+              <li style="font-weight: bold; color: red;">
+                  {{ message }}
+              </li>
+
+          {% endfor %}
+      </ul>
+  {% endif %}
+
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="fancy-button">Start Game</button>
+  </form>
+
+</div>
+
+{% endblock %}

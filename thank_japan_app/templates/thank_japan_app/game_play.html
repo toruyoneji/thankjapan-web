@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% block title %}Question {{ current_index }} | ThankJapan{% endblock %}
+
+{% block content %}
+
+<style>
+.neon-button {
+  background: #111;
+  color: #ff3c78;
+  padding: 15px 35px;
+  font-size: 1.3rem;
+  font-weight: 700;
+  border: 2px solid #ff3c78;
+  border-radius: 25px;
+  box-shadow: 0 0 8px #ff3c78, 0 0 15px #ff3c78 inset;
+  cursor: pointer;
+  transition: box-shadow 0.3s ease;
+}
+
+.neon-button:hover {
+  box-shadow: 0 0 20px #ff3c78, 0 0 30px #ff3c78 inset;
+}
+</style>
+
+<button type="submit" class="neon-button">Submit Answer</button>
+</style>
+
+<div class="main2">
+  <h1>Question {{ current_index }} / 10</h1>
+  <p>Player: <strong>{{ username }}</strong></p>
+
+  {% if object.image %}
+    <img src="{{ object.image.url }}" alt="Question image" style="max-width: 300px;">
+  {% endif %}
+  
+  <h2>Category: {{ object.category }}</h2>
+
+  <form method="post" action="{% url 'game_answer' object.id %}">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="neon-button">Submit Answer</button>
+  </form>
+
+  {% if message %}
+    <p style="font-weight: bold; color: yellow;">
+      {% if "Correct" in message %}
+        ✅ {{ message }}
+      {% else %}
+        ❌ {{ message }}
+      {% endif %}
+    </p>
+  {% endif %}
+
+  <p>Player: {{ player.username }} ({{ player.country }})</p>
+
+</div>
+{% endblock %}
