@@ -4,21 +4,31 @@
     <loc>https://www.thankjapan.com/</loc>
   </url>
   <url>
-    <loc>https://www.thankjapan.com/culture</loc>
+    <loc>https://www.thankjapan.com/culture/</loc>
   </url>
   <url>
-    <loc>https://www.thankjapan.com/food</loc>
+    <loc>https://www.thankjapan.com/food/</loc>
   </url>
   <url>
-    <loc>https://www.thankjapan.com/animal</loc>
+    <loc>https://www.thankjapan.com/animal/</loc>
   </url>
   <url>
-    <loc>https://www.thankjapan.com/cook</loc>
+    <loc>https://www.thankjapan.com/cook/</loc>
   </url>
   <url>
-    <loc>https://www.thankjapan.com/game</loc>
+    <loc>https://www.thankjapan.com/game/</loc>
   </url>
   <url>
-    <loc>https://www.thankjapan.com/payment</loc>
+    <loc>https://www.thankjapan.com/payment/</loc>
   </url>
+  <url>
+  <loc>https://www.thankjapan.com/game/start/</loc>
+</url>
+<url>
+  <loc>https://www.thankjapan.com/register/</loc>
+</url>
+<url>
+  <loc>https://www.thankjapan.com/login/</loc>
+</url>
+
 </urlset>
