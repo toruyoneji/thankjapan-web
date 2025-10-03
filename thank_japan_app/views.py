@@ -54,14 +54,14 @@ def contact_view(request):
             email = form.cleaned_data['email']
             message = form.cleaned_data['message']
 
-            # Gmail 送信用
+    
             full_message = f"From: {name} <{email}>\nTitle: {title}\n\n{message}"
 
             send_mail(
                 subject=f"[Support] {title}",
                 message=full_message,
                 from_email=settings.DEFAULT_FROM_EMAIL,
-                recipient_list=['yonetoru0@gmail.com'],  # 送信先
+                recipient_list=['yonetoru0@gmail.com'],  
                 fail_silently=False,
             )
             return render(request, 'thank_japan_app/contact_thanks.html', {'name': name})
@@ -77,42 +77,98 @@ def contact_thanks(request):
 
 #Game
 
-def game_start(request):
-    if request.session.get('player_id'):
-        return redirect('game_play')
+# --- 認証関連 ---
 
-    if request.method == 'POST':
+def player_register(request):
+    if request.method == "POST":
         form = UsernameForm(request.POST)
         if form.is_valid():
             username = form.cleaned_data['username']
+            raw_password = form.cleaned_data['password']
             country = form.cleaned_data['country']
 
-            from .models import Player
-            player, created = Player.objects.get_or_create(username=username)
-            if created:
-                player.country = country
-                player.save()
+            if Player.objects.filter(username=username).exists():
+                messages.error(request, "This username is already taken.")
+                return redirect('player_register')
 
+            player = Player(username=username, country=country)
+            player.set_password(raw_password)  
+            player.save()
             request.session['player_id'] = player.id
-            request.session['game_score'] = 0
-            request.session['game_current_index'] = 0
-
-            question_ids = list(ThankJapanModel.objects.values_list('id', flat=True))
-            random.shuffle(question_ids)
-            request.session['game_question_ids'] = question_ids[:10]
-
-            return redirect('game_play')
+            return redirect('game_start')
     else:
         form = UsernameForm()
 
-    return render(request, 'thank_japan_app/game_start.html', {'form': form})
+    return render(request, 'thank_japan_app/player_register.html', {'form': form})
 
-           
+
+def player_login(request):
+    if request.method == "POST":
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        try:
+            player = Player.objects.get(username=username)
+            if player.check_password(password):
+                request.session['player_id'] = player.id
+                return redirect('game_start')
+            else:
+                messages.error(request, "Incorrect password.")
+        except Player.DoesNotExist:
+            messages.error(request, "Username not found.")
+    return render(request, 'thank_japan_app/player_login.html')
+
+
+def player_logout(request):
+    for key in ['player_id', 'game_question_ids', 'game_current_index', 'game_score']:
+        request.session.pop(key, None)
+    return redirect('player_login')
+
+def delete_player_confirm(request):
+    player_id = request.session.get('player_id')
+    if not player_id:
+        return redirect('player_login')
+
+    return render(request, 'thank_japan_app/delete_player.html')
+
+
+
+@require_POST
+def delete_player(request):
+    player_id = request.session.get('player_id')
+    if not player_id:
+        return redirect('player_login')
+
+    password = request.POST.get('password')
+    player = get_object_or_404(Player, id=player_id)
+
+    if player.check_password(password):
+        player.delete()
+        request.session.flush()
+        messages.success(request, "Your account has been deleted.")
+    else:
+        messages.error(request, "Incorrect password. Account not deleted.")
+
+    return redirect('player_login')
+
+
+# --- ゲーム関連 ---
+
+def game_start(request):
+    player_id = request.session.get('player_id')
+    if not player_id:
+        return redirect('player_login')
+
+    player = get_object_or_404(Player, id=player_id)
+    return render(request, 'thank_japan_app/game_start.html', {'player': player})
+
+
+
 def game_play(request):
     player_id = request.session.get('player_id')
     if not player_id:
         return redirect('game_start')
-    
+
     player = get_object_or_404(Player, id=player_id)
 
     index = request.session.get('game_current_index', 0)
@@ -125,7 +181,6 @@ def game_play(request):
     question = get_object_or_404(ThankJapanModel, id=question_id)
 
     form = AnswerForm()
-
     message = request.session.pop('game_message', None)
 
     return render(request, 'thank_japan_app/game_play.html', {
@@ -157,27 +212,28 @@ def game_answer(request, pk):
             message = f"Incorrect! The correct answer was: {question.name}"
 
         request.session['game_message'] = message
-
         request.session['game_current_index'] += 1
         return redirect('game_play')
-    else:
-        
-        return render(request, 'thank_japan_app/game_play.html', {
-            'object': question,
-            'form': form,
-            'message': "Please enter a valid answer."
-        })
+
+    return render(request, 'thank_japan_app/game_play.html', {
+        'object': question,
+        'form': form,
+        'message': "Please enter a valid answer."
+    })
 
 
 def game_result(request):
-
     player_id = request.session.get('player_id')
-    score = request.session.get('game_score', 0)
+    if not player_id:
+        return redirect('game_start')
 
+    score = request.session.get('game_score', 0)
     player = get_object_or_404(Player, id=player_id)
     player.total_score += score
+    player.last_score = score
     player.save()
 
+    # セッションからゲーム情報削除
     for key in ['game_question_ids', 'game_current_index', 'game_score']:
         request.session.pop(key, None)
 
@@ -186,44 +242,23 @@ def game_result(request):
     return render(request, 'thank_japan_app/game_result.html', {
         'player': player,
         'score': score,
-        'ranking': ranking
+        'ranking': ranking,
     })
 
+
 def game_restart(request):
-    
-    keys_to_clear = ['game_question_ids', 'game_current_index', 'game_score']
-    for key in keys_to_clear:
-        request.session.pop(key, None)
-    
+    player_id = request.session.get('player_id')
+    if not player_id:
+        return redirect('game_start')
+
     question_ids = list(ThankJapanModel.objects.values_list('id', flat=True))
     random.shuffle(question_ids)
+
     request.session['game_question_ids'] = question_ids[:10]
     request.session['game_current_index'] = 0
     request.session['game_score'] = 0
 
     return redirect('game_play')
-
-
-def logout_player(request):
-    
-    for key in ['player_id', 'game_question_ids', 'game_current_index', 'game_score']:
-        request.session.pop(key, None)
-    return redirect('game_start')  
-
-
-@require_POST
-def delete_player(request):
-    player_id = request.session.get('player_id')
-    if not player_id:
-        return redirect('game_start')  
-
-    player = get_object_or_404(Player, id=player_id)
-    player.delete()
-
-    request.session.flush()
-
-    messages.error(request, "Your account has been deleted.")
-    return redirect('game_start')
             
                                 
 class FoodView(ListView):

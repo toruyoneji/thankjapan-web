@@ -1,5 +1,6 @@
 from django.db import models
 from cloudinary.models import CloudinaryField
+from django.contrib.auth.hashers import make_password, check_password
 
 class ThankJapanModel(models.Model):
     name = models.CharField(max_length=100, unique=True)
@@ -29,8 +30,15 @@ class ThankJapanBackgroundModel(models.Model):
 class Player(models.Model):
     username = models.CharField(max_length=50, unique=True)
     country = models.CharField(max_length=50, blank=True, null=True)
+    password = models.CharField(max_length=128) 
     total_score = models.PositiveIntegerField(default=0)
-    last_score = models.PositiveIntegerField(default=0)  
+    last_score = models.PositiveIntegerField(default=0) 
+    
+    def set_password(self, raw_password):
+        self.password = make_password(raw_password)
+
+    def check_password(self, raw_password):
+        return check_password(raw_password, self.password) 
 
     def __str__(self):
         return f"{self.username} ({self.total_score}pt)"

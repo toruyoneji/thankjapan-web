@@ -1,0 +1,141 @@
+{% extends "base.html" %}
+{% block title %}Login | ThankJapan{% endblock %}
+
+{% block content %}
+
+<style>
+  .main2 {
+    max-width: 400px;
+    margin: 150px auto 0;
+    background: #fff;
+    padding: 40px 30px;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(240, 101, 149, 0.3);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+
+  h2 {
+    text-align: center;
+    color: #f06595;
+    margin-bottom: 30px;
+    font-weight: 700;
+  }
+
+  form label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #333;
+  }
+
+  form input[type="text"],
+  form input[type="password"] {
+    width: 100%;
+    padding: 12px 15px;
+    margin-bottom: 20px;
+    border: 2px solid #f8b2c0;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+  }
+
+  form input[type="text"]:focus,
+  form input[type="password"]:focus {
+    outline: none;
+    border-color: #f06595;
+    box-shadow: 0 0 8px rgba(240, 101, 149, 0.6);
+  }
+
+  button {
+    width: 100%;
+    padding: 15px 0;
+    background: linear-gradient(45deg, #ff6b6b, #f06595);
+    border: none;
+    border-radius: 30px;
+    color: white;
+    font-size: 1.2rem;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 6px 20px rgba(240, 101, 149, 0.7);
+    transition: background 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  button:hover {
+    background: linear-gradient(45deg, #f06595, #ff6b6b);
+    box-shadow: 0 8px 30px rgba(255, 107, 107, 0.9);
+  }
+
+  ul {
+    padding: 0;
+    margin-bottom: 20px;
+  }
+
+  ul li {
+    list-style: none;
+    background: #ffe1e9;
+    color: #d93025;
+    padding: 10px 15px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    font-weight: 600;
+    box-shadow: 0 2px 5px rgba(217, 48, 37, 0.2);
+  }
+
+  p {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 1rem;
+    color: #666;
+  }
+
+  p a {
+    color: #f06595;
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+
+  p a:hover {
+    color: #ff6b6b;
+  }
+
+
+@media (max-width: 600px) {
+  .main2 {
+    width: 90%;
+    max-width: none;
+    margin: 140px auto 20px;
+    padding: 30px 20px;
+    box-shadow: 0 4px 10px rgba(240, 101, 149, 0.2);
+    border-radius: 12px;
+  }
+}
+
+</style>
+
+<div class="main2">
+  <h2>Login</h2>
+
+  {% if messages %}
+    <ul>
+      {% for message in messages %}
+        <li>{{ message }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+
+  <form method="post" novalidate>
+    {% csrf_token %}
+    <label for="id_username">Username:</label>
+    <input type="text" name="username" id="id_username" required autocomplete="username" autofocus>
+
+    <label for="id_password">Password:</label>
+    <input type="password" name="password" id="id_password" required autocomplete="current-password">
+
+    <button type="submit">Login</button>
+  </form>
+
+  <p>Don't have an account? <a href="{% url 'player_register' %}">Register here</a>.</p>
+</div>
+
+{% endblock %}

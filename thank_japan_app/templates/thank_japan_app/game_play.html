@@ -24,7 +24,6 @@
 
 <div class="main2">
   <h1>Question {{ current_index }} / 10</h1>
-
   <p style="font-size: 1.5rem;">Player: {{ player.username }} ({{ player.country }})</p>
 
   {% if object.image %}
@@ -36,10 +35,8 @@
   <form method="post" action="{% url 'game_answer' object.id %}">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit" class="neon-button">Submit Answer</button>
-  </form>
 
-  {% if message %}
+    {% if message %}
     <p style="font-weight: bold; color: yellow;">
       {% if "Correct" in message %}
         ✅ {{ message }}
@@ -47,8 +44,12 @@
         ❌ {{ message }}
       {% endif %}
     </p>
-  {% endif %}
+    {% endif %}
 
+    <button type="submit" class="neon-button">Submit Answer</button>
+  </form>
+
+  
 
 </div>
 {% endblock %}

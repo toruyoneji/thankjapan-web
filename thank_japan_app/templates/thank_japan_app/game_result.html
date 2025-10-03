@@ -67,7 +67,7 @@
     </a>
   </div>
 
-  <form method="post" action="{% url 'delete_player' %}" onsubmit="return confirm('Are you sure you want to delete your account?');" style="margin-top: 20px;">
+  <form method="post" action="{% url 'delete_player_confirm' %}" onsubmit="return confirm('Are you sure you want to delete your account?');" style="margin-top: 20px;">
     {% csrf_token %}
     <button type="submit" style="background-color: #dc2626; color: white; padding: 10px 20px; border: none; font-size: 1rem; border-radius: 6px;">
       🗑️ Delete My Account

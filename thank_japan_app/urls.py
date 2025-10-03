@@ -3,8 +3,8 @@ from .views import (TopView, KiyakuView, FoodView, NatureView, FashionView,
                     CultureView, CookView, AppliancesView, AnimalView,
                     ImgDetailView, BuildingView, FlowerView, HouseholdItemsView,
                     SportsView, WorkView, CompanyFormView, game_start, game_play,
-                    game_answer, game_result, game_restart, logout_player, 
-                    delete_player, LegalNoticeView,PrivacyPolicy, contact_view, contact_thanks)
+                    game_answer, game_result, game_restart, player_login, player_logout, delete_player_confirm,
+                    player_register, delete_player, LegalNoticeView,PrivacyPolicy, contact_view, contact_thanks)
 
 
 urlpatterns = [
@@ -16,8 +16,11 @@ urlpatterns = [
     path('game/answer/<int:pk>/', game_answer, name='game_answer'),
     path('game/result/', game_result, name='game_result'),
     path('game/restart/', game_restart, name='game_restart'),
-    path('logout/', logout_player, name='logout_player'),
-    path('player/delete/', delete_player, name='delete_player'),
+    path('logout/', player_logout, name='logout_player'),
+    path('player/delete/confirm', delete_player, name='delete_player'),
+    path('player/delete/', delete_player_confirm, name='delete_player_confirm'),
+    path('register/', player_register, name='player_register'),
+    path('login/', player_login, name='player_login'),
     
     #category list page
     path("food/", FoodView.as_view(), name="foodpage"),

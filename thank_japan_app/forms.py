@@ -57,6 +57,14 @@ class UsernameForm(forms.Form):
         validators=[uservalidform],
         widget=forms.TextInput(attrs={'placeholder': 'Enter your username'})
     )
+    
+    password = forms.CharField(
+        label="Password",
+        max_length=128,
+        widget=forms.PasswordInput(attrs={'placeholder': 'Enter your password'}),
+        required=True,
+    )
+    
     country = forms.CharField(
         label="Country",
         max_length=50,
