@@ -1,17 +1,5 @@
 {% extends "base.html" %}
-
-{% block meta %}
-  <meta name="description" content="Create an account to play the Gratitude Game and explore Japanese culture, language, and lifestyle.">
-  <meta name="keywords" content="register ThankJapan, Japanese culture quiz, signup to play game">
-  <meta property="og:title" content="Register for Gratitude Game | ThankJapan" />
-  <meta property="og:description" content="Sign up to play the Gratitude Game and learn about Japanese culture in a fun way.">
-  <meta property="og:url" content="https://www.thankjapan.com/register/" />
-  <meta name="twitter:title" content="Register | ThankJapan">
-  <meta name="twitter:description" content="Create a free account and explore Japan through games and quizzes.">
-{% endblock %}
-
-{% block title %}Register to Play - Explore Japanese Culture | ThankJapan{% endblock %}
-
+{% block title %}Register | ThankJapan{% endblock %}
 
 {% block content %}
 
@@ -113,6 +101,7 @@
     color: #ff6b6b;
   }
 
+  /* 既存のスタイルの下に追加 */
 
 @media (max-width: 600px) {
   .main2 {
@@ -140,7 +129,36 @@
 
   <form method="post" novalidate>
     {% csrf_token %}
-    {{ form.as_p }}
+    
+    <p>
+      {{ form.username.label_tag }}
+      {{ form.username }}
+      {% if form.username.help_text %}
+        <small style="color: #555;">{{ form.username.help_text }}</small>
+      {% endif %}
+      {% for error in form.username.errors %}
+        <div style="color: #d93025;">{{ error }}</div>
+      {% endfor %}
+    </p>
+
+    <p>
+      {{ form.password.label_tag }}
+      {{ form.password }}
+      {% if form.password.help_text %}
+        <small style="color: #555;">{{ form.password.help_text }}</small>
+      {% endif %}
+      {% for error in form.password.errors %}
+        <div style="color: #d93025;">{{ error }}</div>
+      {% endfor %}
+    </p>
+
+    <p>
+      {{ form.country.label_tag }}
+      {{ form.country }}
+      {% for error in form.country.errors %}
+        <div style="color: #d93025;">{{ error }}</div>
+      {% endfor %}
+    </p>
     <button type="submit">Register</button>
   </form>
 

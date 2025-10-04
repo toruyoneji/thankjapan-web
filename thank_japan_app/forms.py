@@ -55,7 +55,8 @@ class UsernameForm(forms.Form):
         label="Username",
         max_length=50,
         validators=[uservalidform],
-        widget=forms.TextInput(attrs={'placeholder': 'Enter your username'})
+        widget=forms.TextInput(attrs={'placeholder': 'Enter your username'}),
+        help_text='Please connect your names with underscores (e.g., john_doe).',
     )
     
     password = forms.CharField(
@@ -63,6 +64,7 @@ class UsernameForm(forms.Form):
         max_length=128,
         widget=forms.PasswordInput(attrs={'placeholder': 'Enter your password'}),
         required=True,
+        help_text="Password must be at least 8 characters long.",
     )
     
     country = forms.CharField(
