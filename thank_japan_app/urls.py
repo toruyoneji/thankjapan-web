@@ -42,7 +42,6 @@ urlpatterns = [
     path("infomation/", CompanyFormView.as_view(), name="infomationpage"),
     path('contact/', contact_view, name='contact'),
     path('contact/thanks/', contact_thanks, name='contact_thanks'),
-    
     path('legal-notice/', LegalNoticeView.as_view(), name='legal_notice'),
     path('privacy-policy/', PrivacyPolicy.as_view(), name="privacy_policy"),
 ]
