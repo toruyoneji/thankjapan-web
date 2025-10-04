@@ -1,17 +1,76 @@
 {% load static %}
+<style>
+.trending-categories {
+  background: linear-gradient(90deg, #f6d365, #fda085);
+  padding: 15px 25px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(253, 160, 133, 0.6);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.trending-categories h3 {
+  font-size: 1.6rem;
+  color: #fff;
+  margin: 0;
+  font-weight: 700;
+}
+
+.trending-categories a {
+  color: #fff;
+  text-decoration: none;
+  margin: 0 10px;
+  padding: 5px 12px;
+  border-radius: 8px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  box-shadow: 0 2px 6px rgba(255,255,255,0.3);
+  font-weight: 600;
+}
+
+.trending-categories a:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+  color: #000;
+  box-shadow: 0 4px 12px rgba(255,255,255,0.7);
+}
+
+@media screen and (max-width: 600px) {
+    .category-links {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 15px 30px;
+    }
+    .category-links a {
+        flex-basis: calc(33.333% - 20px);
+        box-sizing: border-box;
+        display: inline-block;
+        text-align: center;
+        padding: 12px 8px;
+        font-size: 1.6rem;
+    }
+}
+</style>
+
+
+
 <div class="main">
     
     <p class="document">
         <strong>Experience Japan — through its culture, language, and food.<br>
         Made for curious minds and global learners.</strong></p>
         <hr>
-        <p class="document">
+        <div class="document trending-categories">
             <h2>Trending Categories</h2>
-            ↓↓
-            <h3><strong><a href="{% url 'foodpage' %}">Food</a>|</strong>  <strong><a href="{% url 'culturepage' %}">culture</a>|</strong>  
-            <strong><a href="{% url 'animalpage' %}">Animal</a>|</strong>  <strong><a href="{% url 'flowerpage' %}">Flower</a>|</strong>
-            <strong><a href="{% url 'cookpage'%}">Cook</a>|</strong> <strong><a href="{% url 'game_start'%}">Game</a>|</strong></h3>
-        </p>
+                <div class="category-links">
+                    <a href="{% url 'foodpage' %}">🍜 Food</a> | 
+                    <a href="{% url 'culturepage' %}">🎎 Culture</a> |  
+                    <a href="{% url 'animalpage' %}">🐒 Animal</a> |  
+                    <a href="{% url 'flowerpage' %}">🌸 Flower</a> |  
+                    <a href="{% url 'cookpage'%}">🍳 Cook</a> | 
+                    <a href="{% url 'game_start'%}">🎮 Game</a>
+                </div>
+        </div>
+
         <hr>
         <p class="document">Hello everyone, this is ThankJapan.
         I'm sending this message from Japan.
@@ -28,7 +87,7 @@
         <p class="document">
         For company information, terms of use, privacy policy, and inquiries, please visit the <strong>Company</strong> tab.
         To help maintain this site, we appreciate your support. Contributions will be used for company operations and 	site maintenance.
-        <br>You can make a donation via the <strong><a href="{% url 'select_amount' %}">Support</a></strong> tab by selecting an amount and completing the 	payment through <strong>PayPal (bank account, PayPal, or credit card)</strong>.<br>
+        <br>You can make a donation via the <strong>Support</strong> tab by selecting an amount and completing the 	payment through <strong>PayPal (bank account, PayPal, or credit card)</strong>.<br>
         <em>Please note that we do not offer refunds after the payment has been made.
         </p>
         <hr>
