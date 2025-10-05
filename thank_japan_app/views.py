@@ -16,8 +16,9 @@ logger = logging.getLogger(__name__)
 
 def robots_txt(request):
     content = """User-agent: *
-Disallow: /
-Allow: /$
+Disallow:
+
+Sitemap: https://www.thankjapan.com/sitemap.xml
 """
     return HttpResponse(content, content_type="text/plain")
 
