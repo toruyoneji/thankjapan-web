@@ -14,6 +14,16 @@
             <a id="reddit-share" href="#" target="_blank" rel="noopener" aria-label="Share on Reddit" class="text-reddit fs-1">
                 <i class="bi bi-reddit" style="font-size: 2rem;"></i>
             </a>
+            <a id="whatsapp-share" href="#" target="_blank" rel="noopener" aria-label="Share on WhatsApp" class="text-whatsapp fs-1">
+                <i class="bi bi-whatsapp" style="font-size: 2rem; color: #25D366;"></i>
+            </a>
+            <a id="linkedin-share" href="#" target="_blank" rel="noopener" aria-label="Share on LinkedIn" class="text-linkedin fs-1">
+                <i class="bi bi-linkedin" style="font-size: 2rem; color: #0077b5;"></i>
+            </a>
+            <a id="pinterest-share" href="#" target="_blank" rel="noopener" aria-label="Share on Pinterest" class="text-pinterest fs-1">
+                <i class="bi bi-pinterest" style="font-size: 2rem; color:#E60023;"></i>
+            </a>
+
         </div>
 
         <div class="support-link">
@@ -38,11 +48,17 @@
       const facebook = document.getElementById('facebook-share');
       const line = document.getElementById('line-share');
       const reddit = document.getElementById('reddit-share');
+      const whatsapp = document.getElementById('whatsapp-share');
+      const linkedin = document.getElementById('linkedin-share');
+      const pinterest = document.getElementById('pinterest-share');
 
       if (twitter) twitter.href = `https://twitter.com/intent/tweet?url=${url}&text=${text}`;
       if (facebook) facebook.href = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
       if (line) line.href = `https://social-plugins.line.me/lineit/share?url=${url}`;
       if (reddit) reddit.href = `https://www.reddit.com/submit?url=${url}&title=${text}`;
+      if (whatsapp) whatsapp.href = `https://api.whatsapp.com/send?text=${text}%20${url}`;
+      if (linkedin) linkedin.href = `https://www.linkedin.com/sharing/share-offsite/?url=${url}`;
+      if (pinterest) pinterest.href = `https://pinterest.com/pin/create/button/?url=${url}&description=${text}`;
     });
   </script>
 </footer>
