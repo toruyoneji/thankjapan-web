@@ -2,16 +2,17 @@
     
     <div class="sns-and-support" style="display: flex; justify-content: center; align-items: center; gap: 20px; margin-bottom: 15px;">
         <div class="sns">
-            <a class="anchor" href="https://www.instagram.com/" target="_blank" rel="nofollow" style="margin-right: 10px;">
-                <i class="bi bi-instagram" style="font-size: 2rem;">instagram|</i>
+            <a id="twitter-share" href="#" target="_blank" rel="noopener" aria-label="Share on Twitter" class="text-twitter fs-1">
+                <i class="bi bi-twitter" style="font-size: 2rem;"></i>
             </a>
-            
-            <a class="anchor" href="https://www.facebook.com/" target="_blank" rel="nofollow" style="margin-right: 10px;">
-                <i class="bi bi-facebook" style="font-size: 2rem;">facebook|</i>
+            <a id="facebook-share" href="#" target="_blank" rel="noopener" aria-label="Share on Facebook" class="text-facebook fs-1">
+                <i class="bi bi-facebook" style="font-size: 2rem;"></i>
             </a>
-
-            <a class="anchor" href="https://www.twitter.com/" target="_blank" rel="nofollow" style="margin-right: 10px;">
-                <i class="bi bi-twitter-x" style="font-size: 2rem;">twitter(x)</i>
+            <a id="line-share" href="#" target="_blank" rel="noopener" aria-label="Share on LINE" class="text-line fs-1">
+                <i class="bi bi-line" style="font-size: 2rem;"></i>
+            </a>
+            <a id="reddit-share" href="#" target="_blank" rel="noopener" aria-label="Share on Reddit" class="text-reddit fs-1">
+                <i class="bi bi-reddit" style="font-size: 2rem;"></i>
             </a>
         </div>
 
@@ -26,4 +27,22 @@
     <div class="footer">
         <p class="copyRight">&copy; 2025 Thank_japan All Right Reserved.</p>
     </div>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+      const url = encodeURIComponent(window.location.href);
+      
+      const text = encodeURIComponent(window.shareText || "thankjapan wo kyouyusiyou.");
+
+      const twitter = document.getElementById('twitter-share');
+      const facebook = document.getElementById('facebook-share');
+      const line = document.getElementById('line-share');
+      const reddit = document.getElementById('reddit-share');
+
+      if (twitter) twitter.href = `https://twitter.com/intent/tweet?url=${url}&text=${text}`;
+      if (facebook) facebook.href = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
+      if (line) line.href = `https://social-plugins.line.me/lineit/share?url=${url}`;
+      if (reddit) reddit.href = `https://www.reddit.com/submit?url=${url}&title=${text}`;
+    });
+  </script>
 </footer>
