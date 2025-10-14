@@ -16,7 +16,15 @@ logger = logging.getLogger(__name__)
 
 def robots_txt(request):
     content = """User-agent: *
-Disallow:
+Disallow: /payment/create/
+Disallow: /payment/success/
+Disallow: /payment/cancel/
+Disallow: /payment/webhook/
+Disallow: /game/play/
+Disallow: /game/result/
+Disallow: /game/start/
+Disallow: /login/
+Disallow: /register/
 
 Sitemap: https://www.thankjapan.com/sitemap.xml
 """
@@ -184,15 +192,18 @@ def game_play(request):
     form = AnswerForm()
     message = request.session.pop('game_message', None)
 
-    return render(request, 'thank_japan_app/game_play.html', {
+    context = {
         'object': question,
         'form': form,
         'current_index': index + 1,
         'score': request.session.get('game_score', 0),
         'message': message,
         'player': player,
-    })
+    }
 
+    response = render(request, 'thank_japan_app/game_play.html', context)
+    response['X-Robots-Tag'] = 'noindex, nofollow'  
+    return response
 
 def game_answer(request, pk):
     player_id = request.session.get('player_id')
@@ -240,12 +251,15 @@ def game_result(request):
 
     ranking = Player.objects.order_by('-total_score')[:20]
 
-    return render(request, 'thank_japan_app/game_result.html', {
+    context =  {
         'player': player,
         'score': score,
         'ranking': ranking,
-    })
+    }
 
+    response = render(request, 'thank_japan_app/game_result.html', context)
+    response['X-Robots-Tag'] = 'noindex, nofollow'  
+    return response
 
 def game_restart(request):
     player_id = request.session.get('player_id')
