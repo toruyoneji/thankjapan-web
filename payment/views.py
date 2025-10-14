@@ -1,6 +1,6 @@
 import paypalrestsdk
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.conf import settings  
 from django.views.decorators.csrf import csrf_exempt
 import json
@@ -46,14 +46,20 @@ def create_payment_view(request):
     
     if isinstance(redirect_url_or_error, dict):
         return HttpResponse(f"Payment creation failed: {redirect_url_or_error}")
-    return redirect(redirect_url_or_error)
+    response = HttpResponseRedirect(redirect_url_or_error)
+    response['X-Robots-Tag'] = 'noindex, nofollow'  
+    return response
 
 
 def success_view(request):
-    return render(request, 'payment/success.html')
+    response = render(request, 'payment/success.html')
+    response['X-Robots-Tag'] = 'noindex, nofollow'
+    return response
 
 def cancel_view(request):
-    return render(request, 'payment/cancel.html')
+    response = render(request, 'payment/cancel.html')
+    response['X-Robots-Tag'] = 'noindex, nofollow'
+    return response
 
 def select_amount_view(request):
     return render(request, "payment/kurikku_payment.html")
