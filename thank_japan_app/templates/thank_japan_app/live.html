@@ -1,0 +1,42 @@
+{% extends 'basecategory.html' %}
+{% block title %}Living in Japan: Transportation & Daily Essentials | ThankJapan{% endblock %}
+
+{% block og_title %}Living in Japan: Transportation & Essentials | ThankJapan{% endblock %}
+{% block og_description %}Explore the essentials of daily life outside the home in Japan, from trains and buses to convenience stores and street culture.{% endblock %}
+{% block og_url %}{{ request.build_absolute_uri }}{% endblock %}
+{% block description %}Explore the essentials of life outside the home in Japan — trains, subways, bikes, vending machines, and more everyday conveniences.{% endblock %}
+
+{% block content %}
+
+    {% load static %}
+
+    <script>
+        window.shareText = "Discover Japan's daily life essentials — transportation, convenience, and culture with ThankJapan!";
+    </script>
+
+
+    <div class="main2">
+    
+        <h1>Living in Japan: Transportation, Daily Life, and Essentials</h1>
+        <p>Experience daily life in Japan through its reliable public transport, convenient services, and the unique rhythm of life outside the home.</p>
+
+        {% for item in object_list %}
+                                           
+            {% if item.image %}
+                                           
+                <a href="{% url 'detail' item.id %}">
+                    <img class="gazou" src="{{ item.image.url }}" alt="{{ item.englishname }}" />
+                </a>
+
+            {% else %}
+
+                <p>No image available</p>
+
+            {% endif %}
+          
+        {% endfor %}
+       
+    </div>
+
+ 
+{% endblock %}

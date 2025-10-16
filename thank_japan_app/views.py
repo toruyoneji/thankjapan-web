@@ -347,3 +347,9 @@ class WorkView(ListView):
     
     def get_queryset(self):
         return ThankJapanModel.objects.filter(category="work").order_by('-timestamp')
+    
+class LiveView(ListView):
+    template_name = "thank_japan_app/live.html"
+    
+    def get_queryset(self):
+        return ThankJapanModel.objects.filter(category="live").order_by('-timestamp')
