@@ -34,6 +34,10 @@
     <loc>https://www.thankjapan.com/work/</loc>
   </url>
   <url>
+    <loc>https://www.thankjapan.com/live/</loc>
+  </url>
+  
+  <url>
     <loc>https://www.thankjapan.com/householditems/</loc>
   </url>
   <url>
@@ -44,20 +48,5 @@
     <loc>https://www.thankjapan.com/support/</loc>
   </url>
 
-  <url>
-    <loc>https://www.thankjapan.com/game/start/</loc>
-  </url>
-  <url>
-    <loc>https://www.thankjapan.com/game/play/</loc>
-  </url>
-  <url>
-    <loc>https://www.thankjapan.com/game/result/</loc>
-  </url>
-  <url>
-    <loc>https://www.thankjapan.com/register/</loc>
-  </url>
-  <url>
-    <loc>https://www.thankjapan.com/login/</loc>
-  </url>
 
 </urlset>
