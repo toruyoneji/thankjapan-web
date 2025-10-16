@@ -161,8 +161,6 @@ def delete_player(request):
     return redirect('player_login')
 
 
-# --- ゲーム関連 ---
-
 def game_start(request):
     player_id = request.session.get('player_id')
     if not player_id:
@@ -245,11 +243,10 @@ def game_result(request):
     player.last_score = score
     player.save()
 
-    # セッションからゲーム情報削除
     for key in ['game_question_ids', 'game_current_index', 'game_score']:
         request.session.pop(key, None)
 
-    ranking = Player.objects.order_by('-total_score')[:20]
+    ranking = Player.objects.order_by('-total_score')[:10]
 
     context =  {
         'player': player,
