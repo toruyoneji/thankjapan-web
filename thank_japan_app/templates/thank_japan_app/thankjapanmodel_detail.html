@@ -8,6 +8,28 @@
 {% block content %}
 
     {% load static %}
+
+    <style>
+    .fancy-button {
+        background: linear-gradient(45deg, #FF6B6B, #FFD93D);
+        border: none;
+        border-radius: 25px;
+        color: white;
+        padding: 12px 30px;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        box-shadow: 0 4px 15px rgba(255, 107, 107, 0.6);
+        transition: all 0.3s ease;
+    }   
+
+    .fancy-button:hover {
+        background: linear-gradient(45deg, #FFD93D, #FF6B6B);
+        box-shadow: 0 6px 20px rgba(255, 217, 61, 0.8);
+        transform: scale(1.05);
+    }
+    </style>
+
     <div class="main2">
         {% if object.image and object.image.url %}
             <img class="detailgazou" src="{{ object.image.url }}" alt="{{ object.englishname }} image" />
@@ -30,6 +52,7 @@
                     {{ object.history}}
                 </p>
             
+                <button onclick="window.history.back()" class="fancy-button">← Back</button>
     </div>
 
 {% endblock %}
