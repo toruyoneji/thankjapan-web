@@ -7,6 +7,8 @@ import paypalrestsdk
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+GA_TRACKING_ID = os.environ.get('GA_TRACKING_ID', '')
+
 # Load environment variables
 SECRET_KEY = os.environ.get('SECRET_KEY')
 DEBUG = False
@@ -92,6 +94,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'thank_japan_app.context_processors.google_analytics',
             ],
         },
     },
