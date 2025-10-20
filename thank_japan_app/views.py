@@ -350,3 +350,9 @@ class LiveView(ListView):
     
     def get_queryset(self):
         return ThankJapanModel.objects.filter(category="live").order_by('-timestamp')
+    
+    
+def google_analytics(request):
+    return {
+        'GA_TRACKING_ID': settings.GA_TRACKING_ID
+    }
