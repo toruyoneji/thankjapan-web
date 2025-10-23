@@ -200,6 +200,22 @@ h2, h3 {
   cursor: pointer;
 }
 
+.btn-more {
+    display: inline-block;
+    background: #ffb347;
+    color: white;
+    padding: 10px 24px;
+    border-radius: 25px;
+    text-decoration: none;
+    font-weight: 600;
+    margin-top: 20px;
+    transition: background 0.3s;
+    }
+    
+.btn-more:hover {
+    background: #ff9642;
+    }
+
 
 @media screen and (max-width: 768px) {
   .header {
@@ -509,8 +525,9 @@ h2, h3 {
 
 
   <hr>
-  <p class="return">
-    Clicking on <a class="anchor" href="{% url 'toppage' %}">'Home'</a> or Thank_Japan will take you back to the top page.
-  </p>
+
+  <div style="text-align:center; margin-bottom:50px;"> 
+        <a class="btn-more" href="{% url 'toppage'%}">Back to Home</a> 
+  </div>
 
 </div>
