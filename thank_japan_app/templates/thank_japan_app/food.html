@@ -73,6 +73,22 @@
       border: 0;
     }
 
+    .btn-more {
+    display: inline-block;
+    background: #ffb347;
+    color: white;
+    padding: 10px 24px;
+    border-radius: 25px;
+    text-decoration: none;
+    font-weight: 600;
+    margin-top: 20px;
+    transition: background 0.3s;
+    }
+    
+    .btn-more:hover {
+        background: #ff9642;
+    }
+
     @media (max-width: 1200px) {
         .main2 {
             grid-template-columns: repeat(3, 1fr);
@@ -133,6 +149,10 @@
                 <h3>{{ item.englishname }}</h3>
             </div>
         {% endfor %}
+    </div>
+
+    <div style="text-align:center; margin-bottom:50px;"> 
+        <a class="btn-more" href="{% url 'toppage'%}">Back to Home</a> 
     </div>
 
 {% endblock %}
