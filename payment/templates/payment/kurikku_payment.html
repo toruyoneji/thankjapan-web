@@ -46,9 +46,35 @@
             font-size: 1.2rem;
         }
 
-        @media (max-width: 600px) {
-            .amount-button { width: 80%; margin: 5px 0; font-size: 18px; }
+       @media (max-width: 600px) {
+        body {
+            padding: 15px;
+            max-width: 100%;
+            overflow-x: hidden; /* 横スクロール防止 */
         }
+
+        .currency-section {
+            flex-direction: column !important;
+            gap: 10px !important;
+            padding: 0 10px;
+        }
+
+        .amount-button {
+            max-width: none !important;
+            width: 100% !important;
+            font-size: 18px !important;
+            padding: 15px 0 !important;
+            box-sizing: border-box;
+        }
+
+        .seo-text, .seo-text2 {
+            font-size: 1rem !important;
+            padding: 0 10px !important;
+            box-sizing: border-box;
+            word-break: break-word; /* 長い単語のはみ出し防止 */
+            }
+        }
+
     </style>
 </head>
 <body>
