@@ -1,263 +1,460 @@
 {% load static %}
+
 <style>
+
+body {
+  margin: 0;
+  font-family: "Poppins", "Hiragino Maru Gothic ProN", sans-serif;
+  background: linear-gradient(to bottom, #ffb6b9, #fae3d9, #bbded6);
+  color: #333;
+  text-align: center;
+}
+
+.header {
+    width: 100%;
+    height: 120px;
+    background-image: url("https://res.cloudinary.com/dotekofm5/image/upload/v1754641165/thankjapan/backgrounds/urhlsfokzrozs5835nkh.png");
+    background-size: cover;
+    position: fixed; 
+    top: 0;
+    left: 0;
+    z-index: 9999; 
+}
+
+
+.main {
+  max-width: 1100px;
+  margin-left: 250px;
+  padding: 30px 20px;
+}
+
+
+h2, h3 {
+  color: #ff6f61;
+  text-shadow: 1px 1px 2px rgba(255,255,255,0.8);
+}
+
+
 .trending-categories {
   background: linear-gradient(90deg, #f6d365, #fda085);
-  padding: 15px 25px;
-  border-radius: 12px;
+  padding: 20px;
+  border-radius: 20px;
   box-shadow: 0 4px 10px rgba(253, 160, 133, 0.6);
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   text-align: center;
-  margin-bottom: 20px;
+  margin: 40px auto;
 }
 
-.trending-categories h3 {
-  font-size: 1.6rem;
+.trending-categories h2 {
   color: #fff;
-  margin: 0;
-  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.category-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px 15px;
 }
 
 .trending-categories a {
   color: #fff;
   text-decoration: none;
-  margin: 0 10px;
-  padding: 5px 12px;
-  border-radius: 8px;
-  transition: background-color 0.3s ease, color 0.3s ease;
-  box-shadow: 0 2px 6px rgba(255,255,255,0.3);
+  padding: 8px 14px;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+  background: rgba(255,255,255,0.2);
   font-weight: 600;
+  box-shadow: 0 2px 6px rgba(255,255,255,0.3);
 }
 
 .trending-categories a:hover {
-  background-color: rgba(255, 255, 255, 0.3);
-  color: #000;
-  box-shadow: 0 4px 12px rgba(255,255,255,0.7);
+  background-color: rgba(255, 255, 255, 0.5);
+  color: #333;
 }
 
-@media screen and (max-width: 600px) {
-    .category-links {
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 15px 30px;
-    }
-    .category-links a {
-        flex-basis: calc(33.333% - 20px);
-        box-sizing: border-box;
-        display: inline-block;
-        text-align: center;
-        padding: 12px 8px;
-        font-size: 1.6rem;
-    }
+
+.hero-card {
+  background: linear-gradient(to bottom, rgba(255, 160, 122, 0.8), rgba(255, 218, 185, 0.8)), 
+              url("https://res.cloudinary.com/dotekofm5/image/upload/v1754645312/thankjapan/backgrounds/hutwikylfzofnnzrahgh.png") center/cover no-repeat;
+  color: white;
+  border-radius: 25px;
+  padding: 60px 30px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  margin: 30px auto;
+}
+
+.hero-card h1 {
+  font-size: 2.5rem;
+  margin-bottom: 15px;
+}
+
+.hero-card p {
+  max-width: 650px;
+  margin: 0 auto;
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+
+.card {
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  margin: 25px auto;
+  max-width: 850px;
+  overflow: hidden;
+  transition: transform 0.3s ease;
+}
+
+.card:hover {
+  transform: scale(1.02);
+}
+
+.card img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.card dl, .card p {
+  padding: 20px;
+  text-align: left;
+}
+
+.dt {
+  font-weight: bold;
+  color: #ff6f61;
+  margin-top: 10px;
+}
+
+.dd {
+  margin-left: 10px;
+  color: #555;
+}
+
+.cute-game-link {
+  display: inline-block;
+  background: linear-gradient(45deg, #ff9a9e, #fad0c4);
+  color: white;
+  font-weight: 600;
+  font-size: 1rem;
+  padding: 10px 20px;
+  border-radius: 25px;
+  text-decoration: none;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  transition: all 0.3s ease;
+  font-family: 'Poppins', sans-serif;
+}
+
+.cute-game-link:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.25);
+  background: linear-gradient(45deg, #fad0c4, #ff9a9e);
+}
+
+.mountfuji-image-card:hover,
+.mountfuji-info-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+  cursor: pointer;
+}
+
+
+.food-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+  margin-top: 40px;
+}
+
+.food-card {
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.food-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+}
+
+.food-card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.food-card p {
+  margin: 10px 0;
+  padding: 0 10px 15px;
+  color: #555;
+  font-weight: 500;
+}
+
+.game-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+  cursor: pointer;
+}
+
+
+@media screen and (max-width: 768px) {
+  .header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 9999;
+  }
+
+  .sidebar {
+    position: fixed;
+    padding-top: 15px;
+    left: 0;
+    width: 100%;
+    z-index: 999;
+  }
+
+  
+  .main {
+    margin-left: 0;
+    z-index: 1;
+  }
+
+  .hero-card h1 { font-size: 2rem; }
+  .hero-card p { font-size: 1rem; }
+
+  .mountfuji-container {
+    flex-direction:column;
+    align-items:center;
+  }
+  .mountfuji-image-card,
+  .mountfuji-info-card {
+    max-width:90%;
+  }
+  .mountfuji-image-card img {
+    height:180px;
+  }
+
+  .game-grid {
+    grid-template-columns: 1fr;
+    gap:10px;
+  }
+  .game-card img {
+    height:140px;
+  }
 }
 </style>
 
 
-
 <div class="main">
-    <h1>Welcome to ThankJapan — Explore Japanese Culture, Food, Language, and More</h1>
-    <p class="document">
-        <strong>Experience Japan — through its culture, language, and food.<br>
-        Made for curious minds and global learners.</strong></p>
-        <hr>
-        <div class="document trending-categories">
-            <h2>Trending Categories</h2>
-                <div class="category-links">
-                    <a href="{% url 'foodpage' %}">🍜 Food</a> | 
-                    <a href="{% url 'culturepage' %}">🎎 Culture</a> |  
-                    <a href="{% url 'animalpage' %}">🐒 Animal</a> |  
-                    <a href="{% url 'flowerpage' %}">🌸 Flower</a> |  
-                    <a href="{% url 'cookpage' %}">🍳 Cook</a> | 
-                    <a href="{% url 'game_start' %}">🎮 Game</a>
-                    <a href="{% url 'select_amount' %}">💲Support</a>
-                </div>
-        </div>
 
-        <hr>
-        <p class="document">Hello everyone, this is ThankJapan.
-        I'm sending this message from Japan.
-        Have you ever been to Japan?
-        Japan is a country surrounded by the sea.
-        This website is for studying Japanese language and culture.
-        Let’s study Japanese together!
-        I’m looking forward to the day I can meet you all.
-        Have a great day!<br>
-        Once you've learned a bit, try the <strong><a style="color: red;" href="{% url 'game_start' %}">game</a></strong> to test your knowledge. Questions will appear randomly!
-        <hr>
-        </p>
+  
+  <div class="hero-card">
+    <h1>Welcome to Thank Japan 🇯🇵</h1>
+    <p>Experience Japan — through its culture, language, and food.<br>
+    Made for curious minds and global learners.</p>
+  </div>
 
-        <p class="dt">First, create a game account. If you already have one, please proceed by logging in.</p>
-        <p class="yajirushi">↓↓</p>
-        <a href="{% url 'game_start' %}"><img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1760316354/thankjapan/backgrounds/ltbitwummwokpabkcmer.png" 
-         alt="gameregister"/></a>
+  
+  <div class="trending-categories">
+    <h2>Trending Categories</h2>
+    <div class="category-links">
+      <a href="{% url 'foodpage' %}">🍜 Food</a>
+      <a href="{% url 'culturepage' %}">🎎 Culture</a>
+      <a href="{% url 'animalpage' %}">🐒 Animal</a>
+      <a href="{% url 'flowerpage' %}">🌸 Flower</a>
+      <a href="{% url 'cookpage'%}">🍳 Cook</a>
+      <a href="{% url 'game_start'%}">🎮 Game</a>
+    </div>
+  </div>
 
-        <p class="dt">To log in, please enter your account name and password.</p>
-        <p class="yajirushi">↓↓</p>
-        <a href="{% url 'game_start' %}"><img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1760316343/thankjapan/backgrounds/jtnzkwsrcuxlgeucrh1g.png" 
-         alt="gamelogin"/></a>
+  <p class="document">
+    Hello everyone, this is ThankJapan.<br>
+    I'm sending this message from Japan.<br>
+    Have you ever been to Japan? It’s a country surrounded by the sea.<br>
+    This website is for studying Japanese language and culture.<br>
+    Let’s study Japanese together!<br>
+    Once you've learned a bit, try the <a href="{% url 'game_start' %}" class="cute-game-link">🎮 Game</a>
+    to test your knowledge!
+  </p>
 
-        <p class="dt">Press the "game_start" button to begin the game.</p>
-        <p class="yajirushi">↓↓</p>
-        <a href="{% url 'game_start' %}"><img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1760316373/thankjapan/backgrounds/iydarejspqczunrkhpvx.png" 
-         alt="gamestart"/></a>
+  <hr>
 
-        <p class="dt">Enter the answer that appears in the image into the "answer" text box using Roman letters.</p>
-        <p class="yajirushi">↓↓</p>
-        <a href="{% url 'game_start' %}"><img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1760316396/thankjapan/backgrounds/kuub0mlfpj2tcrz0jlvz.png" 
-         alt="gamegamen01"/></a>
+ 
+<h2 style="text-align:center; color:#ff6f61; margin-top:40px; font-family:'Poppins',sans-serif;">Mount Fuji 🗻</h2>
 
-        <p class="dt">If your answer is correct, "collect" will appear below the next question.</p>
-        <p class="yajirushi">↓↓</p>
-        <a href="{% url 'game_start' %}"><img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1760316413/thankjapan/backgrounds/chepf4pchhl9pgbyyhwx.png" 
-         alt="gamegamen02"/></a>
+<div class="mountfuji-container" style="display:flex; flex-wrap:wrap; justify-content:center; gap:20px; margin-top:20px; padding:0 10px;">
 
+  <!-- img and name -->
+  <div class="mountfuji-image-card" style="background:linear-gradient(135deg, #ffe0e0, #fff0f5); border-radius:20px; box-shadow:0 4px 12px rgba(0,0,0,0.1); overflow:hidden; flex:1 1 300px; max-width:350px; text-align:center; transition:transform 0.3s;">
+    <a href="{% url 'naturepage' %}">
+      <img src="https://res.cloudinary.com/dotekofm5/image/upload/v1754645312/thankjapan/backgrounds/hutwikylfzofnnzrahgh.png" alt="Mount Fuji" style="width:100%; height:200px; object-fit:cover;">
+    </a>
+    <div style="padding:15px;">
+      <h3 style="margin:5px 0; color:#ff6f61;">Mount Fuji (Fujisan)</h3>
+      <p style="margin:5px 0; color:#555;">Japanese Name: 富士山</p>
+    </div>
+  </div>
 
-        <p class="dt">If your answer is incorrect, "incollect" will appear and the correct answer in Roman letters will be shown.</p>
-        <p class="yajirushi">↓↓</p>
-        <a href="{% url 'game_start' %}"><img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1760316426/thankjapan/backgrounds/qyykepln6lgpibataarp.png" 
-         alt="gamegamen03"/></a>   
+  <!-- description and history -->
+  <div class="mountfuji-info-card" style="background:linear-gradient(135deg, #e0f7ff, #f0f8ff); border-radius:20px; box-shadow:0 4px 12px rgba(0,0,0,0.1); flex:1 1 300px; max-width:400px; padding:20px; transition:transform 0.3s;">
+    <h3 style="margin-bottom:10px; color:#00aaff;">Description</h3>
+    <p style="color:#555; font-size:0.95rem; line-height:1.5;">
+      It stands at an elevation of 3,776 meters, making it the highest mountain in Japan. Straddling Shizuoka and Yamanashi prefectures, it is considered a symbol of Japan for its beautiful appearance.
+    </p>
+    <h3 style="margin:15px 0 10px; color:#00aaff;">History</h3>
+    <p style="color:#555; font-size:0.95rem; line-height:1.5;">
+      Mount Fuji is Japan’s most iconic mountain, a UNESCO World Heritage site, and a sacred symbol in both Shinto and Buddhist traditions. Its beauty has inspired art, poetry, and countless travelers for centuries.
+    </p>
+  </div>
 
-        <p class="dt">After completing all 10 questions, the results will be displayed along with your number of correct answers.</p>
-        <p class="yajirushi">↓↓</p>
-        <a href="{% url 'game_start' %}"><img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1760316444/thankjapan/backgrounds/xu9au7hs49kxqvbbesxs.png" 
-         alt="gameresult"/></a>
+</div>
 
-        
-        <p class="dt">Below that, the rankings will be displayed. If you want to continue playing, press "play again." To quit the game, press "Save." If you want to delete your account, press "delete my account" (please note that once deleted, your account cannot be restored).</p>
-        <p class="yajirushi">↓↓</p>
-        <a href="{% url 'game_start' %}"><img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1760619690/thankjapan/backgrounds/eqoukadffsymh2j0l1cq.png" 
-         alt="gameranking"/></a>
+  
+  <h2>Japanese Foods from My Home</h2>
+  <div class="food-grid">
+    <div class="food-card">
+      <a href="{% url 'cookpage' %}"><img src="https://res.cloudinary.com/dotekofm5/image/upload/v1754645502/thankjapan/backgrounds/eerlcbkiwnesgz4g5yuw.png" alt="Tonkotsu Ramen"></a>
+      <p>Tonkotsu Ramen made from instant noodles.</p>
+    </div>
+    <div class="food-card">
+      <a href="{% url 'cookpage' %}"><img src="https://res.cloudinary.com/dotekofm5/image/upload/v1754645480/thankjapan/backgrounds/efyejn2fmwas2ogvdip4.png" alt="Miso Soup"></a>
+      <p>Homemade Miso Soup.</p>
+    </div>
+    <div class="food-card">
+      <a href="{% url 'cookpage' %}"><img src="https://res.cloudinary.com/dotekofm5/image/upload/v1754645548/thankjapan/backgrounds/a6oisaruk463hbfywpl9.png" alt="Natto Rice"></a>
+      <p>Natto served over rice.</p>
+    </div>
+    <div class="food-card">
+      <a href="{% url 'cookpage' %}"><img src="https://res.cloudinary.com/dotekofm5/image/upload/v1754645533/thankjapan/backgrounds/gkyce0htgx1rrh9tbaun.png" alt="Takikomi Gohan"></a>
+      <p>Takikomi Gohan — seasoned mixed rice.</p>
+    </div>
+    <div class="food-card">
+      <a href="{% url 'foodpage' %}"><img src="https://res.cloudinary.com/dotekofm5/image/upload/v1754645575/thankjapan/backgrounds/ifqqmdqedadu4vg8ilgw.png" alt="Sanshoku Dango"></a>
+      <p>Sanshoku Dango — colorful shrimp dumplings.</p>
+    </div>
+    <div class="food-card">
+      <a href="{% url 'foodpage' %}"><img src="https://res.cloudinary.com/dotekofm5/image/upload/v1754645592/thankjapan/backgrounds/ldhlg7gelekxhnvh8srr.png" alt="Kashiwa Mochi"></a>
+      <p>Kashiwa Mochi — traditional sweet eaten in May.</p>
+    </div>
+    <div class="food-card">
+      <a href="{% url 'foodpage' %}"><img src="https://res.cloudinary.com/dotekofm5/image/upload/v1754645644/thankjapan/backgrounds/s7qflkaitfrusrsjkoxa.png" alt="Grilled Salmon"></a>
+      <p>Grilled salmon — a common breakfast dish.</p>
+    </div>
+    <div class="food-card">
+      <a href="{% url 'cookpage' %}"><img src="https://res.cloudinary.com/dotekofm5/image/upload/v1754645614/thankjapan/backgrounds/xod0qhqztcnflvwk5j2s.png" alt="Hiyashi Chuka"></a>
+      <p>Hiyashi Chuka — chilled summer noodles.</p>
+    </div>
+    <div class="food-card">
+      <a href="{% url 'foodpage' %}"><img src="https://res.cloudinary.com/dotekofm5/image/upload/v1754645624/thankjapan/backgrounds/ul34siwlrmvimtmyiyx7.png" alt="Katsuo no Tataki"></a>
+      <p>Katsuo no Tataki — seared skipjack tuna.</p>
+    </div>
+  </div>
 
-        <hr>
-        
-        <p class="document" style="color: white;">
-        For company information, terms of use, privacy policy, and inquiries, please visit the <strong><a style="color: white;" href="{% url 'infomationpage' %}">Company</a></strong> tab.
-        To help maintain this site, we appreciate your support. Contributions will be used for company operations and 	site maintenance.
-        <br>You can make a donation via the <strong><a style="color: white;" href="{% url 'select_amount' %}">Support</a></strong> tab by selecting an amount and completing the 	payment through <strong><u style="color: white;">PayPal (bank account, PayPal, or credit card)</u></strong>.<br>
-        <em style="color: #555;">💳 You don’t need a PayPal account — just use your credit or debit card at the PayPal checkout screen.</em>
-        <em>Please note that we do not offer refunds after the payment has been made.
-        </p>
+  <!-- Game Introduction -->
+<h2 style="text-align:center; color:#ff6f61; margin-top:40px; font-family:'Poppins',sans-serif;">How to Play the Game 🎮</h2>
 
-        <p style="text-align: center; margin-top: 10px;">
-            <a href="{% url 'select_amount' %}">
-                <img src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" 
-                alt="Donate with PayPal"
-                style="height: 40px;" />
-            </a>
-        </p>
+<div class="game-grid" style="display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:15px; margin-top:20px; padding:0 10px;">
 
-        <p class="document" style="color: white;">
-        <em>Please note that we do not offer refunds after the payment has been made.
-        <p class="document" style="margin-top: 20px; color: white;">
-        <strong>Support this project and help shape the future together.</strong><br><br>
-        This website is a personal project run by just me. <br>
-        Your support helps cover not only the costs of maintaining the site but also sustains my livelihood as a freelancer. <br><br>
-        My dream is to share the charm of Japanese culture, language, and food with people around the world. <br>
-        In the future, I plan to collaborate with travel agencies to organize cultural experience tours for those visiting Japan. <br><br>
-        Every contribution brings me closer to making that dream a reality. <br>
-        I hope to connect people who want to learn about, visit, and support Japan with its regions and the hardworking people who live there. <br><br>
-        <strong>Thank you so much for being a part of this journey.</strong>
-        </p>
+  
+  <div class="game-card" style="background:#fff; border-radius:15px; box-shadow:0 4px 10px rgba(0,0,0,0.1); overflow:hidden; text-align:center; transition:transform 0.2s;">
+    <a href="{% url 'game_start' %}">
+      <img src="https://res.cloudinary.com/dotekofm5/image/upload/v1760316354/thankjapan/backgrounds/ltbitwummwokpabkcmer.png" alt="Register" style="width:100%; height:150px; object-fit:cover; border-bottom:1px solid #f0f0f0;">
+    </a>
+    <p style="padding:10px 5px; font-size:0.9rem; color:#555; font-weight:500;">Create your game account</p>
+  </div>
 
-        <hr>
+  <div class="game-card" style="background:#fff; border-radius:15px; box-shadow:0 4px 10px rgba(0,0,0,0.1); overflow:hidden; text-align:center; transition:transform 0.2s;">
+    <a href="{% url 'game_start' %}">
+      <img src="https://res.cloudinary.com/dotekofm5/image/upload/v1760316343/thankjapan/backgrounds/jtnzkwsrcuxlgeucrh1g.png" alt="Login" style="width:100%; height:150px; object-fit:cover; border-bottom:1px solid #f0f0f0;">
+    </a>
+    <p style="padding:10px 5px; font-size:0.9rem; color:#555; font-weight:500;">Log in with your account name & password</p>
+  </div>
 
-        <h2 class="h2" style="color: white;">How to use this site:</h2>
-        <p class="document" style="color: white;">
-        Please select your preferred genre from the categories on the left.
-        After selecting a genre, you will be taken to that genre’s page.
-        Click on any item that interests you, 
-        and its image, name, and description will be displayed as shown below.<br />
-        "By the way, the name will be written in Roman letters."
-        </p>
-
-        <p class="yajirushi">↓↓</p>
-        
-        <a href="{% url 'naturepage' %}"><img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1754645312/thankjapan/backgrounds/hutwikylfzofnnzrahgh.png" 
-        alt="fujisan" width="900" height="500"/></a>
-            <dl>
-                <dt class="dt">Mount Fuji(English Name)</dt>
-                <dt class="dt">Japanese Name: 富士山 ← Kanji or Hiragana or Katakana</dt>
-                <dt class="dt">Name: Fuzisan ← Romaji</dt>
-                <hr>
-
-                <dt class="dt" style="color: white;">description:<br />
-                <dd class="dd" style="color: white;">"It stands at an elevation of 3,776 meters, making it the highest mountain in Japan. 
-                Straddling Shizuoka and Yamanashi prefectures, 
-                it is considered a symbol of Japan for its beautiful appearance."</dd>
-                <hr>
-                
-                <dt class="dt" style="color: white;">history:<br />
-                <dd class="dd" style="color: white;">Mount Fuji is Japan’s highest and most iconic mountain, standing at 3,776 meters. 
-                It is a stratovolcano that last erupted in 1707-1708. 
-                Mount Fuji has been sacred in Japanese culture for centuries, inspiring Shinto and Buddhist practices, art, and literature. 
-                During the Edo period (17th-19th centuries), climbing Fuji became a popular pilgrimage. 
-                Today, Mount Fuji is a UNESCO World Heritage site, 
-                a symbol of Japan, and a major destination for climbers and tourists worldwide.
-                </dd>
-            </dl>
-            <br>
-        <hr />
-        <p class="dt">From here, I’ll show you some of the foods we eat at my house — just a few examples!</p>
-        <p class="yajirushi">↓↓</p>
-        <hr>
-
-        <p class="dt">Ramen is a flavorful Japanese noodle soup known for its rich broth and delicious toppings.("I made this ramen at home with a flavorful broth and my favorite toppings.)</p>
-        <a href="{% url 'cookpage' %}"><img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1760619729/thankjapan/backgrounds/ydojoqkpkuuejtxd7kkb.png"
-         alt="ramen"/></a>
-
-        <p class="dt">Tsukimi Udon is a traditional Japanese noodle soup topped with a raw egg, resembling the moon.</p>
-        <a href="{% url 'cookpage' %}"><img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1760316319/thankjapan/backgrounds/ocqmrnezyqu2i5akmqbz.png"
-         alt="tsukimiudon"/></a>
-
-        <p class="dt">This is the tsukemen we make at home.</p>
-        <a href="{% url 'cookpage' %}"><img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1759999367/thankjapan/backgrounds/vhliejeec2iradog0y5a.png"
-         alt="tsukemen"/></a>
-
-        <p class="dt">Onigiri: a handheld taste of Japan, wrapped in seaweed with a flavorful heart.</p>
-        <a href="{% url 'cookpage' %}"><img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1760619714/thankjapan/backgrounds/e1cxuzuub3cfrurpplvp.png"
-         alt="onigiri"/></a>
+  <div class="game-card" style="background:#fff; border-radius:15px; box-shadow:0 4px 10px rgba(0,0,0,0.1); overflow:hidden; text-align:center; transition:transform 0.2s;">
+    <a href="{% url 'game_start' %}">
+      <img src="https://res.cloudinary.com/dotekofm5/image/upload/v1760316373/thankjapan/backgrounds/iydarejspqczunrkhpvx.png" alt="Start Game" style="width:100%; height:150px; object-fit:cover; border-bottom:1px solid #f0f0f0;">
+    </a>
+    <p style="padding:10px 5px; font-size:0.9rem; color:#555; font-weight:500;">Press "game_start" to begin</p>
+  </div>
 
 
-        <p class="dt">Battera is a type of pressed sushi from Osaka, topped with cured mackerel.</p>
-        <a href="{% url 'cookpage' %}"><img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1760094369/thankjapan/backgrounds/qmmbyy4i0xen2u1lcees.png"
-         alt="batterazushi"/></a>
+  <div class="game-card" style="background:#fff; border-radius:15px; box-shadow:0 4px 10px rgba(0,0,0,0.1); overflow:hidden; text-align:center; transition:transform 0.2s;">
+    <a href="{% url 'game_start' %}">
+      <img src="https://res.cloudinary.com/dotekofm5/image/upload/v1760316396/thankjapan/backgrounds/kuub0mlfpj2tcrz0jlvz.png" alt="Answer" style="width:100%; height:150px; object-fit:cover; border-bottom:1px solid #f0f0f0;">
+    </a>
+    <p style="padding:10px 5px; font-size:0.9rem; color:#555; font-weight:500;">Enter the answer in Roman letters</p>
+  </div>
+
+  <div class="game-card" style="background:#fff; border-radius:15px; box-shadow:0 4px 10px rgba(0,0,0,0.1); overflow:hidden; text-align:center; transition:transform 0.2s;">
+    <a href="{% url 'game_start' %}">
+      <img src="https://res.cloudinary.com/dotekofm5/image/upload/v1760316413/thankjapan/backgrounds/chepf4pchhl9pgbyyhwx.png" alt="Correct" style="width:100%; height:150px; object-fit:cover; border-bottom:1px solid #f0f0f0;">
+    </a>
+    <p style="padding:10px 5px; font-size:0.9rem; color:#555; font-weight:500;">If correct, "collect" appears</p>
+  </div>
+
+  <div class="game-card" style="background:#fff; border-radius:15px; box-shadow:0 4px 10px rgba(0,0,0,0.1); overflow:hidden; text-align:center; transition:transform 0.2s;">
+    <a href="{% url 'game_start' %}">
+      <img src="https://res.cloudinary.com/dotekofm5/image/upload/v1760316426/thankjapan/backgrounds/qyykepln6lgpibataarp.png" alt="Incorrect" style="width:100%; height:150px; object-fit:cover; border-bottom:1px solid #f0f0f0;">
+    </a>
+    <p style="padding:10px 5px; font-size:0.9rem; color:#555; font-weight:500;">If incorrect, correct answer is shown</p>
+  </div>
+
+  <div class="game-card" style="background:#fff; border-radius:15px; box-shadow:0 4px 10px rgba(0,0,0,0.1); overflow:hidden; text-align:center; transition:transform 0.2s;">
+    <a href="{% url 'game_start' %}">
+      <img src="https://res.cloudinary.com/dotekofm5/image/upload/v1760316444/thankjapan/backgrounds/xu9au7hs49kxqvbbesxs.png" alt="Results" style="width:100%; height:150px; object-fit:cover; border-bottom:1px solid #f0f0f0;">
+    </a>
+    <p style="padding:10px 5px; font-size:0.9rem; color:#555; font-weight:500;">View your results & ranking</p>
+  </div>
+
+  <div class="game-card" style="background:#fff; border-radius:15px; box-shadow:0 4px 10px rgba(0,0,0,0.1); overflow:hidden; text-align:center; transition:transform 0.2s;">
+    <a href="{% url 'game_start' %}">
+      <img src="https://res.cloudinary.com/dotekofm5/image/upload/v1760619690/thankjapan/backgrounds/eqoukadffsymh2j0l1cq.png" alt="Ranking" style="width:100%; height:150px; object-fit:cover; border-bottom:1px solid #f0f0f0;">
+    </a>
+    <p style="padding:10px 5px; font-size:0.9rem; color:#555; font-weight:500;">Rankings & account management</p>
+  </div>
+
+</div>
 
 
-        <p class="dt">These are tri-colored dumplings made from deep-fried shrimp paste.</p>
-        <a href="{% url 'cookpage' %}"><img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1759999330/thankjapan/backgrounds/aqbodxft3spep9aaoe31.png"
-         alt="sanshokudango"/></a>
+<div class="card" style="text-align:center;">
+  <h2>💖 Support ThankJapan</h2>
+  <p>Your kind support helps us maintain this site and continue sharing Japanese culture.</p>
+  <p>You can donate via <strong>PayPal</strong> using your account or a credit/debit card.</p>
+  <p><em>No PayPal account required — select “Pay with card.”</em></p>
+  
+  <p><em>Please note: payments are non-refundable.</em></p>
+</div>
 
-        <p class="dt">These Japanese sweets — monaka and red bean dumplings — are perfect with a cup of tea.</p>
-        <a href="{% url 'cookpage' %}"><img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1760619749/thankjapan/backgrounds/esirfzgklponrfo897jb.png"
-         alt="wagashi"/></a>
+  <div style="text-align:center; margin:30px 0;">
+  <a href="#" target="_blank"
+     style="
+       display:inline-block;
+       background: linear-gradient(135deg, #ffc0cb, #ff69b4);
+       color:white;
+       font-weight:bold;
+       font-size:1.3rem;
+       padding:15px 30px;
+       border-radius:30px;
+       text-decoration:none;
+       box-shadow: 0 6px 12px rgba(255,105,180,0.4);
+       transition: all 0.3s ease;
+     "
+     onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 8px 16px rgba(255,105,180,0.5)';"
+     onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 6px 12px rgba(255,105,180,0.4)';">
+    💖 Support with PayPal 💖
+  </a>
+</div>
 
-        <p class="dt">Katsuo no Tataki is one type of Japanese sashimi, featuring lightly seared skipjack tuna.</p>
-        <a href="{% url 'foodpage' %}"><img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1759999199/thankjapan/backgrounds/bfbhlb3z6ff1lqoycztz.png"
-         alt="katsuonotataki" /></a>
 
-        <p class="dt">Salmon sashimi is fresh, raw salmon sliced thinly and served without rice.</p>
-        <a href="{% url 'foodpage' %}"><img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1759999307/thankjapan/backgrounds/v68smnjhy3grshf0aopn.png"
-         alt="shakenosashimi" /></a>
 
-        <p class="dt">This miso soup features tender daikon radish and sweet potato, blending savory miso with natural sweetness and hearty vegetables.</p>
-        <a href="{% url 'cookpage' %}"><img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1759999229/thankjapan/backgrounds/kvvtrkazdyswpqxgfoor.png"
-         alt="misoshiru" /></a>
+  <hr>
+  <p class="return">
+    Clicking on <a class="anchor" href="{% url 'toppage' %}">'Home'</a> or Thank_Japan will take you back to the top page.
+  </p>
 
-        <p class="dt">Furikake rice is steamed rice topped with a savory yakiniku-flavored seasoning mix.</p>
-        <a href="{% url 'foodpage' %}"><img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1759999128/thankjapan/backgrounds/yiymbccmzypyxutdatse.png"
-         alt="furikakegohan" /></a>
-
-        <p class="dt">This dish features tempura-style deep-fried eggplant stuffed with seasoned ground meat, offering a crispy outside and juicy, savory filling.</p>
-        <a href="{% url 'cookpage' %}"><img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1759999278/thankjapan/backgrounds/v1t6wscueelqkpvfnh8o.png"
-         alt="nasutonikunotenpura" /></a>
-
-        <p class="dt">This side dish features tender spinach seasoned simply with soy sauce and sesame, highlighting its natural flavor.</p>
-        <a href="{% url 'cookpage' %}"><img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1759999165/thankjapan/backgrounds/bdqzliwibqokkd3zhhz4.png"
-         alt="hourensounosouzai" /></a>
-
-        <p class="dt">Kinpira Gobo is a Japanese side dish made of sautéed burdock root and carrots, seasoned with soy sauce and sugar.</p>
-        <a href="{% url 'cookpage' %}"><img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1760094396/thankjapan/backgrounds/lhrjxs1guvxwrcxxxakk.png"
-         alt="kinpiragobou" /></a>
-
-        <p class="return">Clicking on <a class="anchor" href="{% url 'toppage' %}">
-            'Home'</a>or Thank_Japan will take you back to the top page (this page).</p>
 </div>
