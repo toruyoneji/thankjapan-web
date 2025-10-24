@@ -1,6 +1,7 @@
 from django.db import models
 from cloudinary.models import CloudinaryField
 from django.contrib.auth.hashers import make_password, check_password
+from django.utils.text import slugify
 
 class ThankJapanModel(models.Model):
     name = models.CharField(max_length=100, unique=True)
@@ -12,7 +13,7 @@ class ThankJapanModel(models.Model):
     image = CloudinaryField('image', folder='thankjapan/images')
     timestamp = models.DateTimeField(auto_now_add=True)
     
-    slug = models.SlugField(unique=True, blank=True)
+    slug = models.SlugField(null=True, blank=True)
     
     def save(self, *args, **kwargs):
         if not self.slug:
