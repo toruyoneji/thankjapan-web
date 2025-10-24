@@ -286,18 +286,42 @@ class FoodView(ListView):
     
     def get_queryset(self):
         return ThankJapanModel.objects.filter(category="food").order_by('-timestamp')
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['seo_title'] = "Japanese Food Guide | Popular Dishes, Street Food & Snacks | ThankJapan"
+        context['seo_description'] = "Discover iconic Japanese foods like sushi, ramen, and tempura. Learn about their ingredients and cultural roots."
+        context['seo_og_title'] = "Japanese Food - Explore Traditional Dishes | ThankJapan"
+        context['seo_og_description'] = context['seo_description']
+        return context
 
 class NatureView(ListView):
     template_name = "thank_japan_app/nature.html"
     
     def get_queryset(self):
         return ThankJapanModel.objects.filter(category="nature").order_by('-timestamp')
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['seo_title'] = "Explore Japanese Nature | Mountains, Forests & Scenic Views | ThankJapan"
+        context['seo_description'] = "Discover the beauty of Japanese nature including mountains, forests, gardens, and scenic landscapes."
+        context['seo_og_title'] = "Japanese Nature - Scenic Spots & Natural Wonders | ThankJapan"
+        context['seo_og_description'] = context['seo_description']
+        return context
 
 class FashionView(ListView):
     template_name = "thank_japan_app/fashion.html"
     
     def get_queryset(self):
         return ThankJapanModel.objects.filter(category="fashion").order_by('-timestamp')
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['seo_title'] = "Japanese Fashion | Traditional & Modern Styles | ThankJapan"
+        context['seo_description'] = "Explore Japanese fashion, from traditional kimono to modern streetwear and pop culture trends."
+        context['seo_og_title'] = "Japanese Fashion - Kimono, Streetwear & Trends | ThankJapan"
+        context['seo_og_description'] = context['seo_description']
+        return context
 
 class CultureView(ListView):
     template_name = "thank_japan_app/culture.html"
@@ -305,41 +329,97 @@ class CultureView(ListView):
     def get_queryset(self):
         return ThankJapanModel.objects.filter(category="culture").order_by('-timestamp')
     
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['seo_title'] = "Japanese Culture | Traditions, Festivals & Customs | ThankJapan"
+        context['seo_description'] = "Learn about Japanese culture, including festivals, traditional arts, customs, and heritage."
+        context['seo_og_title'] = "Japanese Culture - Festivals, Arts & Traditions | ThankJapan"
+        context['seo_og_description'] = context['seo_description']
+        return context
+    
 class CookView(ListView):
     template_name = "thank_japan_app/cook.html"
     
     def get_queryset(self):
         return ThankJapanModel.objects.filter(category="cook").order_by('-timestamp')
     
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['seo_title'] = "Japanese Cooking | Recipes & Culinary Techniques | ThankJapan"
+        context['seo_description'] = "Discover Japanese cooking techniques and recipes from traditional dishes to modern cuisine."
+        context['seo_og_title'] = "Japanese Cooking - Recipes & Techniques | ThankJapan"
+        context['seo_og_description'] = context['seo_description']
+        return context
+    
 class AppliancesView(ListView):
     template_name = "thank_japan_app/appliances.html"
     
     def get_queryset(self):
         return ThankJapanModel.objects.filter(category="appliances").order_by('-timestamp')
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['seo_title'] = "Japanese Appliances | Modern & Traditional Devices | ThankJapan"
+        context['seo_description'] = "Explore Japanese home appliances, both modern and traditional, and learn how they simplify daily life."
+        context['seo_og_title'] = "Japanese Appliances - Innovative Devices & Tools | ThankJapan"
+        context['seo_og_description'] = context['seo_description']
+        return context
 
 class AnimalView(ListView):
     template_name = "thank_japan_app/animal.html"
     
     def get_queryset(self):
         return ThankJapanModel.objects.filter(category="animal").order_by('-timestamp')
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['seo_title'] = "Japanese Animals | Wildlife & Pets | ThankJapan"
+        context['seo_description'] = "Learn about animals in Japan, from native wildlife to popular pets and cultural symbolism."
+        context['seo_og_title'] = "Japanese Animals - Wildlife & Pets | ThankJapan"
+        context['seo_og_description'] = context['seo_description']
+        return context
 
 class BuildingView(ListView):
     template_name = "thank_japan_app/building.html"
     
     def get_queryset(self):
         return ThankJapanModel.objects.filter(category="building").order_by('-timestamp')
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['seo_title'] = "Japanese Buildings | Architecture & Landmarks | ThankJapan"
+        context['seo_description'] = "Explore Japanese architecture, from historic temples and shrines to modern urban buildings."
+        context['seo_og_title'] = "Japanese Buildings - Traditional & Modern Architecture | ThankJapan"
+        context['seo_og_description'] = context['seo_description']
+        return context
 
 class FlowerView(ListView):
     template_name = "thank_japan_app/flower.html"
     
     def get_queryset(self):
         return ThankJapanModel.objects.filter(category="flower").order_by('-timestamp')
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['seo_title'] = "Japanese Flowers | Traditional Gardens & Seasonal Blooms | ThankJapan"
+        context['seo_description'] = "Discover Japanese flowers and gardens, seasonal blooms, and their cultural significance."
+        context['seo_og_title'] = "Japanese Flowers - Gardens & Seasonal Blooms | ThankJapan"
+        context['seo_og_description'] = context['seo_description']
+        return context
 
 class HouseholdItemsView(ListView):
     template_name = "thank_japan_app/householditems.html"
     
     def get_queryset(self):
         return ThankJapanModel.objects.filter(category="householditems").order_by('-timestamp')
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['seo_title'] = "Japanese Household Items | Traditional & Modern Goods | ThankJapan"
+        context['seo_description'] = "Explore Japanese household items, including traditional tools and modern gadgets used in everyday life."
+        context['seo_og_title'] = "Japanese Household Items - Traditional & Modern Goods | ThankJapan"
+        context['seo_og_description'] = context['seo_description']
+        return context
 
 class SportsView(ListView):
     template_name = "thank_japan_app/sports.html"
@@ -347,16 +427,40 @@ class SportsView(ListView):
     def get_queryset(self):
         return ThankJapanModel.objects.filter(category="sports").order_by('-timestamp')
     
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['seo_title'] = "Japanese Sports | Traditional & Modern Games | ThankJapan"
+        context['seo_description'] = "Learn about sports in Japan, from traditional martial arts to modern popular games."
+        context['seo_og_title'] = "Japanese Sports - Martial Arts & Modern Games | ThankJapan"
+        context['seo_og_description'] = context['seo_description']
+        return context
+    
 class WorkView(ListView):
     template_name = "thank_japan_app/work.html"
     
     def get_queryset(self):
         return ThankJapanModel.objects.filter(category="work").order_by('-timestamp')
     
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['seo_title'] = "Japanese Work Culture | Jobs, Professions & Traditions | ThankJapan"
+        context['seo_description'] = "Explore Japanese work culture, professions, and workplace traditions throughout history and today."
+        context['seo_og_title'] = "Japanese Work Culture - Jobs & Traditions | ThankJapan"
+        context['seo_og_description'] = context['seo_description']
+        return context
+    
 class LiveView(ListView):
     template_name = "thank_japan_app/live.html"
     
     def get_queryset(self):
         return ThankJapanModel.objects.filter(category="live").order_by('-timestamp')
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['seo_title'] = "Living in Japan | Lifestyle, Housing & Daily Life | ThankJapan"
+        context['seo_description'] = "Learn about daily life in Japan, housing, and lifestyle, from traditional to modern practices."
+        context['seo_og_title'] = "Living in Japan - Lifestyle & Daily Life | ThankJapan"
+        context['seo_og_description'] = context['seo_description']
+        return context
     
     

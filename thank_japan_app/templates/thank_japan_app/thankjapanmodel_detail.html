@@ -1,8 +1,45 @@
 {% extends 'basecategory.html' %}
 
-{% block title %}{{ object.englishname }} - Meaning, History & Cultural Significance in Japan{% endblock %}
+{% block title %}
+{% if object %}
+  {{ object.englishname }} ({{ object.jpname }}) - {{ object.category }} | ThankJapan
+{% else %}
+  ThankJapan - Japanese Culture, Food & History
+{% endif %}
+{% endblock %}
 
-{% block description %}Discover the meaning, history, and cultural background of {{ object.englishname }} ({{ object.jpname }}) in Japanese culture.{% endblock %}
+{% block description %}
+{% if object %}
+  {% if object.description %}
+    {{ object.description|truncatechars:160|striptags }}
+  {% else %}
+    Discover the meaning, history, and cultural significance of {{ object.englishname }} ({{ object.jpname }}) in Japanese culture.
+  {% endif %}
+{% else %}
+  Explore Japanese culture, food, history, and more at ThankJapan.
+{% endif %}
+{% endblock %}
+
+{% block og_title %}
+{% if object %}
+  {{ object.englishname }} ({{ object.jpname }}) - {{ object.category }} | ThankJapan
+{% else %}
+  ThankJapan - Japanese Culture, Food & History
+{% endif %}
+{% endblock %}
+
+{% block og_description %}
+{% if object %}
+  {% if object.description %}
+    {{ object.description|truncatechars:200|striptags }}
+  {% else %}
+    Discover the meaning, history, and cultural significance of {{ object.englishname }} ({{ object.jpname }}) in Japanese culture.
+  {% endif %}
+{% else %}
+  Explore Japanese culture, food, history, and more at ThankJapan.
+{% endif %}
+{% endblock %}
+
 
 
 {% block content %}
