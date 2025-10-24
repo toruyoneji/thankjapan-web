@@ -13,7 +13,8 @@ class ThankJapanModel(models.Model):
     image = CloudinaryField('image', folder='thankjapan/images')
     timestamp = models.DateTimeField(auto_now_add=True)
     
-    slug = models.SlugField(null=True, blank=True)
+    slug = models.SlugField(unique=True, null=False, blank=False)
+
     
     def save(self, *args, **kwargs):
         if not self.slug:
