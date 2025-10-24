@@ -142,7 +142,7 @@
         {% for item in object_list %}
             <div class="food-card">
                 {% if item.image %}
-                    <a href="{% url 'detail' item.id %}">
+                    <a href="{% url 'category_detail' item.category item.slug %}">
                         <img src="{{ item.image.url }}" alt="{{ item.englishname }}">
                     </a>
                 {% else %}

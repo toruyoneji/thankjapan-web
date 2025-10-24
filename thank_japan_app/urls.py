@@ -1,7 +1,7 @@
 from django.urls import path
 from .views import (TopView, KiyakuView, FoodView, NatureView, FashionView, 
                     CultureView, CookView, AppliancesView, AnimalView,
-                    ImgDetailView, BuildingView, FlowerView, HouseholdItemsView,LiveView,
+                    CategoryDetailView, BuildingView, FlowerView, HouseholdItemsView,LiveView,
                     SportsView, WorkView, CompanyFormView, game_start, game_play,
                     game_answer, game_result, game_restart, player_login, player_logout, delete_player_confirm,
                     player_register, delete_player, LegalNoticeView,PrivacyPolicy, contact_view, contact_thanks)
@@ -10,6 +10,10 @@ from .views import (TopView, KiyakuView, FoodView, NatureView, FashionView,
 urlpatterns = [
     #top page
     path("", TopView.as_view(), name="toppage"),
+    
+    #user look page
+    path('<str:category>/<slug:slug>/', CategoryDetailView.as_view(), name='category_detail'),
+    
     #game
     path('game/start/', game_start, name='game_start'),
     path('game/play/', game_play, name='game_play'),
@@ -37,8 +41,7 @@ urlpatterns = [
     path("work/", WorkView.as_view(), name="workpage"),
     path("live/", LiveView.as_view(), name="livepage"),
 
-    #user look page
-    path("detail/<int:pk>/", ImgDetailView.as_view(), name="detail"),
+    #company page
     path("riyoukiyaku/", KiyakuView.as_view(), name="riyoukiyaku"),
     path("infomation/", CompanyFormView.as_view(), name="infomationpage"),
     path('contact/', contact_view, name='contact'),

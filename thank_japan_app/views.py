@@ -40,9 +40,17 @@ class TopView(ListView):
     template_name = "thank_japan_app/toppage.html"
     model = ThankJapanModel
 
-class ImgDetailView(DetailView):
-    template_name = "thank_japan_app/thankjapanmodel_detail.html"
+# views.py
+class CategoryDetailView(DetailView):
     model = ThankJapanModel
+    template_name = "thank_japan_app/thankjapanmodel_detail.html"
+    slug_field = "slug"
+    slug_url_kwarg = "slug"
+
+    def get_queryset(self):
+        category = self.kwargs['category']
+        return ThankJapanModel.objects.filter(category=category)
+
     
 class KiyakuView(ListView):
     template_name = "thank_japan_app/riyoukiyaku.html"

@@ -11,6 +11,20 @@ class ThankJapanModel(models.Model):
     history = models.TextField(max_length=1000)
     image = CloudinaryField('image', folder='thankjapan/images')
     timestamp = models.DateTimeField(auto_now_add=True)
+    
+    slug = models.SlugField(unique=True, blank=True)
+    
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            # 英語名から slug を作る
+            base_slug = slugify(self.englishname)
+            slug = base_slug
+            counter = 1
+            while ThankJapanModel.objects.filter(slug=slug).exists():
+                slug = f"{base_slug}-{counter}"
+                counter += 1
+            self.slug = slug
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return f"{self.name} ({self.category})"
