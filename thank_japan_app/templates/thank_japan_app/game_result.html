@@ -1,21 +1,20 @@
 {% extends 'base.html' %}
 {% block title %}Game Result | ThankJapan - Challenge your knowledge!{% endblock %}
 
-
 {% block meta %}
-  <meta name="description" content="Check your game result and see the top 20 players on ThankJapan! Test your knowledge about Japan.">
-  <meta property="og:title" content="Game Result | ThankJapan">
-  <meta property="og:description" content="Did you rank among the top 20? Check your score now!">
-  <meta property="og:image" content="https://res.cloudinary.com/dotekofm5/image/upload/v1754642770/thankjapan/backgrounds/ntpvmxgudcmvp0snpiur.png">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://www.thankjapan.com/game/result/">
-  <meta name="twitter:card" content="summary_large_image">
+<meta name="description" content="Check your game result and see the top 20 players on ThankJapan! Test your knowledge about Japan.">
+<meta property="og:title" content="Game Result | ThankJapan">
+<meta property="og:description" content="Did you rank among the top 20? Check your score now!">
+<meta property="og:image" content="https://res.cloudinary.com/dotekofm5/image/upload/v1754642770/thankjapan/backgrounds/ntpvmxgudcmvp0snpiur.png">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.thankjapan.com/game/result/">
+<meta name="twitter:card" content="summary_large_image">
 
-  <script type="application/ld+json">
+<script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "ItemList",
-  "name": "ThankJapan Top 10 Players Ranking",
+  "name": "ThankJapan Top 20 Players Ranking",
   "itemListElement": [
     {% for r in ranking %}
     {
@@ -32,23 +31,121 @@
 {% endblock %}
 
 {% block content %}
+<style>
+/* 背景と全体スタイル */
+body {
+  background: linear-gradient(135deg, #2b003e, #5d1a8b, #8b4fff);
+  color: #fff;
+  font-family: 'Orbitron', sans-serif;
+}
 
-<div class="main2" style="text-align: center;">
+/* コンテナ */
+.main2 {
+  max-width: 900px;
+  margin: 40px auto;
+  text-align: center;
+}
 
-  <h1 style="font-size: 2.5rem; margin-bottom: 20px; color: #ff6600;">🎉 Game Result 🎉</h1>
+/* ネオンタイトル */
+h1 {
+  font-size: 3rem;
+  color: #ff6ec7;
+  text-shadow:
+     0 0 5px #ff6ec7,
+     0 0 10px #ff4da6,
+     0 0 20px #ff6ec7,
+     0 0 40px #ff4da6;
+  animation: neon-flicker 1.5s infinite alternate;
+}
 
-  <div style="background-color: yellow; padding: 20px; border-radius: 10px; display: inline-block; margin-bottom: 30px;">
-    <p style="font-size: 1.8rem; margin: 10px 0; color: black;"><strong>Player:</strong> {{ player.username }} ({{ player.country|default:"Unknown" }})</p>
-    <p style="font-size: 2rem; color: #10b981;"><strong>Your Score:</strong> {{ score }} pts</p>
+/* ネオンフリッカ―アニメーション */
+@keyframes neon-flicker {
+  0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% { text-shadow: 0 0 5px #ff6ec7,0 0 10px #ff4da6,0 0 20px #ff6ec7,0 0 40px #ff4da6; }
+  20%, 24%, 55% { text-shadow: none; }
+}
+
+/* スコアボックス */
+.score-box {
+  background: rgba(0,0,0,0.5);
+  padding: 30px;
+  margin: 20px auto;
+  border-radius: 15px;
+  box-shadow: 0 0 15px #ff6ec7, 0 0 30px #ff4da6 inset;
+}
+
+/* カウントアップアニメーション */
+.score-number {
+  font-size: 3rem;
+  color: #ff4da6;
+  text-shadow: 0 0 10px #ff4da6, 0 0 20px #ff6ec7 inset;
+}
+
+/* ネオンボタン */
+.neon-button {
+  background: #1b0033;
+  color: #ff6ec7;
+  padding: 15px 40px;
+  font-size: 1.3rem;
+  font-weight: 700;
+  border: 2px solid #ff6ec7;
+  border-radius: 25px;
+  box-shadow: 0 0 8px #ff6ec7, 0 0 15px #ff4da6 inset;
+  cursor: pointer;
+  transition: 0.3s;
+  margin: 10px;
+}
+
+.neon-button:hover {
+  box-shadow: 0 0 20px #ff6ec7, 0 0 30px #ff4da6 inset;
+  color: #fff;
+}
+
+/* ランキング表 */
+table {
+  width: 90%;
+  max-width: 700px;
+  margin: 20px auto;
+  border-collapse: collapse;
+  color: #fff;
+}
+
+thead th {
+  background: linear-gradient(90deg, #ff6ec7, #3b82f6, #ffcd3c);
+  padding: 10px;
+  font-size: 1.2rem;
+  text-shadow: 0 0 5px #fff;
+}
+
+tbody tr {
+  background: rgba(255,255,255,0.05);
+  transition: 0.3s;
+}
+
+tbody tr:hover {
+  background: rgba(255,255,255,0.2);
+}
+
+.highlight {
+  background: #ff4da6;
+  color: #000;
+  font-weight: bold;
+  text-shadow: 0 0 5px #fff;
+}
+</style>
+
+<div class="main2">
+  <h1>🎉 Game Result 🎉</h1>
+
+  <div class="score-box">
+    <p style="font-size:1.5rem;">Player: {{ player.username }} ({{ player.country|default:"Unknown" }})</p>
+    <p>Your Score: <span class="score-number" id="score">0</span> pts</p>
   </div>
 
-  <hr style="margin: 30px 0;">
+  <hr style="margin: 30px 0; border-color: #fff4;">
 
-  <h2 style="font-size: 2rem; color: #3b82f6;">🏆 Top 10 Players</h2>
-  <p style="font-size: 1.2rem; color: #555;">Can you reach the top?</p>
-
-  <table style="width: 90%; max-width: 600px; margin: 0 auto; font-size: 1.2rem; border-collapse: collapse;">
-    <thead style="background-color: yellowgreen;">
+  <h2 style="color: #ff6ec7;">🏆 Top 20 Players</h2>
+  <table>
+    <thead>
       <tr>
         <th>#</th>
         <th>Username</th>
@@ -58,41 +155,46 @@
     </thead>
     <tbody>
       {% for r in ranking %}
-        <tr style="border-bottom: 1px solid #ddd;">
-          <td>{{ forloop.counter }}</td>
-          <td><strong>{{ r.username }}</strong></td>
-          <td>{{ r.total_score }}</td>
-          <td>{{ r.country|default:"-" }}</td>
-        </tr>
+      <tr class="{% if r.username == player.username %}highlight{% endif %}">
+        <td>{{ forloop.counter }}</td>
+        <td>{{ r.username }}</td>
+        <td>{{ r.total_score }}</td>
+        <td>{{ r.country|default:"-" }}</td>
+      </tr>
       {% empty %}
-        <tr><td colspan="4">No rankings yet.</td></tr>
+      <tr><td colspan="4">No rankings yet.</td></tr>
       {% endfor %}
     </tbody>
   </table>
 
-  <div style="margin-top: 40px;">
+  <div>
     <a href="{% url 'game_restart' %}">
-      <button style="background-color: #3b82f6; color: white; border: none; padding: 12px 24px; font-size: 1.1rem; border-radius: 8px; cursor: pointer;">
-        🔁 Play Again
-      </button>
+      <button class="neon-button">🔁 Play Again</button>
     </a>
-  </div>
-
-  <div style="margin-top: 20px;">
     <a href="{% url 'logout_player' %}">
-      <button style="background-color: #6b7280; color: white; border: none; padding: 10px 20px; font-size: 1rem; border-radius: 6px; cursor: pointer;">
-        💾 Save 
-      </button>
+      <button class="neon-button">🚪 Logout</button>
     </a>
   </div>
 
-  <form method="post" action="{% url 'delete_player_confirm' %}" onsubmit="return confirm('Are you sure you want to delete your account?');" style="margin-top: 20px;">
+  <form method="post" action="{% url 'delete_player_confirm' %}" onsubmit="return confirm('Are you sure you want to delete your account?');">
     {% csrf_token %}
-    <button type="submit" style="background-color: #dc2626; color: white; padding: 10px 20px; border: none; font-size: 1rem; border-radius: 6px;">
-      🗑️ Delete My Account
-    </button>
+    <button type="submit" class="neon-button" style="background:#dc2626; border-color:#dc2626;">🗑️ Delete My Account</button>
   </form>
-
 </div>
 
+{{ score|default:0|json_script:"score-data" }}
+<script>
+  const finalScore = JSON.parse(document.getElementById('score-data').textContent);
+  const scoreElement = document.getElementById('score');
+  let current = 0;
+
+  const interval = setInterval(() => {
+    if (current < finalScore) {
+      current++;
+      scoreElement.textContent = current;
+    } else {
+      clearInterval(interval);
+    }
+  }, 50);
+</script>
 {% endblock %}

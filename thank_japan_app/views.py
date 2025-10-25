@@ -274,7 +274,7 @@ def game_restart(request):
     question_ids = list(ThankJapanModel.objects.values_list('id', flat=True))
     random.shuffle(question_ids)
 
-    request.session['game_question_ids'] = question_ids[:10]
+    request.session['game_question_ids'] = question_ids[:5]
     request.session['game_current_index'] = 0
     request.session['game_score'] = 0
 
