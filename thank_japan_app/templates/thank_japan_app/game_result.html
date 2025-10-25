@@ -1,5 +1,4 @@
 {% extends 'base.html' %}
-
 {% block title %}Game Result | ThankJapan - Challenge your knowledge!{% endblock %}
 
 {% block meta %}
@@ -32,93 +31,40 @@
 {% endblock %}
 
 {% block content %}
-
-
-<!-- 背景キャンバス -->
-<canvas id="spaceCanvas" style="position:fixed; top:0; left:0; width:100%; height:100%; z-index:1;"></canvas>
-
-<div class="main2">
-  <h1>🎉 Game Result 🎉</h1>
-
-  <div class="score-box">
-    <p style="font-size:1.5rem;">Player: {{ player.username }} ({{ player.country|default:"Unknown" }})</p>
-    <p>Your Score: <span class="score-number" id="score">0</span> pts</p>
-  </div>
-
-  <hr style="margin: 30px 0; border-color: #fff4;">
-
-  <h2 style="color: #ff6ec7;">🏆 Top 10 Players</h2>
-  <table>
-    <thead>
-      <tr>
-        <th>#</th>
-        <th>Username</th>
-        <th>Points</th>
-        <th>Country</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for r in ranking %}
-      <tr class="{% if forloop.first %}highlight{% endif %}">
-        <td>{{ forloop.counter }}</td>
-        <td>{{ r.username }}</td>
-        <td>{{ r.total_score }}</td>
-        <td>{{ r.country|default:"-" }}</td>
-      </tr>
-      {% empty %}
-      <tr><td colspan="4">No rankings yet.</td></tr>
-      {% endfor %}
-    </tbody>
-  </table>
-
-  <div>
-    <a href="{% url 'game_restart' %}">
-      <button class="neon-button">🔁 Play Again</button>
-    </a>
-    <a href="{% url 'logout_player' %}">
-      <button class="neon-button">🚪 Logout</button>
-    </a>
-  </div>
-
-  <form method="post" action="{% url 'delete_player_confirm' %}" onsubmit="return confirm('Are you sure you want to delete your account?');">
-    {% csrf_token %}
-    <button type="submit" class="neon-button" style="background:#dc2626; border-color:#dc2626;">🗑️ Delete My Account</button>
-  </form>
-</div>
-
-<!-- CSS -->
 <style>
+/* 背景と全体スタイル */
 body {
-  font-family: 'Orbitron', sans-serif;
-  margin:0; padding:0;
   background: linear-gradient(135deg, #2b003e, #5d1a8b, #8b4fff);
-  overflow-x:hidden;
-}
-
-.main2 {
-  position: fixed;
-  top: 140px; /* ヘッダー下 */
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 5;
-  width: 90%;
-  max-width: 900px;
-  text-align: center;
   color: #fff;
+  font-family: 'Orbitron', sans-serif;
 }
 
+/* コンテナ */
+.main2 {
+  max-width: 900px;
+  margin: 40px auto;
+  text-align: center;
+}
+
+/* ネオンタイトル */
 h1 {
   font-size: 3rem;
   color: #ff6ec7;
-  text-shadow: 0 0 5px #ff6ec7,0 0 10px #ff4da6,0 0 20px #ff6ec7,0 0 40px #ff4da6;
+  text-shadow:
+     0 0 5px #ff6ec7,
+     0 0 10px #ff4da6,
+     0 0 20px #ff6ec7,
+     0 0 40px #ff4da6;
   animation: neon-flicker 1.5s infinite alternate;
 }
 
+/* ネオンフリッカ―アニメーション */
 @keyframes neon-flicker {
-  0%,19%,21%,23%,25%,54%,56%,100% { text-shadow:0 0 5px #ff6ec7,0 0 10px #ff4da6,0 0 20px #ff6ec7,0 0 40px #ff4da6;}
-  20%,24%,55% { text-shadow:none; }
+  0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% { text-shadow: 0 0 5px #ff6ec7,0 0 10px #ff4da6,0 0 20px #ff6ec7,0 0 40px #ff4da6; }
+  20%, 24%, 55% { text-shadow: none; }
 }
 
+/* スコアボックス */
 .score-box {
   background: rgba(0,0,0,0.5);
   padding: 30px;
@@ -127,19 +73,14 @@ h1 {
   box-shadow: 0 0 15px #ff6ec7, 0 0 30px #ff4da6 inset;
 }
 
+/* カウントアップアニメーション */
 .score-number {
   font-size: 3rem;
   color: #ff4da6;
   text-shadow: 0 0 10px #ff4da6, 0 0 20px #ff6ec7 inset;
-  display:inline-block;
-  animation: bounce 0.6s ease infinite;
 }
 
-@keyframes bounce {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
-}
-
+/* ネオンボタン */
 .neon-button {
   background: #1b0033;
   color: #ff6ec7;
@@ -159,6 +100,7 @@ h1 {
   color: #fff;
 }
 
+/* ランキング表 */
 table {
   width: 90%;
   max-width: 700px;
@@ -189,21 +131,63 @@ tbody tr:hover {
   font-weight: bold;
   text-shadow: 0 0 5px #fff;
 }
-
-@media (max-width: 500px) {
-  .main2 {
-    top: 260px;
-    width: 95%;
-  }
-}
 </style>
+
+<div class="main2">
+  <h1>🎉 Game Result 🎉</h1>
+
+  <div class="score-box">
+    <p style="font-size:1.5rem;">Player: {{ player.username }} ({{ player.country|default:"Unknown" }})</p>
+    <p>Your Score: <span class="score-number" id="score">0</span> pts</p>
+  </div>
+
+  <hr style="margin: 30px 0; border-color: #fff4;">
+
+  <h2 style="color: #ff6ec7;">🏆 Top 10 Players</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Username</th>
+        <th>Points</th>
+        <th>Country</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for r in ranking %}
+      <tr class="{% if r.username == player.username %}highlight{% endif %}">
+        <td>{{ forloop.counter }}</td>
+        <td>{{ r.username }}</td>
+        <td>{{ r.total_score }}</td>
+        <td>{{ r.country|default:"-" }}</td>
+      </tr>
+      {% empty %}
+      <tr><td colspan="4">No rankings yet.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <div>
+    <a href="{% url 'game_restart' %}">
+      <button class="neon-button">🔁 Play Again</button>
+    </a>
+    <a href="{% url 'logout_player' %}">
+      <button class="neon-button">🚪 Logout</button>
+    </a>
+  </div>
+
+  <form method="post" action="{% url 'delete_player_confirm' %}" onsubmit="return confirm('Are you sure you want to delete your account?');">
+    {% csrf_token %}
+    <button type="submit" class="neon-button" style="background:#dc2626; border-color:#dc2626;">🗑️ Delete My Account</button>
+  </form>
+</div>
 
 {{ score|default:0|json_script:"score-data" }}
 <script>
-  // スコアカウントアップ
   const finalScore = JSON.parse(document.getElementById('score-data').textContent);
   const scoreElement = document.getElementById('score');
   let current = 0;
+
   const interval = setInterval(() => {
     if (current < finalScore) {
       current++;
@@ -212,81 +196,5 @@ tbody tr:hover {
       clearInterval(interval);
     }
   }, 50);
-
-  // 宇宙背景と星・光・花火
-  const canvas = document.getElementById('spaceCanvas');
-  const ctx = canvas.getContext('2d');
-  let stars = [];
-  let fireworks = [];
-
-  function resizeCanvas() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-  }
-  window.addEventListener('resize', resizeCanvas);
-  resizeCanvas();
-
-  // 星を作る
-  for(let i=0;i<150;i++){
-    stars.push({
-      x: Math.random()*canvas.width,
-      y: Math.random()*canvas.height,
-      radius: Math.random()*1.5,
-      alpha: Math.random()
-    });
-  }
-
-  // 花火生成
-  function createFirework() {
-    fireworks.push({
-      x: Math.random()*canvas.width,
-      y: Math.random()*canvas.height/2,
-      radius: Math.random()*3+2,
-      color:`hsl(${Math.random()*360},100%,70%)`,
-      alpha:1
-    });
-  }
-
-  function animate() {
-    ctx.fillStyle = 'rgba(45,0,75,0.3)';
-    ctx.fillRect(0,0,canvas.width,canvas.height);
-
-    // 星描画
-    stars.forEach(s=>{
-      ctx.beginPath();
-      ctx.arc(s.x,s.y,s.radius,0,Math.PI*2);
-      ctx.fillStyle = `rgba(255,255,255,${s.alpha})`;
-      ctx.fill();
-      s.alpha += (Math.random()-0.5)*0.05;
-      if(s.alpha<0)s.alpha=0;
-      if(s.alpha>1)s.alpha=1;
-    });
-
-    // 花火描画
-    fireworks.forEach((f,i)=>{
-      ctx.beginPath();
-      ctx.arc(f.x,f.y,f.radius,0,Math.PI*2);
-      ctx.fillStyle = `rgba(${Math.floor(Math.random()*255)},${Math.floor(Math.random()*255)},${Math.floor(Math.random()*255)},${f.alpha})`;
-      ctx.fill();
-      f.alpha -= 0.02;
-      if(f.alpha<=0) fireworks.splice(i,1);
-    });
-
-    // ランダムに花火追加
-    if(Math.random()<0.02) createFirework();
-
-    requestAnimationFrame(animate);
-  }
-  animate();
-
-  // 光インタラクション
-  canvas.addEventListener('mousemove', e=>{
-    const gradient = ctx.createRadialGradient(e.clientX,e.clientY,0, e.clientX,e.clientY,100);
-    gradient.addColorStop(0,'rgba(255,255,255,0.6)');
-    gradient.addColorStop(1,'rgba(255,255,255,0)');
-    ctx.fillStyle = gradient;
-    ctx.fillRect(0,0,canvas.width,canvas.height);
-  });
 </script>
-
 {% endblock %}
