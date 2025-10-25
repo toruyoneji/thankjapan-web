@@ -17,7 +17,7 @@ body {
   padding: 0;
 }
 
-/* コンテナ */
+
 .main2 {
   max-width: 900px;
   margin: 40px auto;
@@ -30,7 +30,7 @@ body {
   animation: fadeIn 1.5s ease-in-out;
 }
 
-/* タイトル */
+
 h1 {
   font-size: 2.5rem;
   color: #00e5ff;
@@ -39,7 +39,7 @@ h1 {
   animation: glowText 2.5s ease-in-out infinite;
 }
 
-/* サブタイトルやカテゴリ */
+
 h2 {
   color: #ff9aff;
   font-weight: 600;
@@ -47,16 +47,16 @@ h2 {
   font-size: 1.4rem;
 }
 
-/* プレイヤー名表示 */
+
 .player-info {
   font-size: 1.3rem;
   color: #ccc;
   margin-bottom: 25px;
 }
 
-/* イメージ */
+
 img {
-  max-width: 400px;   /* 大きく */
+  max-width: 400px;   
   width: 80%;
   border-radius: 10px;
   margin: 20px 0;
@@ -67,7 +67,7 @@ img:hover {
   transform: scale(1.07);
 }
 
-/* 入力フォーム */
+
 form {
   margin-top: 30px;
 }
@@ -86,7 +86,7 @@ input[type="text"]::placeholder {
   color: #aaa;
 }
 
-/* メッセージ */
+
 .message {
   margin: 20px 0;
   font-weight: bold;
@@ -101,7 +101,7 @@ input[type="text"]::placeholder {
   text-shadow: 0 0 12px #ff4b5c;
 }
 
-/* ボタン */
+
 .neon-button {
   background: linear-gradient(90deg, #ff3c78, #ff9aff);
   color: #fff;
@@ -120,7 +120,7 @@ input[type="text"]::placeholder {
   box-shadow: 0 0 35px #ff3c78, 0 0 55px #ff9aff;
 }
 
-/* アニメーション */
+
 @keyframes glowText {
   0%, 100% { text-shadow: 0 0 10px #00e5ff, 0 0 20px #00e5ff; }
   50% { text-shadow: 0 0 25px #00e5ff, 0 0 50px #00ffff; }
@@ -131,7 +131,7 @@ input[type="text"]::placeholder {
   100% { opacity: 1; transform: translateY(0); }
 }
 
-/* フッターメッセージ */
+
 .footer-note {
   font-size: 0.9rem;
   color: #999;
@@ -175,7 +175,7 @@ input[type="text"]::placeholder {
 </style>
 
 <div class="main2">
-  <h1>Question {{ current_index }} / 3</h1>
+  <h1>Question {{ current_index }} / 5</h1>
 
   <p class="player-info">
     Player: <strong>{{ player.username }}</strong> ({{ player.country }})
