@@ -11,8 +11,6 @@ urlpatterns = [
     #top page
     path("", TopView.as_view(), name="toppage"),
     
-    #user look page
-    path('<str:category>/<slug:slug>/', CategoryDetailView.as_view(), name='category_detail'),
     
     #game
     path('game/start/', game_start, name='game_start'),
@@ -48,4 +46,8 @@ urlpatterns = [
     path('contact/thanks/', contact_thanks, name='contact_thanks'),
     path('legal-notice/', LegalNoticeView.as_view(), name='legal_notice'),
     path('privacy-policy/', PrivacyPolicy.as_view(), name="privacy_policy"),
+    
+    #user look page
+    path('<str:category>/<slug:slug>/', CategoryDetailView.as_view(), name='category_detail'),
+    
 ]
