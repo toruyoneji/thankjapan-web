@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% block title %}Game Result | ThankJapan{% endblock %}
+{% block title %}Game Result | ThankJapan - Challenge your knowledge!{% endblock %}
 
 {% block meta %}
 <meta name="description" content="Check your game result and see the top 20 players on ThankJapan! Test your knowledge about Japan.">
@@ -12,281 +12,264 @@
 {% endblock %}
 
 {% block content %}
+<link rel="stylesheet" href="{% static 'css/sidebar.css' %}">
+
+<!-- 宇宙背景と星用canvas -->
+<canvas id="starfield"></canvas>
+
+<div class="main2">
+  <h1>🎉 Game Result 🎉</h1>
+
+  <!-- スコアボックス -->
+  <div class="score-box">
+    <p style="font-size:1.5rem;">Player: {{ player.username }} ({{ player.country|default:"Unknown" }})</p>
+    <p>Your Score: <span class="score-number" id="score">0</span> pts</p>
+  </div>
+
+  <hr style="margin: 30px 0; border-color: #fff4;">
+
+  <h2 style="color: #ff6ec7;">🏆 Top 10 Players</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Username</th>
+        <th>Points</th>
+        <th>Country</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for r in ranking %}
+      <tr class="{% if r.username == player.username %}highlight{% endif %}">
+        <td>{{ forloop.counter }}</td>
+        <td>{{ r.username }}</td>
+        <td>{{ r.total_score }}</td>
+        <td>{{ r.country|default:"-" }}</td>
+      </tr>
+      {% empty %}
+      <tr><td colspan="4">No rankings yet.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <div>
+    <a href="{% url 'game_restart' %}">
+      <button class="neon-button">🔁 Play Again</button>
+    </a>
+    <a href="{% url 'logout_player' %}">
+      <button class="neon-button">🚪 Logout</button>
+    </a>
+  </div>
+
+  <form method="post" action="{% url 'delete_player_confirm' %}" onsubmit="return confirm('Are you sure you want to delete your account?');">
+    {% csrf_token %}
+    <button type="submit" class="neon-button" style="background:#dc2626; border-color:#dc2626;">🗑️ Delete My Account</button>
+  </form>
+</div>
+
+{{ score|default:0|json_script:"score-data" }}
+
 <style>
-/* ===== 宇宙背景 ===== */
 body {
-    margin: 0;
-    padding: 0;
-    font-family: 'Orbitron', sans-serif;
-    overflow-x: hidden;
-    background: radial-gradient(ellipse at bottom, #000010 0%, #000 100%);
-    color: #fff;
+  margin:0;
+  font-family: 'Orbitron', sans-serif;
+  color:#fff;
+  overflow-x:hidden;
+  background: linear-gradient(135deg, #2a0040, #4b0082, #6a0dad, #9b30ff);
 }
 
-canvas#stars {
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: -1;
+/* メインコンテナ */
+.main2 {
+  max-width: 900px;
+  margin: 40px auto;
+  text-align: center;
+  position: relative;
+  z-index: 2;
 }
 
-/* ===== サイドバー ===== */
-.sidebar {
-    width: 250px;
-    height: 100%;
-    background-color: rgba(255,255,255,0.05);
-    border: 2px solid #fff;
-    backdrop-filter: blur(10px);
-    margin-top: 120px;
-    position: fixed;
-    overflow: auto;
-}
-
-.ul { list-style: disc; font-size: 30px; margin: 10px 0px 50px 50px; }
-.li { padding-bottom: 10px; }
-.li:hover { color: #ff4da6; }
-.category, .home, .accounthome { font-size: 30px; margin-top: 10px; padding-left: 20px; }
-.home:hover, .href:hover { color: #ff6ec7; }
-
-/* ===== メイン ===== */
-.main2 { max-width: 900px; margin: 40px auto; text-align: center; }
-
-/* ===== タイトル ===== */
+/* ネオンタイトル */
 h1 {
-    font-size: 3rem;
-    color: #ff6ec7;
-    text-shadow: 0 0 10px #ff6ec7, 0 0 20px #ff4da6, 0 0 30px #fff;
-    animation: neon-flicker 1.5s infinite alternate;
+  font-size: 3rem;
+  color: #ff6ec7;
+  text-shadow:
+     0 0 5px #ff6ec7,
+     0 0 10px #ff4da6,
+     0 0 20px #ff6ec7,
+     0 0 40px #ff4da6;
+  animation: neon-flicker 1.5s infinite alternate;
 }
+
 @keyframes neon-flicker {
-    0%,19%,21%,23%,25%,54%,56%,100% { text-shadow: 0 0 10px #ff6ec7, 0 0 20px #ff4da6, 0 0 30px #fff; }
-    20%,24%,55% { text-shadow: none; }
+  0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% { text-shadow: 0 0 5px #ff6ec7,0 0 10px #ff4da6,0 0 20px #ff6ec7,0 0 40px #ff4da6; }
+  20%, 24%, 55% { text-shadow: none; }
 }
 
-/* ===== スコア花火 ===== */
 .score-box {
-    background: rgba(0,0,0,0.6);
-    padding: 30px;
-    margin: 20px auto;
-    border-radius: 15px;
-    box-shadow: 0 0 15px #ff6ec7, 0 0 30px #ff4da6 inset;
-    position: relative;
-    overflow: hidden;
+  background: rgba(0,0,0,0.5);
+  padding: 30px;
+  margin: 20px auto;
+  border-radius: 15px;
+  box-shadow: 0 0 15px #ff6ec7, 0 0 30px #ff4da6 inset;
 }
+
 .score-number {
-    font-size: 3rem;
-    color: #ffcd3c;
-    text-shadow: 0 0 10px #ffcd3c, 0 0 20px #ff6ec7 inset;
-    animation: bounce 1s ease-out forwards;
-}
-@keyframes bounce {
-    0% { transform: scale(0.5); opacity: 0.2; }
-    50% { transform: scale(1.5); opacity: 1; }
-    100% { transform: scale(1); opacity: 1; }
+  font-size: 3rem;
+  color: #ff4da6;
+  text-shadow: 0 0 10px #ff4da6, 0 0 20px #ff6ec7 inset;
+  display:inline-block;
+  transition: transform 0.2s ease;
 }
 
-/* 花火用パーティクル */
-.firework {
-    position: absolute;
-    width: 4px;
-    height: 4px;
-    background: #fff;
-    border-radius: 50%;
-    pointer-events: none;
-    animation: fw 1s linear forwards;
-}
-@keyframes fw {
-    to { transform: translate(var(--dx), var(--dy)) scale(0); opacity: 0; }
-}
-
-/* ===== ランキング ===== */
-table {
-    width: 90%;
-    max-width: 700px;
-    margin: 20px auto;
-    border-collapse: collapse;
-    color: #fff;
-}
-thead th {
-    background: linear-gradient(90deg, #ff6ec7, #3b82f6, #ffcd3c);
-    padding: 10px;
-    font-size: 1.2rem;
-    text-shadow: 0 0 5px #fff;
-}
-tbody tr {
-    background: rgba(255,255,255,0.05);
-    transition: 0.3s;
-}
-tbody tr:hover { background: rgba(255,255,255,0.2); }
-.highlight {
-    background: #ff4da6;
-    color: #000;
-    font-weight: bold;
-    text-shadow: 0 0 5px #fff;
-    animation: glow 1.2s infinite alternate;
-}
-@keyframes glow {
-    0% { box-shadow: 0 0 10px #ff4da6, 0 0 20px #ff6ec7; }
-    100% { box-shadow: 0 0 20px #ff6ec7, 0 0 40px #ff4da6; }
-}
-
-/* ===== ネオンボタン ===== */
 .neon-button {
-    background: #1b0033;
-    color: #ff6ec7;
-    padding: 15px 40px;
-    font-size: 1.3rem;
-    font-weight: 700;
-    border: 2px solid #ff6ec7;
-    border-radius: 25px;
-    box-shadow: 0 0 8px #ff6ec7, 0 0 15px #ff4da6 inset;
-    cursor: pointer;
-    transition: 0.3s;
-    margin: 10px;
-}
-.neon-button:hover {
-    box-shadow: 0 0 20px #ff6ec7, 0 0 30px #ff4da6 inset;
-    color: #fff;
+  background: #1b0033;
+  color: #ff6ec7;
+  padding: 15px 40px;
+  font-size: 1.3rem;
+  font-weight: 700;
+  border: 2px solid #ff6ec7;
+  border-radius: 25px;
+  box-shadow: 0 0 8px #ff6ec7, 0 0 15px #ff4da6 inset;
+  cursor: pointer;
+  transition: 0.3s;
+  margin: 10px;
 }
 
-/* ===== レスポンシブ ===== */
-@media (max-width: 500px) {
-    .sidebar { position: relative; width: 100%; height: auto; margin-top: 0; }
-    .main2 { margin-top: 20px; }
-    .category { color: yellow; padding-left: 10px; font-size: 40px; text-align: center; }
-    .home, .accounthome { color: white; }
-    .ul { list-style: none; display: flex; flex-wrap: wrap; margin-left: 0; }
-    .li { color: white; padding: 0 10px; font-size: 30px; }
-    .href:hover { color: blue; }
+.neon-button:hover {
+  box-shadow: 0 0 20px #ff6ec7, 0 0 30px #ff4da6 inset;
+  color: #fff;
+}
+
+table {
+  width: 90%;
+  max-width: 700px;
+  margin: 20px auto;
+  border-collapse: collapse;
+  color: #fff;
+}
+
+thead th {
+  background: linear-gradient(90deg, #ff6ec7, #3b82f6, #ffcd3c);
+  padding: 10px;
+  font-size: 1.2rem;
+  text-shadow: 0 0 5px #fff;
+}
+
+tbody tr {
+  background: rgba(255,255,255,0.05);
+  transition: 0.3s;
+}
+
+tbody tr:hover {
+  background: rgba(255,255,255,0.2);
+}
+
+.highlight {
+  background: #ff4da6;
+  color: #000;
+  font-weight: bold;
+  text-shadow: 0 0 5px #fff;
+}
+
+/* canvas星 */
+#starfield {
+  position: fixed;
+  top:0; left:0;
+  width:100%;
+  height:100%;
+  z-index:1;
 }
 </style>
 
-<!-- 宇宙星 canvas -->
-<canvas id="stars"></canvas>
-
-<div class="sidebar">
-    <div class="home"><a class="href" href="/">🏠 Home</a></div>
-    <div class="accounthome"><a class="href" href="/account/">👤 Account</a></div>
-    <div class="category">📚 Categories</div>
-    <ul class="ul">
-        <li class="li"><a class="href" href="/game/">Game</a></li>
-        <li class="li"><a class="href" href="/quiz/">Quiz</a></li>
-        <li class="li"><a class="href" href="/learn/">Learn</a></li>
-    </ul>
-</div>
-
-<div class="main2">
-    <h1>🎉 Game Result 🎉</h1>
-    <div class="score-box" id="score-box">
-        <p style="font-size:1.5rem;">Player: {{ player.username }} ({{ player.country|default:"Unknown" }})</p>
-        <p>Your Score: <span class="score-number" id="score">0</span> pts</p>
-    </div>
-
-    <hr style="margin: 30px 0; border-color: #fff4;">
-
-    <h2 style="color: #ff6ec7;">🏆 Top 10 Players</h2>
-    <table>
-        <thead>
-            <tr>
-                <th>#</th>
-                <th>Username</th>
-                <th>Points</th>
-                <th>Country</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for r in ranking %}
-            <tr class="{% if r.username == player.username %}highlight{% endif %}">
-                <td>{{ forloop.counter }}</td>
-                <td>{{ r.username }}</td>
-                <td>{{ r.total_score }}</td>
-                <td>{{ r.country|default:"-" }}</td>
-            </tr>
-            {% empty %}
-            <tr><td colspan="4">No rankings yet.</td></tr>
-            {% endfor %}
-        </tbody>
-    </table>
-
-    <div>
-        <a href="{% url 'game_restart' %}"><button class="neon-button">🔁 Play Again</button></a>
-        <a href="{% url 'logout_player' %}"><button class="neon-button">🚪 Logout</button></a>
-    </div>
-
-    <form method="post" action="{% url 'delete_player_confirm' %}" onsubmit="return confirm('Are you sure you want to delete your account?');">
-        {% csrf_token %}
-        <button type="submit" class="neon-button" style="background:#dc2626; border-color:#dc2626;">🗑️ Delete My Account</button>
-    </form>
-</div>
-
-<!-- データ -->
-{{ score|default:0|json_script:"score-data" }}
-
 <script>
-// ===== スコアアニメーション＆花火 =====
+// 星が流れる宇宙背景
+const canvas = document.getElementById('starfield');
+const ctx = canvas.getContext('2d');
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+const stars = [];
+for(let i=0;i<200;i++){
+  stars.push({
+    x: Math.random()*canvas.width,
+    y: Math.random()*canvas.height,
+    z: Math.random()*canvas.width,
+    o: Math.random()
+  });
+}
+
+function drawStars(){
+  ctx.fillStyle='rgba(0,0,0,0)';
+  ctx.fillRect(0,0,canvas.width,canvas.height);
+  for(let i=0;i<stars.length;i++){
+    let s = stars[i];
+    let k = 128.0/s.z;
+    let px = (s.x - canvas.width/2)*k + canvas.width/2;
+    let py = (s.y - canvas.height/2)*k + canvas.height/2;
+    let size = (1-k/2)*3;
+    ctx.beginPath();
+    ctx.fillStyle = `rgba(255,255,255,${s.o})`;
+    ctx.arc(px,py,size,0,2*Math.PI);
+    ctx.fill();
+    s.z -= 2;
+    if(s.z<=0){
+      s.z = canvas.width;
+      s.x = Math.random()*canvas.width;
+      s.y = Math.random()*canvas.height;
+    }
+  }
+  requestAnimationFrame(drawStars);
+}
+drawStars();
+
+// スコアカウントアップ + 花火エフェクト
 const finalScore = JSON.parse(document.getElementById('score-data').textContent);
 const scoreElement = document.getElementById('score');
-const scoreBox = document.getElementById('score-box');
-
 let current = 0;
-const interval = setInterval(() => {
-    if(current < finalScore){
-        current++;
-        scoreElement.textContent = current;
 
-        // 花火パーティクル
-        for(let i=0;i<3;i++){
-            const particle = document.createElement('div');
-            particle.className = 'firework';
-            particle.style.left = Math.random()*scoreBox.offsetWidth+'px';
-            particle.style.top = Math.random()*scoreBox.offsetHeight+'px';
-            const angle = Math.random()*2*Math.PI;
-            const dist = 50 + Math.random()*50;
-            particle.style.setProperty('--dx', (Math.cos(angle)*dist)+'px');
-            particle.style.setProperty('--dy', (Math.sin(angle)*dist)+'px');
-            scoreBox.appendChild(particle);
-            setTimeout(()=>particle.remove(),1000);
-        }
-
-    } else {
-        clearInterval(interval);
+function createFirework(){
+  const fw = document.createElement('div');
+  fw.style.position='absolute';
+  fw.style.width='8px';
+  fw.style.height='8px';
+  fw.style.background='radial-gradient(circle, #ff6ec7, #ffcd3c)';
+  fw.style.borderRadius='50%';
+  fw.style.left=(window.innerWidth*Math.random())+'px';
+  fw.style.top=(window.innerHeight*Math.random())+'px';
+  fw.style.pointerEvents='none';
+  fw.style.zIndex=3;
+  document.body.appendChild(fw);
+  let angle = Math.random()*2*Math.PI;
+  let speed = Math.random()*5+2;
+  let life=30;
+  const interval = setInterval(()=>{
+    fw.style.left = parseFloat(fw.style.left) + Math.cos(angle)*speed + 'px';
+    fw.style.top = parseFloat(fw.style.top) + Math.sin(angle)*speed + 'px';
+    life--;
+    if(life<=0){
+      clearInterval(interval);
+      fw.remove();
     }
-}, 40);
-
-// ===== 星の背景 =====
-const canvas = document.getElementById('stars');
-const ctx = canvas.getContext('2d');
-let w=canvas.width=window.innerWidth;
-let h=canvas.height=window.innerHeight;
-
-window.addEventListener('resize',()=>{
-    w=canvas.width=window.innerWidth;
-    h=canvas.height=window.innerHeight;
-});
-
-const stars=[];
-for(let i=0;i<200;i++){
-    stars.push({
-        x: Math.random()*w,
-        y: Math.random()*h,
-        z: Math.random()*1.5,
-        r: Math.random()*1.5
-    });
+  },30);
 }
 
-function animateStars(){
-    ctx.fillStyle='rgba(0,0,0,0.3)';
-    ctx.fillRect(0,0,w,h);
-    for(const s of stars){
-        s.x += 0.5*s.z;
-        if(s.x> w) s.x=0;
-        ctx.beginPath();
-        ctx.arc(s.x,s.y,s.r*s.z,0,Math.PI*2);
-        ctx.fillStyle='#fff';
-        ctx.fill();
-    }
-    requestAnimationFrame(animateStars);
+const scoreInterval = setInterval(() => {
+  if (current < finalScore) {
+    current++;
+    scoreElement.textContent = current;
+    scoreElement.style.transform = `scale(${1 + Math.sin(current/5)*0.2})`;
+    if(current % 10 === 0) createFirework();
+  } else {
+    clearInterval(scoreInterval);
+    for(let i=0;i<20;i++) createFirework();
+  }
+},50);
+
+// トップスコア光らせる
+const topRow = document.querySelector('tbody tr:first-child');
+if(topRow) {
+  setInterval(()=>{
+    topRow.style.boxShadow = `0 0 ${10+Math.random()*20}px #ff6ec7`;
+  },500);
 }
-animateStars();
 </script>
 {% endblock %}
