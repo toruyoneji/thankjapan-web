@@ -79,12 +79,11 @@ body {
 
 /* メインコンテナ */
 .main2 {
-  max-width: 900px;
-  margin: 40px auto;
-  text-align: center;
   position: relative;
-  z-index: 2;
+  z-index: 5;       /* canvas より上 */
+  margin-top: 140px; /* ヘッダー下に20pxの余白を追加 */
 }
+
 
 /* ネオンタイトル */
 h1 {
@@ -177,6 +176,13 @@ tbody tr:hover {
   height:100%;
   z-index:1;
 }
+
+@media (max-width: 500px) {
+  .main2 {
+    margin-top: 160px; /* スマホではヘッダー+余白を多めに */
+  }
+}
+
 </style>
 
 <script>
