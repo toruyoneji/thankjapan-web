@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+
 {% block title %}Game Result | ThankJapan - Challenge your knowledge!{% endblock %}
 
 {% block meta %}
@@ -9,17 +10,37 @@
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://www.thankjapan.com/game/result/">
 <meta name="twitter:card" content="summary_large_image">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "name": "ThankJapan Top 20 Players Ranking",
+  "itemListElement": [
+    {% for r in ranking %}
+    {
+      "@type": "ListItem",
+      "position": {{ forloop.counter }},
+      "name": "{{ r.username|escapejs }}",
+      "url": "https://www.thankjapan.com/",
+      "description": "Score: {{ r.total_score }}, Country: {{ r.country|default:'Unknown'|escapejs }}"
+    }{% if not forloop.last %},{% endif %}
+    {% endfor %}
+  ]
+}
+</script>
 {% endblock %}
 
 {% block content %}
 
-<!-- 宇宙背景と星用canvas -->
-<canvas id="starfield"></canvas>
+<link rel="stylesheet" href="{% static 'css/sidebar.css' %}">
+
+<!-- 背景キャンバス -->
+<canvas id="spaceCanvas" style="position:fixed; top:0; left:0; width:100%; height:100%; z-index:1;"></canvas>
 
 <div class="main2">
   <h1>🎉 Game Result 🎉</h1>
 
-  <!-- スコアボックス -->
   <div class="score-box">
     <p style="font-size:1.5rem;">Player: {{ player.username }} ({{ player.country|default:"Unknown" }})</p>
     <p>Your Score: <span class="score-number" id="score">0</span> pts</p>
@@ -39,7 +60,7 @@
     </thead>
     <tbody>
       {% for r in ranking %}
-      <tr class="{% if r.username == player.username %}highlight{% endif %}">
+      <tr class="{% if forloop.first %}highlight{% endif %}">
         <td>{{ forloop.counter }}</td>
         <td>{{ r.username }}</td>
         <td>{{ r.total_score }}</td>
@@ -66,40 +87,37 @@
   </form>
 </div>
 
-{{ score|default:0|json_script:"score-data" }}
-
+<!-- CSS -->
 <style>
 body {
-  margin:0;
   font-family: 'Orbitron', sans-serif;
-  color:#fff;
+  margin:0; padding:0;
+  background: linear-gradient(135deg, #2b003e, #5d1a8b, #8b4fff);
   overflow-x:hidden;
-  background: linear-gradient(135deg, #2a0040, #4b0082, #6a0dad, #9b30ff);
 }
 
-/* メインコンテナ */
 .main2 {
-  position: relative;
-  z-index: 5;       /* canvas より上 */
-  margin-top: 140px; /* ヘッダー下に20pxの余白を追加 */
+  position: fixed;
+  top: 140px; /* ヘッダー下 */
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 5;
+  width: 90%;
+  max-width: 900px;
+  text-align: center;
+  color: #fff;
 }
 
-
-/* ネオンタイトル */
 h1 {
   font-size: 3rem;
   color: #ff6ec7;
-  text-shadow:
-     0 0 5px #ff6ec7,
-     0 0 10px #ff4da6,
-     0 0 20px #ff6ec7,
-     0 0 40px #ff4da6;
+  text-shadow: 0 0 5px #ff6ec7,0 0 10px #ff4da6,0 0 20px #ff6ec7,0 0 40px #ff4da6;
   animation: neon-flicker 1.5s infinite alternate;
 }
 
 @keyframes neon-flicker {
-  0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% { text-shadow: 0 0 5px #ff6ec7,0 0 10px #ff4da6,0 0 20px #ff6ec7,0 0 40px #ff4da6; }
-  20%, 24%, 55% { text-shadow: none; }
+  0%,19%,21%,23%,25%,54%,56%,100% { text-shadow:0 0 5px #ff6ec7,0 0 10px #ff4da6,0 0 20px #ff6ec7,0 0 40px #ff4da6;}
+  20%,24%,55% { text-shadow:none; }
 }
 
 .score-box {
@@ -115,7 +133,12 @@ h1 {
   color: #ff4da6;
   text-shadow: 0 0 10px #ff4da6, 0 0 20px #ff6ec7 inset;
   display:inline-block;
-  transition: transform 0.2s ease;
+  animation: bounce 0.6s ease infinite;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
 }
 
 .neon-button {
@@ -168,113 +191,103 @@ tbody tr:hover {
   text-shadow: 0 0 5px #fff;
 }
 
-/* canvas星 */
-#starfield {
-  position: fixed;
-  top:0; left:0;
-  width:100%;
-  height:100%;
-  z-index:1;
-}
-
 @media (max-width: 500px) {
   .main2 {
-    margin-top: 260px; 
+    top: 260px;
+    width: 95%;
   }
 }
-
 </style>
 
+{{ score|default:0|json_script:"score-data" }}
 <script>
-// 星が流れる宇宙背景
-const canvas = document.getElementById('starfield');
-const ctx = canvas.getContext('2d');
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
-
-const stars = [];
-for(let i=0;i<200;i++){
-  stars.push({
-    x: Math.random()*canvas.width,
-    y: Math.random()*canvas.height,
-    z: Math.random()*canvas.width,
-    o: Math.random()
-  });
-}
-
-function drawStars(){
-  ctx.fillStyle='rgba(0,0,0,0)';
-  ctx.fillRect(0,0,canvas.width,canvas.height);
-  for(let i=0;i<stars.length;i++){
-    let s = stars[i];
-    let k = 128.0/s.z;
-    let px = (s.x - canvas.width/2)*k + canvas.width/2;
-    let py = (s.y - canvas.height/2)*k + canvas.height/2;
-    let size = (1-k/2)*3;
-    ctx.beginPath();
-    ctx.fillStyle = `rgba(255,255,255,${s.o})`;
-    ctx.arc(px,py,size,0,2*Math.PI);
-    ctx.fill();
-    s.z -= 2;
-    if(s.z<=0){
-      s.z = canvas.width;
-      s.x = Math.random()*canvas.width;
-      s.y = Math.random()*canvas.height;
-    }
-  }
-  requestAnimationFrame(drawStars);
-}
-drawStars();
-
-// スコアカウントアップ + 花火エフェクト
-const finalScore = JSON.parse(document.getElementById('score-data').textContent);
-const scoreElement = document.getElementById('score');
-let current = 0;
-
-function createFirework(){
-  const fw = document.createElement('div');
-  fw.style.position='absolute';
-  fw.style.width='8px';
-  fw.style.height='8px';
-  fw.style.background='radial-gradient(circle, #ff6ec7, #ffcd3c)';
-  fw.style.borderRadius='50%';
-  fw.style.left=(window.innerWidth*Math.random())+'px';
-  fw.style.top=(window.innerHeight*Math.random())+'px';
-  fw.style.pointerEvents='none';
-  fw.style.zIndex=3;
-  document.body.appendChild(fw);
-  let angle = Math.random()*2*Math.PI;
-  let speed = Math.random()*5+2;
-  let life=30;
-  const interval = setInterval(()=>{
-    fw.style.left = parseFloat(fw.style.left) + Math.cos(angle)*speed + 'px';
-    fw.style.top = parseFloat(fw.style.top) + Math.sin(angle)*speed + 'px';
-    life--;
-    if(life<=0){
+  // スコアカウントアップ
+  const finalScore = JSON.parse(document.getElementById('score-data').textContent);
+  const scoreElement = document.getElementById('score');
+  let current = 0;
+  const interval = setInterval(() => {
+    if (current < finalScore) {
+      current++;
+      scoreElement.textContent = current;
+    } else {
       clearInterval(interval);
-      fw.remove();
     }
-  },30);
-}
+  }, 50);
 
-const scoreInterval = setInterval(() => {
-  if (current < finalScore) {
-    current++;
-    scoreElement.textContent = current;
-    scoreElement.style.transform = `scale(${1 + Math.sin(current/5)*0.2})`;
-    if(current % 10 === 0) createFirework();
-  } else {
-    clearInterval(scoreInterval);
-    for(let i=0;i<20;i++) createFirework();
+  // 宇宙背景と星・光・花火
+  const canvas = document.getElementById('spaceCanvas');
+  const ctx = canvas.getContext('2d');
+  let stars = [];
+  let fireworks = [];
+
+  function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
   }
-},50);
+  window.addEventListener('resize', resizeCanvas);
+  resizeCanvas();
 
-// トップスコア光らせる
-const topRow = document.querySelector('tbody tr:first-child');
-if(topRow) {
-  setInterval(()=>{
-    topRow.style.boxShadow = `0 0 ${10+Math.random()*20}px #ff6ec7`;
-  },500);
-}
+  // 星を作る
+  for(let i=0;i<150;i++){
+    stars.push({
+      x: Math.random()*canvas.width,
+      y: Math.random()*canvas.height,
+      radius: Math.random()*1.5,
+      alpha: Math.random()
+    });
+  }
+
+  // 花火生成
+  function createFirework() {
+    fireworks.push({
+      x: Math.random()*canvas.width,
+      y: Math.random()*canvas.height/2,
+      radius: Math.random()*3+2,
+      color:`hsl(${Math.random()*360},100%,70%)`,
+      alpha:1
+    });
+  }
+
+  function animate() {
+    ctx.fillStyle = 'rgba(45,0,75,0.3)';
+    ctx.fillRect(0,0,canvas.width,canvas.height);
+
+    // 星描画
+    stars.forEach(s=>{
+      ctx.beginPath();
+      ctx.arc(s.x,s.y,s.radius,0,Math.PI*2);
+      ctx.fillStyle = `rgba(255,255,255,${s.alpha})`;
+      ctx.fill();
+      s.alpha += (Math.random()-0.5)*0.05;
+      if(s.alpha<0)s.alpha=0;
+      if(s.alpha>1)s.alpha=1;
+    });
+
+    // 花火描画
+    fireworks.forEach((f,i)=>{
+      ctx.beginPath();
+      ctx.arc(f.x,f.y,f.radius,0,Math.PI*2);
+      ctx.fillStyle = `rgba(${Math.floor(Math.random()*255)},${Math.floor(Math.random()*255)},${Math.floor(Math.random()*255)},${f.alpha})`;
+      ctx.fill();
+      f.alpha -= 0.02;
+      if(f.alpha<=0) fireworks.splice(i,1);
+    });
+
+    // ランダムに花火追加
+    if(Math.random()<0.02) createFirework();
+
+    requestAnimationFrame(animate);
+  }
+  animate();
+
+  // 光インタラクション
+  canvas.addEventListener('mousemove', e=>{
+    const gradient = ctx.createRadialGradient(e.clientX,e.clientY,0, e.clientX,e.clientY,100);
+    gradient.addColorStop(0,'rgba(255,255,255,0.6)');
+    gradient.addColorStop(1,'rgba(255,255,255,0)');
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0,0,canvas.width,canvas.height);
+  });
 </script>
+
 {% endblock %}
