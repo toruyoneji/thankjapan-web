@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="fr">
+<head>
+    {% include 'css.html' %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    {% block meta %}
+
+    <meta name="description" content="Ce site présente la vie, la culture, la nourriture et bien plus au Japon. 
+                                     Des lectures romanisées sont fournies pour chaque terme. 
+                                     Nous espérons partager le Japon avec le monde entier.">
+    <meta name="robots" content="index,follow">
+    <meta name="keywords" content="Japon, japonais, culture japonaise">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="ThankJapan partage" />
+    <meta property="og:description" content="Introduction à la culture japonaise." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.thankjapan.com/fr/" />
+    <meta property="og:image" content="https://res.cloudinary.com/dotekofm5/image/upload/v1754642770/thankjapan/backgrounds/ntpvmxgudcmvp0snpiur.png" />
+    <meta property="og:site_name" content="ThankJapan" />
+    <meta property="og:locale" content="fr_FR" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="ThankJapan partage">
+    <meta name="twitter:description" content="Ce site présente la culture, la nourriture et la langue japonaise au monde entier.">
+    <meta name="twitter:image" content="https://res.cloudinary.com/dotekofm5/image/upload/v1754642770/thankjapan/backgrounds/ntpvmxgudcmvp0snpiur.png">
+    <meta name="twitter:site" content="@thankjapan0514">
+
+    
+    <link rel="alternate" hreflang="en" href="https://www.thankjapan.com/">
+    <link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/fr/">
+    <link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/">
+    {% endblock %}
+
+    <title>{% block title %}ThankJapan{% endblock %}</title>
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-V91GG17980"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-V91GG17980');
+    </script>
+</head>
+
+<body>
+    {% include 'header.html' %}
+    {% include 'sidebar.html' %}
+
+    {% block content %}{% endblock %}
+
+    {% include 'footer.html' %}
+</body>
+</html>
