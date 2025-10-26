@@ -39,6 +39,11 @@ class PrivacyPolicy(TemplateView):
 class TopView(ListView):
     template_name = "thank_japan_app/toppage.html"
     model = ThankJapanModel
+    
+class TopViewFR(ListView):
+    template_name = "thank_japan_app/toppage_fr.html"
+    model = ThankJapanModel
+
 
 # views.py
 class CategoryDetailView(DetailView):
@@ -93,8 +98,6 @@ def contact_thanks(request):
     return render(request, template)
 
 #Game
-
-# --- 認証関連 ---
 
 def player_register(request):
     if request.method == "POST":

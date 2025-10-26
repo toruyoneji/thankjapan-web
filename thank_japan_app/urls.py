@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import (TopView, KiyakuView, FoodView, NatureView, FashionView, 
+from .views import (TopView, TopViewFR, KiyakuView, FoodView, NatureView, FashionView, 
                     CultureView, CookView, AppliancesView, AnimalView,
                     CategoryDetailView, BuildingView, FlowerView, HouseholdItemsView,LiveView,
                     SportsView, WorkView, CompanyFormView, game_start, game_play,
@@ -10,6 +10,7 @@ from .views import (TopView, KiyakuView, FoodView, NatureView, FashionView,
 urlpatterns = [
     #top page
     path("", TopView.as_view(), name="toppage"),
+    path('fr/', TopViewFR.as_view(), name='toppagefr'),
     
     
     #game
