@@ -1,0 +1,556 @@
+{% load static %}
+
+<style>
+
+body {
+  margin: 0;
+  font-family: "Poppins", "Hiragino Maru Gothic ProN", sans-serif;
+  background: linear-gradient(to bottom, #ffb6b9, #fae3d9, #bbded6);
+  color: #333;
+  text-align: center;
+}
+
+.header {
+    width: 100%;
+    height: 120px;
+    background-image: url("https://res.cloudinary.com/dotekofm5/image/upload/v1754641165/thankjapan/backgrounds/urhlsfokzrozs5835nkh.png");
+    background-size: cover;
+    position: fixed; 
+    top: 0;
+    left: 0;
+    z-index: 9999; 
+}
+
+
+.main {
+  max-width: 1100px;
+  margin-left: 250px;
+  padding: 30px 20px;
+}
+
+
+h2, h3 {
+  color: #ff6f61;
+  text-shadow: 1px 1px 2px rgba(255,255,255,0.8);
+}
+
+
+.trending-categories {
+  background: linear-gradient(90deg, #f6d365, #fda085);
+  padding: 20px;
+  border-radius: 20px;
+  box-shadow: 0 4px 10px rgba(253, 160, 133, 0.6);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  text-align: center;
+  margin: 40px auto;
+}
+
+.trending-categories h2 {
+  color: #fff;
+  margin-bottom: 10px;
+}
+
+.category-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px 15px;
+}
+
+.trending-categories a {
+  color: #fff;
+  text-decoration: none;
+  padding: 8px 14px;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+  background: rgba(255,255,255,0.2);
+  font-weight: 600;
+  box-shadow: 0 2px 6px rgba(255,255,255,0.3);
+}
+
+.trending-categories a:hover {
+  background-color: rgba(255, 255, 255, 0.5);
+  color: #333;
+}
+
+
+.hero-card {
+  background: linear-gradient(to bottom, rgba(255, 160, 122, 0.8), rgba(255, 218, 185, 0.8)), 
+              url("https://res.cloudinary.com/dotekofm5/image/upload/v1761402106/thankjapan/backgrounds/jtbdzjsksgbgehuxl954.jpg") center/cover no-repeat;
+  color: white;
+  border-radius: 25px;
+  padding: 60px 30px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  margin: 30px auto;
+}
+
+.hero-card2 {
+  background: linear-gradient(to bottom, rgba(231, 50, 5, 0.8), rgba(255, 218, 185, 0.8)), 
+              center/cover no-repeat;
+  color: white;
+  border-radius: 25px;
+  padding: 60px 30px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  margin: 30px auto;
+}
+
+.hero-card h1 {
+  font-size: 2.5rem;
+  margin-bottom: 15px;
+}
+
+.hero-card p {
+  max-width: 650px;
+  margin: 0 auto;
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+
+.card {
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  margin: 25px auto;
+  max-width: 850px;
+  overflow: hidden;
+  transition: transform 0.3s ease;
+}
+
+.card:hover {
+  transform: scale(1.02);
+}
+
+.card img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.card dl, .card p {
+  padding: 20px;
+  text-align: left;
+}
+
+.dt {
+  font-weight: bold;
+  color: #ff6f61;
+  margin-top: 10px;
+}
+
+.dd {
+  margin-left: 10px;
+  color: #555;
+}
+
+.cute-game-link {
+  display: inline-block;
+  background: linear-gradient(45deg, #ff9a9e, #fad0c4);
+  color: white;
+  font-weight: 600;
+  font-size: 1rem;
+  padding: 10px 20px;
+  border-radius: 25px;
+  text-decoration: none;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  transition: all 0.3s ease;
+  font-family: 'Poppins', sans-serif;
+}
+
+.cute-game-link:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.25);
+  background: linear-gradient(45deg, #fad0c4, #ff9a9e);
+}
+
+.mountfuji-image-card:hover,
+.mountfuji-info-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+  cursor: pointer;
+}
+
+
+.food-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+  margin-top: 40px;
+}
+
+.food-card {
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.food-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+}
+
+.food-card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.food-card p {
+  margin: 10px 0;
+  padding: 0 10px 15px;
+  color: #555;
+  font-weight: 500;
+}
+
+.game-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+  cursor: pointer;
+}
+
+.btn-more {
+    display: inline-block;
+    background: #ffb347;
+    color: white;
+    padding: 10px 24px;
+    border-radius: 25px;
+    text-decoration: none;
+    font-weight: 600;
+    margin-top: 20px;
+    transition: background 0.3s;
+    }
+    
+.btn-more:hover {
+    background: #ff9642;
+    }
+
+
+@media screen and (max-width: 768px) {
+  .header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 9999;
+  }
+
+  .sidebar {
+    position: fixed;
+    padding-top: 15px;
+    left: 0;
+    width: 100%;
+    z-index: 999;
+  }
+
+  
+  .main {
+    margin-left: 0;
+    z-index: 1;
+  }
+
+  .hero-card h1 { font-size: 2rem; }
+  .hero-card p { font-size: 1rem; }
+
+  .mountfuji-container {
+    flex-direction:column;
+    align-items:center;
+  }
+  .mountfuji-image-card,
+  .mountfuji-info-card {
+    max-width:90%;
+  }
+  .mountfuji-image-card img {
+    height:180px;
+  }
+
+  .game-grid {
+    grid-template-columns: 1fr;
+    gap:10px;
+  }
+  .game-card img {
+    height:140px;
+  }
+}
+</style>
+
+
+<div class="main">
+
+  
+  <div class="hero-card">
+    <h1>Bienvenido a Thank Japan 🇯🇵</h1>
+    <p>Experimenta Japón — a través de su cultura, idioma y gastronomía.<br>
+    Diseñado para mentes curiosas y aprendices globales.</p>
+  </div>
+
+  <div class="trending-categories">
+    <h2>Categorías Populares</h2>
+    <div class="category-links">
+      <a href="{% url 'foodpage' %}">🥩 Comida</a>
+      <a href="{% url 'culturepage' %}">🎎 Cultura</a>
+      <a href="{% url 'animalpage' %}">🐒 Animales</a>
+      <a href="{% url 'flowerpage' %}">🌸 Flores</a>
+      <a href="{% url 'cookpage'%}">🍜 Cocina</a>
+      <a href="{% url 'game_start'%}">🎮 Juego</a>
+    </div>
+  </div>
+
+<p class="document">
+    ¡Hola a todos! Esto es ThankJapan.<br>
+    Les escribo desde Japón.<br>
+    ¿Alguna vez han visitado Japón? Es un país rodeado por el mar.<br>
+    Este sitio web es para estudiar el idioma y la cultura japonesa.<br>
+    ¡Estudiemos japonés juntos!<br>
+    Una vez que hayas aprendido un poco, prueba el <a href="{% url 'game_start' %}" class="cute-game-link">🎮 Juego</a>
+    para poner a prueba tus conocimientos.
+</p>
+
+<hr>
+
+<h2 style="text-align:center; color:#ff6f61; margin-top:40px; font-family:'Poppins',sans-serif;">Monte Fuji 🗻</h2>
+
+<div class="mountfuji-container" style="display:flex; flex-wrap:wrap; justify-content:center; gap:20px; margin-top:20px; padding:0 10px;">
+
+  <!-- imagen y nombre -->
+  <div class="mountfuji-image-card" style="background:linear-gradient(135deg, #ffe0e0, #fff0f5); border-radius:20px; box-shadow:0 4px 12px rgba(0,0,0,0.1); overflow:hidden; flex:1 1 300px; max-width:350px; text-align:center; transition:transform 0.3s;">
+    <a href="{% url 'naturepage' %}">
+      <img src="https://res.cloudinary.com/dotekofm5/image/upload/v1754645312/thankjapan/backgrounds/hutwikylfzofnnzrahgh.png" alt="Monte Fuji" style="width:100%; height:200px; object-fit:cover;">
+    </a>
+    <div style="padding:15px;">
+      <h3 style="margin:5px 0; color:#ff6f61;">Monte Fuji (Fujisan)</h3>
+      <p style="margin:5px 0; color:#555;">Nombre japonés: 富士山</p>
+    </div>
+  </div>
+
+  <!-- descripción e historia -->
+  <div class="mountfuji-info-card" style="background:linear-gradient(135deg, #e0f7ff, #f0f8ff); border-radius:20px; box-shadow:0 4px 12px rgba(0,0,0,0.1); flex:1 1 300px; max-width:400px; padding:20px; transition:transform 0.3s;">
+    <h3 style="margin-bottom:10px; color:#00aaff;">Descripción</h3>
+    <p style="color:#555; font-size:0.95rem; line-height:1.5;">
+      Se eleva a 3.776 metros, siendo la montaña más alta de Japón. Ubicado entre las prefecturas de Shizuoka y Yamanashi, es considerado un símbolo de Japón por su hermosa apariencia.
+    </p>
+    <h3 style="margin:15px 0 10px; color:#00aaff;">Historia</h3>
+    <p style="color:#555; font-size:0.95rem; line-height:1.5;">
+      El Monte Fuji es la montaña más icónica de Japón, un sitio declarado Patrimonio de la Humanidad por la UNESCO, y un símbolo sagrado tanto en la tradición sintoísta como budista. Su belleza ha inspirado el arte, la poesía y a innumerables viajeros durante siglos.
+    </p>
+  </div>
+
+</div>
+
+  
+<h2>¡Aquí te muestro algunos de los platos que comemos en mi casa — solo algunos ejemplos!</h2>
+<div class="food-grid">
+
+  <div class="food-card">
+    <a href="{% url 'cookpage' %}">
+      <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1761200066/thankjapan/backgrounds/adfqqgtdfozxi848gopz.png" alt="nigirisushi"/>
+    </a>
+    <p>Nigiri Sushi - un clásico de la cocina japonesa que consiste en arroz prensado a mano cubierto con pescado o marisco fresco y de alta calidad, perfecto para experimentar los sabores auténticos de Japón.</p>
+  </div>
+
+  <div class="food-card">
+    <a href="{% url 'cookpage' %}">
+      <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1761200046/thankjapan/backgrounds/ykvnom7g0hgig7xzkdzg.png" alt="sukiyaki"/>
+    </a>
+    <p>Sukiyaki - un popular plato japonés de olla caliente con finas láminas de ternera, verduras, tofu y fideos, cocido en un caldo a base de soja dulce-salado, disfrutado frecuentemente de manera compartida en la mesa.</p>
+  </div>
+
+  <div class="food-card">
+    <a href="{% url 'cookpage' %}">
+      <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1761200094/thankjapan/backgrounds/pah6gtiqswx0cmhq5yip.png" alt="zarusoba"/>
+    </a>
+    <p>Zaru Soba — fideos de trigo sarraceno fríos servidos en una bandeja de bambú, generalmente acompañados de una salsa de soja llamada tsuyu, ideal para los días calurosos de verano.</p>
+  </div>
+
+  <div class="food-card">
+    <a href="{% url 'cookpage' %}">
+      <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1760619729/thankjapan/backgrounds/ydojoqkpkuuejtxd7kkb.png" alt="ramen"/>
+    </a>
+    <p>Ramen - una deliciosa sopa de fideos japonesa conocida por su rico caldo y sabrosos ingredientes. ("Preparé este ramen en casa con un caldo lleno de sabor y mis ingredientes favoritos.")</p>
+  </div>
+
+  <div class="food-card">
+    <a href="{% url 'cookpage' %}">
+      <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1760316319/thankjapan/backgrounds/ocqmrnezyqu2i5akmqbz.png" alt="tsukimiudon"/>
+    </a>
+    <p>Tsukimi Udon - sopa tradicional de fideos japonesa cubierta con un huevo crudo, que se asemeja a la luna.</p>
+  </div>
+
+  <div class="food-card">
+    <a href="{% url 'cookpage' %}">
+      <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1759999367/thankjapan/backgrounds/vhliejeec2iradog0y5a.png" alt="tsukemen"/>
+    </a>
+    <p>Tsukemen - fideos servidos con un caldo separado para mojar, como los preparamos en casa.</p>
+  </div>
+
+  <div class="food-card">
+    <a href="{% url 'cookpage' %}">
+      <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1760619714/thankjapan/backgrounds/e1cxuzuub3cfrurpplvp.png" alt="onigiri"/>
+    </a>
+    <p>Onigiri: un bocado portátil de Japón, envuelto en alga nori con un relleno sabroso.</p>
+  </div>
+
+  <div class="food-card">
+    <a href="{% url 'cookpage' %}">
+      <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1760094369/thankjapan/backgrounds/qmmbyy4i0xen2u1lcees.png" alt="batterazushi"/>
+    </a>
+    <p>Battera - un tipo de sushi prensado originario de Osaka, cubierto con caballa curada.</p>
+  </div>
+
+  <div class="food-card">
+    <a href="{% url 'cookpage' %}">
+      <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1759999330/thankjapan/backgrounds/aqbodxft3spep9aaoe31.png" alt="sanshokudango"/>
+    </a>
+    <p>Sanshoku Dango - bolas de masa de tres colores hechas con pasta de camarón frita.</p>
+  </div>
+
+  <div class="food-card">
+    <a href="{% url 'cookpage' %}">
+      <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1760619749/thankjapan/backgrounds/esirfzgklponrfo897jb.png" alt="wagashi"/>
+    </a>
+    <p>Wagashi - dulces japoneses, como monaka y bolas de frijol rojo, perfectos con una taza de té.</p>
+  </div>
+
+  <div class="food-card">
+    <a href="{% url 'foodpage' %}">
+      <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1759999199/thankjapan/backgrounds/bfbhlb3z6ff1lqoycztz.png" alt="katsuonotataki"/>
+    </a>
+    <p>Katsuo no Tataki - un tipo de sashimi japonés con atún listado ligeramente sellado.</p>
+  </div>
+
+  <div class="food-card">
+    <a href="{% url 'foodpage' %}">
+      <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1759999307/thankjapan/backgrounds/v68smnjhy3grshf0aopn.png" alt="shakenosashimi"/>
+    </a>
+    <p>Sashimi de salmón - salmón fresco crudo, cortado en finas láminas y servido sin arroz.</p>
+  </div>
+
+  <div class="food-card">
+    <a href="{% url 'cookpage' %}">
+      <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1759999229/thankjapan/backgrounds/kvvtrkazdyswpqxgfoor.png" alt="misoshiru"/>
+    </a>
+    <p>Sopa de miso con rábano daikon tierno y batata, combinando el sabor umami del miso con la dulzura natural y verduras nutritivas.</p>
+  </div>
+
+  <div class="food-card">
+    <a href="{% url 'cookpage' %}">
+      <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1759999278/thankjapan/backgrounds/v1t6wscueelqkpvfnh8o.png" alt="nasutonikunotenpura"/>
+    </a>
+    <p>Tempura de berenjena rellena con carne picada sazonada, crujiente por fuera y jugosa por dentro.</p>
+  </div>
+
+  <div class="food-card">
+    <a href="{% url 'cookpage' %}">
+      <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1759999165/thankjapan/backgrounds/bdqzliwibqokkd3zhhz4.png" alt="hourensounosouzai"/>
+    </a>
+    <p>Guarnición de espinacas tiernas sazonadas con salsa de soja y sésamo, destacando su sabor natural.</p>
+  </div>
+
+</div>
+
+  <!-- Game Introduction -->
+<h2 style="text-align:center; color:#ff6f61; margin-top:40px; font-family:'Poppins',sans-serif;">Cómo Jugar 🎮</h2>
+
+<div class="game-grid" style="display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:15px; margin-top:20px; padding:0 10px;">
+
+  <div class="game-card" style="background:#fff; border-radius:15px; box-shadow:0 4px 10px rgba(0,0,0,0.1); overflow:hidden; text-align:center; transition:transform 0.2s;">
+    <a href="{% url 'game_start' %}">
+      <img src="https://res.cloudinary.com/dotekofm5/image/upload/v1760316354/thankjapan/backgrounds/ltbitwummwokpabkcmer.png" alt="Registrar" style="width:100%; height:150px; object-fit:cover; border-bottom:1px solid #f0f0f0;">
+    </a>
+    <p style="padding:10px 5px; font-size:0.9rem; color:#555; font-weight:500;">Crea tu cuenta de juego</p>
+  </div>
+
+  <div class="game-card" style="background:#fff; border-radius:15px; box-shadow:0 4px 10px rgba(0,0,0,0.1); overflow:hidden; text-align:center; transition:transform 0.2s;">
+    <a href="{% url 'game_start' %}">
+      <img src="https://res.cloudinary.com/dotekofm5/image/upload/v1760316343/thankjapan/backgrounds/jtnzkwsrcuxlgeucrh1g.png" alt="Iniciar sesión" style="width:100%; height:150px; object-fit:cover; border-bottom:1px solid #f0f0f0;">
+    </a>
+    <p style="padding:10px 5px; font-size:0.9rem; color:#555; font-weight:500;">Inicia sesión con tu nombre de cuenta y contraseña</p>
+  </div>
+
+  <div class="game-card" style="background:#fff; border-radius:15px; box-shadow:0 4px 10px rgba(0,0,0,0.1); overflow:hidden; text-align:center; transition:transform 0.2s;">
+    <a href="{% url 'game_start' %}">
+      <img src="https://res.cloudinary.com/dotekofm5/image/upload/v1760316373/thankjapan/backgrounds/iydarejspqczunrkhpvx.png" alt="Comenzar Juego" style="width:100%; height:150px; object-fit:cover; border-bottom:1px solid #f0f0f0;">
+    </a>
+    <p style="padding:10px 5px; font-size:0.9rem; color:#555; font-weight:500;">Pulsa "game_start" para comenzar</p>
+  </div>
+
+  <div class="game-card" style="background:#fff; border-radius:15px; box-shadow:0 4px 10px rgba(0,0,0,0.1); overflow:hidden; text-align:center; transition:transform 0.2s;">
+    <a href="{% url 'game_start' %}">
+      <img src="https://res.cloudinary.com/dotekofm5/image/upload/v1760316396/thankjapan/backgrounds/kuub0mlfpj2tcrz0jlvz.png" alt="Respuesta" style="width:100%; height:150px; object-fit:cover; border-bottom:1px solid #f0f0f0;">
+    </a>
+    <p style="padding:10px 5px; font-size:0.9rem; color:#555; font-weight:500;">Introduce la respuesta en letras romanas</p>
+  </div>
+
+  <div class="game-card" style="background:#fff; border-radius:15px; box-shadow:0 4px 10px rgba(0,0,0,0.1); overflow:hidden; text-align:center; transition:transform 0.2s;">
+    <a href="{% url 'game_start' %}">
+      <img src="https://res.cloudinary.com/dotekofm5/image/upload/v1760316413/thankjapan/backgrounds/chepf4pchhl9pgbyyhwx.png" alt="Correcto" style="width:100%; height:150px; object-fit:cover; border-bottom:1px solid #f0f0f0;">
+    </a>
+    <p style="padding:10px 5px; font-size:0.9rem; color:#555; font-weight:500;">Si es correcto, aparece "collect"</p>
+  </div>
+
+  <div class="game-card" style="background:#fff; border-radius:15px; box-shadow:0 4px 10px rgba(0,0,0,0.1); overflow:hidden; text-align:center; transition:transform 0.2s;">
+    <a href="{% url 'game_start' %}">
+      <img src="https://res.cloudinary.com/dotekofm5/image/upload/v1760316426/thankjapan/backgrounds/qyykepln6lgpibataarp.png" alt="Incorrecto" style="width:100%; height:150px; object-fit:cover; border-bottom:1px solid #f0f0f0;">
+    </a>
+    <p style="padding:10px 5px; font-size:0.9rem; color:#555; font-weight:500;">Si es incorrecto, se muestra la respuesta correcta</p>
+  </div>
+
+  <div class="game-card" style="background:#fff; border-radius:15px; box-shadow:0 4px 10px rgba(0,0,0,0.1); overflow:hidden; text-align:center; transition:transform 0.2s;">
+    <a href="{% url 'game_start' %}">
+      <img src="https://res.cloudinary.com/dotekofm5/image/upload/v1760316444/thankjapan/backgrounds/xu9au7hs49kxqvbbesxs.png" alt="Resultados" style="width:100%; height:150px; object-fit:cover; border-bottom:1px solid #f0f0f0;">
+    </a>
+    <p style="padding:10px 5px; font-size:0.9rem; color:#555; font-weight:500;">Ver tus resultados y ranking</p>
+  </div>
+
+  <div class="game-card" style="background:#fff; border-radius:15px; box-shadow:0 4px 10px rgba(0,0,0,0.1); overflow:hidden; text-align:center; transition:transform 0.2s;">
+    <a href="{% url 'game_start' %}">
+      <img src="https://res.cloudinary.com/dotekofm5/image/upload/v1760619690/thankjapan/backgrounds/eqoukadffsymh2j0l1cq.png" alt="Ranking" style="width:100%; height:150px; object-fit:cover; border-bottom:1px solid #f0f0f0;">
+    </a>
+    <p style="padding:10px 5px; font-size:0.9rem; color:#555; font-weight:500;">Rankings y gestión de cuenta</p>
+  </div>
+
+</div>
+
+
+<div class="card" style="text-align:center;">
+  <h2>💖 Apoya a ThankJapan</h2>
+  <p>Tu amable apoyo nos ayuda a mantener este sitio y seguir compartiendo la cultura japonesa.</p>
+  <p>Puedes donar a través de <strong>PayPal</strong> usando tu cuenta o con tarjeta de crédito/débito.</p>
+  <p><em>No se requiere una cuenta de PayPal — selecciona “Pagar con tarjeta.”</em></p>
+  
+  <p><em>Por favor, ten en cuenta: los pagos no son reembolsables.</em></p>
+</div>
+
+<div style="text-align:center; margin:30px 0;">
+  <a href="{% url 'select_amount' %}" target="_blank"
+     style="
+       display:inline-block;
+       background: linear-gradient(135deg, #ffc0cb, #ff69b4);
+       color:white;
+       font-weight:bold;
+       font-size:1.3rem;
+       padding:15px 30px;
+       border-radius:30px;
+       text-decoration:none;
+       box-shadow: 0 6px 12px rgba(255,105,180,0.4);
+       transition: all 0.3s ease;
+     "
+     onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 8px 16px rgba(255,105,180,0.5)';"
+     onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 6px 12px rgba(255,105,180,0.4)';">
+    💖 Apoya con PayPal 💖
+  </a>
+</div>
+
+<hr>
+
+    <div style="text-align:center; margin-bottom:50px;"> 
+        <a class="btn-more" href="{% url 'toppage'%}">Volver al inicio</a> 
+    </div>
+
+    <div class="hero-card2">
+        <img src="https://res.cloudinary.com/dotekofm5/image/upload/v1761402089/thankjapan/backgrounds/mpqz2zwv3h9do2w4xqvj.jpg" 
+        alt="animekabuki" style="width:100%; height:100%; object-fit:cover;">
+    </div>
+
+</div>
