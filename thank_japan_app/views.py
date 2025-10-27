@@ -46,6 +46,10 @@ class TopViewJA(ListView):
     template_name = "thank_japan_app/toppage_ja.html"
     model = ThankJapanModel
     
+class TopViewVI(ListView):
+    template_name = "thank_japan_app/toppage_vi.html"
+    model = ThankJapanModel
+    
 class TopViewFR(ListView):
     template_name = "thank_japan_app/toppage_fr.html"
     model = ThankJapanModel

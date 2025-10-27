@@ -1,31 +1,30 @@
 <!DOCTYPE html>
 {% load static %}
-<html lang="es-MX">
+<html lang="vi">
 <head>
     {% include 'css.html' %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     {% block meta %}
-    <meta name="description" content="Este sitio presenta aspectos de la vida, cultura, comida y mucho más de Japón. Se proporcionan lecturas romanizadas para cada término. Esperamos compartir Japón con personas de todo el mundo.">
+    <meta name="description" content="Trang web này giới thiệu về cuộc sống, văn hóa, ẩm thực và nhiều khía cạnh khác của Nhật Bản. Mỗi từ đều có cách đọc La tinh. Chúng tôi hy vọng có thể chia sẻ Nhật Bản với mọi người trên khắp thế giới.">
     <meta name="robots" content="index,follow">
-    <meta name="keywords" content="Japonés, Japón">
+    <meta name="keywords" content="Nhật Bản, văn hóa Nhật, tiếng Nhật">
 
-    <meta property="og:title" content="Compartiendo ThankJapan" />
-    <meta property="og:description" content="Introducción a la cultura japonesa." />
+    <meta property="og:title" content="ThankJapan - Chia sẻ văn hóa Nhật Bản" />
+    <meta property="og:description" content="Trang web giới thiệu văn hóa, ẩm thực và ngôn ngữ Nhật Bản đến với thế giới." />
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://www.thankjapan.com" />
+    <meta property="og:url" content="https://www.thankjapan.com/vi/" />
     <meta property="og:image" content="https://res.cloudinary.com/dotekofm5/image/upload/v1754642770/thankjapan/backgrounds/ntpvmxgudcmvp0snpiur.png" />
     <meta property="og:site_name" content="ThankJapan" />
-    <meta property="og:locale" content="es_MX" />
+    <meta property="og:locale" content="vi_VN" />
 
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Compartiendo ThankJapan">
-    <meta name="twitter:description" content="Este sitio presenta la cultura, comida y lengua japonesa al mundo.">
+    <meta name="twitter:title" content="ThankJapan - Chia sẻ văn hóa Nhật Bản">
+    <meta name="twitter:description" content="Trang web giới thiệu văn hóa, ẩm thực và ngôn ngữ Nhật Bản đến với thế giới.">
     <meta name="twitter:image" content="https://res.cloudinary.com/dotekofm5/image/upload/v1754642770/thankjapan/backgrounds/ntpvmxgudcmvp0snpiur.png">
     <meta name="twitter:site" content="@thankjapan0514">
 
-    <!-- Hreflang para idiomas soportados -->
     <link rel="alternate" hreflang="en" href="https://www.thankjapan.com/">
     <link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/ja/">
     <link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/vi/">
@@ -41,7 +40,6 @@
     <link rel="alternate" hreflang="de" href="https://www.thankjapan.com/de/">
     <link rel="alternate" hreflang="th" href="https://www.thankjapan.com/th/">
     <link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/">
-    
     {% endblock %}
 
     <title>{% block title %}ThankJapan{% endblock %}</title>
@@ -51,18 +49,16 @@
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
-
         gtag('config', '{{ GA_TRACKING_ID }}');
     </script>
+
 </head>
 
 <body>
 
     {% include 'header.html' %}
     {% include 'sidebar.html' %}
-
     {% block content %}{% endblock %}
-
     {% include 'footer.html' %}
        
 </body>
