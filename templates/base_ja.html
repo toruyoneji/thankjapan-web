@@ -1,32 +1,31 @@
 <!DOCTYPE html>
 {% load static %}
-<html lang="zh-Hant">
+<html lang="ja">
 <head>
     {% include 'css.html' %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     {% block meta %}
-    <meta name="description" content="本網站介紹日本的生活、文化、美食等各方面內容。每個詞條都提供羅馬字讀法。希望向全世界分享日本。">
+    <meta name="description" content="このサイトでは、日本の生活・文化・食べ物などを紹介しています。各用語にはローマ字の読みも付いており、世界中の人々に日本の魅力を伝えることを目的としています。">
     <meta name="robots" content="index,follow">
-    <meta name="keywords" content="日本,日本文化,日本美食">
+    <meta name="keywords" content="日本, 日本文化, 日本語, 料理, 旅行">
 
-    <meta property="og:title" content="ThankJapan 分享" />
-    <meta property="og:description" content="介紹日本文化。" />
+    <meta property="og:title" content="ThankJapan | 日本の魅力を世界へ共有" />
+    <meta property="og:description" content="日本の文化・食・言葉などを紹介するウェブサイトです。" />
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://www.thankjapan.com" />
+    <meta property="og:url" content="https://www.thankjapan.com/ja/" />
     <meta property="og:image" content="https://res.cloudinary.com/dotekofm5/image/upload/v1754642770/thankjapan/backgrounds/ntpvmxgudcmvp0snpiur.png" />
     <meta property="og:site_name" content="ThankJapan" />
-    <meta property="og:locale" content="zh-Hant" />
+    <meta property="og:locale" content="ja_JP" />
 
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="ThankJapan 分享">
-    <meta name="twitter:description" content="向全世界介紹日本的文化、美食和語言。">
+    <meta name="twitter:title" content="ThankJapan | 日本の魅力を世界へ共有">
+    <meta name="twitter:description" content="日本の文化、食、自然、言葉などを紹介するサイトです。">
     <meta name="twitter:image" content="https://res.cloudinary.com/dotekofm5/image/upload/v1754642770/thankjapan/backgrounds/ntpvmxgudcmvp0snpiur.png">
     <meta name="twitter:site" content="@thankjapan0514">
 
     <link rel="alternate" hreflang="en" href="https://www.thankjapan.com/">
-    <link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/ja/">
     <link rel="alternate" hreflang="en-IN" href="https://www.thankjapan.com/en-in/">
     <link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/fr/">
     <link rel="alternate" hreflang="it" href="https://www.thankjapan.com/it/">
@@ -38,19 +37,17 @@
     <link rel="alternate" hreflang="es-MX" href="https://www.thankjapan.com/es-mx/">
     <link rel="alternate" hreflang="de" href="https://www.thankjapan.com/de/">
     <link rel="alternate" hreflang="th" href="https://www.thankjapan.com/th/">
+    <link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/ja/">
     <link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/">
-    
-    
     {% endblock %}
 
-    <title>{% block title %}ThankJapan{% endblock %}</title>
+    <title>{% block title %}ThankJapan | 日本をもっと知ろう{% endblock %}</title>
 
     <script async src="https://www.googletagmanager.com/gtag/js?id={{ GA_TRACKING_ID }}"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
-
         gtag('config', '{{ GA_TRACKING_ID }}');
     </script>
 
@@ -64,6 +61,6 @@
     {% block content %}{% endblock %}
 
     {% include 'footer.html' %}
-
+       
 </body>
 </html>
