@@ -77,7 +77,7 @@ class TopViewPTBR(ListView):
     model = ThankJapanModel
     
 class TopViewESMX(ListView):
-    template_name = "thank_japan_app/toppage_ex_mx.html"
+    template_name = "thank_japan_app/toppage_es_mx.html"
     model = ThankJapanModel
     
 class TopViewENIN(ListView):

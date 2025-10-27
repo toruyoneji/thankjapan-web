@@ -21,7 +21,7 @@ urlpatterns = [
     path('de/', TopViewDE.as_view(), name='toppagede'),
     path('th/', TopViewTH.as_view(), name='toppageth'),
     path('pt-br/', TopViewPTBR.as_view(), name='toppageptBR'),
-    path('es-mx/', TopViewESMX.as_view(), name='toppageexMX'),
+    path('es-mx/', TopViewESMX.as_view(), name='toppageesMX'),
     path('en-in/', TopViewENIN.as_view(), name='toppageenIN'),
     
     
