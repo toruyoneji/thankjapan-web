@@ -63,6 +63,26 @@ class TopViewKO(ListView):
 class TopViewESES(ListView):
     template_name = "thank_japan_app/toppage_es_es.html"
     model = ThankJapanModel
+    
+class TopViewDE(ListView):
+    template_name = "thank_japan_app/toppage_de.html"
+    model = ThankJapanModel
+    
+class TopViewTH(ListView):
+    template_name = "thank_japan_app/toppage_th.html"
+    model = ThankJapanModel
+    
+class TopViewPTBR(ListView):
+    template_name = "thank_japan_app/toppage_pt_br.html"
+    model = ThankJapanModel
+    
+class TopViewESMX(ListView):
+    template_name = "thank_japan_app/toppage_ex_mx.html"
+    model = ThankJapanModel
+    
+class TopViewENIN(ListView):
+    template_name = "thank_japan_app/toppage_en_in.html"
+    model = ThankJapanModel
 
 
 # views.py

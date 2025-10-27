@@ -1,5 +1,6 @@
 from django.urls import path
 from .views import (TopView, TopViewFR, TopViewIT, TopViewPT, TopViewZHHANT,TopViewKO, TopViewESES,
+                    TopViewDE, TopViewTH, TopViewPTBR, TopViewESMX, TopViewENIN,
                     KiyakuView, FoodView, NatureView, FashionView, 
                     CultureView, CookView, AppliancesView, AnimalView,
                     CategoryDetailView, BuildingView, FlowerView, HouseholdItemsView,LiveView,
@@ -17,6 +18,11 @@ urlpatterns = [
     path('zh-hant/', TopViewZHHANT.as_view(), name='toppagezhHANT'),
     path('ko/', TopViewKO.as_view(), name='toppageko'),
     path('es-es/', TopViewESES.as_view(), name='toppageesES'),
+    path('de/', TopViewDE.as_view(), name='toppagede'),
+    path('th/', TopViewTH.as_view(), name='toppageth'),
+    path('pt-br/', TopViewPTBR.as_view(), name='toppageptBR'),
+    path('es-mx/', TopViewESMX.as_view(), name='toppageexMX'),
+    path('en-in/', TopViewENIN.as_view(), name='toppageenIN'),
     
     
     #game
