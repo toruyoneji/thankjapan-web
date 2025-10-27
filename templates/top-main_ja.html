@@ -433,44 +433,67 @@ h2, h3 {
 
   </div>
 
-  <h2 style="text-align:center; color:#ff6f61; margin-top:40px; font-family:'Poppins',sans-serif;">ゲームの遊び方 🎮</h2>
+<h2 style="text-align:center; color:#ff6f61; margin-top:40px; font-family:'Poppins',sans-serif;">ゲームの遊び方 🎮</h2>
 
-  <div class="game-grid" style="display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:15px; margin-top:20px; padding:0 10px;">
+<div class="game-grid" style="display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:15px; margin-top:20px; padding:0 10px;">
 
-    <div class="game-card">
-      <a href="{% url 'game_start' %}"><img src="https://res.cloudinary.com/dotekofm5/image/upload/v1760316354/thankjapan/backgrounds/ltbitwummwokpabkcmer.png" alt="登録"></a>
-      <p>アカウントを作成する</p>
-    </div>
-    <div class="game-card">
-      <a href="{% url 'game_start' %}"><img src="https://res.cloudinary.com/dotekofm5/image/upload/v1760316343/thankjapan/backgrounds/jtnzkwsrcuxlgeucrh1g.png" alt="ログイン"></a>
-      <p>アカウント名とパスワードでログイン</p>
-    </div>
-    <div class="game-card">
-      <a href="{% url 'game_start' %}"><img src="https://res.cloudinary.com/dotekofm5/image/upload/v1760316373/thankjapan/backgrounds/iydarejspqczunrkhpvx.png" alt="ゲーム開始"></a>
-      <p>「ゲーム開始」を押してスタート</p>
-    </div>
-    <div class="game-card">
-      <a href="{% url 'game_start' %}"><img src="https://res.cloudinary.com/dotekofm5/image/upload/v1760316396/thankjapan/backgrounds/kuub0mlfpj2tcrz0jlvz.png" alt="回答"></a>
-      <p>答えをローマ字で入力</p>
-    </div>
-    <div class="game-card">
-      <a href="{% url 'game_start' %}"><img src="https://res.cloudinary.com/dotekofm5/image/upload/v1760316413/thankjapan/backgrounds/chepf4pchhl9pgbyyhwx.png" alt="正解"></a>
-      <p>正解なら「集める」が表示</p>
-    </div>
-    <div class="game-card">
-      <a href="{% url 'game_start' %}"><img src="https://res.cloudinary.com/dotekofm5/image/upload/v1760316426/thankjapan/backgrounds/qyykepln6lgpibataarp.png" alt="不正解"></a>
-      <p>不正解なら正しい答えが表示</p>
-    </div>
-    <div class="game-card">
-      <a href="{% url 'game_start' %}"><img src="https://res.cloudinary.com/dotekofm5/image/upload/v1760316444/thankjapan/backgrounds/xu9au7hs49kxqvbbesxs.png" alt="結果"></a>
-      <p>結果とランキングを確認</p>
-    </div>
-    <div class="game-card">
-      <a href="{% url 'game_start' %}"><img src="https://res.cloudinary.com/dotekofm5/image/upload/v1760619690/thankjapan/backgrounds/eqoukadffsymh2j0l1cq.png" alt="ランキング"></a>
-      <p>ランキングとアカウント管理</p>
-    </div>
-
+  <div class="game-card" style="background:#fff; border-radius:15px; box-shadow:0 4px 10px rgba(0,0,0,0.1); overflow:hidden; text-align:center; transition:transform 0.2s;">
+    <a href="{% url 'game_start' %}">
+      <img src="https://res.cloudinary.com/dotekofm5/image/upload/v1760316354/thankjapan/backgrounds/ltbitwummwokpabkcmer.png" alt="登録" style="width:100%; height:150px; object-fit:cover; border-bottom:1px solid #f0f0f0;">
+    </a>
+    <p style="padding:10px 5px; font-size:0.9rem; color:#555; font-weight:500;">ゲームアカウントを作成する</p>
   </div>
+
+  <div class="game-card" style="background:#fff; border-radius:15px; box-shadow:0 4px 10px rgba(0,0,0,0.1); overflow:hidden; text-align:center; transition:transform 0.2s;">
+    <a href="{% url 'game_start' %}">
+      <img src="https://res.cloudinary.com/dotekofm5/image/upload/v1760316343/thankjapan/backgrounds/jtnzkwsrcuxlgeucrh1g.png" alt="ログイン" style="width:100%; height:150px; object-fit:cover; border-bottom:1px solid #f0f0f0;">
+    </a>
+    <p style="padding:10px 5px; font-size:0.9rem; color:#555; font-weight:500;">アカウント名とパスワードでログイン</p>
+  </div>
+
+  <div class="game-card" style="background:#fff; border-radius:15px; box-shadow:0 4px 10px rgba(0,0,0,0.1); overflow:hidden; text-align:center; transition:transform 0.2s;">
+    <a href="{% url 'game_start' %}">
+      <img src="https://res.cloudinary.com/dotekofm5/image/upload/v1760316373/thankjapan/backgrounds/iydarejspqczunrkhpvx.png" alt="ゲーム開始" style="width:100%; height:150px; object-fit:cover; border-bottom:1px solid #f0f0f0;">
+    </a>
+    <p style="padding:10px 5px; font-size:0.9rem; color:#555; font-weight:500;">「ゲーム開始」を押してスタート</p>
+  </div>
+
+  <div class="game-card" style="background:#fff; border-radius:15px; box-shadow:0 4px 10px rgba(0,0,0,0.1); overflow:hidden; text-align:center; transition:transform 0.2s;">
+    <a href="{% url 'game_start' %}">
+      <img src="https://res.cloudinary.com/dotekofm5/image/upload/v1760316396/thankjapan/backgrounds/kuub0mlfpj2tcrz0jlvz.png" alt="回答" style="width:100%; height:150px; object-fit:cover; border-bottom:1px solid #f0f0f0;">
+    </a>
+    <p style="padding:10px 5px; font-size:0.9rem; color:#555; font-weight:500;">答えをローマ字で入力する</p>
+  </div>
+
+  <div class="game-card" style="background:#fff; border-radius:15px; box-shadow:0 4px 10px rgba(0,0,0,0.1); overflow:hidden; text-align:center; transition:transform 0.2s;">
+    <a href="{% url 'game_start' %}">
+      <img src="https://res.cloudinary.com/dotekofm5/image/upload/v1760316413/thankjapan/backgrounds/chepf4pchhl9pgbyyhwx.png" alt="正解" style="width:100%; height:150px; object-fit:cover; border-bottom:1px solid #f0f0f0;">
+    </a>
+    <p style="padding:10px 5px; font-size:0.9rem; color:#555; font-weight:500;">正解すると「集める」と表示されます</p>
+  </div>
+
+  <div class="game-card" style="background:#fff; border-radius:15px; box-shadow:0 4px 10px rgba(0,0,0,0.1); overflow:hidden; text-align:center; transition:transform 0.2s;">
+    <a href="{% url 'game_start' %}">
+      <img src="https://res.cloudinary.com/dotekofm5/image/upload/v1760316426/thankjapan/backgrounds/qyykepln6lgpibataarp.png" alt="不正解" style="width:100%; height:150px; object-fit:cover; border-bottom:1px solid #f0f0f0;">
+    </a>
+    <p style="padding:10px 5px; font-size:0.9rem; color:#555; font-weight:500;">不正解の場合は正しい答えが表示されます</p>
+  </div>
+
+  <div class="game-card" style="background:#fff; border-radius:15px; box-shadow:0 4px 10px rgba(0,0,0,0.1); overflow:hidden; text-align:center; transition:transform 0.2s;">
+    <a href="{% url 'game_start' %}">
+      <img src="https://res.cloudinary.com/dotekofm5/image/upload/v1760316444/thankjapan/backgrounds/xu9au7hs49kxqvbbesxs.png" alt="結果" style="width:100%; height:150px; object-fit:cover; border-bottom:1px solid #f0f0f0;">
+    </a>
+    <p style="padding:10px 5px; font-size:0.9rem; color:#555; font-weight:500;">結果とランキングを確認する</p>
+  </div>
+
+  <div class="game-card" style="background:#fff; border-radius:15px; box-shadow:0 4px 10px rgba(0,0,0,0.1); overflow:hidden; text-align:center; transition:transform 0.2s;">
+    <a href="{% url 'game_start' %}">
+      <img src="https://res.cloudinary.com/dotekofm5/image/upload/v1760619690/thankjapan/backgrounds/eqoukadffsymh2j0l1cq.png" alt="ランキング" style="width:100%; height:150px; object-fit:cover; border-bottom:1px solid #f0f0f0;">
+    </a>
+    <p style="padding:10px 5px; font-size:0.9rem; color:#555; font-weight:500;">ランキングとアカウントを管理する</p>
+  </div>
+
+</div>
 
   <div class="card" style="text-align:center;">
     <h2>💖 ThankJapan をサポート</h2>
