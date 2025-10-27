@@ -35,9 +35,15 @@ class LegalNoticeView(TemplateView):
     
 class PrivacyPolicy(TemplateView):
     template_name = "thank_japan_app/privacy_policy.html"
+    
 
+#country page
 class TopView(ListView):
     template_name = "thank_japan_app/toppage.html"
+    model = ThankJapanModel
+    
+class TopViewJA(ListView):
+    template_name = "thank_japan_app/toppage_ja.html"
     model = ThankJapanModel
     
 class TopViewFR(ListView):

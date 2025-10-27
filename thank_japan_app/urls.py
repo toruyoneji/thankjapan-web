@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import (TopView, TopViewFR, TopViewIT, TopViewPT, TopViewZHHANT,TopViewKO, TopViewESES,
-                    TopViewDE, TopViewTH, TopViewPTBR, TopViewESMX, TopViewENIN,
+                    TopViewDE, TopViewTH, TopViewPTBR, TopViewESMX, TopViewENIN, TopViewJA,
                     KiyakuView, FoodView, NatureView, FashionView, 
                     CultureView, CookView, AppliancesView, AnimalView,
                     CategoryDetailView, BuildingView, FlowerView, HouseholdItemsView,LiveView,
@@ -12,6 +12,7 @@ from .views import (TopView, TopViewFR, TopViewIT, TopViewPT, TopViewZHHANT,TopV
 urlpatterns = [
     #top page
     path("", TopView.as_view(), name="toppage"),
+    path("ja/", TopViewJA.as_view(), name="toppageja"),
     path('fr/', TopViewFR.as_view(), name='toppagefr'),
     path('it/', TopViewIT.as_view(), name='toppageit'),
     path('pt/', TopViewPT.as_view(), name='toppagept'),
