@@ -98,7 +98,7 @@ def select_amount_view_ptBR(request):
     return render(request, "payment/kurikku_payment_pt_br.html")
 
 def select_amount_view_esMX(request):
-    return render(request, "payment/kurikku_payment_ex_mx.html")
+    return render(request, "payment/kurikku_payment_es_mx.html")
 
 def select_amount_view_enIN(request):
     return render(request, "payment/kurikku_payment_en_in.html")
