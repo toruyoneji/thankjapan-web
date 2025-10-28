@@ -10,8 +10,9 @@ app_name = "thank_japan_app"
 urlpatterns = [
     path('robots.txt', robots_txt),
     path('kanrisha/', admin.site.urls),
-    path('', include('thank_japan_app.urls')),
     path('support/', include('payment.urls')),
+    path('', include('thank_japan_app.urls')),
+   
     
     path('sitemap.xml', TemplateView.as_view(
         template_name='sitemap.xml', content_type='application/xml')),
