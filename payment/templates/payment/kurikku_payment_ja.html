@@ -1,18 +1,18 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Support ThankJapan | Donate to Help Share Japanese Culture Globally</title>
+    <title>ThankJapanを応援しよう | 日本文化を世界に広めるためのサポート</title>
 
-    <meta name="description" content="Support ThankJapan by donating as little as the price of a coffee. Help us share the beauty and gratitude of Japanese culture with the world.">
+    <meta name="description" content="ThankJapanの活動を支援して、日本の美しい文化や「ありがとう」の心を世界に届けましょう。コーヒー1杯分の寄付からでも参加できます。">
     <meta name="robots" content="index, follow">
 
-    <meta property="og:title" content="Support ThankJapan" />
-    <meta property="og:description" content="Help us share Japanese culture with the world through your kind support. Even a small donation makes a big difference." />
+    <meta property="og:title" content="ThankJapanを応援しよう" />
+    <meta property="og:description" content="日本文化の魅力と感謝の心を世界に届けるThankJapanの活動を支援してください。小さな寄付でも大きな力になります。" />
     <meta property="og:image" content="{% static 'css/thank_japan.ico' %}" />
-    <meta property="og:url" content="https://www.thankjapan.com/support" />
+    <meta property="og:url" content="https://www.thankjapan.com/ja/support" />
     <meta property="og:type" content="website" />
 
     <link rel="stylesheet" href="{% static 'payment/styles.css' %}">
@@ -163,26 +163,27 @@
 <body>
 
     <div class="support-card">
-        <h1>Support ThankJapan</h1>
-        <h2>Like what we do? Buy us a coffee ☕️</h2>
+        <h1>ThankJapanを応援しよう</h1>
+        <h2>活動が気に入ったら、コーヒーを1杯ごちそうしてください☕️</h2>
 
         <p class="seo-text2">
-            Thank you for liking ThankJapan!<br>
-            This project is a small attempt to share the beauty of Japan and the spirit of gratitude with the world.<br>
-            If you enjoyed what you saw, we’d be so happy if you could send us a little tip — even just the price of a coffee ☕️<br>
-            Your support helps us keep the site running and create new content.
+            ThankJapanを見てくださってありがとうございます！<br>
+            このプロジェクトは、日本の美しさと「ありがとう」の心を世界に届ける小さな挑戦です。<br>
+            サイトやコンテンツを楽しんでいただけたなら、コーヒー1杯分のご支援をいただけるととても嬉しいです☕️<br>
+            皆さまの応援が、サイト運営や新しい記事作りの力になります。
         </p>
 
         <p class="seo-text">
-            ThankJapan is a global project dedicated to sharing Japanese culture, tradition, and gratitude with people around the world.<br>
-            Your donation helps us create content, reach new audiences, and keep this mission alive.
+            ThankJapanは、日本の文化・伝統・感謝の心を世界へ発信するグローバルプロジェクトです。<br>
+            ご寄付は、新しいコンテンツの制作や発信活動の継続に役立てられます。
         </p>
     </div>
 
     <div class="note">
-        💳 <strong>You don’t need a PayPal account.</strong><br>
-        You can use your credit or debit card directly via PayPal’s secure checkout.
+        💳 <strong>PayPalアカウントは不要です。</strong><br>
+        クレジットカードまたはデビットカードで、PayPalの安全な決済を通じてご支援いただけます。
     </div>
+
 
     <div class="currency-section">
         <h2>USD</h2>
@@ -225,31 +226,6 @@
     </div>
 
     <div class="currency-section">
-        <h2>TWD</h2>
-        <a class="amount-button" href="{% url 'create_payment' %}?amount=50&currency=TWD">NT$50</a>
-        <a class="amount-button" href="{% url 'create_payment' %}?amount=100&currency=TWD">NT$100</a>
-        <a class="amount-button" href="{% url 'create_payment' %}?amount=200&currency=TWD">NT$200</a>
-        <a class="amount-button" href="{% url 'create_payment' %}?amount=500&currency=TWD">NT$500</a>
-    </div>
-
-    <div class="currency-section">
-        <h2>HKD</h2>
-        <a class="amount-button" href="{% url 'create_payment' %}?amount=20&currency=HKD">HK$20</a>
-        <a class="amount-button" href="{% url 'create_payment' %}?amount=50&currency=HKD">HK$50</a>
-        <a class="amount-button" href="{% url 'create_payment' %}?amount=100&currency=HKD">HK$100</a>
-        <a class="amount-button" href="{% url 'create_payment' %}?amount=200&currency=HKD">HK$200</a>
-    </div>
-
-    <div class="currency-section">
-        <h2>VND</h2>
-        <a class="amount-button" href="{% url 'create_payment' %}?amount=50000&currency=VND">₫50,000</a>
-        <a class="amount-button" href="{% url 'create_payment' %}?amount=100000&currency=VND">₫100,000</a>
-        <a class="amount-button" href="{% url 'create_payment' %}?amount=200000&currency=VND">₫200,000</a>
-        <a class="amount-button" href="{% url 'create_payment' %}?amount=500000&currency=VND">₫500,000</a>
-    </div>
-
-
-    <div class="currency-section">
         <h2>AUD</h2>
         <a class="amount-button" href="{% url 'create_payment' %}?amount=2.90&currency=AUD">$3</a>
         <a class="amount-button" href="{% url 'create_payment' %}?amount=4.90&currency=AUD">$5</a>
@@ -279,7 +255,7 @@
         <a class="amount-button" href="{% url 'create_payment' %}?amount=20.40&currency=BRL">R$20</a>
     </div>
 
-    <a href="{% url 'toppage' %}" class="button">Back to Home</a>
+    <a href="{% url 'toppage' %}" class="button">ホームに戻る</a>
 
 </body>
 </html> 

@@ -64,6 +64,24 @@ def cancel_view(request):
 def select_amount_view(request):
     return render(request, "payment/kurikku_payment.html")
 
+def select_amount_view_ja(request):
+    return render(request, "payment/kurikku_payment_ja.html")
+
+def select_amount_view_vi(request):
+    return render(request, "payment/kurikku_payment_vi.html")
+
+def select_amount_view_fr(request):
+    return render(request, "payment/kurikku_payment_fr.html")
+
+def select_amount_view_it(request):
+    return render(request, "payment/kurikku_payment_it.html")
+
+def select_amount_view_pt(request):
+    return render(request, "payment/kurikku_payment_pt.html")
+
+def select_amount_view_zhhant(request):
+    return render(request, "payment/kurikku_payment_zh_hant.html")
+
 
 def payment_success(request):
     payment_id = request.GET.get("paymentId")

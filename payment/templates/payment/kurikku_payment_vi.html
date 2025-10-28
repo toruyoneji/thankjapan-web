@@ -1,18 +1,18 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Support ThankJapan | Donate to Help Share Japanese Culture Globally</title>
+    <title>Ủng hộ ThankJapan | Quyên góp để chia sẻ văn hóa Nhật Bản tới toàn thế giới</title>
 
-    <meta name="description" content="Support ThankJapan by donating as little as the price of a coffee. Help us share the beauty and gratitude of Japanese culture with the world.">
+    <meta name="description" content="Hãy ủng hộ ThankJapan bằng số tiền chỉ bằng một cốc cà phê. Giúp chúng tôi lan tỏa vẻ đẹp và tinh thần biết ơn của văn hóa Nhật Bản ra toàn cầu.">
     <meta name="robots" content="index, follow">
 
-    <meta property="og:title" content="Support ThankJapan" />
-    <meta property="og:description" content="Help us share Japanese culture with the world through your kind support. Even a small donation makes a big difference." />
+    <meta property="og:title" content="Ủng hộ ThankJapan" />
+    <meta property="og:description" content="Hãy hỗ trợ chúng tôi chia sẻ văn hóa Nhật Bản tới thế giới. Dù là một khoản đóng góp nhỏ cũng tạo ra sự khác biệt lớn." />
     <meta property="og:image" content="{% static 'css/thank_japan.ico' %}" />
-    <meta property="og:url" content="https://www.thankjapan.com/support" />
+    <meta property="og:url" content="https://www.thankjapan.com/vi/support" />
     <meta property="og:type" content="website" />
 
     <link rel="stylesheet" href="{% static 'payment/styles.css' %}">
@@ -163,26 +163,35 @@
 <body>
 
     <div class="support-card">
-        <h1>Support ThankJapan</h1>
-        <h2>Like what we do? Buy us a coffee ☕️</h2>
+        <h1>Ủng hộ ThankJapan</h1>
+        <h2>Bạn thích những gì chúng tôi làm? Hãy mời chúng tôi một tách cà phê ☕️</h2>
 
         <p class="seo-text2">
-            Thank you for liking ThankJapan!<br>
-            This project is a small attempt to share the beauty of Japan and the spirit of gratitude with the world.<br>
-            If you enjoyed what you saw, we’d be so happy if you could send us a little tip — even just the price of a coffee ☕️<br>
-            Your support helps us keep the site running and create new content.
+            Cảm ơn bạn đã quan tâm đến ThankJapan!<br>
+            Dự án này là một nỗ lực nhỏ nhằm chia sẻ vẻ đẹp của Nhật Bản và tinh thần biết ơn tới toàn thế giới.<br>
+            Nếu bạn thích những gì đã thấy, chúng tôi sẽ rất vui nếu bạn có thể ủng hộ một chút — chỉ bằng giá một cốc cà phê ☕️<br>
+            Sự hỗ trợ của bạn giúp chúng tôi duy trì hoạt động của trang web và tạo ra nội dung mới.
         </p>
 
         <p class="seo-text">
-            ThankJapan is a global project dedicated to sharing Japanese culture, tradition, and gratitude with people around the world.<br>
-            Your donation helps us create content, reach new audiences, and keep this mission alive.
+            ThankJapan là một dự án toàn cầu nhằm chia sẻ văn hóa, truyền thống và tinh thần biết ơn của Nhật Bản với mọi người trên thế giới.<br>
+            Sự đóng góp của bạn giúp chúng tôi tạo nội dung, tiếp cận khán giả mới và duy trì sứ mệnh này.
         </p>
     </div>
 
     <div class="note">
-        💳 <strong>You don’t need a PayPal account.</strong><br>
-        You can use your credit or debit card directly via PayPal’s secure checkout.
+        💳 <strong>Bạn không cần tài khoản PayPal.</strong><br>
+        Bạn có thể sử dụng thẻ tín dụng hoặc thẻ ghi nợ trực tiếp qua hệ thống thanh toán an toàn của PayPal.
     </div>
+
+    <div class="currency-section">
+        <h2>VND</h2>
+        <a class="amount-button" href="{% url 'create_payment' %}?amount=50000&currency=VND">₫50,000</a>
+        <a class="amount-button" href="{% url 'create_payment' %}?amount=100000&currency=VND">₫100,000</a>
+        <a class="amount-button" href="{% url 'create_payment' %}?amount=200000&currency=VND">₫200,000</a>
+        <a class="amount-button" href="{% url 'create_payment' %}?amount=500000&currency=VND">₫500,000</a>
+    </div>
+
 
     <div class="currency-section">
         <h2>USD</h2>
@@ -225,31 +234,6 @@
     </div>
 
     <div class="currency-section">
-        <h2>TWD</h2>
-        <a class="amount-button" href="{% url 'create_payment' %}?amount=50&currency=TWD">NT$50</a>
-        <a class="amount-button" href="{% url 'create_payment' %}?amount=100&currency=TWD">NT$100</a>
-        <a class="amount-button" href="{% url 'create_payment' %}?amount=200&currency=TWD">NT$200</a>
-        <a class="amount-button" href="{% url 'create_payment' %}?amount=500&currency=TWD">NT$500</a>
-    </div>
-
-    <div class="currency-section">
-        <h2>HKD</h2>
-        <a class="amount-button" href="{% url 'create_payment' %}?amount=20&currency=HKD">HK$20</a>
-        <a class="amount-button" href="{% url 'create_payment' %}?amount=50&currency=HKD">HK$50</a>
-        <a class="amount-button" href="{% url 'create_payment' %}?amount=100&currency=HKD">HK$100</a>
-        <a class="amount-button" href="{% url 'create_payment' %}?amount=200&currency=HKD">HK$200</a>
-    </div>
-
-    <div class="currency-section">
-        <h2>VND</h2>
-        <a class="amount-button" href="{% url 'create_payment' %}?amount=50000&currency=VND">₫50,000</a>
-        <a class="amount-button" href="{% url 'create_payment' %}?amount=100000&currency=VND">₫100,000</a>
-        <a class="amount-button" href="{% url 'create_payment' %}?amount=200000&currency=VND">₫200,000</a>
-        <a class="amount-button" href="{% url 'create_payment' %}?amount=500000&currency=VND">₫500,000</a>
-    </div>
-
-
-    <div class="currency-section">
         <h2>AUD</h2>
         <a class="amount-button" href="{% url 'create_payment' %}?amount=2.90&currency=AUD">$3</a>
         <a class="amount-button" href="{% url 'create_payment' %}?amount=4.90&currency=AUD">$5</a>
@@ -279,7 +263,7 @@
         <a class="amount-button" href="{% url 'create_payment' %}?amount=20.40&currency=BRL">R$20</a>
     </div>
 
-    <a href="{% url 'toppage' %}" class="button">Back to Home</a>
+    <a href="{% url 'toppage' %}" class="button">Quay lại trang chủ</a>
 
 </body>
 </html> 
