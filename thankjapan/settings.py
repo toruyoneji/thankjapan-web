@@ -7,6 +7,41 @@ import paypalrestsdk
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# settings.py
+
+
+LANGUAGE_CODE = 'en'
+
+
+LANGUAGES = [
+    
+    ('en', 'English'),
+    ('ja', '日本語'),
+    ('es', 'Español'),
+    ('fr', 'Français'),
+    ('it', 'Italiano'),
+    ('pt', 'Português'),
+    ('zh-hant', '中文（繁体字）'),
+    ('ko', '한국어'),
+    ('es-es', 'Español (España)'),
+    ('de', 'Deutsch'),
+    ('th', 'ไทย'),
+    ('pt-br', 'Português (Brasil)'),
+    ('es-mx', 'Español (México)'),
+    ('en-in', 'English (India)'),
+]
+
+
+LOCALE_PATHS = [
+    os.path.join(BASE_DIR, 'locale'),
+]
+
+USE_I18N = True    
+USE_L10N = True    
+USE_TZ = True
+TIME_ZONE = 'Asia/Tokyo'
+
+
 GA_TRACKING_ID = os.environ.get('GA_TRACKING_ID', '')
 
 # Load environment variables
@@ -113,11 +148,6 @@ AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
 
-# Internationalization
-LANGUAGE_CODE = 'en-us'
-TIME_ZONE = 'Asia/Tokyo'
-USE_I18N = True
-USE_TZ = True
 
 # Email settings
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
