@@ -25,6 +25,8 @@ urlpatterns = [
     
     
     path('create/', create_payment_view, name='create_payment'),
+    path('cancel/', cancel_view, name='payment_cancel'),
+    path('success/', payment_success, name='payment_success'),
     path('webhook/', paypal_webhook, name='paypal_webhook'),
     
 ]
