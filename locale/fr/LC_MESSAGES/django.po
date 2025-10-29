@@ -1,0 +1,51 @@
+# French translations for ThankJapan project.
+# Copyright (C) 2025 ThankJapan
+# This file is distributed under the same license as the ThankJapan package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: ThankJapan 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-10-29 17:28+0900\n"
+"PO-Revision-Date: 2025-10-29 17:28+0900\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: French <fr@li.org>\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: .\payment\templates\payment\cancel.html:96
+msgid "Cancelled 😢"
+msgstr "Annulé 😢"
+
+#: .\payment\templates\payment\cancel.html:97
+msgid "You have cancelled the payment. No action was taken."
+msgstr "Vous avez annulé le paiement. Aucune action n'a été effectuée."
+
+#: .\payment\templates\payment\cancel.html:98
+#: .\payment\templates\payment\failure.html:98
+msgid "Back to Payment Page"
+msgstr "Retour à la page de paiement"
+
+#: .\payment\templates\payment\failure.html:96
+msgid "Oops! Something went wrong 😢"
+msgstr "Oups ! Une erreur est survenue 😢"
+
+#: .\payment\templates\payment\failure.html:97
+msgid "We could not process your payment. Please try again later."
+msgstr "Nous n'avons pas pu traiter votre paiement. Veuillez réessayer plus tard."
+
+#: .\payment\templates\payment\success.html:97
+msgid "Thank You! 🎉"
+msgstr "Merci ! 🎉"
+
+#: .\payment\templates\payment\success.html:98
+msgid "Your support message has been sent successfully. We will get back to you soon!"
+msgstr "Votre message de soutien a été envoyé avec succès. Nous vous répondrons bientôt !"
+
+#: .\payment\templates\payment\success.html:99
+msgid "Back to Home"
+msgstr "Retour à l'accueil"

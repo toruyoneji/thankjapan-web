@@ -1,0 +1,51 @@
+# Brazilian Portuguese translations for ThankJapan project.
+# Copyright (C) 2025 ThankJapan
+# This file is distributed under the same license as the ThankJapan package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: ThankJapan 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-10-29 17:28+0900\n"
+"PO-Revision-Date: 2025-10-29 17:28+0900\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Portuguese (Brazil) <pt-BR@li.org>\n"
+"Language: pt-BR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: .\payment\templates\payment\cancel.html:96
+msgid "Cancelled 😢"
+msgstr "Cancelado 😢"
+
+#: .\payment\templates\payment\cancel.html:97
+msgid "You have cancelled the payment. No action was taken."
+msgstr "Você cancelou o pagamento. Nenhuma ação foi realizada."
+
+#: .\payment\templates\payment\cancel.html:98
+#: .\payment\templates\payment\failure.html:98
+msgid "Back to Payment Page"
+msgstr "Voltar à página de pagamento"
+
+#: .\payment\templates\payment\failure.html:96
+msgid "Oops! Something went wrong 😢"
+msgstr "Ops! Algo deu errado 😢"
+
+#: .\payment\templates\payment\failure.html:97
+msgid "We could not process your payment. Please try again later."
+msgstr "Não conseguimos processar seu pagamento. Por favor, tente novamente mais tarde."
+
+#: .\payment\templates\payment\success.html:97
+msgid "Thank You! 🎉"
+msgstr "Obrigado! 🎉"
+
+#: .\payment\templates\payment\success.html:98
+msgid "Your support message has been sent successfully. We will get back to you soon!"
+msgstr "Sua mensagem de suporte foi enviada com sucesso. Entraremos em contato em breve!"
+
+#: .\payment\templates\payment\success.html:99
+msgid "Back to Home"
+msgstr "Voltar para a página inicial"

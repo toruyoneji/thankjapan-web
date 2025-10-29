@@ -1,0 +1,52 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-10-29 17:28+0900\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Japanese <ja@li.org>\n"
+"Language: ja\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: .\payment\templates\payment\cancel.html:96
+msgid "Cancelled 😢"
+msgstr "キャンセルされました 😢"
+
+#: .\payment\templates\payment\cancel.html:97
+msgid "You have cancelled the payment. No action was taken."
+msgstr "支払いをキャンセルしました。操作は行われませんでした。"
+
+#: .\payment\templates\payment\cancel.html:98
+#: .\payment\templates\payment\failure.html:98
+msgid "Back to Payment Page"
+msgstr "支払いページに戻る"
+
+#: .\payment\templates\payment\failure.html:96
+msgid "Oops! Something went wrong 😢"
+msgstr "おっと！問題が発生しました 😢"
+
+#: .\payment\templates\payment\failure.html:97
+msgid "We could not process your payment. Please try again later."
+msgstr "お支払いを処理できませんでした。後で再度お試しください。"
+
+#: .\payment\templates\payment\success.html:97
+msgid "Thank You! 🎉"
+msgstr "ありがとうございます！ 🎉"
+
+#: .\payment\templates\payment\success.html:98
+msgid "Your support message has been sent successfully. We will get back to you soon!"
+msgstr "サポートメッセージは正常に送信されました。後ほどご連絡いたします。"
+
+#: .\payment\templates\payment\success.html:99
+msgid "Back to Home"
+msgstr "ホームに戻る"
