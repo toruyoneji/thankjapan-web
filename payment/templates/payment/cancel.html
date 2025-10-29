@@ -1,50 +1,102 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Support Cancelled</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        body {
-            font-family: 'Helvetica Neue', Arial, sans-serif;
-            background: linear-gradient(135deg, #f0f4f8, #d9e2ec);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 20px;
-        }
-        .message-box {
-            background: #fff;
-            padding: 30px;
-            border-radius: 12px;
-            max-width: 500px;
-            text-align: center;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-        }
-        h2 { color: #ff9800; margin-bottom: 15px; }
-        p { font-size: 1.1rem; margin-bottom: 20px; }
-        a.button {
-            display: inline-block;
-            background: #ff9800;
-            color: #fff;
-            padding: 12px 25px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: bold;
-            transition: background 0.3s ease, transform 0.2s ease;
-        }
-        a.button:hover {
-            background: #f57c00;
-            transform: translateY(-2px);
-        }
-    </style>
+<meta charset="UTF-8">
+<title>Support Cancelled</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@500&display=swap');
+
+    body {
+        font-family: 'Baloo 2', cursive;
+        background: linear-gradient(135deg, #fff0e1, #ffe0b2);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        margin: 0;
+        padding: 20px;
+    }
+
+    .message-box {
+        background: #fffaf2;
+        padding: 40px 30px;
+        border-radius: 25px;
+        max-width: 500px;
+        text-align: center;
+        box-shadow: 0 12px 30px rgba(255, 171, 64, 0.3);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .message-box::before,
+    .message-box::after {
+        content: '';
+        position: absolute;
+        border-radius: 50%;
+        background: rgba(255, 204, 128, 0.3);
+    }
+    .message-box::before {
+        width: 100px; height: 100px;
+        top: -30px; left: -30px;
+    }
+    .message-box::after {
+        width: 60px; height: 60px;
+        bottom: -20px; right: -20px;
+    }
+
+    h2 {
+        color: #ff9800;
+        margin-bottom: 15px;
+        font-size: 2.2rem;
+        text-shadow: 1px 1px 2px #ffe0b2;
+    }
+
+    p {
+        font-size: 1.1rem;
+        margin-bottom: 25px;
+        color: #555;
+    }
+
+    a.button {
+        display: inline-block;
+        background: linear-gradient(135deg, #ffb74d, #ffe082);
+        color: white;
+        padding: 14px 30px;
+        border-radius: 30px;
+        text-decoration: none;
+        font-weight: bold;
+        font-size: 1rem;
+        box-shadow: 0 6px 15px rgba(255, 171, 64, 0.3);
+        transition: all 0.3s ease;
+        position: relative;
+    }
+
+    a.button::after {
+        content: '☀️';
+        position: absolute;
+        top: -10px; right: -15px;
+        font-size: 1.2rem;
+        animation: bounce 1.2s infinite;
+    }
+
+    a.button:hover {
+        transform: translateY(-5px) scale(1.05);
+        box-shadow: 0 10px 25px rgba(255,171,64,0.5);
+    }
+
+    @keyframes bounce {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-6px); }
+    }
+</style>
 </head>
 <body>
-    <div class="message-box">
-        <h2>Cancelled</h2>
-        <p>You have cancelled the support process. No action was taken.</p>
-        <a href="{% url 'toppage' %}" class="button">Back to Home</a>
-    </div>
+<div class="message-box">
+    <h2>{% trans "Cancelled 😢" %}</h2>
+    <p>{% trans "You have cancelled the payment. No action was taken." %}</p>
+    <a href="{% url 'select_amount' %}" class="button">{% trans "Back to Payment Page" %}</a>
+
+</div>
 </body>
 </html>

@@ -1,4 +1,5 @@
 from django.urls import path
+from django.conf.urls.i18n import i18n_patterns
 from payment.views import (create_payment_view, cancel_view, 
                            payment_success, select_amount_view, select_amount_view_ja,
                            select_amount_view_vi,select_amount_view_fr,select_amount_view_it, 
@@ -29,3 +30,8 @@ urlpatterns = [
     path('webhook/', paypal_webhook, name='paypal_webhook'),
     
 ]
+
+urlpatterns += i18n_patterns(
+    path('success/', payment_success, name='payment_success'),
+    path('cancel/', cancel_view, name='payment_cancel'),
+)

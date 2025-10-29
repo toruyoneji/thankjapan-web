@@ -94,9 +94,10 @@
 </head>
 <body>
 <div class="message-box">
-    <h2>Thank You! 🎉</h2>
-    <p>Your support message has been sent successfully. We will get back to you soon!</p>
-    <a href="{% url 'toppage' %}" class="button">Back to Home</a>
+    <h2>{% trans "Thank You! 🎉" %}</h2>
+    <p>{% trans "Your support message has been sent successfully. We will get back to you soon!" %}</p>
+    <a href="{% url 'toppage' %}" class="button">{% trans "Back to Home" %}</a>
+
 </div>
 </body>
 </html>
