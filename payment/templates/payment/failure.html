@@ -92,11 +92,11 @@
 </style>
 </head>
 <body>
-<div class="message-box">
-    <h2>{% trans "Oops! Something went wrong 😢" %}</h2>
-    <p>{% trans "We could not process your payment. Please try again later." %}</p>
-    <a href="{% url 'select_amount' %}" class="button">{% trans "Back to Payment Page" %}</a>
+    <div class="message-box">
+        <h2>Oops!</h2>
+        <p>Something went wrong while sending your support message. Please try again later.</p>
+        <a href="{% url 'contact' %}" class="button">Back to Contact Form</a>
+    </div>
 
-</div>
 </body>
 </html>
