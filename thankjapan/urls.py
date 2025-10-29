@@ -12,7 +12,7 @@ app_name = "thank_japan_app"
 urlpatterns = [
     path('robots.txt', robots_txt),
     path('kanrisha/', admin.site.urls),
-    
+    path('support/', include('payment.urls')),
     path('', include('thank_japan_app.urls')),
    
     path('sitemap.xml', TemplateView.as_view(
@@ -20,8 +20,5 @@ urlpatterns = [
    
 ]
 
-urlpatterns += i18n_patterns(
-   path('support/', include('payment.urls')),
-)
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
