@@ -29,7 +29,3 @@ urlpatterns = [
     
 ]
 
-urlpatterns += i18n_patterns(
-    path('cancel/', cancel_view, name='payment_cancel'),
-    path('success/', payment_success, name='payment_success'),
-)
