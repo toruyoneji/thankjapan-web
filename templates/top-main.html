@@ -155,6 +155,51 @@ header {
         background: #ff9642;
     }
 
+    .modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.8);
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background-color: #fff;
+  margin: 20px;
+  padding: 15px;
+  border-radius: 10px;
+  text-align: center;
+  overflow-y: auto;
+}
+
+.modal-content img {
+  width: 100%;
+  border-radius: 10px;
+}
+
+.modal-close {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  font-size: 30px;
+  cursor: pointer;
+  color: white;
+}
+
+
+@media screen and (min-width: 769px) {
+  .modal-content {
+    width: 50%;      
+    max-width: 600px; 
+    max-height: 60%;  
+  }
+}
+
 
 @media screen and (max-width: 768px) {
   .main {
@@ -209,54 +254,19 @@ header {
     text-overflow: ellipsis;
   }
 
-  .modal-content {
-    width: 90%;    
-    height: 90%; 
-    max-width: none;
-    max-height: none;
+ .modal-content {
+    width: 90%;      /* 横幅90% */
+    max-width: none; /* 最大幅制限なし */
+    max-height: 90%; /* 高さ90% */
+  }
+
+  .modal-content img {
+    width: 100%;     /* 画像も横幅いっぱい */
+    height: auto;    /* 高さは自動調整 */
   }
 }
 
 
-
-/* 共通モーダルのスタイル */
-.modal {
-  display: none;
-  position: fixed;
-  z-index: 1000;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0,0,0,0.8);
-  justify-content: center;
-  align-items: center;
-}
-
-.modal-content {
-  background-color: #fff;
-  margin: 20px;
-  padding: 15px;
-  border-radius: 10px;
-  text-align: center;
-  max-width: 50%;   
-  max-height: 60%;
-  overflow-y: auto;
-}
-
-.modal-content img {
-  width: 100%;
-  border-radius: 10px;
-}
-
-.modal-close {
-  position: absolute;
-  top: 10px;
-  right: 20px;
-  font-size: 30px;
-  cursor: pointer;
-  color: white;
-}
 
 </style>
 
