@@ -631,12 +631,11 @@ header {
     });
   });
 
-  // 閉じるボタン
   document.querySelector('#modal .modal-close').addEventListener('click', () => {
     document.getElementById('modal').style.display = 'none';
   });
 
-  // モーダル外クリックで閉じる
+  
   window.addEventListener('click', (e) => {
     if (e.target === document.getElementById('modal')) {
       document.getElementById('modal').style.display = 'none';

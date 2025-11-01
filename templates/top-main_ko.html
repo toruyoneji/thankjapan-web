@@ -128,74 +128,129 @@ h2, h3 {
   word-break: break-word;
 }
 
-@media screen and (max-width: 768px) {
-  .main { margin-left: 0; }
+header {
+    position: relative;
+    z-index: 10;
+  }
 
-  .food-grid {
-    grid-template-columns: repeat(2, 1fr); /* ← スマホで2列表示 */
+  div[style*="text-align:center; margin-top:30px;"],
+  div[style*="text-align:center; margin:30px 0;"] {
+    position: relative;
+    z-index: 1;
+  }
+
+  .btn-more {
+    display: inline-block;
+    background: #ffb347;
+    color: white;
+    padding: 10px 24px;
+    border-radius: 25px;
+    text-decoration: none;
+    font-weight: 600;
+    margin-top: 20px;
+    transition: background 0.3s;
+    }
+    
+    .btn-more:hover {
+        background: #ff9642;
+    }
+
+
+@media screen and (max-width: 768px) {
+  .main {
+    margin-top: 0;
+    margin-left: 0;
+    width: 100%;
+    color: white;
+  }
+
+
+  body.toppage .main {
+    margin-top: 150px;
+  }
+
+  .sidebar {
+    margin-bottom: 0; 
+  }
+
+  .sns {
+    margin-left: 0;
+    display: block;
+  }
+
+
+  header, .sidebar {
+    position: relative;
+    z-index: 10;
+  }
+
+  .food-grid,
+  .game-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
     gap: 8px;
     padding: 8px;
   }
 
-  .food-card img {
+  .food-card img,
+  .game-card img {
     width: 100%;
     height: 120px;
     object-fit: cover;
     border-radius: 10px;
   }
 
-  .food-card p {
+  .food-card p,
+  .game-card p {
     display: -webkit-box;
-    -webkit-line-clamp: 2; /* ← 2行（約50文字）だけ表示 */
+    -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
   }
 }
 
+
+
+/* 共通モーダルのスタイル */
 .modal {
   display: none;
   position: fixed;
-  z-index: 9999;
+  z-index: 1000;
   left: 0;
   top: 0;
   width: 100%;
   height: 100%;
-  overflow: auto;
-  background-color: rgba(0,0,0,0.7);
-}
-
-.modal.active {
-  display: flex;
+  background-color: rgba(0,0,0,0.8);
   justify-content: center;
   align-items: center;
 }
 
 .modal-content {
-  background: #fff;
-  border-radius: 15px;
-  max-width: 90%;
-  width: 400px;
-  padding: 20px;
-  position: relative;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  background-color: #fff;
+  margin: 20px;
+  padding: 15px;
+  border-radius: 10px;
   text-align: center;
+  max-width: 90%;
+  max-height: 90%;
+  overflow-y: auto;
 }
 
 .modal-content img {
   width: 100%;
   border-radius: 10px;
-  margin-bottom: 10px;
 }
 
 .modal-close {
   position: absolute;
   top: 10px;
-  right: 15px;
-  font-size: 1.5rem;
+  right: 20px;
+  font-size: 30px;
   cursor: pointer;
-  color: #333;
+  color: white;
 }
+
 </style>
 
 
@@ -548,39 +603,40 @@ h2, h3 {
 
 </div>
 
-<!-- モーダル -->
-  <div id="modal" class="modal">
-    <div class="modal-content">
-      <span class="modal-close">&times;</span>
-      <img id="modalImage" src="" alt="">
-      <p id="modalText"></p>
-    </div>
+<div id="modal" class="modal">
+  <div class="modal-content">
+    <span class="modal-close">&times;</span>
+    <img id="modalImage" src="" alt="">
+    <p id="modalText"></p>
   </div>
+</div>
+
 
   
-  <script>
-    const cards = document.querySelectorAll('.food-card p');
-    const modal = document.getElementById('modal');
-    const modalImage = document.getElementById('modalImage');
-    const modalText = document.getElementById('modalText');
-    const closeBtn = document.querySelector('.modal-close');
+<script>
+  
+  document.querySelectorAll('.food-card, .game-card').forEach(card => {
+    card.addEventListener('click', () => {
+      const imgSrc = card.querySelector('img').src;
+      const text = card.querySelector('p').innerText;
 
-    cards.forEach(card => {
-      card.addEventListener('click', (e) => {
-        e.stopPropagation();
-        const img = card.previousElementSibling.querySelector('img');
-        modalImage.src = img.src;
-        modalText.textContent = card.textContent;
-        modal.classList.add('active');
-      });
+      document.getElementById('modalImage').src = imgSrc;
+      document.getElementById('modalText').innerText = text;
+      document.getElementById('modal').style.display = 'flex';
     });
+  });
 
-    closeBtn.addEventListener('click', () => modal.classList.remove('active'));
-    modal.addEventListener('click', (e) => {
-      if (e.target === modal) modal.classList.remove('active');
-    });
-  </script>
+  document.querySelector('#modal .modal-close').addEventListener('click', () => {
+    document.getElementById('modal').style.display = 'none';
+  });
 
+  
+  window.addEventListener('click', (e) => {
+    if (e.target === document.getElementById('modal')) {
+      document.getElementById('modal').style.display = 'none';
+    }
+  });
+</script>
 
 
 
