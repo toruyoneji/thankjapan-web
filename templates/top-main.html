@@ -141,17 +141,35 @@ header {
 
 
 @media screen and (max-width: 768px) {
-  .main { margin-left: 0; }
+  .main {
+    margin-top: 0;
+    margin-left: 0;
+    width: 100%;
+    color: white;
+  }
+
+
+  body.toppage .main {
+    margin-top: 150px;
+  }
 
   .sidebar {
-    position: relative;  
-    z-index: 5;
-    margin-top: 0;    
+    margin-bottom: 0; 
   }
 
-  main, .content, .food-grid {
-    margin-top: 150px;   
+  .sns {
+    margin-left: 0;
+    display: block;
   }
+
+
+  header, .sidebar {
+    position: relative;
+    z-index: 10;
+  }
+
+
+
   .food-grid {
     grid-template-columns: repeat(2, 1fr); 
     gap: 8px;
