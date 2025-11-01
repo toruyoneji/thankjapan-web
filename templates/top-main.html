@@ -1,7 +1,6 @@
 {% load static %}
 
 <style>
-
 body {
   margin: 0;
   font-family: "Poppins", "Hiragino Maru Gothic ProN", sans-serif;
@@ -11,16 +10,15 @@ body {
 }
 
 .header {
-    width: 100%;
-    height: 120px;
-    background-image: url("https://res.cloudinary.com/dotekofm5/image/upload/v1754641165/thankjapan/backgrounds/urhlsfokzrozs5835nkh.png");
-    background-size: cover;
-    position: fixed; 
-    top: 0;
-    left: 0;
-    z-index: 9999; 
+  width: 100%;
+  height: 120px;
+  background-image: url("https://res.cloudinary.com/dotekofm5/image/upload/v1754641165/thankjapan/backgrounds/urhlsfokzrozs5835nkh.png");
+  background-size: cover;
+  position: fixed; 
+  top: 0;
+  left: 0;
+  z-index: 9999; 
 }
-
 
 .main {
   max-width: 1100px;
@@ -28,19 +26,16 @@ body {
   padding: 30px 20px;
 }
 
-
 h2, h3 {
   color: #ff6f61;
   text-shadow: 1px 1px 2px rgba(255,255,255,0.8);
 }
-
 
 .trending-categories {
   background: linear-gradient(90deg, #f6d365, #fda085);
   padding: 20px;
   border-radius: 20px;
   box-shadow: 0 4px 10px rgba(253, 160, 133, 0.6);
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   text-align: center;
   margin: 40px auto;
 }
@@ -73,7 +68,6 @@ h2, h3 {
   color: #333;
 }
 
-
 .hero-card {
   background: linear-gradient(to bottom, rgba(255, 160, 122, 0.8), rgba(255, 218, 185, 0.8)), 
               url("https://res.cloudinary.com/dotekofm5/image/upload/v1761402106/thankjapan/backgrounds/jtbdzjsksgbgehuxl954.jpg") center/cover no-repeat;
@@ -83,29 +77,6 @@ h2, h3 {
   box-shadow: 0 5px 15px rgba(0,0,0,0.3);
   margin: 30px auto;
 }
-
-.hero-card2 {
-  background: linear-gradient(to bottom, rgba(231, 50, 5, 0.8), rgba(255, 218, 185, 0.8)), 
-              center/cover no-repeat;
-  color: white;
-  border-radius: 25px;
-  padding: 60px 30px;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-  margin: 30px auto;
-}
-
-.hero-card h1 {
-  font-size: 2.5rem;
-  margin-bottom: 15px;
-}
-
-.hero-card p {
-  max-width: 650px;
-  margin: 0 auto;
-  font-size: 1.1rem;
-  line-height: 1.6;
-}
-
 
 .card {
   background: #fff;
@@ -121,157 +92,109 @@ h2, h3 {
   transform: scale(1.02);
 }
 
-.card img {
-  width: 100%;
-  height: auto;
-  display: block;
-}
-
-.card dl, .card p {
-  padding: 20px;
-  text-align: left;
-}
-
-.dt {
-  font-weight: bold;
-  color: #ff6f61;
-  margin-top: 10px;
-}
-
-.dd {
-  margin-left: 10px;
-  color: #555;
-}
-
-.cute-game-link {
-  display: inline-block;
-  background: linear-gradient(45deg, #ff9a9e, #fad0c4);
-  color: white;
-  font-weight: 600;
-  font-size: 1rem;
-  padding: 10px 20px;
-  border-radius: 25px;
-  text-decoration: none;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-  transition: all 0.3s ease;
-  font-family: 'Poppins', sans-serif;
-}
-
-.cute-game-link:hover {
-  transform: translateY(-3px) scale(1.05);
-  box-shadow: 0 6px 16px rgba(0,0,0,0.25);
-  background: linear-gradient(45deg, #fad0c4, #ff9a9e);
-}
-
-.mountfuji-image-card:hover,
-.mountfuji-info-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-  cursor: pointer;
-}
-
-
 .food-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 20px;
-  margin-top: 40px;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 16px;
+  margin-top: 20px;
 }
 
 .food-card {
   background: #fff;
-  border-radius: 18px;
+  border-radius: 15px;
   box-shadow: 0 4px 10px rgba(0,0,0,0.1);
   overflow: hidden;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: transform 0.3s ease;
+  cursor: pointer;
 }
 
 .food-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 6px 15px rgba(0,0,0,0.2);
 }
 
 .food-card img {
   width: 100%;
-  height: 200px;
+  height: 180px;
   object-fit: cover;
+  display: block;
 }
 
 .food-card p {
-  margin: 10px 0;
-  padding: 0 10px 15px;
-  color: #555;
-  font-weight: 500;
-}
-
-.game-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+  margin: 8px;
+  color: #444;
+  font-size: 0.9rem;
+  line-height: 1.4;
   cursor: pointer;
+  word-break: break-word;
 }
-
-.btn-more {
-    display: inline-block;
-    background: #ffb347;
-    color: white;
-    padding: 10px 24px;
-    border-radius: 25px;
-    text-decoration: none;
-    font-weight: 600;
-    margin-top: 20px;
-    transition: background 0.3s;
-    }
-    
-.btn-more:hover {
-    background: #ff9642;
-    }
-
 
 @media screen and (max-width: 768px) {
-  .header {
-    position: fixed;
-    top: 0;
-    left: 0;
+  .main { margin-left: 0; }
+
+  .food-grid {
+    grid-template-columns: repeat(2, 1fr); /* ← スマホで2列表示 */
+    gap: 8px;
+    padding: 8px;
+  }
+
+  .food-card img {
     width: 100%;
-    z-index: 9999;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 10px;
   }
 
-  .sidebar {
-    position: fixed;
-    padding-top: 15px;
-    left: 0;
-    width: 100%;
-    z-index: 999;
+  .food-card p {
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* ← 2行（約50文字）だけ表示 */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
+}
 
-  
-  .main {
-    margin-left: 0;
-    z-index: 1;
-  }
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 9999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.7);
+}
 
-  .hero-card h1 { font-size: 2rem; }
-  .hero-card p { font-size: 1rem; }
+.modal.active {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
-  .mountfuji-container {
-    flex-direction:column;
-    align-items:center;
-  }
-  .mountfuji-image-card,
-  .mountfuji-info-card {
-    max-width:90%;
-  }
-  .mountfuji-image-card img {
-    height:180px;
-  }
+.modal-content {
+  background: #fff;
+  border-radius: 15px;
+  max-width: 90%;
+  width: 400px;
+  padding: 20px;
+  position: relative;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  text-align: center;
+}
 
-  .game-grid {
-    grid-template-columns: 1fr;
-    gap:10px;
-  }
-  .game-card img {
-    height:140px;
-  }
+.modal-content img {
+  width: 100%;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+.modal-close {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #333;
 }
 </style>
 
@@ -628,3 +551,40 @@ h2, h3 {
   </div>
 
 </div>
+
+<!-- モーダル -->
+  <div id="modal" class="modal">
+    <div class="modal-content">
+      <span class="modal-close">&times;</span>
+      <img id="modalImage" src="" alt="">
+      <p id="modalText"></p>
+    </div>
+  </div>
+
+  
+  <script>
+    const cards = document.querySelectorAll('.food-card p');
+    const modal = document.getElementById('modal');
+    const modalImage = document.getElementById('modalImage');
+    const modalText = document.getElementById('modalText');
+    const closeBtn = document.querySelector('.modal-close');
+
+    cards.forEach(card => {
+      card.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const img = card.previousElementSibling.querySelector('img');
+        modalImage.src = img.src;
+        modalText.textContent = card.textContent;
+        modal.classList.add('active');
+      });
+    });
+
+    closeBtn.addEventListener('click', () => modal.classList.remove('active'));
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) modal.classList.remove('active');
+    });
+  </script>
+
+
+
+
