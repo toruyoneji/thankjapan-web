@@ -128,22 +128,25 @@ h2, h3 {
   word-break: break-word;
 }
 
-/* 上に出すのはヘッダーだけで十分 */
 header {
-  position: relative;
-  z-index: 10;
-}
+    position: relative;
+    z-index: 10;
+  }
 
-/* 下のボタン類がヘッダーより上に出ないよう制御 */
-div[style*="text-align:center; margin-top:30px;"],
-div[style*="text-align:center; margin:30px 0;"] {
-  position: relative;
-  z-index: 1;
-}
+  div[style*="text-align:center; margin-top:30px;"],
+  div[style*="text-align:center; margin:30px 0;"] {
+    position: relative;
+    z-index: 1;
+  }
 
 
 @media screen and (max-width: 768px) {
   .main { margin-left: 0; }
+
+  .sidebar {
+      position: relative;
+      z-index: 5;
+    }
 
   .food-grid {
     grid-template-columns: repeat(2, 1fr); 
