@@ -143,16 +143,15 @@ header {
 @media screen and (max-width: 768px) {
   .main { margin-left: 0; }
 
-  main, .content, .food-grid {
-    margin-top: 0;
-    padding-top: 0;
+  .sidebar {
+    position: relative;  
+    z-index: 5;
+    margin-top: 0;    
   }
 
-  .sidebar {
-      position: relative;
-      z-index: 5;
-    }
-
+  main, .content, .food-grid {
+    margin-top: 150px;   
+  }
   .food-grid {
     grid-template-columns: repeat(2, 1fr); 
     gap: 8px;
@@ -168,7 +167,7 @@ header {
 
   .food-card p {
     display: -webkit-box;
-    -webkit-line-clamp: 2; /* ← 2行（約50文字）だけ表示 */
+    -webkit-line-clamp: 2; 
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
