@@ -32,6 +32,26 @@
         margin: 0 auto;
     }
 
+    .category-header {
+    text-align: center;
+    padding: 50px 20px 30px;
+    background: linear-gradient(135deg, #ffe8d6 0%, #fffaf5 100%);
+    border-radius: 0 0 40px 40px;
+    margin-top: 120px;
+    }
+    .category-header h1 {
+    font-size: 2.2rem;
+    font-family: 'Sawarabi Mincho', serif;
+    color: #d46a00;
+    letter-spacing: 1px;
+    }
+    .category-header p {
+    color: #666;
+    font-size: 1.1rem;
+    margin-top: 10px;
+    }
+
+
     .food-card {
         background-color: #fff;
         border-radius: 16px;
@@ -137,8 +157,8 @@
 
     <div class="main2">
     
-        <h1 class="visually-hidden">Japanese Animals: Wildlife Native to Japan</h1>
-        <p class="visually-hidden">Meet animals found in Japan, from snow monkeys and cranes to lesser-known native species.</p>
+        <h1 class="category-header">Japanese Animals: Wildlife Native to Japan</h1>
+        <p class="category-header">Meet animals found in Japan, from snow monkeys and cranes to lesser-known native species.</p>
 
         {% for item in object_list %}
             <div class="food-card">
