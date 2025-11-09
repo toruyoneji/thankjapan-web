@@ -1,12 +1,94 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Privacy Policy{% endblock %}
+{% block title %}Privacy Policy | ThankJapan{% endblock %}
 
 {% block content %}
 <div class="main2">
-    <h1>Privacy Policy</h1>
-    <hr><br>
+
+    <h1 class="category-header">Privacy Policy</h1>
+
+    <style>
+    body {
+        background-color: #fffaf5;
+        font-family: 'Noto Sans JP', 'Poppins', sans-serif;
+        color: #fff; /* ← 文字を白に変更 */
+    }
+
+    .main2 {
+        max-width: 900px;
+        margin: 80px auto 100px; 
+        padding: 0 20px; 
+    }
+
+    .category-header {
+        text-align: center;
+        padding: 30px 20px;
+        background: linear-gradient(135deg, #ffe8d6 0%, #fffaf5 100%);
+        border-radius: 0 0 40px 40px;
+        margin-bottom: 40px;
+        color: #000; 
+    }
+
+    h2 {
+        margin-top: 30px;
+        font-size: 1.2rem;
+        color: #ffd6a5; /* 少し明るめのオレンジ */
+    }
+
+    p, li {
+        font-size: 1rem;
+        line-height: 1.6;
+        color: #fff; /* 本文も白に */
+    }
+
+    ul {
+        margin-left: 20px;
+        margin-top: 10px;
+    }
+
+    a.anchor {
+        color: #ffb347; /* リンクは明るめオレンジで目立たせる */
+        text-decoration: none;
+    }
+    a.anchor:hover {
+        text-decoration: underline;
+    }
+
+    hr {
+        border: 0;
+        border-top: 1px solid #ffd6a5;
+        margin: 20px 0;
+    }
+
+    
+    .btn-more {
+            display: inline-block;
+            background: #ffb347;
+            color: white;
+            padding: 10px 24px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 20px;
+            transition: background 0.3s;
+        }
+        .btn-more:hover {
+            background: #ff9642;
+        }
+    
+
+    @media (max-width: 600px) {
+        .main2 {
+            margin: 50px 0px 50px;
+            padding: 0;
+        }
+
+        .category-header {
+            padding-top: 120px;
+        }
+    }
+</style>
 
     <p>ThankJapan ("we", "our", or "us") is committed to protecting your personal information. This Privacy Policy explains how we collect, use, and protect information that you provide when using our website and services.</p>
 
@@ -28,7 +110,7 @@
 
     <h2>3. Payment Processing</h2>
     <p>All payment transactions are processed securely by Stripe. We do not store your credit card details on our servers.</p>
-    <p>Please refer to <h3><a class="anchor" href="https://stripe.com/privacy" target="_blank">Stripe's Privacy Policy</a></h3> for more information.</p>
+    <p>Please refer to <a class="anchor" href="https://stripe.com/privacy" target="_blank">Stripe's Privacy Policy</a> for more information.</p>
 
     <h2>4. Cookies</h2>
     <p>We use cookies to enhance user experience and analyze site traffic. You can control cookie settings through your browser preferences.</p>
@@ -53,24 +135,11 @@
         <li>Address: Moroemachi Nakacho, Kanazawa City, Ishikawa 920-0016, Japan</li>
     </ul>
 
-    <hr><br>
+    <hr>
     <p>Last updated: August 13, 2025</p>
 
-    <div style="text-align: center; margin-top: 20px;">
-            <a href="{% url 'toppage' %}" style="
-                display: inline-block;
-                background: #0070ba;
-                color: white;
-                padding: 10px 24px;
-                border-radius: 8px;
-                text-decoration: none;
-                font-weight: 600;
-                transition: background 0.3s ease;
-                "
-                onmouseover="this.style.background='#005ea6'" onmouseout="this.style.background='#0070ba'">
-                Back to Home
-            </a>
-        </div>
+    <div style="text-align:center; margin:50px 0;">
+        <a class="btn-more" href="{% url 'toppage' %}">Back to Home</a>
+    </div>
 </div>
 {% endblock %}
-
