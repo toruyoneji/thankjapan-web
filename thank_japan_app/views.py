@@ -336,6 +336,7 @@ def game_restart(request):
                                 
 class FoodView(ListView):
     template_name = "thank_japan_app/food.html"
+    paginate_by = 20
     
     def get_queryset(self):
         return ThankJapanModel.objects.filter(category="food").order_by('-timestamp')
@@ -350,6 +351,7 @@ class FoodView(ListView):
 
 class NatureView(ListView):
     template_name = "thank_japan_app/nature.html"
+    paginate_by = 20
     
     def get_queryset(self):
         return ThankJapanModel.objects.filter(category="nature").order_by('-timestamp')
@@ -364,6 +366,7 @@ class NatureView(ListView):
 
 class FashionView(ListView):
     template_name = "thank_japan_app/fashion.html"
+    paginate_by = 20
     
     def get_queryset(self):
         return ThankJapanModel.objects.filter(category="fashion").order_by('-timestamp')
@@ -378,6 +381,7 @@ class FashionView(ListView):
 
 class CultureView(ListView):
     template_name = "thank_japan_app/culture.html"
+    paginate_by = 20
     
     def get_queryset(self):
         return ThankJapanModel.objects.filter(category="culture").order_by('-timestamp')
@@ -392,6 +396,7 @@ class CultureView(ListView):
     
 class CookView(ListView):
     template_name = "thank_japan_app/cook.html"
+    paginate_by = 20
     
     def get_queryset(self):
         return ThankJapanModel.objects.filter(category="cook").order_by('-timestamp')
@@ -406,6 +411,7 @@ class CookView(ListView):
     
 class AppliancesView(ListView):
     template_name = "thank_japan_app/appliances.html"
+    paginate_by = 20
     
     def get_queryset(self):
         return ThankJapanModel.objects.filter(category="appliances").order_by('-timestamp')
@@ -420,6 +426,7 @@ class AppliancesView(ListView):
 
 class AnimalView(ListView):
     template_name = "thank_japan_app/animal.html"
+    paginate_by = 20
     
     def get_queryset(self):
         return ThankJapanModel.objects.filter(category="animal").order_by('-timestamp')
@@ -434,6 +441,7 @@ class AnimalView(ListView):
 
 class BuildingView(ListView):
     template_name = "thank_japan_app/building.html"
+    paginate_by = 20
     
     def get_queryset(self):
         return ThankJapanModel.objects.filter(category="building").order_by('-timestamp')
@@ -448,6 +456,7 @@ class BuildingView(ListView):
 
 class FlowerView(ListView):
     template_name = "thank_japan_app/flower.html"
+    paginate_by = 20
     
     def get_queryset(self):
         return ThankJapanModel.objects.filter(category="flower").order_by('-timestamp')
@@ -462,6 +471,7 @@ class FlowerView(ListView):
 
 class HouseholdItemsView(ListView):
     template_name = "thank_japan_app/householditems.html"
+    paginate_by = 20
     
     def get_queryset(self):
         return ThankJapanModel.objects.filter(category="householditems").order_by('-timestamp')
@@ -476,6 +486,7 @@ class HouseholdItemsView(ListView):
 
 class SportsView(ListView):
     template_name = "thank_japan_app/sports.html"
+    paginate_by = 20
     
     def get_queryset(self):
         return ThankJapanModel.objects.filter(category="sports").order_by('-timestamp')
@@ -490,6 +501,7 @@ class SportsView(ListView):
     
 class WorkView(ListView):
     template_name = "thank_japan_app/work.html"
+    paginate_by = 20
     
     def get_queryset(self):
         return ThankJapanModel.objects.filter(category="work").order_by('-timestamp')
@@ -504,6 +516,7 @@ class WorkView(ListView):
     
 class LiveView(ListView):
     template_name = "thank_japan_app/live.html"
+    paginate_by = 20
     
     def get_queryset(self):
         return ThankJapanModel.objects.filter(category="live").order_by('-timestamp')
