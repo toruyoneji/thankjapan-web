@@ -7,26 +7,31 @@
         body { font-family: Arial, sans-serif; background: #f4f4f4; padding: 30px; text-align: center; }
         .container { max-width: 500px; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1);}
         a { color: #0070ba; text-decoration: none; }
+
+        .btn-more {
+            display: inline-block;
+            background: #ffb347;
+            color: white;
+            padding: 10px 24px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 20px;
+            transition: background 0.3s;
+        }
+        .btn-more:hover {
+            background: #ff9642;
+        }
+    
     </style>
 </head>
 <body>
     <div class="container">
         <h2>Thank you, {{ name }}!</h2>
         <p>Your message has been successfully sent. We will reply as soon as possible.</p>
-        <div style="text-align: center; margin-top: 20px;">
-            <a href="{% url 'toppage' %}" style="
-                display: inline-block;
-                background: #0070ba;
-                color: white;
-                padding: 10px 24px;
-                border-radius: 8px;
-                text-decoration: none;
-                font-weight: 600;
-                transition: background 0.3s ease;
-                "
-                onmouseover="this.style.background='#005ea6'" onmouseout="this.style.background='#0070ba'">
-                Back to Home
-            </a>
+        
+        <div style="text-align:center; margin:50px 0;">
+            <a class="btn-more" href="{% url 'toppage' %}">Back to Home</a>
         </div>
     </div>
 </body>

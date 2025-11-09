@@ -79,6 +79,22 @@
             background: #005ea6;
             transform: translateY(-2px);
         }
+
+        .btn-more {
+            display: inline-block;
+            background: #ffb347;
+            color: white;
+            padding: 10px 24px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 20px;
+            transition: background 0.3s;
+        }
+        .btn-more:hover {
+            background: #ff9642;
+        }
+        
         @media (max-width: 600px) {
             .container { padding: 20px; }
         }
@@ -126,20 +142,8 @@
             <button type="submit">Send Message</button>
         </form>
 
-        <div style="text-align: center; margin-top: 20px;">
-            <a href="{% url 'toppage' %}" style="
-                display: inline-block;
-                background: #0070ba;
-                color: white;
-                padding: 10px 24px;
-                border-radius: 8px;
-                text-decoration: none;
-                font-weight: 600;
-                transition: background 0.3s ease;
-                "
-                onmouseover="this.style.background='#005ea6'" onmouseout="this.style.background='#0070ba'">
-                Back to Home
-            </a>
+        <div style="text-align: center;">
+            <a href="{% url 'toppage' %}" class="btn-more">Back to Home</a>
         </div>
     </div>
 </body>

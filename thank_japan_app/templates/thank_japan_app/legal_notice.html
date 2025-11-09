@@ -1,91 +1,133 @@
 {% extends 'base.html' %}
 
-{% block title %}Legal Notice{% endblock %}
+{% block title %}Legal Notice | Japan Introduction{% endblock %}
 
 {% block content %}
-<div class="main2">
-    <h2>Legal Notice (Specified Commercial Transaction Act)</h2>
+<style>
+    body {
+        background: linear-gradient(135deg, #f6f9fc, #eef3f8);
+        font-family: 'Helvetica Neue', 'Noto Sans JP', sans-serif;
+    }
 
-    <p><strong>Business Operator:</strong><br>
-    Japan Introduction</p>
+    .legal-container {
+        max-width: 850px;
+        margin: 70px auto;
+        background: #fff;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+        border-radius: 16px;
+        padding: 50px 60px;
+        color: #333;
+        line-height: 1.9;
+        position: relative;
+        overflow: hidden;
+    }
 
-    <p><strong>Representative:</strong><br>
-    Toru Yonejima</p>
+    .legal-container::before {
+        content: "";
+        position: absolute;
+        top: -80px;
+        right: -80px;
+        width: 200px;
+        height: 200px;
+        background: radial-gradient(circle at center, #009cde33 0%, transparent 70%);
+        border-radius: 50%;
+        z-index: 0;
+    }
 
-    <p><strong>Business Address:</strong><br>
-    Moroemachi Nakacho, Kanazawa City, Ishikawa 920-0016, Japan</p>
+    .legal-container h2 {
+        color: #0068b4;
+        font-size: 1.8rem;
+        margin-bottom: 20px;
+        border-left: 5px solid #009cde;
+        padding-left: 15px;
+        position: relative;
+        z-index: 1;
+    }
 
-    <p><strong>Phone Number:</strong><br>
-    +81 80-8699-7640</p><br>
-    <p>※For inquiries, please contact us via email.</p>
+    .legal-container section {
+        margin-bottom: 45px;
+        position: relative;
+        z-index: 1;
+        background: #fafcff;
+        padding: 25px 30px;
+        border-radius: 12px;
+        border: 1px solid #e3ecf3;
+        transition: all 0.3s ease;
+    }
+
+    .legal-container section:hover {
+        background: #f5faff;
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(0, 156, 222, 0.08);
+    }
+
+    .legal-container p {
+        margin: 8px 0 14px;
+    }
+
+    .legal-container strong {
+        color: #111;
+        font-weight: 600;
+    }
+
+    .btn-more {
+            display: inline-block;
+            background: #ffb347;
+            color: white;
+            padding: 10px 24px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 20px;
+            transition: background 0.3s;
+        }
+        .btn-more:hover {
+            background: #ff9642;
+        }
     
 
-    <p><strong>Email Address:</strong><br>
-    yonetoru0@gmail.com</p>
+    @media (max-width: 600px) {
+        .legal-container {
+            padding: 35px 25px;
+        }
+    }
+</style>
 
-    <p><strong>Sales Price:</strong><br>
-    As displayed on each payment page (tax included)</p>
+<div class="legal-container">
+    <h2>Legal Notice (Specified Commercial Transaction Act)</h2>
 
-    <p><strong>Additional Fees:</strong><br>
-    None</p>
+    <section>
+        <p><strong>Business Operator:</strong><br>Japan Introduction</p>
+        <p><strong>Representative:</strong><br>Toru Yonejima</p>
+        <p><strong>Business Address:</strong><br>Moroemachi Nakacho, Kanazawa City, Ishikawa 920-0016, Japan</p>
+        <p><strong>Phone Number:</strong><br>+81 80-8699-7640</p>
+        <p>※For inquiries, please contact us via email.</p>
+        <p><strong>Email Address:</strong><br>yonetoru0@gmail.com</p>
+        <p><strong>Sales Price:</strong><br>As displayed on each payment page (tax included)</p>
+        <p><strong>Additional Fees:</strong><br>None</p>
+        <p><strong>Payment Method:</strong><br>Credit card (via Stripe)</p>
+        <p><strong>Payment Timing:</strong><br>Payment is processed immediately upon checkout</p>
+        <p><strong>Return / Cancellation Policy:</strong><br>Due to the nature of this support service, we do not accept cancellations or refunds after payment.</p>
+    </section>
 
-    <p><strong>Payment Method:</strong><br>
-    Credit card (via Stripe)</p>
+    <h2>特定商取引法に基づく表記</h2>
 
-    <p><strong>Payment Timing:</strong><br>
-    Payment is processed immediately upon checkout</p>
+    <section>
+        <p><strong>販売事業者名:</strong><br>Japan Introduction</p>
+        <p><strong>代表責任者名:</strong><br>米島 徹（Toru Yonejima）</p>
+        <p><strong>所在地:</strong><br>〒920-0016 石川県金沢市諸江町中丁</p>
+        <p><strong>電話番号:</strong><br>080-8699-7640（日本国内）</p>
+        <p>※お問い合わせはメールにてお願いいたします。</p>
+        <p><strong>メールアドレス:</strong><br>yonetoru0@gmail.com</p>
+        <p><strong>販売価格:</strong><br>各支援ページに記載された金額（税込）</p>
+        <p><strong>追加料金:</strong><br>なし</p>
+        <p><strong>支払い方法:</strong><br>クレジットカード（Stripe決済）</p>
+        <p><strong>支払い時期:</strong><br>決済手続き完了時点で即時処理</p>
+        <p><strong>キャンセル・返金について:</strong><br>サービスの性質上、決済後のキャンセル・返金には応じられません。</p>
+    </section>
 
-    <p><strong>Return / Cancellation Policy:</strong><br>
-    Due to the nature of this support service, we do not accept cancellations or refunds after payment.</p>
-
-    <h2>Legal Notice (特定商取引法に基づく表記)</h2>
-
-    <p><strong>販売事業者名:</strong><br>
-    Japan Introduction</p>
-
-    <p><strong>代表責任者名:</strong><br>
-    米島 徹（Toru Yonejima）</p>
-
-    <p><strong>所在地:</strong><br>
-    〒920-0016 石川県金沢市諸江町中丁</p>
-
-    <p><strong>電話番号:</strong><br>
-    080-8699-7640（日本国内）</p><br>
-    <p>※お問い合わせはメールにてお願いいたします。</p>
-
-    <p><strong>メールアドレス:</strong><br>
-    yonetoru0@gmail.com</p>
-
-    <p><strong>販売価格:</strong><br>
-    各支援ページに記載された金額（税込）</p>
-
-    <p><strong>追加料金:</strong><br>
-    なし</p>
-
-    <p><strong>支払い方法:</strong><br>
-    クレジットカード（Stripe決済）</p>
-
-    <p><strong>支払い時期:</strong><br>
-    決済手続き完了時点で即時処理</p>
-
-    <p><strong>キャンセル・返金について:</strong><br>
-    サービスの性質上、決済後のキャンセル・返金には応じられません。</p>
-
-    <div style="text-align: center; margin-top: 20px;">
-            <a href="{% url 'toppage' %}" style="
-                display: inline-block;
-                background: #0070ba;
-                color: white;
-                padding: 10px 24px;
-                border-radius: 8px;
-                text-decoration: none;
-                font-weight: 600;
-                transition: background 0.3s ease;
-                "
-                onmouseover="this.style.background='#005ea6'" onmouseout="this.style.background='#0070ba'">
-                Back to Home
-            </a>
-        </div>
-
+    <div style="text-align: center;">
+        <a href="{% url 'toppage' %}" class="btn-more">Back to Home</a>
+    </div>
 </div>
 {% endblock %}
