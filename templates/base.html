@@ -145,7 +145,7 @@
         color: #e63946;
     }
 
-    .dropdown:hover .dropdown-content { display: block; }
+    
 
     /* --- SNS buttons --- */
     .sns-buttons {
@@ -286,5 +286,30 @@
 </header>
 
 {% block content %}{% endblock %}
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const dropdowns = document.querySelectorAll('.dropdown');
+
+    dropdowns.forEach(dropdown => {
+        const btn = dropdown.querySelector('.dropbtn');
+        const content = dropdown.querySelector('.dropdown-content');
+
+        btn.addEventListener('click', function(e) {
+            e.stopPropagation(); // 他のクリックイベントに影響させない
+            // 既に開いていたら閉じる
+            const isOpen = content.style.display === 'block';
+            document.querySelectorAll('.dropdown-content').forEach(dc => dc.style.display = 'none');
+            content.style.display = isOpen ? 'none' : 'block';
+        });
+    });
+
+    // ページのどこかクリックしたら閉じる
+    document.addEventListener('click', function() {
+        document.querySelectorAll('.dropdown-content').forEach(dc => dc.style.display = 'none');
+    });
+});
+</script>
+
 </body>
 </html>
