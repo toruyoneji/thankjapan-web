@@ -46,8 +46,151 @@
     
     {% endblock %}
 
-
     <title>{% block title %}ThankJapan{% endblock %}</title>
+
+    <style>
+    /* --- Header --- */
+    header.nav-bar {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        background: rgba(0,0,0,0.8);
+        backdrop-filter: blur(6px);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 30px;
+        z-index: 999;
+        flex-wrap: wrap;
+    }
+
+    .logo {
+        font-size: 1.3rem;
+        font-weight: 700;
+        color: #fff;
+    }
+
+    .logo-link {
+        color: white;
+        text-decoration: none;
+        font-weight: bold;
+        font-size: 1.5rem;
+    }
+    .logo-link:hover { color: #e63946; }
+
+    nav {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        flex-wrap: wrap;
+    }
+
+    nav a, .dropbtn {
+        color: #eee;
+        text-decoration: none;
+        font-weight: 500;
+        transition: color 0.3s ease;
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-size: 1rem;
+        font-family: inherit;
+    }
+    nav a:hover, .dropbtn:hover { color: #e63946; }
+
+    /* --- Dropdown --- */
+    .dropdown {
+        position: relative;
+        display: inline-block;
+    }
+
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        background-color: #1a1a1a;
+        min-width: 160px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+        border-radius: 8px;
+        z-index: 999;
+    }
+
+    .dropdown-content a {
+        color: #eee;
+        padding: 10px 16px;
+        display: block;
+        text-decoration: none;
+    }
+
+    .dropdown-content a:hover {
+        background-color: #333;
+        color: #e63946;
+    }
+
+    .dropdown:hover .dropdown-content { display: block; }
+
+    /* --- SNS buttons --- */
+    .sns-buttons {
+        display: flex;
+        gap: 10px;
+    }
+
+    .sns-buttons a {
+        font-size: 1.2rem;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 30px;
+        height: 30px;
+        background-color: #333;
+        border-radius: 50%;
+        color: white;
+        text-decoration: none;
+        transition: background-color 0.3s;
+    }
+    .sns-buttons a:hover { background-color: #e63946; }
+
+    .sns-buttons a .fa-x-twitter {
+      color: #eee; 
+    }
+
+    /* --- Responsive --- */
+    @media screen and (max-width: 768px) {
+        header.nav-bar {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        nav {
+            width: 100%;
+            gap: 10px;
+        }
+        /* Gameを下に表示 */
+        .game-link {
+            order: 2;
+        }
+        .lang-switch {
+            order: 3;
+        }
+        .sns-buttons {
+            order: 1;
+            margin-bottom: 5px;
+        }
+    }
+
+    @media screen and (max-width: 768px) {
+  
+    nav {
+        flex-wrap: wrap;
+        gap: 15px;
+        }
+
+    .sns-buttons {
+        margin-top: 10px; /* お好みで数値を調整 */
+        }
+    }
+
+    </style>
 
     <script async src="https://www.googletagmanager.com/gtag/js?id={{ GA_TRACKING_ID }}"></script>
     <script>
@@ -57,20 +200,70 @@
 
         gtag('config', '{{ GA_TRACKING_ID }}');
     </script>
-    
-
 </head>
 
 <body>
+<header class="nav-bar">
+    <div class="logo">
+        <a class="logo-link" href="{% url 'toppage' %}">Thank Japan</a>
+    </div>
 
-    {% include 'header.html' %}
+    <!-- SNSボタン -->
+  <div class="sns-buttons">
+    <a href="https://x.com/thankjapan0514" target="_blank"><i class="fab fa-x twitter"></i></a>
+    <a href="https://www.instagram.com/thankjapan/" target="_blank"><i class="fab fa-instagram"></i></a>
+    <a href="https://www.facebook.com/ToruYone" target="_blank"><i class="fab fa-facebook"></i></a>
+    <a href="https://www.tiktok.com/@thankjapan" target="_blank"><i class="fab fa-tiktok"></i></a>
+    <a href="https://www.pinterest.com/yonetoru/" target="_blank"><i class="fab fa-pinterest"></i></a>
+    <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://www.thankjapan.com" target="_blank" title="Share on LinkedIn"><i class="fab fa-linkedin"></i></a>
+  </div>
 
-    {% include 'sidebar.html' %}
 
 
-    {% block content %}{% endblock %}
+    <nav>
+        <div class="dropdown">
+            <button class="dropbtn">Categories ▾</button>
+            <div class="dropdown-content">
+                <a href="{% url 'culturepage' %}">Culture</a>
+                <a href="{% url 'foodpage' %}">Food</a>
+                <a href="{% url 'fashionpage' %}">Fashion</a>
+                <a href="{% url 'naturepage' %}">Nature</a>
+                <a href="{% url 'cookpage' %}">Cuisine</a>
+                <a href="{% url 'animalpage' %}">Animals</a>
+                <a href="{% url 'sportspage' %}">Sports</a>
+                <a href="{% url 'householditemspage' %}">HouseholdItems</a>
+                <a href="{% url 'appliancespage' %}">Appliances</a>
+                <a href="{% url 'buildingpage' %}">Building</a>
+                <a href="{% url 'flowerpage' %}">Flowers</a>
+                <a href="{% url 'workpage' %}">Work</a>
+                <a href="{% url 'livepage' %}">Lifestyle</a>
+            </div>
+        </div>
 
-    {% include 'footer.html' %}
-       
+        <a href="{% url 'game_start' %}" class="game-link">Game</a>
+
+        <div class="lang-switch dropdown">
+            <button class="dropbtn">Language ▾</button>
+            <div class="dropdown-content">
+                <a href="{% url 'toppage' %}">EN</a>
+                <a href="{% url 'toppageenIN' %}">EN_IN</a>
+                <a href="{% url 'toppageit' %}">IT</a>
+                <a href="{% url 'toppagefr' %}">FR</a>
+                <a href="{% url 'toppagede' %}">DE</a>
+                <a href="{% url 'toppagept' %}">PT</a>
+                <a href="{% url 'toppageptBR' %}">PT_BR</a>
+                <a href="{% url 'toppageja' %}">JA</a>
+                <a href="{% url 'toppagees' %}">ES</a>
+                <a href="{% url 'toppageesMX' %}">ES_MX</a>
+                <a href="{% url 'toppagevi' %}">VI</a>
+                <a href="{% url 'toppageko' %}">KO</a>
+                <a href="{% url 'toppageth' %}">TH</a>
+                <a href="{% url 'toppagezhHANT' %}">ZH-HANT</a>
+            </div>
+        </div>
+    </nav>
+</header>
+
+{% block content %}{% endblock %}
 </body>
 </html>
