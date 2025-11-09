@@ -1,662 +1,272 @@
 {% load static %}
 
-<style>
-body {
-  margin: 0;
-  font-family: "Poppins", "Hiragino Maru Gothic ProN", sans-serif;
-  background: linear-gradient(to bottom, #ffb6b9, #fae3d9, #bbded6);
-  color: #333;
-  text-align: center;
-}
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    {% include 'css.html' %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-.header {
-  width: 100%;
-  height: 120px;
-  background-image: url("https://res.cloudinary.com/dotekofm5/image/upload/v1754641165/thankjapan/backgrounds/urhlsfokzrozs5835nkh.png");
-  background-size: cover;
-  position: fixed; 
-  top: 0;
-  left: 0;
-  z-index: 9999; 
-}
+    {% block meta %}
+    <meta name="title" content="Khám phá văn hóa, ẩm thực và ngôn ngữ Nhật Bản | ThankJapan">
+    <meta name="description" content="Khám phá cuộc sống, ẩm thực và ngôn ngữ Nhật Bản với nội dung tương tác và trò chơi học tập thú vị. Trải nghiệm Nhật Bản từ bất cứ nơi nào trên thế giới.">
 
-.main {
-  max-width: 1100px;
-  margin-left: 250px;
-  padding: 30px 20px;
-}
+    <meta name="robots" content="index,follow">
+    <meta name="keywords" content="Nhật Bản, văn hóa Nhật, tiếng Nhật">
 
-h2, h3 {
-  color: #ff6f61;
-  text-shadow: 1px 1px 2px rgba(255,255,255,0.8);
-}
+    <meta property="og:title" content="ThankJapan - Chia sẻ văn hóa Nhật Bản" />
+    <meta property="og:description" content="Trang web giới thiệu văn hóa, ẩm thực và ngôn ngữ Nhật Bản đến với thế giới." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.thankjapan.com/vi/" />
+    <meta property="og:image" content="https://res.cloudinary.com/dotekofm5/image/upload/v1754642770/thankjapan/backgrounds/ntpvmxgudcmvp0snpiur.png" />
+    <meta property="og:site_name" content="ThankJapan" />
+    <meta property="og:locale" content="vi_VN" />
 
-.trending-categories {
-  background: linear-gradient(90deg, #f6d365, #fda085);
-  padding: 20px;
-  border-radius: 20px;
-  box-shadow: 0 4px 10px rgba(253, 160, 133, 0.6);
-  text-align: center;
-  margin: 40px auto;
-}
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="ThankJapan - Chia sẻ văn hóa Nhật Bản">
+    <meta name="twitter:description" content="Trang web giới thiệu văn hóa, ẩm thực và ngôn ngữ Nhật Bản đến với thế giới.">
+    <meta name="twitter:image" content="https://res.cloudinary.com/dotekofm5/image/upload/v1754642770/thankjapan/backgrounds/ntpvmxgudcmvp0snpiur.png">
+    <meta name="twitter:site" content="@thankjapan0514">
 
-.trending-categories h2 {
-  color: #fff;
-  margin-bottom: 10px;
-}
+    <link rel="alternate" hreflang="en" href="https://www.thankjapan.com/">
+    <link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/ja/">
+    <link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/vi/">
+    <link rel="alternate" hreflang="en-IN" href="https://www.thankjapan.com/en-in/">
+    <link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/fr/">
+    <link rel="alternate" hreflang="it" href="https://www.thankjapan.com/it/">
+    <link rel="alternate" hreflang="pt-PT" href="https://www.thankjapan.com/pt/">
+    <link rel="alternate" hreflang="pt-BR" href="https://www.thankjapan.com/pt-br/">
+    <link rel="alternate" hreflang="zh-Hant" href="https://www.thankjapan.com/zh-hant/">
+    <link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/ko/">
+    <link rel="alternate" hreflang="es-ES" href="https://www.thankjapan.com/es-es/">
+    <link rel="alternate" hreflang="es-MX" href="https://www.thankjapan.com/es-mx/">
+    <link rel="alternate" hreflang="de" href="https://www.thankjapan.com/de/">
+    <link rel="alternate" hreflang="th" href="https://www.thankjapan.com/th/">
+    <link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/">
+    {% endblock %}
 
-.category-links {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 10px 15px;
-}
 
-.trending-categories a {
-  color: #fff;
-  text-decoration: none;
-  padding: 8px 14px;
-  border-radius: 10px;
-  transition: all 0.3s ease;
-  background: rgba(255,255,255,0.2);
-  font-weight: 600;
-  box-shadow: 0 2px 6px rgba(255,255,255,0.3);
-}
+  <title>{% block title %}ThankJapan{% endblock %}</title>
 
-.trending-categories a:hover {
-  background-color: rgba(255, 255, 255, 0.5);
-  color: #333;
-}
-
-.hero-card {
-  background: linear-gradient(to bottom, rgba(255, 160, 122, 0.8), rgba(255, 218, 185, 0.8)), 
-              url("https://res.cloudinary.com/dotekofm5/image/upload/v1761402106/thankjapan/backgrounds/jtbdzjsksgbgehuxl954.jpg") center/cover no-repeat;
-  color: white;
-  border-radius: 25px;
-  padding: 60px 30px;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-  margin: 30px auto;
-}
-
-.card {
-  background: #fff;
-  border-radius: 20px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-  margin: 25px auto;
-  max-width: 850px;
-  overflow: hidden;
-  transition: transform 0.3s ease;
-}
-
-.card:hover {
-  transform: scale(1.02);
-}
-
-.food-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 16px;
-  margin-top: 20px;
-}
-
-.food-card {
-  background: #fff;
-  border-radius: 15px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-  overflow: hidden;
-  transition: transform 0.3s ease;
-  cursor: pointer;
-}
-
-.food-card:hover {
-  transform: translateY(-5px);
-}
-
-.food-card img {
-  width: 100%;
-  height: 180px;
-  object-fit: cover;
-  display: block;
-}
-
-.food-card p {
-  margin: 8px;
-  color: #444;
-  font-size: 0.9rem;
-  line-height: 1.4;
-  cursor: pointer;
-  word-break: break-word;
-}
-
-header {
-    position: relative;
-    z-index: 10;
-  }
-
-  div[style*="text-align:center; margin-top:30px;"],
-  div[style*="text-align:center; margin:30px 0;"] {
-    position: relative;
-    z-index: 1;
-  }
-
-  .btn-more {
-    display: inline-block;
-    background: #ffb347;
-    color: white;
-    padding: 10px 24px;
-    border-radius: 25px;
-    text-decoration: none;
-    font-weight: 600;
-    margin-top: 20px;
-    transition: background 0.3s;
+  <style>
+    body {
+      margin: 0;
+      font-family: "Poppins", "Noto Sans JP", sans-serif;
+      background-color: #111;
+      color: #eee;
     }
+
     
-    .btn-more:hover {
-        background: #ff9642;
+
+    .hero {
+      background: url("https://res.cloudinary.com/dotekofm5/image/upload/v1761842767/thankjapan/backgrounds/xzvjepgpcq0x9n8aiu31.jpg") center/cover no-repeat;
+      height: 480px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      color: #fff;
+      text-align: center;
+      padding: 0 20px;
+      margin-top: 70px;
     }
 
-    .modal {
-  display: none;
-  position: fixed;
-  z-index: 1000;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0,0,0,0.8);
-  justify-content: center;
-  align-items: center;
-}
-
-.modal-content {
-  background-color: #fff;
-  margin: 20px;
-  padding: 15px;
-  border-radius: 10px;
-  text-align: center;
-  overflow-y: auto;
-}
-
-.modal-content img {
-  width: 100%;
-  border-radius: 10px;
-}
-
-.modal-close {
-  position: absolute;
-  top: 10px;
-  right: 20px;
-  font-size: 30px;
-  cursor: pointer;
-  color: white;
-}
-
-
-@media screen and (min-width: 769px) {
-  .modal-content {
-    width: 50%;      
-    max-width: 600px; 
-    max-height: 60%;  
-  }
-}
-
-
-@media screen and (max-width: 768px) {
-  .main {
-    margin-top: 0;
-    margin-left: 0;
-    width: 100%;
-    color: white;
-  }
-
-
-  body.toppage .main {
-    margin-top: 150px;
-  }
-
-  .sidebar {
-    margin-bottom: 0; 
-  }
-
-  .sns {
-    margin-left: 0;
-    display: block;
-  }
-
-
-  header, .sidebar {
-    position: relative;
-    z-index: 10;
-  }
-
-  .food-grid,
-  .game-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 8px;
-    padding: 8px;
-  }
-
-  .food-card img,
-  .game-card img {
-    width: 100%;
-    height: 120px;
-    object-fit: cover;
-    border-radius: 10px;
-  }
-
-  .food-card p,
-  .game-card p {
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
- .modal-content {
-    width: 90%;      
-    max-width: none; 
-    max-height: 90%; 
-  }
-
-  .modal-content img {
-    width: 100%;     
-    height: auto;    
-  }
-}
-
-
-
-</style>
-
-
-<div class="main">
-
-  
-  <div class="hero-card">
-    <h1>Chào mừng đến với Thank Japan 🇯🇵</h1>
-    <p>Trải nghiệm Nhật Bản — qua văn hóa, ngôn ngữ và ẩm thực.<br>
-    Dành cho những tâm hồn tò mò và người học trên toàn thế giới.</p>
-    </div>
-
-    <div style="text-align:center; margin-top:30px;">
-    <a href="{% url 'game_start' %}" 
-       style="
-         display:inline-block;
-         background: linear-gradient(135deg, #6dd5ed, #2193b0);
-         color:white;
-         font-weight:bold;
-         font-size:1.5rem;
-         padding:20px 40px;
-         border-radius:35px;
-         text-decoration:none;
-         box-shadow: 0 8px 20px rgba(33,147,176,0.4);
-         transition: all 0.3s ease;
-       "
-       onmouseover="this.style.transform='scale(1.08)'; this.style.boxShadow='0 10px 25px rgba(33,147,176,0.6)';"
-       onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 8px 20px rgba(33,147,176,0.4)';">
-      🎮 Chơi game miễn phí (Cần đăng ký tài khoản) 🎉
-    </a>
-    <p style="margin-top:10px; font-size:1rem; color:#fff; text-shadow: 1px 1px 2px rgba(0,0,0,0.5);">
-      Chỉ cần đăng ký tài khoản, không cần thanh toán. Nhấn và tận hưởng!
-    </p>
-  </div>
-  
-
-    <div class="trending-categories">
-    <h2>Chủ đề nổi bật</h2>
-        <div class="category-links">
-            <a href="{% url 'foodpage' %}">🥩 Ẩm thực</a>
-            <a href="{% url 'culturepage' %}">🎎 Văn hóa</a>
-            <a href="{% url 'animalpage' %}">🐒 Động vật</a>
-            <a href="{% url 'flowerpage' %}">🌸 Hoa</a>
-            <a href="{% url 'cookpage'%}">🍜 Nấu ăn</a>
-            <a href="{% url 'game_start'%}">🎮 Trò chơi</a>
-        </div>
-    </div>
-
-<p class="document">
-  Xin chào mọi người, đây là ThankJapan.<br>
-  Mình đang gửi lời chào này từ Nhật Bản.<br>
-  Bạn đã từng đến Nhật chưa? Đây là một quốc gia được bao quanh bởi biển cả.<br>
-  Trang web này giúp bạn học ngôn ngữ và văn hóa Nhật Bản.<br>
-  Hãy cùng nhau học tiếng Nhật nhé!<br>
-  Sau khi học một chút, hãy thử <a href="{% url 'game_start' %}" class="cute-game-link">🎮 Trò chơi</a>
-  để kiểm tra kiến thức của bạn!
-</p>
-
-<hr>
-
-<!--culture-->
-
-<h2>Trải nghiệm Nhật Bản: Văn hóa, Ẩm thực, Phố xá, Chợ và Vẻ đẹp đời thường</h2>
-<div class="food-grid">
-
-  <div class="food-card">
-    <a href="{% url 'culturepage' %}"><img src="https://res.cloudinary.com/dotekofm5/image/upload/v1761842767/thankjapan/backgrounds/xzvjepgpcq0x9n8aiu31.jpg"
-      alt="kanazawajou"/></a>
-    <p>Lâu đài Nhật Bản là biểu tượng tuyệt đẹp của lịch sử và văn hóa, với tháp gỗ hùng vĩ, tường đá và hào nước bao quanh kể lại thời đại samurai.</p>
-  </div>
-
-  <div class="food-card">
-    <a href="{% url 'culturepage' %}"><img src="https://res.cloudinary.com/dotekofm5/image/upload/v1761842683/thankjapan/backgrounds/ixyersx9bdpxytxzetix.jpg"
-      alt="kanazawaike"/></a>
-    <p>Hồ nước yên bình trong vườn Nhật phản chiếu vẻ đẹp thiên nhiên và mang đến cảm giác thanh thản, bình yên.</p>
-  </div>
-
-  <div class="food-card">
-    <a href="{% url 'culturepage' %}"><img src="https://res.cloudinary.com/dotekofm5/image/upload/v1761842722/thankjapan/backgrounds/p2uktlwymnjdmhy5w2sd.jpg"
-      alt="kanazawamatsu"/></a>
-    <p>Cây thông trong vườn Nhật tượng trưng cho sức mạnh và trường thọ, mang lại vẻ đẹp vượt thời gian cho khung cảnh.</p>
-  </div>
-
-  <div class="food-card">
-    <a href="{% url 'animalpage' %}"><img src="https://res.cloudinary.com/dotekofm5/image/upload/v1761842693/thankjapan/backgrounds/fa8zrl3raytsikev01qv.jpg"
-      alt="kanazawakoi"/></a>
-    <p>Những chú cá koi đầy màu sắc bơi lội trong hồ mang lại sức sống, may mắn và sự hài hòa cho khu vườn thanh tĩnh.</p>
-  </div>
-
-  <div class="food-card">
-    <a href="{% url 'flowerpage' %}"><img src="https://res.cloudinary.com/dotekofm5/image/upload/v1761842670/thankjapan/backgrounds/pefrud2jfb9npq8jads8.jpg"
-      alt="kanazawahana"/></a>
-    <p>Tiệm hoa trong chợ tràn ngập màu sắc và hương thơm, khiến ngày mới của mọi người thêm rạng rỡ.</p>
-  </div>
-
-  <div class="food-card">
-    <a href="{% url 'foodpage' %}"><img src="https://res.cloudinary.com/dotekofm5/image/upload/v1761842789/thankjapan/backgrounds/hqdsnrjuclgbubtwyw0c.jpg"
-      alt="kanazawasakana"/></a>
-    <p>Quầy cá trong chợ đầy ắp hải sản tươi ngon và không khí sôi động, thể hiện nét đặc trưng của văn hóa ẩm thực Nhật Bản.</p>
-  </div>
-
-  <div class="food-card">
-    <a href="{% url 'buildingpage' %}"><img src="https://res.cloudinary.com/dotekofm5/image/upload/v1761842637/thankjapan/backgrounds/kir5gipqammzzcoofv4q.jpg"
-      alt="kanazawajihanki"/></a>
-    <p>Máy bán hàng tự động bán sushi và sashimi thể hiện sự kết hợp sáng tạo giữa truyền thống và công nghệ của Nhật Bản.</p>
-  </div>
-
-  <div class="food-card">
-    <a href="{% url 'buildingpage' %}"><img src="https://res.cloudinary.com/dotekofm5/image/upload/v1761842626/thankjapan/backgrounds/iorkoeenixvnlgfkfmy4.jpg"
-      alt="kanazawasake"/></a>
-    <p>Siêu thị và cửa hàng tiện lợi ở Nhật Bản trưng bày vô số loại rượu sake, thu hút mọi tín đồ yêu thích đồ uống này.</p>
-  </div>
-
-  <div class="food-card">
-    <a href="{% url 'culturepage' %}"><img src="https://res.cloudinary.com/dotekofm5/image/upload/v1761842778/thankjapan/backgrounds/qnmjxmped0obbt72ikmx.jpg"
-      alt="kanazawaosechi"/></a>
-    <p>Osechi ryori là món ăn truyền thống trong dịp năm mới của Nhật Bản, được chuẩn bị tinh tế để mang lại may mắn và chào đón năm mới.</p>
-  </div>
-
-</div>
-
-
-<h2 style="text-align:center; color:#ff6f61; margin-top:40px; font-family:'Poppins',sans-serif;">Núi Phú Sĩ 🗻</h2>
-
-<div class="mountfuji-container" style="display:flex; flex-wrap:wrap; justify-content:center; gap:20px; margin-top:20px; padding:0 10px;">
-
-  <!-- img and name -->
-  <div class="mountfuji-image-card" style="background:linear-gradient(135deg, #ffe0e0, #fff0f5); border-radius:20px; box-shadow:0 4px 12px rgba(0,0,0,0.1); overflow:hidden; flex:1 1 300px; max-width:350px; text-align:center; transition:transform 0.3s;">
-    <a href="{% url 'naturepage' %}">
-      <img src="https://res.cloudinary.com/dotekofm5/image/upload/v1754645312/thankjapan/backgrounds/hutwikylfzofnnzrahgh.png" alt="Núi Phú Sĩ" style="width:100%; height:200px; object-fit:cover;">
-    </a>
-    <div style="padding:15px;">
-      <h3 style="margin:5px 0; color:#ff6f61;">Núi Phú Sĩ (Fujisan)</h3>
-      <p style="margin:5px 0; color:#555;">Tên tiếng Nhật: 富士山</p>
-    </div>
-  </div>
-
-  <!-- description and history -->
-  <div class="mountfuji-info-card" style="background:linear-gradient(135deg, #e0f7ff, #f0f8ff); border-radius:20px; box-shadow:0 4px 12px rgba(0,0,0,0.1); flex:1 1 300px; max-width:400px; padding:20px; transition:transform 0.3s;">
-    <h3 style="margin-bottom:10px; color:#00aaff;">Mô tả</h3>
-    <p style="color:#555; font-size:0.95rem; line-height:1.5;">
-      Núi Phú Sĩ cao 3.776 mét, là ngọn núi cao nhất Nhật Bản. Nằm giữa hai tỉnh Shizuoka và Yamanashi, ngọn núi này được xem là biểu tượng của Nhật Bản nhờ vẻ đẹp hùng vĩ của nó.
-    </p>
-    <h3 style="margin:15px 0 10px; color:#00aaff;">Lịch sử</h3>
-    <p style="color:#555; font-size:0.95rem; line-height:1.5;">
-      Núi Phú Sĩ là ngọn núi mang tính biểu tượng nhất của Nhật Bản, được UNESCO công nhận là Di sản Thế giới. Đây là ngọn núi linh thiêng trong cả Thần đạo và Phật giáo, đồng thời là nguồn cảm hứng cho nghệ thuật, thơ ca và du khách suốt nhiều thế kỷ.
-    </p>
-  </div>
-
-</div>
-
-  
-<h2>Từ đây, tôi sẽ giới thiệu cho bạn một số món ăn mà gia đình tôi thường ăn — chỉ là vài ví dụ thôi nhé!</h2>
-<div class="food-grid">
-
-  <div class="food-card">
-    <a href="{% url 'cookpage' %}"><img src="https://res.cloudinary.com/dotekofm5/image/upload/v1761200066/thankjapan/backgrounds/adfqqgtdfozxi848gopz.png"
-      alt="nigirisushi"/></a>
-    <p>Nigiri Sushi - món sushi truyền thống của Nhật Bản gồm cơm sushi nắm tay phủ lên trên là cá tươi hoặc hải sản chất lượng cao, hoàn hảo để trải nghiệm hương vị Nhật Bản đích thực.</p>
-  </div>
-
-  <div class="food-card">
-    <a href="{% url 'cookpage' %}"><img src="https://res.cloudinary.com/dotekofm5/image/upload/v1761200046/thankjapan/backgrounds/ykvnom7g0hgig7xzkdzg.png"
-      alt="sukiyaki"/></a>
-    <p>Sukiyaki - món lẩu phổ biến của Nhật Bản gồm thịt bò thái mỏng, rau củ, đậu phụ và mì được nấu trong nước dùng ngọt mặn từ xì dầu, thường được thưởng thức cùng nhau tại bàn ăn.</p>
-  </div>
-
-  <div class="food-card">
-    <a href="{% url 'cookpage' %}"><img src="https://res.cloudinary.com/dotekofm5/image/upload/v1761200094/thankjapan/backgrounds/pah6gtiqswx0cmhq5yip.png"
-      alt="zarusoba"/></a>
-    <p>Zaru Soba — mì kiều mạch lạnh được bày trên khay tre, thường ăn kèm với nước chấm xì dầu (tsuyu), rất thích hợp cho những bữa ăn mát lành vào mùa hè.</p>
-  </div>
-
-  <div class="food-card">
-    <a href="{% url 'cookpage' %}"><img src="https://res.cloudinary.com/dotekofm5/image/upload/v1760619729/thankjapan/backgrounds/ydojoqkpkuuejtxd7kkb.png"
-      alt="ramen"/></a>
-    <p>Ramen là món mì nước nổi tiếng của Nhật Bản, có nước dùng đậm đà và nhiều loại topping ngon miệng. (Tôi đã tự nấu món ramen này tại nhà với nước dùng thơm ngon và các nguyên liệu yêu thích.)</p>
-  </div>
-
-  <div class="food-card">
-    <a href="{% url 'cookpage' %}"><img src="https://res.cloudinary.com/dotekofm5/image/upload/v1760316319/thankjapan/backgrounds/ocqmrnezyqu2i5akmqbz.png"
-      alt="tsukimiudon"/></a>
-    <p>Tsukimi Udon là món mì udon truyền thống của Nhật Bản, được phủ trứng sống trên mặt, tượng trưng cho hình ảnh mặt trăng.</p>
-  </div>
-
-  <div class="food-card">
-    <a href="{% url 'cookpage' %}"><img src="https://res.cloudinary.com/dotekofm5/image/upload/v1759999367/thankjapan/backgrounds/vhliejeec2iradog0y5a.png"
-      alt="tsukemen"/></a>
-    <p>Đây là món tsukemen mà gia đình tôi thường làm tại nhà.</p>
-  </div>
-
-  <div class="food-card">
-    <a href="{% url 'cookpage' %}"><img src="https://res.cloudinary.com/dotekofm5/image/upload/v1760619714/thankjapan/backgrounds/e1cxuzuub3cfrurpplvp.png"
-      alt="onigiri"/></a>
-    <p>Onigiri: món cơm nắm truyền thống của Nhật Bản, được gói bằng rong biển với nhân bên trong đậm đà hương vị.</p>
-  </div>
-
-  <div class="food-card">
-    <a href="{% url 'cookpage' %}"><img src="https://res.cloudinary.com/dotekofm5/image/upload/v1760094369/thankjapan/backgrounds/qmmbyy4i0xen2u1lcees.png"
-      alt="batterazushi"/></a>
-    <p>Battera là loại sushi ép đặc trưng của Osaka, được phủ cá thu muối nhẹ.</p>
-  </div>
-
-  <div class="food-card">
-    <a href="{% url 'cookpage' %}"><img src="https://res.cloudinary.com/dotekofm5/image/upload/v1759999330/thankjapan/backgrounds/aqbodxft3spep9aaoe31.png"
-      alt="sanshokudango"/></a>
-    <p>Đây là những viên bánh dango ba màu, được làm từ tôm xay chiên giòn.</p>
-  </div>
-
-  <div class="food-card">
-    <a href="{% url 'cookpage' %}"><img src="https://res.cloudinary.com/dotekofm5/image/upload/v1760619749/thankjapan/backgrounds/esirfzgklponrfo897jb.png"
-      alt="wagashi"/></a>
-    <p>Những món bánh ngọt Nhật này — monaka và viên đậu đỏ — rất tuyệt khi dùng cùng một tách trà nóng.</p>
-  </div>
-
-  <div class="food-card">
-    <a href="{% url 'foodpage' %}"><img src="https://res.cloudinary.com/dotekofm5/image/upload/v1759999199/thankjapan/backgrounds/bfbhlb3z6ff1lqoycztz.png"
-      alt="katsuonotataki" /></a>
-    <p>Katsuo no Tataki là một loại sashimi của Nhật, đặc trưng bởi cá ngừ bonito được áp chảo sơ.</p>
-  </div>
-
-  <div class="food-card">
-    <a href="{% url 'foodpage' %}"><img src="https://res.cloudinary.com/dotekofm5/image/upload/v1759999307/thankjapan/backgrounds/v68smnjhy3grshf0aopn.png"
-      alt="shakenosashimi" /></a>
-    <p>Sashimi cá hồi là món cá hồi tươi sống được cắt lát mỏng và phục vụ không kèm cơm.</p>
-  </div>
-
-  <div class="food-card">
-     <a href="{% url 'cookpage' %}"><img src="https://res.cloudinary.com/dotekofm5/image/upload/v1759999229/thankjapan/backgrounds/kvvtrkazdyswpqxgfoor.png"
-      alt="misoshiru" /></a>
-    <p>Món súp miso này có củ cải trắng và khoai lang, kết hợp giữa vị mặn của miso và vị ngọt tự nhiên của rau củ.</p>
-  </div>
-
-  <div class="food-card">
-    <a href="{% url 'cookpage' %}"><img src="https://res.cloudinary.com/dotekofm5/image/upload/v1759999278/thankjapan/backgrounds/v1t6wscueelqkpvfnh8o.png"
-      alt="nasutonikunotenpura" /></a>
-    <p>Món này gồm cà tím nhồi thịt băm tẩm bột chiên giòn, giòn rụm bên ngoài và mềm mọng bên trong.</p>
-  </div>
-
-  <div class="food-card">
-    <a href="{% url 'cookpage' %}"><img src="https://res.cloudinary.com/dotekofm5/image/upload/v1759999165/thankjapan/backgrounds/bdqzliwibqokkd3zhhz4.png"
-      alt="hourensounosouzai" /></a>
-    <p>Món ăn phụ này gồm rau chân vịt luộc chấm xì dầu và mè, làm nổi bật hương vị tự nhiên của rau.</p>
-  </div>
-</div>
-
-  <!-- Game Introduction -->
-<h2 style="text-align:center; color:#ff6f61; margin-top:40px; font-family:'Poppins',sans-serif;">Cách chơi trò chơi 🎮</h2>
-
-<div class="game-grid" style="display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:15px; margin-top:20px; padding:0 10px;">
-
-  <div class="game-card" style="background:#fff; border-radius:15px; box-shadow:0 4px 10px rgba(0,0,0,0.1); overflow:hidden; text-align:center; transition:transform 0.2s;">
-    <a href="{% url 'game_start' %}">
-      <img src="https://res.cloudinary.com/dotekofm5/image/upload/v1760316354/thankjapan/backgrounds/ltbitwummwokpabkcmer.png" alt="Register" style="width:100%; height:150px; object-fit:cover; border-bottom:1px solid #f0f0f0;">
-    </a>
-    <p style="padding:10px 5px; font-size:0.9rem; color:#555; font-weight:500;">Tạo tài khoản trò chơi của bạn</p>
-  </div>
-
-  <div class="game-card" style="background:#fff; border-radius:15px; box-shadow:0 4px 10px rgba(0,0,0,0.1); overflow:hidden; text-align:center; transition:transform 0.2s;">
-    <a href="{% url 'game_start' %}">
-      <img src="https://res.cloudinary.com/dotekofm5/image/upload/v1760316343/thankjapan/backgrounds/jtnzkwsrcuxlgeucrh1g.png" alt="Login" style="width:100%; height:150px; object-fit:cover; border-bottom:1px solid #f0f0f0;">
-    </a>
-    <p style="padding:10px 5px; font-size:0.9rem; color:#555; font-weight:500;">Đăng nhập bằng tên tài khoản và mật khẩu</p>
-  </div>
-
-  <div class="game-card" style="background:#fff; border-radius:15px; box-shadow:0 4px 10px rgba(0,0,0,0.1); overflow:hidden; text-align:center; transition:transform 0.2s;">
-    <a href="{% url 'game_start' %}">
-      <img src="https://res.cloudinary.com/dotekofm5/image/upload/v1760316373/thankjapan/backgrounds/iydarejspqczunrkhpvx.png" alt="Start Game" style="width:100%; height:150px; object-fit:cover; border-bottom:1px solid #f0f0f0;">
-    </a>
-    <p style="padding:10px 5px; font-size:0.9rem; color:#555; font-weight:500;">Nhấn "game_start" để bắt đầu</p>
-  </div>
-
-  <div class="game-card" style="background:#fff; border-radius:15px; box-shadow:0 4px 10px rgba(0,0,0,0.1); overflow:hidden; text-align:center; transition:transform 0.2s;">
-    <a href="{% url 'game_start' %}">
-      <img src="https://res.cloudinary.com/dotekofm5/image/upload/v1761848974/thankjapan/backgrounds/vsgi72ehhbryt0yjowwr.png" alt="Answer" style="width:100%; height:150px; object-fit:cover; border-bottom:1px solid #f0f0f0;">
-    </a>
-    <p style="padding:10px 5px; font-size:0.9rem; color:#555; font-weight:500;">Nhập câu trả lời bằng chữ cái Latinh (Romaji)</p>
-  </div>
-
-  <div class="game-card" style="background:#fff; border-radius:15px; box-shadow:0 4px 10px rgba(0,0,0,0.1); overflow:hidden; text-align:center; transition:transform 0.2s;">
-    <a href="{% url 'game_start' %}">
-      <img src="https://res.cloudinary.com/dotekofm5/image/upload/v1761848986/thankjapan/backgrounds/x0ebsqfw4kvvcy4ocskd.png" alt="Correct" style="width:100%; height:150px; object-fit:cover; border-bottom:1px solid #f0f0f0;">
-    </a>
-    <p style="padding:10px 5px; font-size:0.9rem; color:#555; font-weight:500;">Nếu đúng, chữ “collect” sẽ xuất hiện</p>
-  </div>
-
-  <div class="game-card" style="background:#fff; border-radius:15px; box-shadow:0 4px 10px rgba(0,0,0,0.1); overflow:hidden; text-align:center; transition:transform 0.2s;">
-    <a href="{% url 'game_start' %}">
-      <img src="https://res.cloudinary.com/dotekofm5/image/upload/v1761848996/thankjapan/backgrounds/tnkl2q2uuvcidqoe4led.png" alt="Incorrect" style="width:100%; height:150px; object-fit:cover; border-bottom:1px solid #f0f0f0;">
-    </a>
-    <p style="padding:10px 5px; font-size:0.9rem; color:#555; font-weight:500;">Nếu sai, đáp án đúng sẽ được hiển thị</p>
-  </div>
-
-  <div class="game-card" style="background:#fff; border-radius:15px; box-shadow:0 4px 10px rgba(0,0,0,0.1); overflow:hidden; text-align:center; transition:transform 0.2s;">
-    <a href="{% url 'game_start' %}">
-      <img src="https://res.cloudinary.com/dotekofm5/image/upload/v1761849004/thankjapan/backgrounds/tty0isukhlwuzavxxocy.png" alt="Results" style="width:100%; height:150px; object-fit:cover; border-bottom:1px solid #f0f0f0;">
-    </a>
-    <p style="padding:10px 5px; font-size:0.9rem; color:#555; font-weight:500;">Xem kết quả và xếp hạng của bạn</p>
-  </div>
-
-  <div class="game-card" style="background:#fff; border-radius:15px; box-shadow:0 4px 10px rgba(0,0,0,0.1); overflow:hidden; text-align:center; transition:transform 0.2s;">
-    <a href="{% url 'game_start' %}">
-      <img src="https://res.cloudinary.com/dotekofm5/image/upload/v1761849018/thankjapan/backgrounds/zpfywmphljhspbxahvje.png" alt="Ranking" style="width:100%; height:150px; object-fit:cover; border-bottom:1px solid #f0f0f0;">
-    </a>
-    <p style="padding:10px 5px; font-size:0.9rem; color:#555; font-weight:500;">Xếp hạng & quản lý tài khoản</p>
-  </div>
-
-
-</div>
-
-
-<div class="card" style="text-align:center;">
-  <h2>💖 Hỗ trợ ThankJapan</h2>
-  <p>Sự ủng hộ của bạn giúp chúng tôi duy trì trang web này và tiếp tục chia sẻ văn hoá Nhật Bản.</p>
-  <p>Bạn có thể quyên góp qua <strong>PayPal</strong> bằng tài khoản của mình hoặc thẻ tín dụng/ghi nợ.</p>
-  <p><em>Không cần tài khoản PayPal — hãy chọn “Thanh toán bằng thẻ”.</em></p>
-
-  <p><em>Lưu ý: Khoản thanh toán sẽ không được hoàn lại.</em></p>
-</div>
-
-<div style="text-align:center; margin:30px 0;">
-  <a href="{% url 'select_amount_vi' %}" target="_blank" rel="noopener noreferrer"
-     style="
-       display:inline-block;
-       background: linear-gradient(135deg, #ffc0cb, #ff69b4);
-       color:white;
-       font-weight:bold;
-       font-size:1.3rem;
-       padding:15px 30px;
-       border-radius:30px;
-       text-decoration:none;
-       box-shadow: 0 6px 12px rgba(255,105,180,0.4);
-       transition: all 0.3s ease;
-     "
-     onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 8px 16px rgba(255,105,180,0.5)';"
-     onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 6px 12px rgba(255,105,180,0.4)';">
-    💖 Hỗ trợ bằng PayPal 💖
-  </a>
-</div>
-
-<hr>
-
-    <div style="text-align:center; margin-bottom:50px;"> 
-        <a class="btn-more" href="{% url 'toppage'%}">Quay lại Trang chủ</a> 
-    </div>
-
-    <div class="hero-card2">
-        <img src="https://res.cloudinary.com/dotekofm5/image/upload/v1761402089/thankjapan/backgrounds/mpqz2zwv3h9do2w4xqvj.jpg" 
-        alt="animekabuki" style="width:100%; height:100%; object-fit:cover;">
-    </div>
-
-</div>
-
-
-<div id="modal" class="modal">
-  <div class="modal-content">
-    <span class="modal-close">&times;</span>
-    <img id="modalImage" src="" alt="">
-    <p id="modalText"></p>
-  </div>
-</div>
-
-
-  
-<script>
-  
-  document.querySelectorAll('.food-card, .game-card').forEach(card => {
-    card.addEventListener('click', () => {
-      const imgSrc = card.querySelector('img').src;
-      const text = card.querySelector('p').innerText;
-
-      document.getElementById('modalImage').src = imgSrc;
-      document.getElementById('modalText').innerText = text;
-      document.getElementById('modal').style.display = 'flex';
-    });
-  });
-
-  document.querySelector('#modal .modal-close').addEventListener('click', () => {
-    document.getElementById('modal').style.display = 'none';
-  });
-
-  
-  window.addEventListener('click', (e) => {
-    if (e.target === document.getElementById('modal')) {
-      document.getElementById('modal').style.display = 'none';
+    .hero h1 {
+      font-size: 2.5rem;
+      letter-spacing: 2px;
+      margin-bottom: 10px;
+      text-shadow: 0 4px 10px rgba(0,0,0,0.6);
     }
-  });
-</script>
 
+    .hero p {
+      font-size: 1.1rem;
+      opacity: 0.9;
+      margin-bottom: 25px;
+    }
 
+    .explore-btn {
+      background: #e63946;
+      color: white;
+      padding: 12px 35px;
+      border-radius: 30px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
 
+    .explore-btn:hover {
+      background: #ff4b5c;
+      transform: scale(1.05);
+    }
 
+    .categories {
+      max-width: 1100px;
+      margin: 60px auto;
+      padding: 0 20px;
+    }
+
+    .categories h2 {
+      text-align: center;
+      font-size: 1.8rem;
+      margin-bottom: 25px;
+      color: #fff;
+    }
+
+    .category-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+    }
+
+    .category-card {
+      background: #1a1a1a;
+      border-radius: 14px;
+      overflow: hidden;
+      text-align: center;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .category-card img {
+      width: 100%;
+      height: 170px;
+      object-fit: cover;
+    }
+
+    .category-card h3 {
+      color: #fff;
+      padding: 15px 10px;
+      font-size: 1.1rem;
+      letter-spacing: 0.5px;
+    }
+
+    .category-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 18px rgba(0,0,0,0.5);
+    }
+
+    .support {
+      background: #181818;
+      padding: 60px 20px;
+      text-align: center;
+      border-top: 1px solid #333;
+    }
+
+    .support h2 {
+      color: #e63946;
+      margin-bottom: 10px;
+    }
+
+    .support p {
+      color: #ccc;
+      margin-bottom: 25px;
+    }
+
+    .support a {
+      background: linear-gradient(135deg, #ff4b5c, #e63946);
+      color: #fff;
+      text-decoration: none;
+      padding: 12px 28px;
+      border-radius: 25px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    .support a:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 12px rgba(230,57,70,0.5);
+    }
+
+    footer {
+      background: #0d0d0d;
+      text-align: center;
+      padding: 40px 20px;
+      font-size: 0.9rem;
+      color: #aaa;
+      border-top: 1px solid #222;
+    }
+
+    footer .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      margin-bottom: 15px;
+    }
+
+    footer .footer-links a {
+      color: #aaa;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    footer .footer-links a:hover {
+      color: #e63946;
+    }
+
+    footer small {
+      display: block;
+      color: #666;
+      margin-top: 10px;
+    }
+
+    @media screen and (max-width: 768px) {
+      .hero h1 { font-size: 1.8rem; }
+      .hero p { font-size: 0.95rem; }
+      .explore-btn { padding: 10px 25px; font-size: 0.95rem; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <section class="hero">
+    <h1>THANK JAPAN</h1>
+    <p>Hãy để mình bị cuốn hút bởi vẻ đẹp và phép màu của văn hóa Nhật Bản</p>
+    <a href="{% url 'culturepage' %}" class="explore-btn">Khám phá ngay</a>
+  </section>
+
+  <section class="categories">
+    <h2>Khám phá Nhật Bản</h2>
+    <div class="category-grid">
+      <div class="category-card">
+        <a href="{% url 'foodpage' %}">
+          <img src="https://res.cloudinary.com/dotekofm5/image/upload/v1761200066/thankjapan/backgrounds/adfqqgtdfozxi848gopz.png" alt="Ẩm thực Nhật Bản">
+        </a>
+        <h3>Hương vị & Trải nghiệm ẩm thực</h3>
+      </div>
+
+      <div class="category-card">
+        <a href="{% url 'culturepage' %}">
+          <img src="https://res.cloudinary.com/dotekofm5/image/upload/v1761842683/thankjapan/backgrounds/ixyersx9bdpxytxzetix.jpg" alt="Văn hóa Nhật Bản">
+        </a>
+        <h3>Truyền thống & Nghệ thuật</h3>
+      </div>
+
+      <div class="category-card">
+        <a href="{% url 'naturepage' %}">
+          <img src="https://res.cloudinary.com/dotekofm5/image/upload/v1754645312/thankjapan/backgrounds/hutwikylfzofnnzrahgh.png" alt="Thiên nhiên Nhật Bản">
+        </a>
+        <h3>Thiên nhiên & Phiêu lưu</h3>
+      </div>
+    </div>
+  </section>
+
+  <section class="support">
+    <h2>💖 Hỗ trợ Thank Japan</h2>
+    <p>Với sự ủng hộ của bạn, chúng tôi có thể chia sẻ vẻ đẹp và năng lượng tích cực của Nhật Bản đến khắp thế giới</p>
+    <a href="{% url 'select_amount_vi' %}" target="_blank" rel="noopener noreferrer">Đóng góp qua PayPal</a>
+  </section>
+
+  <footer>
+    <div class="footer-links">
+      <a href="{% url 'infomationpage' %}">Về chúng tôi</a>
+      <a href="{% url 'privacy_policy' %}">Chính sách bảo mật</a>
+      <a href="{% url 'riyoukiyaku' %}">Điều khoản sử dụng</a>
+      <a href="{% url 'contact' %}">Liên hệ</a>
+    </div>
+    <small>© 2025 Thank Japan | Khám phá, thưởng thức và yêu văn hóa Nhật Bản</small>
+  </footer>
+
+</body>
+</html>

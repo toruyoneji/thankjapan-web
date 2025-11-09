@@ -1,643 +1,273 @@
 {% load static %}
 
-<style>
-body {
-  margin: 0;
-  font-family: "Poppins", "Hiragino Maru Gothic ProN", sans-serif;
-  background: linear-gradient(to bottom, #ffb6b9, #fae3d9, #bbded6);
-  color: #333;
-  text-align: center;
-}
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    {% include 'css.html' %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-.header {
-  width: 100%;
-  height: 120px;
-  background-image: url("https://res.cloudinary.com/dotekofm5/image/upload/v1754641165/thankjapan/backgrounds/urhlsfokzrozs5835nkh.png");
-  background-size: cover;
-  position: fixed; 
-  top: 0;
-  left: 0;
-  z-index: 9999; 
-}
+    {% block meta %}
+    <meta name="title" content="日本文化・食・日本語を体験 | ThankJapan">
+    <meta name="description" content="日本の文化や食、日本語を楽しく学べるサイト。オンラインで日本を身近に体験してみましょう。">
 
-.main {
-  max-width: 1100px;
-  margin-left: 250px;
-  padding: 30px 20px;
-}
+    <meta name="robots" content="index,follow">
+    <meta name="keywords" content="日本, 日本文化, 日本語, 料理, 旅行">
 
-h2, h3 {
-  color: #ff6f61;
-  text-shadow: 1px 1px 2px rgba(255,255,255,0.8);
-}
+    <meta property="og:title" content="ThankJapan | 日本の魅力を世界へ共有" />
+    <meta property="og:description" content="日本の文化・食・言葉などを紹介するウェブサイトです。" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.thankjapan.com/ja/" />
+    <meta property="og:image" content="https://res.cloudinary.com/dotekofm5/image/upload/v1754642770/thankjapan/backgrounds/ntpvmxgudcmvp0snpiur.png" />
+    <meta property="og:site_name" content="ThankJapan" />
+    <meta property="og:locale" content="ja_JP" />
 
-.trending-categories {
-  background: linear-gradient(90deg, #f6d365, #fda085);
-  padding: 20px;
-  border-radius: 20px;
-  box-shadow: 0 4px 10px rgba(253, 160, 133, 0.6);
-  text-align: center;
-  margin: 40px auto;
-}
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="ThankJapan | 日本の魅力を世界へ共有">
+    <meta name="twitter:description" content="日本の文化、食、自然、言葉などを紹介するサイトです。">
+    <meta name="twitter:image" content="https://res.cloudinary.com/dotekofm5/image/upload/v1754642770/thankjapan/backgrounds/ntpvmxgudcmvp0snpiur.png">
+    <meta name="twitter:site" content="@thankjapan0514">
 
-.trending-categories h2 {
-  color: #fff;
-  margin-bottom: 10px;
-}
+    <link rel="alternate" hreflang="en" href="https://www.thankjapan.com/">
+    <link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/vi/">
+    <link rel="alternate" hreflang="en-IN" href="https://www.thankjapan.com/en-in/">
+    <link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/fr/">
+    <link rel="alternate" hreflang="it" href="https://www.thankjapan.com/it/">
+    <link rel="alternate" hreflang="pt-PT" href="https://www.thankjapan.com/pt/">
+    <link rel="alternate" hreflang="pt-BR" href="https://www.thankjapan.com/pt-br/">
+    <link rel="alternate" hreflang="zh-Hant" href="https://www.thankjapan.com/zh-hant/">
+    <link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/ko/">
+    <link rel="alternate" hreflang="es-ES" href="https://www.thankjapan.com/es-es/">
+    <link rel="alternate" hreflang="es-MX" href="https://www.thankjapan.com/es-mx/">
+    <link rel="alternate" hreflang="de" href="https://www.thankjapan.com/de/">
+    <link rel="alternate" hreflang="th" href="https://www.thankjapan.com/th/">
+    <link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/ja/">
+    <link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/">
+    {% endblock %}
 
-.category-links {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 10px 15px;
-}
 
-.trending-categories a {
-  color: #fff;
-  text-decoration: none;
-  padding: 8px 14px;
-  border-radius: 10px;
-  transition: all 0.3s ease;
-  background: rgba(255,255,255,0.2);
-  font-weight: 600;
-  box-shadow: 0 2px 6px rgba(255,255,255,0.3);
-}
+  <title>{% block title %}ThankJapan{% endblock %}</title>
 
-.trending-categories a:hover {
-  background-color: rgba(255, 255, 255, 0.5);
-  color: #333;
-}
-
-.hero-card {
-  background: linear-gradient(to bottom, rgba(255, 160, 122, 0.8), rgba(255, 218, 185, 0.8)), 
-              url("https://res.cloudinary.com/dotekofm5/image/upload/v1761402106/thankjapan/backgrounds/jtbdzjsksgbgehuxl954.jpg") center/cover no-repeat;
-  color: white;
-  border-radius: 25px;
-  padding: 60px 30px;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-  margin: 30px auto;
-}
-
-.card {
-  background: #fff;
-  border-radius: 20px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-  margin: 25px auto;
-  max-width: 850px;
-  overflow: hidden;
-  transition: transform 0.3s ease;
-}
-
-.card:hover {
-  transform: scale(1.02);
-}
-
-.food-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 16px;
-  margin-top: 20px;
-}
-
-.food-card {
-  background: #fff;
-  border-radius: 15px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-  overflow: hidden;
-  transition: transform 0.3s ease;
-  cursor: pointer;
-}
-
-.food-card:hover {
-  transform: translateY(-5px);
-}
-
-.food-card img {
-  width: 100%;
-  height: 180px;
-  object-fit: cover;
-  display: block;
-}
-
-.food-card p {
-  margin: 8px;
-  color: #444;
-  font-size: 0.9rem;
-  line-height: 1.4;
-  cursor: pointer;
-  word-break: break-word;
-}
-
-header {
-    position: relative;
-    z-index: 10;
-  }
-
-  div[style*="text-align:center; margin-top:30px;"],
-  div[style*="text-align:center; margin:30px 0;"] {
-    position: relative;
-    z-index: 1;
-  }
-
-  .btn-more {
-    display: inline-block;
-    background: #ffb347;
-    color: white;
-    padding: 10px 24px;
-    border-radius: 25px;
-    text-decoration: none;
-    font-weight: 600;
-    margin-top: 20px;
-    transition: background 0.3s;
+  <style>
+    body {
+      margin: 0;
+      font-family: "Poppins", "Noto Sans JP", sans-serif;
+      background-color: #111;
+      color: #eee;
     }
+
     
-    .btn-more:hover {
-        background: #ff9642;
+
+    .hero {
+      background: url("https://res.cloudinary.com/dotekofm5/image/upload/v1761842767/thankjapan/backgrounds/xzvjepgpcq0x9n8aiu31.jpg") center/cover no-repeat;
+      height: 480px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      color: #fff;
+      text-align: center;
+      padding: 0 20px;
+      margin-top: 70px;
     }
 
-    .modal {
-  display: none;
-  position: fixed;
-  z-index: 1000;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0,0,0,0.8);
-  justify-content: center;
-  align-items: center;
-}
+    .hero h1 {
+      font-size: 2.5rem;
+      letter-spacing: 2px;
+      margin-bottom: 10px;
+      text-shadow: 0 4px 10px rgba(0,0,0,0.6);
+    }
 
-.modal-content {
-  background-color: #fff;
-  margin: 20px;
-  padding: 15px;
-  border-radius: 10px;
-  text-align: center;
-  overflow-y: auto;
-}
+    .hero p {
+      font-size: 1.1rem;
+      opacity: 0.9;
+      margin-bottom: 25px;
+    }
 
-.modal-content img {
-  width: 100%;
-  border-radius: 10px;
-}
+    .explore-btn {
+      background: #e63946;
+      color: white;
+      padding: 12px 35px;
+      border-radius: 30px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
 
-.modal-close {
-  position: absolute;
-  top: 10px;
-  right: 20px;
-  font-size: 30px;
-  cursor: pointer;
-  color: white;
-}
+    .explore-btn:hover {
+      background: #ff4b5c;
+      transform: scale(1.05);
+    }
 
+    .categories {
+      max-width: 1100px;
+      margin: 60px auto;
+      padding: 0 20px;
+    }
 
-@media screen and (min-width: 769px) {
-  .modal-content {
-    width: 50%;      
-    max-width: 600px; 
-    max-height: 60%;  
-  }
-}
+    .categories h2 {
+      text-align: center;
+      font-size: 1.8rem;
+      margin-bottom: 25px;
+      color: #fff;
+    }
 
+    .category-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+    }
 
-@media screen and (max-width: 768px) {
-  .main {
-    margin-top: 0;
-    margin-left: 0;
-    width: 100%;
-    color: white;
-  }
+    .category-card {
+      background: #1a1a1a;
+      border-radius: 14px;
+      overflow: hidden;
+      text-align: center;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
 
+    .category-card img {
+      width: 100%;
+      height: 170px;
+      object-fit: cover;
+    }
 
-  body.toppage .main {
-    margin-top: 150px;
-  }
+    .category-card h3 {
+      color: #fff;
+      padding: 15px 10px;
+      font-size: 1.1rem;
+      letter-spacing: 0.5px;
+    }
 
-  .sidebar {
-    margin-bottom: 0; 
-  }
+    .category-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 18px rgba(0,0,0,0.5);
+    }
 
-  .sns {
-    margin-left: 0;
-    display: block;
-  }
+    .support {
+      background: #181818;
+      padding: 60px 20px;
+      text-align: center;
+      border-top: 1px solid #333;
+    }
 
+    .support h2 {
+      color: #e63946;
+      margin-bottom: 10px;
+    }
 
-  header, .sidebar {
-    position: relative;
-    z-index: 10;
-  }
+    .support p {
+      color: #ccc;
+      margin-bottom: 25px;
+    }
 
-  .food-grid,
-  .game-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 8px;
-    padding: 8px;
-  }
+    .support a {
+      background: linear-gradient(135deg, #ff4b5c, #e63946);
+      color: #fff;
+      text-decoration: none;
+      padding: 12px 28px;
+      border-radius: 25px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
 
-  .food-card img,
-  .game-card img {
-    width: 100%;
-    height: 120px;
-    object-fit: cover;
-    border-radius: 10px;
-  }
+    .support a:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 12px rgba(230,57,70,0.5);
+    }
 
-  .food-card p,
-  .game-card p {
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
+    footer {
+      background: #0d0d0d;
+      text-align: center;
+      padding: 40px 20px;
+      font-size: 0.9rem;
+      color: #aaa;
+      border-top: 1px solid #222;
+    }
 
- .modal-content {
-    width: 90%;      
-    max-width: none; 
-    max-height: 90%; 
-  }
+    footer .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      margin-bottom: 15px;
+    }
 
-  .modal-content img {
-    width: 100%;     
-    height: auto;    
-  }
-}
+    footer .footer-links a {
+      color: #aaa;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
 
+    footer .footer-links a:hover {
+      color: #e63946;
+    }
 
+    footer small {
+      display: block;
+      color: #666;
+      margin-top: 10px;
+    }
 
-</style>
+    @media screen and (max-width: 768px) {
+      .hero h1 { font-size: 1.8rem; }
+      .hero p { font-size: 0.95rem; }
+      .explore-btn { padding: 10px 25px; font-size: 0.95rem; }
+    }
+  </style>
+</head>
 
+<body>
 
-<div class="main">
+  <section class="hero">
+    <h1>THANK JAPAN</h1>
+    <p>日本の魅力と魔法に包まれてみませんか</p>
+    <a href="{% url 'culturepage' %}" class="explore-btn">さあ、発見しよう</a>
+  </section>
 
-  <div class="hero-card">
-    <h1>Thank Japan へようこそ 🇯🇵</h1>
-    <p>日本を体験しよう — 文化・言語・食を通して。<br>
-    好奇心旺盛な方や世界の学習者のために作られました。</p>
-  </div>
+  <section class="categories">
+    <h2>日本を旅する</h2>
+    <div class="category-grid">
+      <div class="category-card">
+        <a href="{% url 'foodpage' %}">
+          <img src="https://res.cloudinary.com/dotekofm5/image/upload/v1761200066/thankjapan/backgrounds/adfqqgtdfozxi848gopz.png" alt="日本の料理">
+        </a>
+        <h3>味わい & グルメ体験</h3>
+      </div>
 
-  <div style="text-align:center; margin-top:30px;">
-    <a href="{% url 'game_start' %}" 
-       style="
-         display:inline-block;
-         background: linear-gradient(135deg, #6dd5ed, #2193b0);
-         color:white;
-         font-weight:bold;
-         font-size:1.5rem;
-         padding:20px 40px;
-         border-radius:35px;
-         text-decoration:none;
-         box-shadow: 0 8px 20px rgba(33,147,176,0.4);
-         transition: all 0.3s ease;
-       "
-       onmouseover="this.style.transform='scale(1.08)'; this.style.boxShadow='0 10px 25px rgba(33,147,176,0.6)';"
-       onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 8px 20px rgba(33,147,176,0.4)';">
-      🎮 無料ゲーム（要アカウント登録） 🎉
-    </a>
-    <p style="margin-top:10px; font-size:1rem; color:#fff; text-shadow: 1px 1px 2px rgba(0,0,0,0.5);">
-      アカウント登録だけで、支払いは不要。クリックして遊ぼう！
-    </p>
-  </div>
-  
+      <div class="category-card">
+        <a href="{% url 'culturepage' %}">
+          <img src="https://res.cloudinary.com/dotekofm5/image/upload/v1761842683/thankjapan/backgrounds/ixyersx9bdpxytxzetix.jpg" alt="日本の伝統">
+        </a>
+        <h3>伝統 & アート</h3>
+      </div>
 
-  <div class="trending-categories">
-    <h2>人気カテゴリー</h2>
-    <div class="category-links">
-      <a href="{% url 'foodpage' %}">🥩 食べ物</a>
-      <a href="{% url 'culturepage' %}">🎎 文化</a>
-      <a href="{% url 'animalpage' %}">🐒 動物</a>
-      <a href="{% url 'flowerpage' %}">🌸 花</a>
-      <a href="{% url 'cookpage'%}">🍜 料理</a>
-      <a href="{% url 'game_start'%}">🎮 ゲーム</a>
-    </div>
-  </div>
-
-  <p class="document">
-    こんにちは、ThankJapan です。<br>
-    日本からメッセージを送っています。<br>
-    日本に来たことはありますか？海に囲まれた美しい国です。<br>
-    このサイトは日本の言語と文化を学ぶためのものです。<br>
-    一緒に日本を学びましょう！<br>
-    少し学んだら、<a href="{% url 'game_start' %}" class="cute-game-link">🎮 ゲーム</a>
-    で知識を試してみてください！
-  </p>
-
-  <hr>
-
-<!--culture-->
-
-<h2>日本を体験：文化・食・街角・市場・日常の魅力</h2>
-<div class="food-grid">
-
-  <div class="food-card">
-    <a href="{% url 'culturepage' %}"><img src="https://res.cloudinary.com/dotekofm5/image/upload/v1761842767/thankjapan/backgrounds/xzvjepgpcq0x9n8aiu31.jpg"
-      alt="kanazawajou"/></a>
-    <p>日本の城は歴史と文化の壮大な象徴で、木造の天守や石垣、護城河が武士時代の物語を伝えます。</p>
-  </div>
-
-  <div class="food-card">
-    <a href="{% url 'culturepage' %}"><img src="https://res.cloudinary.com/dotekofm5/image/upload/v1761842683/thankjapan/backgrounds/ixyersx9bdpxytxzetix.jpg"
-      alt="kanazawaike"/></a>
-    <p>日本庭園の静かな池は自然の美しさを映し出し、心安らぐひとときを与えてくれます。</p>
-  </div>
-
-  <div class="food-card">
-    <a href="{% url 'culturepage' %}"><img src="https://res.cloudinary.com/dotekofm5/image/upload/v1761842722/thankjapan/backgrounds/p2uktlwymnjdmhy5w2sd.jpg"
-      alt="kanazawamatsu"/></a>
-    <p>庭園の松は力強さと長寿の象徴で、景観に永遠の美を添えます。</p>
-  </div>
-
-  <div class="food-card">
-    <a href="{% url 'animalpage' %}"><img src="https://res.cloudinary.com/dotekofm5/image/upload/v1761842693/thankjapan/backgrounds/fa8zrl3raytsikev01qv.jpg"
-      alt="kanazawakoi"/></a>
-    <p>池で泳ぐ色鮮やかな錦鯉は、庭園に命と幸運、調和をもたらします。</p>
-  </div>
-
-  <div class="food-card">
-    <a href="{% url 'flowerpage' %}"><img src="https://res.cloudinary.com/dotekofm5/image/upload/v1761842670/thankjapan/backgrounds/pefrud2jfb9npq8jads8.jpg"
-      alt="kanazawahana"/></a>
-    <p>市場の花屋は色と香りにあふれ、訪れる人々の一日を明るく彩ります。</p>
-  </div>
-
-  <div class="food-card">
-    <a href="{% url 'foodpage' %}"><img src="https://res.cloudinary.com/dotekofm5/image/upload/v1761842789/thankjapan/backgrounds/hqdsnrjuclgbubtwyw0c.jpg"
-      alt="kanazawasakana"/></a>
-    <p>市場の魚屋は新鮮な魚介と活気に満ち、日本の食文化を伝えます。</p>
-  </div>
-
-  <div class="food-card">
-    <a href="{% url 'buildingpage' %}"><img src="https://res.cloudinary.com/dotekofm5/image/upload/v1761842637/thankjapan/backgrounds/kir5gipqammzzcoofv4q.jpg"
-      alt="kanazawajihanki"/></a>
-    <p>寿司や刺身の自動販売機は、伝統と技術が融合した日本ならではの創造性を示しています。</p>
-  </div>
-
-  <div class="food-card">
-    <a href="{% url 'buildingpage' %}"><img src="https://res.cloudinary.com/dotekofm5/image/upload/v1761842626/thankjapan/backgrounds/iorkoeenixvnlgfkfmy4.jpg"
-      alt="kanazawasake"/></a>
-    <p>日本のスーパーやコンビニにはさまざまな日本酒が並び、酒好きにはたまらない光景です。</p>
-  </div>
-
-  <div class="food-card">
-    <a href="{% url 'culturepage' %}"><img src="https://res.cloudinary.com/dotekofm5/image/upload/v1761842778/thankjapan/backgrounds/qnmjxmped0obbt72ikmx.jpg"
-      alt="kanazawaosechi"/></a>
-    <p>おせち料理は日本の伝統的な正月料理で、幸運を願い新年を祝うために丁寧に作られています。</p>
-  </div>
-
-</div>
-
-  <h2 style="text-align:center; color:#ff6f61; margin-top:40px; font-family:'Poppins',sans-serif;">富士山 🗻</h2>
-
-  <div class="mountfuji-container" style="display:flex; flex-wrap:wrap; justify-content:center; gap:20px; margin-top:20px; padding:0 10px;">
-
-    <!-- img and name -->
-    <div class="mountfuji-image-card" style="background:linear-gradient(135deg, #ffe0e0, #fff0f5); border-radius:20px; box-shadow:0 4px 12px rgba(0,0,0,0.1); overflow:hidden; flex:1 1 300px; max-width:350px; text-align:center; transition:transform 0.3s;">
-      <a href="{% url 'naturepage' %}">
-        <img src="https://res.cloudinary.com/dotekofm5/image/upload/v1754645312/thankjapan/backgrounds/hutwikylfzofnnzrahgh.png" alt="Mount Fuji" style="width:100%; height:200px; object-fit:cover;">
-      </a>
-      <div style="padding:15px;">
-        <h3 style="margin:5px 0; color:#ff6f61;">富士山 (Fujisan)</h3>
-        <p style="margin:5px 0; color:#555;">英語名: Mount Fuji</p>
+      <div class="category-card">
+        <a href="{% url 'naturepage' %}">
+          <img src="https://res.cloudinary.com/dotekofm5/image/upload/v1754645312/thankjapan/backgrounds/hutwikylfzofnnzrahgh.png" alt="日本の自然">
+        </a>
+        <h3>自然 & アドベンチャー</h3>
       </div>
     </div>
+  </section>
 
-    <!-- description and history -->
-    <div class="mountfuji-info-card" style="background:linear-gradient(135deg, #e0f7ff, #f0f8ff); border-radius:20px; box-shadow:0 4px 12px rgba(0,0,0,0.1); flex:1 1 300px; max-width:400px; padding:20px; transition:transform 0.3s;">
-      <h3 style="margin-bottom:10px; color:#00aaff;">説明</h3>
-      <p style="color:#555; font-size:0.95rem; line-height:1.5;">
-        標高3,776メートルで、日本で最も高い山です。静岡県と山梨県にまたがり、美しい姿から日本の象徴とされています。
-      </p>
-      <h3 style="margin:15px 0 10px; color:#00aaff;">歴史</h3>
-      <p style="color:#555; font-size:0.95rem; line-height:1.5;">
-        富士山は日本で最も象徴的な山で、ユネスコ世界文化遺産に登録されています。神道や仏教では神聖な存在とされ、その美しさは芸術や詩、多くの旅人に影響を与えてきました。
-      </p>
+  <section class="support">
+    <h2>💖 Thank Japanを応援しよう</h2>
+    <p>あなたのサポートで、日本の美しさとポジティブな魅力を世界中に届けられます。</p>
+    <a href="{% url 'select_amount_ja' %}" target="_blank" rel="noopener noreferrer">PayPalで寄付する</a>
+  </section>
+
+  <footer>
+    <div class="footer-links">
+      <a href="{% url 'infomationpage' %}">私たちについて</a>
+      <a href="{% url 'privacy_policy' %}">プライバシーポリシー</a>
+      <a href="{% url 'riyoukiyaku' %}">利用規約</a>
+      <a href="{% url 'contact' %}">お問い合わせ</a>
     </div>
+    <small>© 2025 Thank Japan | 日本の文化を体験して、味わって、恋に落ちよう</small>
+  </footer>
 
-  </div>
+</body>
 
-  <h2>ここからは、私の家で食べる日本の料理を少し紹介します！</h2>
-  <div class="food-grid">
-
-    <div class="food-card">
-      <a href="{% url 'cookpage' %}"><img src="https://res.cloudinary.com/dotekofm5/image/upload/v1761200066/thankjapan/backgrounds/adfqqgtdfozxi848gopz.png"
-        alt="nigirisushi"/></a>
-      <p>握り寿司 — 手で押したシャリの上に新鮮な魚や海鮮を乗せた、日本の伝統的な一品。日本の本格的な味を体験できます。</p>
-    </div>
-
-    <div class="food-card">
-      <a href="{% url 'cookpage' %}"><img src="https://res.cloudinary.com/dotekofm5/image/upload/v1761200046/thankjapan/backgrounds/ykvnom7g0hgig7xzkdzg.png"
-        alt="sukiyaki"/></a>
-      <p>すき焼き — 薄切りの牛肉、野菜、豆腐、麺を甘辛い醤油ベースの出汁で煮る人気の鍋料理。家族や友人と一緒に楽しむことが多いです。</p>
-    </div>
-
-    <div class="food-card">
-      <a href="{% url 'cookpage' %}"><img src="https://res.cloudinary.com/dotekofm5/image/upload/v1761200094/thankjapan/backgrounds/pah6gtiqswx0cmhq5yip.png"
-        alt="zarusoba"/></a>
-      <p>ざるそば — 冷たいそばを竹のざるに盛り、つゆに浸して食べる。夏にぴったりの爽やかな料理です。</p>
-    </div>
-
-    <div class="food-card">
-        <a href="{% url 'cookpage' %}"><img src="https://res.cloudinary.com/dotekofm5/image/upload/v1760619729/thankjapan/backgrounds/ydojoqkpkuuejtxd7kkb.png"
-        alt="ramen"/></a>
-        <p>ラーメンは、旨味たっぷりのスープと多彩な具材が楽しめる日本の人気麺料理です。（写真のラーメンは自家製で、好みのトッピングをのせました。）</p>
-    </div>
-
-    <div class="food-card">
-        <a href="{% url 'cookpage' %}"><img src="https://res.cloudinary.com/dotekofm5/image/upload/v1760316319/thankjapan/backgrounds/ocqmrnezyqu2i5akmqbz.png"
-        alt="tsukimiudon"/></a>
-        <p>月見うどんは、卵を月に見立てた日本の伝統的なうどんです。優しい味わいが魅力です。</p>
-    </div>
-
-    <div class="food-card">
-        <a href="{% url 'cookpage' %}"><img src="https://res.cloudinary.com/dotekofm5/image/upload/v1759999367/thankjapan/backgrounds/vhliejeec2iradog0y5a.png"
-        alt="tsukemen"/></a>
-        <p>これは家庭で作ったつけ麺です。濃厚なつけ汁とコシのある麺が絶妙です。</p>
-    </div>
-
-    <div class="food-card">
-        <a href="{% url 'cookpage' %}"><img src="https://res.cloudinary.com/dotekofm5/image/upload/v1760619714/thankjapan/backgrounds/e1cxuzuub3cfrurpplvp.png"
-        alt="onigiri"/></a>
-        <p>おにぎりは、日本の味を手軽に楽しめる一品。海苔で包まれたご飯の中に、美味しい具材が詰まっています。</p>
-    </div>
-
-    <div class="food-card">
-        <a href="{% url 'cookpage' %}"><img src="https://res.cloudinary.com/dotekofm5/image/upload/v1760094369/thankjapan/backgrounds/qmmbyy4i0xen2u1lcees.png"
-        alt="batterazushi"/></a>
-        <p>バッテラは大阪発祥の押し寿司で、しめサバをのせて押し固めた伝統的な寿司です。</p>
-    </div>
-
-    <div class="food-card">
-        <a href="{% url 'cookpage' %}"><img src="https://res.cloudinary.com/dotekofm5/image/upload/v1759999330/thankjapan/backgrounds/aqbodxft3spep9aaoe31.png"
-        alt="sanshokudango"/></a>
-        <p>三色団子は、ピンク・白・緑の3色が並んだ海老の団子でおかずです。見た目も春らしく、ほんのり甘い海老の味わいです。</p>
-    </div>
-
-    <div class="food-card">
-        <a href="{% url 'cookpage' %}"><img src="https://res.cloudinary.com/dotekofm5/image/upload/v1760619749/thankjapan/backgrounds/esirfzgklponrfo897jb.png"
-        alt="wagashi"/></a>
-        <p>最中やあんこ団子など、日本の和菓子はお茶と一緒に味わうと格別です。</p>
-    </div>
-
-    <div class="food-card">
-        <a href="{% url 'foodpage' %}"><img src="https://res.cloudinary.com/dotekofm5/image/upload/v1759999199/thankjapan/backgrounds/bfbhlb3z6ff1lqoycztz.png"
-        alt="katsuonotataki" /></a>
-        <p>カツオのたたきは、表面を軽く炙ったカツオの刺身。香ばしさと旨味が一度に楽しめます。</p>
-    </div>
-
-    <div class="food-card">
-        <a href="{% url 'foodpage' %}"><img src="https://res.cloudinary.com/dotekofm5/image/upload/v1759999307/thankjapan/backgrounds/v68smnjhy3grshf0aopn.png"
-        alt="shakenosashimi" /></a>
-        <p>サーモンの刺身は、新鮮なサーモンを薄く切ったシンプルで贅沢な一品です。</p>
-    </div>
-
-    <div class="food-card">
-        <a href="{% url 'cookpage' %}"><img src="https://res.cloudinary.com/dotekofm5/image/upload/v1759999229/thankjapan/backgrounds/kvvtrkazdyswpqxgfoor.png"
-        alt="misoshiru" /></a>
-        <p>この味噌汁は、大根とさつまいもを具材に使った優しい味。味噌の香りと野菜の甘みが広がります。</p>
-    </div>
-
-    <div class="food-card">
-        <a href="{% url 'cookpage' %}"><img src="https://res.cloudinary.com/dotekofm5/image/upload/v1759999278/thankjapan/backgrounds/v1t6wscueelqkpvfnh8o.png"
-        alt="nasutonikunotenpura" /></a>
-        <p>なすの肉詰め天ぷらは、ジューシーなお肉となすの相性が抜群。外はサクサク、中はふんわりの食感です。</p>
-    </div>
-
-    <div class="food-card">
-        <a href="{% url 'cookpage' %}"><img src="https://res.cloudinary.com/dotekofm5/image/upload/v1759999165/thankjapan/backgrounds/bdqzliwibqokkd3zhhz4.png"
-        alt="hourensounosouzai" /></a>
-        <p>ほうれん草のおひたしは、醤油とごまの風味でシンプルに仕上げた定番の和惣菜です。</p>
-    </div>
-
-
-  </div>
-
-<h2 style="text-align:center; color:#ff6f61; margin-top:40px; font-family:'Poppins',sans-serif;">ゲームの遊び方 🎮</h2>
-
-<div class="game-grid" style="display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:15px; margin-top:20px; padding:0 10px;">
-
-  <div class="game-card" style="background:#fff; border-radius:15px; box-shadow:0 4px 10px rgba(0,0,0,0.1); overflow:hidden; text-align:center; transition:transform 0.2s;">
-    <a href="{% url 'game_start' %}">
-      <img src="https://res.cloudinary.com/dotekofm5/image/upload/v1760316354/thankjapan/backgrounds/ltbitwummwokpabkcmer.png" alt="登録" style="width:100%; height:150px; object-fit:cover; border-bottom:1px solid #f0f0f0;">
-    </a>
-    <p style="padding:10px 5px; font-size:0.9rem; color:#555; font-weight:500;">ゲームアカウントを作成する</p>
-  </div>
-
-  <div class="game-card" style="background:#fff; border-radius:15px; box-shadow:0 4px 10px rgba(0,0,0,0.1); overflow:hidden; text-align:center; transition:transform 0.2s;">
-    <a href="{% url 'game_start' %}">
-      <img src="https://res.cloudinary.com/dotekofm5/image/upload/v1760316343/thankjapan/backgrounds/jtnzkwsrcuxlgeucrh1g.png" alt="ログイン" style="width:100%; height:150px; object-fit:cover; border-bottom:1px solid #f0f0f0;">
-    </a>
-    <p style="padding:10px 5px; font-size:0.9rem; color:#555; font-weight:500;">アカウント名とパスワードでログイン</p>
-  </div>
-
-  <div class="game-card" style="background:#fff; border-radius:15px; box-shadow:0 4px 10px rgba(0,0,0,0.1); overflow:hidden; text-align:center; transition:transform 0.2s;">
-    <a href="{% url 'game_start' %}">
-      <img src="https://res.cloudinary.com/dotekofm5/image/upload/v1760316373/thankjapan/backgrounds/iydarejspqczunrkhpvx.png" alt="ゲーム開始" style="width:100%; height:150px; object-fit:cover; border-bottom:1px solid #f0f0f0;">
-    </a>
-    <p style="padding:10px 5px; font-size:0.9rem; color:#555; font-weight:500;">「ゲーム開始」を押してスタート</p>
-  </div>
-
-  <div class="game-card" style="background:#fff; border-radius:15px; box-shadow:0 4px 10px rgba(0,0,0,0.1); overflow:hidden; text-align:center; transition:transform 0.2s;">
-    <a href="{% url 'game_start' %}">
-      <img src="https://res.cloudinary.com/dotekofm5/image/upload/v1761848974/thankjapan/backgrounds/vsgi72ehhbryt0yjowwr.png" alt="Answer" style="width:100%; height:150px; object-fit:cover; border-bottom:1px solid #f0f0f0;">
-    </a>
-    <p style="padding:10px 5px; font-size:0.9rem; color:#555; font-weight:500;">答えをローマ字で入力する</p>
-  </div>
-
-  <div class="game-card" style="background:#fff; border-radius:15px; box-shadow:0 4px 10px rgba(0,0,0,0.1); overflow:hidden; text-align:center; transition:transform 0.2s;">
-    <a href="{% url 'game_start' %}">
-      <img src="https://res.cloudinary.com/dotekofm5/image/upload/v1761848986/thankjapan/backgrounds/x0ebsqfw4kvvcy4ocskd.png" alt="Correct" style="width:100%; height:150px; object-fit:cover; border-bottom:1px solid #f0f0f0;">
-    </a>
-    <p style="padding:10px 5px; font-size:0.9rem; color:#555; font-weight:500;">正解すると「集める」と表示されます</p>
-  </div>
-
-  <div class="game-card" style="background:#fff; border-radius:15px; box-shadow:0 4px 10px rgba(0,0,0,0.1); overflow:hidden; text-align:center; transition:transform 0.2s;">
-    <a href="{% url 'game_start' %}">
-      <img src="https://res.cloudinary.com/dotekofm5/image/upload/v1761848996/thankjapan/backgrounds/tnkl2q2uuvcidqoe4led.png" alt="Incorrect" style="width:100%; height:150px; object-fit:cover; border-bottom:1px solid #f0f0f0;">
-    </a>
-    <p style="padding:10px 5px; font-size:0.9rem; color:#555; font-weight:500;">不正解の場合は正しい答えが表示されます</p>
-  </div>
-
-  <div class="game-card" style="background:#fff; border-radius:15px; box-shadow:0 4px 10px rgba(0,0,0,0.1); overflow:hidden; text-align:center; transition:transform 0.2s;">
-    <a href="{% url 'game_start' %}">
-      <img src="https://res.cloudinary.com/dotekofm5/image/upload/v1761849004/thankjapan/backgrounds/tty0isukhlwuzavxxocy.png" alt="Results" style="width:100%; height:150px; object-fit:cover; border-bottom:1px solid #f0f0f0;">
-    </a>
-    <p style="padding:10px 5px; font-size:0.9rem; color:#555; font-weight:500;">結果とランキングを確認する</p>
-  </div>
-
-  <div class="game-card" style="background:#fff; border-radius:15px; box-shadow:0 4px 10px rgba(0,0,0,0.1); overflow:hidden; text-align:center; transition:transform 0.2s;">
-    <a href="{% url 'game_start' %}">
-      <img src="https://res.cloudinary.com/dotekofm5/image/upload/v1761849018/thankjapan/backgrounds/zpfywmphljhspbxahvje.png" alt="Ranking" style="width:100%; height:150px; object-fit:cover; border-bottom:1px solid #f0f0f0;">
-    </a>
-    <p style="padding:10px 5px; font-size:0.9rem; color:#555; font-weight:500;">ランキングとアカウントを管理する</p>
-  </div>
-
-
-</div>
-
-  <div class="card" style="text-align:center;">
-    <h2>💖 ThankJapan をサポート</h2>
-    <p>ご支援いただくことで、このサイトを維持し、日本文化を共有し続けることができます。</p>
-    <p>PayPal またはクレジットカードで寄付可能です。</p>
-    <p><em>PayPal アカウントがなくても「カードで支払う」を選択できます。</em></p>
-    <p><em>※寄付は返金不可です。</em></p>
-  </div>
-
-  <div style="text-align:center; margin:30px 0;">
-    <a href="{% url 'select_amount_ja' %}" target="_blank" rel="noopener noreferrer" 
-    style="display:inline-block; background: linear-gradient(135deg, #ffc0cb, #ff69b4); color:white; font-weight:bold; font-size:1.3rem; padding:15px 30px; border-radius:30px; text-decoration:none; box-shadow: 0 6px 12px rgba(255,105,180,0.4); transition: all 0.3s ease;" onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 8px 16px rgba(255,105,180,0.5)';" onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 6px 12px rgba(255,105,180,0.4)';">
-      💖 PayPal でサポート 💖
-    </a>
-  </div>
-
-  <hr>
-
-  <div style="text-align:center; margin-bottom:50px;"> 
-    <a class="btn-more" href="{% url 'toppage'%}">ホームに戻る</a> 
-  </div>
-
-  <div class="hero-card2">
-    <img src="https://res.cloudinary.com/dotekofm5/image/upload/v1761402089/thankjapan/backgrounds/mpqz2zwv3h9do2w4xqvj.jpg" 
-    alt="アニメ歌舞伎" style="width:100%; height:100%; object-fit:cover;">
-  </div>
-
-</div>
-
-<div id="modal" class="modal">
-  <div class="modal-content">
-    <span class="modal-close">&times;</span>
-    <img id="modalImage" src="" alt="">
-    <p id="modalText"></p>
-  </div>
-</div>
-
-
-  
-<script>
-  
-  document.querySelectorAll('.food-card, .game-card').forEach(card => {
-    card.addEventListener('click', () => {
-      const imgSrc = card.querySelector('img').src;
-      const text = card.querySelector('p').innerText;
-
-      document.getElementById('modalImage').src = imgSrc;
-      document.getElementById('modalText').innerText = text;
-      document.getElementById('modal').style.display = 'flex';
-    });
-  });
-
-  document.querySelector('#modal .modal-close').addEventListener('click', () => {
-    document.getElementById('modal').style.display = 'none';
-  });
-
-  
-  window.addEventListener('click', (e) => {
-    if (e.target === document.getElementById('modal')) {
-      document.getElementById('modal').style.display = 'none';
-    }
-  });
-</script>
-
-
-
+</html>
