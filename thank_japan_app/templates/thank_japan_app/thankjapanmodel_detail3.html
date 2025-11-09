@@ -1,0 +1,196 @@
+{% extends 'basecategory.html' %}
+
+{% block title %}
+{% if object %}
+  {{ object.englishname }} ({{ object.jpname }}) - {{ object.category }} | ThankJapan
+{% else %}
+  ThankJapan - Japanese Culture, Food & History
+{% endif %}
+{% endblock %}
+
+{% block description %}
+{% if object %}
+  {% if object.description %}
+    {{ object.description|truncatechars:160|striptags }}
+  {% else %}
+    Discover the meaning, history, and cultural significance of {{ object.englishname }} ({{ object.jpname }}) in Japanese culture.
+  {% endif %}
+{% else %}
+  Explore Japanese culture, food, history, and more at ThankJapan.
+{% endif %}
+{% endblock %}
+
+{% block og_title %}
+{% if object %}
+  {{ object.englishname }} ({{ object.jpname }}) - {{ object.category }} | ThankJapan
+{% else %}
+  ThankJapan - Japanese Culture, Food & History
+{% endif %}
+{% endblock %}
+
+{% block og_description %}
+{% if object %}
+  {% if object.description %}
+    {{ object.description|truncatechars:200|striptags }}
+  {% else %}
+    Discover the meaning, history, and cultural significance of {{ object.englishname }} ({{ object.jpname }}) in Japanese culture.
+  {% endif %}
+{% else %}
+  Explore Japanese culture, food, history, and more at ThankJapan.
+{% endif %}
+{% endblock %}
+
+
+
+{% block content %}
+
+{% load static %}
+
+
+<style>
+    
+.main2 {
+    background: black;
+    max-width: 900px;
+    margin: 30px auto;
+    padding: 45px 60px;
+    border-radius: 22px;
+    box-shadow: 0 15px 40px rgba(255, 107, 107, 0.35); 
+}
+
+
+.detailgazou {
+    width: 100%;
+    max-height: 500px;
+    object-fit: cover;
+    border-radius: 18px;
+    box-shadow: 0 12px 30px rgba(255, 107, 107, 0.45); 
+    margin-top: 70px;
+    margin-bottom: 36px;
+}
+
+
+.detaildt {
+    font-size: 3.4rem;
+    font-weight: 900;
+    color: #FF6B6B;
+    text-align: center;
+    text-shadow: 2.5px 2.5px 8px rgba(255, 107, 107, 0.85); /* 少し濃く */
+    margin-bottom: 28px;
+}
+
+
+h2 {
+    font-size: 1.9rem;
+    font-weight: 700;
+    background: linear-gradient(90deg, #FF6B6B 0%, #FFAB3D 50%, #FFD93D 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    border-bottom: 4px solid #FF6B6B;
+    padding-bottom: 10px;
+    margin-top: 48px;
+    margin-bottom: 18px;
+    transition: color 0.3s ease;
+}
+
+
+p.bigpink {
+    color: #FF6B6B;
+    font-size: 52px;
+    font-weight: 900;
+    text-align: center;
+    margin: 64px 0 24px 0;
+    text-shadow: 2px 2px 6px #FFA8A8;
+}
+
+p.biggreen {
+    color: #7FB77E;
+    font-size: 52px;
+    font-weight: 900;
+    text-align: center;
+    margin: 64px 0 24px 0;
+    text-shadow: 2px 2px 6px #B6D7A8;
+}
+
+
+.detaildd {
+    font-size: 1.25rem;
+    line-height: 1.75;
+    color: #555;
+    padding: 20px 30px;
+    background: #fff5f5; 
+    border-left: 7px solid #FF6B6B;
+    border-radius: 12px;
+    box-shadow: 1px 1px 5px rgba(255, 107, 107, 0.15);
+}
+
+
+.fancy-button {
+  background: linear-gradient(45deg, #FF6B6B, #FFD93D);
+  border: none;
+  border-radius: 32px;
+  color: white;
+  padding: 16px 40px;
+  font-size: 20px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 8px 24px rgba(255, 107, 107, 0.75);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  display: block;
+  margin: 48px auto 0 auto;
+  width: 180px;
+  text-align: center;
+  letter-spacing: 1.2px;
+}
+
+.fancy-button:hover {
+  background: linear-gradient(45deg, #FFD93D, #FF6B6B);
+  box-shadow: 0 10px 32px rgba(255, 217, 61, 0.95);
+  transform: scale(1.12);
+  letter-spacing: 1.6px;
+}
+
+@media (max-width: 600px) {
+    .detailgazou {
+        max-height: 280px;   
+        margin-top: 200px;    
+        margin-bottom: 24px;
+        border-radius: 14px; 
+        box-shadow: 0 8px 20px rgba(255, 107, 107, 0.35);
+    }
+}
+
+
+</style>
+
+    <div class="main2">
+    {% if object.image and object.image.url %}
+        <img class="detailgazou" src="{{ object.image.url }}" alt="{{ object.englishname }} image" />
+    {% else %}
+        <p>No image available</p>
+    {% endif %}
+
+    <h1 class="detaildt">{{ object.englishname }}</h1> 
+    <hr>
+
+    <h2>Japanese Name:</h2> 
+    <p class="detaildt">{{ object.jpname }}</p>
+    <hr>
+
+    <h2>Romaji Name:</h2> 
+    <p class="detaildt">{{ object.name }}</p>
+    <hr>
+
+    <p class="bigpink">Description</p>
+    <p class="detaildd">↓↓<br />{{ object.description }}</p>
+    <hr>
+
+    <p class="biggreen">History</p>
+    <p class="detaildd">↓↓<br />{{ object.history }}</p>
+
+    <button onclick="window.history.back()" class="fancy-button">← Back</button>
+</div>
+
+ 
+{% endblock %}
+
