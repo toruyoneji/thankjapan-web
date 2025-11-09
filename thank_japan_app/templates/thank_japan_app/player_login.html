@@ -1,24 +1,18 @@
 {% extends "base.html" %}
-
-{% block meta %}
-  <meta name="description" content="Log in to access the Gratitude Game and continue learning about Japanese culture through interactive quizzes.">
-  <meta name="keywords" content="ThankJapan login, Japanese game login, culture game login">
-  <meta property="og:title" content="Login to Gratitude Game | ThankJapan" />
-  <meta property="og:description" content="Access your account and keep exploring Japan through our quiz-based Gratitude Game.">
-  <meta property="og:url" content="https://www.thankjapan.com/login/" />
-  <meta name="twitter:title" content="Login | ThankJapan">
-  <meta name="twitter:description" content="Log in and continue your journey into Japanese culture.">
-{% endblock %}
-
-{% block title %}Login to Play - ThankJapan Gratitude Game{% endblock %}
-
+{% block title %}Login | ThankJapan{% endblock %}
 
 {% block content %}
 
 <style>
+  .main {
+  max-width: 1100px;
+  margin-left: 250px;
+  padding: 30px 20px;
+}
+
   .main2 {
     max-width: 400px;
-    margin: 150px auto 0;
+    margin: 120px auto 0;
     background: #fff;
     padding: 40px 30px;
     border-radius: 15px;
@@ -60,7 +54,8 @@
 
   button {
     width: 100%;
-    padding: 15px 0;
+    padding: 20px 0;
+    margin-top: 10px;
     background: linear-gradient(45deg, #ff6b6b, #f06595);
     border: none;
     border-radius: 30px;
@@ -86,7 +81,7 @@
     list-style: none;
     background: #ffe1e9;
     color: #d93025;
-    padding: 10px 15px;
+    padding: 10px 20px;
     border-radius: 8px;
     margin-bottom: 10px;
     font-weight: 600;
@@ -111,15 +106,35 @@
     color: #ff6b6b;
   }
 
+   .game-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+  cursor: pointer;
+}
 
-@media (max-width: 600px) {
+  /* 既存のスタイルの下に追加 */
+
+@media (max-width: 900px) {
+
+  .main {
+    margin-left: 0;
+    z-index: 1;
+  }
   .main2 {
     width: 90%;
     max-width: none;
-    margin: 270px auto 20px;
-    padding: 30px 20px;
+    margin: 190px auto 20px;
+    padding: 100px 20px;
     box-shadow: 0 4px 10px rgba(240, 101, 149, 0.2);
     border-radius: 12px;
+  }
+
+  .game-grid {
+    grid-template-columns: 1fr;
+    gap:10px;
+  }
+  .game-card img {
+    height:140px;
   }
 }
 
@@ -148,6 +163,75 @@
   </form>
 
   <p>Don't have an account? <a href="{% url 'player_register' %}">Register here</a>.</p>
+
+  
+  <!-- Game Introduction -->
+<h2 style="text-align:center; color:#ff6f61; margin-top:40px; font-family:'Poppins',sans-serif;">How to Play the Game 🎮</h2>
+
+ <div class="game-grid" style="display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:15px; margin-top:20px; padding:0 10px;">
+
+  
+  <div class="game-card" style="background:#fff; border-radius:15px; box-shadow:0 4px 10px rgba(0,0,0,0.1); overflow:hidden; text-align:center; transition:transform 0.2s;">
+    <a href="{% url 'game_start' %}">
+      <img src="https://res.cloudinary.com/dotekofm5/image/upload/v1760316354/thankjapan/backgrounds/ltbitwummwokpabkcmer.png" alt="Register" style="width:100%; height:150px; object-fit:cover; border-bottom:1px solid #f0f0f0;">
+    </a>
+    <p style="padding:10px 5px; font-size:0.9rem; color:#555; font-weight:500;">Create your game account</p>
+  </div>
+
+  <div class="game-card" style="background:#fff; border-radius:15px; box-shadow:0 4px 10px rgba(0,0,0,0.1); overflow:hidden; text-align:center; transition:transform 0.2s;">
+    <a href="{% url 'game_start' %}">
+      <img src="https://res.cloudinary.com/dotekofm5/image/upload/v1760316343/thankjapan/backgrounds/jtnzkwsrcuxlgeucrh1g.png" alt="Login" style="width:100%; height:150px; object-fit:cover; border-bottom:1px solid #f0f0f0;">
+    </a>
+    <p style="padding:10px 5px; font-size:0.9rem; color:#555; font-weight:500;">Log in with your account name & password</p>
+  </div>
+
+  <div class="game-card" style="background:#fff; border-radius:15px; box-shadow:0 4px 10px rgba(0,0,0,0.1); overflow:hidden; text-align:center; transition:transform 0.2s;">
+    <a href="{% url 'game_start' %}">
+      <img src="https://res.cloudinary.com/dotekofm5/image/upload/v1760316373/thankjapan/backgrounds/iydarejspqczunrkhpvx.png" alt="Start Game" style="width:100%; height:150px; object-fit:cover; border-bottom:1px solid #f0f0f0;">
+    </a>
+    <p style="padding:10px 5px; font-size:0.9rem; color:#555; font-weight:500;">Press "game_start" to begin</p>
+  </div>
+
+
+  <div class="game-card" style="background:#fff; border-radius:15px; box-shadow:0 4px 10px rgba(0,0,0,0.1); overflow:hidden; text-align:center; transition:transform 0.2s;">
+    <a href="{% url 'game_start' %}">
+      <img src="https://res.cloudinary.com/dotekofm5/image/upload/v1761848974/thankjapan/backgrounds/vsgi72ehhbryt0yjowwr.png" alt="Answer" style="width:100%; height:150px; object-fit:cover; border-bottom:1px solid #f0f0f0;">
+    </a>
+    <p style="padding:10px 5px; font-size:0.9rem; color:#555; font-weight:500;">Enter the answer in Roman letters</p>
+  </div>
+
+  <div class="game-card" style="background:#fff; border-radius:15px; box-shadow:0 4px 10px rgba(0,0,0,0.1); overflow:hidden; text-align:center; transition:transform 0.2s;">
+    <a href="{% url 'game_start' %}">
+      <img src="https://res.cloudinary.com/dotekofm5/image/upload/v1761848986/thankjapan/backgrounds/x0ebsqfw4kvvcy4ocskd.png" alt="Correct" style="width:100%; height:150px; object-fit:cover; border-bottom:1px solid #f0f0f0;">
+    </a>
+    <p style="padding:10px 5px; font-size:0.9rem; color:#555; font-weight:500;">If correct, "collect" appears</p>
+  </div>
+
+  <div class="game-card" style="background:#fff; border-radius:15px; box-shadow:0 4px 10px rgba(0,0,0,0.1); overflow:hidden; text-align:center; transition:transform 0.2s;">
+    <a href="{% url 'game_start' %}">
+      <img src="https://res.cloudinary.com/dotekofm5/image/upload/v1761848996/thankjapan/backgrounds/tnkl2q2uuvcidqoe4led.png" alt="Incorrect" style="width:100%; height:150px; object-fit:cover; border-bottom:1px solid #f0f0f0;">
+    </a>
+    <p style="padding:10px 5px; font-size:0.9rem; color:#555; font-weight:500;">If incorrect, correct answer is shown</p>
+  </div>
+
+  <div class="game-card" style="background:#fff; border-radius:15px; box-shadow:0 4px 10px rgba(0,0,0,0.1); overflow:hidden; text-align:center; transition:transform 0.2s;">
+    <a href="{% url 'game_start' %}">
+      <img src="https://res.cloudinary.com/dotekofm5/image/upload/v1761849004/thankjapan/backgrounds/tty0isukhlwuzavxxocy.png" alt="Results" style="width:100%; height:150px; object-fit:cover; border-bottom:1px solid #f0f0f0;">
+    </a>
+    <p style="padding:10px 5px; font-size:0.9rem; color:#555; font-weight:500;">View your results & Ranking</p>
+  </div>
+
+  <div class="game-card" style="background:#fff; border-radius:15px; box-shadow:0 4px 10px rgba(0,0,0,0.1); overflow:hidden; text-align:center; transition:transform 0.2s;">
+    <a href="{% url 'game_start' %}">
+      <img src="https://res.cloudinary.com/dotekofm5/image/upload/v1761849018/thankjapan/backgrounds/zpfywmphljhspbxahvje.png" alt="Ranking" style="width:100%; height:150px; object-fit:cover; border-bottom:1px solid #f0f0f0;">
+    </a>
+    <p style="padding:10px 5px; font-size:0.9rem; color:#555; font-weight:500;">Rankings & account management</p>
+  </div>
+
+ </div>
+
+
 </div>
+
 
 {% endblock %}
