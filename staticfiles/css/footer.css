@@ -17,6 +17,41 @@
     font-size: 20px;
 }
 
+.text-twitter {
+  color: #1DA1F2; /* Twitterブルー */
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+.text-twitter:hover {
+  color: #0d8ddb; /* 少し濃いブルー */
+  transform: scale(1.2);
+}
+
+.text-facebook {
+  color: #1877F2; /* Facebookブルー */
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+.text-facebook:hover {
+  color: #0f63c9;
+  transform: scale(1.2);
+}
+
+.text-line {
+  color: #00B900; /* LINEグリーン */
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+.text-line:hover {
+  color: #008c00;
+  transform: scale(1.2);
+}
+
+.text-reddit {
+  color: #FF4500; /* Redditオレンジ */
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+.text-reddit:hover {
+  color: #cc3700;
+  transform: scale(1.2);
+}
 
 
 @media (max-width: 500px) {

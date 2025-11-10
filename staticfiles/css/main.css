@@ -98,6 +98,7 @@
 .anchor {
     text-decoration: none;
     color: inherit;
+    font-size: 1.8rem;
 }
 
 .anchor:hover {
