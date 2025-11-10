@@ -39,59 +39,59 @@ class PrivacyPolicy(TemplateView):
 
 #country page
 class TopView(ListView):
-    template_name = "thank_japan_app/toppage.html"
+    template_name = "thank_japan_app/toppage/toppage.html"
     model = ThankJapanModel
     
 class TopViewJA(ListView):
-    template_name = "thank_japan_app/toppage_ja.html"
+    template_name = "thank_japan_app/toppage/toppage_ja.html"
     model = ThankJapanModel
     
 class TopViewVI(ListView):
-    template_name = "thank_japan_app/toppage_vi.html"
+    template_name = "thank_japan_app/toppage/toppage_vi.html"
     model = ThankJapanModel
     
 class TopViewFR(ListView):
-    template_name = "thank_japan_app/toppage_fr.html"
+    template_name = "thank_japan_app/toppage/toppage_fr.html"
     model = ThankJapanModel
     
 class TopViewIT(ListView):
-    template_name = "thank_japan_app/toppage_it.html"
+    template_name = "thank_japan_app/toppage/toppage_it.html"
     model = ThankJapanModel
     
 class TopViewPT(ListView):
-    template_name = "thank_japan_app/toppage_pt.html"
+    template_name = "thank_japan_app/toppage/toppage_pt.html"
     model = ThankJapanModel
     
 class TopViewZHHANT(ListView):
-    template_name = "thank_japan_app/toppage_zh_hant.html"
+    template_name = "thank_japan_app/toppage/toppage_zh_hant.html"
     model = ThankJapanModel
     
 class TopViewKO(ListView):
-    template_name = "thank_japan_app/toppage_ko.html"
+    template_name = "thank_japan_app/toppage/toppage_ko.html"
     model = ThankJapanModel
 
 class TopViewESES(ListView):
-    template_name = "thank_japan_app/toppage_es_es.html"
+    template_name = "thank_japan_app/toppage/toppage_es_es.html"
     model = ThankJapanModel
     
 class TopViewDE(ListView):
-    template_name = "thank_japan_app/toppage_de.html"
+    template_name = "thank_japan_app/toppage/toppage_de.html"
     model = ThankJapanModel
     
 class TopViewTH(ListView):
-    template_name = "thank_japan_app/toppage_th.html"
+    template_name = "thank_japan_app/toppage/toppage_th.html"
     model = ThankJapanModel
     
 class TopViewPTBR(ListView):
-    template_name = "thank_japan_app/toppage_pt_br.html"
+    template_name = "thank_japan_app/toppage/toppage_pt_br.html"
     model = ThankJapanModel
     
 class TopViewESMX(ListView):
-    template_name = "thank_japan_app/toppage_es_mx.html"
+    template_name = "thank_japan_app/toppage/toppage_es_mx.html"
     model = ThankJapanModel
     
 class TopViewENIN(ListView):
-    template_name = "thank_japan_app/toppage_en_in.html"
+    template_name = "thank_japan_app/toppage/toppage_en_in.html"
     model = ThankJapanModel
 
 
@@ -530,3 +530,8 @@ class LiveView(ListView):
         return context
     
     
+class JapanFoodView(TemplateView):
+    template_name="thank_japan_app/japan/japanfoodpage.html"
+    
+class JapanCultureView(TemplateView):
+    template_name="thank_japan_app/japan/japanculturepage.html"

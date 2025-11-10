@@ -6,7 +6,8 @@ from .views import (TopView, TopViewFR, TopViewIT, TopViewPT, TopViewZHHANT,TopV
                     CategoryDetailView, BuildingView, FlowerView, HouseholdItemsView,LiveView,
                     SportsView, WorkView, CompanyFormView, game_start, game_play,
                     game_answer, game_result, game_restart, player_login, player_logout, delete_player_confirm,
-                    player_register, delete_player, LegalNoticeView,PrivacyPolicy, contact_view, contact_thanks)
+                    player_register, delete_player, LegalNoticeView,PrivacyPolicy, contact_view, contact_thanks,
+                    JapanFoodView,JapanCultureView)
 
 
 urlpatterns = [
@@ -26,6 +27,9 @@ urlpatterns = [
     path('es-mx/', TopViewESMX.as_view(), name='toppageesMX'),
     path('en-in/', TopViewENIN.as_view(), name='toppageenIN'),
     
+    #card
+    path('japanfood/', JapanFoodView.as_view(), name='japanfood'),
+    path('japanculture/', JapanCultureView.as_view(), name='japanculture'),
     
     #game
     path('game/start/', game_start, name='game_start'),

@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block title %}Explore Japanese Culture | Castles, Gardens, Festivals & Traditions | ThankJapan{% endblock %}
+{% block og_title %}Discover Japan's Rich Culture - Castles, Gardens, Festivals & Everyday Life | ThankJapan{% endblock %}
+{% block og_description %}Dive into Japan's cultural heritage. Explore historic castles, tranquil gardens, seasonal festivals, traditional arts, and daily life that make Japan unique.{% endblock %}
+{% block og_url %}{{ request.build_absolute_uri }}{% endblock %}
+{% block description %}Experience Japan beyond cuisine. Learn about historic castles, beautiful gardens, vibrant festivals, traditional crafts, and the fascinating customs that define Japanese culture.{% endblock %}
+
+
+{% block content %}
+
+ {% include 'jpculture/japanculture.html' %}
+
+{% endblock %}

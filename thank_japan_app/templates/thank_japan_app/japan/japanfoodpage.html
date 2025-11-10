@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block title %}Japanese Food | Sushi, Ramen & Traditional Cuisine | ThankJapan{% endblock %}
+{% block og_title %}Discover Japanese Food - Sushi, Ramen, Sweets & Culinary Culture | ThankJapan{% endblock %}
+{% block og_description %}Dive into Japan's rich culinary world. Explore sushi, ramen, tempura, street food, and traditional sweets. Learn about flavors, recipes, and the cultural stories behind Japan's iconic dishes.{% endblock %}
+{% block og_url %}{{ request.build_absolute_uri }}{% endblock %}
+{% block description %}Experience Japanese cuisine from sushi and ramen to tempura and mochi. Discover authentic recipes, cultural traditions, and the stories behind Japan's most famous foods.{% endblock %}
+
+
+{% block content %}
+
+ {% include 'jpfood/japanfood.html' %}
+
+{% endblock %}
