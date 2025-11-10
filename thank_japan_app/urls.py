@@ -7,7 +7,10 @@ from .views import (TopView, TopViewFR, TopViewIT, TopViewPT, TopViewZHHANT,TopV
                     SportsView, WorkView, CompanyFormView, game_start, game_play,
                     game_answer, game_result, game_restart, player_login, player_logout, delete_player_confirm,
                     player_register, delete_player, LegalNoticeView,PrivacyPolicy, contact_view, contact_thanks,
-                    JapanFoodView,JapanCultureView)
+                    JapanFoodView,JapanCultureView, JapanCultureDEView, JapanCultureENINView, JapanCultureESESView,
+                    JapanCultureESMXView, JapanCultureFRView,JapanCultureITView, JapanCultureJAView,JapanCultureKOView,
+                    JapanCulturePTBRView,JapanCulturePTView,JapanCultureTHView,JapanCultureVIView,
+                    JapanCultureZHHANTView,)
 
 
 urlpatterns = [
@@ -27,9 +30,24 @@ urlpatterns = [
     path('es-mx/', TopViewESMX.as_view(), name='toppageesMX'),
     path('en-in/', TopViewENIN.as_view(), name='toppageenIN'),
     
-    #card
+    #japanfood
     path('japanfood/', JapanFoodView.as_view(), name='japanfood'),
+    
+    #japanculture
     path('japanculture/', JapanCultureView.as_view(), name='japanculture'),
+    path('japanculture/de/', JapanCultureDEView.as_view(), name='japanculturede'),
+    path('japanculture/en-in/', JapanCultureENINView.as_view(), name='japancultureenIN'),
+    path('japanculture/es-es/', JapanCultureESESView.as_view(), name='japancultureesES'),
+    path('japanculture/es-mx/', JapanCultureESMXView.as_view(), name='japancultureesMX'),
+    path('japanculture/fr/', JapanCultureFRView.as_view(), name='japanculturefr'),
+    path('japanculture/it/', JapanCultureITView.as_view(), name='japancultureit'),
+    path('japanculture/ja/', JapanCultureJAView.as_view(), name='japancultureja'),
+    path('japanculture/ko/', JapanCultureKOView.as_view(), name='japancultureko'),
+    path('japanculture/pt-br/', JapanCulturePTBRView.as_view(), name='japancultureptBR'),
+    path('japanculture/pt/', JapanCulturePTView.as_view(), name='japanculturept'),
+    path('japanculture/th/', JapanCultureTHView.as_view(), name='japancultureth'),
+    path('japanculture/vi/', JapanCultureVIView.as_view(), name='japanculturevi'),
+    path('japanculture/zh-hant/', JapanCultureZHHANTView.as_view(), name='japanculturezhHANT'),
     
     #game
     path('game/start/', game_start, name='game_start'),

@@ -1,0 +1,14 @@
+{% extends 'base/base.html' %}
+
+{% block title %}探索日本文化 | 城堡、庭園、節慶與傳統 | ThankJapan{% endblock %}
+{% block og_title %}發現日本豐富的文化 - 城堡、庭園、節慶與日常生活 | ThankJapan{% endblock %}
+{% block og_description %}深入了解日本的文化遺產。探索歷史城堡、寧靜庭園、季節性節慶、傳統藝術以及使日本獨特的日常生活。{% endblock %}
+{% block og_url %}{{ request.build_absolute_uri }}{% endblock %}
+{% block description %}體驗日本不只是美食。了解歷史城堡、美麗庭園、充滿活力的節慶、傳統工藝，以及定義日本文化的迷人習俗。{% endblock %}
+
+
+{% block content %}
+
+ {% include 'jpculture/japanculture_zh_hant.html' %}
+
+{% endblock %}

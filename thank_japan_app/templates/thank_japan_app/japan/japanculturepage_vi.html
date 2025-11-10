@@ -1,0 +1,14 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Khám Phá Văn Hóa Nhật Bản | Lâu Đài Lịch Sử, Vườn Cảnh Nhật Bản, Lễ Hội & Truyền Thống | ThankJapan{% endblock %}
+{% block og_title %}Khám Phá Văn Hóa Nhật Bản - Lâu Đài Lịch Sử, Vườn Cảnh Đẹp, Lễ Hội Truyền Thống & Đời Sống Nhật Bản | ThankJapan{% endblock %}
+{% block og_description %}Khám phá di sản văn hóa Nhật Bản: lâu đài lịch sử, vườn cảnh Nhật Bản yên bình, lễ hội truyền thống theo mùa, nghệ thuật truyền thống và đời sống hàng ngày độc đáo. Tìm hiểu những nét văn hóa Nhật Bản đặc sắc ngay hôm nay!{% endblock %}
+{% block og_url %}{{ request.build_absolute_uri }}{% endblock %}
+{% block description %}Trải nghiệm Nhật Bản trọn vẹn: khám phá lâu đài lịch sử, vườn cảnh tuyệt đẹp, lễ hội truyền thống sôi động, thủ công mỹ nghệ độc đáo và những phong tục hàng ngày làm nên văn hóa Nhật Bản. Tìm hiểu ngay để cảm nhận văn hóa Nhật Bản sâu sắc!{% endblock %}
+
+
+{% block content %}
+
+ {% include 'jpculture/japanculture_vi.html' %}
+
+{% endblock %}

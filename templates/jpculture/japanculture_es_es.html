@@ -1,0 +1,250 @@
+{% load static %}
+
+<style>
+body {
+  margin: 0;
+  font-family: "Poppins","Hiragino Maru Gothic ProN",sans-serif;
+  background-image: url("https://res.cloudinary.com/dotekofm5/image/upload/v1762738682/thankjapan/backgrounds/eqpmsezzbdcjecbql04f.png");
+  background-size: cover;
+  background-attachment: scroll;
+  background-repeat: no-repeat;
+  color: #333;
+  text-align: center;
+}
+
+/* ===== 見出し ===== */
+h1 {
+  color: #3b0a00;
+  font-weight: 600;
+  margin: 120px 20px 20px 20px;
+  letter-spacing: 0.05em;
+  font-size: 1.4rem;
+  text-shadow: 1px 1px 2px rgba(255,255,255,0.8);
+}
+
+/* ===== カードレイアウト ===== */
+.food-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  max-width: 950px;
+  margin: 0 auto;
+  padding: 20px;
+  justify-items: center;
+}
+
+.food-card {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  transition: transform 0.3s ease;
+  cursor: pointer;
+  width: 100%;
+  max-width: 280px;
+  margin-top: 0;
+}
+
+.food-card:hover {
+  transform: scale(1.03);
+}
+
+.food-card img {
+  width: 100%;
+  height: 170px;
+  object-fit: cover;
+}
+
+.food-card p {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;  /* 2行で省略 */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.4em;
+  max-height: 2.8em;      /* line-height × 2行 */
+  margin: 0;              /* 上下の余白リセット */
+}
+
+.food-card img,
+.card img {
+  display: block;       /* 不要な隙間を消す */
+  margin-top: 0;        /* 上の余白を0に */
+  border-radius: 15px 15px 0 0; /* 角丸は残す */
+}
+
+/* ===== レスポンシブ（スマホ2列） ===== */
+@media (max-width: 768px) {
+  h1 {
+    margin: 120px 0 15px 0;
+    padding: 50px 10px;
+    font-size: 1.2rem;
+  }
+
+  .food-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    padding: 10px;
+    margin-top: 20px;
+  }
+
+  .food-card img {
+    height: 120px;
+  }
+
+}
+
+
+/* ===== モーダル ===== */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 9999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.7);
+}
+
+.modal.active {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background: #fff;
+  border-radius: 15px;
+  max-width: 90%;
+  width: 400px;
+  padding: 20px;
+  position: relative;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+  text-align: center;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.modal-content img {
+  width: 100%;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+.modal-close {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #333;
+}
+
+
+</style>
+
+
+<body>
+
+<h1>Vive Japón: Cultura, Gastronomía, Calles, Mercados y Maravillas Cotidianas</h1>
+<div class="food-grid">
+
+  <div class="food-card">
+    <a href="{% url 'culturepage' %}"><img src="https://res.cloudinary.com/dotekofm5/image/upload/v1761842767/thankjapan/backgrounds/xzvjepgpcq0x9n8aiu31.jpg"
+      alt="kanazawajou"/></a>
+    <p>Los castillos japoneses son impresionantes símbolos de historia y cultura, con majestuosas torres de madera, muros de piedra y fosos que cuentan historias de la era samurái.</p>
+  </div>
+
+  <div class="food-card">
+    <a href="{% url 'culturepage' %}"><img src="https://res.cloudinary.com/dotekofm5/image/upload/v1761842683/thankjapan/backgrounds/ixyersx9bdpxytxzetix.jpg"
+      alt="kanazawaike"/></a>
+    <p>Los tranquilos estanques de los jardines japoneses reflejan la belleza de la naturaleza e invitan a hacer una pausa para sentir verdadera paz.</p>
+  </div>
+
+  <div class="food-card">
+    <a href="{% url 'culturepage' %}"><img src="https://res.cloudinary.com/dotekofm5/image/upload/v1761842722/thankjapan/backgrounds/p2uktlwymnjdmhy5w2sd.jpg"
+      alt="kanazawamatsu"/></a>
+    <p>El pino en los jardines japoneses simboliza fuerza y longevidad, añadiendo una belleza atemporal al paisaje.</p>
+  </div>
+
+  <div class="food-card">
+    <a href="{% url 'animalpage' %}"><img src="https://res.cloudinary.com/dotekofm5/image/upload/v1761842693/thankjapan/backgrounds/fa8zrl3raytsikev01qv.jpg"
+      alt="kanazawakoi"/></a>
+    <p>Los coloridos peces koi que nadan en el estanque traen vida, suerte y armonía al jardín tranquilo.</p>
+  </div>
+
+  <div class="food-card">
+    <a href="{% url 'flowerpage' %}"><img src="https://res.cloudinary.com/dotekofm5/image/upload/v1761842670/thankjapan/backgrounds/pefrud2jfb9npq8jads8.jpg"
+      alt="kanazawahana"/></a>
+    <p>La floristería del mercado está llena de colores y aromas, iluminando el día de todos los visitantes.</p>
+  </div>
+
+  <div class="food-card">
+    <a href="{% url 'foodpage' %}"><img src="https://res.cloudinary.com/dotekofm5/image/upload/v1761842789/thankjapan/backgrounds/hqdsnrjuclgbubtwyw0c.jpg"
+      alt="kanazawasakana"/></a>
+    <p>La pescadería del mercado ofrece productos frescos y un ambiente animado, mostrando la cultura culinaria japonesa.</p>
+  </div>
+
+  <div class="food-card">
+    <a href="{% url 'buildingpage' %}"><img src="https://res.cloudinary.com/dotekofm5/image/upload/v1761842637/thankjapan/backgrounds/kir5gipqammzzcoofv4q.jpg"
+      alt="kanazawajihanki"/></a>
+    <p>Las máquinas expendedoras que venden sushi y sashimi muestran la creatividad japonesa al unir tradición y tecnología.</p>
+  </div>
+
+  <div class="food-card">
+    <a href="{% url 'buildingpage' %}"><img src="https://res.cloudinary.com/dotekofm5/image/upload/v1761842626/thankjapan/backgrounds/iorkoeenixvnlgfkfmy4.jpg"
+      alt="kanazawasake"/></a>
+    <p>Los supermercados y tiendas de conveniencia en Japón exhiben una amplia variedad de sake, atrayendo a todos los amantes de esta bebida.</p>
+  </div>
+
+  <div class="food-card">
+    <a href="{% url 'culturepage' %}"><img src="https://res.cloudinary.com/dotekofm5/image/upload/v1761842778/thankjapan/backgrounds/qnmjxmped0obbt72ikmx.jpg"
+      alt="kanazawaosechi"/></a>
+    <p>Los Osechi ryori son platos tradicionales del Año Nuevo japonés, preparados con cuidado para traer buena suerte y celebrar la nueva temporada.</p>
+  </div>
+
+</div>
+ 
+
+
+<!-- ===== モーダル部分 ===== -->
+<div id="modal" class="modal">
+  <div class="modal-content">
+    <span class="modal-close">&times;</span>
+    <img id="modalImage" src="" alt="">
+    <p id="modalText"></p>
+  </div>
+</div>
+
+<script>
+const cards = document.querySelectorAll('.food-card');
+const modal = document.getElementById('modal');
+const modalImage = document.getElementById('modalImage');
+const modalText = document.getElementById('modalText');
+const closeBtn = document.querySelector('.modal-close');
+
+// カードクリック → モーダル表示
+cards.forEach(card => {
+  card.addEventListener('click', () => {
+    const img = card.querySelector('img');
+    const text = card.querySelector('p');
+    modalImage.src = img.src;
+    modalText.textContent = text.textContent;
+    modal.classList.add('active');
+  });
+});
+
+// 閉じる
+closeBtn.addEventListener('click', () => modal.classList.remove('active'));
+modal.addEventListener('click', (e) => {
+  if (e.target === modal) modal.classList.remove('active');
+});
+</script>
+
+</body>

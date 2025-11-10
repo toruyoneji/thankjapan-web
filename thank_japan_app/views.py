@@ -529,9 +529,51 @@ class LiveView(ListView):
         context['seo_og_description'] = context['seo_description']
         return context
     
-    
+#japan food
 class JapanFoodView(TemplateView):
     template_name="thank_japan_app/japan/japanfoodpage.html"
     
+    
+#japan culture    
 class JapanCultureView(TemplateView):
     template_name="thank_japan_app/japan/japanculturepage.html"
+    
+class JapanCultureZHHANTView(TemplateView):
+    template_name="thank_japan_app/japan/japanculturepage_zh_hant.html"
+    
+class JapanCultureVIView(TemplateView):
+    template_name="thank_japan_app/japan/japanculturepage_vi.html"
+    
+class JapanCultureTHView(TemplateView):
+    template_name="thank_japan_app/japan/japanculturepage_th.html"
+    
+class JapanCulturePTView(TemplateView):
+    template_name="thank_japan_app/japan/japanculturepage_pt.html"
+    
+class JapanCulturePTBRView(TemplateView):
+    template_name="thank_japan_app/japan/japanculturepage_pt_br.html"
+    
+class JapanCultureKOView(TemplateView):
+    template_name="thank_japan_app/japan/japanculturepage_ko.html"
+    
+class JapanCultureJAView(TemplateView):
+    template_name="thank_japan_app/japan/japanculturepage_ja.html"
+    
+class JapanCultureITView(TemplateView):
+    template_name="thank_japan_app/japan/japanculturepage_it.html"
+    
+class JapanCultureFRView(TemplateView):
+    template_name="thank_japan_app/japan/japanculturepage_fr.html"
+    
+class JapanCultureESMXView(TemplateView):
+    template_name="thank_japan_app/japan/japanculturepage_es_mx.html"
+    
+class JapanCultureESESView(TemplateView):
+    template_name="thank_japan_app/japan/japanculturepage_es_es.html"
+    
+class JapanCultureENINView(TemplateView):
+    template_name="thank_japan_app/japan/japanculturepage_en_in.html"
+    
+class JapanCultureDEView(TemplateView):
+    template_name="thank_japan_app/japan/japanculturepage_de.html"
+    

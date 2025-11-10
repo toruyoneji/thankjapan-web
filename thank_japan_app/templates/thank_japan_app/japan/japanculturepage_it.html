@@ -1,0 +1,14 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Esplora la Cultura Giapponese | Castelli Storici, Giardini Giapponesi, Festival & Tradizioni | ThankJapan{% endblock %}
+{% block og_title %}Scopri la Cultura Giapponese - Castelli Storici, Giardini Giapponesi, Festival Tradizionali & Vita Quotidiana | ThankJapan{% endblock %}
+{% block og_description %}Esplora il patrimonio culturale del Giappone: castelli storici, tranquilli giardini giapponesi, festival stagionali, arti tradizionali e la vita quotidiana unica del Giappone. Scopri la cultura giapponese oggi stesso!{% endblock %}
+{% block og_url %}{{ request.build_absolute_uri }}{% endblock %}
+{% block description %}Vivi il Giappone oltre la gastronomia: scopri castelli storici, splendidi giardini giapponesi, vivaci festival tradizionali, artigianato unico e le usanze quotidiane che definiscono la cultura giapponese. Approfondisci e sperimenta la cultura giapponese in modo autentico!{% endblock %}
+
+
+{% block content %}
+
+ {% include 'jpculture/japanculture_it.html' %}
+
+{% endblock %}

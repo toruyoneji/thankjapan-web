@@ -1,0 +1,13 @@
+{% extends 'base/base.html' %}
+
+{% block title %}일본 문화 탐방 | 역사적인 성, 일본식 정원, 축제 & 전통 | ThankJapan{% endblock %}
+{% block og_title %}일본 문화 발견 - 역사적인 성, 아름다운 일본식 정원, 전통 축제 & 일상 생활 | ThankJapan{% endblock %}
+{% block og_description %}일본의 문화 유산을 탐험하세요: 역사적인 성, 평화로운 일본식 정원, 계절별 전통 축제, 전통 예술, 그리고 일본만의 독특한 일상을 경험할 수 있습니다. 지금 바로 일본 문화를 알아보세요!{% endblock %}
+{% block og_url %}{{ request.build_absolute_uri }}{% endblock %}
+{% block description %}일본을 음식 그 이상으로 체험하세요: 역사적인 성, 아름다운 일본식 정원, 활기찬 전통 축제, 독특한 공예, 일본 문화를 정의하는 일상 관습을 발견하고 경험해보세요. 일본 문화를 진정으로 느껴보세요!{% endblock %}
+
+{% block content %}
+
+ {% include 'jpculture/japanculture_ko.html' %}
+
+{% endblock %}

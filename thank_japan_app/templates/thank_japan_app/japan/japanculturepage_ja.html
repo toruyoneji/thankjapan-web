@@ -1,0 +1,13 @@
+{% extends 'base/base.html' %}
+
+{% block title %}日本文化を探訪 | 歴史的な城、庭園、祭り＆伝統 | ThankJapan{% endblock %}
+{% block og_title %}日本の豊かな文化を発見 - 歴史的な城、美しい庭園、伝統的な祭り＆日常生活 | ThankJapan{% endblock %}
+{% block og_description %}日本の文化遺産を深く体験しよう：歴史的な城、静かな日本庭園、季節ごとの伝統祭り、伝統芸術、そして日本ならではのユニークな日常生活。今すぐ日本文化を学び、楽しもう！{% endblock %}
+{% block og_url %}{{ request.build_absolute_uri }}{% endblock %}
+{% block description %}日本を食文化だけでなく、多面的に体験：歴史的な城、美しい庭園、活気ある伝統祭り、独自の工芸、そして日本文化を形作る日常の習慣を発見・体験しよう。日本文化を本当に感じる旅へ！{% endblock %}
+
+{% block content %}
+
+ {% include 'jpculture/japanculture_ja.html' %}
+
+{% endblock %}

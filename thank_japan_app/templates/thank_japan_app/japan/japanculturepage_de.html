@@ -1,0 +1,14 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Japanische Kultur Entdecken | Historische Schlösser, Japanische Gärten, Feste & Traditionen | ThankJapan{% endblock %}
+{% block og_title %}Entdecken Sie die Reiche Kultur Japans - Historische Schlösser, Schöne Japanische Gärten, Traditionelle Feste & Alltag | ThankJapan{% endblock %}
+{% block og_description %}Erleben Sie Japans kulturelles Erbe: historische Schlösser, ruhige japanische Gärten, saisonale Feste, traditionelle Künste und den einzigartigen Alltag in Japan. Lernen Sie die japanische Kultur noch heute kennen!{% endblock %}
+{% block og_url %}{{ request.build_absolute_uri }}{% endblock %}
+{% block description %}Erleben Sie Japan über die Küche hinaus: Besuchen Sie historische Schlösser, wunderschöne japanische Gärten, lebendige traditionelle Feste, einzigartiges Kunsthandwerk und Alltagsbräuche, die die japanische Kultur prägen. Entdecken und erleben Sie authentische japanische Kultur jetzt!{% endblock %}
+
+
+{% block content %}
+
+ {% include 'jpculture/japanculture_de.html' %}
+
+{% endblock %}
