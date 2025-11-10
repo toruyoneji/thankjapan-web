@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="zh-Hant">
+<head>
+    {% include 'css.html' %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    {% block meta %}
+    <meta name="title" content="探索日本文化、美食與語言 | ThankJapan">
+    <meta name="description" content="透過互動內容和學習遊戲，探索日本的生活、美食和語言。無論身在何處，都能體驗日本。">
+
+    <meta name="robots" content="index,follow">
+    <meta name="keywords" content="日本,日本文化,日本美食">
+
+    <meta property="og:title" content="ThankJapan 分享" />
+    <meta property="og:description" content="介紹日本文化。" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.thankjapan.com" />
+    <meta property="og:image" content="https://res.cloudinary.com/dotekofm5/image/upload/v1754642770/thankjapan/backgrounds/ntpvmxgudcmvp0snpiur.png" />
+    <meta property="og:site_name" content="ThankJapan" />
+    <meta property="og:locale" content="zh-Hant" />
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="ThankJapan 分享">
+    <meta name="twitter:description" content="向全世界介紹日本的文化、美食和語言。">
+    <meta name="twitter:image" content="https://res.cloudinary.com/dotekofm5/image/upload/v1754642770/thankjapan/backgrounds/ntpvmxgudcmvp0snpiur.png">
+    <meta name="twitter:site" content="@thankjapan0514">
+
+    <link rel="alternate" hreflang="en" href="https://www.thankjapan.com/">
+    <link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/ja/">
+    <link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/vi/">
+    <link rel="alternate" hreflang="en-IN" href="https://www.thankjapan.com/en-in/">
+    <link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/fr/">
+    <link rel="alternate" hreflang="it" href="https://www.thankjapan.com/it/">
+    <link rel="alternate" hreflang="pt-PT" href="https://www.thankjapan.com/pt/">
+    <link rel="alternate" hreflang="pt-BR" href="https://www.thankjapan.com/pt-br/">
+    <link rel="alternate" hreflang="zh-Hant" href="https://www.thankjapan.com/zh-hant/">
+    <link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/ko/">
+    <link rel="alternate" hreflang="es-ES" href="https://www.thankjapan.com/es-es/">
+    <link rel="alternate" hreflang="es-MX" href="https://www.thankjapan.com/es-mx/">
+    <link rel="alternate" hreflang="de" href="https://www.thankjapan.com/de/">
+    <link rel="alternate" hreflang="th" href="https://www.thankjapan.com/th/">
+    <link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/">
+    
+    
+    {% endblock %}
+
+    <title>{% block title %}ThankJapan{% endblock %}</title>
+
+    <style>
+    /* --- Header --- */
+    header.nav-bar {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        background: rgba(0,0,0,0.8);
+        backdrop-filter: blur(6px);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 30px;
+        z-index: 999;
+        flex-wrap: wrap;
+    }
+
+    .logo {
+        font-size: 1.3rem;
+        font-weight: 700;
+        color: #fff;
+    }
+
+    .logo-link {
+        color: white;
+        text-decoration: none;
+        font-weight: bold;
+        font-size: 1.5rem;
+    }
+    .logo-link:hover { color: #e63946; }
+
+    nav {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        flex-wrap: wrap;
+    }
+
+    nav a, .dropbtn {
+        color: #eee;
+        text-decoration: none;
+        font-weight: 500;
+        transition: color 0.3s ease;
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-size: 1rem;
+        font-family: inherit;
+    }
+    nav a:hover, .dropbtn:hover { color: #e63946; }
+
+    /* --- Dropdown --- */
+    .dropdown {
+        position: relative;
+        display: inline-block;
+    }
+
+    .dropdown-content {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #1a1a1a;
+    min-width: 160px;
+    max-height: 300px; /* 高さ制限 */
+    overflow-y: auto;  /* 縦スクロール可能 */
+    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+    border-radius: 8px;
+    z-index: 999;
+    scrollbar-width: thin; /* Firefox 用 */
+    }
+
+/* スクロールバーのスタイル（Webkit系ブラウザ） */
+    .dropdown-content::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    .dropdown-content::-webkit-scrollbar-thumb {
+        background-color: #e63946;
+        border-radius: 3px;
+    }
+
+    .dropdown-content::-webkit-scrollbar-track {
+        background-color: #1a1a1a;
+    }
+
+    .dropdown-content a {
+        color: #eee;
+        padding: 10px 16px;
+        display: block;
+        text-decoration: none;
+    }
+
+    .dropdown-content a:hover {
+        background-color: #333;
+        color: #e63946;
+    }
+
+    
+
+    /* --- SNS buttons --- */
+    .sns-buttons {
+        display: flex;
+        gap: 10px;
+    }
+
+    .sns-buttons a {
+        font-size: 1.2rem;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 30px;
+        height: 30px;
+        background-color: #333;
+        border-radius: 50%;
+        color: white;
+        text-decoration: none;
+        transition: background-color 0.3s;
+    }
+    .sns-buttons a:hover { background-color: #e63946; }
+
+    .sns-buttons a .fa-x-twitter {
+      color: #eee; 
+    }
+
+    /* --- Responsive --- */
+    @media screen and (max-width: 768px) {
+        header.nav-bar {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        nav {
+            width: 100%;
+            gap: 10px;
+        }
+        /* Gameを下に表示 */
+        .game-link {
+            order: 2;
+        }
+        .lang-switch {
+            order: 3;
+        }
+        .sns-buttons {
+            order: 1;
+            margin-bottom: 5px;
+        }
+    }
+
+    @media screen and (max-width: 768px) {
+  
+    nav {
+        flex-wrap: wrap;
+        gap: 15px;
+        }
+
+    .sns-buttons {
+        margin-top: 10px; 
+        }
+
+    .dropdown-content {
+        max-height: 200px;
+    }
+    }
+
+    </style>
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id={{ GA_TRACKING_ID }}"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', '{{ GA_TRACKING_ID }}');
+    </script>
+</head>
+
+<body>
+<header class="nav-bar">
+    <div class="logo">
+        <a class="logo-link" href="{% url 'toppagezhHANT' %}">Thank Japan</a>
+    </div>
+
+    <!-- SNSボタン -->
+  <div class="sns-buttons">
+    <a href="https://x.com/thankjapan0514" target="_blank"><i class="fab fa-x twitter"></i></a>
+    <a href="https://www.instagram.com/thankjapan/" target="_blank"><i class="fab fa-instagram"></i></a>
+    <a href="https://www.facebook.com/ToruYone" target="_blank"><i class="fab fa-facebook"></i></a>
+    <a href="https://www.tiktok.com/@thankjapan" target="_blank"><i class="fab fa-tiktok"></i></a>
+    <a href="https://www.pinterest.com/yonetoru/" target="_blank"><i class="fab fa-pinterest"></i></a>
+    <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://www.thankjapan.com" target="_blank" title="Share on LinkedIn"><i class="fab fa-linkedin"></i></a>
+  </div>
+
+
+
+    <nav>
+        <div class="dropdown">
+            <button class="dropbtn">分類 ▾</button>
+            <div class="dropdown-content">
+                <a href="{% url 'culturepage' %}">文化</a>
+                <a href="{% url 'foodpage' %}">美食</a>
+                <a href="{% url 'fashionpage' %}">時尚</a>
+                <a href="{% url 'naturepage' %}">自然</a>
+                <a href="{% url 'cookpage' %}">料理</a>
+                <a href="{% url 'animalpage' %}">動物</a>
+                <a href="{% url 'sportspage' %}">運動</a>
+                <a href="{% url 'householditemspage' %}">家居用品</a>
+                <a href="{% url 'appliancespage' %}">家電</a>
+                <a href="{% url 'buildingpage' %}">建築</a>
+                <a href="{% url 'flowerpage' %}">花卉</a>
+                <a href="{% url 'workpage' %}">工作</a>
+                <a href="{% url 'livepage' %}">生活方式</a>
+            </div>
+        </div>
+
+        <a href="{% url 'game_start' %}" class="game-link">遊戲</a>
+
+        <div class="lang-switch dropdown">
+            <button class="dropbtn">Language ▾</button>
+            <div class="dropdown-content">
+                <a href="{% url 'toppage' %}">EN</a>
+                <a href="{% url 'toppageenIN' %}">EN_IN</a>
+                <a href="{% url 'toppageit' %}">IT</a>
+                <a href="{% url 'toppagefr' %}">FR</a>
+                <a href="{% url 'toppagede' %}">DE</a>
+                <a href="{% url 'toppagept' %}">PT</a>
+                <a href="{% url 'toppageptBR' %}">PT_BR</a>
+                <a href="{% url 'toppageja' %}">JA</a>
+                <a href="{% url 'toppageesES' %}">ES</a>
+                <a href="{% url 'toppageesMX' %}">ES_MX</a>
+                <a href="{% url 'toppagevi' %}">VI</a>
+                <a href="{% url 'toppageko' %}">KO</a>
+                <a href="{% url 'toppageth' %}">TH</a>
+                <a href="{% url 'toppagezhHANT' %}">ZH-HANT</a>
+            </div>
+        </div>
+    </nav>
+</header>
+
+{% block content %}{% endblock %}
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const dropdowns = document.querySelectorAll('.dropdown');
+
+    dropdowns.forEach(dropdown => {
+        const btn = dropdown.querySelector('.dropbtn');
+        const content = dropdown.querySelector('.dropdown-content');
+
+        btn.addEventListener('click', function(e) {
+            e.stopPropagation(); // 他のクリックイベントに影響させない
+            // 既に開いていたら閉じる
+            const isOpen = content.style.display === 'block';
+            document.querySelectorAll('.dropdown-content').forEach(dc => dc.style.display = 'none');
+            content.style.display = isOpen ? 'none' : 'block';
+        });
+    });
+
+    // ページのどこかクリックしたら閉じる
+    document.addEventListener('click', function() {
+        document.querySelectorAll('.dropdown-content').forEach(dc => dc.style.display = 'none');
+    });
+});
+</script>
+
+</body>
+</html>
