@@ -1,0 +1,14 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Ultimativer Guide zur Japanischen Küche | Sushi, Ramen, Tempura, Traditionelle Süßigkeiten & Rezepte | ThankJapan{% endblock %}
+{% block og_title %}Entdecke die Welt der Japanischen Küche - Sushi, Ramen, Tempura, Street Food, Süßigkeiten & Traditionelle Rezepte | ThankJapan{% endblock %}
+{% block og_description %}Erlebe die Vielfalt Japans: frisches Sushi, aromatisches Ramen, knusprige Tempura, traditionelle Süßigkeiten und beliebtes Street Food. Lerne authentische Rezepte, Kochtechniken und die kulturellen Geschichten hinter jedem Gericht, um die japanische Kulinarik direkt zu Hause genießen zu können.{% endblock %}
+{% block og_url %}{{ request.build_absolute_uri }}{% endblock %}
+{% block description %}Tauche ein in die japanische Küche: Sushi, Ramen, Tempura, traditionelle Süßigkeiten, Street Food und ikonische Gerichte. Entdecke authentische Zutaten, Kochgeheimnisse und die Geschichte jedes Gerichts, während du die reiche japanische Esskultur und die echten Aromen bequem zu Hause genießt.{% endblock %}
+
+
+{% block content %}
+
+ {% include 'jpfood/japanfood_de.html' %}
+
+{% endblock %}

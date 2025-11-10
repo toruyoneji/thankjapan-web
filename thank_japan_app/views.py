@@ -533,6 +533,45 @@ class LiveView(ListView):
 class JapanFoodView(TemplateView):
     template_name="thank_japan_app/japan/japanfoodpage.html"
     
+class JapanFoodZHHANTView(TemplateView):
+    template_name="thank_japan_app/japan/japanfoodpage_zh_hant.html"
+    
+class JapanFoodVIView(TemplateView):
+    template_name="thank_japan_app/japan/japanfoodpage_vi.html"
+    
+class JapanFoodTHView(TemplateView):
+    template_name="thank_japan_app/japan/japanfoodpage_th.html"
+    
+class JapanFoodPTView(TemplateView):
+    template_name="thank_japan_app/japan/japanfoodpage_pt.html"
+    
+class JapanFoodPTBRView(TemplateView):
+    template_name="thank_japan_app/japan/japanfoodpage_pt_br.html"
+    
+class JapanFoodKOView(TemplateView):
+    template_name="thank_japan_app/japan/japanfoodpage_ko.html"
+    
+class JapanFoodJAView(TemplateView):
+    template_name="thank_japan_app/japan/japanfoodpage_ja.html"
+    
+class JapanFoodITView(TemplateView):
+    template_name="thank_japan_app/japan/japanfoodpage_it.html"
+    
+class JapanFoodFRView(TemplateView):
+    template_name="thank_japan_app/japan/japanfoodpage_fr.html"
+    
+class JapanFoodESMXView(TemplateView):
+    template_name="thank_japan_app/japan/japanfoodpage_es_mx.html"
+    
+class JapanFoodESESView(TemplateView):
+    template_name="thank_japan_app/japan/japanfoodpage_es_es.html"
+    
+class JapanFoodENINView(TemplateView):
+    template_name="thank_japan_app/japan/japanfoodpage_en_in.html"
+    
+class JapanFoodDEView(TemplateView):
+    template_name="thank_japan_app/japan/japanfoodpage_de.html"
+    
     
 #japan culture    
 class JapanCultureView(TemplateView):

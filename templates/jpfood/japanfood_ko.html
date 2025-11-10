@@ -1,0 +1,288 @@
+{% load static %}
+
+<style>
+body {
+  margin: 0;
+  font-family: "Poppins","Hiragino Maru Gothic ProN",sans-serif;
+  background-image: url("https://res.cloudinary.com/dotekofm5/image/upload/v1762738702/thankjapan/backgrounds/ca3mq0jab4zhb4lpsabw.png");
+  background-size: cover;
+  background-attachment: scroll;
+  background-repeat: no-repeat;
+  color: #333;
+  text-align: center;
+}
+
+/* ===== 見出し ===== */
+h1 {
+  color: #3b0a00;
+  font-weight: 600;
+  margin: 120px 20px 20px 20px;
+  letter-spacing: 0.05em;
+  font-size: 1.4rem;
+  text-shadow: 1px 1px 2px rgba(255,255,255,0.8);
+}
+
+/* ===== カードレイアウト ===== */
+.food-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  max-width: 950px;
+  margin: 0 auto;
+  padding: 20px;
+  justify-items: center;
+}
+
+.food-card {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  transition: transform 0.3s ease;
+  cursor: pointer;
+  width: 100%;
+  max-width: 280px;
+  margin-top: 0;
+}
+
+.food-card:hover {
+  transform: scale(1.03);
+}
+
+.food-card img {
+  width: 100%;
+  height: 170px;
+  object-fit: cover;
+}
+
+.food-card p {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;  /* 2行で省略 */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.4em;
+  max-height: 2.8em;      /* line-height × 2行 */
+  margin: 0;              /* 上下の余白リセット */
+}
+
+.food-card img,
+.card img {
+  display: block;       /* 不要な隙間を消す */
+  margin-top: 0;        /* 上の余白を0に */
+  border-radius: 15px 15px 0 0; /* 角丸は残す */
+}
+
+/* ===== レスポンシブ（スマホ2列） ===== */
+@media (max-width: 768px) {
+  h1 {
+    margin: 120px 0 15px 0;
+    padding: 50px 10px;
+    font-size: 1.2rem;
+  }
+
+  .food-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    padding: 10px;
+    margin-top: 20px;
+  }
+
+  .food-card img {
+    height: 120px;
+  }
+
+}
+
+
+/* ===== モーダル ===== */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 9999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.7);
+}
+
+.modal.active {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background: #fff;
+  border-radius: 15px;
+  max-width: 90%;
+  width: 400px;
+  padding: 20px;
+  position: relative;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+  text-align: center;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.modal-content img {
+  width: 100%;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+.modal-close {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #333;
+}
+
+
+</style>
+
+
+<body>
+
+<h1>우리 집에서 자주 먹는 음식들, 조금 보여드릴게요🍴</h1>
+
+<div class="food-grid">
+
+    <div class="food-card">
+      <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1761200066/thankjapan/backgrounds/adfqqgtdfozxi848gopz.png"
+        alt="nigirisushi"/>
+      <p>니기리 초밥 – 손으로 쥔 밥 위에 신선한 생선이나 해산물을 올린 일본 정통 요리. 집에서도 맛있게 즐길 수 있어요!</p>
+    </div>
+
+    <div class="food-card">
+      <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1761200046/thankjapan/backgrounds/ykvnom7g0hgig7xzkdzg.png"
+        alt="sukiyaki"/>
+      <p>스키야키 – 얇게 썬 소고기, 채소, 두부, 면을 달콤짭짤한 간장 육수에 끓이는 인기 일본식 전골. 다 같이 둘러앉아 먹으면 더 즐거워요.</p>
+    </div>
+
+    <div class="food-card">
+      <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1761200094/thankjapan/backgrounds/pah6gtiqswx0cmhq5yip.png"
+        alt="zarusoba"/>
+      <p>자루소바 – 차갑게 식힌 메밀국수를 대나무 바구니에 담아, 간장 소스에 찍어 먹는 시원한 여름 음식이에요.</p>
+    </div>
+
+    <div class="food-card">
+      <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1760619729/thankjapan/backgrounds/ydojoqkpkuuejtxd7kkb.png"
+        alt="ramen"/>
+      <p>라멘 – 진한 국물과 다양한 토핑이 매력적인 일본식 면 요리. 저희 집에서는 직접 만든 육수로 즐겨요🍜</p>
+    </div>
+
+    <div class="food-card">
+      <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1760316319/thankjapan/backgrounds/ocqmrnezyqu2i5akmqbz.png"
+        alt="tsukimiudon"/>
+      <p>츠키미 우동 – 달걀을 올린 전통 우동으로, 마치 달처럼 보이죠🌕 따뜻하게 즐길 수 있어요.</p>
+    </div>
+
+    <div class="food-card">
+      <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1759999367/thankjapan/backgrounds/vhliejeec2iradog0y5a.png"
+        alt="tsukemen"/>
+      <p>츠케멘 – 면을 국물에 찍어 먹는 스타일로, 한 입 한 입 먹는 재미가 있어요!</p>
+    </div>
+
+    <div class="food-card">
+      <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1760619714/thankjapan/backgrounds/e1cxuzuub3cfrurpplvp.png"
+        alt="onigiri"/>
+      <p>오니기리 – 김으로 감싼 간단한 일본식 주먹밥. 속재료를 바꿔가며 다양하게 즐길 수 있어요.</p>
+    </div>
+
+    <div class="food-card">
+      <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1760094369/thankjapan/backgrounds/qmmbyy4i0xen2u1lcees.png"
+        alt="batterazushi"/>
+      <p>바테라 – 오사카식 초밥으로, 식초에 절인 고등어가 올라간 독특한 맛의 초밥이에요.</p>
+    </div>
+
+    <div class="food-card">
+      <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1759999330/thankjapan/backgrounds/aqbodxft3spep9aaoe31.png"
+        alt="sanshokudango"/>
+      <p>삼색 당고 – 새우 반죽으로 만든 알록달록 튀김 당고. 보기도 즐겁고 맛도 좋아요!</p>
+    </div>
+
+    <div class="food-card">
+      <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1760619749/thankjapan/backgrounds/esirfzgklponrfo897jb.png"
+        alt="wagashi"/>
+      <p>와가시 – 모나카와 팥소 당고로, 차와 함께 즐기면 힐링 타임🍵</p>
+    </div>
+
+    <div class="food-card">
+      <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1759999199/thankjapan/backgrounds/bfbhlb3z6ff1lqoycztz.png"
+        alt="katsuonotataki" />
+      <p>가츠오노타타키 – 살짝 그을린 가다랑어 회. 고소한 향이 일품이에요.</p>
+    </div>
+
+    <div class="food-card">
+      <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1759999307/thankjapan/backgrounds/v68smnjhy3grshf0aopn.png"
+        alt="shakenosashimi" />
+      <p>연어 사시미 – 신선한 연어를 얇게 썬 심플한 맛!</p>
+    </div>
+
+    <div class="food-card">
+      <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1759999229/thankjapan/backgrounds/kvvtrkazdyswpqxgfoor.png"
+        alt="misoshiru" />
+      <p>미소국 – 무와 고구마가 들어가 달콤하고 구수한 집밥 느낌의 국물이에요.</p>
+    </div>
+
+    <div class="food-card">
+      <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1759999278/thankjapan/backgrounds/v1t6wscueelqkpvfnh8o.png"
+        alt="nasutonikunotenpura" />
+      <p>가지 고기 튀김 – 겉은 바삭, 속은 촉촉! 반찬이나 안주로 딱이에요.</p>
+    </div>
+
+    <div class="food-card">
+      <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1759999165/thankjapan/backgrounds/bdqzliwibqokkd3zhhz4.png"
+        alt="hourensounosouzai" />
+      <p>시금치 무침 – 간장과 참깨로 간단히 맛을 내어 재료 본연의 맛을 살렸어요🌱</p>
+    </div>
+
+</div>
+
+
+
+<!-- ===== モーダル部分 ===== -->
+<div id="modal" class="modal">
+  <div class="modal-content">
+    <span class="modal-close">&times;</span>
+    <img id="modalImage" src="" alt="">
+    <p id="modalText"></p>
+  </div>
+</div>
+
+<script>
+const cards = document.querySelectorAll('.food-card');
+const modal = document.getElementById('modal');
+const modalImage = document.getElementById('modalImage');
+const modalText = document.getElementById('modalText');
+const closeBtn = document.querySelector('.modal-close');
+
+// カードクリック → モーダル表示
+cards.forEach(card => {
+  card.addEventListener('click', () => {
+    const img = card.querySelector('img');
+    const text = card.querySelector('p');
+    modalImage.src = img.src;
+    modalText.textContent = text.textContent;
+    modal.classList.add('active');
+  });
+});
+
+// 閉じる
+closeBtn.addEventListener('click', () => modal.classList.remove('active'));
+modal.addEventListener('click', (e) => {
+  if (e.target === modal) modal.classList.remove('active');
+});
+</script>
+
+</body>
+

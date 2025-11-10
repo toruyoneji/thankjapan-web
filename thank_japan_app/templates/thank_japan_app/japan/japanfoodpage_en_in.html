@@ -1,0 +1,14 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Complete Guide to Japanese Food | Sushi, Ramen, Tempura, Traditional Sweets & Recipes | ThankJapan{% endblock %}
+{% block og_title %}Explore the World of Japanese Cuisine - Sushi, Ramen, Tempura, Street Food, Sweets & Traditional Recipes | ThankJapan{% endblock %}
+{% block og_description %}Discover all the flavours of Japan: fresh sushi, rich ramen, crispy tempura, traditional sweets, and popular street food. Learn authentic recipes, cooking techniques, and the cultural stories behind each dish, so you can enjoy the Japanese culinary experience from the comfort of your home.{% endblock %}
+{% block og_url %}{{ request.build_absolute_uri }}{% endblock %}
+{% block description %}Experience the full spectrum of Japanese cuisine: sushi, ramen, tempura, traditional sweets, street food, and iconic dishes. Explore authentic ingredients, cooking secrets, and the history behind each dish while enjoying the rich Japanese food culture and flavours right at home.{% endblock %}
+
+
+{% block content %}
+
+ {% include 'jpfood/japanfood_en_in.html' %}
+
+{% endblock %}

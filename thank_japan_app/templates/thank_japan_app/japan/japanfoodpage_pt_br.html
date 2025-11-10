@@ -1,0 +1,14 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Guia Completo da Culinária Japonesa | Sushi, Ramen, Tempurá, Doces & Receitas Tradicionais | ThankJapan{% endblock %}
+{% block og_title %}Descubra o Mundo da Culinária Japonesa - Sushi, Ramen, Tempurá, Comida de Rua, Doces e Receitas Tradicionais | ThankJapan{% endblock %}
+{% block og_description %}Explore todos os sabores do Japão: sushi fresco, ramen saboroso, tempurá crocante, doces tradicionais e comidas de rua. Aprenda receitas autênticas, técnicas de preparo e conheça as histórias culturais por trás de cada prato. Viva a experiência da culinária japonesa sem sair de casa!{% endblock %}
+{% block og_url %}{{ request.build_absolute_uri }}{% endblock %}
+{% block description %}Viva a experiência completa da culinária japonesa: sushi, ramen, tempurá, doces tradicionais, comida de rua e pratos típicos. Descubra os ingredientes autênticos, os segredos de preparo e a história de cada prato, explorando a riqueza da cultura gastronômica japonesa e saboreando os sabores genuínos do Japão no conforto da sua casa.{% endblock %}
+
+
+{% block content %}
+
+ {% include 'jpfood/japanfood_pt_br.html' %}
+
+{% endblock %}

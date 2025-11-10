@@ -1,0 +1,288 @@
+{% load static %}
+
+<style>
+body {
+  margin: 0;
+  font-family: "Poppins","Hiragino Maru Gothic ProN",sans-serif;
+  background-image: url("https://res.cloudinary.com/dotekofm5/image/upload/v1762738702/thankjapan/backgrounds/ca3mq0jab4zhb4lpsabw.png");
+  background-size: cover;
+  background-attachment: scroll;
+  background-repeat: no-repeat;
+  color: #333;
+  text-align: center;
+}
+
+/* ===== 見出し ===== */
+h1 {
+  color: #3b0a00;
+  font-weight: 600;
+  margin: 120px 20px 20px 20px;
+  letter-spacing: 0.05em;
+  font-size: 1.4rem;
+  text-shadow: 1px 1px 2px rgba(255,255,255,0.8);
+}
+
+/* ===== カードレイアウト ===== */
+.food-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  max-width: 950px;
+  margin: 0 auto;
+  padding: 20px;
+  justify-items: center;
+}
+
+.food-card {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  transition: transform 0.3s ease;
+  cursor: pointer;
+  width: 100%;
+  max-width: 280px;
+  margin-top: 0;
+}
+
+.food-card:hover {
+  transform: scale(1.03);
+}
+
+.food-card img {
+  width: 100%;
+  height: 170px;
+  object-fit: cover;
+}
+
+.food-card p {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;  /* 2行で省略 */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.4em;
+  max-height: 2.8em;      /* line-height × 2行 */
+  margin: 0;              /* 上下の余白リセット */
+}
+
+.food-card img,
+.card img {
+  display: block;       /* 不要な隙間を消す */
+  margin-top: 0;        /* 上の余白を0に */
+  border-radius: 15px 15px 0 0; /* 角丸は残す */
+}
+
+/* ===== レスポンシブ（スマホ2列） ===== */
+@media (max-width: 768px) {
+  h1 {
+    margin: 120px 0 15px 0;
+    padding: 50px 10px;
+    font-size: 1.2rem;
+  }
+
+  .food-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    padding: 10px;
+    margin-top: 20px;
+  }
+
+  .food-card img {
+    height: 120px;
+  }
+
+}
+
+
+/* ===== モーダル ===== */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 9999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.7);
+}
+
+.modal.active {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background: #fff;
+  border-radius: 15px;
+  max-width: 90%;
+  width: 400px;
+  padding: 20px;
+  position: relative;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+  text-align: center;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.modal-content img {
+  width: 100%;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+.modal-close {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #333;
+}
+
+
+</style>
+
+
+<body>
+
+<h1>來看看我們家常吃的一些美食吧！🍴</h1>
+
+<div class="food-grid">
+
+    <div class="food-card">
+      <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1761200066/thankjapan/backgrounds/adfqqgtdfozxi848gopz.png"
+        alt="nigirisushi"/>
+      <p>握壽司（Nigiri Sushi）– 日本經典美食，把新鮮的高品質魚或海鮮放在手捏的壽司飯上，吃起來超正宗！</p>
+    </div>
+
+    <div class="food-card">
+      <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1761200046/thankjapan/backgrounds/ykvnom7g0hgig7xzkdzg.png"
+        alt="sukiyaki"/>
+      <p>壽喜燒（Sukiyaki）– 很受歡迎的日式火鍋，薄切牛肉、蔬菜、豆腐和麵條，放在甜鹹的醬汁裡煮，常和家人朋友一起享用，超溫馨！</p>
+    </div>
+
+    <div class="food-card">
+      <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1761200094/thankjapan/backgrounds/pah6gtiqswx0cmhq5yip.png"
+        alt="zarusoba"/>
+      <p>冷蕎麥麵（Zaru Soba）– 冰涼的蕎麥麵放在竹籃上，搭配醬油基底的沾醬 tsuyu，夏天吃最清爽 🌞</p>
+    </div>
+
+    <div class="food-card">
+      <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1760619729/thankjapan/backgrounds/ydojoqkpkuuejtxd7kkb.png"
+        alt="ramen"/>
+      <p>拉麵（Ramen）– 日式湯麵，湯頭濃郁又有各種美味配料，我在家自己做過，味道超讚 🍜</p>
+    </div>
+
+    <div class="food-card">
+      <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1760316319/thankjapan/backgrounds/ocqmrnezyqu2i5akmqbz.png"
+        alt="tsukimiudon"/>
+      <p>月見烏冬（Tsukimi Udon）– 上面有一顆生蛋，像月亮一樣 🌕 吃完好溫暖又滿足！</p>
+    </div>
+
+    <div class="food-card">
+      <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1759999367/thankjapan/backgrounds/vhliejeec2iradog0y5a.png"
+        alt="tsukemen"/>
+      <p>沾麵（Tsukemen）– 麵條和湯分開，沾著吃每一口都好有趣又美味！</p>
+    </div>
+
+    <div class="food-card">
+      <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1760619714/thankjapan/backgrounds/e1cxuzuub3cfrurpplvp.png"
+        alt="onigiri"/>
+      <p>御飯糰（Onigiri）– 海苔包著的飯糰，裡面有美味餡料，方便用手拿著吃 🤲</p>
+    </div>
+
+    <div class="food-card">
+      <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1760094369/thankjapan/backgrounds/qmmbyy4i0xen2u1lcees.png"
+        alt="batterazushi"/>
+      <p>押壽司（Battera）– 大阪特色壓壽司，上面放鹽漬鯖魚 🐟 特別又好吃</p>
+    </div>
+
+    <div class="food-card">
+      <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1759999330/thankjapan/backgrounds/aqbodxft3spep9aaoe31.png"
+        alt="sanshokudango"/>
+      <p>三色丸子（Sanshoku Dango）– 用炸蝦做的三色丸子，看起來就好想吃！</p>
+    </div>
+
+    <div class="food-card">
+      <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1760619749/thankjapan/backgrounds/esirfzgklponrfo897jb.png"
+        alt="wagashi"/>
+      <p>日式點心（Wagashi）– 像最中和紅豆小圓子，配茶喝超合適 🍵</p>
+    </div>
+
+    <div class="food-card">
+      <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1759999199/thankjapan/backgrounds/bfbhlb3z6ff1lqoycztz.png"
+        alt="katsuonotataki" />
+      <p>鰹魚刺身（Katsuo no Tataki）– 表面輕炙的鰹魚刺身，外香內嫩，非常好吃！</p>
+    </div>
+
+    <div class="food-card">
+      <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1759999307/thankjapan/backgrounds/v68smnjhy3grshf0aopn.png"
+        alt="shakenosashimi" />
+      <p>鮭魚刺身（Salmon Sashimi）– 新鮮生鮭魚切片，清爽又美味</p>
+    </div>
+
+    <div class="food-card">
+      <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1759999229/thankjapan/backgrounds/kvvtrkazdyswpqxgfoor.png"
+        alt="misoshiru" />
+      <p>味噌湯（Miso Soup）– 裡面有白蘿蔔和地瓜，鹹香中帶甜，暖胃又好喝</p>
+    </div>
+
+    <div class="food-card">
+      <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1759999278/thankjapan/backgrounds/v1t6wscueelqkpvfnh8o.png"
+        alt="nasutonikunotenpura" />
+      <p>茄子天婦羅夾肉– 外酥內嫩，當正餐或小吃都很讚</p>
+    </div>
+
+    <div class="food-card">
+      <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1759999165/thankjapan/backgrounds/bdqzliwibqokkd3zhhz4.png"
+        alt="hourensounosouzai" />
+      <p>菠菜小菜 – 用醬油和芝麻簡單調味，保留菠菜的自然鮮甜 🌱</p>
+    </div>
+
+</div>
+
+
+
+<!-- ===== モーダル部分 ===== -->
+<div id="modal" class="modal">
+  <div class="modal-content">
+    <span class="modal-close">&times;</span>
+    <img id="modalImage" src="" alt="">
+    <p id="modalText"></p>
+  </div>
+</div>
+
+<script>
+const cards = document.querySelectorAll('.food-card');
+const modal = document.getElementById('modal');
+const modalImage = document.getElementById('modalImage');
+const modalText = document.getElementById('modalText');
+const closeBtn = document.querySelector('.modal-close');
+
+// カードクリック → モーダル表示
+cards.forEach(card => {
+  card.addEventListener('click', () => {
+    const img = card.querySelector('img');
+    const text = card.querySelector('p');
+    modalImage.src = img.src;
+    modalText.textContent = text.textContent;
+    modal.classList.add('active');
+  });
+});
+
+// 閉じる
+closeBtn.addEventListener('click', () => modal.classList.remove('active'));
+modal.addEventListener('click', (e) => {
+  if (e.target === modal) modal.classList.remove('active');
+});
+</script>
+
+</body>
+

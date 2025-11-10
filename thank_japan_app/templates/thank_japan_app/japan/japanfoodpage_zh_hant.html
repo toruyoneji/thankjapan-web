@@ -1,0 +1,14 @@
+{% extends 'base/base.html' %}
+
+{% block title %}日本美食大全 | 壽司、拉麵、天婦羅、和菓子與傳統日式料理指南 | ThankJapan{% endblock %}
+{% block og_title %}深入日本美食世界 - 壽司、拉麵、天婦羅、街頭小吃、和菓子與正宗日式料理 | ThankJapan{% endblock %}
+{% block og_description %}探索日本美食的每一個角落：從道地壽司、濃郁拉麵、酥脆天婦羅，到傳統和菓子與街頭小吃。掌握最正宗的日式食譜、烹飪技巧與文化故事，讓你在家也能體驗日本風味與美食魅力。{% endblock %}
+{% block og_url %}{{ request.build_absolute_uri }}{% endblock %}
+{% block description %}全面體驗日本美食：壽司、拉麵、天婦羅、和菓子、日式街頭小吃與傳統料理。了解每道美食的歷史背景、地道食材與製作秘訣，發掘日本料理文化的精髓，享受最道地的日本味道與餐飲魅力。{% endblock %}
+
+
+{% block content %}
+
+ {% include 'jpfood/japanfood_zh_hant.html' %}
+
+{% endblock %}

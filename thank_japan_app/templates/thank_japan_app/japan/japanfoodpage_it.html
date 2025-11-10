@@ -1,0 +1,14 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Guida Completa alla Cucina Giapponese | Sushi, Ramen, Tempura, Dolci Tradizionali & Ricette | ThankJapan{% endblock %}
+{% block og_title %}Esplora il Mondo della Cucina Giapponese - Sushi, Ramen, Tempura, Street Food, Dolci e Ricette Tradizionali | ThankJapan{% endblock %}
+{% block og_description %}Scopri tutti i sapori del Giappone: sushi fresco, ramen gustoso, tempura croccante, dolci tradizionali e street food tipico. Impara ricette autentiche, tecniche di preparazione e le storie culturali dietro ogni piatto, per vivere l’esperienza della cucina giapponese anche a casa tua.{% endblock %}
+{% block og_url %}{{ request.build_absolute_uri }}{% endblock %}
+{% block description %}Vivi un’esperienza completa della cucina giapponese: sushi, ramen, tempura, dolci tradizionali, street food e piatti tipici. Scopri ingredienti autentici, segreti di preparazione e la storia di ogni piatto, esplorando la ricca cultura gastronomica giapponese e gustando i veri sapori del Giappone comodamente a casa.{% endblock %}
+
+
+{% block content %}
+
+ {% include 'jpfood/japanfood_it.html' %}
+
+{% endblock %}

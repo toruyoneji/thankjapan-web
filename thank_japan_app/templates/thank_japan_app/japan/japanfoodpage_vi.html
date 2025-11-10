@@ -1,0 +1,14 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Ẩm Thực Nhật Bản Toàn Diện | Sushi, Ramen, Tempura, Wagashi & Hướng Dẫn Món Truyền Thống | ThankJapan{% endblock %}
+{% block og_title %}Khám Phá Thế Giới Ẩm Thực Nhật Bản - Sushi, Ramen, Tempura, Món Ăn Đường Phố, Wagashi & Món Truyền Thống | ThankJapan{% endblock %}
+{% block og_description %}Khám phá mọi góc ẩm thực Nhật Bản: từ sushi tươi ngon, ramen đậm đà, tempura giòn rụm, đến wagashi truyền thống và món ăn đường phố hấp dẫn. Nắm vững công thức chuẩn Nhật, kỹ thuật nấu nướng và câu chuyện văn hóa để thưởng thức hương vị Nhật Bản ngay tại nhà.{% endblock %}
+{% block og_url %}{{ request.build_absolute_uri }}{% endblock %}
+{% block description %}Trải nghiệm trọn vẹn ẩm thực Nhật Bản: sushi, ramen, tempura, wagashi, món ăn đường phố và các món truyền thống. Tìm hiểu lịch sử, nguyên liệu chuẩn Nhật và bí quyết chế biến, khám phá tinh hoa văn hóa ẩm thực Nhật Bản và tận hưởng hương vị đích thực ngay tại nhà.{% endblock %}
+
+
+{% block content %}
+
+ {% include 'jpfood/japanfood_vi.html' %}
+
+{% endblock %}

@@ -1,0 +1,287 @@
+{% load static %}
+
+<style>
+body {
+  margin: 0;
+  font-family: "Poppins","Hiragino Maru Gothic ProN",sans-serif;
+  background-image: url("https://res.cloudinary.com/dotekofm5/image/upload/v1762738702/thankjapan/backgrounds/ca3mq0jab4zhb4lpsabw.png");
+  background-size: cover;
+  background-attachment: scroll;
+  background-repeat: no-repeat;
+  color: #333;
+  text-align: center;
+}
+
+/* ===== 見出し ===== */
+h1 {
+  color: #3b0a00;
+  font-weight: 600;
+  margin: 120px 20px 20px 20px;
+  letter-spacing: 0.05em;
+  font-size: 1.4rem;
+  text-shadow: 1px 1px 2px rgba(255,255,255,0.8);
+}
+
+/* ===== カードレイアウト ===== */
+.food-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  max-width: 950px;
+  margin: 0 auto;
+  padding: 20px;
+  justify-items: center;
+}
+
+.food-card {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  transition: transform 0.3s ease;
+  cursor: pointer;
+  width: 100%;
+  max-width: 280px;
+  margin-top: 0;
+}
+
+.food-card:hover {
+  transform: scale(1.03);
+}
+
+.food-card img {
+  width: 100%;
+  height: 170px;
+  object-fit: cover;
+}
+
+.food-card p {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;  /* 2行で省略 */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.4em;
+  max-height: 2.8em;      /* line-height × 2行 */
+  margin: 0;              /* 上下の余白リセット */
+}
+
+.food-card img,
+.card img {
+  display: block;       /* 不要な隙間を消す */
+  margin-top: 0;        /* 上の余白を0に */
+  border-radius: 15px 15px 0 0; /* 角丸は残す */
+}
+
+/* ===== レスポンシブ（スマホ2列） ===== */
+@media (max-width: 768px) {
+  h1 {
+    margin: 120px 0 15px 0;
+    padding: 50px 10px;
+    font-size: 1.2rem;
+  }
+
+  .food-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    padding: 10px;
+    margin-top: 20px;
+  }
+
+  .food-card img {
+    height: 120px;
+  }
+
+}
+
+
+/* ===== モーダル ===== */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 9999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.7);
+}
+
+.modal.active {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background: #fff;
+  border-radius: 15px;
+  max-width: 90%;
+  width: 400px;
+  padding: 20px;
+  position: relative;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+  text-align: center;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.modal-content img {
+  width: 100%;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+.modal-close {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #333;
+}
+
+
+</style>
+
+
+<body>
+
+<h1>Aquí os mostramos algunos de los platos que disfrutamos en casa – ¡solo unos ejemplos!</h1>
+
+<div class="food-grid">
+
+    <div class="food-card">
+      <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1761200066/thankjapan/backgrounds/adfqqgtdfozxi848gopz.png"
+        alt="nigirisushi"/>
+      <p>Nigiri Sushi – un clásico japonés: arroz de sushi moldeado a mano con pescado o marisco fresco de alta calidad. Perfecto para saborear los auténticos sabores de Japón.</p>
+    </div>
+
+    <div class="food-card">
+      <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1761200046/thankjapan/backgrounds/ykvnom7g0hgig7xzkdzg.png"
+        alt="sukiyaki"/>
+      <p>Sukiyaki – un popular hot pot japonés con finas láminas de ternera, verduras, tofu y fideos, cocinado en un caldo dulce y salado a base de soja. ¡Ideal para disfrutar en familia o con amigos!</p>
+    </div>
+
+    <div class="food-card">
+      <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1761200094/thankjapan/backgrounds/pah6gtiqswx0cmhq5yip.png"
+        alt="zarusoba"/>
+      <p>Zaru Soba – fideos de alforfón fríos servidos en una bandeja de bambú, acompañados de una salsa de soja llamada tsuyu. Muy refrescante, sobre todo en verano.</p>
+    </div>
+
+    <div class="food-card">
+      <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1760619729/thankjapan/backgrounds/ydojoqkpkuuejtxd7kkb.png"
+        alt="ramen"/>
+      <p>Ramen – una sabrosa sopa de fideos japonesa con un caldo intenso y toppings deliciosos. (Preparé este ramen en casa con mi caldo y toppings favoritos.)</p>
+    </div>
+
+    <div class="food-card">
+      <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1760316319/thankjapan/backgrounds/ocqmrnezyqu2i5akmqbz.png"
+        alt="tsukimiudon"/>
+      <p>Tsukimi Udon – una sopa de fideos japonesa tradicional con un huevo crudo por encima, que recuerda a la luna.</p>
+    </div>
+
+    <div class="food-card">
+      <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1759999367/thankjapan/backgrounds/vhliejeec2iradog0y5a.png"
+        alt="tsukemen"/>
+      <p>Este es nuestro Tsukemen casero: los fideos se mojan en un caldo separado y muy sabroso antes de comer.</p>
+    </div>
+
+    <div class="food-card">
+      <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1760619714/thankjapan/backgrounds/e1cxuzuub3cfrurpplvp.png"
+        alt="onigiri"/>
+      <p>Onigiri – un snack japonés muy práctico, envuelto en alga y con un relleno delicioso.</p>
+    </div>
+
+    <div class="food-card">
+      <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1760094369/thankjapan/backgrounds/qmmbyy4i0xen2u1lcees.png"
+        alt="batterazushi"/>
+      <p>Battera – un tipo de sushi prensado de Osaka, cubierto con caballa marinada.</p>
+    </div>
+
+    <div class="food-card">
+      <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1759999330/thankjapan/backgrounds/aqbodxft3spep9aaoe31.png"
+        alt="sanshokudango"/>
+      <p>Dango tricolor – pequeños dumplings hechos de pasta de camarón frita. ¡Deliciosos!</p>
+    </div>
+
+    <div class="food-card">
+      <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1760619749/thankjapan/backgrounds/esirfzgklponrfo897jb.png"
+        alt="wagashi"/>
+      <p>Dulces japoneses – Monaka y dumplings de judía roja – perfectos con una taza de té.</p>
+    </div>
+
+    <div class="food-card">
+      <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1759999199/thankjapan/backgrounds/bfbhlb3z6ff1lqoycztz.png"
+        alt="katsuonotataki" />
+      <p>Katsuo no Tataki – un tipo de sashimi japonés con atún bonito ligeramente sellado.</p>
+    </div>
+
+    <div class="food-card">
+      <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1759999307/thankjapan/backgrounds/v68smnjhy3grshf0aopn.png"
+        alt="shakenosashimi" />
+      <p>Sashimi de salmón – salmón crudo fresco, cortado en finas láminas y servido sin arroz.</p>
+    </div>
+
+    <div class="food-card">
+      <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1759999229/thankjapan/backgrounds/kvvtrkazdyswpqxgfoor.png"
+        alt="misoshiru" />
+      <p>Sopa de miso con daikon tierno y boniato – combina el sabor salado del miso con la dulzura natural y verduras consistentes.</p>
+    </div>
+
+    <div class="food-card">
+      <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1759999278/thankjapan/backgrounds/v1t6wscueelqkpvfnh8o.png"
+        alt="nasutonikunotenpura" />
+      <p>Berenjena frita al estilo tempura, rellena de carne picada sazonada – crujiente por fuera y jugosa por dentro.</p>
+    </div>
+
+    <div class="food-card">
+      <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1759999165/thankjapan/backgrounds/bdqzliwibqokkd3zhhz4.png"
+        alt="hourensounosouzai" />
+      <p>Guarnición de espinacas tiernas, condimentadas simplemente con soja y sésamo – ideal para disfrutar de su sabor natural.</p>
+    </div>
+
+</div>
+
+
+<!-- ===== モーダル部分 ===== -->
+<div id="modal" class="modal">
+  <div class="modal-content">
+    <span class="modal-close">&times;</span>
+    <img id="modalImage" src="" alt="">
+    <p id="modalText"></p>
+  </div>
+</div>
+
+<script>
+const cards = document.querySelectorAll('.food-card');
+const modal = document.getElementById('modal');
+const modalImage = document.getElementById('modalImage');
+const modalText = document.getElementById('modalText');
+const closeBtn = document.querySelector('.modal-close');
+
+// カードクリック → モーダル表示
+cards.forEach(card => {
+  card.addEventListener('click', () => {
+    const img = card.querySelector('img');
+    const text = card.querySelector('p');
+    modalImage.src = img.src;
+    modalText.textContent = text.textContent;
+    modal.classList.add('active');
+  });
+});
+
+// 閉じる
+closeBtn.addEventListener('click', () => modal.classList.remove('active'));
+modal.addEventListener('click', (e) => {
+  if (e.target === modal) modal.classList.remove('active');
+});
+</script>
+
+</body>
+

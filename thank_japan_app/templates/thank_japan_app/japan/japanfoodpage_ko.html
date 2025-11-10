@@ -1,0 +1,14 @@
+{% extends 'base/base.html' %}
+
+{% block title %}일본 요리 완전 가이드 | 스시, 라멘, 덴푸라, 일본 전통 디저트 & 레시피 | ThankJapan{% endblock %}
+{% block og_title %}일본 요리 세계 탐험 - 스시, 라멘, 덴푸라, 길거리 음식, 전통 디저트 및 일본 요리 | ThankJapan{% endblock %}
+{% block og_description %}신선한 스시, 깊은 맛의 라멘, 바삭한 덴푸라, 전통 디저트와 일본 길거리 음식까지 일본 요리의 모든 맛을 탐험하세요. 정통 레시피, 요리 기술, 각 요리에 담긴 문화 이야기를 배우며 집에서도 일본의 진정한 맛을 즐길 수 있습니다.{% endblock %}
+{% block og_url %}{{ request.build_absolute_uri }}{% endblock %}
+{% block description %}스시, 라멘, 덴푸라, 일본 전통 디저트, 길거리 음식과 전통 요리까지 일본 요리를 완벽하게 경험하세요. 각 요리의 역사와 정통 재료, 조리 비법을 배우며 일본 요리 문화의 정수를 발견하고 집에서도 진정한 일본의 맛을 즐겨보세요.{% endblock %}
+
+
+{% block content %}
+
+ {% include 'jpfood/japanfood_ko.html' %}
+
+{% endblock %}

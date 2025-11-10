@@ -1,0 +1,14 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Guía Completa de la Cocina Japonesa | Sushi, Ramen, Tempura, Postres & Recetas Tradicionales | ThankJapan{% endblock %}
+{% block og_title %}Descubre el Mundo de la Cocina Japonesa - Sushi, Ramen, Tempura, Comida Callejera, Postres y Recetas Tradicionales | ThankJapan{% endblock %}
+{% block og_description %}Explora todos los sabores de Japón: sushi fresco, ramen delicioso, tempura crujiente, postres tradicionales y comida callejera típica. Aprende recetas auténticas, técnicas de preparación y las historias culturales detrás de cada plato, para disfrutar la experiencia de la cocina japonesa desde tu hogar.{% endblock %}
+{% block og_url %}{{ request.build_absolute_uri }}{% endblock %}
+{% block description %}Vive la experiencia completa de la cocina japonesa: sushi, ramen, tempura, postres tradicionales, comida callejera y platos típicos. Descubre ingredientes auténticos, secretos de preparación y la historia de cada plato, explorando la rica cultura gastronómica japonesa y disfrutando de sus auténticos sabores sin salir de casa.{% endblock %}
+
+
+{% block content %}
+
+ {% include 'jpfood/japanfood_es_es.html' %}
+
+{% endblock %}

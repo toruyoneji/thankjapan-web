@@ -1,0 +1,13 @@
+{% extends 'base/base.html' %}
+
+{% block title %}日本食完全ガイド | 寿司、ラーメン、天ぷら、和菓子 & 伝統料理レシピ | ThankJapan{% endblock %}
+{% block og_title %}日本食の世界を探検 - 寿司、ラーメン、天ぷら、屋台料理、和菓子、伝統料理 | ThankJapan{% endblock %}
+{% block og_description %}新鮮な寿司、旨味たっぷりのラーメン、サクサクの天ぷら、伝統的な和菓子や屋台料理まで、日本食の魅力を余すところなく体験。正統レシピや調理技術、各料理にまつわる文化的背景を学び、家にいながら本場の味を楽しめます。{% endblock %}
+{% block og_url %}{{ request.build_absolute_uri }}{% endblock %}
+{% block description %}寿司、ラーメン、天ぷら、和菓子、屋台料理、伝統料理まで、日本食を完全体験。各料理の歴史や本格的な食材、調理のコツを学び、日本料理文化の精髄を発見しつつ、自宅で本場の味を楽しめます。{% endblock %}
+
+{% block content %}
+
+ {% include 'jpfood/japanfood_ja.html' %}
+
+{% endblock %}

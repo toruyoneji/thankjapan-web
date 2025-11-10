@@ -7,7 +7,10 @@ from .views import (TopView, TopViewFR, TopViewIT, TopViewPT, TopViewZHHANT,TopV
                     SportsView, WorkView, CompanyFormView, game_start, game_play,
                     game_answer, game_result, game_restart, player_login, player_logout, delete_player_confirm,
                     player_register, delete_player, LegalNoticeView,PrivacyPolicy, contact_view, contact_thanks,
-                    JapanFoodView,JapanCultureView, JapanCultureDEView, JapanCultureENINView, JapanCultureESESView,
+                    JapanFoodView,JapanFoodDEView, JapanFoodENINView, JapanFoodESESView,
+                    JapanFoodESMXView, JapanFoodFRView, JapanFoodITView, JapanFoodJAView ,JapanFoodKOView,
+                    JapanFoodPTBRView, JapanFoodPTView, JapanFoodTHView, JapanFoodVIView, JapanFoodZHHANTView,
+                    JapanCultureView, JapanCultureDEView, JapanCultureENINView, JapanCultureESESView,
                     JapanCultureESMXView, JapanCultureFRView,JapanCultureITView, JapanCultureJAView,JapanCultureKOView,
                     JapanCulturePTBRView,JapanCulturePTView,JapanCultureTHView,JapanCultureVIView,
                     JapanCultureZHHANTView,)
@@ -32,6 +35,20 @@ urlpatterns = [
     
     #japanfood
     path('japanfood/', JapanFoodView.as_view(), name='japanfood'),
+    path('japanfood/de/', JapanFoodDEView.as_view(), name='japanfoodde'),
+    path('japanfood/en-in/', JapanFoodENINView.as_view(), name='japanfoodenIN'),
+    path('japanfood/es-es/', JapanFoodESESView.as_view(), name='japanfoodesES'),
+    path('japanfood/es-mx/', JapanFoodESMXView.as_view(), name='japanfoodesMX'),
+    path('japanfood/fr/', JapanFoodFRView.as_view(), name='japanfoodfr'),
+    path('japanfood/it/', JapanFoodITView.as_view(), name='japanfoodit'),
+    path('japanfood/ja/', JapanFoodJAView.as_view(), name='japanfoodja'),
+    path('japanfood/ko/', JapanFoodKOView.as_view(), name='japanfoodko'),
+    path('japanfood/pt-br/', JapanFoodPTBRView.as_view(), name='japanfoodptBR'),
+    path('japanfood/pt/', JapanFoodPTView.as_view(), name='japanfoodpt'),
+    path('japanfood/th/', JapanFoodTHView.as_view(), name='japanfoodth'),
+    path('japanfood/vi/', JapanFoodVIView.as_view(), name='japanfoodvi'),
+    path('japanfood/zh-hant/', JapanFoodZHHANTView.as_view(), name='japanfoodzhHANT'),
+    
     
     #japanculture
     path('japanculture/', JapanCultureView.as_view(), name='japanculture'),
