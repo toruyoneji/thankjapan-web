@@ -1,13 +1,67 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    {% include 'css.html' %}
-    <title>Document</title>
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}Terms of Use | ThankJapan{% endblock %}
+
+{% block content %}
+<div class="main2">
+    <h1 class="category-header">Terms of Use</h1>
 
     <style>
-        .btn-more {
+    
+    body {
+        background-color: #fffaf5;
+        font-family: 'Noto Sans JP', 'Poppins', sans-serif;
+        color: #fff;
+    }
+
+    .main2 {
+        max-width: 900px;
+        margin: 80px auto 100px;
+        padding: 0 20px;
+    }
+
+    .category-header {
+        text-align: center;
+        padding: 30px 20px;
+        background: linear-gradient(135deg, #ffe8d6 0%, #fffaf5 100%);
+        border-radius: 0 0 40px 40px;
+        margin-bottom: 40px;
+        color: #000;
+    }
+
+    h2 {
+        margin-top: 30px;
+        font-size: 1.2rem;
+        color: #ffd6a5;
+    }
+
+    p, li {
+        font-size: 1rem;
+        line-height: 1.6;
+        color: #fff;
+    }
+
+    ul {
+        margin-left: 20px;
+        margin-top: 10px;
+    }
+
+    a.anchor {
+        color: #ffb347;
+        text-decoration: none;
+    }
+    a.anchor:hover {
+        text-decoration: underline;
+    }
+
+    hr {
+        border: 0;
+        border-top: 1px solid #ffd6a5;
+        margin: 20px 0;
+    }
+
+    .btn-more {
             display: inline-block;
             background: #ffb347;
             color: white;
@@ -21,144 +75,154 @@
         .btn-more:hover {
             background: #ff9642;
         }
-    
+
+    .riyoudt {
+        margin-top: 30px;
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: #ffd6a5;
+    }
+
+    .riyoudd {
+        margin-bottom: 15px;
+        margin-left: 20px;
+        font-size: 1rem; /* p, li と同じように明示 */
+        line-height: 1.6; /* p, li と同じように明示 */
+        color: #fff; /* p, li と同じように明示 */
+    }
+
+    .riyoudd ul {
+        margin-left: 20px;
+        margin-top: 5px;
+        list-style-type: disc;
+    }
+    .riyoudd ul li {
+        margin-bottom: 5px;
+    }
+
+    @media (max-width: 600px) {
+        .main2 {
+            margin: 50px 0px 50px;
+            padding: 0;
+        }
+
+        .category-header {
+            padding-top: 120px;
+        }
+    }
     </style>
-</head>
-<body>
-    <div class="riyoumain">
-        <dl>
-            <dt class="riyoudt">Terms of Use</dt>
 
-            <dd class="riyoudd">These Terms of Use (hereinafter referred to as the "Terms") set forth the terms and conditions for the use of the services (hereinafter referred to as the "Services") 
-            provided by Thank_Japan (hereinafter referred to as the "Company") on this website. All registered users (hereinafter referred to as the "Users") shall use the Services in accordance with these Terms.</dd>
+    <p>ThankJapan ("we", "our", or "us") is committed to providing a safe and enjoyable experience. These Terms of Use (hereinafter referred to as the "Terms") set forth the terms and conditions for the use of the services (hereinafter referred to as the "Services") provided by the Company on this website. All users (hereinafter referred to as the "Users") shall use the Services in accordance with these Terms.</p>
 
-            <dt class="riyoudt">Article 1 (Application)</dt>
-            <dd class="riyoudd">These Terms shall apply to all relationships related to the use of the Services between the User and the Company.
-            In addition to these Terms, the Company may establish various rules and provisions for the use of the Services (hereinafter referred to as "Individual Regulations"). Regardless of the name, such Individual Regulations shall constitute a part of these Terms.
-            In the event of any conflict between the provisions of these Terms and the Individual Regulations, the provisions of the Individual Regulations shall prevail unless otherwise specified.</dd>
+    <dl>
+        <dt class="riyoudt">Article 1 (Application)</dt>
+        <dd class="riyoudd">These Terms shall apply to all relationships related to the use of the Services between the User and the Company.
+        In addition to these Terms, the Company may establish various rules and provisions for the use of the Services (hereinafter referred to as "Individual Regulations"). Regardless of the name, such Individual Regulations shall constitute a part of these Terms.
+        In the event of any conflict between the provisions of these Terms and the Individual Regulations, the provisions of the Individual Regulations shall prevail unless otherwise specified.</dd>
 
-            <dt class="riyoudt">Article 2 (User Registration)</dt>
-            <dd class="riyoudd">Users shall complete registration for the Services by applying for registration in accordance with the method prescribed by the Company after agreeing to these Terms, and upon approval by the Company.
-            The Company may not approve a registration application if it determines that any of the following apply, and is under no obligation to disclose the reason for such denial:
+        <dt class="riyoudt">Article 2 (User Registration)</dt>
+        <dd class="riyoudd">Users shall complete registration for the Services by applying for registration in accordance with the method prescribed by the Company after agreeing to these Terms, and upon approval by the Company. If the Services can be used without registration, this article applies only to those who choose to register.
+        The Company may not approve a registration application if it determines that any of the following apply, and is under no obligation to disclose the reason for such denial:
+        <ul>
+            <li>If false information is provided in the registration application</li>
+            <li>If the applicant has previously violated these Terms</li>
+            <li>If the Company otherwise deems the registration inappropriate</li>
+        </ul>
+        </dd>
 
-            If false information is provided in the registration application
+        <dt class="riyoudt">Article 3 (Management of User ID and Password)</dt>
+        <dd class="riyoudd">Users shall manage their User ID and password for the Services at their own responsibility.
+        Users must not transfer or lend their User ID or password to any third party, or share them with any third party. The Company shall regard any login with the correct combination of User ID and password as the act of the User who has registered that ID.
+        The Company shall not be liable for any damage arising from the use of the User ID and password by a third party, except in cases of willful misconduct or gross negligence by the Company.</dd>
 
-            If the applicant has previously violated these Terms
+        <dt class="riyoudt">Article 4 (Usage Fees and Payment Methods)</dt>
+        <dd class="riyoudd">Users may support the Services by making voluntary payments (hereinafter referred to as “Support Contributions”) via the method designated by the Company (such as Stripe). These contributions are not mandatory and do not constitute the purchase of products or services.
+        </dd>
 
-            If the Company otherwise deems the registration inappropriate</dd>
+        <dt class="riyoudt">Article 5 (Prohibited Conduct)</dt>
+        <dd class="riyoudd">Users shall not engage in the following acts in connection with the use of the Services:
+        <ul>
+            <li>Acts in violation of laws or public order and morals</li>
+            <li>Criminal acts or acts related to crime</li>
+            <li>Infringement of copyrights, trademarks, or other intellectual property rights included in the Services</li>
+            <li>Acts that destroy or interfere with the functions of the Company’s servers or networks</li>
+            <li>Commercial use of information obtained through the Services</li>
+            <li>Acts that may interfere with the operation of the Company’s services</li>
+            <li>Unauthorized access or attempts thereof</li>
+            <li>Collection or accumulation of personal information of other Users</li>
+            <li>Use of the Services for fraudulent purposes</li>
+            <li>Acts that cause disadvantage, damage, or discomfort to other Users or third parties</li>
+            <li>Impersonating other Users</li>
+            <li>Advertising, solicitation, or business activities on the Services without the Company's permission</li>
+            <li>Acts for the purpose of meeting unknown individuals of the opposite sex</li>
+            <li>Providing benefits to antisocial forces, directly or indirectly, in connection with the Services</li>
+            <li>Any other acts deemed inappropriate by the Company</li>
+        </ul>
+        </dd>
 
-            <dt class="riyoudt">Article 3 (Management of User ID and Password)</dt>
-            <dd class="riyoudd">Users shall manage their User ID and password for the Services at their own responsibility.
-            Users must not transfer or lend their User ID or password to any third party, or share them with any third party. The Company shall regard any login with the correct combination of User ID and password as the act of the User who has registered that ID.
-            The Company shall not be liable for any damage arising from the use of the User ID and password by a third party, except in cases of willful misconduct or gross negligence by the Company.</dd>
+        <dt class="riyoudt">Article 6 (Suspension of the Services)</dt>
+        <dd class="riyoudd">The Company may suspend or discontinue the Services in whole or in part without prior notice to the User if it determines that any of the following apply:
+        <ul>
+            <li>Maintenance or updates to the system are required</li>
+            <li>Services cannot be provided due to force majeure such as earthquakes, lightning, fire, power outages, or natural disasters</li>
+            <li>Suspension due to accidents involving computers or communication lines</li>
+            <li>Other cases where the Company deems it difficult to provide the Services</li>
+        </ul>
+        The Company shall not be liable for any disadvantage or damage incurred by the User or a third party due to the suspension or interruption of the Services.
+        </dd>
 
-            <dt class="riyoudt">Article 4 (Usage Fees and Payment Methods)</dt>
-            <dd class="riyoudd">Users may support the Services by making voluntary payments 
-                (hereinafter referred to as “Support Contributions”) via the method designated by the Company (such as Stripe). 
-                These contributions are not mandatory and do not constitute the purchase of products or services.
+        <dt class="riyoudt">Article 7 (Usage Restrictions and Deregistration)</dt>
+        <dd class="riyoudd">The Company may, without prior notice, restrict the User’s use of all or part of the Services or cancel their registration if the User falls under any of the following:
+        <ul>
+            <li>Violation of any provision of these Terms</li>
+            <li>False registration information is discovered</li>
+            <li>Default in payment obligations</li>
+            <li>No response from the User to communications from the Company for a certain period</li>
+            <li>No use of the Services for a certain period since the last access</li>
+            <li>Any other case where the Company deems the use of the Services inappropriate</li>
+        </ul>
+        The Company shall not be liable for any damages incurred by the User due to actions taken under this article.</dd>
 
-            <dt class="riyoudt">Article 5 (Prohibited Conduct)</dt>
-            <dd class="riyoudd">Users shall not engage in the following acts in connection with the use of the Services:
+        <dt class="riyoudt">Article 8 (Withdrawal)</dt>
+        <dd class="riyoudd">Users may withdraw from the Services by following the withdrawal procedure prescribed by the Company.</dd>
 
-            Acts in violation of laws or public order and morals
+        <dt class="riyoudt">Article 9 (Disclaimer of Warranties and Liability)</dt>
+        <dd class="riyoudd">The Company does not expressly or implicitly guarantee that the Services are free from factual or legal defects (including but not limited to safety, reliability, accuracy, completeness, effectiveness, fitness for a particular purpose, security, errors or bugs, and infringement of rights).
+        The Company shall not be liable for any damages incurred by the User arising from the Services, except in cases of willful misconduct or gross negligence by the Company. However, if the agreement between the Company and the User regarding the Services (including these Terms) constitutes a consumer contract under the Consumer Contract Act, this disclaimer shall not apply.
+        Even in such cases, the Company shall not be liable for any damages arising from special circumstances (including cases where the Company or the User foresaw or could have foreseen the occurrence of damages) caused by the Company’s negligence (excluding gross negligence). Furthermore, compensation for damages due to ordinary negligence shall be limited to the amount of usage fees received from the User in the month the damage occurred.
+        The Company shall not be involved in or responsible for any transactions, communications, or disputes between the User and other Users or third parties in relation to the Services.</dd>
 
-            Criminal acts or acts related to crime
+        <dt class="riyoudt">Article 10 (Changes to the Services)</dt>
+        <dd class="riyoudd">The Company may change, add, or discontinue the contents of the Services with prior notice to the Users, and the Users agree to such changes.
+        </dd>
 
-            Infringement of copyrights, trademarks, or other intellectual property rights included in the Services
+        <dt class="riyoudt">Article 11 (Modification of Terms)</dt>
+        <dd class="riyoudd">The Company may modify these Terms without obtaining individual consent from the Users if:
+        <ul>
+            <li>The modification is in the general interest of the Users</li>
+            <li>The modification does not conflict with the purpose of the contract and is reasonable in light of the necessity of the modification, the details of the modification, and other circumstances</li>
+        </ul>
+        The Company shall notify the Users in advance of any such modifications, including the modified contents and effective date.
+        </dd>
 
-            Acts that destroy or interfere with the functions of the Company’s servers or networks
+        <dt class="riyoudt">Article 12 (Handling of Personal Information)</dt>
+        <dd class="riyoudd">The Company shall appropriately handle any personal information obtained through the use of the Services in accordance with its <a class="anchor" href="{% url 'privacy_policy' %}">Privacy Policy</a>.</dd>
 
-            Commercial use of information obtained through the Services
+        <dt class="riyoudt">Article 13 (Notices and Communication)</dt>
+        <dd class="riyoudd">Any notices or communications between the User and the Company shall be conducted in the manner prescribed by the Company.
+             Unless the User notifies the Company of changes using the prescribed method,
+             the Company shall assume that the currently registered contact information is valid and shall consider any communication sent to such contact as delivered at the time of dispatch.</dd>
 
-            Acts that may interfere with the operation of the Company’s services
+        <dt class="riyoudt">Article 14 (Prohibition of Transfer of Rights and Obligations)</dt>
+        <dd class="riyoudd">Users may not assign or pledge their contractual status under the Terms or any rights or obligations based on these Terms to any third party without the prior written consent of the Company.</dd>
 
-            Unauthorized access or attempts thereof
+        <dt class="riyoudt">Article 15 (Governing Law and Jurisdiction)</dt>
+        <dd class="riyoudd">The interpretation of these Terms shall be governed by the laws of Japan.
+        Any disputes arising in connection with the Services shall be subject to the exclusive jurisdiction of the court having jurisdiction over the Company’s head office location.</dd>
+    </dl>
 
-            Collection or accumulation of personal information of other Users
-
-            Use of the Services for fraudulent purposes
-
-            Acts that cause disadvantage, damage, or discomfort to other Users or third parties
-
-            Impersonating other Users
-
-            Advertising, solicitation, or business activities on the Services without the Company's permission
-
-            Acts for the purpose of meeting unknown individuals of the opposite sex
-
-            Providing benefits to antisocial forces, directly or indirectly, in connection with the Services
-
-            Any other acts deemed inappropriate by the Company</dd>
-
-            <dt class="riyoudt">Article 6 (Suspension of the Services)</dt>
-            <dd class="riyoudd">The Company may suspend or discontinue the Services in whole or in part without prior notice to the User if it determines that any of the following apply:
-
-            Maintenance or updates to the system are required
-
-            Services cannot be provided due to force majeure such as earthquakes, lightning, fire, power outages, or natural disasters
-
-            Suspension due to accidents involving computers or communication lines
-
-            Other cases where the Company deems it difficult to provide the Services
-            The Company shall not be liable for any disadvantage or damage incurred by the User or a third party due to the suspension or interruption of the Services.</dd>
-
-            <dt class="riyoudt">Article 7 (Usage Restrictions and Deregistration)</dt>
-            <dd class="riyoudd">The Company may, without prior notice, restrict the User’s use of all or part of the Services or cancel their registration if the User falls under any of the following:
-
-            Violation of any provision of these Terms
-
-            False registration information is discovered
-
-            Default in payment obligations
-
-            No response from the User to communications from the Company for a certain period
-
-            No use of the Services for a certain period since the last access
-
-            Any other case where the Company deems the use of the Services inappropriate
-            The Company shall not be liable for any damages incurred by the User due to actions taken under this article.</dd>
-
-            <dt class="riyoudt">Article 8 (Withdrawal)</dt>
-            <dd class="riyoudd">Users may withdraw from the Services by following the withdrawal procedure prescribed by the Company.</dd>
-
-            <dt class="riyoudt">Article 9 (Disclaimer of Warranties and Liability)</dt>
-            <dd class="riyoudd">The Company does not expressly or implicitly guarantee that the Services are free from factual or legal defects (including but not limited to safety, reliability, accuracy, completeness, effectiveness, fitness for a particular purpose, security, errors or bugs, and infringement of rights).
-            The Company shall not be liable for any damages incurred by the User arising from the Services, except in cases of willful misconduct or gross negligence by the Company. However, if the agreement between the Company and the User regarding the Services (including these Terms) constitutes a consumer contract under the Consumer Contract Act, this disclaimer shall not apply.
-            Even in such cases, the Company shall not be liable for any damages arising from special circumstances (including cases where the Company or the User foresaw or could have foreseen the occurrence of damages) caused by the Company’s negligence (excluding gross negligence). Furthermore, compensation for damages due to ordinary negligence shall be limited to the amount of usage fees received from the User in the month the damage occurred.
-            The Company shall not be involved in or responsible for any transactions, communications, or disputes between the User and other Users or third parties in relation to the Services.</dd>
-
-            <dt class="riyoudt">Article 10 (Changes to the Services)</dt>
-            <dd class="riyoudd">The Company may change, add, or discontinue the contents of the Services with prior notice to the Users, and the Users agree to such changes.</dd>
-
-            <dt class="riyoudt">Article 11 (Modification of Terms)</dt>
-            <dd class="riyoudd">The Company may modify these Terms without obtaining individual consent from the Users if:
-
-            The modification is in the general interest of the Users
-
-            The modification does not conflict with the purpose of the contract and is reasonable in light of the necessity of the modification, the details of the modification, and other circumstances
-            The Company shall notify the Users in advance of any such modifications, including the modified contents and effective date.</dd>
-
-            <dt class="riyoudt">Article 12 (Handling of Personal Information)</dt>
-            <dd class="riyoudd">The Company shall appropriately handle any personal information obtained through the use of the Services in accordance with its Privacy Policy.</dd>
-
-            <dt class="riyoudt">Article 13 (Notices and Communication)</dt>
-            <dd class="riyoudd">Any notices or communications between the User and the Company shall be conducted in the manner prescribed by the Company.
-                 Unless the User notifies the Company of changes using the prescribed method, 
-                 the Company shall assume that the currently registered contact information is valid and shall consider any communication sent to such contact as delivered at the time of dispatch.</dd>
-
-            <dt class="riyoudt">Article 14 (Prohibition of Transfer of Rights and Obligations)</dt>
-            <dd class="riyoudd">Users may not assign or pledge their contractual status under the Terms or any rights or obligations based on these Terms to any third party without the prior written consent of the Company.</dd>
-
-            <dt class="riyoudt">Article 15 (Governing Law and Jurisdiction)</dt>
-            <dd class="riyoudd">The interpretation of these Terms shall be governed by the laws of Japan.
-            Any disputes arising in connection with the Services shall be subject to the exclusive jurisdiction of the court having jurisdiction over the Company’s head office location.</dd>
-
-
-        </dl>
-
-        <div style="text-align:center; margin:50px 0;">
-            <a class="btn-more" href="{% url 'toppage' %}">Back to Home</a>
-        </div>
+    <div style="text-align:center; margin:50px 0;">
+        <a class="btn-more" href="{% url 'toppage' %}">Back to Home</a>
     </div>
-</body>
-</html>
+</div>
+{% endblock %}
