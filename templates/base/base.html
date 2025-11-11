@@ -148,7 +148,7 @@
     /* Cookie Consent Banner Styling */
     .cookie-consent-banner {
         position: fixed; /* 画面下部に固定 */
-        bottom: 0; /* 下端に配置 */
+        bottom: 0; 
         left: 0;
         width: 100%;
         background-color: rgba(0,0,0,0.9); 
@@ -427,19 +427,18 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // バナーを表示するかどうか
     if (!getCookie('cookie_consent')) {
-        setTimeout(() => { // ページの読み込みが少し落ち着いてから表示
+        setTimeout(() => { 
             cookieBanner.classList.add('show');
-        }, 1000); // 1秒後に表示
+        }, 1000); 
     } else {
-        cookieBanner.classList.remove('show'); // クッキーがあれば非表示
+        cookieBanner.classList.remove('show'); 
     }
 
     // 「Accept All Cookies」ボタンがクリックされた時の処理
     acceptBtn.addEventListener('click', function() {
-        setCookie('cookie_consent', 'accepted', 365); // 365日間同意クッキーを設定
-        cookieBanner.classList.remove('show'); // バナーを非表示にする
-        // ここでGoogle Analyticsなどのクッキーを利用したサービスを有効にする処理を追加できます
-        // 例: if (typeof gtag === 'function') { gtag('consent', 'update', { 'analytics_storage': 'granted', 'ad_storage': 'granted' }); }
+        setCookie('cookie_consent', 'accepted', 365); 
+        cookieBanner.classList.remove('show'); 
+        
     });
 
     // 「Manage Preferences」ボタンがクリックされた時の処理

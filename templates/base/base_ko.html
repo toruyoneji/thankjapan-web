@@ -145,7 +145,73 @@
         color: #e63946;
     }
 
-    
+    /* Cookie Consent Banner Styling */
+    .cookie-consent-banner {
+        position: fixed; /* 画面下部に固定 */
+        bottom: 0; 
+        left: 0;
+        width: 100%;
+        background-color: rgba(0,0,0,0.9); 
+        color: #eee; /* 薄い白 */
+        padding: 15px 20px;
+        box-shadow: 0 -2px 10px rgba(0,0,0,0.4);
+        z-index: 1000; 
+        display: flex; 
+        flex-direction: column; 
+        align-items: center; 
+        justify-content: center;
+        text-align: center;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+        font-size: 0.95rem;
+        line-height: 1.4;
+        transition: transform 0.3s ease-in-out; 
+        transform: translateY(100%); 
+    }
+
+    .cookie-consent-banner.show {
+        transform: translateY(0); 
+    }
+
+    .cookie-consent-banner p {
+        margin-bottom: 15px; 
+        max-width: 900px; 
+    }
+
+    .cookie-consent-buttons {
+        display: flex;
+        gap: 10px; 
+        flex-wrap: wrap; 
+        justify-content: center; 
+    }
+
+    .cookie-consent-btn {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 0.9rem;
+        font-weight: 600;
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .cookie-consent-btn.accept-btn {
+        background-color: #e63946; 
+        color: #fff;
+    }
+
+    .cookie-consent-btn.accept-btn:hover {
+        background-color: #c9303c; 
+    }
+
+    .cookie-consent-btn.manage-btn {
+        background-color: #555; 
+        color: #fff;
+    }
+
+    .cookie-consent-btn.manage-btn:hover {
+        background-color: #777;
+    }
+
 
     /* --- SNS buttons --- */
     .sns-buttons {
@@ -193,22 +259,34 @@
             order: 1;
             margin-bottom: 5px;
         }
-    }
-
-    @media screen and (max-width: 768px) {
+        .cookie-consent-banner {
+            padding: 15px 10px;
+        }
+        .cookie-consent-banner p {
+            font-size: 0.85rem;
+            margin-bottom: 10px;
+        }
+        .cookie-consent-buttons {
+            flex-direction: column; 
+            width: 100%;
+        }
+        .cookie-consent-btn {
+            width: 100%;
+        }
   
-    nav {
-        flex-wrap: wrap;
-        gap: 15px;
+  
+        nav {
+            flex-wrap: wrap;
+            gap: 15px;
         }
 
-    .sns-buttons {
-        margin-top: 10px; 
+        .sns-buttons {
+            margin-top: 10px; 
         }
 
-    .dropdown-content {
-        max-height: 200px;
-    }
+        .dropdown-content {
+            max-height: 200px;
+        }
     }
 
     </style>
@@ -288,6 +366,16 @@
 
 {% block content %}{% endblock %}
 
+<div id="cookieConsentBanner" class="cookie-consent-banner">
+    <p>이 웹사이트는 귀하의 경험을 개선하고 개인 맞춤형 콘텐츠를 제공하기 위해 쿠키를 사용합니다.
+       "모든 쿠키 허용"을 클릭함으로써 귀하는 사이트 탐색을 개선하고 사이트 사용을 분석하며 마케팅 활동을 지원하기 위해 귀하의 장치에 쿠키가 저장되는 것에 동의합니다. 자세한 내용은 <a href="{% url 'privacy_policy' %}" class="cookie-policy-link">개인정보처리방침</a>에서 확인할 수 있습니다.
+    </p>
+    <div class="cookie-consent-buttons">
+        <button id="acceptCookiesBtn" class="cookie-consent-btn accept-btn">모든 쿠키 허용</button>
+        <button id="manageCookiesBtn" class="cookie-consent-btn manage-btn">환경 설정 관리</button>
+    </div>
+</div>
+
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const dropdowns = document.querySelectorAll('.dropdown');
@@ -308,6 +396,56 @@ document.addEventListener('DOMContentLoaded', function() {
     // ページのどこかクリックしたら閉じる
     document.addEventListener('click', function() {
         document.querySelectorAll('.dropdown-content').forEach(dc => dc.style.display = 'none');
+    });
+
+    // --- クッキー同意バナーのJavaScriptをここに追加 ---
+    const cookieBanner = document.getElementById('cookieConsentBanner');
+    const acceptBtn = document.getElementById('acceptCookiesBtn');
+    const manageBtn = document.getElementById('manageCookiesBtn');
+
+    // クッキーが存在するかチェック
+    function getCookie(name) {
+        const nameEQ = name + "=";
+        const ca = document.cookie.split(';');
+        for(let i=0; i < ca.length; i++) {
+            let c = ca[i];
+            while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+            if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+        }
+        return null;
+    }
+
+    // クッキーを設定
+    function setCookie(name, value, days) {
+        let expires = "";
+        if (days) {
+            const date = new Date();
+            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+            expires = "; expires=" + date.toUTCString();
+        }
+        document.cookie = name + "=" + (value || "")  + expires + "; path=/";
+    }
+
+    // バナーを表示するかどうか
+    if (!getCookie('cookie_consent')) {
+        setTimeout(() => { 
+            cookieBanner.classList.add('show');
+        }, 1000); 
+    } else {
+        cookieBanner.classList.remove('show'); 
+    }
+
+    // 「Accept All Cookies」ボタンがクリックされた時の処理
+    acceptBtn.addEventListener('click', function() {
+        setCookie('cookie_consent', 'accepted', 365); 
+        cookieBanner.classList.remove('show'); 
+        
+    });
+
+    // 「Manage Preferences」ボタンがクリックされた時の処理
+    manageBtn.addEventListener('click', function() {
+        // プライバシーポリシーのクッキー設定セクションへ誘導
+        window.location.href = "{% url 'privacy_policy' %}#cookie-settings"; 
     });
 });
 </script>
