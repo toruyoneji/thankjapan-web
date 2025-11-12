@@ -11,7 +11,7 @@ GA_TRACKING_ID = os.environ.get('GA_TRACKING_ID', '')
 
 # Load environment variables
 SECRET_KEY = os.environ.get('SECRET_KEY')
-DEBUG = True
+DEBUG = False
 ALLOWED_HOSTS = [
     'www.thankjapan.com',
     'thankjapan.com',
