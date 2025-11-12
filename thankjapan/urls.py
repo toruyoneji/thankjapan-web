@@ -16,6 +16,45 @@ urlpatterns = [
     
     path('sitemap.xml', TemplateView.as_view(
         template_name='sitemap.xml', content_type='application/xml')),
+    
+    path('de/sitemap.xml', TemplateView.as_view(
+        template_name='sitemap.xml', content_type='application/xml')),
+    
+    path('en-in/sitemap.xml', TemplateView.as_view(
+        template_name='sitemap.xml', content_type='application/xml')),
+    
+    path('es-es/sitemap.xml', TemplateView.as_view(
+        template_name='sitemap.xml', content_type='application/xml')),
+    
+    path('es-mx/sitemap.xml', TemplateView.as_view(
+        template_name='sitemap.xml', content_type='application/xml')),
+    
+    path('fr/sitemap.xml', TemplateView.as_view(
+        template_name='sitemap.xml', content_type='application/xml')),
+    
+    path('it/sitemap.xml', TemplateView.as_view(
+        template_name='sitemap.xml', content_type='application/xml')),
+    
+    path('ja/sitemap.xml', TemplateView.as_view(
+        template_name='sitemap.xml', content_type='application/xml')),
+    
+    path('ko/sitemap.xml', TemplateView.as_view(
+        template_name='sitemap.xml', content_type='application/xml')),
+    
+    path('pt-br/sitemap.xml', TemplateView.as_view(
+        template_name='sitemap.xml', content_type='application/xml')),
+    
+    path('pt/sitemap.xml', TemplateView.as_view(
+        template_name='sitemap.xml', content_type='application/xml')),
+    
+    path('th/sitemap.xml', TemplateView.as_view(
+        template_name='sitemap.xml', content_type='application/xml')),
+    
+    path('vi/sitemap.xml', TemplateView.as_view(
+        template_name='sitemap.xml', content_type='application/xml')),
+    
+    path('zh-hant/sitemap.xml', TemplateView.as_view(
+        template_name='sitemap.xml', content_type='application/xml')),
    
 ]
 
