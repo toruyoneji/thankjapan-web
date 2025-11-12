@@ -368,7 +368,7 @@
 
 <div id="cookieConsentBanner" class="cookie-consent-banner">
     <p>이 웹사이트는 귀하의 경험을 개선하고 개인 맞춤형 콘텐츠를 제공하기 위해 쿠키를 사용합니다.
-       "모든 쿠키 허용"을 클릭함으로써 귀하는 사이트 탐색을 개선하고 사이트 사용을 분석하며 마케팅 활동을 지원하기 위해 귀하의 장치에 쿠키가 저장되는 것에 동의합니다. 자세한 내용은 <a href="{% url 'privacy_policy' %}" class="cookie-policy-link">개인정보처리방침</a>에서 확인할 수 있습니다.
+       "모든 쿠키 허용"을 클릭함으로써 귀하는 사이트 탐색을 개선하고 사이트 사용을 분석하며 마케팅 활동을 지원하기 위해 귀하의 장치에 쿠키가 저장되는 것에 동의합니다. 자세한 내용은 <a href="{% url 'privacy_policyko' %}" class="cookie-policy-link">개인정보처리방침</a>에서 확인할 수 있습니다.
     </p>
     <div class="cookie-consent-buttons">
         <button id="acceptCookiesBtn" class="cookie-consent-btn accept-btn">모든 쿠키 허용</button>
@@ -445,7 +445,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // 「Manage Preferences」ボタンがクリックされた時の処理
     manageBtn.addEventListener('click', function() {
         // プライバシーポリシーのクッキー設定セクションへ誘導
-        window.location.href = "{% url 'privacy_policy' %}#cookie-settings"; 
+        window.location.href = "{% url 'privacy_policyko' %}#cookie-settings"; 
     });
 });
 </script>

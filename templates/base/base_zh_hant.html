@@ -367,7 +367,7 @@
 
 <div id="cookieConsentBanner" class="cookie-consent-banner">
     <p>本網站使用 cookie 以改善您的體驗並提供個人化內容。
-       點擊「接受所有」即表示您同意在您的裝置上儲存 cookie，以強化網站導覽、分析網站使用情況並協助我們的行銷工作。您可以在我們的<a href="{% url 'privacy_policy' %}" class="cookie-policy-link">隱私權政策</a>中找到更多詳細資訊。
+       點擊「接受所有」即表示您同意在您的裝置上儲存 cookie，以強化網站導覽、分析網站使用情況並協助我們的行銷工作。您可以在我們的<a href="{% url 'privacy_policyzhHANT' %}" class="cookie-policy-link">隱私權政策</a>中找到更多詳細資訊。
     </p>
     <div class="cookie-consent-buttons">
         <button id="acceptCookiesBtn" class="cookie-consent-btn accept-btn">接受所有 cookie</button>
@@ -444,7 +444,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // 「Manage Preferences」ボタンがクリックされた時の処理
     manageBtn.addEventListener('click', function() {
         // プライバシーポリシーのクッキー設定セクションへ誘導
-        window.location.href = "{% url 'privacy_policy' %}#cookie-settings"; 
+        window.location.href = "{% url 'privacy_policyzhHANT' %}#cookie-settings"; 
     });
 });
 </script>

@@ -6,7 +6,7 @@ from .views import (TopView, TopViewFR, TopViewIT, TopViewPT, TopViewZHHANT,TopV
                     CategoryDetailView, BuildingView, FlowerView, HouseholdItemsView,LiveView,
                     SportsView, WorkView,  game_start, game_play,
                     game_answer, game_result, game_restart, player_login, player_logout, delete_player_confirm,
-                    player_register, delete_player, PrivacyPolicy, contact_view, contact_thanks,
+                    player_register, delete_player,  contact_view, contact_thanks,
                     JapanFoodView,JapanFoodDEView, JapanFoodENINView, JapanFoodESESView,
                     JapanFoodESMXView, JapanFoodFRView, JapanFoodITView, JapanFoodJAView ,JapanFoodKOView,
                     JapanFoodPTBRView, JapanFoodPTView, JapanFoodTHView, JapanFoodVIView, JapanFoodZHHANTView,
@@ -21,7 +21,10 @@ from .views import (TopView, TopViewFR, TopViewIT, TopViewPT, TopViewZHHANT,TopV
                     LegalNoticePTView, LegalNoticeTHView, LegalNoticeVIView, LegalNoticeZHHANTView,
                     KiyakuView, KiyakuDEView, KiyakuENINView, KiyakuESESView, KiyakuESMXView, KiyakuFRView,
                     KiyakuITView, KiyakuJAView, KiyakuKOView, KiyakuPTBRView, KiyakuPTView, KiyakuTHView,
-                    KiyakuVIView, KiyakuZHHANTView) 
+                    KiyakuVIView, KiyakuZHHANTView,
+                    PrivacyPolicy, PrivacyPolicyDE, PrivacyPolicyENIN, PrivacyPolicyESES, PrivacyPolicyESMX,
+                    PrivacyPolicyFR, PrivacyPolicyIT, PrivacyPolicyJA, PrivacyPolicyKO, PrivacyPolicyPT,
+                    PrivacyPolicyPTBR, PrivacyPolicyTH, PrivacyPolicyVI, PrivacyPolicyZHHANT) 
 
 
 urlpatterns = [
@@ -151,13 +154,27 @@ urlpatterns = [
     path('legal-notice/zh-hant/', LegalNoticeZHHANTView.as_view(), name='legal_noticezhHANT'),
     
     
+    #privacypolicy
+    path('privacy-policy/', PrivacyPolicy.as_view(), name="privacy_policy"),
+    path('privacy-policy/de/', PrivacyPolicyDE.as_view(), name="privacy_policyde"),
+    path('privacy-policy/en-in/', PrivacyPolicyENIN.as_view(), name="privacy_policyenIN"),
+    path('privacy-policy/es-es/', PrivacyPolicyESES.as_view(), name="privacy_policyesES"),
+    path('privacy-policy/es-mx/', PrivacyPolicyESMX.as_view(), name="privacy_policyesMX"),
+    path('privacy-policy/fr/', PrivacyPolicyFR.as_view(), name="privacy_policyfr"),
+    path('privacy-policy/it/', PrivacyPolicyIT.as_view(), name="privacy_policyit"),
+    path('privacy-policy/ja/', PrivacyPolicyJA.as_view(), name="privacy_policyja"),
+    path('privacy-policy/ko/', PrivacyPolicyKO.as_view(), name="privacy_policyko"),
+    path('privacy-policy/pt-br/', PrivacyPolicyPTBR.as_view(), name="privacy_policyptBR"),
+    path('privacy-policy/pt/', PrivacyPolicyPT.as_view(), name="privacy_policypt"),
+    path('privacy-policy/th/', PrivacyPolicyTH.as_view(), name="privacy_policyth"),
+    path('privacy-policy/vi/', PrivacyPolicyVI.as_view(), name="privacy_policyvi"),
+    path('privacy-policy/zh-hant/', PrivacyPolicyZHHANT.as_view(), name="privacy_policyzhHANT"),
+    
+    
     #contact
     path('contact/', contact_view, name='contact'),
     path('contact/thanks/', contact_thanks, name='contact_thanks'),
     
-    
-    #privacypolicy
-    path('privacy-policy/', PrivacyPolicy.as_view(), name="privacy_policy"),
     
     #user look page
     path('<str:category>/<slug:slug>/', CategoryDetailView.as_view(), name='category_detail'),

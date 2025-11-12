@@ -1,0 +1,162 @@
+{% extends 'base/base_vi.html' %}
+{% load static %}
+
+{% block title %}Chính sách quyền riêng tư | ThankJapan{% endblock %}
+
+{% block content %}
+
+    <style>
+
+    body {
+        background-color: #fffaf5;
+        font-family: 'Noto Sans JP', 'Poppins', sans-serif;
+        color: #fff;
+    }
+
+    .main2 {
+        max-width: 900px;
+        margin: 80px auto 100px;
+        padding: 0 20px;
+    }
+
+    .category-header {
+        text-align: center;
+        padding: 30px 20px;
+        background: linear-gradient(135deg, #ffe8d6 0%, #fffaf5 100%);
+        border-radius: 0 0 40px 40px;
+        margin-bottom: 40px;
+        color: #000;
+    }
+
+    h2 {
+        margin-top: 30px;
+        font-size: 1.2rem;
+        color: #ffd6a5;
+    }
+
+    p, li {
+        font-size: 1rem;
+        line-height: 1.6;
+        color: #fff;
+    }
+
+    ul {
+        margin-left: 20px;
+        margin-top: 10px;
+    }
+
+    a.anchor {
+        color: #ffb347;
+        text-decoration: none;
+    }
+    a.anchor:hover {
+        text-decoration: underline;
+    }
+
+    hr {
+        border: 0;
+        border-top: 1px solid #ffd6a5;
+        margin: 20px 0;
+    }
+
+    .btn-more {
+            display: inline-block;
+            background: #ffb347;
+            color: white;
+            padding: 10px 24px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 20px;
+            transition: background 0.3s;
+        }
+        .btn-more:hover {
+            background: #ff9642;
+        }
+
+    @media (max-width: 600px) {
+        .main2 {
+            margin: 50px 0px 50px;
+            padding: 0;
+        }
+
+        .category-header {
+            padding-top: 120px;
+        }
+    }
+    </style>
+
+<div class="main2">
+
+    <h1 class="category-header">Chính sách quyền riêng tư</h1>
+
+
+    <p>ThankJapan (sau đây gọi là "Công ty") cam kết bảo vệ quyền riêng tư của bạn. Chính sách quyền riêng tư này mô tả các loại thông tin cá nhân chúng tôi thu thập, cách chúng tôi sử dụng và cách chúng tôi bảo vệ thông tin đó khi bạn sử dụng trang web và dịch vụ của chúng tôi, bao gồm cả trò chơi của chúng tôi.</p>
+
+    <h2>1. Thông tin chúng tôi thu thập</h2>
+    <p>Chúng tôi thu thập các loại thông tin sau:</p>
+    <ul>
+        <li>**Thông tin tài khoản:** Khi bạn đăng ký trò chơi của chúng tôi, chúng tôi thu thập tên người dùng bạn chọn và phiên bản băm (mã hóa) mật khẩu của bạn. Chúng tôi không lưu trữ mật khẩu dưới dạng văn bản thuần túy.</li>
+        <li>**Dữ liệu trò chơi:** Chúng tôi thu thập điểm số và tiến độ trò chơi để cung cấp chức năng trò chơi, bảng xếp hạng và nâng cao trải nghiệm chơi trò chơi của bạn.</li>
+        <li>**Thông tin liên hệ (Tự nguyện cung cấp):** Nếu bạn liên hệ với chúng tôi qua email hoặc biểu mẫu yêu cầu của chúng tôi, chúng tôi chỉ thu thập tên và địa chỉ email của bạn để phản hồi yêu cầu của bạn. Chúng tôi sẽ không sử dụng thông tin này cho mục đích tiếp thị mà không có sự đồng ý rõ ràng của bạn.</li>
+        <li>**Thông tin liên quan đến thanh toán (đối với hỗ trợ tự nguyện):** Nếu bạn chọn cung cấp hỗ trợ tự nguyện, việc xử lý thanh toán sẽ được PayPal xử lý an toàn. Chúng tôi không trực tiếp thu thập hoặc lưu trữ thông tin thẻ tín dụng của bạn trên máy chủ của chúng tôi.</li>
+        <li>**Dữ liệu kỹ thuật (để cải thiện trang web):** Chúng tôi thu thập dữ liệu kỹ thuật hạn chế như địa chỉ IP của bạn, loại trình duyệt, thông tin thiết bị và dữ liệu sử dụng ẩn danh (thông qua cookie) để hiểu cách trang web của chúng tôi được sử dụng và để cải thiện hiệu suất cũng như trải nghiệm người dùng. Dữ liệu này thường được tổng hợp và ẩn danh, khiến việc nhận dạng trực tiếp từng người dùng trở nên khó khăn.</li>
+    </ul>
+
+    <h2>2. Cách chúng tôi sử dụng thông tin</h2>
+    <p>Chúng tôi sử dụng thông tin thu thập được cho các mục đích cụ thể sau:</p>
+    <ul>
+        <li>Để tạo và quản lý tài khoản trò chơi của bạn.</li>
+        <li>Để cho phép bạn đăng nhập và chơi trò chơi, lưu tiến độ của bạn và hiển thị điểm số của bạn trên bảng xếp hạng.</li>
+        <li>Để phản hồi các yêu cầu và tin nhắn của bạn.</li>
+        <li>Để xử lý an toàn các khoản hỗ trợ tự nguyện thông qua PayPal.</li>
+        <li>Để phân tích các mẫu sử dụng trang web và trò chơi (dưới dạng ẩn danh và tổng hợp) nhằm cải thiện chức năng, nội dung và trải nghiệm người dùng của trang web.</li>
+        <li>Để đảm bảo an ninh và ổn định của trang web và trò chơi của chúng tôi.</li>
+    </ul>
+
+    <h2>3. Xử lý thanh toán</h2>
+    <p>Tất cả các giao dịch thanh toán cho hỗ trợ tự nguyện đều được PayPal, một nhà cung cấp dịch vụ xử lý thanh toán bên thứ ba đáng tin cậy, xử lý an toàn. Chúng tôi không lưu trữ thông tin thẻ tín dụng của bạn trên máy chủ của chúng tôi. Điều này có nghĩa là thông tin thanh toán nhạy cảm của bạn được PayPal xử lý trực tiếp tuân thủ các tiêu chuẩn bảo mật của ngành.</p>
+    <p>Để biết thêm thông tin về cách PayPal xử lý dữ liệu của bạn, vui lòng tham khảo <a class="anchor" href="https://www.paypal.com/us/webapps/mpp/ua/privacy-full" target="_blank" rel="noopener noreferrer">Chính sách quyền riêng tư của PayPal</a>.</p>
+
+    <h2 id="cookie-settings">4. Cookie và Công nghệ theo dõi</h2>
+    <p>Chúng tôi chủ yếu sử dụng cookie và các công nghệ theo dõi tương tự để nâng cao trải nghiệm duyệt web của bạn, kích hoạt chức năng đăng nhập trò chơi, ghi nhớ các tùy chọn của bạn và phân tích lưu lượng truy cập trang web ẩn danh để hiểu cách trang web và trò chơi của chúng tôi đang được sử dụng. Cookie là các tệp dữ liệu nhỏ được lưu trữ trên thiết bị của bạn.</p>
+    <p>Cụ thể, chúng tôi sử dụng:</p>
+    <ul>
+        <li>**Cookie cần thiết nghiêm ngặt:** Cần thiết cho chức năng phù hợp của trang web và đăng nhập trò chơi (ví dụ: duy trì phiên, ghi nhớ đồng ý cookie).</li>
+        <li>**Cookie phân tích/hiệu suất:** Được cung cấp bởi các dịch vụ như Google Analytics, các cookie này giúp chúng tôi đếm số lượt truy cập và nguồn lưu lượng truy cập, cho phép chúng tôi đo lường và cải thiện hiệu suất trang web của mình. Thông tin này được thu thập dưới dạng tổng hợp và ẩn danh, khiến việc nhận dạng trực tiếp bạn là không thể. Để biết thêm chi tiết về các thực hành quyền riêng tư của Google, vui lòng xem <a class="anchor" href="https://policies.google.com/privacy" target="_blank">Chính sách quyền riêng tư của Google</a>.</li>
+    </ul>
+    <p>Chúng tôi không sử dụng cookie cho quảng cáo nhắm mục tiêu hoặc lập hồ sơ người dùng rộng rãi. Bạn có thể quản lý cài đặt cookie của mình thông qua tùy chọn trình duyệt của bạn. Hầu hết các trình duyệt web cho phép bạn kiểm soát cài đặt cookie, bao gồm từ chối cookie hoặc xóa các cookie cụ thể. Xin lưu ý rằng nếu bạn chọn tắt các cookie cần thiết nghiêm ngặt, một số tính năng của trang web và chức năng trò chơi của chúng tôi có thể không hoạt động chính xác.</p>
+
+    <h2>5. Chia sẻ dữ liệu</h2>
+    <p>Chúng tôi không bán, cho thuê hoặc trao đổi thông tin cá nhân của bạn. Chúng tôi chỉ chia sẻ thông tin trong những trường hợp rất hạn chế:</p>
+    <ul>
+        <li>Với các nhà cung cấp dịch vụ bên thứ ba đáng tin cậy (ví dụ: PayPal để xử lý thanh toán, Google Analytics để phân tích trang web ẩn danh) khi hoàn toàn cần thiết để vận hành dịch vụ của chúng tôi. Các nhà cung cấp này có nghĩa vụ theo hợp đồng phải bảo vệ dữ liệu của bạn và chỉ sử dụng dữ liệu đó cho các mục đích chúng tôi chỉ định.</li>
+        <li>Khi được yêu cầu bởi luật pháp hoặc quy trình pháp lý hợp lệ.</li>
+    </ul>
+
+    <h2>6. Bảo mật dữ liệu</h2>
+    <p>Chúng tôi thực hiện các biện pháp kỹ thuật và tổ chức hợp lý để bảo vệ thông tin cá nhân, dữ liệu tài khoản, điểm số trò chơi và các dữ liệu khác của bạn khỏi truy cập trái phép, mất mát hoặc lạm dụng. Điều này bao gồm việc băm mật khẩu và nỗ lực sử dụng các biện pháp bảo mật tiêu chuẩn ngành để bảo vệ dữ liệu của bạn.</p>
+
+    <h2>7. Quyền của người dùng</h2>
+    <p>Bạn có quyền truy cập, sửa đổi hoặc xóa thông tin cá nhân và dữ liệu trò chơi của mình. Bạn có thể xóa tài khoản và dữ liệu liên quan bất kỳ lúc nào thông qua cài đặt người dùng trò chơi của bạn hoặc bằng cách liên hệ với chúng tôi qua email. Nếu bạn muốn thực hiện các quyền này, vui lòng liên hệ với chúng tôi qua email. Tùy thuộc vào vị trí của bạn, bạn có thể có các quyền bổ sung theo luật bảo vệ dữ liệu hiện hành.</p>
+
+    <h2>8. Thay đổi chính sách này</h2>
+    <p>Chúng tôi có thể cập nhật Chính sách quyền riêng tư này theo thời gian để phản ánh những thay đổi trong thực tiễn của chúng tôi hoặc các yêu cầu pháp lý. Nếu có những thay đổi đáng kể, chúng tôi sẽ thông báo cho bạn bằng cách đăng chính sách mới trên trang này và cập nhật ngày "Cập nhật lần cuối". Chúng tôi khuyến khích bạn thường xuyên xem lại trang này.</p>
+    
+    <h2>9. Liên hệ với chúng tôi</h2>
+    <p>Nếu bạn có bất kỳ câu hỏi hoặc thắc mắc nào về Chính sách quyền riêng tư này hoặc cách chúng tôi xử lý dữ liệu của bạn, vui lòng liên hệ với chúng tôi:</p>
+    <ul>
+        <li>Email: yonetoru0@gmail.com</li>
+        <li>Điện thoại: +81 80-8699-7640 (Đối với các yêu cầu liên quan đến quyền riêng tư, vui lòng liên hệ với chúng tôi qua email để được phản hồi nhanh chóng và hiệu quả hơn. Hỗ trợ qua điện thoại chủ yếu giới hạn ở các vấn đề khẩn cấp không thể giải quyết qua email.)</li>
+        <li>Địa chỉ: Moroecho Nakamachi, Kanazawa, Ishikawa 920-0016, Nhật Bản</li>
+    </ul>
+
+    <hr>
+    <p>Cập nhật lần cuối: Ngày 13 tháng 8 năm 2025</p>
+
+    <div style="text-align:center; margin:50px 0;">
+        <a class="btn-more" href="{% url 'toppagevi' %}">Quay lại Trang chủ</a>
+    </div>
+</div>
+
+{% endblock %}

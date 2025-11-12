@@ -368,7 +368,7 @@
 
 <div id="cookieConsentBanner" class="cookie-consent-banner">
     <p>เว็บไซต์นี้ใช้คุกกี้เพื่อปรับปรุงประสบการณ์ของคุณและนำเสนอเนื้อหาที่ปรับให้เป็นส่วนตัว
-       การคลิก "ยอมรับทั้งหมด" แสดงว่าคุณยินยอมให้จัดเก็บคุกกี้บนอุปกรณ์ของคุณเพื่อปรับปรุงการนำทางเว็บไซต์ วิเคราะห์การใช้งานเว็บไซต์ และสนับสนุนความพยายามทางการตลาดของเรา คุณสามารถดูรายละเอียดเพิ่มเติมได้ใน <a href="{% url 'privacy_policy' %}" class="cookie-policy-link">นโยบายความเป็นส่วนตัว</a> ของเรา
+       การคลิก "ยอมรับทั้งหมด" แสดงว่าคุณยินยอมให้จัดเก็บคุกกี้บนอุปกรณ์ของคุณเพื่อปรับปรุงการนำทางเว็บไซต์ วิเคราะห์การใช้งานเว็บไซต์ และสนับสนุนความพยายามทางการตลาดของเรา คุณสามารถดูรายละเอียดเพิ่มเติมได้ใน <a href="{% url 'privacy_policyth' %}" class="cookie-policy-link">นโยบายความเป็นส่วนตัว</a> ของเรา
     </p>
     <div class="cookie-consent-buttons">
         <button id="acceptCookiesBtn" class="cookie-consent-btn accept-btn">ยอมรับคุกกี้ทั้งหมด</button>
@@ -445,7 +445,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // 「Manage Preferences」ボタンがクリックされた時の処理
     manageBtn.addEventListener('click', function() {
         // プライバシーポリシーのクッキー設定セクションへ誘導
-        window.location.href = "{% url 'privacy_policy' %}#cookie-settings"; 
+        window.location.href = "{% url 'privacy_policyth' %}#cookie-settings"; 
     });
 });
 </script>

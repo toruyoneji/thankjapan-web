@@ -124,6 +124,45 @@ class LegalNoticeDEView(TemplateView):
 class PrivacyPolicy(TemplateView):
     template_name = "thank_japan_app/privacy/privacy_policy.html"
     
+class PrivacyPolicyZHHANT(TemplateView):
+    template_name = "thank_japan_app/privacy/privacy_policy_zh_hant.html"
+    
+class PrivacyPolicyVI(TemplateView):
+    template_name = "thank_japan_app/privacy/privacy_policy_vi.html"
+    
+class PrivacyPolicyTH(TemplateView):
+    template_name = "thank_japan_app/privacy/privacy_policy_th.html"
+    
+class PrivacyPolicyPT(TemplateView):
+    template_name = "thank_japan_app/privacy/privacy_policy_pt.html"
+    
+class PrivacyPolicyPTBR(TemplateView):
+    template_name = "thank_japan_app/privacy/privacy_policy_pt_br.html"
+    
+class PrivacyPolicyKO(TemplateView):
+    template_name = "thank_japan_app/privacy/privacy_policy_ko.html"
+    
+class PrivacyPolicyJA(TemplateView):
+    template_name = "thank_japan_app/privacy/privacy_policy_ja.html"
+    
+class PrivacyPolicyIT(TemplateView):
+    template_name = "thank_japan_app/privacy/privacy_policy_it.html"
+    
+class PrivacyPolicyFR(TemplateView):
+    template_name = "thank_japan_app/privacy/privacy_policy_fr.html"
+    
+class PrivacyPolicyESMX(TemplateView):
+    template_name = "thank_japan_app/privacy/privacy_policy_es_mx.html"
+    
+class PrivacyPolicyESES(TemplateView):
+    template_name = "thank_japan_app/privacy/privacy_policy_es_es.html"
+    
+class PrivacyPolicyENIN(TemplateView):
+    template_name = "thank_japan_app/privacy/privacy_policy_en_in.html"
+
+class PrivacyPolicyDE(TemplateView):
+    template_name = "thank_japan_app/privacy/privacy_policy_de.html"
+    
     
 #riyoukiyaku    
 class KiyakuView(ListView):
