@@ -1,0 +1,1830 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+
+  <!-- トップページ (多言語対応) -->
+  <url>
+    <loc>https://www.thankjapan.com/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.thankjapan.com/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/ja/" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/vi/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/fr/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.thankjapan.com/it/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/pt/" />
+    <xhtml:link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/zh-hant/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/ko/" />
+    <xhtml:link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/es-es/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.thankjapan.com/de/" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://www.thankjapan.com/th/" />
+    <xhtml:link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/pt-br/" />
+    <xhtml:link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/es-mx/" />
+    <xhtml:link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/en-in/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/" />
+  </url>
+  <url><loc>https://www.thankjapan.com/ja/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.thankjapan.com/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/ja/" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/vi/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/fr/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.thankjapan.com/it/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/pt/" />
+    <xhtml:link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/zh-hant/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/ko/" />
+    <xhtml:link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/es-es/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.thankjapan.com/de/" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://www.thankjapan.com/th/" />
+    <xhtml:link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/pt-br/" />
+    <xhtml:link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/es-mx/" />
+    <xhtml:link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/en-in/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/" />
+  </url>
+  <url><loc>https://www.thankjapan.com/vi/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.thankjapan.com/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/ja/" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/vi/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/fr/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.thankjapan.com/it/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/pt/" />
+    <xhtml:link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/zh-hant/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/ko/" />
+    <xhtml:link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/es-es/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.thankjapan.com/de/" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://www.thankjapan.com/th/" />
+    <xhtml:link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/pt-br/" />
+    <xhtml:link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/es-mx/" />
+    <xhtml:link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/en-in/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/" />
+  </url>
+  <url><loc>https://www.thankjapan.com/fr/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.thankjapan.com/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/ja/" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/vi/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/fr/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.thankjapan.com/it/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/pt/" />
+    <xhtml:link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/zh-hant/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/ko/" />
+    <xhtml:link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/es-es/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.thankjapan.com/de/" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://www.thankjapan.com/th/" />
+    <xhtml:link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/pt-br/" />
+    <xhtml:link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/es-mx/" />
+    <xhtml:link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/en-in/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/" />
+  </url>
+  <url><loc>https://www.thankjapan.com/it/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.thankjapan.com/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/ja/" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/vi/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/fr/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.thankjapan.com/it/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/pt/" />
+    <xhtml:link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/zh-hant/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/ko/" />
+    <xhtml:link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/es-es/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.thankjapan.com/de/" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://www.thankjapan.com/th/" />
+    <xhtml:link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/pt-br/" />
+    <xhtml:link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/es-mx/" />
+    <xhtml:link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/en-in/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/" />
+  </url>
+  <url><loc>https://www.thankjapan.com/pt/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.thankjapan.com/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/ja/" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/vi/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/fr/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.thankjapan.com/it/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/pt/" />
+    <xhtml:link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/zh-hant/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/ko/" />
+    <xhtml:link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/es-es/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.thankjapan.com/de/" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://www.thankjapan.com/th/" />
+    <xhtml:link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/pt-br/" />
+    <xhtml:link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/es-mx/" />
+    <xhtml:link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/en-in/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/" />
+  </url>
+  <url><loc>https://www.thankjapan.com/zh-hant/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.thankjapan.com/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/ja/" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/vi/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/fr/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.thankjapan.com/it/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/pt/" />
+    <xhtml:link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/zh-hant/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/ko/" />
+    <xhtml:link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/es-es/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.thankjapan.com/de/" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://www.thankjapan.com/th/" />
+    <xhtml:link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/pt-br/" />
+    <xhtml:link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/es-mx/" />
+    <xhtml:link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/en-in/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/" />
+  </url>
+  <url><loc>https://www.thankjapan.com/ko/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.thankjapan.com/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/ja/" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/vi/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/fr/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.thankjapan.com/it/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/pt/" />
+    <xhtml:link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/zh-hant/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/ko/" />
+    <xhtml:link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/es-es/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.thankjapan.com/de/" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://www.thankjapan.com/th/" />
+    <xhtml:link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/pt-br/" />
+    <xhtml:link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/es-mx/" />
+    <xhtml:link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/en-in/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/" />
+  </url>
+  <url><loc>https://www.thankjapan.com/es-es/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.thankjapan.com/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/ja/" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/vi/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/fr/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.thankjapan.com/it/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/pt/" />
+    <xhtml:link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/zh-hant/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/ko/" />
+    <xhtml:link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/es-es/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.thankjapan.com/de/" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://www.thankjapan.com/th/" />
+    <xhtml:link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/pt-br/" />
+    <xhtml:link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/es-mx/" />
+    <xhtml:link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/en-in/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/" />
+  </url>
+  <url><loc>https://www.thankjapan.com/de/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.thankjapan.com/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/ja/" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/vi/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/fr/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.thankjapan.com/it/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/pt/" />
+    <xhtml:link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/zh-hant/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/ko/" />
+    <xhtml:link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/es-es/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.thankjapan.com/de/" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://www.thankjapan.com/th/" />
+    <xhtml:link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/pt-br/" />
+    <xhtml:link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/es-mx/" />
+    <xhtml:link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/en-in/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/" />
+  </url>
+  <url><loc>https://www.thankjapan.com/th/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.thankjapan.com/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/ja/" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/vi/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/fr/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.thankjapan.com/it/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/pt/" />
+    <xhtml:link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/zh-hant/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/ko/" />
+    <xhtml:link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/es-es/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.thankjapan.com/de/" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://www.thankjapan.com/th/" />
+    <xhtml:link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/pt-br/" />
+    <xhtml:link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/es-mx/" />
+    <xhtml:link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/en-in/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/" />
+  </url>
+  <url><loc>https://www.thankjapan.com/pt-br/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.thankjapan.com/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/ja/" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/vi/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/fr/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.thankjapan.com/it/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/pt/" />
+    <xhtml:link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/zh-hant/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/ko/" />
+    <xhtml:link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/es-es/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.thankjapan.com/de/" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://www.thankjapan.com/th/" />
+    <xhtml:link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/pt-br/" />
+    <xhtml:link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/es-mx/" />
+    <xhtml:link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/en-in/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/" />
+  </url>
+  <url><loc>https://www.thankjapan.com/es-mx/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.thankjapan.com/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/ja/" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/vi/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/fr/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.thankjapan.com/it/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/pt/" />
+    <xhtml:link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/zh-hant/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/ko/" />
+    <xhtml:link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/es-es/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.thankjapan.com/de/" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://www.thankjapan.com/th/" />
+    <xhtml:link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/pt-br/" />
+    <xhtml:link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/es-mx/" />
+    <xhtml:link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/en-in/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/" />
+  </url>
+  <url><loc>https://www.thankjapan.com/en-in/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.thankjapan.com/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/ja/" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/vi/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/fr/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.thankjapan.com/it/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/pt/" />
+    <xhtml:link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/zh-hant/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/ko/" />
+    <xhtml:link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/es-es/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.thankjapan.com/de/" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://www.thankjapan.com/th/" />
+    <xhtml:link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/pt-br/" />
+    <xhtml:link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/es-mx/" />
+    <xhtml:link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/en-in/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/" />
+  </url>
+
+  <!-- カテゴリリストページ -->
+  <url><loc>https://www.thankjapan.com/food/</loc></url>
+  <url><loc>https://www.thankjapan.com/nature/</loc></url>
+  <url><loc>https://www.thankjapan.com/fashion/</loc></url>
+  <url><loc>https://www.thankjapan.com/culture/</loc></url>
+  <url><loc>https://www.thankjapan.com/cook/</loc></url>
+  <url><loc>https://www.thankjapan.com/appliances/</loc></url>
+  <url><loc>https://www.thankjapan.com/animal/</loc></url>
+  <url><loc>https://www.thankjapan.com/building/</loc></url>
+  <url><loc>https://www.thankjapan.com/flower/</loc></url>
+  <url><loc>https://www.thankjapan.com/householditems/</loc></url>
+  <url><loc>https://www.thankjapan.com/sports/</loc></url>
+  <url><loc>https://www.thankjapan.com/work/</loc></url>
+  <url><loc>https://www.thankjapan.com/live/</loc></url>
+
+  <!-- 特定のコンテンツページ (JapanFood, JapanCulture, 多言語対応) -->
+  <url>
+    <loc>https://www.thankjapan.com/japanfood/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.thankjapan.com/japanfood/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/japanfood/ja/" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/japanfood/vi/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/japanfood/fr/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.thankjapan.com/japanfood/it/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/japanfood/pt/" />
+    <xhtml:link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/japanfood/zh-hant/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/japanfood/ko/" />
+    <xhtml:link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/japanfood/es-es/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.thankjapan.com/japanfood/de/" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://www.thankjapan.com/japanfood/th/" />
+    <xhtml:link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/japanfood/pt-br/" />
+    <xhtml:link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/japanfood/es-mx/" />
+    <xhtml:link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/japanfood/en-in/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/japanfood/" />
+  </url>
+  <url><loc>https://www.thankjapan.com/japanfood/ja/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.thankjapan.com/japanfood/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/japanfood/ja/" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/japanfood/vi/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/japanfood/fr/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.thankjapan.com/japanfood/it/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/japanfood/pt/" />
+    <xhtml:link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/japanfood/zh-hant/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/japanfood/ko/" />
+    <xhtml:link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/japanfood/es-es/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.thankjapan.com/japanfood/de/" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://www.thankjapan.com/japanfood/th/" />
+    <xhtml:link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/japanfood/pt-br/" />
+    <xhtml:link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/japanfood/es-mx/" />
+    <xhtml:link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/japanfood/en-in/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/japanfood/" />
+  </url>
+  <url><loc>https://www.thankjapan.com/japanfood/vi/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.thankjapan.com/japanfood/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/japanfood/ja/" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/japanfood/vi/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/japanfood/fr/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.thankjapan.com/japanfood/it/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/japanfood/pt/" />
+    <xhtml:link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/japanfood/zh-hant/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/japanfood/ko/" />
+    <xhtml:link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/japanfood/es-es/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.thankjapan.com/japanfood/de/" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://www.thankjapan.com/japanfood/th/" />
+    <xhtml:link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/japanfood/pt-br/" />
+    <xhtml:link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/japanfood/es-mx/" />
+    <xhtml:link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/japanfood/en-in/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/japanfood/" />
+  </url>
+  <url><loc>https://www.thankjapan.com/japanfood/fr/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.thankjapan.com/japanfood/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/japanfood/ja/" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/japanfood/vi/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/japanfood/fr/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.thankjapan.com/japanfood/it/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/japanfood/pt/" />
+    <xhtml:link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/japanfood/zh-hant/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/japanfood/ko/" />
+    <xhtml:link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/japanfood/es-es/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.thankjapan.com/japanfood/de/" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://www.thankjapan.com/japanfood/th/" />
+    <xhtml:link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/japanfood/pt-br/" />
+    <xhtml:link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/japanfood/es-mx/" />
+    <xhtml:link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/japanfood/en-in/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/japanfood/" />
+  </url>
+  <url><loc>https://www.thankjapan.com/japanfood/it/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.thankjapan.com/japanfood/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/japanfood/ja/" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/japanfood/vi/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/japanfood/fr/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.thankjapan.com/japanfood/it/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/japanfood/pt/" />
+    <xhtml:link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/japanfood/zh-hant/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/japanfood/ko/" />
+    <xhtml:link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/japanfood/es-es/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.thankjapan.com/japanfood/de/" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://www.thankjapan.com/japanfood/th/" />
+    <xhtml:link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/japanfood/pt-br/" />
+    <xhtml:link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/japanfood/es-mx/" />
+    <xhtml:link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/japanfood/en-in/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/japanfood/" />
+  </url>
+  <url><loc>https://www.thankjapan.com/japanfood/pt/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.thankjapan.com/japanfood/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/japanfood/ja/" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/japanfood/vi/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/japanfood/fr/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.thankjapan.com/japanfood/it/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/japanfood/pt/" />
+    <xhtml:link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/japanfood/zh-hant/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/japanfood/ko/" />
+    <xhtml:link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/japanfood/es-es/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.thankjapan.com/japanfood/de/" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://www.thankjapan.com/japanfood/th/" />
+    <xhtml:link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/japanfood/pt-br/" />
+    <xhtml:link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/japanfood/es-mx/" />
+    <xhtml:link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/japanfood/en-in/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/japanfood/" />
+  </url>
+  <url><loc>https://www.thankjapan.com/japanfood/zh-hant/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.thankjapan.com/japanfood/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/japanfood/ja/" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/japanfood/vi/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/japanfood/fr/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.thankjapan.com/japanfood/it/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/japanfood/pt/" />
+    <xhtml:link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/japanfood/zh-hant/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/japanfood/ko/" />
+    <xhtml:link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/japanfood/es-es/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.thankjapan.com/japanfood/de/" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://www.thankjapan.com/japanfood/th/" />
+    <xhtml:link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/japanfood/pt-br/" />
+    <xhtml:link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/japanfood/es-mx/" />
+    <xhtml:link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/japanfood/en-in/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/japanfood/" />
+  </url>
+  <url><loc>https://www.thankjapan.com/japanfood/ko/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.thankjapan.com/japanfood/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/japanfood/ja/" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/japanfood/vi/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/japanfood/fr/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.thankjapan.com/japanfood/it/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/japanfood/pt/" />
+    <xhtml:link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/japanfood/zh-hant/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/japanfood/ko/" />
+    <xhtml:link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/japanfood/es-es/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.thankjapan.com/japanfood/de/" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://www.thankjapan.com/japanfood/th/" />
+    <xhtml:link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/japanfood/pt-br/" />
+    <xhtml:link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/japanfood/es-mx/" />
+    <xhtml:link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/japanfood/en-in/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/japanfood/" />
+  </url>
+  <url><loc>https://www.thankjapan.com/japanfood/es-es/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.thankjapan.com/japanfood/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/japanfood/ja/" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/japanfood/vi/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/japanfood/fr/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.thankjapan.com/japanfood/it/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/japanfood/pt/" />
+    <xhtml:link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/japanfood/zh-hant/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/japanfood/ko/" />
+    <xhtml:link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/japanfood/es-es/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.thankjapan.com/japanfood/de/" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://www.thankjapan.com/japanfood/th/" />
+    <xhtml:link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/japanfood/pt-br/" />
+    <xhtml:link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/japanfood/es-mx/" />
+    <xhtml:link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/japanfood/en-in/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/japanfood/" />
+  </url>
+  <url><loc>https://www.thankjapan.com/japanfood/de/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.thankjapan.com/japanfood/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/japanfood/ja/" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/japanfood/vi/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/japanfood/fr/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.thankjapan.com/japanfood/it/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/japanfood/pt/" />
+    <xhtml:link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/japanfood/zh-hant/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/japanfood/ko/" />
+    <xhtml:link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/japanfood/es-es/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.thankjapan.com/japanfood/de/" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://www.thankjapan.com/japanfood/th/" />
+    <xhtml:link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/japanfood/pt-br/" />
+    <xhtml:link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/japanfood/es-mx/" />
+    <xhtml:link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/japanfood/en-in/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/japanfood/" />
+  </url>
+  <url><loc>https://www.thankjapan.com/japanfood/th/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.thankjapan.com/japanfood/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/japanfood/ja/" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/japanfood/vi/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/japanfood/fr/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.thankjapan.com/japanfood/it/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/japanfood/pt/" />
+    <xhtml:link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/japanfood/zh-hant/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/japanfood/ko/" />
+    <xhtml:link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/japanfood/es-es/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.thankjapan.com/japanfood/de/" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://www.thankjapan.com/japanfood/th/" />
+    <xhtml:link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/japanfood/pt-br/" />
+    <xhtml:link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/japanfood/es-mx/" />
+    <xhtml:link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/japanfood/en-in/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/japanfood/" />
+  </url>
+  <url><loc>https://www.thankjapan.com/japanfood/pt-br/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.thankjapan.com/japanfood/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/japanfood/ja/" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/japanfood/vi/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/japanfood/fr/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.thankjapan.com/japanfood/it/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/japanfood/pt/" />
+    <xhtml:link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/japanfood/zh-hant/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/japanfood/ko/" />
+    <xhtml:link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/japanfood/es-es/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.thankjapan.com/japanfood/de/" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://www.thankjapan.com/japanfood/th/" />
+    <xhtml:link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/japanfood/pt-br/" />
+    <xhtml:link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/japanfood/es-mx/" />
+    <xhtml:link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/japanfood/en-in/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/japanfood/" />
+  </url>
+  <url><loc>https://www.thankjapan.com/japanfood/es-mx/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.thankjapan.com/japanfood/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/japanfood/ja/" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/japanfood/vi/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/japanfood/fr/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.thankjapan.com/japanfood/it/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/japanfood/pt/" />
+    <xhtml:link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/japanfood/zh-hant/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/japanfood/ko/" />
+    <xhtml:link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/japanfood/es-es/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.thankjapan.com/japanfood/de/" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://www.thankjapan.com/japanfood/th/" />
+    <xhtml:link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/japanfood/pt-br/" />
+    <xhtml:link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/japanfood/es-mx/" />
+    <xhtml:link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/japanfood/en-in/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/japanfood/" />
+  </url>
+  <url><loc>https://www.thankjapan.com/japanfood/en-in/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.thankjapan.com/japanfood/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/japanfood/ja/" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/japanfood/vi/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/japanfood/fr/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.thankjapan.com/japanfood/it/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/japanfood/pt/" />
+    <xhtml:link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/japanfood/zh-hant/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/japanfood/ko/" />
+    <xhtml:link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/japanfood/es-es/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.thankjapan.com/japanfood/de/" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://www.thankjapan.com/japanfood/th/" />
+    <xhtml:link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/japanfood/pt-br/" />
+    <xhtml:link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/japanfood/es-mx/" />
+    <xhtml:link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/japanfood/en-in/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/japanfood/" />
+  </url>
+  
+  <url>
+    <loc>https://www.thankjapan.com/japanculture/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.thankjapan.com/japanculture/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/japanculture/ja/" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/japanculture/vi/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/japanculture/fr/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.thankjapan.com/japanculture/it/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/japanculture/pt/" />
+    <xhtml:link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/japanculture/zh-hant/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/japanculture/ko/" />
+    <xhtml:link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/japanculture/es-es/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.thankjapan.com/japanculture/de/" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://www.thankjapan.com/japanculture/th/" />
+    <xhtml:link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/japanculture/pt-br/" />
+    <xhtml:link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/japanculture/es-mx/" />
+    <xhtml:link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/japanculture/en-in/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/japanculture/" />
+  </url>
+  <url><loc>https://www.thankjapan.com/japanculture/ja/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.thankjapan.com/japanculture/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/japanculture/ja/" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/japanculture/vi/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/japanculture/fr/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.thankjapan.com/japanculture/it/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/japanculture/pt/" />
+    <xhtml:link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/japanculture/zh-hant/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/japanculture/ko/" />
+    <xhtml:link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/japanculture/es-es/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.thankjapan.com/japanculture/de/" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://www.thankjapan.com/japanculture/th/" />
+    <xhtml:link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/japanculture/pt-br/" />
+    <xhtml:link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/japanculture/es-mx/" />
+    <xhtml:link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/japanculture/en-in/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/japanculture/" />
+  </url>
+  <url><loc>https://www.thankjapan.com/japanculture/vi/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.thankjapan.com/japanculture/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/japanculture/ja/" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/japanculture/vi/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/japanculture/fr/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.thankjapan.com/japanculture/it/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/japanculture/pt/" />
+    <xhtml:link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/japanculture/zh-hant/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/japanculture/ko/" />
+    <xhtml:link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/japanculture/es-es/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.thankjapan.com/japanculture/de/" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://www.thankjapan.com/japanculture/th/" />
+    <xhtml:link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/japanculture/pt-br/" />
+    <xhtml:link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/japanculture/es-mx/" />
+    <xhtml:link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/japanculture/en-in/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/japanculture/" />
+  </url>
+  <url><loc>https://www.thankjapan.com/japanculture/fr/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.thankjapan.com/japanculture/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/japanculture/ja/" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/japanculture/vi/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/japanculture/fr/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.thankjapan.com/japanculture/it/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/japanculture/pt/" />
+    <xhtml:link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/japanculture/zh-hant/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/japanculture/ko/" />
+    <xhtml:link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/japanculture/es-es/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.thankjapan.com/japanculture/de/" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://www.thankjapan.com/japanculture/th/" />
+    <xhtml:link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/japanculture/pt-br/" />
+    <xhtml:link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/japanculture/es-mx/" />
+    <xhtml:link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/japanculture/en-in/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/japanculture/" />
+  </url>
+  <url><loc>https://www.thankjapan.com/japanculture/it/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.thankjapan.com/japanculture/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/japanculture/ja/" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/japanculture/vi/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/japanculture/fr/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.thankjapan.com/japanculture/it/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/japanculture/pt/" />
+    <xhtml:link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/japanculture/zh-hant/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/japanculture/ko/" />
+    <xhtml:link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/japanculture/es-es/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.thankjapan.com/japanculture/de/" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://www.thankjapan.com/japanculture/th/" />
+    <xhtml:link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/japanculture/pt-br/" />
+    <xhtml:link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/japanculture/es-mx/" />
+    <xhtml:link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/japanculture/en-in/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/japanculture/" />
+  </url>
+  <url><loc>https://www.thankjapan.com/japanculture/pt/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.thankjapan.com/japanculture/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/japanculture/ja/" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/japanculture/vi/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/japanculture/fr/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.thankjapan.com/japanculture/it/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/japanculture/pt/" />
+    <xhtml:link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/japanculture/zh-hant/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/japanculture/ko/" />
+    <xhtml:link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/japanculture/es-es/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.thankjapan.com/japanculture/de/" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://www.thankjapan.com/japanculture/th/" />
+    <xhtml:link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/japanculture/pt-br/" />
+    <xhtml:link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/japanculture/es-mx/" />
+    <xhtml:link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/japanculture/en-in/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/japanculture/" />
+  </url>
+  <url><loc>https://www.thankjapan.com/japanculture/zh-hant/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.thankjapan.com/japanculture/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/japanculture/ja/" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/japanculture/vi/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/japanculture/fr/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.thankjapan.com/japanculture/it/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/japanculture/pt/" />
+    <xhtml:link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/japanculture/zh-hant/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/japanculture/ko/" />
+    <xhtml:link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/japanculture/es-es/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.thankjapan.com/japanculture/de/" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://www.thankjapan.com/japanculture/th/" />
+    <xhtml:link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/japanculture/pt-br/" />
+    <xhtml:link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/japanculture/es-mx/" />
+    <xhtml:link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/japanculture/en-in/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/japanculture/" />
+  </url>
+  <url><loc>https://www.thankjapan.com/japanculture/ko/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.thankjapan.com/japanculture/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/japanculture/ja/" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/japanculture/vi/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/japanculture/fr/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.thankjapan.com/japanculture/it/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/japanculture/pt/" />
+    <xhtml:link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/japanculture/zh-hant/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/japanculture/ko/" />
+    <xhtml:link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/japanculture/es-es/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.thankjapan.com/japanculture/de/" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://www.thankjapan.com/japanculture/th/" />
+    <xhtml:link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/japanculture/pt-br/" />
+    <xhtml:link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/japanculture/es-mx/" />
+    <xhtml:link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/japanculture/en-in/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/japanculture/" />
+  </url>
+  <url><loc>https://www.thankjapan.com/japanculture/es-es/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.thankjapan.com/japanculture/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/japanculture/ja/" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/japanculture/vi/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/japanculture/fr/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.thankjapan.com/japanculture/it/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/japanculture/pt/" />
+    <xhtml:link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/japanculture/zh-hant/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/japanculture/ko/" />
+    <xhtml:link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/japanculture/es-es/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.thankjapan.com/japanculture/de/" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://www.thankjapan.com/japanculture/th/" />
+    <xhtml:link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/japanculture/pt-br/" />
+    <xhtml:link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/japanculture/es-mx/" />
+    <xhtml:link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/japanculture/en-in/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/japanculture/" />
+  </url>
+  <url><loc>https://www.thankjapan.com/japanculture/de/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.thankjapan.com/japanculture/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/japanculture/ja/" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/japanculture/vi/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/japanculture/fr/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.thankjapan.com/japanculture/it/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/japanculture/pt/" />
+    <xhtml:link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/japanculture/zh-hant/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/japanculture/ko/" />
+    <xhtml:link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/japanculture/es-es/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.thankjapan.com/japanculture/de/" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://www.thankjapan.com/japanculture/th/" />
+    <xhtml:link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/japanculture/pt-br/" />
+    <xhtml:link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/japanculture/es-mx/" />
+    <xhtml:link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/japanculture/en-in/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/japanculture/" />
+  </url>
+  <url><loc>https://www.thankjapan.com/japanculture/th/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.thankjapan.com/japanculture/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/japanculture/ja/" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/japanculture/vi/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/japanculture/fr/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.thankjapan.com/japanculture/it/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/japanculture/pt/" />
+    <xhtml:link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/japanculture/zh-hant/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/japanculture/ko/" />
+    <xhtml:link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/japanculture/es-es/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.thankjapan.com/japanculture/de/" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://www.thankjapan.com/japanculture/th/" />
+    <xhtml:link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/japanculture/pt-br/" />
+    <xhtml:link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/japanculture/es-mx/" />
+    <xhtml:link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/japanculture/en-in/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/japanculture/" />
+  </url>
+  <url><loc>https://www.thankjapan.com/japanculture/pt-br/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.thankjapan.com/japanculture/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/japanculture/ja/" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/japanculture/vi/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/japanculture/fr/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.thankjapan.com/japanculture/it/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/japanculture/pt/" />
+    <xhtml:link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/japanculture/zh-hant/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/japanculture/ko/" />
+    <xhtml:link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/japanculture/es-es/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.thankjapan.com/japanculture/de/" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://www.thankjapan.com/japanculture/th/" />
+    <xhtml:link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/japanculture/pt-br/" />
+    <xhtml:link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/japanculture/es-mx/" />
+    <xhtml:link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/japanculture/en-in/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/japanculture/" />
+  </url>
+  <url><loc>https://www.thankjapan.com/japanculture/es-mx/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.thankjapan.com/japanculture/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/japanculture/ja/" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/japanculture/vi/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/japanculture/fr/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.thankjapan.com/japanculture/it/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/japanculture/pt/" />
+    <xhtml:link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/japanculture/zh-hant/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/japanculture/ko/" />
+    <xhtml:link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/japanculture/es-es/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.thankjapan.com/japanculture/de/" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://www.thankjapan.com/japanculture/th/" />
+    <xhtml:link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/japanculture/pt-br/" />
+    <xhtml:link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/japanculture/es-mx/" />
+    <xhtml:link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/japanculture/en-in/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/japanculture/" />
+  </url>
+  <url><loc>https://www.thankjapan.com/japanculture/en-in/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.thankjapan.com/japanculture/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/japanculture/ja/" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/japanculture/vi/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/japanculture/fr/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.thankjapan.com/japanculture/it/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/japanculture/pt/" />
+    <xhtml:link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/japanculture/zh-hant/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/japanculture/ko/" />
+    <xhtml:link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/japanculture/es-es/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.thankjapan.com/japanculture/de/" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://www.thankjapan.com/japanculture/th/" />
+    <xhtml:link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/japanculture/pt-br/" />
+    <xhtml:link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/japanculture/es-mx/" />
+    <xhtml:link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/japanculture/en-in/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/japanculture/" />
+  </url>
+
+  <!-- 固定ページ (利用規約, 会社情報, 法的通知, プライバシーポリシー, 多言語対応) -->
+  <url>
+    <loc>https://www.thankjapan.com/riyoukiyaku/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.thankjapan.com/riyoukiyaku/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/riyoukiyaku/ja/" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/riyoukiyaku/vi/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/riyoukiyaku/fr/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.thankjapan.com/riyoukiyaku/it/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/riyoukiyaku/pt/" />
+    <xhtml:link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/riyoukiyaku/zh-hant/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/riyoukiyaku/ko/" />
+    <xhtml:link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/riyoukiyaku/es-es/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.thankjapan.com/riyoukiyaku/de/" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://www.thankjapan.com/riyoukiyaku/th/" />
+    <xhtml:link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/riyoukiyaku/pt-br/" />
+    <xhtml:link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/riyoukiyaku/es-mx/" />
+    <xhtml:link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/riyoukiyaku/en-in/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/riyoukiyaku/" />
+  </url>
+  <url><loc>https://www.thankjapan.com/riyoukiyaku/ja/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.thankjapan.com/riyoukiyaku/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/riyoukiyaku/ja/" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/riyoukiyaku/vi/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/riyoukiyaku/fr/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.thankjapan.com/riyoukiyaku/it/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/riyoukiyaku/pt/" />
+    <xhtml:link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/riyoukiyaku/zh-hant/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/riyoukiyaku/ko/" />
+    <xhtml:link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/riyoukiyaku/es-es/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.thankjapan.com/riyoukiyaku/de/" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://www.thankjapan.com/riyoukiyaku/th/" />
+    <xhtml:link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/riyoukiyaku/pt-br/" />
+    <xhtml:link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/riyoukiyaku/es-mx/" />
+    <xhtml:link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/riyoukiyaku/en-in/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/riyoukiyaku/" />
+  </url>
+  <url><loc>https://www.thankjapan.com/riyoukiyaku/vi/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.thankjapan.com/riyoukiyaku/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/riyoukiyaku/ja/" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/riyoukiyaku/vi/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/riyoukiyaku/fr/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.thankjapan.com/riyoukiyaku/it/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/riyoukiyaku/pt/" />
+    <xhtml:link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/riyoukiyaku/zh-hant/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/riyoukiyaku/ko/" />
+    <xhtml:link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/riyoukiyaku/es-es/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.thankjapan.com/riyoukiyaku/de/" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://www.thankjapan.com/riyoukiyaku/th/" />
+    <xhtml:link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/riyoukiyaku/pt-br/" />
+    <xhtml:link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/riyoukiyaku/es-mx/" />
+    <xhtml:link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/riyoukiyaku/en-in/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/riyoukiyaku/" />
+  </url>
+  <url><loc>https://www.thankjapan.com/riyoukiyaku/fr/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.thankjapan.com/riyoukiyaku/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/riyoukiyaku/ja/" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/riyoukiyaku/vi/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/riyoukiyaku/fr/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.thankjapan.com/riyoukiyaku/it/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/riyoukiyaku/pt/" />
+    <xhtml:link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/riyoukiyaku/zh-hant/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/riyoukiyaku/ko/" />
+    <xhtml:link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/riyoukiyaku/es-es/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.thankjapan.com/riyoukiyaku/de/" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://www.thankjapan.com/riyoukiyaku/th/" />
+    <xhtml:link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/riyoukiyaku/pt-br/" />
+    <xhtml:link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/riyoukiyaku/es-mx/" />
+    <xhtml:link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/riyoukiyaku/en-in/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/riyoukiyaku/" />
+  </url>
+  <url><loc>https://www.thankjapan.com/riyoukiyaku/it/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.thankjapan.com/riyoukiyaku/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/riyoukiyaku/ja/" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/riyoukiyaku/vi/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/riyoukiyaku/fr/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.thankjapan.com/riyoukiyaku/it/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/riyoukiyaku/pt/" />
+    <xhtml:link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/riyoukiyaku/zh-hant/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/riyoukiyaku/ko/" />
+    <xhtml:link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/riyoukiyaku/es-es/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.thankjapan.com/riyoukiyaku/de/" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://www.thankjapan.com/riyoukiyaku/th/" />
+    <xhtml:link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/riyoukiyaku/pt-br/" />
+    <xhtml:link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/riyoukiyaku/es-mx/" />
+    <xhtml:link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/riyoukiyaku/en-in/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/riyoukiyaku/" />
+  </url>
+  <url><loc>https://www.thankjapan.com/riyoukiyaku/pt/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.thankjapan.com/riyoukiyaku/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/riyoukiyaku/ja/" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/riyoukiyaku/vi/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/riyoukiyaku/fr/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.thankjapan.com/riyoukiyaku/it/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/riyoukiyaku/pt/" />
+    <xhtml:link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/riyoukiyaku/zh-hant/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/riyoukiyaku/ko/" />
+    <xhtml:link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/riyoukiyaku/es-es/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.thankjapan.com/riyoukiyaku/de/" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://www.thankjapan.com/riyoukiyaku/th/" />
+    <xhtml:link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/riyoukiyaku/pt-br/" />
+    <xhtml:link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/riyoukiyaku/es-mx/" />
+    <xhtml:link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/riyoukiyaku/en-in/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/riyoukiyaku/" />
+  </url>
+  <url><loc>https://www.thankjapan.com/riyoukiyaku/zh-hant/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.thankjapan.com/riyoukiyaku/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/riyoukiyaku/ja/" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/riyoukiyaku/vi/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/riyoukiyaku/fr/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.thankjapan.com/riyoukiyaku/it/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/riyoukiyaku/pt/" />
+    <xhtml:link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/riyoukiyaku/zh-hant/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/riyoukiyaku/ko/" />
+    <xhtml:link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/riyoukiyaku/es-es/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.thankjapan.com/riyoukiyaku/de/" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://www.thankjapan.com/riyoukiyaku/th/" />
+    <xhtml:link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/riyoukiyaku/pt-br/" />
+    <xhtml:link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/riyoukiyaku/es-mx/" />
+    <xhtml:link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/riyoukiyaku/en-in/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/riyoukiyaku/" />
+  </url>
+  <url><loc>https://www.thankjapan.com/riyoukiyaku/ko/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.thankjapan.com/riyoukiyaku/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/riyoukiyaku/ja/" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/riyoukiyaku/vi/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/riyoukiyaku/fr/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.thankjapan.com/riyoukiyaku/it/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/riyoukiyaku/pt/" />
+    <xhtml:link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/riyoukiyaku/zh-hant/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/riyoukiyaku/ko/" />
+    <xhtml:link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/riyoukiyaku/es-es/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.thankjapan.com/riyoukiyaku/de/" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://www.thankjapan.com/riyoukiyaku/th/" />
+    <xhtml:link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/riyoukiyaku/pt-br/" />
+    <xhtml:link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/riyoukiyaku/es-mx/" />
+    <xhtml:link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/riyoukiyaku/en-in/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/riyoukiyaku/" />
+  </url>
+  <url><loc>https://www.thankjapan.com/riyoukiyaku/es-es/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.thankjapan.com/riyoukiyaku/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/riyoukiyaku/ja/" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/riyoukiyaku/vi/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/riyoukiyaku/fr/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.thankjapan.com/riyoukiyaku/it/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/riyoukiyaku/pt/" />
+    <xhtml:link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/riyoukiyaku/zh-hant/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/riyoukiyaku/ko/" />
+    <xhtml:link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/riyoukiyaku/es-es/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.thankjapan.com/riyoukiyaku/de/" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://www.thankjapan.com/riyoukiyaku/th/" />
+    <xhtml:link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/riyoukiyaku/pt-br/" />
+    <xhtml:link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/riyoukiyaku/es-mx/" />
+    <xhtml:link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/riyoukiyaku/en-in/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/riyoukiyaku/" />
+  </url>
+  <url><loc>https://www.thankjapan.com/riyoukiyaku/de/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.thankjapan.com/riyoukiyaku/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/riyoukiyaku/ja/" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/riyoukiyaku/vi/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/riyoukiyaku/fr/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.thankjapan.com/riyoukiyaku/it/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/riyoukiyaku/pt/" />
+    <xhtml:link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/riyoukiyaku/zh-hant/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/riyoukiyaku/ko/" />
+    <xhtml:link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/riyoukiyaku/es-es/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.thankjapan.com/riyoukiyaku/de/" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://www.thankjapan.com/riyoukiyaku/th/" />
+    <xhtml:link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/riyoukiyaku/pt-br/" />
+    <xhtml:link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/riyoukiyaku/es-mx/" />
+    <xhtml:link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/riyoukiyaku/en-in/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/riyoukiyaku/" />
+  </url>
+  <url><loc>https://www.thankjapan.com/riyoukiyaku/th/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.thankjapan.com/riyoukiyaku/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/riyoukiyaku/ja/" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/riyoukiyaku/vi/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/riyoukiyaku/fr/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.thankjapan.com/riyoukiyaku/it/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/riyoukiyaku/pt/" />
+    <xhtml:link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/riyoukiyaku/zh-hant/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/riyoukiyaku/ko/" />
+    <xhtml:link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/riyoukiyaku/es-es/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.thankjapan.com/riyoukiyaku/de/" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://www.thankjapan.com/riyoukiyaku/th/" />
+    <xhtml:link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/riyoukiyaku/pt-br/" />
+    <xhtml:link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/riyoukiyaku/es-mx/" />
+    <xhtml:link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/riyoukiyaku/en-in/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/riyoukiyaku/" />
+  </url>
+  <url><loc>https://www.thankjapan.com/riyoukiyaku/pt-br/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.thankjapan.com/riyoukiyaku/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/riyoukiyaku/ja/" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/riyoukiyaku/vi/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/riyoukiyaku/fr/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.thankjapan.com/riyoukiyaku/it/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/riyoukiyaku/pt/" />
+    <xhtml:link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/riyoukiyaku/zh-hant/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/riyoukiyaku/ko/" />
+    <xhtml:link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/riyoukiyaku/es-es/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.thankjapan.com/riyoukiyaku/de/" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://www.thankjapan.com/riyoukiyaku/th/" />
+    <xhtml:link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/riyoukiyaku/pt-br/" />
+    <xhtml:link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/riyoukiyaku/es-mx/" />
+    <xhtml:link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/riyoukiyaku/en-in/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/riyoukiyaku/" />
+  </url>
+  <url><loc>https://www.thankjapan.com/riyoukiyaku/es-mx/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.thankjapan.com/riyoukiyaku/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/riyoukiyaku/ja/" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/riyoukiyaku/vi/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/riyoukiyaku/fr/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.thankjapan.com/riyoukiyaku/it/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/riyoukiyaku/pt/" />
+    <xhtml:link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/riyoukiyaku/zh-hant/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/riyoukiyaku/ko/" />
+    <xhtml:link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/riyoukiyaku/es-es/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.thankjapan.com/riyoukiyaku/de/" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://www.thankjapan.com/riyoukiyaku/th/" />
+    <xhtml:link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/riyoukiyaku/pt-br/" />
+    <xhtml:link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/riyoukiyaku/es-mx/" />
+    <xhtml:link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/riyoukiyaku/en-in/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/riyoukiyaku/" />
+  </url>
+  <url><loc>https://www.thankjapan.com/riyoukiyaku/en-in/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.thankjapan.com/riyoukiyaku/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/riyoukiyaku/ja/" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/riyoukiyaku/vi/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/riyoukiyaku/fr/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.thankjapan.com/riyoukiyaku/it/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/riyoukiyaku/pt/" />
+    <xhtml:link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/riyoukiyaku/zh-hant/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/riyoukiyaku/ko/" />
+    <xhtml:link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/riyoukiyaku/es-es/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.thankjapan.com/riyoukiyaku/de/" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://www.thankjapan.com/riyoukiyaku/th/" />
+    <xhtml:link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/riyoukiyaku/pt-br/" />
+    <xhtml:link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/riyoukiyaku/es-mx/" />
+    <xhtml:link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/riyoukiyaku/en-in/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/riyoukiyaku/" />
+  </url>
+
+  <!-- infomationページ (デフォルト/英語) -->
+  <url>
+    <loc>https://www.thankjapan.com/infomation/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.thankjapan.com/infomation/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/infomation/ja/" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/infomation/vi/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/infomation/fr/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.thankjapan.com/infomation/it/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/infomation/pt/" />
+    <xhtml:link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/infomation/zh-hant/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/infomation/ko/" />
+    <xhtml:link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/infomation/es-es/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.thankjapan.com/infomation/de/" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://www.thankjapan.com/infomation/th/" />
+    <xhtml:link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/infomation/pt-br/" />
+    <xhtml:link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/infomation/es-mx/" />
+    <xhtml:link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/infomation/en-in/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/infomation/" />
+  </url>
+
+  <!-- infomationページ (日本語) -->
+  <url>
+    <loc>https://www.thankjapan.com/infomation/ja/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.thankjapan.com/infomation/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/infomation/ja/" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/infomation/vi/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/infomation/fr/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.thankjapan.com/infomation/it/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/infomation/pt/" />
+    <xhtml:link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/infomation/zh-hant/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/infomation/ko/" />
+    <xhtml:link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/infomation/es-es/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.thankjapan.com/infomation/de/" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://www.thankjapan.com/infomation/th/" />
+    <xhtml:link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/infomation/pt-br/" />
+    <xhtml:link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/infomation/es-mx/" />
+    <xhtml:link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/infomation/en-in/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/infomation/" />
+  </url>
+
+  <!-- infomationページ (ドイツ語) -->
+  <url>
+    <loc>https://www.thankjapan.com/infomation/de/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.thankjapan.com/infomation/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/infomation/ja/" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/infomation/vi/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/infomation/fr/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.thankjapan.com/infomation/it/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/infomation/pt/" />
+    <xhtml:link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/infomation/zh-hant/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/infomation/ko/" />
+    <xhtml:link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/infomation/es-es/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.thankjapan.com/infomation/de/" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://www.thankjapan.com/infomation/th/" />
+    <xhtml:link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/infomation/pt-br/" />
+    <xhtml:link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/infomation/es-mx/" />
+    <xhtml:link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/infomation/en-in/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/infomation/" />
+  </url>
+
+  <!-- infomationページ (インド英語) -->
+  <url>
+    <loc>https://www.thankjapan.com/infomation/en-in/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.thankjapan.com/infomation/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/infomation/ja/" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/infomation/vi/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/infomation/fr/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.thankjapan.com/infomation/it/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/infomation/pt/" />
+    <xhtml:link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/infomation/zh-hant/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/infomation/ko/" />
+    <xhtml:link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/infomation/es-es/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.thankjapan.com/infomation/de/" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://www.thankjapan.com/infomation/th/" />
+    <xhtml:link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/infomation/pt-br/" />
+    <xhtml:link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/infomation/es-mx/" />
+    <xhtml:link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/infomation/en-in/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/infomation/" />
+  </url>
+
+  <!-- infomationページ (スペイン語 - スペイン) -->
+  <url>
+    <loc>https://www.thankjapan.com/infomation/es-es/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.thankjapan.com/infomation/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/infomation/ja/" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/infomation/vi/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/infomation/fr/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.thankjapan.com/infomation/it/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/infomation/pt/" />
+    <xhtml:link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/infomation/zh-hant/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/infomation/ko/" />
+    <xhtml:link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/infomation/es-es/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.thankjapan.com/infomation/de/" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://www.thankjapan.com/infomation/th/" />
+    <xhtml:link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/infomation/pt-br/" />
+    <xhtml:link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/infomation/es-mx/" />
+    <xhtml:link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/infomation/en-in/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/infomation/" />
+  </url>
+
+  <!-- infomationページ (スペイン語 - メキシコ) -->
+  <url>
+    <loc>https://www.thankjapan.com/infomation/es-mx/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.thankjapan.com/infomation/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/infomation/ja/" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/infomation/vi/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/infomation/fr/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.thankjapan.com/infomation/it/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/infomation/pt/" />
+    <xhtml:link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/infomation/zh-hant/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/infomation/ko/" />
+    <xhtml:link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/infomation/es-es/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.thankjapan.com/infomation/de/" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://www.thankjapan.com/infomation/th/" />
+    <xhtml:link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/infomation/pt-br/" />
+    <xhtml:link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/infomation/es-mx/" />
+    <xhtml:link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/infomation/en-in/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/infomation/" />
+  </url>
+
+  <!-- infomationページ (フランス語) -->
+  <url>
+    <loc>https://www.thankjapan.com/infomation/fr/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.thankjapan.com/infomation/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/infomation/ja/" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/infomation/vi/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/infomation/fr/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.thankjapan.com/infomation/it/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/infomation/pt/" />
+    <xhtml:link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/infomation/zh-hant/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/infomation/ko/" />
+    <xhtml:link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/infomation/es-es/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.thankjapan.com/infomation/de/" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://www.thankjapan.com/infomation/th/" />
+    <xhtml:link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/infomation/pt-br/" />
+    <xhtml:link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/infomation/es-mx/" />
+    <xhtml:link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/infomation/en-in/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/infomation/" />
+  </url>
+
+  <!-- infomationページ (イタリア語) -->
+  <url>
+    <loc>https://www.thankjapan.com/infomation/it/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.thankjapan.com/infomation/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/infomation/ja/" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/infomation/vi/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/infomation/fr/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.thankjapan.com/infomation/it/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/infomation/pt/" />
+    <xhtml:link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/infomation/zh-hant/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/infomation/ko/" />
+    <xhtml:link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/infomation/es-es/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.thankjapan.com/infomation/de/" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://www.thankjapan.com/infomation/th/" />
+    <xhtml:link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/infomation/pt-br/" />
+    <xhtml:link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/infomation/es-mx/" />
+    <xhtml:link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/infomation/en-in/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/infomation/" />
+  </url>
+
+  <!-- infomationページ (ポルトガル語) -->
+  <url>
+    <loc>https://www.thankjapan.com/infomation/pt/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.thankjapan.com/infomation/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/infomation/ja/" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/infomation/vi/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/infomation/fr/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.thankjapan.com/infomation/it/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/infomation/pt/" />
+    <xhtml:link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/infomation/zh-hant/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/infomation/ko/" />
+    <xhtml:link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/infomation/es-es/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.thankjapan.com/infomation/de/" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://www.thankjapan.com/infomation/th/" />
+    <xhtml:link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/infomation/pt-br/" />
+    <xhtml:link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/infomation/es-mx/" />
+    <xhtml:link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/infomation/en-in/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/infomation/" />
+  </url>
+
+  <!-- infomationページ (ポルトガル語 - ブラジル) -->
+  <url>
+    <loc>https://www.thankjapan.com/infomation/pt-br/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.thankjapan.com/infomation/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/infomation/ja/" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/infomation/vi/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/infomation/fr/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.thankjapan.com/infomation/it/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/infomation/pt/" />
+    <xhtml:link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/infomation/zh-hant/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/infomation/ko/" />
+    <xhtml:link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/infomation/es-es/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.thankjapan.com/infomation/de/" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://www.thankjapan.com/infomation/th/" />
+    <xhtml:link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/infomation/pt-br/" />
+    <xhtml:link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/infomation/es-mx/" />
+    <xhtml:link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/infomation/en-in/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/infomation/" />
+  </url>
+
+  <!-- infomationページ (タイ語) -->
+  <url>
+    <loc>https://www.thankjapan.com/infomation/th/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.thankjapan.com/infomation/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/infomation/ja/" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/infomation/vi/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/infomation/fr/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.thankjapan.com/infomation/it/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/infomation/pt/" />
+    <xhtml:link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/infomation/zh-hant/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/infomation/ko/" />
+    <xhtml:link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/infomation/es-es/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.thankjapan.com/infomation/de/" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://www.thankjapan.com/infomation/th/" />
+    <xhtml:link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/infomation/pt-br/" />
+    <xhtml:link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/infomation/es-mx/" />
+    <xhtml:link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/infomation/en-in/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/infomation/" />
+  </url>
+
+  <!-- infomationページ (ベトナム語) -->
+  <url>
+    <loc>https://www.thankjapan.com/infomation/vi/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.thankjapan.com/infomation/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/infomation/ja/" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/infomation/vi/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/infomation/fr/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.thankjapan.com/infomation/it/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/infomation/pt/" />
+    <xhtml:link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/infomation/zh-hant/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/infomation/ko/" />
+    <xhtml:link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/infomation/es-es/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.thankjapan.com/infomation/de/" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://www.thankjapan.com/infomation/th/" />
+    <xhtml:link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/infomation/pt-br/" />
+    <xhtml:link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/infomation/es-mx/" />
+    <xhtml:link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/infomation/en-in/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/infomation/" />
+  </url>
+
+  <!-- infomationページ (中国語 - 繁体字) -->
+  <url>
+    <loc>https://www.thankjapan.com/infomation/zh-hant/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.thankjapan.com/infomation/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/infomation/ja/" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/infomation/vi/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/infomation/fr/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.thankjapan.com/infomation/it/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/infomation/pt/" />
+    <xhtml:link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/infomation/zh-hant/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/infomation/ko/" />
+    <xhtml:link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/infomation/es-es/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.thankjapan.com/infomation/de/" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://www.thankjapan.com/infomation/th/" />
+    <xhtml:link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/infomation/pt-br/" />
+    <xhtml:link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/infomation/es-mx/" />
+    <xhtml:link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/infomation/en-in/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/infomation/" />
+  </url>
+
+  <!-- infomationページ (韓国語) -->
+  <url>
+    <loc>https://www.thankjapan.com/infomation/ko/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.thankjapan.com/infomation/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/infomation/ja/" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/infomation/vi/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/infomation/fr/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.thankjapan.com/infomation/it/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/infomation/pt/" />
+    <xhtml:link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/infomation/zh-hant/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/infomation/ko/" />
+    <xhtml:link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/infomation/es-es/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.thankjapan.com/infomation/de/" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://www.thankjapan.com/infomation/th/" />
+    <xhtml:link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/infomation/pt-br/" />
+    <xhtml:link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/infomation/es-mx/" />
+    <xhtml:link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/infomation/en-in/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/infomation/" />
+  </url>
+
+
+  <!-- legal-noticeページ (デフォルト/英語) -->
+  <url>
+    <loc>https://www.thankjapan.com/legal-notice/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.thankjapan.com/legal-notice/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/legal-notice/ja/" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/legal-notice/vi/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/legal-notice/fr/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.thankjapan.com/legal-notice/it/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/legal-notice/pt/" />
+    <xhtml:link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/legal-notice/zh-hant/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/legal-notice/ko/" />
+    <xhtml:link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/legal-notice/es-es/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.thankjapan.com/legal-notice/de/" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://www.thankjapan.com/legal-notice/th/" />
+    <xhtml:link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/legal-notice/pt-br/" />
+    <xhtml:link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/legal-notice/es-mx/" />
+    <xhtml:link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/legal-notice/en-in/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/legal-notice/" />
+  </url>
+
+  <!-- legal-noticeページ (ドイツ語) -->
+  <url>
+    <loc>https://www.thankjapan.com/legal-notice/de/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.thankjapan.com/legal-notice/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/legal-notice/ja/" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/legal-notice/vi/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/legal-notice/fr/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.thankjapan.com/legal-notice/it/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/legal-notice/pt/" />
+    <xhtml:link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/legal-notice/zh-hant/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/legal-notice/ko/" />
+    <xhtml:link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/legal-notice/es-es/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.thankjapan.com/legal-notice/de/" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://www.thankjapan.com/legal-notice/th/" />
+    <xhtml:link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/legal-notice/pt-br/" />
+    <xhtml:link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/legal-notice/es-mx/" />
+    <xhtml:link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/legal-notice/en-in/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/legal-notice/" />
+  </url>
+
+  <!-- legal-noticeページ (インド英語) -->
+  <url>
+    <loc>https://www.thankjapan.com/legal-notice/en-in/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.thankjapan.com/legal-notice/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/legal-notice/ja/" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/legal-notice/vi/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/legal-notice/fr/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.thankjapan.com/legal-notice/it/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/legal-notice/pt/" />
+    <xhtml:link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/legal-notice/zh-hant/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/legal-notice/ko/" />
+    <xhtml:link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/legal-notice/es-es/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.thankjapan.com/legal-notice/de/" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://www.thankjapan.com/legal-notice/th/" />
+    <xhtml:link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/legal-notice/pt-br/" />
+    <xhtml:link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/legal-notice/es-mx/" />
+    <xhtml:link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/legal-notice/en-in/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/legal-notice/" />
+  </url>
+
+  <!-- legal-noticeページ (スペイン語 - スペイン) -->
+  <url>
+    <loc>https://www.thankjapan.com/legal-notice/es-es/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.thankjapan.com/legal-notice/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/legal-notice/ja/" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/legal-notice/vi/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/legal-notice/fr/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.thankjapan.com/legal-notice/it/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/legal-notice/pt/" />
+    <xhtml:link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/legal-notice/zh-hant/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/legal-notice/ko/" />
+    <xhtml:link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/legal-notice/es-es/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.thankjapan.com/legal-notice/de/" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://www.thankjapan.com/legal-notice/th/" />
+    <xhtml:link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/legal-notice/pt-br/" />
+    <xhtml:link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/legal-notice/es-mx/" />
+    <xhtml:link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/legal-notice/en-in/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/legal-notice/" />
+  </url>
+
+  <!-- legal-noticeページ (スペイン語 - メキシコ) -->
+  <url>
+    <loc>https://www.thankjapan.com/legal-notice/es-mx/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.thankjapan.com/legal-notice/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/legal-notice/ja/" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/legal-notice/vi/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/legal-notice/fr/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.thankjapan.com/legal-notice/it/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/legal-notice/pt/" />
+    <xhtml:link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/legal-notice/zh-hant/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/legal-notice/ko/" />
+    <xhtml:link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/legal-notice/es-es/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.thankjapan.com/legal-notice/de/" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://www.thankjapan.com/legal-notice/th/" />
+    <xhtml:link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/legal-notice/pt-br/" />
+    <xhtml:link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/legal-notice/es-mx/" />
+    <xhtml:link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/legal-notice/en-in/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/legal-notice/" />
+  </url>
+
+  <!-- legal-noticeページ (フランス語) -->
+  <url>
+    <loc>https://www.thankjapan.com/legal-notice/fr/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.thankjapan.com/legal-notice/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/legal-notice/ja/" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/legal-notice/vi/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/legal-notice/fr/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.thankjapan.com/legal-notice/it/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/legal-notice/pt/" />
+    <xhtml:link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/legal-notice/zh-hant/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/legal-notice/ko/" />
+    <xhtml:link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/legal-notice/es-es/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.thankjapan.com/legal-notice/de/" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://www.thankjapan.com/legal-notice/th/" />
+    <xhtml:link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/legal-notice/pt-br/" />
+    <xhtml:link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/legal-notice/es-mx/" />
+    <xhtml:link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/legal-notice/en-in/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/legal-notice/" />
+  </url>
+
+  <!-- legal-noticeページ (イタリア語) -->
+  <url>
+    <loc>https://www.thankjapan.com/legal-notice/it/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.thankjapan.com/legal-notice/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/legal-notice/ja/" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/legal-notice/vi/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/legal-notice/fr/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.thankjapan.com/legal-notice/it/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/legal-notice/pt/" />
+    <xhtml:link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/legal-notice/zh-hant/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/legal-notice/ko/" />
+    <xhtml:link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/legal-notice/es-es/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.thankjapan.com/legal-notice/de/" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://www.thankjapan.com/legal-notice/th/" />
+    <xhtml:link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/legal-notice/pt-br/" />
+    <xhtml:link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/legal-notice/es-mx/" />
+    <xhtml:link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/legal-notice/en-in/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/legal-notice/" />
+  </url>
+
+  <!-- legal-noticeページ (日本語) -->
+  <url>
+    <loc>https://www.thankjapan.com/legal-notice/ja/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.thankjapan.com/legal-notice/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/legal-notice/ja/" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/legal-notice/vi/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/legal-notice/fr/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.thankjapan.com/legal-notice/it/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/legal-notice/pt/" />
+    <xhtml:link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/legal-notice/zh-hant/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/legal-notice/ko/" />
+    <xhtml:link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/legal-notice/es-es/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.thankjapan.com/legal-notice/de/" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://www.thankjapan.com/legal-notice/th/" />
+    <xhtml:link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/legal-notice/pt-br/" />
+    <xhtml:link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/legal-notice/es-mx/" />
+    <xhtml:link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/legal-notice/en-in/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/legal-notice/" />
+  </url>
+
+  <!-- legal-noticeページ (韓国語) -->
+  <url>
+    <loc>https://www.thankjapan.com/legal-notice/ko/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.thankjapan.com/legal-notice/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/legal-notice/ja/" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/legal-notice/vi/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/legal-notice/fr/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.thankjapan.com/legal-notice/it/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/legal-notice/pt/" />
+    <xhtml:link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/legal-notice/zh-hant/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/legal-notice/ko/" />
+    <xhtml:link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/legal-notice/es-es/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.thankjapan.com/legal-notice/de/" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://www.thankjapan.com/legal-notice/th/" />
+    <xhtml:link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/legal-notice/pt-br/" />
+    <xhtml:link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/legal-notice/es-mx/" />
+    <xhtml:link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/legal-notice/en-in/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/legal-notice/" />
+  </url>
+
+  <!-- legal-noticeページ (ポルトガル語 - ブラジル) -->
+  <url>
+    <loc>https://www.thankjapan.com/legal-notice/pt-br/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.thankjapan.com/legal-notice/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/legal-notice/ja/" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/legal-notice/vi/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/legal-notice/fr/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.thankjapan.com/legal-notice/it/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/legal-notice/pt/" />
+    <xhtml:link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/legal-notice/zh-hant/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/legal-notice/ko/" />
+    <xhtml:link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/legal-notice/es-es/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.thankjapan.com/legal-notice/de/" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://www.thankjapan.com/legal-notice/th/" />
+    <xhtml:link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/legal-notice/pt-br/" />
+    <xhtml:link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/legal-notice/es-mx/" />
+    <xhtml:link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/legal-notice/en-in/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/legal-notice/" />
+  </url>
+
+  <!-- legal-noticeページ (ポルトガル語) -->
+  <url>
+    <loc>https://www.thankjapan.com/legal-notice/pt/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.thankjapan.com/legal-notice/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/legal-notice/ja/" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/legal-notice/vi/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/legal-notice/fr/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.thankjapan.com/legal-notice/it/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/legal-notice/pt/" />
+    <xhtml:link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/legal-notice/zh-hant/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/legal-notice/ko/" />
+    <xhtml:link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/legal-notice/es-es/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.thankjapan.com/legal-notice/de/" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://www.thankjapan.com/legal-notice/th/" />
+    <xhtml:link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/legal-notice/pt-br/" />
+    <xhtml:link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/legal-notice/es-mx/" />
+    <xhtml:link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/legal-notice/en-in/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/legal-notice/" />
+  </url>
+
+  <!-- legal-noticeページ (タイ語) -->
+  <url>
+    <loc>https://www.thankjapan.com/legal-notice/th/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.thankjapan.com/legal-notice/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/legal-notice/ja/" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/legal-notice/vi/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/legal-notice/fr/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.thankjapan.com/legal-notice/it/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/legal-notice/pt/" />
+    <xhtml:link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/legal-notice/zh-hant/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/legal-notice/ko/" />
+    <xhtml:link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/legal-notice/es-es/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.thankjapan.com/legal-notice/de/" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://www.thankjapan.com/legal-notice/th/" />
+    <xhtml:link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/legal-notice/pt-br/" />
+    <xhtml:link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/legal-notice/es-mx/" />
+    <xhtml:link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/legal-notice/en-in/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/legal-notice/" />
+  </url>
+
+  <!-- legal-noticeページ (ベトナム語) -->
+  <url>
+    <loc>https://www.thankjapan.com/legal-notice/vi/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.thankjapan.com/legal-notice/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/legal-notice/ja/" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/legal-notice/vi/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/legal-notice/fr/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.thankjapan.com/legal-notice/it/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/legal-notice/pt/" />
+    <xhtml:link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/legal-notice/zh-hant/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/legal-notice/ko/" />
+    <xhtml:link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/legal-notice/es-es/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.thankjapan.com/legal-notice/de/" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://www.thankjapan.com/legal-notice/th/" />
+    <xhtml:link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/legal-notice/pt-br/" />
+    <xhtml:link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/legal-notice/es-mx/" />
+    <xhtml:link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/legal-notice/en-in/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/legal-notice/" />
+  </url>
+
+  <!-- legal-noticeページ (中国語 - 繁体字) -->
+  <url>
+    <loc>https://www.thankjapan.com/legal-notice/zh-hant/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.thankjapan.com/legal-notice/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/legal-notice/ja/" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/legal-notice/vi/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/legal-notice/fr/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.thankjapan.com/legal-notice/it/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/legal-notice/pt/" />
+    <xhtml:link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/legal-notice/zh-hant/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/legal-notice/ko/" />
+    <xhtml:link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/legal-notice/es-es/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.thankjapan.com/legal-notice/de/" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://www.thankjapan.com/legal-notice/th/" />
+    <xhtml:link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/legal-notice/pt-br/" />
+    <xhtml:link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/legal-notice/es-mx/" />
+    <xhtml:link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/legal-notice/en-in/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/legal-notice/" />
+  </url>
+
+
+  <!-- privacy-policyページ (デフォルト/英語) -->
+  <url>
+    <loc>https://www.thankjapan.com/privacy-policy/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.thankjapan.com/privacy-policy/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/privacy-policy/ja/" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/privacy-policy/vi/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/privacy-policy/fr/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.thankjapan.com/privacy-policy/it/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/privacy-policy/pt/" />
+    <xhtml:link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/privacy-policy/zh-hant/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/privacy-policy/ko/" />
+    <xhtml:link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/privacy-policy/es-es/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.thankjapan.com/privacy-policy/de/" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://www.thankjapan.com/privacy-policy/th/" />
+    <xhtml:link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/privacy-policy/pt-br/" />
+    <xhtml:link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/privacy-policy/es-mx/" />
+    <xhtml:link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/privacy-policy/en-in/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/privacy-policy/" />
+  </url>
+
+  <!-- privacy-policyページ (ドイツ語) -->
+  <url>
+    <loc>https://www.thankjapan.com/privacy-policy/de/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.thankjapan.com/privacy-policy/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/privacy-policy/ja/" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/privacy-policy/vi/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/privacy-policy/fr/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.thankjapan.com/privacy-policy/it/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/privacy-policy/pt/" />
+    <xhtml:link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/privacy-policy/zh-hant/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/privacy-policy/ko/" />
+    <xhtml:link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/privacy-policy/es-es/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.thankjapan.com/privacy-policy/de/" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://www.thankjapan.com/privacy-policy/th/" />
+    <xhtml:link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/privacy-policy/pt-br/" />
+    <xhtml:link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/privacy-policy/es-mx/" />
+    <xhtml:link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/privacy-policy/en-in/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/privacy-policy/" />
+  </url>
+
+  <!-- privacy-policyページ (インド英語) -->
+  <url>
+    <loc>https://www.thankjapan.com/privacy-policy/en-in/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.thankjapan.com/privacy-policy/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/privacy-policy/ja/" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/privacy-policy/vi/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/privacy-policy/fr/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.thankjapan.com/privacy-policy/it/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/privacy-policy/pt/" />
+    <xhtml:link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/privacy-policy/zh-hant/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/privacy-policy/ko/" />
+    <xhtml:link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/privacy-policy/es-es/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.thankjapan.com/privacy-policy/de/" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://www.thankjapan.com/privacy-policy/th/" />
+    <xhtml:link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/privacy-policy/pt-br/" />
+    <xhtml:link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/privacy-policy/es-mx/" />
+    <xhtml:link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/privacy-policy/en-in/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/privacy-policy/" />
+  </url>
+
+  <!-- privacy-policyページ (スペイン語 - スペイン) -->
+  <url>
+    <loc>https://www.thankjapan.com/privacy-policy/es-es/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.thankjapan.com/privacy-policy/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/privacy-policy/ja/" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/privacy-policy/vi/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/privacy-policy/fr/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.thankjapan.com/privacy-policy/it/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/privacy-policy/pt/" />
+    <xhtml:link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/privacy-policy/zh-hant/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/privacy-policy/ko/" />
+    <xhtml:link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/privacy-policy/es-es/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.thankjapan.com/privacy-policy/de/" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://www.thankjapan.com/privacy-policy/th/" />
+    <xhtml:link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/privacy-policy/pt-br/" />
+    <xhtml:link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/privacy-policy/es-mx/" />
+    <xhtml:link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/privacy-policy/en-in/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/privacy-policy/" />
+  </url>
+
+  <!-- privacy-policyページ (スペイン語 - メキシコ) -->
+  <url>
+    <loc>https://www.thankjapan.com/privacy-policy/es-mx/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.thankjapan.com/privacy-policy/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/privacy-policy/ja/" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/privacy-policy/vi/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/privacy-policy/fr/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.thankjapan.com/privacy-policy/it/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/privacy-policy/pt/" />
+    <xhtml:link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/privacy-policy/zh-hant/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/privacy-policy/ko/" />
+    <xhtml:link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/privacy-policy/es-es/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.thankjapan.com/privacy-policy/de/" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://www.thankjapan.com/privacy-policy/th/" />
+    <xhtml:link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/privacy-policy/pt-br/" />
+    <xhtml:link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/privacy-policy/es-mx/" />
+    <xhtml:link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/privacy-policy/en-in/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/privacy-policy/" />
+  </url>
+
+  <!-- privacy-policyページ (フランス語) -->
+  <url>
+    <loc>https://www.thankjapan.com/privacy-policy/fr/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.thankjapan.com/privacy-policy/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/privacy-policy/ja/" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/privacy-policy/vi/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/privacy-policy/fr/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.thankjapan.com/privacy-policy/it/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/privacy-policy/pt/" />
+    <xhtml:link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/privacy-policy/zh-hant/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/privacy-policy/ko/" />
+    <xhtml:link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/privacy-policy/es-es/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.thankjapan.com/privacy-policy/de/" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://www.thankjapan.com/privacy-policy/th/" />
+    <xhtml:link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/privacy-policy/pt-br/" />
+    <xhtml:link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/privacy-policy/es-mx/" />
+    <xhtml:link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/privacy-policy/en-in/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/privacy-policy/" />
+  </url>
+
+  <!-- privacy-policyページ (イタリア語) -->
+  <url>
+    <loc>https://www.thankjapan.com/privacy-policy/it/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.thankjapan.com/privacy-policy/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/privacy-policy/ja/" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/privacy-policy/vi/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/privacy-policy/fr/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.thankjapan.com/privacy-policy/it/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/privacy-policy/pt/" />
+    <xhtml:link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/privacy-policy/zh-hant/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/privacy-policy/ko/" />
+    <xhtml:link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/privacy-policy/es-es/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.thankjapan.com/privacy-policy/de/" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://www.thankjapan.com/privacy-policy/th/" />
+    <xhtml:link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/privacy-policy/pt-br/" />
+    <xhtml:link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/privacy-policy/es-mx/" />
+    <xhtml:link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/privacy-policy/en-in/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/privacy-policy/" />
+  </url>
+
+  <!-- privacy-policyページ (日本語) -->
+  <url>
+    <loc>https://www.thankjapan.com/privacy-policy/ja/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.thankjapan.com/privacy-policy/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/privacy-policy/ja/" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/privacy-policy/vi/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/privacy-policy/fr/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.thankjapan.com/privacy-policy/it/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/privacy-policy/pt/" />
+    <xhtml:link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/privacy-policy/zh-hant/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/privacy-policy/ko/" />
+    <xhtml:link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/privacy-policy/es-es/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.thankjapan.com/privacy-policy/de/" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://www.thankjapan.com/privacy-policy/th/" />
+    <xhtml:link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/privacy-policy/pt-br/" />
+    <xhtml:link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/privacy-policy/es-mx/" />
+    <xhtml:link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/privacy-policy/en-in/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/privacy-policy/" />
+  </url>
+
+  <!-- privacy-policyページ (韓国語) -->
+  <url>
+    <loc>https://www.thankjapan.com/privacy-policy/ko/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.thankjapan.com/privacy-policy/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/privacy-policy/ja/" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/privacy-policy/vi/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/privacy-policy/fr/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.thankjapan.com/privacy-policy/it/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/privacy-policy/pt/" />
+    <xhtml:link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/privacy-policy/zh-hant/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/privacy-policy/ko/" />
+    <xhtml:link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/privacy-policy/es-es/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.thankjapan.com/privacy-policy/de/" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://www.thankjapan.com/privacy-policy/th/" />
+    <xhtml:link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/privacy-policy/pt-br/" />
+    <xhtml:link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/privacy-policy/es-mx/" />
+    <xhtml:link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/privacy-policy/en-in/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/privacy-policy/" />
+  </url>
+
+  <!-- privacy-policyページ (ポルトガル語 - ブラジル) -->
+  <url>
+    <loc>https://www.thankjapan.com/privacy-policy/pt-br/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.thankjapan.com/privacy-policy/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/privacy-policy/ja/" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/privacy-policy/vi/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/privacy-policy/fr/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.thankjapan.com/privacy-policy/it/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/privacy-policy/pt/" />
+    <xhtml:link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/privacy-policy/zh-hant/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/privacy-policy/ko/" />
+    <xhtml:link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/privacy-policy/es-es/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.thankjapan.com/privacy-policy/de/" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://www.thankjapan.com/privacy-policy/th/" />
+    <xhtml:link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/privacy-policy/pt-br/" />
+    <xhtml:link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/privacy-policy/es-mx/" />
+    <xhtml:link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/privacy-policy/en-in/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/privacy-policy/" />
+  </url>
+
+  <!-- privacy-policyページ (ポルトガル語) -->
+  <url>
+    <loc>https://www.thankjapan.com/privacy-policy/pt/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.thankjapan.com/privacy-policy/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/privacy-policy/ja/" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/privacy-policy/vi/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/privacy-policy/fr/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.thankjapan.com/privacy-policy/it/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/privacy-policy/pt/" />
+    <xhtml:link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/privacy-policy/zh-hant/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/privacy-policy/ko/" />
+    <xhtml:link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/privacy-policy/es-es/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.thankjapan.com/privacy-policy/de/" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://www.thankjapan.com/privacy-policy/th/" />
+    <xhtml:link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/privacy-policy/pt-br/" />
+    <xhtml:link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/privacy-policy/es-mx/" />
+    <xhtml:link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/privacy-policy/en-in/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/privacy-policy/" />
+  </url>
+
+  <!-- privacy-policyページ (タイ語) -->
+  <url>
+    <loc>https://www.thankjapan.com/privacy-policy/th/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.thankjapan.com/privacy-policy/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/privacy-policy/ja/" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/privacy-policy/vi/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/privacy-policy/fr/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.thankjapan.com/privacy-policy/it/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/privacy-policy/pt/" />
+    <xhtml:link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/privacy-policy/zh-hant/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/privacy-policy/ko/" />
+    <xhtml:link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/privacy-policy/es-es/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.thankjapan.com/privacy-policy/de/" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://www.thankjapan.com/privacy-policy/th/" />
+    <xhtml:link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/privacy-policy/pt-br/" />
+    <xhtml:link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/privacy-policy/es-mx/" />
+    <xhtml:link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/privacy-policy/en-in/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/privacy-policy/" />
+  </url>
+
+  <!-- privacy-policyページ (ベトナム語) -->
+  <url>
+    <loc>https://www.thankjapan.com/privacy-policy/vi/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.thankjapan.com/privacy-policy/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/privacy-policy/ja/" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/privacy-policy/vi/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/privacy-policy/fr/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.thankjapan.com/privacy-policy/it/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/privacy-policy/pt/" />
+    <xhtml:link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/privacy-policy/zh-hant/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/privacy-policy/ko/" />
+    <xhtml:link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/privacy-policy/es-es/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.thankjapan.com/privacy-policy/de/" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://www.thankjapan.com/privacy-policy/th/" />
+    <xhtml:link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/privacy-policy/pt-br/" />
+    <xhtml:link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/privacy-policy/es-mx/" />
+    <xhtml:link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/privacy-policy/en-in/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/privacy-policy/" />
+  </url>
+
+  <!-- privacy-policyページ (中国語 - 繁体字) -->
+  <url>
+    <loc>https://www.thankjapan.com/privacy-policy/zh-hant/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.thankjapan.com/privacy-policy/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/privacy-policy/ja/" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/privacy-policy/vi/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/privacy-policy/fr/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.thankjapan.com/privacy-policy/it/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/privacy-policy/pt/" />
+    <xhtml:link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/privacy-policy/zh-hant/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/privacy-policy/ko/" />
+    <xhtml:link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/privacy-policy/es-es/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.thankjapan.com/privacy-policy/de/" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://www.thankjapan.com/privacy-policy/th/" />
+    <xhtml:link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/privacy-policy/pt-br/" />
+    <xhtml:link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/privacy-policy/es-mx/" />
+    <xhtml:link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/privacy-policy/en-in/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/privacy-policy/" />
+  </url>
+
+</urlset>
+
+
+
+
+  

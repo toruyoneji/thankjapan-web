@@ -120,7 +120,7 @@ urlpatterns = [
     path("riyoukiyaku/vi/", KiyakuVIView.as_view(), name="riyoukiyakuvi"),
     path("riyoukiyaku/zh-hant/", KiyakuZHHANTView.as_view(), name="riyoukiyakuzhHANT"),
     
-    #imfomation
+    #infomation
     path("infomation/", CompanyFormView.as_view(), name="infomationpage"),
     path("infomation/de/", CompanyFormDEView.as_view(), name="infomationpagede"),
     path("infomation/en-in/", CompanyFormENINView.as_view(), name="infomationpageenIN"),
