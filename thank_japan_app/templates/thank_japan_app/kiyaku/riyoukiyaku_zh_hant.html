@@ -1,0 +1,231 @@
+{% extends 'base/base_zh_hant.html' %}
+{% load static %}
+
+{% block title %}使用條款 | ThankJapan{% endblock %}
+
+{% block content %}
+
+    <style>
+    
+    body {
+        background-color: #fffaf5;
+        font-family: 'Noto Sans JP', 'Poppins', sans-serif;
+        color: #fff;
+    }
+
+    .main2 {
+        max-width: 900px;
+        margin: 80px auto 100px;
+        padding: 0 20px;
+    }
+
+    .category-header {
+        text-align: center;
+        padding: 30px 20px;
+        background: linear-gradient(135deg, #ffe8d6 0%, #fffaf5 100%);
+        border-radius: 0 0 40px 40px;
+        margin-bottom: 40px;
+        color: #000;
+    }
+
+    h2 {
+        margin-top: 30px;
+        font-size: 1.2rem;
+        color: #ffd6a5;
+    }
+
+    p, li {
+        font-size: 1rem;
+        line-height: 1.6;
+        color: #fff;
+    }
+
+    ul {
+        margin-left: 20px;
+        margin-top: 10px;
+    }
+
+    a.anchor {
+        color: #ffb347;
+        text-decoration: none;
+    }
+    a.anchor:hover {
+        text-decoration: underline;
+    }
+
+    hr {
+        border: 0;
+        border-top: 1px solid #ffd6a5;
+        margin: 20px 0;
+    }
+
+    .btn-more {
+            display: inline-block;
+            background: #ffb347;
+            color: white;
+            padding: 10px 24px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 20px;
+            transition: background 0.3s;
+        }
+        .btn-more:hover {
+            background: #ff9642;
+        }
+
+    .riyoudt {
+        margin-top: 30px;
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: #ffd6a5;
+    }
+
+    .riyoudd {
+        margin-bottom: 15px;
+        margin-left: 20px;
+        font-size: 1rem; /* p, li と同じように明示 */
+        line-height: 1.6; /* p, li と同じように明示 */
+        color: #fff; /* p, li と同じように明示 */
+    }
+
+    .riyoudd ul {
+        margin-left: 20px;
+        margin-top: 5px;
+        list-style-type: disc;
+    }
+    .riyoudd ul li {
+        margin-bottom: 5px;
+    }
+
+    @media (max-width: 600px) {
+        .main2 {
+            margin: 50px 0px 50px;
+            padding: 0;
+        }
+
+        .category-header {
+            padding-top: 120px;
+        }
+    }
+    </style>
+
+<div class="main2">
+    <h1 class="category-header">使用條款</h1>
+
+    
+
+    <p>Japan（以下簡稱「我們」、「我們的」或「本公司」）致力於提供安全愉快的體驗。本使用條款（以下簡稱「本條款」）規定了本公司在本網站上提供之服務（以下簡稱「本服務」）的使用條款和條件。所有使用者（以下簡稱「使用者」）應根據本條款使用本服務。</p>
+
+    <dl>
+        <dt class="riyoudt">Article 1 (應用)</dt>
+        <dd class="riyoudd">本條款適用於使用者與本公司之間所有與本服務使用相關的關係。
+        除本條款外，本公司可能會為本服務的使用制定各種規則和規定（以下簡稱「個別規定」）。無論名稱為何，此類個別規定均構成本條款的一部分。
+        如果本條款的規定與個別規定之間存在任何衝突，除非另有說明，否則以個別規定為準。</dd>
+
+        <dt class="riyoudt">Article 2 (使用者註冊)</dt>
+        <dd class="riyoudd">使用者應在同意本條款後，按照本公司規定之方法申請註冊，並經本公司批准後，完成本服務的註冊。如果無需註冊即可使用本服務，則本條款僅適用於選擇註冊的使用者。
+        如果本公司認定存在以下任何情況，本公司可能不批准註冊申請，且沒有義務披露拒絕原因：
+        <ul>
+            <li>註冊申請中提供虛假資訊</li>
+            <li>申請人先前曾違反本條款</li>
+            <li>本公司認為註冊不適當的其他情況</li>
+        </ul>
+        </dd>
+
+        <dt class="riyoudt">Article 3 (使用者ID和密碼的管理)</dt>
+        <dd class="riyoudd">使用者應自行負責管理其本服務的使用者ID和密碼。
+        使用者不得將其使用者ID或密碼轉讓、出借給任何第三方，或與任何第三方共享。本公司將使用正確的使用者ID和密碼組合登入視為該ID註冊使用者之行為。
+        除本公司故意或重大過失外，本公司對因第三方使用使用者ID和密碼而造成的任何損害概不負責。</dd>
+
+        <dt class="riyoudt">Article 4 (使用費和支付方式)</dt>
+        <dd class="riyoudd">使用者可以通過本公司指定的方式（例如Stripe）自願支付（以下簡稱「支持捐款」）來支持本服務。這些捐款並非強制性，也不構成購買產品或服務。
+        </dd>
+
+        <dt class="riyoudt">Article 5 (禁止行為)</dt>
+        <dd class="riyoudd">使用者在使用本服務時，不得從事以下行為：
+        <ul>
+            <li>違反法律或公共秩序和道德的行為</li>
+            <li>犯罪行為或與犯罪相關的行為</li>
+            <li>侵犯本服務中包含的版權、商標或其他智慧財產權</li>
+            <li>破壞或干擾本公司伺服器或網路功能的行為</li>
+            <li>將透過本服務獲得的資訊用於商業用途</li>
+            <li>可能干擾本公司服務運營的行為</li>
+            <li>未經授權的存取或嘗試</li>
+            <li>收集或累積其他使用者的個人資訊</li>
+            <li>將本服務用於詐騙目的</li>
+            <li>對其他使用者或第三方造成不利、損害或不適的行為</li>
+            <li>冒充其他使用者</li>
+            <li>未經本公司許可在本服務上進行廣告、招攬或商業活動</li>
+            <li>以結識不認識的異性為目的的行為</li>
+            <li>直接或間接向反社會勢力提供利益的行為</li>
+            <li>本公司認為不適當的其他任何行為</li>
+        </ul>
+        </dd>
+
+        <dt class="riyoudt">Article 6 (本服務的暫停)</dt>
+        <dd class="riyoudd">如果本公司認定存在以下任何情況，本公司可以在不事先通知使用者的情況下，暫停或中斷全部或部分本服務：
+        <ul>
+            <li>需要維護或更新系統</li>
+            <li>因地震、閃電、火災、停電或自然災害等不可抗力導致無法提供服務</li>
+            <li>因電腦或通訊線路事故而暫停</li>
+            <li>本公司認為難以提供服務的其他情況</li>
+        </ul>
+        對於因本服務暫停或中斷而給使用者或第三方造成的任何不利或損害，本公司概不負責。
+        </dd>
+
+        <dt class="riyoudt">Article 7 (使用限制和註銷)</dt>
+        <dd class="riyoudd">如果使用者屬於以下任何情況，本公司可以在不事先通知的情況下，限制使用者使用全部或部分本服務或取消其註冊：
+        <ul>
+            <li>違反本條款的任何規定</li>
+            <li>發現虛假註冊資訊</li>
+            <li>未履行付款義務</li>
+            <li>在一定期間內未回應本公司的通訊</li>
+            <li>自上次存取以來，在一定期間內未使用本服務</li>
+            <li>本公司認為使用本服務不適當的其他任何情況</li>
+        </ul>
+        對於因根據本條款採取的行動而給使用者造成的任何損害，本公司概不負責。</dd>
+
+        <dt class="riyoudt">Article 8 (退會)</dt>
+        <dd class="riyoudd">使用者可以按照本公司規定之退會程序退出本服務。</dd>
+
+        <dt class="riyoudt">Article 9 (免責聲明和責任限制)</dt>
+        <dd class="riyoudd">本公司不聲明或暗示保證本服務沒有事實或法律上的缺陷（包括但不限於安全性、可靠性、準確性、完整性、有效性、特定目的適用性、安全性、錯誤或錯誤、以及侵權）。
+        除本公司故意或重大過失外，本公司對因本服務引起的使用者所遭受的任何損害概不負責。但是，如果本公司與使用者之間關於本服務的協議（包括本條款）構成消費者契約法下的消費者契約，則本免責聲明不適用。
+        即使在此類情況下，本公司對因本公司過失（不包括重大過失）造成的特殊情況（包括本公司或使用者預見或可能預見損害發生的情況）而造成的任何損害概不負責。此外，因一般過失造成的損害賠償應限於損害發生月份從使用者收到的使用費金額。
+        本公司不參與或不對使用者與其他使用者或第三方之間就本服務進行的任何交易、通訊或糾紛負責。</dd>
+
+        <dt class="riyoudt">Article 10 (服務變更)</dt>
+        <dd class="riyoudd">本公司可在事先通知使用者後變更、增加或終止本服務的內容，使用者同意此類變更。
+        </dd>
+
+        <dt class="riyoudt">Article 11 (條款修改)</dt>
+        <dd class="riyoudd">在以下情況下，本公司可以在不徵得使用者個別同意的情況下修改本條款：
+        <ul>
+            <li>修改符合使用者的整體利益</li>
+            <li>修改不違反契約目的，且根據修改的必要性、修改內容和其他情況是合理的</li>
+        </ul>
+        本公司應提前通知使用者任何此類修改，包括修改內容和生效日期。
+        </dd>
+
+        <dt class="riyoudt">Article 12 (個人資訊的處理)</dt>
+        <dd class="riyoudd">本公司應根據其<a class="anchor" href="{% url 'privacy_policy' %}">隱私政策</a>妥善處理透過使用本服務獲得的任何個人資訊。</dd>
+
+        <dt class="riyoudt">Article 13 (通知和通訊)</dt>
+        <dd class="riyoudd">使用者與本公司之間的任何通知或通訊應按照本公司規定的方式進行。
+             除非使用者按照規定方式通知本公司變更，
+             否則本公司將假定目前註冊的聯絡資訊有效，並將發送至該聯絡方式的任何通訊視為在發送時已送達。</dd>
+
+        <dt class="riyoudt">Article 14 (權利和義務轉讓的禁止)</dt>
+        <dd class="riyoudd">未經本公司事先書面同意，使用者不得將其在本條款下的契約地位或基於本條款的任何權利或義務轉讓或質押給任何第三方。</dd>
+
+        <dt class="riyoudt">Article 15 (準據法和管轄)</dt>
+        <dd class="riyoudd">本條款的解釋應受日本法律管轄。
+        因本服務引起的任何爭議應受本公司總部所在地具有管轄權的法院的專屬管轄。</dd>
+    </dl>
+
+    <div style="text-align:center; margin:50px 0;">
+        <a class="btn-more" href="{% url 'toppagezhHANT' %}">回到首頁</a>
+    </div>
+</div>
+{% endblock %}

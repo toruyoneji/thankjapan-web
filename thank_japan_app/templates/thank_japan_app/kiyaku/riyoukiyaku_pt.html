@@ -1,0 +1,229 @@
+{% extends 'base/base_pt.html' %}
+{% load static %}
+
+{% block title %}Termos de Uso | ThankJapan{% endblock %}
+
+{% block content %}
+
+    <style>
+    
+    body {
+        background-color: #fffaf5;
+        font-family: 'Noto Sans JP', 'Poppins', sans-serif;
+        color: #fff;
+    }
+
+    .main2 {
+        max-width: 900px;
+        margin: 80px auto 100px;
+        padding: 0 20px;
+    }
+
+    .category-header {
+        text-align: center;
+        padding: 30px 20px;
+        background: linear-gradient(135deg, #ffe8d6 0%, #fffaf5 100%);
+        border-radius: 0 0 40px 40px;
+        margin-bottom: 40px;
+        color: #000;
+    }
+
+    h2 {
+        margin-top: 30px;
+        font-size: 1.2rem;
+        color: #ffd6a5;
+    }
+
+    p, li {
+        font-size: 1rem;
+        line-height: 1.6;
+        color: #fff;
+    }
+
+    ul {
+        margin-left: 20px;
+        margin-top: 10px;
+    }
+
+    a.anchor {
+        color: #ffb347;
+        text-decoration: none;
+    }
+    a.anchor:hover {
+        text-decoration: underline;
+    }
+
+    hr {
+        border: 0;
+        border-top: 1px solid #ffd6a5;
+        margin: 20px 0;
+    }
+
+    .btn-more {
+            display: inline-block;
+            background: #ffb347;
+            color: white;
+            padding: 10px 24px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 20px;
+            transition: background 0.3s;
+        }
+        .btn-more:hover {
+            background: #ff9642;
+        }
+
+    .riyoudt {
+        margin-top: 30px;
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: #ffd6a5;
+    }
+
+    .riyoudd {
+        margin-bottom: 15px;
+        margin-left: 20px;
+        font-size: 1rem; /* p, li と同じように明示 */
+        line-height: 1.6; /* p, li と同じように明示 */
+        color: #fff; /* p, li と同じように明示 */
+    }
+
+    .riyoudd ul {
+        margin-left: 20px;
+        margin-top: 5px;
+        list-style-type: disc;
+    }
+    .riyoudd ul li {
+        margin-bottom: 5px;
+    }
+
+    @media (max-width: 600px) {
+        .main2 {
+            margin: 50px 0px 50px;
+            padding: 0;
+        }
+
+        .category-header {
+            padding-top: 120px;
+        }
+    }
+    </style>
+
+<div class="main2">
+    <h1 class="category-header">Termos de Uso</h1>
+
+    <p>A ThankJapan ("nós", "nosso" ou "nossa") está empenhada em proporcionar uma experiência segura e agradável. Estes Termos de Uso (doravante referidos como "Termos") estabelecem os termos e condições para o uso dos serviços (doravante referidos como "Serviços") fornecidos pela Empresa neste website. Todos os usuários (doravante referidos como "Usuários") devem usar os Serviços de acordo com estes Termos.</p>
+
+    <dl>
+        <dt class="riyoudt">Artigo 1 (Aplicação)</dt>
+        <dd class="riyoudd">Estes Termos aplicar-se-ão a todas as relações relacionadas ao uso dos Serviços entre o Usuário e a Empresa.
+        Além destes Termos, a Empresa poderá estabelecer várias regras e disposições para o uso dos Serviços (doravante referidas como "Regulamentos Individuais"). Independentemente do nome, tais Regulamentos Individuais constituirão uma parte destes Termos.
+        Em caso de qualquer conflito entre as disposições destes Termos e os Regulamentos Individuais, as disposições dos Regulamentos Individuais prevalecerão, a menos que especificado de outra forma.</dd>
+
+        <dt class="riyoudt">Artigo 2 (Registro de Usuário)</dt>
+        <dd class="riyoudd">Os Usuários deverão completar o registro para os Serviços solicitando o registro de acordo com o método prescrito pela Empresa após concordar com estes Termos, e mediante aprovação pela Empresa. Se os Serviços puderem ser usados sem registro, este artigo aplica-se apenas àqueles que optarem por se registrar.
+        A Empresa poderá não aprovar uma solicitação de registro se determinar que alguma das seguintes condições se aplica, e não tem obrigação de divulgar o motivo de tal recusa:
+        <ul>
+            <li>Se informações falsas forem fornecidas na solicitação de registro</li>
+            <li>Se o solicitante já tiver violado estes Termos</li>
+            <li>Se a Empresa considerar o registro inadequado por outros motivos</li>
+        </ul>
+        </dd>
+
+        <dt class="riyoudt">Artigo 3 (Gestão de ID de Usuário e Senha)</dt>
+        <dd class="riyoudd">Os Usuários deverão gerir o seu ID de Usuário e senha para os Serviços sob sua própria responsabilidade.
+        Os Usuários não devem transferir ou emprestar o seu ID de Usuário ou senha a terceiros, nem partilhá-los com terceiros. A Empresa considerará qualquer login com a combinação correta de ID de Usuário e senha como sendo o ato do Usuário que registrou esse ID.
+        A Empresa não será responsável por quaisquer danos decorrentes do uso do ID de Usuário e senha por terceiros, exceto em casos de má conduta intencional ou negligência grave por parte da Empresa.</dd>
+
+        <dt class="riyoudt">Artigo 4 (Taxas de Uso e Métodos de Pagamento)</dt>
+        <dd class="riyoudd">Os Usuários podem apoiar os Serviços fazendo pagamentos voluntários (doravante referidos como “Contribuições de Apoio”) através do método designado pela Empresa (como Stripe). Estas contribuições não são obrigatórias e não constituem a compra de produtos ou serviços.
+        </dd>
+
+        <dt class="riyoudt">Artigo 5 (Conduta Proibida)</dt>
+        <dd class="riyoudd">Os Usuários não deverão envolver-se nos seguintes atos em conexão com o uso dos Serviços:
+        <ul>
+            <li>Atos em violação de leis ou da ordem pública e moral</li>
+            <li>Atos criminosos ou atos relacionados a crimes</li>
+            <li>Infração de direitos autorais, marcas registradas ou outros direitos de propriedade intelectual incluídos nos Serviços</li>
+            <li>Atos que destruam ou interfiram nas funções dos servidores ou redes da Empresa</li>
+            <li>Uso comercial de informações obtidas através dos Serviços</li>
+            <li>Atos que possam interferir na operação dos serviços da Empresa</li>
+            <li>Acesso não autorizado ou tentativas de tal</li>
+            <li>Coleta ou acumulação de informações pessoais de outros Usuários</li>
+            <li>Uso dos Serviços para fins fraudulentos</li>
+            <li>Atos que causem desvantagem, dano ou desconforto a outros Usuários ou terceiros</li>
+            <li>Impersonificação de outros Usuários</li>
+            <li>Publicidade, solicitação ou atividades comerciais nos Serviços sem a permissão da Empresa</li>
+            <li>Atos com o propósito de encontrar indivíduos desconhecidos do sexo oposto</li>
+            <li>Fornecimento de benefícios a forças antissociais, direta ou indiretamente, em conexão com os Serviços</li>
+            <li>Quaisquer outros atos considerados inadequados pela Empresa</li>
+        </ul>
+        </dd>
+
+        <dt class="riyoudt">Artigo 6 (Suspensão dos Serviços)</dt>
+        <dd class="riyoudd">A Empresa poderá suspender ou descontinuar os Serviços no todo ou em parte sem aviso prévio ao Usuário se determinar que alguma das seguintes condições se aplica:
+        <ul>
+            <li>Manutenção ou atualizações do sistema são necessárias</li>
+            <li>Os Serviços não podem ser fornecidos devido a força maior, como terremotos, raios, incêndios, quedas de energia ou desastres naturais</li>
+            <li>Suspensão devido a acidentes envolvendo computadores ou linhas de comunicação</li>
+            <li>Outros casos em que a Empresa considere difícil fornecer os Serviços</li>
+        </ul>
+        A Empresa não será responsável por quaisquer desvantagens ou danos incorridos pelo Usuário ou por terceiros devido à suspensão ou interrupção dos Serviços.
+        </dd>
+
+        <dt class="riyoudt">Artigo 7 (Restrições de Uso e Cancelamento de Registro)</dt>
+        <dd class="riyoudd">A Empresa poderá, sem aviso prévio, restringir o uso de todos ou parte dos Serviços pelo Usuário ou cancelar o seu registro se o Usuário se enquadrar em qualquer das seguintes situações:
+        <ul>
+            <li>Violação de qualquer disposição destes Termos</li>
+            <li>Descoberta de informações de registro falsas</li>
+            <li>Inadimplência nas obrigações de pagamento</li>
+            <li>Nenhuma resposta do Usuário às comunicações da Empresa por um determinado período</li>
+            <li>Nenhum uso dos Serviços por um determinado período desde o último acesso</li>
+            <li>Qualquer outro caso em que a Empresa considere o uso dos Serviços inadequado</li>
+        </ul>
+        A Empresa não será responsável por quaisquer danos incorridos pelo Usuário devido a ações tomadas sob este artigo.</dd>
+
+        <dt class="riyoudt">Artigo 8 (Retirada)</dt>
+        <dd class="riyoudd">Os Usuários podem retirar-se dos Serviços seguindo o procedimento de retirada prescrito pela Empresa.</dd>
+
+        <dt class="riyoudt">Artigo 9 (Isenção de Garantias e Responsabilidade)</dt>
+        <dd class="riyoudd">A Empresa não garante expressa ou implicitamente que os Serviços estão livres de defeitos factuais ou legais (incluindo, mas não se limitando a segurança, confiabilidade, precisão, integridade, eficácia, adequação a um propósito específico, segurança, erros ou bugs, e violação de direitos).
+        A Empresa não será responsável por quaisquer danos incorridos pelo Usuário decorrentes dos Serviços, exceto em casos de má conduta intencional ou negligência grave por parte da Empresa. No entanto, se o acordo entre a Empresa e o Usuário relativo aos Serviços (incluindo estes Termos) constituir um contrato de consumo ao abrigo da Lei do Contrato de Consumo, esta isenção de responsabilidade não se aplicará.
+        Mesmo em tais casos, a Empresa não será responsável por quaisquer danos decorrentes de circunstâncias especiais (incluindo casos em que a Empresa ou o Usuário previram ou poderiam ter previsto a ocorrência de danos) causados por negligência da Empresa (excluindo negligência grave). Além disso, a compensação por danos devidos a negligência comum será limitada ao valor das taxas de uso recebidas do Usuário no mês em que o dano ocorreu.
+        A Empresa não se envolverá nem será responsável por quaisquer transações, comunicações ou disputas entre o Usuário e outros Usuários ou terceiros em relação aos Serviços.</dd>
+
+        <dt class="riyoudt">Artigo 10 (Alterações nos Serviços)</dt>
+        <dd class="riyoudd">A Empresa pode alterar, adicionar ou descontinuar o conteúdo dos Serviços com aviso prévio aos Usuários, e os Usuários concordam com tais alterações.
+        </dd>
+
+        <dt class="riyoudt">Artigo 11 (Modificação dos Termos)</dt>
+        <dd class="riyoudd">A Empresa pode modificar estes Termos sem obter consentimento individual dos Usuários se:
+        <ul>
+            <li>A modificação for do interesse geral dos Usuários</li>
+            <li>A modificação não entrar em conflito com o propósito do contrato e for razoável à luz da necessidade da modificação, dos detalhes da modificação e de outras circunstâncias</li>
+        </ul>
+        A Empresa notificará os Usuários antecipadamente sobre quaisquer tais modificações, incluindo o conteúdo modificado e a data efetiva.
+        </dd>
+
+        <dt class="riyoudt">Artigo 12 (Tratamento de Informações Pessoais)</dt>
+        <dd class="riyoudd">A Empresa deverá tratar adequadamente quaisquer informações pessoais obtidas através do uso dos Serviços de acordo com a sua <a class="anchor" href="{% url 'privacy_policy' %}">Política de Privacidade</a>.</dd>
+
+        <dt class="riyoudt">Artigo 13 (Avisos e Comunicação)</dt>
+        <dd class="riyoudd">Quaisquer avisos ou comunicações entre o Usuário e a Empresa serão conduzidos da maneira prescrita pela Empresa.
+             A menos que o Usuário notifique a Empresa sobre alterações usando o método prescrito,
+             a Empresa presumirá que as informações de contato atualmente registradas são válidas e considerará qualquer comunicação enviada para tal contato como entregue no momento do envio.</dd>
+
+        <dt class="riyoudt">Artigo 14 (Proibição de Transferência de Direitos e Obrigações)</dt>
+        <dd class="riyoudd">Os Usuários não podem ceder ou penhorar o seu status contratual sob os Termos ou quaisquer direitos ou obrigações com base nestes Termos a terceiros sem o consentimento prévio por escrito da Empresa.</dd>
+
+        <dt class="riyoudt">Artigo 15 (Lei Aplicável e Jurisdição)</dt>
+        <dd class="riyoudd">A interpretação destes Termos será regida pelas leis do Japão.
+        Quaisquer disputas decorrentes em conexão com os Serviços estarão sujeitas à jurisdição exclusiva do tribunal com jurisdição sobre a localização da sede da Empresa.</dd>
+    </dl>
+
+    <div style="text-align:center; margin:50px 0;">
+        <a class="btn-more" href="{% url 'toppagept' %}">Voltar para a Página Inicial</a>
+    </div>
+</div>
+{% endblock %}

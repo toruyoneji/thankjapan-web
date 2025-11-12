@@ -1,0 +1,231 @@
+{% extends 'base/base_vi.html' %}
+{% load static %}
+
+{% block title %}Điều khoản sử dụng | ThankJapan{% endblock %}
+
+{% block content %}
+
+    <style>
+    
+    body {
+        background-color: #fffaf5;
+        font-family: 'Noto Sans JP', 'Poppins', sans-serif;
+        color: #fff;
+    }
+
+    .main2 {
+        max-width: 900px;
+        margin: 80px auto 100px;
+        padding: 0 20px;
+    }
+
+    .category-header {
+        text-align: center;
+        padding: 30px 20px;
+        background: linear-gradient(135deg, #ffe8d6 0%, #fffaf5 100%);
+        border-radius: 0 0 40px 40px;
+        margin-bottom: 40px;
+        color: #000;
+    }
+
+    h2 {
+        margin-top: 30px;
+        font-size: 1.2rem;
+        color: #ffd6a5;
+    }
+
+    p, li {
+        font-size: 1rem;
+        line-height: 1.6;
+        color: #fff;
+    }
+
+    ul {
+        margin-left: 20px;
+        margin-top: 10px;
+    }
+
+    a.anchor {
+        color: #ffb347;
+        text-decoration: none;
+    }
+    a.anchor:hover {
+        text-decoration: underline;
+    }
+
+    hr {
+        border: 0;
+        border-top: 1px solid #ffd6a5;
+        margin: 20px 0;
+    }
+
+    .btn-more {
+            display: inline-block;
+            background: #ffb347;
+            color: white;
+            padding: 10px 24px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 20px;
+            transition: background 0.3s;
+        }
+        .btn-more:hover {
+            background: #ff9642;
+        }
+
+    .riyoudt {
+        margin-top: 30px;
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: #ffd6a5;
+    }
+
+    .riyoudd {
+        margin-bottom: 15px;
+        margin-left: 20px;
+        font-size: 1rem; /* p, li と同じように明示 */
+        line-height: 1.6; /* p, li と同じように明示 */
+        color: #fff; /* p, li と同じように明示 */
+    }
+
+    .riyoudd ul {
+        margin-left: 20px;
+        margin-top: 5px;
+        list-style-type: disc;
+    }
+    .riyoudd ul li {
+        margin-bottom: 5px;
+    }
+
+    @media (max-width: 600px) {
+        .main2 {
+            margin: 50px 0px 50px;
+            padding: 0;
+        }
+
+        .category-header {
+            padding-top: 120px;
+        }
+    }
+    </style>
+
+<div class="main2">
+    <h1 class="category-header">Điều khoản sử dụng</h1>
+
+
+    <p>Japan ("chúng tôi", "của chúng tôi" hoặc "Công ty") cam kết mang đến trải nghiệm an toàn và thú vị. Các Điều khoản sử dụng này (sau đây gọi là "Điều khoản") quy định các điều khoản và điều kiện sử dụng các dịch vụ (sau đây gọi là "Dịch vụ") do Công ty cung cấp trên trang web này. Tất cả người dùng (sau đây gọi là "Người dùng") phải sử dụng Dịch vụ theo các Điều khoản này.</p>
+
+    <dl>
+        <dt class="riyoudt">Điều 1 (Áp dụng)</dt>
+        <dd class="riyoudd">Các Điều khoản này sẽ áp dụng cho tất cả các mối quan hệ liên quan đến việc sử dụng Dịch vụ giữa Người dùng và Công ty.
+        Ngoài các Điều khoản này, Công ty có thể thiết lập các quy tắc và quy định khác nhau cho việc sử dụng Dịch vụ (sau đây gọi là "Quy định riêng"). Bất kể tên gọi, các Quy định riêng đó sẽ cấu thành một phần của các Điều khoản này.
+        Trong trường hợp có bất kỳ xung đột nào giữa các quy định của Điều khoản này và Quy định riêng, các quy định của Quy định riêng sẽ được ưu tiên áp dụng trừ khi có quy định khác.</dd>
+
+        <dt class="riyoudt">Điều 2 (Đăng ký người dùng)</dt>
+        <dd class="riyoudd">Người dùng phải hoàn tất việc đăng ký Dịch vụ bằng cách đăng ký theo phương pháp do Công ty quy định sau khi đồng ý với các Điều khoản này và khi được Công ty chấp thuận. Nếu Dịch vụ có thể được sử dụng mà không cần đăng ký, điều khoản này chỉ áp dụng cho những người chọn đăng ký.
+        Công ty có thể không chấp thuận đơn đăng ký nếu xác định rằng bất kỳ điều nào sau đây áp dụng và không có nghĩa vụ tiết lộ lý do từ chối:
+        <ul>
+            <li>Nếu thông tin sai được cung cấp trong đơn đăng ký</li>
+            <li>Nếu người nộp đơn đã từng vi phạm các Điều khoản này</li>
+            <li>Nếu Công ty cho rằng việc đăng ký không phù hợp</li>
+        </ul>
+        </dd>
+
+        <dt class="riyoudt">Điều 3 (Quản lý ID và mật khẩu người dùng)</dt>
+        <dd class="riyoudd">Người dùng phải tự chịu trách nhiệm quản lý ID và mật khẩu Dịch vụ của mình.
+        Người dùng không được chuyển nhượng hoặc cho mượn ID hoặc mật khẩu của mình cho bất kỳ bên thứ ba nào, hoặc chia sẻ chúng với bất kỳ bên thứ ba nào. Công ty sẽ coi bất kỳ đăng nhập nào bằng sự kết hợp chính xác giữa ID và mật khẩu là hành động của Người dùng đã đăng ký ID đó.
+        Công ty sẽ không chịu trách nhiệm đối với bất kỳ thiệt hại nào phát sinh từ việc bên thứ ba sử dụng ID và mật khẩu của Người dùng, trừ trường hợp có hành vi cố ý hoặc sơ suất nghiêm trọng của Công ty.</dd>
+
+        <dt class="riyoudt">Điều 4 (Phí sử dụng và Phương thức thanh toán)</dt>
+        <dd class="riyoudd">Người dùng có thể hỗ trợ Dịch vụ bằng cách đóng góp tự nguyện (sau đây gọi là “Đóng góp hỗ trợ”) thông qua phương thức do Công ty chỉ định (chẳng hạn như Stripe). Các khoản đóng góp này không bắt buộc và không cấu thành việc mua sản phẩm hoặc dịch vụ.
+        </dd>
+
+        <dt class="riyoudt">Điều 5 (Hành vi bị cấm)</dt>
+        <dd class="riyoudd">Người dùng không được thực hiện các hành vi sau đây liên quan đến việc sử dụng Dịch vụ:
+        <ul>
+            <li>Hành vi vi phạm pháp luật hoặc trật tự công cộng và đạo đức</li>
+            <li>Hành vi phạm tội hoặc hành vi liên quan đến tội phạm</li>
+            <li>Vi phạm bản quyền, nhãn hiệu hoặc các quyền sở hữu trí tuệ khác có trong Dịch vụ</li>
+            <li>Các hành vi phá hủy hoặc can thiệp vào các chức năng của máy chủ hoặc mạng của Công ty</li>
+            <li>Sử dụng thông tin thu được thông qua Dịch vụ cho mục đích thương mại</li>
+            <li>Các hành vi có thể can thiệp vào hoạt động của các dịch vụ của Công ty</li>
+            <li>Truy cập trái phép hoặc cố gắng truy cập trái phép</li>
+            <li>Thu thập hoặc tích lũy thông tin cá nhân của Người dùng khác</li>
+            <li>Sử dụng Dịch vụ cho các mục đích gian lận</li>
+            <li>Các hành vi gây bất lợi, thiệt hại hoặc khó chịu cho Người dùng khác hoặc bên thứ ba</li>
+            <li>Mạo danh Người dùng khác</li>
+            <li>Quảng cáo, chào mời hoặc các hoạt động kinh doanh trên Dịch vụ mà không có sự cho phép của Công ty</li>
+            <li>Các hành vi nhằm mục đích gặp gỡ những người không quen biết khác giới</li>
+            <li>Cung cấp lợi ích cho các thế lực chống xã hội, trực tiếp hoặc gián tiếp, liên quan đến Dịch vụ</li>
+            <li>Bất kỳ hành vi nào khác mà Công ty cho là không phù hợp</li>
+        </ul>
+        </dd>
+
+        <dt class="riyoudt">Điều 6 (Tạm ngừng Dịch vụ)</dt>
+        <dd class="riyoudd">Công ty có thể tạm ngừng hoặc ngừng toàn bộ hoặc một phần Dịch vụ mà không cần thông báo trước cho Người dùng nếu xác định rằng bất kỳ điều nào sau đây áp dụng:
+        <ul>
+            <li>Cần bảo trì hoặc cập nhật hệ thống</li>
+            <li>Dịch vụ không thể được cung cấp do trường hợp bất khả kháng như động đất, sét đánh, hỏa hoạn, mất điện hoặc thiên tai</li>
+            <li>Tạm ngừng do sự cố máy tính hoặc đường dây liên lạc</li>
+            <li>Các trường hợp khác mà Công ty cho rằng khó cung cấp Dịch vụ</li>
+        </ul>
+        Công ty sẽ không chịu trách nhiệm đối với bất kỳ bất lợi hoặc thiệt hại nào mà Người dùng hoặc bên thứ ba phải chịu do việc tạm ngừng hoặc gián đoạn Dịch vụ.
+        </dd>
+
+        <dt class="riyoudt">Điều 7 (Hạn chế sử dụng và Hủy đăng ký)</dt>
+        <dd class="riyoudd">Công ty có thể, mà không cần thông báo trước, hạn chế việc Người dùng sử dụng tất cả hoặc một phần Dịch vụ hoặc hủy đăng ký của họ nếu Người dùng thuộc bất kỳ trường hợp nào sau đây:
+        <ul>
+            <li>Vi phạm bất kỳ điều khoản nào của các Điều khoản này</li>
+            <li>Phát hiện thông tin đăng ký sai</li>
+            <li>Mặc định trong nghĩa vụ thanh toán</li>
+            <li>Không có phản hồi từ Người dùng đối với thông tin liên lạc từ Công ty trong một khoảng thời gian nhất định</li>
+            <li>Không sử dụng Dịch vụ trong một khoảng thời gian nhất định kể từ lần truy cập cuối cùng</li>
+            <li>Bất kỳ trường hợp nào khác mà Công ty cho rằng việc sử dụng Dịch vụ không phù hợp</li>
+        </ul>
+        Công ty sẽ không chịu trách nhiệm đối với bất kỳ thiệt hại nào mà Người dùng phải chịu do các hành động được thực hiện theo điều khoản này.</dd>
+
+        <dt class="riyoudt">Điều 8 (Rút khỏi dịch vụ)</dt>
+        <dd class="riyoudd">Người dùng có thể rút khỏi Dịch vụ bằng cách làm theo thủ tục rút khỏi dịch vụ do Công ty quy định.</dd>
+
+        <dt class="riyoudt">Điều 9 (Tuyên bố từ chối bảo hành và trách nhiệm)</dt>
+        <dd class="riyoudd">Công ty không đảm bảo rõ ràng hay ngụ ý rằng Dịch vụ không có lỗi thực tế hoặc pháp lý (bao gồm nhưng không giới hạn ở sự an toàn, độ tin cậy, độ chính xác, tính đầy đủ, hiệu quả, sự phù hợp cho một mục đích cụ thể, bảo mật, lỗi hoặc bug và vi phạm quyền).
+        Công ty sẽ không chịu trách nhiệm đối với bất kỳ thiệt hại nào mà Người dùng phải chịu phát sinh từ Dịch vụ, trừ trường hợp có hành vi cố ý hoặc sơ suất nghiêm trọng của Công ty. Tuy nhiên, nếu thỏa thuận giữa Công ty và Người dùng liên quan đến Dịch vụ (bao gồm các Điều khoản này) cấu thành một hợp đồng tiêu dùng theo Luật Hợp đồng tiêu dùng, thì tuyên bố từ chối trách nhiệm này sẽ không áp dụng.
+        Ngay cả trong những trường hợp như vậy, Công ty sẽ không chịu trách nhiệm đối với bất kỳ thiệt hại nào phát sinh từ các trường hợp đặc biệt (bao gồm các trường hợp Công ty hoặc Người dùng đã dự đoán hoặc có thể dự đoán được sự xảy ra của thiệt hại) do sơ suất của Công ty (không bao gồm sơ suất nghiêm trọng). Hơn nữa, bồi thường thiệt hại do sơ suất thông thường sẽ được giới hạn trong số tiền phí sử dụng nhận được từ Người dùng trong tháng xảy ra thiệt hại.
+        Công ty sẽ không tham gia hoặc chịu trách nhiệm đối với bất kỳ giao dịch, thông tin liên lạc hoặc tranh chấp nào giữa Người dùng và các Người dùng khác hoặc bên thứ ba liên quan đến Dịch vụ.</dd>
+
+        <dt class="riyoudt">Điều 10 (Thay đổi Dịch vụ)</dt>
+        <dd class="riyoudd">Công ty có thể thay đổi, bổ sung hoặc ngừng nội dung của Dịch vụ bằng cách thông báo trước cho Người dùng và Người dùng đồng ý với những thay đổi đó.
+        </dd>
+
+        <dt class="riyoudt">Điều 11 (Sửa đổi Điều khoản)</dt>
+        <dd class="riyoudd">Công ty có thể sửa đổi các Điều khoản này mà không cần có sự đồng ý riêng của Người dùng nếu:
+        <ul>
+            <li>Việc sửa đổi nằm trong lợi ích chung của Người dùng</li>
+            <li>Việc sửa đổi không mâu thuẫn với mục đích của hợp đồng và hợp lý xét theo sự cần thiết của việc sửa đổi, chi tiết của việc sửa đổi và các trường hợp khác</li>
+        </ul>
+        Công ty sẽ thông báo trước cho Người dùng về bất kỳ sửa đổi nào như vậy, bao gồm nội dung sửa đổi và ngày có hiệu lực.
+        </dd>
+
+        <dt class="riyoudt">Điều 12 (Xử lý thông tin cá nhân)</dt>
+        <dd class="riyoudd">Công ty sẽ xử lý mọi thông tin cá nhân thu được thông qua việc sử dụng Dịch vụ một cách thích hợp theo <a class="anchor" href="{% url 'privacy_policy' %}">Chính sách quyền riêng tư</a> của mình.</dd>
+
+        <dt class="riyoudt">Điều 13 (Thông báo và liên lạc)</dt>
+        <dd class="riyoudd">Mọi thông báo hoặc liên lạc giữa Người dùng và Công ty sẽ được thực hiện theo cách thức do Công ty quy định.
+             Trừ khi Người dùng thông báo cho Công ty về các thay đổi bằng phương pháp quy định,
+             Công ty sẽ giả định rằng thông tin liên hệ đã đăng ký hiện tại là hợp lệ và sẽ coi bất kỳ thông tin liên lạc nào được gửi đến địa chỉ đó là đã được gửi vào thời điểm gửi đi.</dd>
+
+        <dt class="riyoudt">Điều 14 (Cấm chuyển giao quyền và nghĩa vụ)</dt>
+        <dd class="riyoudd">Người dùng không được chuyển nhượng hoặc cầm cố tư cách hợp đồng của họ theo các Điều khoản hoặc bất kỳ quyền hoặc nghĩa vụ nào dựa trên các Điều khoản này cho bất kỳ bên thứ ba nào mà không có sự đồng ý trước bằng văn bản của Công ty.</dd>
+
+        <dt class="riyoudt">Điều 15 (Luật điều chỉnh và Quyền tài phán)</dt>
+        <dd class="riyoudd">Việc giải thích các Điều khoản này sẽ được điều chỉnh bởi luật pháp Nhật Bản.
+        Bất kỳ tranh chấp nào phát sinh liên quan đến Dịch vụ sẽ thuộc thẩm quyền riêng của tòa án có thẩm quyền đối với địa điểm trụ sở chính của Công ty.</dd>
+    </dl>
+
+    <div style="text-align:center; margin:50px 0;">
+        <a class="btn-more" href="{% url 'toppagevi' %}">Trở về trang chủ</a>
+    </div>
+</div>
+
+{% endblock %}

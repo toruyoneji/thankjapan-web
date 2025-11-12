@@ -1,7 +1,7 @@
 from django.urls import path
 from .views import (TopView, TopViewFR, TopViewIT, TopViewPT, TopViewZHHANT,TopViewKO, TopViewESES,
                     TopViewDE, TopViewTH, TopViewPTBR, TopViewESMX, TopViewENIN, TopViewJA, TopViewVI,
-                    KiyakuView, FoodView, NatureView, FashionView, 
+                    FoodView, NatureView, FashionView, 
                     CultureView, CookView, AppliancesView, AnimalView,
                     CategoryDetailView, BuildingView, FlowerView, HouseholdItemsView,LiveView,
                     SportsView, WorkView,  game_start, game_play,
@@ -18,7 +18,10 @@ from .views import (TopView, TopViewFR, TopViewIT, TopViewPT, TopViewZHHANT,TopV
                     CompanyFormPTBRView, CompanyFormPTView, CompanyFormTHView, CompanyFormVIView, CompanyFormZHHANTView, 
                     LegalNoticeView, LegalNoticeDEView, LegalNoticeENINView, LegalNoticeESESView, LegalNoticeESMXView,
                     LegalNoticeFRView, LegalNoticeITView, LegalNoticeJAView, LegalNoticeKOView, LegalNoticePTBRView,
-                    LegalNoticePTView, LegalNoticeTHView, LegalNoticeVIView, LegalNoticeZHHANTView) 
+                    LegalNoticePTView, LegalNoticeTHView, LegalNoticeVIView, LegalNoticeZHHANTView,
+                    KiyakuView, KiyakuDEView, KiyakuENINView, KiyakuESESView, KiyakuESMXView, KiyakuFRView,
+                    KiyakuITView, KiyakuJAView, KiyakuKOView, KiyakuPTBRView, KiyakuPTView, KiyakuTHView,
+                    KiyakuVIView, KiyakuZHHANTView) 
 
 
 urlpatterns = [
@@ -100,6 +103,19 @@ urlpatterns = [
 
     #riyoukiyaku page
     path("riyoukiyaku/", KiyakuView.as_view(), name="riyoukiyaku"),
+    path("riyoukiyaku/de/", KiyakuDEView.as_view(), name="riyoukiyakude"),
+    path("riyoukiyaku/en-in/", KiyakuENINView.as_view(), name="riyoukiyakuenIN"),
+    path("riyoukiyaku/es-es/", KiyakuESESView.as_view(), name="riyoukiyakuesES"),
+    path("riyoukiyaku/es-mx/", KiyakuESMXView.as_view(), name="riyoukiyakuesMX"),
+    path("riyoukiyaku/fr/", KiyakuFRView.as_view(), name="riyoukiyakufr"),
+    path("riyoukiyaku/it/", KiyakuITView.as_view(), name="riyoukiyakuit"),
+    path("riyoukiyaku/ja/", KiyakuJAView.as_view(), name="riyoukiyakuja"),
+    path("riyoukiyaku/ko/", KiyakuKOView.as_view(), name="riyoukiyakuko"),
+    path("riyoukiyaku/pt-br/", KiyakuPTBRView.as_view(), name="riyoukiyakuptBR"),
+    path("riyoukiyaku/pt/", KiyakuPTView.as_view(), name="riyoukiyakupt"),
+    path("riyoukiyaku/th/", KiyakuTHView.as_view(), name="riyoukiyakuth"),
+    path("riyoukiyaku/vi/", KiyakuVIView.as_view(), name="riyoukiyakuvi"),
+    path("riyoukiyaku/zh-hant/", KiyakuZHHANTView.as_view(), name="riyoukiyakuzhHANT"),
     
     #imfomation
     path("infomation/", CompanyFormView.as_view(), name="infomationpage"),

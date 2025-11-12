@@ -129,6 +129,59 @@ class PrivacyPolicy(TemplateView):
 class KiyakuView(ListView):
     template_name = "thank_japan_app/kiyaku/riyoukiyaku.html"
     model = ThankJapanModel
+    
+class KiyakuZHHANTView(ListView):
+    template_name = "thank_japan_app/kiyaku/riyoukiyaku_zh_hant.html"
+    model = ThankJapanModel
+    
+class KiyakuVIView(ListView):
+    template_name = "thank_japan_app/kiyaku/riyoukiyaku_vi.html"
+    model = ThankJapanModel
+    
+class KiyakuTHView(ListView):
+    template_name = "thank_japan_app/kiyaku/riyoukiyaku_th.html"
+    model = ThankJapanModel
+    
+class KiyakuPTView(ListView):
+    template_name = "thank_japan_app/kiyaku/riyoukiyaku_pt.html"
+    model = ThankJapanModel
+    
+class KiyakuPTBRView(ListView):
+    template_name = "thank_japan_app/kiyaku/riyoukiyaku_pt_br.html"
+    model = ThankJapanModel
+    
+class KiyakuKOView(ListView):
+    template_name = "thank_japan_app/kiyaku/riyoukiyaku_ko.html"
+    model = ThankJapanModel
+    
+class KiyakuJAView(ListView):
+    template_name = "thank_japan_app/kiyaku/riyoukiyaku_ja.html"
+    model = ThankJapanModel
+    
+class KiyakuITView(ListView):
+    template_name = "thank_japan_app/kiyaku/riyoukiyaku_it.html"
+    model = ThankJapanModel
+    
+class KiyakuFRView(ListView):
+    template_name = "thank_japan_app/kiyaku/riyoukiyaku_fr.html"
+    model = ThankJapanModel
+    
+class KiyakuESMXView(ListView):
+    template_name = "thank_japan_app/kiyaku/riyoukiyaku_es_mx.html"
+    model = ThankJapanModel
+    
+class KiyakuESESView(ListView):
+    template_name = "thank_japan_app/kiyaku/riyoukiyaku_es_es.html"
+    model = ThankJapanModel
+
+class KiyakuENINView(ListView):
+    template_name = "thank_japan_app/kiyaku/riyoukiyaku_en_in.html"
+    model = ThankJapanModel
+    
+class KiyakuDEView(ListView):
+    template_name = "thank_japan_app/kiyaku/riyoukiyaku_de.html"
+    model = ThankJapanModel
+    
 
 
 
