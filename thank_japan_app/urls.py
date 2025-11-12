@@ -4,16 +4,21 @@ from .views import (TopView, TopViewFR, TopViewIT, TopViewPT, TopViewZHHANT,TopV
                     KiyakuView, FoodView, NatureView, FashionView, 
                     CultureView, CookView, AppliancesView, AnimalView,
                     CategoryDetailView, BuildingView, FlowerView, HouseholdItemsView,LiveView,
-                    SportsView, WorkView, CompanyFormView, game_start, game_play,
+                    SportsView, WorkView,  game_start, game_play,
                     game_answer, game_result, game_restart, player_login, player_logout, delete_player_confirm,
-                    player_register, delete_player, LegalNoticeView,PrivacyPolicy, contact_view, contact_thanks,
+                    player_register, delete_player, PrivacyPolicy, contact_view, contact_thanks,
                     JapanFoodView,JapanFoodDEView, JapanFoodENINView, JapanFoodESESView,
                     JapanFoodESMXView, JapanFoodFRView, JapanFoodITView, JapanFoodJAView ,JapanFoodKOView,
                     JapanFoodPTBRView, JapanFoodPTView, JapanFoodTHView, JapanFoodVIView, JapanFoodZHHANTView,
                     JapanCultureView, JapanCultureDEView, JapanCultureENINView, JapanCultureESESView,
                     JapanCultureESMXView, JapanCultureFRView,JapanCultureITView, JapanCultureJAView,JapanCultureKOView,
                     JapanCulturePTBRView,JapanCulturePTView,JapanCultureTHView,JapanCultureVIView,
-                    JapanCultureZHHANTView,)
+                    JapanCultureZHHANTView, CompanyFormView, CompanyFormDEView, CompanyFormENINView, CompanyFormESESView,
+                    CompanyFormESMXView, CompanyFormFRView, CompanyFormITView, CompanyFormJAView, CompanyFormKOView,
+                    CompanyFormPTBRView, CompanyFormPTView, CompanyFormTHView, CompanyFormVIView, CompanyFormZHHANTView, 
+                    LegalNoticeView, LegalNoticeDEView, LegalNoticeENINView, LegalNoticeESESView, LegalNoticeESMXView,
+                    LegalNoticeFRView, LegalNoticeITView, LegalNoticeJAView, LegalNoticeKOView, LegalNoticePTBRView,
+                    LegalNoticePTView, LegalNoticeTHView, LegalNoticeVIView, LegalNoticeZHHANTView) 
 
 
 urlpatterns = [
@@ -93,12 +98,49 @@ urlpatterns = [
     path("work/", WorkView.as_view(), name="workpage"),
     path("live/", LiveView.as_view(), name="livepage"),
 
-    #company page
+    #riyoukiyaku page
     path("riyoukiyaku/", KiyakuView.as_view(), name="riyoukiyaku"),
+    
+    #imfomation
     path("infomation/", CompanyFormView.as_view(), name="infomationpage"),
+    path("infomation/de/", CompanyFormDEView.as_view(), name="infomationpagede"),
+    path("infomation/en-in/", CompanyFormENINView.as_view(), name="infomationpageenIN"),
+    path("infomation/es-es/", CompanyFormESESView.as_view(), name="infomationpageesES"),
+    path("infomation/es-mx/", CompanyFormESMXView.as_view(), name="infomationpageesMX"),
+    path("infomation/fr/", CompanyFormFRView.as_view(), name="infomationpagefr"),
+    path("infomation/it/", CompanyFormITView.as_view(), name="infomationpageit"),
+    path("infomation/ja/", CompanyFormJAView.as_view(), name="infomationpageja"),
+    path("infomation/ko/", CompanyFormKOView.as_view(), name="infomationpageko"),
+    path("infomation/pt-br/", CompanyFormPTBRView.as_view(), name="infomationpageptBR"),
+    path("infomation/pt/", CompanyFormPTView.as_view(), name="infomationpagept"),
+    path("infomation/th/", CompanyFormTHView.as_view(), name="infomationpageth"),
+    path("infomation/vi/", CompanyFormVIView.as_view(), name="infomationpagevi"),
+    path("infomation/zh-hant/", CompanyFormZHHANTView.as_view(), name="infomationpagezhHANT"),
+    
+    
+    #legalnotice
+    path('legal-notice/', LegalNoticeView.as_view(), name='legal_notice'),
+    path('legal-notice/de/', LegalNoticeDEView.as_view(), name='legal_noticede'),
+    path('legal-notice/en-in/', LegalNoticeENINView.as_view(), name='legal_noticeenIN'),
+    path('legal-notice/es-es/', LegalNoticeESESView.as_view(), name='legal_noticeesES'),
+    path('legal-notice/es-mx/', LegalNoticeESMXView.as_view(), name='legal_noticeesMX'),
+    path('legal-notice/fr/', LegalNoticeFRView.as_view(), name='legal_noticefr'),
+    path('legal-notice/it/', LegalNoticeITView.as_view(), name='legal_noticeit'),
+    path('legal-notice/ja/', LegalNoticeJAView.as_view(), name='legal_noticeja'),
+    path('legal-notice/ko/', LegalNoticeKOView.as_view(), name='legal_noticeko'),
+    path('legal-notice/pt-br/', LegalNoticePTBRView.as_view(), name='legal_noticeptBR'),
+    path('legal-notice/pt/', LegalNoticePTView.as_view(), name='legal_noticept'),
+    path('legal-notice/th/', LegalNoticeTHView.as_view(), name='legal_noticeth'),
+    path('legal-notice/vi/', LegalNoticeVIView.as_view(), name='legal_noticevi'),
+    path('legal-notice/zh-hant/', LegalNoticeZHHANTView.as_view(), name='legal_noticezhHANT'),
+    
+    
+    #contact
     path('contact/', contact_view, name='contact'),
     path('contact/thanks/', contact_thanks, name='contact_thanks'),
-    path('legal-notice/', LegalNoticeView.as_view(), name='legal_notice'),
+    
+    
+    #privacypolicy
     path('privacy-policy/', PrivacyPolicy.as_view(), name="privacy_policy"),
     
     #user look page

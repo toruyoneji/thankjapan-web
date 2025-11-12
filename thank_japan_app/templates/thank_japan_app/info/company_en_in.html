@@ -1,0 +1,121 @@
+{% extends 'base/base_en_in.html' %}
+{% load static %}
+
+{% block title %}Company Information{% endblock %}
+
+{% block content %}
+<style>
+  .main2 {
+    max-width: 800px;
+    margin: 40px auto;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #222;
+    background: #fff;
+    padding: 30px 40px;
+    border-radius: 14px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+  }
+
+  .main2 h1 {
+    font-size: 2.8rem;
+    font-weight: 700;
+    color: #f27a54;
+    margin-bottom: 0.4em;
+    padding-top: 50px;
+    text-align: center;
+    text-shadow: 1px 1px 3px rgba(242, 122, 84, 0.5);
+  }
+
+  hr {
+    border: none;
+    border-top: 2px solid #f27a54;
+    margin: 1.8em 0;
+    opacity: 0.7;
+  }
+
+  h2 {
+    color: #f27a54;
+    font-weight: 700;
+    margin-top: 1.8em;
+    margin-bottom: 0.6em;
+    border-left: 6px solid #f27a54;
+    padding-left: 12px;
+    font-size: 1.6rem;
+  }
+
+  ul {
+    list-style-type: square;
+    padding-left: 20px;
+    color: #444;
+    font-size: 1.1rem;
+  }
+
+  ul li {
+    margin-bottom: 0.5em;
+  }
+
+  p {
+    font-size: 1.15rem;
+    line-height: 1.6;
+    color: #555;
+  }
+
+  a.anchor {
+    color: #f27a54;
+    font-weight: 700;
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+
+  a.anchor:hover {
+    color: yellowgreen;
+    text-decoration: underline;
+  }
+
+  /* Legal Notice h3 styling */
+  h2 a h3 {
+    display: inline-block;
+    margin: 0;
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: inherit;
+  }
+</style>
+
+<div class="main2">
+    <h1>Company Information</h1>
+    <hr>
+
+    <h2>Company</h2>
+    <ul>
+        <li><strong>Company Name:</strong> ThankJapan</li>      
+        <li><strong>Company Address:</strong> Kanazawa-shi, Ishikawa-ken, Japan</li>
+    </ul>
+    <hr>
+
+    <h2>Company Introduction</h2>
+    <p>ThankJapan is a global project dedicated to sharing the beauty and spirit of Japan with the world. 
+       Our unique approach focuses not only on traditional Japanese culture but also on how **universal concepts are understood and expressed in the Japanese language.** 
+       We believe that by understanding these connections, you can gain a deeper, more practical insight into Japan, enhancing your language skills, and fostering a richer cross-cultural appreciation.
+    </p>
+    <p>Join us to explore everything from everyday objects to ancient traditions, learning the Japanese words and phrases that bring them to life. Whether you're a language learner, a traveler, or simply curious about Japan, Thank Japan is your guide to experiencing Japan through a truly global lens.</p>
+    <hr>
+    <hr>
+
+    <p>We use cookies to improve your experience on this website. 
+        By continuing to browse, you agree to our use of cookies.</p>
+    <hr>
+
+    <h2><a class="anchor" href="{% url 'riyoukiyaku' %}">Terms of Use</a></h2>
+    <hr>
+
+    <h2><a class="anchor" href="{% url 'legal_noticeenIN' %}">Legal Notice</a></h2>
+    <hr>
+
+    <h2><a class="anchor" href="{% url 'privacy_policy' %}">Privacy Policy</a></h2>
+    <hr>
+
+    <h2><a class="anchor" href="{% url 'contact' %}">Contact</a></h2>
+</div>
+
+{% endblock %}

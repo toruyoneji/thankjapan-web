@@ -1,0 +1,121 @@
+{% extends 'base/base_th.html' %}
+{% load static %}
+
+{% block title %}ข้อมูลบริษัท{% endblock %}
+
+{% block content %}
+<style>
+  .main2 {
+    max-width: 800px;
+    margin: 40px auto;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #222;
+    background: #fff;
+    padding: 30px 40px;
+    border-radius: 14px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+  }
+
+  .main2 h1 {
+    font-size: 2.8rem;
+    font-weight: 700;
+    color: #f27a54;
+    margin-bottom: 0.4em;
+    padding-top: 50px;
+    text-align: center;
+    text-shadow: 1px 1px 3px rgba(242, 122, 84, 0.5);
+  }
+
+  hr {
+    border: none;
+    border-top: 2px solid #f27a54;
+    margin: 1.8em 0;
+    opacity: 0.7;
+  }
+
+  h2 {
+    color: #f27a54;
+    font-weight: 700;
+    margin-top: 1.8em;
+    margin-bottom: 0.6em;
+    border-left: 6px solid #f27a54;
+    padding-left: 12px;
+    font-size: 1.6rem;
+  }
+
+  ul {
+    list-style-type: square;
+    padding-left: 20px;
+    color: #444;
+    font-size: 1.1rem;
+  }
+
+  ul li {
+    margin-bottom: 0.5em;
+  }
+
+  p {
+    font-size: 1.15rem;
+    line-height: 1.6;
+    color: #555;
+  }
+
+  a.anchor {
+    color: #f27a54;
+    font-weight: 700;
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+
+  a.anchor:hover {
+    color: yellowgreen;
+    text-decoration: underline;
+  }
+
+  /* Legal Notice h3 styling */
+  h2 a h3 {
+    display: inline-block;
+    margin: 0;
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: inherit;
+  }
+</style>
+
+<div class="main2">
+    <h1>ข้อมูลบริษัท</h1>
+    <hr>
+
+    <h2>บริษัท</h2>
+    <ul>
+        <li><strong>ชื่อบริษัท:</strong> ThankJapan</li>      
+        <li><strong>ที่อยู่บริษัท:</strong> เมืองคานาซาวะ จังหวัดอิชิกาวะ ประเทศญี่ปุ่น</li>
+    </ul>
+    <hr>
+
+    <h2>แนะนำบริษัท</h2>
+    <p>ThankJapan เป็นโครงการระดับโลกที่ทุ่มเทเพื่อแบ่งปันความงามและจิตวิญญาณของญี่ปุ่นสู่โลก
+       แนวทางที่เป็นเอกลักษณ์ของเราไม่เพียงมุ่งเน้นไปที่วัฒนธรรมญี่ปุ่นดั้งเดิมเท่านั้น แต่ยังรวมถึงวิธีที่ **แนวคิดสากลถูกเข้าใจและแสดงออกในภาษาญี่ปุ่น**
+       เราเชื่อว่าการทำความเข้าใจความเชื่อมโยงเหล่านี้จะช่วยให้คุณได้รับข้อมูลเชิงลึกที่ลึกซึ้งและใช้งานได้จริงเกี่ยวกับญี่ปุ่น พัฒนาทักษะทางภาษาของคุณ และส่งเสริมความซาบซึ้งในวัฒนธรรมที่หลากหลายยิ่งขึ้น
+    </p>
+    <p>มาร่วมสำรวจทุกสิ่งตั้งแต่สิ่งของในชีวิตประจำวันไปจนถึงประเพณีโบราณ เรียนรู้คำศัพท์และวลีภาษาญี่ปุ่นที่ทำให้สิ่งเหล่านั้นมีชีวิตชีวา ไม่ว่าคุณจะเป็นผู้เรียนภาษา นักเดินทาง หรือเพียงแค่ผู้ที่อยากรู้อยากเห็นเกี่ยวกับญี่ปุ่น ThankJapan คือไกด์ของคุณที่จะช่วยให้คุณสัมผัสประสบการณ์ญี่ปุ่นผ่านเลนส์ระดับโลกอย่างแท้จริง</p>
+    <hr>
+    <hr>
+
+    <p>เราใช้คุกกี้เพื่อปรับปรุงประสบการณ์ของคุณบนเว็บไซต์นี้
+        โดยการเรียกดูต่อ คุณตกลงที่จะให้เราใช้คุกกี้</p>
+    <hr>
+
+    <h2><a class="anchor" href="{% url 'riyoukiyaku' %}">ข้อกำหนดการใช้งาน</a></h2>
+    <hr>
+
+    <h2><a class="anchor" href="{% url 'legal_noticeth' %}">ประกาศทางกฎหมาย</a></h2>
+    <hr>
+
+    <h2><a class="anchor" href="{% url 'privacy_policy' %}">นโยบายความเป็นส่วนตัว</a></h2>
+    <hr>
+
+    <h2><a class="anchor" href="{% url 'contact' %}">ติดต่อ</a></h2>
+</div>
+
+{% endblock %}

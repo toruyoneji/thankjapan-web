@@ -1,0 +1,121 @@
+{% extends 'base/base_ja.html' %}
+{% load static %}
+
+{% block title %}会社情報{% endblock %}
+
+{% block content %}
+<style>
+  .main2 {
+    max-width: 800px;
+    margin: 40px auto;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #222;
+    background: #fff;
+    padding: 30px 40px;
+    border-radius: 14px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+  }
+
+  .main2 h1 {
+    font-size: 2.8rem;
+    font-weight: 700;
+    color: #f27a54;
+    margin-bottom: 0.4em;
+    padding-top: 50px;
+    text-align: center;
+    text-shadow: 1px 1px 3px rgba(242, 122, 84, 0.5);
+  }
+
+  hr {
+    border: none;
+    border-top: 2px solid #f27a54;
+    margin: 1.8em 0;
+    opacity: 0.7;
+  }
+
+  h2 {
+    color: #f27a54;
+    font-weight: 700;
+    margin-top: 1.8em;
+    margin-bottom: 0.6em;
+    border-left: 6px solid #f27a54;
+    padding-left: 12px;
+    font-size: 1.6rem;
+  }
+
+  ul {
+    list-style-type: square;
+    padding-left: 20px;
+    color: #444;
+    font-size: 1.1rem;
+  }
+
+  ul li {
+    margin-bottom: 0.5em;
+  }
+
+  p {
+    font-size: 1.15rem;
+    line-height: 1.6;
+    color: #555;
+  }
+
+  a.anchor {
+    color: #f27a54;
+    font-weight: 700;
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+
+  a.anchor:hover {
+    color: yellowgreen;
+    text-decoration: underline;
+  }
+
+  /* Legal Notice h3 styling */
+  h2 a h3 {
+    display: inline-block;
+    margin: 0;
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: inherit;
+  }
+</style>
+
+<div class="main2">
+    <h1>会社情報</h1>
+    <hr>
+
+    <h2>会社概要</h2>
+    <ul>
+        <li><strong>会社名:</strong> ThankJapan</li>      
+        <li><strong>所在地:</strong> 日本石川県金沢市</li>
+    </ul>
+    <hr>
+
+    <h2>会社紹介</h2>
+    <p>ThankJapanは、日本の美しさと精神を世界と共有することに特化したグローバルプロジェクトです。
+       私たちは、伝統的な日本文化だけでなく、**普遍的な概念が日本語でどのように理解され、表現されているか**にも焦点を当てた独自の取り組みを行っています。
+       これらのつながりを理解することで、日本に対するより深く実用的な洞察を得ることができ、言語スキルの向上、そして豊かな異文化理解を促進できると信じています。
+    </p>
+    <p>私たちとともに、日用品から古代の伝統まであらゆるものを探求し、それらを生き生きとさせる日本語の単語やフレーズを学びましょう。言語学習者、旅行者、あるいは単に日本に興味がある方であろうと、ThankJapanは真にグローバルな視点を通して日本を体験するためのあなたのガイドとなります。</p>
+    <hr>
+    <hr>
+
+    <p>私たちは、このウェブサイトでのあなたの体験を向上させるためにクッキーを使用しています。
+        閲覧を続けることにより、あなたは私たちのクッキーの使用に同意するものとします。</p>
+    <hr>
+
+    <h2><a class="anchor" href="{% url 'riyoukiyaku' %}">利用規約</a></h2>
+    <hr>
+
+    <h2><a class="anchor" href="{% url 'legal_noticeja' %}">法的通知</a></h2>
+    <hr>
+
+    <h2><a class="anchor" href="{% url 'privacy_policy' %}">プライバシーポリシー</a></h2>
+    <hr>
+
+    <h2><a class="anchor" href="{% url 'contact' %}">お問い合わせ</a></h2>
+</div>
+
+{% endblock %}

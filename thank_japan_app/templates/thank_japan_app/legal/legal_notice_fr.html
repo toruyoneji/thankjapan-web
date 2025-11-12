@@ -1,0 +1,118 @@
+{% extends 'base/base_fr.html' %}
+
+{% block title %}Mentions Légales | Japan Introduction{% endblock %}
+
+{% block content %}
+<style>
+    body {
+        background: linear-gradient(135deg, #f6f9fc, #eef3f8);
+        font-family: 'Helvetica Neue', 'Noto Sans JP', sans-serif;
+    }
+
+    .legal-container {
+        max-width: 850px;
+        margin: 70px auto;
+        background: #fff;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+        border-radius: 16px;
+        padding: 50px 60px;
+        color: #333;
+        line-height: 1.9;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .legal-container::before {
+        content: "";
+        position: absolute;
+        top: -80px;
+        right: -80px;
+        width: 200px;
+        height: 200px;
+        background: radial-gradient(circle at center, #009cde33 0%, transparent 70%);
+        border-radius: 50%;
+        z-index: 0;
+    }
+
+    .legal-container h2 {
+        color: #0068b4;
+        font-size: 1.8rem;
+        margin-bottom: 20px;
+        border-left: 5px solid #009cde;
+        padding-left: 15px;
+        position: relative;
+        z-index: 1;
+    }
+
+    .legal-container section {
+        margin-bottom: 45px;
+        position: relative;
+        z-index: 1;
+        background: #fafcff;
+        padding: 25px 30px;
+        border-radius: 12px;
+        border: 1px solid #e3ecf3;
+        transition: all 0.3s ease;
+    }
+
+    .legal-container section:hover {
+        background: #f5faff;
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(0, 156, 222, 0.08);
+    }
+
+    .legal-container p {
+        margin: 8px 0 14px;
+    }
+
+    .legal-container strong {
+        color: #111;
+        font-weight: 600;
+    }
+
+    .btn-more {
+            display: inline-block;
+            background: #ffb347;
+            color: white;
+            padding: 10px 24px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 20px;
+            transition: background 0.3s;
+        }
+        .btn-more:hover {
+            background: #ff9642;
+        }
+    
+
+    @media (max-width: 600px) {
+        .legal-container {
+            padding: 35px 25px;
+        }
+    }
+</style>
+
+<div class="legal-container">
+    <h2>Mentions Légales (Loi sur les Transactions Commerciales Spécifiées)</h2>
+
+    <section>
+        <p><strong>Exploitant commercial:</strong><br>Japan Introduction</p>
+        <p><strong>Représentant:</strong><br>Toru Yonejima</p>
+        <p><strong>Adresse commerciale:</strong><br>Moroemachi Nakacho, Kanazawa City, Ishikawa 920-0016, Japon</p>
+        <p><strong>Numéro de téléphone:</strong><br>+81 80-8699-7640</p>
+        <p>※Pour toute demande, veuillez nous contacter par e-mail.</p>
+        <p><strong>Adresse e-mail:</strong><br>yonetoru0@gmail.com</p>
+        <p><strong>Prix de vente:</strong><br>Tel qu'affiché sur chaque page de paiement (taxes incluses)</p>
+        <p><strong>Frais supplémentaires:</strong><br>Aucun</p>
+        <p><strong>Mode de paiement:</strong><br>Carte de crédit (via PayPal)</p>
+        <p><strong>Moment du paiement:</strong><br>Le paiement est traité immédiatement après le passage de la commande</p>
+        <p><strong>Politique de retour / annulation:</strong><br>En raison de la nature de ce service de support, nous n'acceptons ni les annulations ni les remboursements après le paiement.</p>
+    </section>
+
+    <div style="text-align: center;">
+        <a href="{% url 'toppagefr' %}" class="btn-more">Retour à l'accueil</a>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,121 @@
+{% extends 'base/base_vi.html' %}
+{% load static %}
+
+{% block title %}Thông tin công ty{% endblock %}
+
+{% block content %}
+<style>
+  .main2 {
+    max-width: 800px;
+    margin: 40px auto;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #222;
+    background: #fff;
+    padding: 30px 40px;
+    border-radius: 14px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+  }
+
+  .main2 h1 {
+    font-size: 2.8rem;
+    font-weight: 700;
+    color: #f27a54;
+    margin-bottom: 0.4em;
+    padding-top: 50px;
+    text-align: center;
+    text-shadow: 1px 1px 3px rgba(242, 122, 84, 0.5);
+  }
+
+  hr {
+    border: none;
+    border-top: 2px solid #f27a54;
+    margin: 1.8em 0;
+    opacity: 0.7;
+  }
+
+  h2 {
+    color: #f27a54;
+    font-weight: 700;
+    margin-top: 1.8em;
+    margin-bottom: 0.6em;
+    border-left: 6px solid #f27a54;
+    padding-left: 12px;
+    font-size: 1.6rem;
+  }
+
+  ul {
+    list-style-type: square;
+    padding-left: 20px;
+    color: #444;
+    font-size: 1.1rem;
+  }
+
+  ul li {
+    margin-bottom: 0.5em;
+  }
+
+  p {
+    font-size: 1.15rem;
+    line-height: 1.6;
+    color: #555;
+  }
+
+  a.anchor {
+    color: #f27a54;
+    font-weight: 700;
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+
+  a.anchor:hover {
+    color: yellowgreen;
+    text-decoration: underline;
+  }
+
+  /* Legal Notice h3 styling */
+  h2 a h3 {
+    display: inline-block;
+    margin: 0;
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: inherit;
+  }
+</style>
+
+<div class="main2">
+    <h1>Thông tin công ty</h1>
+    <hr>
+
+    <h2>Công ty</h2>
+    <ul>
+        <li><strong>Tên công ty:</strong> ThankJapan</li>      
+        <li><strong>Địa chỉ công ty:</strong> Thành phố Kanazawa, Tỉnh Ishikawa, Nhật Bản</li>
+    </ul>
+    <hr>
+
+    <h2>Giới thiệu công ty</h2>
+    <p>ThankJapan là một dự án toàn cầu chuyên chia sẻ vẻ đẹp và tinh thần của Nhật Bản với thế giới.
+       Phương pháp tiếp cận độc đáo của chúng tôi không chỉ tập trung vào văn hóa truyền thống Nhật Bản mà còn vào cách **các khái niệm phổ quát được hiểu và diễn đạt bằng tiếng Nhật.**
+       Chúng tôi tin rằng bằng cách hiểu các kết nối này, bạn có thể có được cái nhìn sâu sắc hơn, thực tế hơn về Nhật Bản, nâng cao kỹ năng ngôn ngữ của mình và thúc đẩy sự đánh giá đa văn hóa phong phú hơn.
+    </p>
+    <p>Hãy tham gia cùng chúng tôi để khám phá mọi thứ từ đồ vật hàng ngày đến các truyền thống cổ xưa, học các từ và cụm từ tiếng Nhật làm cho chúng trở nên sống động. Cho dù bạn là người học ngôn ngữ, khách du lịch hay chỉ đơn giản là tò mò về Nhật Bản, ThankJapan là hướng dẫn của bạn để trải nghiệm Nhật Bản thông qua một lăng kính thực sự toàn cầu.</p>
+    <hr>
+    <hr>
+
+    <p>Chúng tôi sử dụng cookie để cải thiện trải nghiệm của bạn trên trang web này.
+        Bằng cách tiếp tục duyệt, bạn đồng ý với việc chúng tôi sử dụng cookie.</p>
+    <hr>
+
+    <h2><a class="anchor" href="{% url 'riyoukiyaku' %}">Điều khoản sử dụng</a></h2>
+    <hr>
+
+    <h2><a class="anchor" href="{% url 'legal_noticevi' %}">Thông báo pháp lý</a></h2>
+    <hr>
+
+    <h2><a class="anchor" href="{% url 'privacy_policy' %}">Chính sách quyền riêng tư</a></h2>
+    <hr>
+
+    <h2><a class="anchor" href="{% url 'contact' %}">Liên hệ</a></h2>
+</div>
+
+{% endblock %}

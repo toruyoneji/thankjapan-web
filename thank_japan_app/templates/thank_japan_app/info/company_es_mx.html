@@ -1,0 +1,121 @@
+{% extends 'base/base_es_mx.html' %}
+{% load static %}
+
+{% block title %}Información de la empresa{% endblock %}
+
+{% block content %}
+<style>
+  .main2 {
+    max-width: 800px;
+    margin: 40px auto;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #222;
+    background: #fff;
+    padding: 30px 40px;
+    border-radius: 14px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+  }
+
+  .main2 h1 {
+    font-size: 2.8rem;
+    font-weight: 700;
+    color: #f27a54;
+    margin-bottom: 0.4em;
+    padding-top: 50px;
+    text-align: center;
+    text-shadow: 1px 1px 3px rgba(242, 122, 84, 0.5);
+  }
+
+  hr {
+    border: none;
+    border-top: 2px solid #f27a54;
+    margin: 1.8em 0;
+    opacity: 0.7;
+  }
+
+  h2 {
+    color: #f27a54;
+    font-weight: 700;
+    margin-top: 1.8em;
+    margin-bottom: 0.6em;
+    border-left: 6px solid #f27a54;
+    padding-left: 12px;
+    font-size: 1.6rem;
+  }
+
+  ul {
+    list-style-type: square;
+    padding-left: 20px;
+    color: #444;
+    font-size: 1.1rem;
+  }
+
+  ul li {
+    margin-bottom: 0.5em;
+  }
+
+  p {
+    font-size: 1.15rem;
+    line-height: 1.6;
+    color: #555;
+  }
+
+  a.anchor {
+    color: #f27a54;
+    font-weight: 700;
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+
+  a.anchor:hover {
+    color: yellowgreen;
+    text-decoration: underline;
+  }
+
+  /* Legal Notice h3 styling */
+  h2 a h3 {
+    display: inline-block;
+    margin: 0;
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: inherit;
+  }
+</style>
+
+<div class="main2">
+    <h1>Información de la empresa</h1>
+    <hr>
+
+    <h2>Empresa</h2>
+    <ul>
+        <li><strong>Nombre de la empresa:</strong> ThankJapan</li>      
+        <li><strong>Dirección de la empresa:</strong> Kanazawa-shi, Ishikawa-ken, Japón</li>
+    </ul>
+    <hr>
+
+    <h2>Introducción a la empresa</h2>
+    <p>ThankJapan es un proyecto global dedicado a compartir la belleza y el espíritu de Japón con el mundo.
+       Nuestro enfoque único se centra no solo en la cultura tradicional japonesa, sino también en cómo **los conceptos universales son comprendidos y expresados en el idioma japonés.**
+       Creemos que al comprender estas conexiones, puedes obtener una visión más profunda y práctica de Japón, mejorando tus habilidades lingüísticas y fomentando una apreciación intercultural más rica.
+    </p>
+    <p>Únete a nosotros para explorar desde objetos cotidianos hasta tradiciones ancestrales, aprendiendo las palabras y frases japonesas que les dan vida. Ya seas un estudiante de idiomas, un viajero o simplemente sientas curiosidad por Japón, ThankJapan es tu guía para experimentar Japón a través de una lente verdaderamente global.</p>
+    <hr>
+    <hr>
+
+    <p>Utilizamos cookies para mejorar tu experiencia en este sitio web.
+        Al continuar navegando, aceptas nuestro uso de cookies.</p>
+    <hr>
+
+    <h2><a class="anchor" href="{% url 'riyoukiyaku' %}">Términos de uso</a></h2>
+    <hr>
+
+    <h2><a class="anchor" href="{% url 'legal_noticeesMX' %}">Aviso legal</a></h2>
+    <hr>
+
+    <h2><a class="anchor" href="{% url 'privacy_policy' %}">Política de privacidad</a></h2>
+    <hr>
+
+    <h2><a class="anchor" href="{% url 'contact' %}">Contacto</a></h2>
+</div>
+
+{% endblock %}

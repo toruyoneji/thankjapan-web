@@ -30,12 +30,109 @@ Sitemap: https://www.thankjapan.com/sitemap.xml
 """
     return HttpResponse(content, content_type="text/plain")
 
+
+#company infomation
+class CompanyFormView(TemplateView):
+     template_name = 'thank_japan_app/info/company.html'
+     
+class CompanyFormZHHANTView(TemplateView):
+     template_name = 'thank_japan_app/info/company_zh_hant.html'
+     
+class CompanyFormVIView(TemplateView):
+     template_name = 'thank_japan_app/info/company_vi.html'
+     
+class CompanyFormTHView(TemplateView):
+     template_name = 'thank_japan_app/info/company_th.html'
+     
+class CompanyFormPTView(TemplateView):
+     template_name = 'thank_japan_app/info/company_pt.html'
+     
+class CompanyFormPTBRView(TemplateView):
+     template_name = 'thank_japan_app/info/company_pt_br.html'
+     
+class CompanyFormKOView(TemplateView):
+     template_name = 'thank_japan_app/info/company_ko.html'
+     
+class CompanyFormJAView(TemplateView):
+     template_name = 'thank_japan_app/info/company_ja.html'
+     
+class CompanyFormITView(TemplateView):
+     template_name = 'thank_japan_app/info/company_it.html'
+     
+class CompanyFormFRView(TemplateView):
+     template_name = 'thank_japan_app/info/company_fr.html'
+     
+class CompanyFormESMXView(TemplateView):
+     template_name = 'thank_japan_app/info/company_es_mx.html'
+     
+class CompanyFormESESView(TemplateView):
+     template_name = 'thank_japan_app/info/company_es_es.html'
+     
+class CompanyFormENINView(TemplateView):
+     template_name = 'thank_japan_app/info/company_en_in.html'
+     
+class CompanyFormDEView(TemplateView):
+     template_name = 'thank_japan_app/info/company_de.html'
+     
+#legalnotice
+
 class LegalNoticeView(TemplateView):
-    template_name = "thank_japan_app/legal_notice.html"
+    template_name = "thank_japan_app/legal/legal_notice.html"
+     
+class LegalNoticeZHHANTView(TemplateView):
+    template_name = "thank_japan_app/legal/legal_notice_zh_hant.html"
     
+class LegalNoticeVIView(TemplateView):
+    template_name = "thank_japan_app/legal/legal_notice_vi.html"
+    
+class LegalNoticeTHView(TemplateView):
+    template_name = "thank_japan_app/legal/legal_notice_th.html"
+    
+class LegalNoticePTView(TemplateView):
+    template_name = "thank_japan_app/legal/legal_notice_pt.html"
+    
+class LegalNoticePTBRView(TemplateView):
+    template_name = "thank_japan_app/legal/legal_notice_pt_br.html"
+    
+class LegalNoticeKOView(TemplateView):
+    template_name = "thank_japan_app/legal/legal_notice_ko.html"
+    
+class LegalNoticeJAView(TemplateView):
+    template_name = "thank_japan_app/legal/legal_notice_ja.html"
+    
+class LegalNoticeITView(TemplateView):
+    template_name = "thank_japan_app/legal/legal_notice_it.html"
+    
+class LegalNoticeFRView(TemplateView):
+    template_name = "thank_japan_app/legal/legal_notice_fr.html"
+    
+class LegalNoticeESMXView(TemplateView):
+    template_name = "thank_japan_app/legal/legal_notice_es_mx.html"
+    
+class LegalNoticeESESView(TemplateView):
+    template_name = "thank_japan_app/legal/legal_notice_es_es.html"
+    
+class LegalNoticeENINView(TemplateView):
+    template_name = "thank_japan_app/legal/legal_notice_en_in.html"
+    
+class LegalNoticeDEView(TemplateView):
+    template_name = "thank_japan_app/legal/legal_notice_de.html"
+    
+    
+    
+#privacypolicy    
 class PrivacyPolicy(TemplateView):
-    template_name = "thank_japan_app/privacy_policy.html"
+    template_name = "thank_japan_app/privacy/privacy_policy.html"
     
+    
+#riyoukiyaku    
+class KiyakuView(ListView):
+    template_name = "thank_japan_app/kiyaku/riyoukiyaku.html"
+    model = ThankJapanModel
+
+
+
+
 
 #country page
 class TopView(ListView):
@@ -106,15 +203,6 @@ class CategoryDetailView(DetailView):
         category = self.kwargs['category']
         return ThankJapanModel.objects.filter(category=category)
 
-    
-class KiyakuView(ListView):
-    template_name = "thank_japan_app/riyoukiyaku.html"
-    model = ThankJapanModel
-
-        
-#company infomation
-class CompanyFormView(TemplateView):
-     template_name = 'thank_japan_app/company.html'
      
 
 def contact_view(request):

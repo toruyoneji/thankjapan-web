@@ -1,0 +1,121 @@
+{% extends 'base/base_zh_hant.html' %}
+{% load static %}
+
+{% block title %}公司資訊{% endblock %}
+
+{% block content %}
+<style>
+  .main2 {
+    max-width: 800px;
+    margin: 40px auto;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #222;
+    background: #fff;
+    padding: 30px 40px;
+    border-radius: 14px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+  }
+
+  .main2 h1 {
+    font-size: 2.8rem;
+    font-weight: 700;
+    color: #f27a54;
+    margin-bottom: 0.4em;
+    padding-top: 50px;
+    text-align: center;
+    text-shadow: 1px 1px 3px rgba(242, 122, 84, 0.5);
+  }
+
+  hr {
+    border: none;
+    border-top: 2px solid #f27a54;
+    margin: 1.8em 0;
+    opacity: 0.7;
+  }
+
+  h2 {
+    color: #f27a54;
+    font-weight: 700;
+    margin-top: 1.8em;
+    margin-bottom: 0.6em;
+    border-left: 6px solid #f27a54;
+    padding-left: 12px;
+    font-size: 1.6rem;
+  }
+
+  ul {
+    list-style-type: square;
+    padding-left: 20px;
+    color: #444;
+    font-size: 1.1rem;
+  }
+
+  ul li {
+    margin-bottom: 0.5em;
+  }
+
+  p {
+    font-size: 1.15rem;
+    line-height: 1.6;
+    color: #555;
+  }
+
+  a.anchor {
+    color: #f27a54;
+    font-weight: 700;
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+
+  a.anchor:hover {
+    color: yellowgreen;
+    text-decoration: underline;
+  }
+
+  /* Legal Notice h3 styling */
+  h2 a h3 {
+    display: inline-block;
+    margin: 0;
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: inherit;
+  }
+</style>
+
+<div class="main2">
+    <h1>公司資訊</h1>
+    <hr>
+
+    <h2>公司</h2>
+    <ul>
+        <li><strong>公司名稱：</strong> ThankJapan</li>      
+        <li><strong>公司地址：</strong> 日本石川縣金澤市</li>
+    </ul>
+    <hr>
+
+    <h2>公司簡介</h2>
+    <p>ThankJapan 是一個全球性專案，致力於向世界分享日本的美麗與精神。
+       我們獨特的方法不僅關注日本傳統文化，還關注**普世概念如何在日語中被理解和表達。**
+       我們相信，透過理解這些連結，您可以對日本獲得更深入、更實際的見解，提升您的語言技能，並培養更豐富的跨文化欣賞。
+    </p>
+    <p>加入我們，探索從日常物品到古老傳統的一切，學習將它們生動呈現的日語單字和短語。無論您是語言學習者、旅行者，還是僅僅對日本感到好奇，ThankJapan 都是您透過真正的全球視角體驗日本的指南。</p>
+    <hr>
+    <hr>
+
+    <p>我們使用 cookie 來改善您在本網站上的體驗。
+        繼續瀏覽即表示您同意我們使用 cookie。</p>
+    <hr>
+
+    <h2><a class="anchor" href="{% url 'riyoukiyaku' %}">使用條款</a></h2>
+    <hr>
+
+    <h2><a class="anchor" href="{% url 'legal_noticezhHANT' %}">法律聲明</a></h2>
+    <hr>
+
+    <h2><a class="anchor" href="{% url 'privacy_policy' %}">隱私權政策</a></h2>
+    <hr>
+
+    <h2><a class="anchor" href="{% url 'contact' %}">聯絡我們</a></h2>
+</div>
+
+{% endblock %}
