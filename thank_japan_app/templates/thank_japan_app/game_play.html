@@ -401,13 +401,7 @@ hr {
     {% csrf_token %}
     <input type="hidden" name="answer" id="combined-answer-input">
 
-    <input type="search" id="mobile-text-input"
-           style="position: absolute; left: -9999px; opacity: 0; ime-mode: inactive;" <!-- ime-mode: inactive を追加 -->
-           aria-hidden="true"
-           autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
-           maxlength="{{ hint_length }}"
-           inputmode="latin" pattern="[a-zA-Z]*"
-           autofocus>
+    <!-- mobile-text-input は不要になるので削除 -->
 
     {% if message %}
       <p class="message {% if 'Correct' in message %}correct{% else %}incorrect{% endif %}">
@@ -426,6 +420,51 @@ hr {
     <button type="submit" class="neon-button">Submit Answer</button>
   </form>
 
+  <!-- ここにカスタムキーボードを追加 -->
+  <div id="keyboard-container">
+    <div class="keyboard-row">
+      <button class="key-button" data-key="Q">Q</button>
+      <button class="key-button" data-key="W">W</button>
+      <button class="key-button" data-key="E">E</button>
+      <button class="key-button" data-key="R">R</button>
+      <button class="key-button" data-key="T">T</button>
+      <button class="key-button" data-key="Y">Y</button>
+      <button class="key-button" data-key="U">U</button>
+      <button class="key-button" data-key="I">I</button>
+      <button class="key-button" data-key="O">O</button>
+      <button class="key-button" data-key="P">P</button>
+    </div>
+    <div class="keyboard-row">
+      <div class="spacer"></div>
+      <button class="key-button" data-key="A">A</button>
+      <button class="key-button" data-key="S">S</button>
+      <button class="key-button" data-key="D">D</button>
+      <button class="key-button" data-key="F">F</button>
+      <button class="key-button" data-key="G">G</button>
+      <button class="key-button" data-key="H">H</button>
+      <button class="key-button" data-key="J">J</button>
+      <button class="key-button" data-key="K">K</button>
+      <button class="key-button" data-key="L">L</button>
+      <div class="spacer"></div>
+    </div>
+    <div class="keyboard-row">
+      <button class="key-button shift-key" data-key="Shift">↑</button> <!-- 必要であればShift機能を追加 -->
+      <button class="key-button" data-key="Z">Z</button>
+      <button class="key-button" data-key="X">X</button>
+      <button class="key-button" data-key="C">C</button>
+      <button class="key-button" data-key="V">V</button>
+      <button class="key-button" data-key="B">B</button>
+      <button class="key-button" data-key="N">N</button>
+      <button class="key-button" data-key="M">M</button>
+      <button class="key-button backspace-key" data-key="Backspace">⌫</button>
+    </div>
+    <div class="keyboard-row">
+        <!-- 必要であればスペースキーなどを追加 -->
+        <button class="key-button large-key" data-key="Enter">Submit</button>
+    </div>
+  </div>
+
+
   <div class="footer-note">
   <p>✨ Keep going,
     {% if player %}
@@ -438,6 +477,63 @@ hr {
   </div>
 </div>
 
+<style>
+/* カスタムキーボード用のCSS */
+#keyboard-container {
+    width: 100%;
+    max-width: 600px; /* 必要に応じて調整 */
+    margin: 20px auto;
+    background-color: #333;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.keyboard-row {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 5px;
+}
+
+.key-button {
+    background-color: #555;
+    color: #eee;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 12px;
+    margin: 3px;
+    font-size: 1.2em;
+    font-weight: bold;
+    cursor: pointer;
+    flex-grow: 1;
+    text-align: center;
+    transition: background-color 0.1s ease;
+    user-select: none; /* テキスト選択を防止 */
+}
+
+.key-button:hover {
+    background-color: #777;
+}
+
+.key-button:active {
+    background-color: #999;
+}
+
+.spacer {
+    flex-grow: 0.5; /* キーボードの端のスペースを調整 */
+}
+
+.shift-key, .backspace-key, .large-key {
+    background-color: #666;
+    flex-grow: 1.5; /* Shift, Backspaceなどを少し大きく */
+}
+
+.large-key {
+    padding: 15px 20px;
+    font-size: 1.3em;
+}
+</style>
+
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const mainContainer = document.querySelector('.main2');
@@ -445,19 +541,20 @@ document.addEventListener('DOMContentLoaded', function() {
     const visualHintContainer = document.getElementById('visual-hint-container');
     const combinedAnswerInput = document.getElementById('combined-answer-input');
     const answerForm = document.getElementById('answer-form');
-    const mobileTextInput = document.getElementById('mobile-text-input');
+    const keyboardContainer = document.getElementById('keyboard-container'); // カスタムキーボード
+    const keyButtons = keyboardContainer.querySelectorAll('.key-button');
 
+    let currentInputIndex = 0; // カーソル位置
     let currentAnswerArray = Array(hintLength).fill('_');
-    let isComposing = false; // IME入力中かどうかを判断するフラグ
 
     // ヒントの文字表示スパンを作成・更新
     function createHintSpans() {
-        visualHintContainer.innerHTML = '';
+        visualHintContainer.innerHTML = ''; // 一度クリア
         for (let i = 0; i < hintLength; i++) {
             const charSpan = document.createElement('span');
-            charSpan.textContent = currentAnswerArray[i];
+            charSpan.textContent = currentAnswerArray[i]; // currentAnswerArray の内容を反映
             charSpan.className = 'hint-char-display';
-            charSpan.dataset.index = i;
+            charSpan.dataset.index = i; // クリックでカーソル移動できるようにインデックスを保持
             visualHintContainer.appendChild(charSpan);
         }
         updateActiveCursor();
@@ -468,7 +565,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const charSpans = visualHintContainer.querySelectorAll('.hint-char-display');
         charSpans.forEach((span, index) => {
             span.classList.remove('active');
-            if (index === mobileTextInput.selectionStart) { // mobileTextInput のカーソル位置を基準にする
+            if (index === currentInputIndex) { // currentInputIndex を基準にする
                 span.classList.add('active');
             }
         });
@@ -488,148 +585,100 @@ document.addEventListener('DOMContentLoaded', function() {
     // 初期化
     createHintSpans();
     updateCombinedAnswer();
-    mobileTextInput.focus(); // ロード時に自動フォーカス
+    visualHintContainer.focus(); // PCでキーボード入力するためにフォーカス
 
-    // visualHintContainerをクリックしたら、mobileTextInputにフォーカスを当てる
+    // visualHintContainerをクリックしたら、カーソル位置を移動
     visualHintContainer.addEventListener('click', function(e) {
-        let newCursorPos = mobileTextInput.value.length; // デフォルトは末尾
-
         if (e.target.classList.contains('hint-char-display')) {
-            let clickedIndex = parseInt(e.target.dataset.index);
-            // クリックされた位置と現在のテキスト長を比較して、適正なカーソル位置を決定
-            newCursorPos = Math.min(clickedIndex, mobileTextInput.value.length);
+            currentInputIndex = parseInt(e.target.dataset.index);
+        } else {
+            // スパン以外がクリックされた場合、最初の空きか末尾に移動
+            let firstEmptyIndex = currentAnswerArray.indexOf('_');
+            currentInputIndex = (firstEmptyIndex !== -1) ? firstEmptyIndex : hintLength - 1;
         }
-        
-        mobileTextInput.focus();
-        // 遅延させてカーソル位置をセット（iOSでのバグ回避策）
-        setTimeout(() => {
-            mobileTextInput.setSelectionRange(newCursorPos, newCursorPos);
-            updateActiveCursor();
-        }, 0);
-    });
-
-    // IMEが開始された時
-    mobileTextInput.addEventListener('compositionstart', function() {
-        isComposing = true;
-    });
-
-    // IMEが終了した時（文字が確定した時）
-    mobileTextInput.addEventListener('compositionend', function() {
-        isComposing = false;
-        processInput(); // 確定した文字を処理
-        // mobileTextInput の値をクリーンアップして同期
-        mobileTextInput.value = combinedAnswerInput.value;
-        // カーソル位置を末尾に設定
-        mobileTextInput.setSelectionRange(mobileTextInput.value.length, mobileTextInput.value.length);
         updateActiveCursor();
+        visualHintContainer.focus(); // フォーカスを維持
     });
 
-    // mobileTextInput への入力イベントを処理
-    mobileTextInput.addEventListener('input', function(e) {
-        // IME入力中の場合は、compositionend で処理するためにここでは何もしない
-        // ただし、IMEによって勝手に挿入された日本語を即座に除去するため、ここでもチェック
-        if (isComposing) {
-            // IME入力中は英字以外の文字を即座に除去
-            mobileTextInput.value = mobileTextInput.value.toUpperCase().replace(/[^A-Z]/g, '');
-            updateActiveCursor(); // カーソル位置は更新
-            return;
-        }
-        processInput(); // IME確定済みの場合のみ処理を実行
+
+    // カスタムキーボードのボタンクリックイベント
+    keyButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const key = this.dataset.key;
+
+            if (key.length === 1 && key.match(/^[A-Z]$/)) { // アルファベット
+                if (currentInputIndex < hintLength) {
+                    currentAnswerArray[currentInputIndex] = key;
+                    currentInputIndex++;
+                    if (currentInputIndex >= hintLength) { // 末尾を超えたら末尾に留まる
+                        currentInputIndex = hintLength - 1;
+                    }
+                }
+            } else if (key === 'Backspace') { // Backspaceキー
+                if (currentInputIndex > 0) {
+                    if (currentAnswerArray[currentInputIndex] !== '_') { // 現在位置に文字があれば消す
+                        currentAnswerArray[currentInputIndex] = '_';
+                    } else { // なければ一つ左に移動して消す
+                        currentInputIndex--;
+                        currentAnswerArray[currentInputIndex] = '_';
+                    }
+                } else if (currentInputIndex === 0 && currentAnswerArray[0] !== '_') { // 先頭に文字がある場合
+                    currentAnswerArray[0] = '_';
+                }
+            } else if (key === 'Enter') { // Submitキー
+                answerForm.submit();
+            }
+            // Shiftキーはここでは何もしない（大文字固定のため）
+
+            createHintSpans(); // 表示を更新
+            updateCombinedAnswer(); // hidden input の値を更新
+            visualHintContainer.focus(); // フォーカスを維持
+        });
     });
 
-    // mobileTextInput の内容を currentAnswerArray に反映させる関数
-    function processInput() {
-        let inputText = mobileTextInput.value.toUpperCase();
 
-        // 英字以外の文字を完全に除去する (IMEからのゴミを排除)
-        inputText = inputText.replace(/[^A-Z]/g, '');
-
-        let newAnswerArray = Array(hintLength).fill('_');
-
-        for (let i = 0; i < hintLength && i < inputText.length; i++) {
-            newAnswerArray[i] = inputText[i];
-        }
-        currentAnswerArray = newAnswerArray;
-
-        createHintSpans(); // visualHintContainer の表示を更新
-        updateCombinedAnswer(); // hidden input の値を更新
-
-        // IMEが完了した後、mobileTextInputの値をcleanな状態に同期
-        // これをしないと、IMEが再起動した時に古い未クリーンな値が復元される場合がある
-        if (!isComposing) {
-            // mobileTextInput の値をクリーンアップされた内容で上書き
-            mobileTextInput.value = combinedAnswerInput.value;
-            // カーソル位置を mobileTextInput の末尾に設定
-            mobileTextInput.setSelectionRange(mobileTextInput.value.length, mobileTextInput.value.length);
-        }
-        updateActiveCursor(); // カーソル位置も更新
-    }
-
-    // PCキーボードからの入力（Backspace, 左右矢印, Enter）
+    // PCキーボードからの入力（アルファベット、Backspace、左右矢印、Enter）
     visualHintContainer.addEventListener('keydown', function(e) {
-        // IME入力中は、直接処理しない
-        if (e.isComposing || isComposing) {
-            return;
-        }
+        e.preventDefault(); // デフォルトのブラウザ挙動を停止
 
-        if (e.key === 'Backspace') {
-            e.preventDefault();
-            let currentCursorPos = mobileTextInput.selectionStart;
-            if (currentCursorPos > 0) {
-                let newValue = mobileTextInput.value.slice(0, currentCursorPos - 1) + mobileTextInput.value.slice(currentCursorPos);
-                mobileTextInput.value = newValue;
-                mobileTextInput.setSelectionRange(currentCursorPos - 1, currentCursorPos - 1);
+        if (e.key.match(/^[a-zA-Z]$/)) { // アルファベット
+            if (currentInputIndex < hintLength) {
+                currentAnswerArray[currentInputIndex] = e.key.toUpperCase();
+                currentInputIndex++;
+                if (currentInputIndex >= hintLength) {
+                    currentInputIndex = hintLength - 1;
+                }
             }
-            processInput(); // mobileTextInput の値に基づいて表示を更新
-            mobileTextInput.focus();
-        } else if (e.key === 'ArrowRight') {
-            e.preventDefault();
-            let currentCursorPos = mobileTextInput.selectionStart;
-            if (currentCursorPos < mobileTextInput.value.length) {
-                mobileTextInput.setSelectionRange(currentCursorPos + 1, currentCursorPos + 1);
+        } else if (e.key === 'Backspace') { // Backspaceキー
+            if (currentInputIndex > 0) {
+                if (currentAnswerArray[currentInputIndex] !== '_') {
+                    currentAnswerArray[currentInputIndex] = '_';
+                } else {
+                    currentInputIndex--;
+                    currentAnswerArray[currentInputIndex] = '_';
+                }
+            } else if (currentInputIndex === 0 && currentAnswerArray[0] !== '_') {
+                currentAnswerArray[0] = '_';
             }
-            updateActiveCursor();
-            mobileTextInput.focus();
-        } else if (e.key === 'ArrowLeft') {
-            e.preventDefault();
-            let currentCursorPos = mobileTextInput.selectionStart;
-            if (currentCursorPos > 0) {
-                mobileTextInput.setSelectionRange(currentCursorPos - 1, currentCursorPos - 1);
+        } else if (e.key === 'ArrowRight') { // 右矢印
+            if (currentInputIndex < hintLength - 1) {
+                currentInputIndex++;
             }
-            updateActiveCursor();
-            mobileTextInput.focus();
-        } else if (e.key === 'Enter') {
-            e.preventDefault();
+        } else if (e.key === 'ArrowLeft') { // 左矢印
+            if (currentInputIndex > 0) {
+                currentInputIndex--;
+            }
+        } else if (e.key === 'Enter') { // Enterキー
             answerForm.submit();
-        } else if (e.key.match(/^[a-zA-Z]$/)) { // 英字の直接入力の場合
-            // ここでの処理はmobileTextInputのinputイベントに任せる
-            mobileTextInput.focus();
         }
-    });
 
-    // mobileTextInput のフォーカスが外れたときに、IMEの確定処理を行う
-    mobileTextInput.addEventListener('blur', function() {
-        if (isComposing) {
-            const event = new Event('compositionend');
-            mobileTextInput.dispatchEvent(event);
-        }
-        updateActiveCursor();
-    });
-
-    // mobileTextInput でカーソルが移動した際に visualHintContainer のカーソルも同期
-    mobileTextInput.addEventListener('keyup', function() {
-        updateActiveCursor();
-    });
-
-    mobileTextInput.addEventListener('click', function() {
-        updateActiveCursor();
+        createHintSpans(); // 表示を更新
+        updateCombinedAnswer(); // hidden input の値を更新
+        visualHintContainer.focus(); // フォーカスを維持
     });
     
+    // フォーム送信時にも念のため最終更新
     answerForm.addEventListener('submit', function(e) {
-        if (isComposing) {
-            const event = new Event('compositionend');
-            mobileTextInput.dispatchEvent(event);
-        }
         updateCombinedAnswer();
     });
 });
