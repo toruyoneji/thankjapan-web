@@ -401,13 +401,13 @@ hr {
     {% csrf_token %}
     <input type="hidden" name="answer" id="combined-answer-input">
 
-    <input type="text" id="mobile-text-input"
-           style="position: absolute; left: -9999px; opacity: 0;"
+    <input type="search" id="mobile-text-input"
+           style="position: absolute; left: -9999px; opacity: 0; ime-mode: inactive;" <!-- ime-mode: inactive を追加 -->
            aria-hidden="true"
            autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
            maxlength="{{ hint_length }}"
            inputmode="latin" pattern="[a-zA-Z]*"
-           autofocus> <!-- ロード時に自動フォーカス -->
+           autofocus>
 
     {% if message %}
       <p class="message {% if 'Correct' in message %}correct{% else %}incorrect{% endif %}">
@@ -452,15 +452,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // ヒントの文字表示スパンを作成・更新
     function createHintSpans() {
-        visualHintContainer.innerHTML = ''; // 一度クリア
+        visualHintContainer.innerHTML = '';
         for (let i = 0; i < hintLength; i++) {
             const charSpan = document.createElement('span');
-            charSpan.textContent = currentAnswerArray[i]; // currentAnswerArray の内容を反映
+            charSpan.textContent = currentAnswerArray[i];
             charSpan.className = 'hint-char-display';
-            charSpan.dataset.index = i; // クリックでカーソル移動できるようにインデックスを保持
+            charSpan.dataset.index = i;
             visualHintContainer.appendChild(charSpan);
         }
-        // ここでアクティブなカーソルを再設定
         updateActiveCursor();
     }
 
@@ -469,19 +468,11 @@ document.addEventListener('DOMContentLoaded', function() {
         const charSpans = visualHintContainer.querySelectorAll('.hint-char-display');
         charSpans.forEach((span, index) => {
             span.classList.remove('active');
-            if (index === getCursorPosition()) {
+            if (index === mobileTextInput.selectionStart) { // mobileTextInput のカーソル位置を基準にする
                 span.classList.add('active');
             }
         });
     }
-
-    // カーソルが現在どこにあるべきかを計算する
-    function getCursorPosition() {
-        // 現在の回答の末尾か、hintLength-1のどちらか小さい方
-        let filledCount = currentAnswerArray.filter(char => char !== '_').length;
-        return Math.min(filledCount, hintLength - 1);
-    }
-
 
     // currentAnswerArrayとhidden inputの値を更新
     function updateCombinedAnswer() {
@@ -491,34 +482,30 @@ document.addEventListener('DOMContentLoaded', function() {
                 actualAnswer += char;
             }
         });
-        combinedAnswerInput.value = actualAnswer; // フォーム送信用の隠しフィールドに実際の回答をセット
+        combinedAnswerInput.value = actualAnswer;
     }
 
     // 初期化
     createHintSpans();
     updateCombinedAnswer();
-    // PCの場合、DOMContentLoaded時に mobileTextInput にフォーカスを当てることで、
-    // クリックせずともキー入力を受け付けるようにする
-    mobileTextInput.focus();
-
+    mobileTextInput.focus(); // ロード時に自動フォーカス
 
     // visualHintContainerをクリックしたら、mobileTextInputにフォーカスを当てる
     visualHintContainer.addEventListener('click', function(e) {
-        // クリックされたスパンのインデックスにカーソルを移動させる
+        let newCursorPos = mobileTextInput.value.length; // デフォルトは末尾
+
         if (e.target.classList.contains('hint-char-display')) {
             let clickedIndex = parseInt(e.target.dataset.index);
-            // mobileTextInputのカーソル位置も同期させる
-            let currentTextLength = mobileTextInput.value.length;
-            let newCursorPos = Math.min(clickedIndex, currentTextLength);
-            mobileTextInput.setSelectionRange(newCursorPos, newCursorPos);
-        } else {
-            // スパン以外がクリックされた場合、mobileTextInputの末尾にカーソルを移動
-            mobileTextInput.setSelectionRange(mobileTextInput.value.length, mobileTextInput.value.length);
+            // クリックされた位置と現在のテキスト長を比較して、適正なカーソル位置を決定
+            newCursorPos = Math.min(clickedIndex, mobileTextInput.value.length);
         }
+        
         mobileTextInput.focus();
-        // 現在のカーソル位置に基づいて表示を更新（クリックで移動した場合は反映させる）
-        currentInputIndex = mobileTextInput.selectionStart;
-        updateActiveCursor();
+        // 遅延させてカーソル位置をセット（iOSでのバグ回避策）
+        setTimeout(() => {
+            mobileTextInput.setSelectionRange(newCursorPos, newCursorPos);
+            updateActiveCursor();
+        }, 0);
     });
 
     // IMEが開始された時
@@ -530,17 +517,21 @@ document.addEventListener('DOMContentLoaded', function() {
     mobileTextInput.addEventListener('compositionend', function() {
         isComposing = false;
         processInput(); // 確定した文字を処理
-        mobileTextInput.value = combinedAnswerInput.value; // 表示とmobileTextInputの値を同期
+        // mobileTextInput の値をクリーンアップして同期
+        mobileTextInput.value = combinedAnswerInput.value;
+        // カーソル位置を末尾に設定
+        mobileTextInput.setSelectionRange(mobileTextInput.value.length, mobileTextInput.value.length);
+        updateActiveCursor();
     });
 
     // mobileTextInput への入力イベントを処理
     mobileTextInput.addEventListener('input', function(e) {
         // IME入力中の場合は、compositionend で処理するためにここでは何もしない
+        // ただし、IMEによって勝手に挿入された日本語を即座に除去するため、ここでもチェック
         if (isComposing) {
-            // IME入力中は、mobileTextInput.value を visualHintContainer に直接反映させない
-            // 代わりに、mobileTextInput の値の長さに応じてカーソル位置を一時的に移動させる
-            currentInputIndex = mobileTextInput.value.length;
-            updateActiveCursor();
+            // IME入力中は英字以外の文字を即座に除去
+            mobileTextInput.value = mobileTextInput.value.toUpperCase().replace(/[^A-Z]/g, '');
+            updateActiveCursor(); // カーソル位置は更新
             return;
         }
         processInput(); // IME確定済みの場合のみ処理を実行
@@ -548,9 +539,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // mobileTextInput の内容を currentAnswerArray に反映させる関数
     function processInput() {
-        let inputText = mobileTextInput.value.toUpperCase(); // 入力された文字を取得し大文字に変換
+        let inputText = mobileTextInput.value.toUpperCase();
 
-        // 英字以外の文字を除去 (フリック入力のゴミなどを排除)
+        // 英字以外の文字を完全に除去する (IMEからのゴミを排除)
         inputText = inputText.replace(/[^A-Z]/g, '');
 
         let newAnswerArray = Array(hintLength).fill('_');
@@ -560,34 +551,36 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         currentAnswerArray = newAnswerArray;
 
-        // カーソル位置は mobileTextInput の現在の選択開始位置に合わせる
-        currentInputIndex = mobileTextInput.selectionStart;
-
         createHintSpans(); // visualHintContainer の表示を更新
         updateCombinedAnswer(); // hidden input の値を更新
 
-        // mobileTextInput の値を currentAnswerArray の内容で上書き（クリーンアップと同期）
-        // これにより IMEからの不正な文字や過剰な文字を排除し、表示と同期させる
-        // ただし、IME入力中はこれを避ける必要がある
+        // IMEが完了した後、mobileTextInputの値をcleanな状態に同期
+        // これをしないと、IMEが再起動した時に古い未クリーンな値が復元される場合がある
         if (!isComposing) {
-             mobileTextInput.value = combinedAnswerInput.value;
-             // カーソル位置を元の場所に戻す、または末尾に設定
-             mobileTextInput.setSelectionRange(currentInputIndex, currentInputIndex);
+            // mobileTextInput の値をクリーンアップされた内容で上書き
+            mobileTextInput.value = combinedAnswerInput.value;
+            // カーソル位置を mobileTextInput の末尾に設定
+            mobileTextInput.setSelectionRange(mobileTextInput.value.length, mobileTextInput.value.length);
         }
+        updateActiveCursor(); // カーソル位置も更新
     }
 
     // PCキーボードからの入力（Backspace, 左右矢印, Enter）
     visualHintContainer.addEventListener('keydown', function(e) {
+        // IME入力中は、直接処理しない
+        if (e.isComposing || isComposing) {
+            return;
+        }
+
         if (e.key === 'Backspace') {
             e.preventDefault();
-            // mobileTextInput の値も Backspace で減らす
-            if (mobileTextInput.value.length > 0) {
-                let currentCursorPos = mobileTextInput.selectionStart;
+            let currentCursorPos = mobileTextInput.selectionStart;
+            if (currentCursorPos > 0) {
                 let newValue = mobileTextInput.value.slice(0, currentCursorPos - 1) + mobileTextInput.value.slice(currentCursorPos);
                 mobileTextInput.value = newValue;
                 mobileTextInput.setSelectionRange(currentCursorPos - 1, currentCursorPos - 1);
             }
-            processInput(); // その後、mobileTextInput の値に基づいて表示を更新
+            processInput(); // mobileTextInput の値に基づいて表示を更新
             mobileTextInput.focus();
         } else if (e.key === 'ArrowRight') {
             e.preventDefault();
@@ -595,7 +588,6 @@ document.addEventListener('DOMContentLoaded', function() {
             if (currentCursorPos < mobileTextInput.value.length) {
                 mobileTextInput.setSelectionRange(currentCursorPos + 1, currentCursorPos + 1);
             }
-            currentInputIndex = mobileTextInput.selectionStart; // 表示のカーソル位置も更新
             updateActiveCursor();
             mobileTextInput.focus();
         } else if (e.key === 'ArrowLeft') {
@@ -604,16 +596,13 @@ document.addEventListener('DOMContentLoaded', function() {
             if (currentCursorPos > 0) {
                 mobileTextInput.setSelectionRange(currentCursorPos - 1, currentCursorPos - 1);
             }
-            currentInputIndex = mobileTextInput.selectionStart; // 表示のカーソル位置も更新
             updateActiveCursor();
             mobileTextInput.focus();
         } else if (e.key === 'Enter') {
             e.preventDefault();
             answerForm.submit();
-        }
-        // 英字の入力は mobileTextInput に任せるため、ここでは何もしない
-        // ただし、直接英字が入力された場合も mobileTextInput にフォーカスが移るようにしておく
-        else if (e.key.match(/^[a-zA-Z]$/)) {
+        } else if (e.key.match(/^[a-zA-Z]$/)) { // 英字の直接入力の場合
+            // ここでの処理はmobileTextInputのinputイベントに任せる
             mobileTextInput.focus();
         }
     });
@@ -621,32 +610,27 @@ document.addEventListener('DOMContentLoaded', function() {
     // mobileTextInput のフォーカスが外れたときに、IMEの確定処理を行う
     mobileTextInput.addEventListener('blur', function() {
         if (isComposing) {
-            // IME入力中にフォーカスが外れた場合、IMEを確定させるためにダミーイベントを発生させる
             const event = new Event('compositionend');
             mobileTextInput.dispatchEvent(event);
         }
-        currentInputIndex = mobileTextInput.selectionStart;
         updateActiveCursor();
     });
 
     // mobileTextInput でカーソルが移動した際に visualHintContainer のカーソルも同期
     mobileTextInput.addEventListener('keyup', function() {
-        currentInputIndex = mobileTextInput.selectionStart;
         updateActiveCursor();
     });
 
     mobileTextInput.addEventListener('click', function() {
-        currentInputIndex = mobileTextInput.selectionStart;
         updateActiveCursor();
     });
     
     answerForm.addEventListener('submit', function(e) {
-        // フォーム送信前に IMEが未確定であれば確定させる
         if (isComposing) {
             const event = new Event('compositionend');
             mobileTextInput.dispatchEvent(event);
         }
-        updateCombinedAnswer(); // 最終確認
+        updateCombinedAnswer();
     });
 });
 </script>
