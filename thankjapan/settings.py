@@ -9,7 +9,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 GA_TRACKING_ID = os.environ.get('GA_TRACKING_ID', '')
 
-# Load environment variables
+
 SECRET_KEY = os.environ.get('SECRET_KEY')
 DEBUG = False
 ALLOWED_HOSTS = [
@@ -18,12 +18,12 @@ ALLOWED_HOSTS = [
     'thankjapan-4c187061757b.herokuapp.com'
 ]
 
-# Database
+
 DATABASES = {
     'default': dj_database_url.config(conn_max_age=600, ssl_require=True)
 }
 
-# PayPal
+
 PAYPAL_MODE = os.getenv('PAYPAL_MODE', 'live')
 PAYPAL_CLIENT_ID = os.getenv('PAYPAL_CLIENT_ID')
 PAYPAL_CLIENT_SECRET = os.getenv('PAYPAL_CLIENT_SECRET')
@@ -36,18 +36,18 @@ paypalrestsdk.configure({
 # Static files (CSS, JavaScript, Images)
 STATIC_URL = '/static/'
 
-# もし static_jp フォルダが存在する場合のみ追加
+
 STATICFILES_DIRS = []
 if (BASE_DIR / 'static_jp').exists():
     STATICFILES_DIRS.append(BASE_DIR / 'static_jp')
 
-# Herokuで collectstatic が通るように必ず STATIC_ROOT を設定
+
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
-# WhiteNoiseで静的ファイルを配信
+
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-# Media files (Cloudinary)
+
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 CLOUDINARY_STORAGE = {
     'CLOUD_NAME': os.environ.get('CLOUDINARY_CLOUD_NAME'),
@@ -55,7 +55,7 @@ CLOUDINARY_STORAGE = {
     'API_SECRET': os.environ.get('CLOUDINARY_API_SECRET'),
 }
 
-# Installed apps
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',

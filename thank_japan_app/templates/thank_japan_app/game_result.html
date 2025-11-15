@@ -32,21 +32,26 @@
 
 {% block content %}
 <style>
-/* 背景と全体スタイル */
+
 body {
   background: linear-gradient(135deg, #2b003e, #5d1a8b, #8b4fff);
   color: #fff;
   font-family: 'Orbitron', sans-serif;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
-/* コンテナ */
+
 .main2 {
   max-width: 900px;
-  margin: 120px auto 40px auto;
+  margin: 40px auto;
   text-align: center;
+  padding: 20px;
+  flex-grow: 1;
 }
 
-/* ネオンタイトル */
+
 h1 {
   font-size: 3rem;
   color: #ff6ec7;
@@ -56,31 +61,96 @@ h1 {
      0 0 20px #ff6ec7,
      0 0 40px #ff4da6;
   animation: neon-flicker 1.5s infinite alternate;
+  margin-bottom: 30px;
+  margin-top: 20px;
 }
 
-/* ネオンフリッカ―アニメーション */
+
+h2 {
+    font-size: 2rem;
+    color: #ff6ec7;
+    text-shadow: 0 0 10px #ff6ec7, 0 0 20px #ff4da6;
+    margin-top: 40px;
+    margin-bottom: 25px;
+}
+
+
 @keyframes neon-flicker {
   0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% { text-shadow: 0 0 5px #ff6ec7,0 0 10px #ff4da6,0 0 20px #ff6ec7,0 0 40px #ff4da6; }
   20%, 24%, 55% { text-shadow: none; }
 }
 
-/* スコアボックス */
+
 .score-box {
   background: rgba(0,0,0,0.5);
   padding: 30px;
   margin: 20px auto;
   border-radius: 15px;
   box-shadow: 0 0 15px #ff6ec7, 0 0 30px #ff4da6 inset;
+  max-width: 500px;
 }
 
-/* カウントアップアニメーション */
+
 .score-number {
   font-size: 3rem;
   color: #ff4da6;
-  text-shadow: 0 0 10px #ff4da6, 0 0 20px #ff6ec7 inset;
+  text-shadow: 0 0 10px #ff4da6, 0 0 20px #ff6ec7;
+  display: block;
+  margin-top: 10px;
 }
 
-/* ネオンボタン */
+ 
+.messages-container {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.message {
+  padding: 20px;
+  border-radius: 10px;
+  margin: 15px auto;
+  max-width: 600px;
+  font-size: 1.1rem;
+  line-height: 1.5;
+  text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+  display: block; 
+  text-align: center; 
+}
+
+
+.message.info, .message.warning { 
+  background: rgba(0, 191, 255, 0.15);
+  border: 1px solid #00bfff;
+  color: #b0e0ff;
+  box-shadow: 0 0 15px rgba(0, 191, 255, 0.4);
+}
+
+.message.success { 
+  background: rgba(0, 255, 204, 0.15);
+  border: 1px solid #00ffcc;
+  color: #ccffee;
+  box-shadow: 0 0 15px rgba(0, 255, 204, 0.4);
+}
+
+.message.error { 
+  background: rgba(255, 75, 92, 0.15);
+  border: 1px solid #ff4b5c;
+  color: #ffb0c0;
+  box-shadow: 0 0 15px rgba(255, 75, 92, 0.4);
+}
+
+
+
+.button-group {
+    display: flex;
+    flex-direction: column; 
+    justify-content: center;
+    gap: 15px;
+    margin-top: 30px;
+    margin-bottom: 20px;
+}
+
+
 .neon-button {
   background: #1b0033;
   color: #ff6ec7;
@@ -89,31 +159,74 @@ h1 {
   font-weight: 700;
   border: 2px solid #ff6ec7;
   border-radius: 25px;
-  box-shadow: 0 0 8px #ff6ec7, 0 0 15px #ff4da6 inset;
+  box-shadow: 0 0 8px #ff6ec7, 0 0 15px rgba(255, 77, 166, 0.5) inset;
   cursor: pointer;
   transition: 0.3s;
-  margin: 10px;
+  min-width: 220px;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 300px; 
+  margin: 0 auto; 
 }
 
 .neon-button:hover {
   box-shadow: 0 0 20px #ff6ec7, 0 0 30px #ff4da6 inset;
   color: #fff;
+  background: #2b003e;
 }
 
-/* ランキング表 */
-table {
-  width: 90%;
+.neon-button.delete {
+    background:#dc2626;
+    border-color:#dc2626;
+    color: #fff;
+    box-shadow: 0 0 8px #dc2626, 0 0 15px rgba(220, 38, 38, 0.5) inset;
+}
+.neon-button.delete:hover {
+    box-shadow: 0 0 20px #dc2626, 0 0 30px rgba(220, 38, 38, 0.8) inset;
+    background: #b91c1c;
+}
+
+
+/* 区切り線 */
+hr {
+  margin: 40px auto;
+  border: none;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #ff6ec7, #3b82f6, #ffcd3c, transparent);
   max-width: 700px;
-  margin: 20px auto;
+  box-shadow: 0 0 10px rgba(255, 110, 199, 0.5);
+}
+
+
+
+table {
+  width: 100%; 
   border-collapse: collapse;
   color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  display: table;
 }
+
+
+.table-wrapper {
+    max-width: 800px; 
+    margin: 20px auto; 
+    overflow-x: auto; 
+    -webkit-overflow-scrolling: touch; 
+    box-sizing: border-box; 
+    padding: 0 10px; 
+}
+
 
 thead th {
   background: linear-gradient(90deg, #ff6ec7, #3b82f6, #ffcd3c);
-  padding: 10px;
+  padding: 12px 10px;
   font-size: 1.2rem;
   text-shadow: 0 0 5px #fff;
+  border: 1px solid rgba(0,0,0,0.3);
+  white-space: nowrap; 
 }
 
 tbody tr {
@@ -122,8 +235,16 @@ tbody tr {
 }
 
 tbody tr:hover {
-  background: rgba(255,255,255,0.2);
+  background: rgba(255,255,255,0.15);
 }
+
+tbody td {
+    padding: 10px 10px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    font-size: 1.1rem;
+    
+}
+
 
 .highlight {
   background: #ff4da6;
@@ -132,76 +253,261 @@ tbody tr:hover {
   text-shadow: 0 0 5px #fff;
 }
 
-@media (max-width: 500px) {
+.last-question-feedback {
+    padding: 20px;
+    border-radius: 10px;
+    margin: 15px auto;
+    max-width: 600px;
+    font-size: 1.1rem;
+    line-height: 1.5;
+    text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+    text-align: center;
+}
+
+.last-question-feedback.correct {
+    background: rgba(0, 255, 204, 0.15);
+    border: 1px solid #00ffcc;
+    color: #ccffee;
+    box-shadow: 0 0 15px rgba(0, 255, 204, 0.4);
+}
+
+.last-question-feedback.incorrect {
+    background: rgba(255, 75, 92, 0.15);
+    border: 1px solid #ff4b5c;
+    color: #ffb0c0;
+    box-shadow: 0 0 15px rgba(255, 75, 92, 0.4);
+}
+
+
+/* ==============================
+   RESPONSIVE
+============================== */
+@media (max-width: 768px) {
   .main2 {
-    margin-top: 190px; 
-    padding: 0 15px;   
+    margin: 20px auto;
+    padding: 15px;
+    padding-top: 150px;
+  }
+
+  h1 {
+    font-size: 2.2rem;
+    margin-bottom: 20px;
+  }
+  h2 {
+    font-size: 1.6rem;
+    margin-top: 30px;
+    margin-bottom: 20px;
+  }
+
+  .score-box {
+    padding: 25px;
+    margin: 15px auto;
+    max-width: 100%;
+  }
+
+  .score-number {
+    font-size: 2.5rem;
+  }
+
+  .message {
+    font-size: 1rem;
+    padding: 15px;
+    margin: 20px auto;
+    max-width: 100%;
+  }
+
+  .button-group {
+      gap: 10px;
+      margin-top: 25px;
+      margin-bottom: 15px;
+  }
+
+  .neon-button {
+    padding: 12px 25px;
+    font-size: 1.1rem;
+    min-width: 180px;
+  }
+
+  
+  .table-wrapper {
+    
+    width: calc(100% - 30px);
+    margin: 15px auto; 
+    padding: 0; 
+  }
+
+  thead th, tbody td {
+    font-size: 0.9rem;
+    padding: 8px 6px;
   }
 }
+
+
+@media (max-width: 480px) {
+  .main2 {
+    margin: 20px auto;
+    padding: 15px;
+    padding-top: 150px; 
+  }
+  h1 {
+    font-size: 1.8rem;
+  }
+  h2 {
+    font-size: 1.4rem;
+  }
+
+  .score-box {
+    padding: 20px;
+  }
+
+  .score-number {
+    font-size: 2rem;
+  }
+
+  .message {
+    padding: 12px;
+    font-size: 0.95rem;
+  }
+
+  .button-group {
+      flex-direction: column;
+      gap: 10px;
+  }
+  .neon-button {
+      width: 90%;
+      max-width: 250px;
+      padding: 10px 20px;
+      font-size: 1rem;
+      min-width: unset;
+  }
+
+  
+  .table-wrapper {
+    width: calc(100% - 30px); 
+    margin: 15px auto;
+    padding: 0;
+  }
+
+  thead th, tbody td {
+    font-size: 0.8rem;
+    padding: 6px 4px;
+  }
+}
+
 </style>
 
 <div class="main2">
   <h1>🎉 Game Result 🎉</h1>
 
   <div class="score-box">
-    <p style="font-size:1.5rem;">Player: {{ player.username }} ({{ player.country|default:"Unknown" }})</p>
-    <p>Your Score: <span class="score-number" id="score">0</span> pts</p>
+    {% if player %}
+        <p style="font-size:1.5rem;">Player: {{ player.username }} ({{ player.country|default:"Unknown" }})</p>
+    {% else %}
+        <p style="font-size:1.5rem;">Player: Guest</p>
+    {% endif %}
+    <p>Your Score: <span class="score-number" id="score">{{ score }}</span> pts</p>
   </div>
 
-  <hr style="margin: 30px 0; border-color: #fff4;">
+  {# Django messages framework のメッセージをここで一括表示 #}
+  {% if messages %}
+    <div class="messages-container">
+        {% for message in messages %}
+            <p class="message {{ message.tags }}">
+                {% if 'success' in message.tags %}✅ {% elif 'error' in message.tags %}❌ {% endif %}
+                {{ message }}
+            </p>
+        {% endfor %}
+    </div>
+  {% endif %}
 
-  <h2 style="color: #ff6ec7;">🏆 Top 10 Players</h2>
-  <table>
-    <thead>
-      <tr>
-        <th>#</th>
-        <th>Username</th>
-        <th>Points</th>
-        <th>Country</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for r in ranking %}
-      <tr class="{% if r.username == player.username %}highlight{% endif %}">
-        <td>{{ forloop.counter }}</td>
-        <td>{{ r.username }}</td>
-        <td>{{ r.total_score }}</td>
-        <td>{{ r.country|default:"-" }}</td>
-      </tr>
-      {% empty %}
-      <tr><td colspan="4">No rankings yet.</td></tr>
-      {% endfor %}
-    </tbody>
-  </table>
+  {# ★★★修正点: 最後の問題の正誤フィードバックの表示★★★ #}
+  {% if last_question_info %}
+    <div class="last-question-feedback {% if last_question_info.is_correct %}correct{% else %}incorrect{% endif %}">
+        {% if last_question_info.is_correct %}
+            ✅ Question {{ last_question_info.question_number }} was CORRECT!
+        {% else %}
+            ❌ Question {{ last_question_info.question_number }} was INCORRECT! (Correct answer: {{ last_question_info.correct_answer }})
+        {% endif %}
+    </div>
+  {% endif %}
 
-  <div>
-    <a href="{% url 'game_restart' %}">
-      <button class="neon-button">🔁 Play Again</button>
-    </a>
-    <a href="{% url 'logout_player' %}">
-      <button class="neon-button">🚪 Logout</button>
-    </a>
+
+  <hr> {# メッセージとボタンの区切り #}
+
+  {# ゲストユーザーの場合のボタン #}
+  {% if is_guest %}
+  <div class="button-group"> {# ボタンをまとめるコンテナ #}
+    <a href="{% url 'player_register' %}?guest_score={{ score }}" class="neon-button">Register Now!</a>
   </div>
+  <div class="button-group">
+    <a href="{% url 'game_start' %}" class="neon-button">Play Again as Guest</a>
+  </div>
+  {% else %}
+  {# ログインユーザーの場合の「Play Again」ボタン #}
+  <div class="button-group">
+    <a href="{% url 'game_restart' %}" class="neon-button">🔁 Play Again</a>
+  </div>
+  {% endif %}
+  
+  <hr> 
 
-  <form method="post" action="{% url 'delete_player_confirm' %}" onsubmit="return confirm('Are you sure you want to delete your account?');">
-    {% csrf_token %}
-    <button type="submit" class="neon-button" style="background:#dc2626; border-color:#dc2626;">🗑️ Delete My Account</button>
-  </form>
+  <h2>🏆Global Ranking Top 20 Players</h2>
+  <div class="table-wrapper"> {# ここでテーブルをラップ #}
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Username</th>
+          <th>Points</th>
+          <th>Country</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for r in ranking %}
+        <tr class="{% if player and r.username == player.username %}highlight{% endif %}">
+          <td>{{ forloop.counter }}</td>
+          <td>{{ r.username }}</td>
+          <td>{{ r.total_score }}</td>
+          <td>{{ r.country|default:"-" }}</td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="4">No rankings yet.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div> {# / .table-wrapper #}
+
+  {# ログアウトとアカウント削除ボタンのグループ #}
+  <div class="button-group">
+    <a href="{% url 'player_logout' %}" class="neon-button">🚪 Logout</a>
+    {% if not is_guest %} {# ログインユーザーの場合のみ表示 #}
+    <form method="post" action="{% url 'delete_player_confirm' %}" onsubmit="return confirm('Are you sure you want to delete your account? This action cannot be undone.');">
+      {% csrf_token %}
+      <button type="submit" class="neon-button delete">🗑️ Delete My Account</button>
+    </form>
+    {% endif %}
+  </div>
 </div>
 
 {{ score|default:0|json_script:"score-data" }}
 <script>
-  const finalScore = JSON.parse(document.getElementById('score-data').textContent);
-  const scoreElement = document.getElementById('score');
-  let current = 0;
+  document.addEventListener('DOMContentLoaded', function() {
+    const scoreElement = document.getElementById('score');
+    if (scoreElement) {
+        const finalScore = JSON.parse(document.getElementById('score-data').textContent);
+        let current = 0;
 
-  const interval = setInterval(() => {
-    if (current < finalScore) {
-      current++;
-      scoreElement.textContent = current;
-    } else {
-      clearInterval(interval);
+        const interval = setInterval(() => {
+            if (current < finalScore) {
+                current += Math.max(1, Math.floor(finalScore / 20)); 
+                if (current > finalScore) current = finalScore; 
+                scoreElement.textContent = current;
+            } else {
+                scoreElement.textContent = finalScore; 
+                clearInterval(interval);
+            }
+        }, 50);
     }
-  }, 50);
+  });
 </script>
 {% endblock %}

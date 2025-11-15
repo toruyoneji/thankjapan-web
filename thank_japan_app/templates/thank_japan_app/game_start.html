@@ -1,7 +1,7 @@
 {% extends 'base/base.html' %}
 
 {% block meta %}
-  <!-- Basic SEO -->
+  
   <meta name="description" content="Start the ultimate Japan quiz! Explore Japanese culture, food, traditions, and more in this fun and educational game.">
   <meta name="keywords" content="Japan quiz, Japanese culture, Japanese food, Japan game, online quiz, learn Japanese, Japan trivia">
   <meta name="robots" content="index, follow">
@@ -30,55 +30,373 @@
 
 {% block content %}
 <style>
-  .main2 {
-    max-width: 500px;
-    margin: 150px auto 0;
-    background: #fff;
-    padding: 50px 40px;
-    border-radius: 20px;
-    box-shadow: 0 10px 30px rgba(240, 101, 149, 0.3);
-    text-align: center;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  }
 
-  .main2 h1 {
-    font-size: 2rem;
-    color: #f06595;
-    margin-bottom: 30px;
+:root {
+    --text-color: #ffffff;
+    --light-gray: #ccc;
+    --easy-gradient-start: #6a11cb;
+    --easy-gradient-end: #2575fc;
+    --normal-gradient-start: #fdc830;
+    --normal-gradient-end: #f37335;
+    --hard-gradient-start: #e91e63;
+    --hard-gradient-end: #f44336;
+    --button-gradient-start: #ff7e5f;
+    --button-gradient-end: #feb47b;
+    --register-gradient-start: #28a745; 
+    --register-gradient-end: #218838;
+    --border-radius: 15px;
+    --padding-base: 20px;
+
+
+    --neon-pink: #ff00ff;
+    --neon-cyan: #00ffff;
+    --neon-blue: #0000ff;
+    --neon-purple: #8a2be2;
+    --neon-yellow: #ffff00;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #0d011f; 
+    color: var(--text-color);
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    overflow-y: auto;
+    position: relative; 
+    isolation: isolate; 
+}
+
+
+body::before,
+body::after {
+    content: '';
+    position: absolute;
+    border-radius: 50%; 
+    filter: blur(80px); 
+    opacity: 0.6;
+    z-index: -1; 
+    animation: neonMove 20s infinite ease-in-out alternate;
+}
+
+body::before {
+    background: radial-gradient(circle at center, var(--neon-pink) 0%, var(--neon-blue) 70%, transparent 100%);
+    width: 500px;
+    height: 500px;
+    top: -100px;
+    left: -150px;
+    animation-delay: 0s;
+}
+
+body::after {
+    background: radial-gradient(circle at center, var(--neon-cyan) 0%, var(--neon-purple) 70%, transparent 100%);
+    width: 600px;
+    height: 600px;
+    bottom: -150px;
+    right: -200px;
+    animation-delay: 10s;
+}
+
+@keyframes neonMove {
+    0% { transform: translate(0, 0) scale(1); opacity: 0.6; }
+    25% { transform: translate(100px, -50px) scale(1.1); opacity: 0.7; }
+    50% { transform: translate(0, 100px) scale(0.9); opacity: 0.5; }
+    75% { transform: translate(-100px, -10px) scale(1.2); opacity: 0.8; }
+    100% { transform: translate(0, 0) scale(1); opacity: 0.6; }
+}
+
+
+
+body {
+    
+    background-image:
+        
+        radial-gradient(circle at 70% 30%, rgba(255, 0, 255, 0.4) 0%, transparent 20%),
+        radial-gradient(circle at 30% 70%, rgba(0, 255, 255, 0.4) 0%, transparent 20%),
+        
+        linear-gradient(135deg, #0f001f 0%, #3a0050 25%, #6d006d 50%, #a200a2 75%, #e700e7 100%);
+    background-size: 800px 800px, 800px 800px, 400% 400%; 
+    background-position: center top, center bottom, 0% 50%; 
+    background-repeat: no-repeat, no-repeat, repeat;
+    animation: neonSwirl 20s infinite linear, gradientAnimation 15s ease infinite; 
+}
+
+@keyframes neonSwirl {
+    0% { background-position: center top, center bottom, 0% 50%; }
+    100% { background-position: center top, center bottom, 100% 50%; } 
+}
+
+
+
+.container {
+    background: rgba(0, 0, 0, 0.8);
+    border-radius: var(--border-radius);
+    padding: var(--padding-base);
+    box-shadow: 0 0 15px var(--neon-pink), 
+                0 0 30px var(--neon-cyan), 
+                0 0 50px rgba(0, 0, 0, 0.7); 
+    width: 90%;
+    max-width: 500px; 
+    margin-top: 50px;
+    margin-bottom: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    z-index: 1; 
+    position: relative; 
+}
+
+.game-start-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    margin-top: 150px;
+    align-items: center;
+    gap: var(--padding-base);
+    padding: 0 10px;
+}
+
+.start-game-title {
+    font-size: 2.5em;
     font-weight: 700;
-  }
+    color: var(--text-color);
+    margin-bottom: var(--padding-base);
+    letter-spacing: 2px;
+    text-shadow: 0 0 8px var(--neon-pink), 
+                 0 0 15px var(--neon-cyan);
+}
 
-  .fancy-button {
-    background: linear-gradient(45deg, #ff6b6b, #f06595);
-    border: none;
-    border-radius: 30px;
-    color: white;
-    padding: 15px 40px;
-    font-size: 1.2rem;
-    font-weight: bold;
-    cursor: pointer;
-    box-shadow: 0 4px 15px rgba(240, 101, 149, 0.6);
-    transition: background 0.3s ease, box-shadow 0.3s ease;
-  }
+.difficulty-options {
+    width: 100%;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
 
-  .fancy-button:hover {
-    background: linear-gradient(45deg, #f06595, #ff6b6b);
-    box-shadow: 0 6px 20px rgba(255, 107, 107, 0.8);
-  }
+.difficulty-card {
+    display: flex;
+    align-items: center;
+    padding: 15px var(--padding-base);
+    border-radius: var(--border-radius);
+    text-decoration: none;
+    color: var(--text-color);
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.3), /* カードにも光を追加 */
+                0 0 20px rgba(0, 255, 255, 0.2);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    min-height: 80px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
 
-  .note {
-    font-size: 1rem;
-    color: #777;
+.difficulty-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.5),
+                0 0 25px rgba(0, 255, 255, 0.4);
+}
+
+.difficulty-card .emoji {
+    font-size: 2.5em;
+    margin-right: 15px;
+    line-height: 1;
+}
+
+.difficulty-info h3 {
+    margin: 0;
+    font-size: 1.4em;
+    font-weight: 700;
+}
+
+.difficulty-info p {
+    margin: 5px 0 0;
+    font-size: 0.9em;
+    color: var(--light-gray);
+}
+
+.easy {
+    background: linear-gradient(45deg, var(--easy-gradient-start), var(--easy-gradient-end));
+}
+
+.normal {
+    background: linear-gradient(45deg, var(--normal-gradient-start), var(--normal-gradient-end));
+}
+
+.hard {
+    background: linear-gradient(45deg, var(--hard-gradient-start), var(--hard-gradient-end));
+}
+
+.player-info {
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
     margin-top: 20px;
-  }
+    margin-bottom: 20px;
+    font-size: 1.1em;
+    font-weight: 600;
+    color: var(--light-gray);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+}
+
+.logout-button {
+    width: 100%;
+    max-width: 400px;
+    padding: 18px var(--padding-base);
+    border-radius: var(--border-radius);
+    background: linear-gradient(45deg, var(--button-gradient-start), var(--button-gradient-end));
+    color: var(--text-color);
+    text-align: center;
+    text-decoration: none;
+    font-size: 1.3em;
+    font-weight: 700;
+    box-shadow: 0 0 12px var(--neon-yellow), /* ボタンにもネオン光 */
+                0 0 20px rgba(255, 165, 0, 0.3);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.logout-button:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0 18px var(--neon-yellow),
+                0 0 30px rgba(255, 165, 0, 0.5);
+}
+
+.register-button {
+    background: linear-gradient(45deg, var(--register-gradient-start), var(--register-gradient-end));
+}
+
+.login-link {
+    font-size: 1.4em;
+    margin-top: 10px;
+    text-align: center;
+    width: 100%;
+    max-width: 400px;
+}
+
+.login-link a {
+    color: var(--light-gray);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.login-link a:hover {
+    color: var(--text-color);
+    text-decoration: underline;
+}
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 600px) {
+    .container {
+        width: 95%;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        padding: 15px;
+    }
+
+    .start-game-title {
+        font-size: 2em;
+        margin-bottom: 15px;
+    }
+
+    .difficulty-card {
+        padding: 12px 18px;
+        min-height: 70px;
+    }
+
+    .difficulty-card .emoji {
+        font-size: 2em;
+        margin-right: 10px;
+    }
+
+    .difficulty-info h3 {
+        font-size: 1.2em;
+    }
+
+    .difficulty-info p {
+        font-size: 0.8em;
+    }
+
+    .player-info {
+        font-size: 1em;
+        margin-top: 15px;
+        margin-bottom: 15px;
+    }
+
+    .logout-button,
+    .register-button {
+        padding: 15px;
+        font-size: 1.1em;
+        max-width: 100%;
+    }
+
+    .difficulty-options,
+    .player-info,
+    .login-link {
+        max-width: 100%;
+    }
+
+    
+    body::before {
+        width: 300px;
+        height: 300px;
+        top: -50px;
+        left: -100px;
+    }
+    body::after {
+        width: 400px;
+        height: 400px;
+        bottom: -100px;
+        right: -150px;
+    }
+}
 </style>
 
-<div class="main2">
-  <h1>Welcome, {{ player.username }}!</h1>
-  <form method="post" action="{% url 'game_restart' %}">
-    {% csrf_token %}
-    <button type="submit" class="fancy-button">Start Game</button>
-  </form>
-  <p class="note">You'll answer 5 questions to test your knowledge. Good luck!</p>
+<div class="game-start-container">
+    <h2 class="start-game-title">Start Game</h2>
+
+    <div class="difficulty-options">
+         <a href="{% url 'game_restart' %}?difficulty=easy" class="difficulty-card easy">
+            <span class="emoji">🙂</span>
+            <div class="difficulty-info">
+                <h3>EASY</h3>
+                <p>Simple words, common objects</p>
+            </div>
+        </a>
+         <a href="{% url 'game_restart' %}?difficulty=normal" class="difficulty-card normal">
+            <span class="emoji">😐</span>
+            <div class="difficulty-info">
+                <h3>NORMAL</h3>
+                <p>Everyday language, general knowledge</p>
+            </div>
+        </a>
+         <a href="{% url 'game_restart' %}?difficulty=hard" class="difficulty-card hard">
+            <span class="emoji">😡</span>
+            <div class="difficulty-info">
+                <h3>HARD</h3>
+                <p>Culture & concepts, idioms</p>
+            </div>
+        </a>
+    </div>
+
+    <div class="player-info">
+        Player:
+        {% if player %}
+            {{ player.username }}
+        {% else %}
+            Guest
+        {% endif %}
+    </div>
+
+    {% if not is_guest %}
+        <a href="{% url 'player_logout' %}" class="logout-button">Logout</a>
+    {% else %}
+        <p class="login-link"><a href="{% url 'player_register' %}">Register to Save Score</a></p>
+        <a href="{% url 'player_login' %}" class="logout-button register-button">Already have an account? Log in</a>
+    {% endif %}
 </div>
 {% endblock %}

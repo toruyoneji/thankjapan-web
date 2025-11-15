@@ -342,15 +342,19 @@ def player_register(request):
                 return redirect('player_register')
 
             player = Player(username=username, country=country)
-            player.set_password(raw_password)  
+            player.set_password(raw_password)
             player.save()
-            request.session['player_id'] = player.id
-            return redirect('game_start')
+            
+            messages.success(request, "Account created! Please log in to start playing and save your scores.")
+            
+            for key in ['is_guest', 'game_score', 'game_question_ids', 'game_current_index', 'game_message', 'last_question_info', 'game_difficulty', 'player_id']:
+                request.session.pop(key, None)
+            
+            return redirect('player_login') 
     else:
         form = UsernameForm()
 
     return render(request, 'thank_japan_app/player_register.html', {'form': form})
-
 
 def player_login(request):
     if request.method == "POST":
@@ -360,7 +364,13 @@ def player_login(request):
         try:
             player = Player.objects.get(username=username)
             if player.check_password(password):
+                for key in ['is_guest', 'game_score', 'game_question_ids', 'game_current_index', 'game_message', 'last_question_info', 'game_difficulty']:
+                    request.session.pop(key, None)
+                
                 request.session['player_id'] = player.id
+                request.session['is_guest'] = False 
+
+                messages.success(request, "Logged in successfully! Your scores from now on will be saved.")
                 return redirect('game_start')
             else:
                 messages.error(request, "Incorrect password.")
@@ -370,8 +380,12 @@ def player_login(request):
 
 
 def player_logout(request):
-    for key in ['player_id', 'game_question_ids', 'game_current_index', 'game_score']:
+    for key in ['player_id', 'game_question_ids', 'game_current_index', 'game_score', 'game_message', 'last_question_info', 'game_difficulty']:
         request.session.pop(key, None)
+    
+    request.session['is_guest'] = True 
+
+    messages.info(request, "You have been logged out.")
     return redirect('player_login')
 
 def delete_player_confirm(request):
@@ -380,7 +394,6 @@ def delete_player_confirm(request):
         return redirect('player_login')
 
     return render(request, 'thank_japan_app/delete_player.html')
-
 
 
 @require_POST
@@ -402,52 +415,135 @@ def delete_player(request):
     return redirect('player_login')
 
 
-def game_start(request):
+DIFFICULTY_SETTINGS = {
+    'easy': {
+        'category_filter': ['cook', 'food'],
+        'length_regex': r'^.{1,6}$',
+        'num_questions': 3,
+    },
+    'normal': {
+        'category_filter': None,
+        'length_regex': r'^.{1,9}$',
+        'num_questions': 5,
+    },
+    'hard': {
+        'category_filter': None,
+        'length_regex': None,
+        'num_questions': 7,
+    }
+}
+
+
+def get_current_player_info(request):
     player_id = request.session.get('player_id')
-    if not player_id:
-        return redirect('player_login')
+    player = None
+    is_guest = True
 
-    player = get_object_or_404(Player, id=player_id)
-    return render(request, 'thank_japan_app/game_start.html', {'player': player})
+    if player_id:
+        try:
+            player = Player.objects.get(id=player_id)
+            is_guest = False
+            request.session.pop('is_guest', None) 
+        except Player.DoesNotExist:
+            request.session.pop('player_id', None)
+            is_guest = True
+    else:
+        if 'is_guest' not in request.session:
+            request.session['is_guest'] = True
+        is_guest = request.session['is_guest']
+    
+    if is_guest and not player:
+        player = Player(username='guest', country='Guestland') 
+    
+    return player, is_guest
 
+
+def game_start(request):
+    player, is_guest = get_current_player_info(request)
+    
+    return render(request, 'thank_japan_app/game_start.html', {
+        'player': player,
+        'is_guest': is_guest
+    })
+
+
+def game_restart(request):
+    difficulty = request.GET.get('difficulty', 'normal') 
+    
+    if difficulty not in DIFFICULTY_SETTINGS:
+        messages.error(request, "Invalid difficulty selected. Defaulting to Normal.")
+        difficulty = 'normal'
+
+    settings = DIFFICULTY_SETTINGS[difficulty]
+    
+    questions_queryset = ThankJapanModel.objects.all()
+
+    if settings['category_filter']:
+        questions_queryset = questions_queryset.filter(category__in=settings['category_filter'])
+
+    if settings['length_regex']:
+        questions_queryset = questions_queryset.filter(name__iregex=settings['length_regex'])
+
+    if questions_queryset.count() < settings['num_questions']:
+        messages.warning(request, f"Not enough questions for '{difficulty}' difficulty. Displaying all available questions.")
+        
+    all_question_ids = list(questions_queryset.values_list('id', flat=True))
+    random.shuffle(all_question_ids)
+
+    selected_question_ids = all_question_ids[:settings['num_questions']]
+
+    if not selected_question_ids:
+        messages.error(request, "No questions available for the selected difficulty. Please try another or contact support.")
+        return redirect('game_start')
+
+    request.session['game_question_ids'] = selected_question_ids
+    request.session['game_current_index'] = 0
+    request.session['game_score'] = 0
+    request.session['game_difficulty'] = difficulty
+    request.session.pop('game_message', None)
+    request.session.pop('last_question_info', None)
+
+    messages.info(request, f"🚀 Starting a new game on {difficulty.upper()} difficulty!")
+    return redirect('game_play')
 
 
 def game_play(request):
-    player_id = request.session.get('player_id')
-    if not player_id:
-        return redirect('game_start')
-
-    player = get_object_or_404(Player, id=player_id)
+    player, is_guest = get_current_player_info(request)
 
     index = request.session.get('game_current_index', 0)
     ids = request.session.get('game_question_ids', [])
+    total_questions = len(ids)
 
-    if index >= len(ids):
-        return redirect('game_result')
+    if not ids or index >= total_questions:
+        messages.info(request, "Game session ended or not started. Please select a difficulty to begin.")
+        return redirect('game_start')
 
     question_id = ids[index]
     question = get_object_or_404(ThankJapanModel, id=question_id)
 
     form = AnswerForm()
-    message = request.session.pop('game_message', None)
+    
+    current_difficulty = request.session.get('game_difficulty', 'normal')
+    max_questions_for_difficulty = DIFFICULTY_SETTINGS.get(current_difficulty, {}).get('num_questions', total_questions)
 
-    context = {
+    return render(request, 'thank_japan_app/game_play.html', {
         'object': question,
         'form': form,
-        'current_index': index + 1,
+        'current_index': index + 1, 
+        'total_questions': max_questions_for_difficulty,
         'score': request.session.get('game_score', 0),
-        'message': message,
         'player': player,
-    }
-
-    response = render(request, 'thank_japan_app/game_play.html', context)
-    response['X-Robots-Tag'] = 'noindex, nofollow'  
-    return response
+        'is_guest': is_guest,
+        'hint_length': len(question.name),
+        'difficulty': current_difficulty, 
+    })
+    
 
 def game_answer(request, pk):
-    player_id = request.session.get('player_id')
-    if not player_id:
-        return redirect('game_start')
+    if request.method != 'POST':
+        return redirect('game_play') 
+
+    player, is_guest = get_current_player_info(request)
 
     question = get_object_or_404(ThankJapanModel, id=pk)
     form = AnswerForm(request.POST)
@@ -456,64 +552,71 @@ def game_answer(request, pk):
         user_input = form.cleaned_data['answer'].strip().lower()
         correct_answer = question.name.strip().lower()
 
-        if user_input == correct_answer:
-            message = "Correct!"
-            request.session['game_score'] += 1
+        is_correct = (user_input == correct_answer)
+
+        current_question_index = request.session.get('game_current_index', 0)
+        current_question_number = current_question_index + 1
+        
+        if is_correct:
+            request.session['game_score'] = request.session.get('game_score', 0) + 1
+
+        request.session['game_current_index'] = current_question_index + 1
+        
+        ids = request.session.get('game_question_ids', [])
+        total_questions = len(ids)
+
+        if (current_question_index + 1) >= total_questions:
+            request.session['last_question_info'] = {
+                'is_correct': is_correct,
+                'correct_answer': question.name if not is_correct else None,
+                'question_number': current_question_number
+            }
+            return redirect('game_result')
         else:
-            message = f"Incorrect! The correct answer was: {question.name}"
+            if is_correct:
+                messages.success(request, f"✅ Question {current_question_number} was CORRECT!")
+            else:
+                messages.error(request, f"❌ Question {current_question_number} was INCORRECT! The correct answer was: {question.name}")
+            return redirect('game_play')
 
-        request.session['game_message'] = message
-        request.session['game_current_index'] += 1
-        return redirect('game_play')
-
-    return render(request, 'thank_japan_app/game_play.html', {
-        'object': question,
-        'form': form,
-        'message': "Please enter a valid answer."
-    })
+    else:
+        messages.warning(request, "⚠️ Please enter a valid answer.")
+        return redirect('game_play')    
 
 
 def game_result(request):
-    player_id = request.session.get('player_id')
-    if not player_id:
-        return redirect('game_start')
+    current_game_score = request.session.get('game_score', 0)
+    player, is_guest = get_current_player_info(request)
 
-    score = request.session.get('game_score', 0)
-    player = get_object_or_404(Player, id=player_id)
-    player.total_score += score
-    player.last_score = score
-    player.save()
-
-    for key in ['game_question_ids', 'game_current_index', 'game_score']:
+    if not is_guest:
+        player.total_score += current_game_score
+        player.last_score = current_game_score
+        player.save()
+        messages.success(request, f"🎉 Your score of {current_game_score} has been saved to your account!")
+    else:
+        messages.info(request, f"👍 You scored {current_game_score}! Register or log in to save your future scores and see the ranking.")
+        
+    last_question_info = request.session.pop('last_question_info', None)
+    
+    game_keys_to_clear = [
+        'game_question_ids', 'game_current_index', 'game_score', 
+        'game_difficulty', 'game_message'
+    ]
+    for key in game_keys_to_clear:
         request.session.pop(key, None)
 
-    ranking = Player.objects.order_by('-total_score')[:10]
+    ranking = Player.objects.order_by('-total_score')[:20]
 
-    context =  {
+    return render(request, 'thank_japan_app/game_result.html', {
         'player': player,
-        'score': score,
+        'score': current_game_score,
         'ranking': ranking,
-    }
-
-    response = render(request, 'thank_japan_app/game_result.html', context)
-    response['X-Robots-Tag'] = 'noindex, nofollow'  
-    return response
-
-def game_restart(request):
-    player_id = request.session.get('player_id')
-    if not player_id:
-        return redirect('game_start')
-
-    question_ids = list(ThankJapanModel.objects.values_list('id', flat=True))
-    random.shuffle(question_ids)
-
-    request.session['game_question_ids'] = question_ids[:5]
-    request.session['game_current_index'] = 0
-    request.session['game_score'] = 0
-
-    return redirect('game_play')
-            
-                                
+        'is_guest': is_guest,
+        'last_question_info': last_question_info,
+    })
+    
+                
+#category view                                
 class FoodView(ListView):
     template_name = "thank_japan_app/food.html"
     paginate_by = 24
