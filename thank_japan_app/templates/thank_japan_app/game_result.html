@@ -189,7 +189,7 @@ h2 {
 }
 
 
-/* 区切り線 */
+
 hr {
   margin: 40px auto;
   border: none;
@@ -408,7 +408,7 @@ tbody td {
     <p>Your Score: <span class="score-number" id="score">{{ score }}</span> pts</p>
   </div>
 
-  {# Django messages framework のメッセージをここで一括表示 #}
+  
   {% if messages %}
     <div class="messages-container">
         {% for message in messages %}
@@ -420,7 +420,7 @@ tbody td {
     </div>
   {% endif %}
 
-  {# ★★★修正点: 最後の問題の正誤フィードバックの表示★★★ #}
+  
   {% if last_question_info %}
     <div class="last-question-feedback {% if last_question_info.is_correct %}correct{% else %}incorrect{% endif %}">
         {% if last_question_info.is_correct %}
@@ -432,27 +432,27 @@ tbody td {
   {% endif %}
 
 
-  <hr> {# メッセージとボタンの区切り #}
+  <hr> 
 
-  {# ゲストユーザーの場合のボタン #}
+  
   {% if is_guest %}
-  <div class="button-group"> {# ボタンをまとめるコンテナ #}
+  <div class="button-group"> 
     <a href="{% url 'player_register' %}?guest_score={{ score }}" class="neon-button">Register Now!</a>
   </div>
   <div class="button-group">
     <a href="{% url 'game_start' %}" class="neon-button">Play Again as Guest</a>
   </div>
   {% else %}
-  {# ログインユーザーの場合の「Play Again」ボタン #}
+  
   <div class="button-group">
-    <a href="{% url 'game_restart' %}" class="neon-button">🔁 Play Again</a>
+    <a href="{% url 'game_start' %}" class="neon-button">🔁 Play Again</a>
   </div>
   {% endif %}
   
   <hr> 
 
   <h2>🏆Global Ranking Top 20 Players</h2>
-  <div class="table-wrapper"> {# ここでテーブルをラップ #}
+  <div class="table-wrapper"> 
     <table>
       <thead>
         <tr>
@@ -475,12 +475,12 @@ tbody td {
         {% endfor %}
       </tbody>
     </table>
-  </div> {# / .table-wrapper #}
+  </div> 
 
-  {# ログアウトとアカウント削除ボタンのグループ #}
+  
   <div class="button-group">
     <a href="{% url 'player_logout' %}" class="neon-button">🚪 Logout</a>
-    {% if not is_guest %} {# ログインユーザーの場合のみ表示 #}
+    {% if not is_guest %} 
     <form method="post" action="{% url 'delete_player_confirm' %}" onsubmit="return confirm('Are you sure you want to delete your account? This action cannot be undone.');">
       {% csrf_token %}
       <button type="submit" class="neon-button delete">🗑️ Delete My Account</button>
