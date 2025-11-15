@@ -405,7 +405,8 @@ hr {
            style="position: absolute; left: -9999px; opacity: 0;"
            aria-hidden="true"
            autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
-           maxlength="{{ hint_length }}">
+           maxlength="{{ hint_length }}"
+           inputmode="latin" pattern="[a-zA-Z]*"> <!-- 英字入力に最適化 -->
 
     {% if message %}
       <p class="message {% if 'Correct' in message %}correct{% else %}incorrect{% endif %}">
@@ -447,6 +448,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     let currentInputIndex = 0;
     let currentAnswerArray = Array(hintLength).fill('_');
+    let isComposing = false; // IME入力中かどうかを判断するフラグ
 
     function createHintSpans() {
         visualHintContainer.innerHTML = '';
@@ -476,13 +478,17 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
         combinedAnswerInput.value = actualAnswer;
-
-        mobileTextInput.value = currentAnswerArray.filter(char => char !== '_').join('');
     }
 
+    // 初期化
     createHintSpans();
     updateCombinedAnswerAndVisuals();
-    
+    // PCの場合、DOMContentLoaded時に mobileTextInput にフォーカスを当てることで、
+    // クリックせずともキー入力を受け付けるようにする
+    mobileTextInput.focus();
+
+
+    // visualHintContainerをクリックしたら、mobileTextInputにフォーカスを当てる
     visualHintContainer.addEventListener('click', function(e) {
         if (e.target.classList.contains('hint-char-display')) {
             currentInputIndex = parseInt(e.target.dataset.index);
@@ -494,63 +500,85 @@ document.addEventListener('DOMContentLoaded', function() {
         mobileTextInput.focus();
     });
 
-    mobileTextInput.addEventListener('input', function(e) {
-        const inputText = e.target.value.toUpperCase();
-        let tempAnswerArray = Array(hintLength).fill('_');
-
-        for (let i = 0; i < hintLength && i < inputText.length; i++) {
-            tempAnswerArray[i] = inputText[i];
-        }
-
-        currentAnswerArray = tempAnswerArray;
-        currentInputIndex = inputText.length;
-        if (currentInputIndex >= hintLength) {
-            currentInputIndex = hintLength - 1;
-        }
-        
-        createHintSpans();
-        updateCombinedAnswerAndVisuals();
+    // IMEが開始された時
+    mobileTextInput.addEventListener('compositionstart', function() {
+        isComposing = true;
     });
 
+    // IMEが終了した時（文字が確定した時）
+    mobileTextInput.addEventListener('compositionend', function() {
+        isComposing = false;
+        // 確定した文字を処理
+        processMobileTextInput();
+    });
+
+    // mobileTextInput への入力イベントを処理
+    mobileTextInput.addEventListener('input', function(e) {
+        // IME入力中の場合は、compositionend で処理するためにここでは何もしない
+        if (isComposing) {
+            return;
+        }
+        processMobileTextInput();
+    });
+
+    // mobileTextInput の内容を currentAnswerArray に反映させる関数
+    function processMobileTextInput() {
+        const inputText = mobileTextInput.value.toUpperCase();
+        let newAnswerArray = Array(hintLength).fill('_'); // 新しい配列で毎回構築
+
+        for (let i = 0; i < hintLength && i < inputText.length; i++) {
+            newAnswerArray[i] = inputText[i];
+        }
+
+        currentAnswerArray = newAnswerArray; // currentAnswerArray を更新
+
+        // カーソル位置は、現在の mobileTextInput の値の長さに合わせる
+        currentInputIndex = inputText.length;
+        if (currentInputIndex >= hintLength) {
+            currentInputIndex = hintLength - 1; // 範囲を超えないように調整
+        }
+
+        createHintSpans();
+        updateCombinedAnswerAndVisuals();
+
+        // mobileTextInput の値がヒントの長さに達したら、それ以上の入力を防ぐ
+        if (inputText.length >= hintLength) {
+            mobileTextInput.value = inputText.substring(0, hintLength); // 超えた分を切り詰める
+        }
+    }
+
+
+    // PCキーボードからの入力（Backspace, 左右矢印, Enter）
+    // PCでの文字入力は mobileTextInput に任せる
     visualHintContainer.addEventListener('keydown', function(e) {
-        if (e.key.match(/^[a-zA-Z]$/)) {
-            mobileTextInput.focus();
-        } else if (e.key === 'Backspace') {
+        if (e.key === 'Backspace') {
             e.preventDefault();
-            if (currentInputIndex > 0) {
-                if (currentAnswerArray[currentInputIndex] !== '_') {
-                    currentAnswerArray[currentInputIndex] = '_';
-                } else {
-                    currentInputIndex--;
-                    currentAnswerArray[currentInputIndex] = '_';
-                }
-                mobileTextInput.value = currentAnswerArray.filter(char => char !== '_').join('');
-                mobileTextInput.focus();
-            } else if (currentInputIndex === 0 && currentAnswerArray[0] !== '_') {
-                currentAnswerArray[0] = '_';
-                mobileTextInput.value = currentAnswerArray.filter(char => char !== '_').join('');
-                mobileTextInput.focus();
+            // mobileTextInput の値も Backspace で減らす
+            if (mobileTextInput.value.length > 0) {
+                mobileTextInput.value = mobileTextInput.value.slice(0, -1);
             }
-            createHintSpans();
-            updateCombinedAnswerAndVisuals();
+            // その後、mobileTextInput の値に基づいて表示を更新
+            processMobileTextInput();
+            mobileTextInput.focus();
         } else if (e.key === 'ArrowRight') {
             e.preventDefault();
             if (currentInputIndex < hintLength - 1) {
                 currentInputIndex++;
                 updateCombinedAnswerAndVisuals();
-                mobileTextInput.focus();
             }
+            mobileTextInput.focus();
         } else if (e.key === 'ArrowLeft') {
             e.preventDefault();
             if (currentInputIndex > 0) {
                 currentInputIndex--;
                 updateCombinedAnswerAndVisuals();
-                mobileTextInput.focus();
             }
+            mobileTextInput.focus();
         } else if (e.key === 'Enter') {
             e.preventDefault();
             answerForm.submit();
         }
+        // その他のキー（英数字など）は mobileTextInput に任せるため、ここでは処理しない
     });
     
     answerForm.addEventListener('submit', function(e) {
@@ -558,4 +586,5 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 </script>
+
 {% endblock %}
