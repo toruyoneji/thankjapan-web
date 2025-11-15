@@ -401,8 +401,6 @@ hr {
     {% csrf_token %}
     <input type="hidden" name="answer" id="combined-answer-input">
 
-    <!-- mobile-text-input は不要になるので削除 -->
-
     {% if message %}
       <p class="message {% if 'Correct' in message %}correct{% else %}incorrect{% endif %}">
         {% if "Correct" in message %}✅ {% else %}❌ {% endif %}{{ message }}
@@ -420,8 +418,7 @@ hr {
     <button type="submit" class="neon-button">Submit Answer</button>
   </form>
 
-  <!-- ここにカスタムキーボードを追加 -->
-  <div id="keyboard-container">
+  <div id="keyboard-container" class="virtual-keyboard">
     <div class="keyboard-row">
       <button class="key-button" data-key="Q">Q</button>
       <button class="key-button" data-key="W">W</button>
@@ -448,7 +445,7 @@ hr {
       <div class="spacer"></div>
     </div>
     <div class="keyboard-row">
-      <button class="key-button shift-key" data-key="Shift">↑</button> <!-- 必要であればShift機能を追加 -->
+      <button class="key-button shift-key" data-key="Shift">↑</button>
       <button class="key-button" data-key="Z">Z</button>
       <button class="key-button" data-key="X">X</button>
       <button class="key-button" data-key="C">C</button>
@@ -459,11 +456,9 @@ hr {
       <button class="key-button backspace-key" data-key="Backspace">⌫</button>
     </div>
     <div class="keyboard-row">
-        <!-- 必要であればスペースキーなどを追加 -->
         <button class="key-button large-key" data-key="Enter">Submit</button>
     </div>
   </div>
-
 
   <div class="footer-note">
   <p>✨ Keep going,
@@ -478,10 +473,9 @@ hr {
 </div>
 
 <style>
-/* カスタムキーボード用のCSS */
 #keyboard-container {
     width: 100%;
-    max-width: 600px; /* 必要に応じて調整 */
+    max-width: 600px;
     margin: 20px auto;
     background-color: #333;
     padding: 10px;
@@ -508,7 +502,8 @@ hr {
     flex-grow: 1;
     text-align: center;
     transition: background-color 0.1s ease;
-    user-select: none; /* テキスト選択を防止 */
+    user-select: none;
+    flex-basis: 0; /* flex-growとの組み合わせで均等配置 */
 }
 
 .key-button:hover {
@@ -520,17 +515,48 @@ hr {
 }
 
 .spacer {
-    flex-grow: 0.5; /* キーボードの端のスペースを調整 */
+    flex-grow: 0.5;
+    flex-basis: 0;
 }
 
-.shift-key, .backspace-key, .large-key {
+.shift-key, .backspace-key {
     background-color: #666;
-    flex-grow: 1.5; /* Shift, Backspaceなどを少し大きく */
+    flex-grow: 1.5;
 }
 
 .large-key {
     padding: 15px 20px;
     font-size: 1.3em;
+    flex-grow: 3; /* Submitボタンをさらに大きく */
+}
+
+/* PCではキーボードを非表示にする */
+@media (min-width: 769px) { /* タブレットやPC向けのブレークポイント */
+    #keyboard-container {
+        display: none;
+    }
+}
+
+/* スマートフォンでのレイアウト調整 */
+@media (max-width: 768px) {
+    #keyboard-container {
+        padding: 5px; /* スマホではパディングを少し減らす */
+    }
+    .keyboard-row {
+        margin-bottom: 2px; /* 行間のマージンを減らす */
+    }
+    .key-button {
+        padding: 8px 5px; /* ボタンのパディングを減らす */
+        margin: 2px; /* ボタンのマージンを減らす */
+        font-size: 1em; /* フォントサイズを小さく */
+    }
+    .shift-key, .backspace-key {
+        flex-grow: 1.3; /* スマホで調整 */
+    }
+    .large-key {
+        padding: 10px 15px;
+        font-size: 1.1em;
+    }
 }
 </style>
 
@@ -541,37 +567,34 @@ document.addEventListener('DOMContentLoaded', function() {
     const visualHintContainer = document.getElementById('visual-hint-container');
     const combinedAnswerInput = document.getElementById('combined-answer-input');
     const answerForm = document.getElementById('answer-form');
-    const keyboardContainer = document.getElementById('keyboard-container'); // カスタムキーボード
+    const keyboardContainer = document.getElementById('keyboard-container');
     const keyButtons = keyboardContainer.querySelectorAll('.key-button');
 
-    let currentInputIndex = 0; // カーソル位置
+    let currentInputIndex = 0;
     let currentAnswerArray = Array(hintLength).fill('_');
 
-    // ヒントの文字表示スパンを作成・更新
     function createHintSpans() {
-        visualHintContainer.innerHTML = ''; // 一度クリア
+        visualHintContainer.innerHTML = '';
         for (let i = 0; i < hintLength; i++) {
             const charSpan = document.createElement('span');
-            charSpan.textContent = currentAnswerArray[i]; // currentAnswerArray の内容を反映
+            charSpan.textContent = currentAnswerArray[i];
             charSpan.className = 'hint-char-display';
-            charSpan.dataset.index = i; // クリックでカーソル移動できるようにインデックスを保持
+            charSpan.dataset.index = i;
             visualHintContainer.appendChild(charSpan);
         }
         updateActiveCursor();
     }
 
-    // アクティブなカーソル位置のみを更新する関数
     function updateActiveCursor() {
         const charSpans = visualHintContainer.querySelectorAll('.hint-char-display');
         charSpans.forEach((span, index) => {
             span.classList.remove('active');
-            if (index === currentInputIndex) { // currentInputIndex を基準にする
+            if (index === currentInputIndex) {
                 span.classList.add('active');
             }
         });
     }
 
-    // currentAnswerArrayとhidden inputの値を更新
     function updateCombinedAnswer() {
         let actualAnswer = '';
         currentAnswerArray.forEach(char => {
@@ -582,66 +605,58 @@ document.addEventListener('DOMContentLoaded', function() {
         combinedAnswerInput.value = actualAnswer;
     }
 
-    // 初期化
     createHintSpans();
     updateCombinedAnswer();
-    visualHintContainer.focus(); // PCでキーボード入力するためにフォーカス
+    visualHintContainer.focus();
 
-    // visualHintContainerをクリックしたら、カーソル位置を移動
     visualHintContainer.addEventListener('click', function(e) {
         if (e.target.classList.contains('hint-char-display')) {
             currentInputIndex = parseInt(e.target.dataset.index);
         } else {
-            // スパン以外がクリックされた場合、最初の空きか末尾に移動
             let firstEmptyIndex = currentAnswerArray.indexOf('_');
             currentInputIndex = (firstEmptyIndex !== -1) ? firstEmptyIndex : hintLength - 1;
         }
         updateActiveCursor();
-        visualHintContainer.focus(); // フォーカスを維持
+        visualHintContainer.focus();
     });
 
-
-    // カスタムキーボードのボタンクリックイベント
     keyButtons.forEach(button => {
         button.addEventListener('click', function() {
             const key = this.dataset.key;
 
-            if (key.length === 1 && key.match(/^[A-Z]$/)) { // アルファベット
+            if (key.length === 1 && key.match(/^[A-Z]$/)) {
                 if (currentInputIndex < hintLength) {
                     currentAnswerArray[currentInputIndex] = key;
                     currentInputIndex++;
-                    if (currentInputIndex >= hintLength) { // 末尾を超えたら末尾に留まる
+                    if (currentInputIndex >= hintLength) {
                         currentInputIndex = hintLength - 1;
                     }
                 }
-            } else if (key === 'Backspace') { // Backspaceキー
+            } else if (key === 'Backspace') {
                 if (currentInputIndex > 0) {
-                    if (currentAnswerArray[currentInputIndex] !== '_') { // 現在位置に文字があれば消す
+                    if (currentAnswerArray[currentInputIndex] !== '_') {
                         currentAnswerArray[currentInputIndex] = '_';
-                    } else { // なければ一つ左に移動して消す
+                    } else {
                         currentInputIndex--;
                         currentAnswerArray[currentInputIndex] = '_';
                     }
-                } else if (currentInputIndex === 0 && currentAnswerArray[0] !== '_') { // 先頭に文字がある場合
+                } else if (currentInputIndex === 0 && currentAnswerArray[0] !== '_') {
                     currentAnswerArray[0] = '_';
                 }
-            } else if (key === 'Enter') { // Submitキー
+            } else if (key === 'Enter') {
                 answerForm.submit();
             }
-            // Shiftキーはここでは何もしない（大文字固定のため）
 
-            createHintSpans(); // 表示を更新
-            updateCombinedAnswer(); // hidden input の値を更新
-            visualHintContainer.focus(); // フォーカスを維持
+            createHintSpans();
+            updateCombinedAnswer();
+            visualHintContainer.focus();
         });
     });
 
-
-    // PCキーボードからの入力（アルファベット、Backspace、左右矢印、Enter）
     visualHintContainer.addEventListener('keydown', function(e) {
-        e.preventDefault(); // デフォルトのブラウザ挙動を停止
+        e.preventDefault();
 
-        if (e.key.match(/^[a-zA-Z]$/)) { // アルファベット
+        if (e.key.match(/^[a-zA-Z]$/)) {
             if (currentInputIndex < hintLength) {
                 currentAnswerArray[currentInputIndex] = e.key.toUpperCase();
                 currentInputIndex++;
@@ -649,7 +664,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     currentInputIndex = hintLength - 1;
                 }
             }
-        } else if (e.key === 'Backspace') { // Backspaceキー
+        } else if (e.key === 'Backspace') {
             if (currentInputIndex > 0) {
                 if (currentAnswerArray[currentInputIndex] !== '_') {
                     currentAnswerArray[currentInputIndex] = '_';
@@ -660,24 +675,23 @@ document.addEventListener('DOMContentLoaded', function() {
             } else if (currentInputIndex === 0 && currentAnswerArray[0] !== '_') {
                 currentAnswerArray[0] = '_';
             }
-        } else if (e.key === 'ArrowRight') { // 右矢印
+        } else if (e.key === 'ArrowRight') {
             if (currentInputIndex < hintLength - 1) {
                 currentInputIndex++;
             }
-        } else if (e.key === 'ArrowLeft') { // 左矢印
+        } else if (e.key === 'ArrowLeft') {
             if (currentInputIndex > 0) {
                 currentInputIndex--;
             }
-        } else if (e.key === 'Enter') { // Enterキー
+        } else if (e.key === 'Enter') {
             answerForm.submit();
         }
 
-        createHintSpans(); // 表示を更新
-        updateCombinedAnswer(); // hidden input の値を更新
-        visualHintContainer.focus(); // フォーカスを維持
+        createHintSpans();
+        updateCombinedAnswer();
+        visualHintContainer.focus();
     });
     
-    // フォーム送信時にも念のため最終更新
     answerForm.addEventListener('submit', function(e) {
         updateCombinedAnswer();
     });
