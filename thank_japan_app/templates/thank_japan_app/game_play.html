@@ -401,6 +401,12 @@ hr {
     {% csrf_token %}
     <input type="hidden" name="answer" id="combined-answer-input">
 
+    <input type="text" id="mobile-text-input"
+           style="position: absolute; left: -9999px; opacity: 0;"
+           aria-hidden="true"
+           autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
+           maxlength="{{ hint_length }}">
+
     {% if message %}
       <p class="message {% if 'Correct' in message %}correct{% else %}incorrect{% endif %}">
         {% if "Correct" in message %}✅ {% else %}❌ {% endif %}{{ message }}
@@ -437,6 +443,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const visualHintContainer = document.getElementById('visual-hint-container');
     const combinedAnswerInput = document.getElementById('combined-answer-input');
     const answerForm = document.getElementById('answer-form');
+    const mobileTextInput = document.getElementById('mobile-text-input');
+
     let currentInputIndex = 0;
     let currentAnswerArray = Array(hintLength).fill('_');
 
@@ -452,10 +460,12 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function updateCombinedAnswerAndVisuals() {
-        let currentAnswer = '';
+        let actualAnswer = '';
         const charSpans = visualHintContainer.querySelectorAll('.hint-char-display');
         charSpans.forEach((span, index) => {
-            currentAnswer += (currentAnswerArray[index] === '_') ? '' : currentAnswerArray[index];
+            if (currentAnswerArray[index] !== '_') {
+                actualAnswer += currentAnswerArray[index];
+            }
 
             span.classList.remove('active', 'filled');
             if (currentAnswerArray[index] !== '_') {
@@ -465,27 +475,48 @@ document.addEventListener('DOMContentLoaded', function() {
                 span.classList.add('active');
             }
         });
-        combinedAnswerInput.value = currentAnswer;
+        combinedAnswerInput.value = actualAnswer;
+
+        mobileTextInput.value = currentAnswerArray.filter(char => char !== '_').join('');
     }
 
     createHintSpans();
-    visualHintContainer.focus();
     updateCombinedAnswerAndVisuals();
+    
+    visualHintContainer.addEventListener('click', function(e) {
+        if (e.target.classList.contains('hint-char-display')) {
+            currentInputIndex = parseInt(e.target.dataset.index);
+        } else {
+            let firstEmptyIndex = currentAnswerArray.indexOf('_');
+            currentInputIndex = (firstEmptyIndex !== -1) ? firstEmptyIndex : hintLength - 1;
+        }
+        updateCombinedAnswerAndVisuals();
+        mobileTextInput.focus();
+    });
+
+    mobileTextInput.addEventListener('input', function(e) {
+        const inputText = e.target.value.toUpperCase();
+        let tempAnswerArray = Array(hintLength).fill('_');
+
+        for (let i = 0; i < hintLength && i < inputText.length; i++) {
+            tempAnswerArray[i] = inputText[i];
+        }
+
+        currentAnswerArray = tempAnswerArray;
+        currentInputIndex = inputText.length;
+        if (currentInputIndex >= hintLength) {
+            currentInputIndex = hintLength - 1;
+        }
+        
+        createHintSpans();
+        updateCombinedAnswerAndVisuals();
+    });
 
     visualHintContainer.addEventListener('keydown', function(e) {
-        e.preventDefault();
-
         if (e.key.match(/^[a-zA-Z]$/)) {
-            if (currentInputIndex < hintLength) {
-                currentAnswerArray[currentInputIndex] = e.key.toUpperCase();
-                currentInputIndex++;
-                if (currentInputIndex >= hintLength) {
-                    currentInputIndex = hintLength - 1;
-                }
-                createHintSpans();
-                updateCombinedAnswerAndVisuals();
-            }
+            mobileTextInput.focus();
         } else if (e.key === 'Backspace') {
+            e.preventDefault();
             if (currentInputIndex > 0) {
                 if (currentAnswerArray[currentInputIndex] !== '_') {
                     currentAnswerArray[currentInputIndex] = '_';
@@ -493,37 +524,32 @@ document.addEventListener('DOMContentLoaded', function() {
                     currentInputIndex--;
                     currentAnswerArray[currentInputIndex] = '_';
                 }
-                createHintSpans();
-                updateCombinedAnswerAndVisuals();
+                mobileTextInput.value = currentAnswerArray.filter(char => char !== '_').join('');
+                mobileTextInput.focus();
             } else if (currentInputIndex === 0 && currentAnswerArray[0] !== '_') {
                 currentAnswerArray[0] = '_';
-                createHintSpans();
-                updateCombinedAnswerAndVisuals();
+                mobileTextInput.value = currentAnswerArray.filter(char => char !== '_').join('');
+                mobileTextInput.focus();
             }
+            createHintSpans();
+            updateCombinedAnswerAndVisuals();
         } else if (e.key === 'ArrowRight') {
+            e.preventDefault();
             if (currentInputIndex < hintLength - 1) {
                 currentInputIndex++;
                 updateCombinedAnswerAndVisuals();
+                mobileTextInput.focus();
             }
         } else if (e.key === 'ArrowLeft') {
+            e.preventDefault();
             if (currentInputIndex > 0) {
                 currentInputIndex--;
                 updateCombinedAnswerAndVisuals();
+                mobileTextInput.focus();
             }
         } else if (e.key === 'Enter') {
-            updateCombinedAnswerAndVisuals();
+            e.preventDefault();
             answerForm.submit();
-        }
-    });
-
-    visualHintContainer.addEventListener('click', function() {
-        visualHintContainer.focus();
-    });
-
-    visualHintContainer.addEventListener('click', function(e) {
-        if (e.target.classList.contains('hint-char-display')) {
-            currentInputIndex = parseInt(e.target.dataset.index);
-            updateCombinedAnswerAndVisuals();
         }
     });
     
@@ -532,5 +558,4 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 </script>
-
 {% endblock %}
