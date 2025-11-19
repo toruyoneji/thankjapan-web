@@ -40,6 +40,9 @@
     --normal-gradient-end: #f37335;
     --hard-gradient-start: #e91e63;
     --hard-gradient-end: #f44336;
+    --super-hard-gradient-start: #240b36; 
+    --super-hard-gradient-end: #000000;   
+    --super-hard-border: var(--neon-pink);
     --button-gradient-start: #ff7e5f;
     --button-gradient-end: #feb47b;
     --register-gradient-start: #28a745; 
@@ -226,6 +229,10 @@ body {
     background: linear-gradient(45deg, var(--hard-gradient-start), var(--hard-gradient-end));
 }
 
+.super-hard {
+    background: linear-gradient(45deg, var(--super-hard-gradient-start), var(--super-hard-gradient-end));
+}
+
 .player-info {
     width: 100%;
     max-width: 400px;
@@ -381,6 +388,16 @@ body {
                 <p>Culture & concepts, idioms</p>
             </div>
         </a>
+
+        {% if player.total_score >= 300 %}
+            <a href="{% url 'game_restart' %}?difficulty=super_hard" class="difficulty-card super-hard">
+                <span class="emoji">👹</span>
+                    <div class="difficulty-info">
+                    <h3>MANIA</h3>
+                    <p>God Tier! Good luck...</p>
+                </div>
+            </a>
+        {% endif %}
     </div>
 
     <div class="player-info">

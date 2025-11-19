@@ -418,18 +418,23 @@ def delete_player(request):
 DIFFICULTY_SETTINGS = {
     'easy': {
         'category_filter': ['cook', 'food'],
-        'length_regex': r'^.{1,6}$',
+        'length_regex': r'^.{3,6}$',
         'num_questions': 3,
     },
     'normal': {
-        'category_filter': None,
-        'length_regex': r'^.{1,9}$',
+        'category_filter': ['cook', 'culture', 'food', 'nature', 'animal'],
+        'length_regex': r'^.{3,8}$',
         'num_questions': 5,
     },
     'hard': {
         'category_filter': None,
-        'length_regex': None,
+        'length_regex': r'^.{2,9}$',
         'num_questions': 7,
+    },
+    'super_hard': {
+        'category_filter': None, 
+        'length_regex': None, 
+        'num_questions': 7, 
     }
 }
 
@@ -469,6 +474,17 @@ def game_start(request):
 
 def game_restart(request):
     difficulty = request.GET.get('difficulty', 'normal') 
+    
+    player, is_guest = get_current_player_info(request)
+    
+    if difficulty == 'super_hard':
+        
+        current_total_score = player.total_score if not is_guest else 0
+        
+        if current_total_score < 300:
+            messages.error(request, "🔒 You need 300 Total Points to unlock MANIA mode! Keep playing!")
+        
+            return redirect('game_start')
     
     if difficulty not in DIFFICULTY_SETTINGS:
         messages.error(request, "Invalid difficulty selected. Defaulting to Normal.")
