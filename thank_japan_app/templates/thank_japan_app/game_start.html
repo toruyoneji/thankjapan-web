@@ -296,6 +296,75 @@ body {
     text-decoration: underline;
 }
 
+
+.visual-rule-container {
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid #555;
+    border-radius: 15px;
+    padding: 15px;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.rule-step {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+    opacity: 0.9;
+}
+.step-arrow {
+    color: var(--neon-cyan, #00ffff);
+    margin: 0 5px;
+}
+
+.rule-example-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    font-family: 'Courier New', monospace; 
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+
+.example-item.correct {
+    background: rgba(0, 255, 0, 0.1);
+    border: 1px solid #00ff00;
+    border-radius: 8px;
+    padding: 5px 15px;
+    color: #00ff00; 
+}
+
+
+.example-item.wrong {
+    background: rgba(255, 0, 0, 0.1);
+    border: 1px solid #ff0000;
+    border-radius: 8px;
+    padding: 5px 15px;
+    color: #ff4444; 
+    text-decoration: line-through; 
+    opacity: 0.7;
+}
+
+.example-mark {
+    margin-left: 5px;
+    text-decoration: none !important;
+}
+
+.example-divider {
+    font-size: 0.9rem;
+    color: #888;
+}
+
+
+.rule-caption {
+    margin-top: 10px;
+    color: #ccc;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+}
+
+
 /* Responsive adjustments for smaller screens */
 @media (max-width: 600px) {
     .container {
@@ -366,12 +435,43 @@ body {
 <div class="game-start-container">
     <h2 class="start-game-title">Start Game</h2>
 
+    
+    <div class="visual-rule-container">
+        <div class="rule-step">
+            <span class="step-emoji">🖼️</span>
+            <span class="step-arrow">➡</span>
+            <span class="step-emoji">🇯🇵</span>
+            <span class="step-arrow">➡</span>
+            <span class="step-emoji">⌨️</span>
+        </div>
+        
+        <div class="rule-example-box">
+            <div class="example-item correct">
+                <span class="example-icon">🍣</span>
+                <span class="example-text">SUSHI</span>
+                <span class="example-mark">✅</span>
+            </div>
+            <div class="example-divider">vs</div>
+            <div class="example-item wrong">
+                <span class="example-icon">🍣</span>
+                <span class="example-text">Fish</span>
+                <span class="example-mark">❌</span>
+            </div>
+        </div>
+        <p class="rule-caption">Type Japanese Name in Romaji!</p>
+    </div>
+    
+
+    <div class="difficulty-options">
+        
+    </div>
+
     <div class="difficulty-options">
          <a href="{% url 'game_restart' %}?difficulty=easy" class="difficulty-card easy">
             <span class="emoji">🙂</span>
             <div class="difficulty-info">
                 <h3>EASY</h3>
-                <p>Simple words, common objects</p>
+                <p>Simple words (e.g. Sushi, Ninja), common objects</p>
             </div>
         </a>
          <a href="{% url 'game_restart' %}?difficulty=normal" class="difficulty-card normal">
