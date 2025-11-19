@@ -30,6 +30,53 @@ Sitemap: https://www.thankjapan.com/sitemap.xml
 """
     return HttpResponse(content, content_type="text/plain")
 
+def normalize_romaji(text):
+    
+    if not text:
+        return ""
+    text = text.lower().strip()
+    
+    
+    replacements = [
+        ('aa', 'a'), ('ii', 'i'), ('uu', 'u'), 
+        ('ee', 'e'), ('oo', 'o'), ('ou', 'o')
+    ]
+    
+    for old, new in replacements:
+        text = text.replace(old, new)
+        
+    return text
+
+def normalize_consonants(text):
+    
+    if not text: return ""
+    text = text.lower().strip()
+    
+    
+    text = normalize_romaji(text)
+    
+    replacements = [
+        ('tsu', 'tu'),
+        ('fu', 'hu'),
+        ('shi', 'si'),
+        ('chi', 'ti'),
+        ('ji', 'zi'),
+        ('shu', 'syu'), 
+        ('sha', 'sya'), 
+        ('sho', 'syo'), 
+        ('cho', 'tyo'),
+        ('cha', 'tya'),
+        ('chu', 'tyu'),
+        ('jyu', 'zyu'), 
+        ('jya', 'zya'), 
+        ('jyo', 'zyo'),
+    ]
+    
+    for old, new in replacements:
+        text = text.replace(old, new)
+        
+    return text
+
 
 #company infomation
 class CompanyFormView(TemplateView):
@@ -545,6 +592,17 @@ def game_play(request):
     current_difficulty = request.session.get('game_difficulty', 'normal')
     max_questions_for_difficulty = DIFFICULTY_SETTINGS.get(current_difficulty, {}).get('num_questions', total_questions)
 
+    
+    original_name = question.name.lower() 
+    
+    
+    if current_difficulty != 'super_hard':
+        friendly_name = normalize_romaji(original_name) 
+        hint_length = len(friendly_name) 
+    else:
+        
+        hint_length = len(original_name) 
+
     return render(request, 'thank_japan_app/game_play.html', {
         'object': question,
         'form': form,
@@ -553,10 +611,11 @@ def game_play(request):
         'score': request.session.get('game_score', 0),
         'player': player,
         'is_guest': is_guest,
-        'hint_length': len(question.name),
+        'hint_length': hint_length, 
         'difficulty': current_difficulty, 
     })
     
+
 
 def game_answer(request, pk):
     if request.method != 'POST':
@@ -569,14 +628,24 @@ def game_answer(request, pk):
 
     if form.is_valid():
         user_input = form.cleaned_data['answer'].strip().lower()
-        correct_answer = question.name.strip().lower()
+        db_answer = question.name.strip().lower()
+        
+        current_difficulty = request.session.get('game_difficulty', 'normal')
 
-        is_correct = (user_input == correct_answer)
+        is_correct = False
+
+        if user_input == db_answer:
+            is_correct = True
+        
+        elif current_difficulty != 'super_hard':
+            if normalize_consonants(user_input) == normalize_consonants(db_answer):
+                is_correct = True
 
         current_question_index = request.session.get('game_current_index', 0)
         current_question_number = current_question_index + 1
         
         if is_correct:
+
             request.session['game_score'] = request.session.get('game_score', 0) + 1
 
         request.session['game_current_index'] = current_question_index + 1
@@ -585,6 +654,7 @@ def game_answer(request, pk):
         total_questions = len(ids)
 
         if (current_question_index + 1) >= total_questions:
+        
             request.session['last_question_info'] = {
                 'is_correct': is_correct,
                 'correct_answer': question.name if not is_correct else None,
@@ -596,11 +666,12 @@ def game_answer(request, pk):
                 messages.success(request, f"✅ Question {current_question_number} was CORRECT!")
             else:
                 messages.error(request, f"❌ Question {current_question_number} was INCORRECT! The correct answer was: {question.name}")
+            
             return redirect('game_play')
 
     else:
         messages.warning(request, "⚠️ Please enter a valid answer.")
-        return redirect('game_play')    
+        return redirect('game_play')
 
 
 def game_result(request):

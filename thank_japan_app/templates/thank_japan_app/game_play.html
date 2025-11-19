@@ -539,11 +539,11 @@
 
   <h2>Category: {{ object.category|title }}</h2>
 
-  {% if difficulty == 'easy' %}
-      <div class="english-meaning-display">
-          <span class="meaning-label">English:</span>
-          <span class="meaning-text">{{ object.englishname }}</span>
-      </div>
+  {% if difficulty != 'super_hard' %}
+    <div class="english-meaning-display">
+        <span class="meaning-label">English:</span>
+        <span class="meaning-text">{{ object.englishname }}</span>
+    </div>
   {% endif %}
 
   <div class="hint-section">
