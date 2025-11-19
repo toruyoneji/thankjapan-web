@@ -417,12 +417,15 @@ def delete_player(request):
 
 DIFFICULTY_SETTINGS = {
     'easy': {
-        'category_filter': ['cook', 'food'],
+        'category_filter': ['food', 'cook', 'animal', 'sports'],
         'length_regex': r'^.{3,6}$',
         'num_questions': 3,
     },
     'normal': {
-        'category_filter': ['cook', 'culture', 'food', 'nature', 'animal'],
+        'category_filter': [
+            'food', 'cook', 'animal', 'sports', 
+            'culture', 'nature', 'fashion', 'building'
+        ],
         'length_regex': r'^.{3,8}$',
         'num_questions': 5,
     },
@@ -434,7 +437,7 @@ DIFFICULTY_SETTINGS = {
     'super_hard': {
         'category_filter': None, 
         'length_regex': None, 
-        'num_questions': 7, 
+        'num_questions': 10, 
     }
 }
 
