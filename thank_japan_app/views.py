@@ -9,6 +9,8 @@ from django.conf import settings
 from .forms import AnswerForm, ContactForm, UsernameForm
 from django.views.decorators.http import require_POST
 from django.http import Http404
+from django.urls import reverse
+from django.utils.safestring import mark_safe
 import logging
 import random
 
@@ -522,18 +524,16 @@ def game_start(request):
     })
 
 
+
 def game_restart(request):
     difficulty = request.GET.get('difficulty', 'normal') 
     
     player, is_guest = get_current_player_info(request)
     
     if difficulty == 'super_hard':
-        
         current_total_score = player.total_score if not is_guest else 0
-        
         if current_total_score < 300:
             messages.error(request, "🔒 You need 300 Total Points to unlock MANIA mode! Keep playing!")
-        
             return redirect('game_start')
     
     if difficulty not in DIFFICULTY_SETTINGS:
@@ -567,7 +567,8 @@ def game_restart(request):
     request.session['game_score'] = 0
     request.session['game_difficulty'] = difficulty
     request.session.pop('game_message', None)
-    request.session.pop('last_question_info', None)
+    
+    request.session['game_history'] = [] 
 
     messages.info(request, f"🚀 Starting a new game on {difficulty.upper()} difficulty!")
     return redirect('game_play')
@@ -592,15 +593,12 @@ def game_play(request):
     current_difficulty = request.session.get('game_difficulty', 'normal')
     max_questions_for_difficulty = DIFFICULTY_SETTINGS.get(current_difficulty, {}).get('num_questions', total_questions)
 
-    
     original_name = question.name.lower() 
-    
     
     if current_difficulty != 'super_hard':
         friendly_name = normalize_romaji(original_name) 
         hint_length = len(friendly_name) 
     else:
-        
         hint_length = len(original_name) 
 
     return render(request, 'thank_japan_app/game_play.html', {
@@ -614,7 +612,6 @@ def game_play(request):
         'hint_length': hint_length, 
         'difficulty': current_difficulty, 
     })
-    
 
 
 def game_answer(request, pk):
@@ -636,16 +633,23 @@ def game_answer(request, pk):
 
         if user_input == db_answer:
             is_correct = True
-        
         elif current_difficulty != 'super_hard':
             if normalize_consonants(user_input) == normalize_consonants(db_answer):
                 is_correct = True
+
+        history = request.session.get('game_history', [])
+        history.append({
+            'question_id': question.id,
+            'is_correct': is_correct,
+            'user_input': user_input,
+            'correct_answer': question.name,
+        })
+        request.session['game_history'] = history
 
         current_question_index = request.session.get('game_current_index', 0)
         current_question_number = current_question_index + 1
         
         if is_correct:
-
             request.session['game_score'] = request.session.get('game_score', 0) + 1
 
         request.session['game_current_index'] = current_question_index + 1
@@ -654,25 +658,29 @@ def game_answer(request, pk):
         total_questions = len(ids)
 
         if (current_question_index + 1) >= total_questions:
-        
-            request.session['last_question_info'] = {
-                'is_correct': is_correct,
-                'correct_answer': question.name if not is_correct else None,
-                'question_number': current_question_number
-            }
             return redirect('game_result')
         else:
             if is_correct:
                 messages.success(request, f"✅ Question {current_question_number} was CORRECT!")
             else:
-                messages.error(request, f"❌ Question {current_question_number} was INCORRECT! The correct answer was: {question.name}")
+                try:
+                    detail_url = reverse('detail', kwargs={'pk': question.id})
+                    error_msg = f"""
+                        ❌ Question {current_question_number} was INCORRECT! 
+                        The answer was: <strong>{question.name}</strong>. 
+                        <a href="{detail_url}" target="_blank" style="text-decoration:underline; margin-left:5px;">📖 Study Now</a>
+                    """
+                except:
+                    error_msg = f"❌ Question {current_question_number} was INCORRECT! The answer was: {question.name}"
+                
+                messages.error(request, mark_safe(error_msg))
             
             return redirect('game_play')
 
     else:
         messages.warning(request, "⚠️ Please enter a valid answer.")
         return redirect('game_play')
-
+    
 
 def game_result(request):
     current_game_score = request.session.get('game_score', 0)
@@ -682,15 +690,27 @@ def game_result(request):
         player.total_score += current_game_score
         player.last_score = current_game_score
         player.save()
-        messages.success(request, f"🎉 Your score of {current_game_score} has been saved to your account!")
-    else:
-        messages.info(request, f"👍 You scored {current_game_score}! Register or log in to save your future scores and see the ranking.")
-        
-    last_question_info = request.session.pop('last_question_info', None)
     
+    game_history = request.session.get('game_history', [])
+    
+    played_question_ids = [item['question_id'] for item in game_history]
+    played_questions = ThankJapanModel.objects.in_bulk(played_question_ids)
+
+    review_data = []
+    for item in game_history:
+        q_obj = played_questions.get(item['question_id'])
+        if q_obj:
+            review_data.append({
+                'object': q_obj,
+                'question_id': item['question_id'],
+                'is_correct': item['is_correct'],
+                'user_input': item['user_input'],
+                'correct_answer': item['correct_answer'],
+            })
+
     game_keys_to_clear = [
         'game_question_ids', 'game_current_index', 'game_score', 
-        'game_difficulty', 'game_message'
+        'game_difficulty', 'game_message', 'game_history'
     ]
     for key in game_keys_to_clear:
         request.session.pop(key, None)
@@ -702,9 +722,8 @@ def game_result(request):
         'score': current_game_score,
         'ranking': ranking,
         'is_guest': is_guest,
-        'last_question_info': last_question_info,
-    })
-    
+        'review_data': review_data,
+    })    
                 
 #category view                                
 class FoodView(ListView):

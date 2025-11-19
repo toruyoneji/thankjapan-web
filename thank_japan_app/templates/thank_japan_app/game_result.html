@@ -278,6 +278,124 @@ tbody td {
     box-shadow: 0 0 15px rgba(255, 75, 92, 0.4);
 }
 
+.review-section {
+    margin: 20px 0;
+    text-align: left;
+}
+
+.section-title {
+    text-align: center;
+    margin-bottom: 15px;
+    font-size: 1.5rem;
+    color: var(--text-color);
+}
+
+.review-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.review-card {
+    display: flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid #444;
+    border-radius: 12px;
+    padding: 10px;
+    transition: transform 0.2s;
+}
+
+.review-card.correct {
+    border-left: 5px solid #00ff00;
+}
+
+.review-card.wrong {
+    border-left: 5px solid #ff4444;
+    background: rgba(255, 0, 0, 0.1);
+}
+
+.review-img-wrapper {
+    flex-shrink: 0;
+    width: 80px;
+    height: 80px;
+    margin-right: 15px;
+}
+
+.review-img-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 1px solid #666;
+}
+
+.review-info {
+    flex-grow: 1;
+    min-width: 0;
+}
+
+.review-header {
+    display: flex;
+    gap: 10px;
+    font-size: 0.8rem;
+    color: #aaa;
+    margin-bottom: 5px;
+}
+
+.q-label {
+    font-weight: bold;
+    color: var(--neon-cyan, #00ffff);
+}
+
+.answer-title {
+    margin: 0 0 5px 0;
+    font-size: 1.2rem;
+    color: white;
+}
+
+.status-text {
+    margin: 0;
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+.status-text.correct { color: #00ff00; }
+.status-text.wrong { color: #ff4444; }
+
+.user-input {
+    margin: 0;
+    font-size: 0.85rem;
+    color: #ccc;
+}
+.user-input span {
+    color: #ffcccc;
+    text-decoration: underline;
+}
+
+.review-action {
+    margin-left: 10px;
+}
+
+.study-btn {
+    display: inline-block;
+    background: linear-gradient(45deg, #6a11cb, #2575fc);
+    color: white;
+    text-decoration: none;
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 0.9rem;
+    white-space: nowrap;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+    transition: all 0.3s ease;
+}
+
+.study-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 15px rgba(37, 117, 252, 0.6);
+}
+
+
 
 /* ==============================
    RESPONSIVE
@@ -340,6 +458,15 @@ tbody td {
     font-size: 0.9rem;
     padding: 8px 6px;
   }
+
+  .review-card {
+      flex-wrap: wrap;
+    }
+  .review-action {
+      width: 100%;
+      margin-top: 10px;
+      text-align: right;
+    }
 }
 
 
@@ -408,42 +535,61 @@ tbody td {
     <p>Your Score: <span class="score-number" id="score">{{ score }}</span> pts</p>
   </div>
 
-  
-  {% if messages %}
-    <div class="messages-container">
-        {% for message in messages %}
-            <p class="message {{ message.tags }}">
-                {% if 'success' in message.tags %}✅ {% elif 'error' in message.tags %}❌ {% endif %}
-                {{ message }}
-            </p>
-        {% endfor %}
+  <hr>
+
+  {% if review_data %}
+    <div class="review-section">
+        <h2 class="section-title">📝 Review Your Answers</h2>
+        <div class="review-list">
+            {% for item in review_data %}
+                <div class="review-card {% if item.is_correct %}correct{% else %}wrong{% endif %}">
+                    
+                    <div class="review-img-wrapper">
+                        {% if item.object.image %}
+                            <img src="{{ item.object.image.url }}" alt="Review Image">
+                        {% else %}
+                            <div class="no-image">No Image</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="review-info">
+                        <div class="review-header">
+                            <span class="q-label">Q{{ forloop.counter }}</span>
+                            <span class="category-badge">{{ item.object.category|title }}</span>
+                        </div>
+
+                        <h3 class="answer-title">{{ item.object.name|title }}</h3>
+
+                        {% if item.is_correct %}
+                            <p class="status-text correct">✅ Correct!</p>
+                        {% else %}
+                            <p class="status-text wrong">❌ Incorrect</p>
+                            <p class="user-input">You typed: <span>"{{ item.user_input }}"</span></p>
+                        {% endif %}
+                    </div>
+
+                    <div class="review-action">
+                        <a href="{% url 'detail' pk=item.object.id %}" class="study-btn" target="_blank">
+                            📖 Study
+                        </a>
+                    </div>
+
+                </div>
+            {% endfor %}
+        </div>
     </div>
   {% endif %}
 
-  
-  {% if last_question_info %}
-    <div class="last-question-feedback {% if last_question_info.is_correct %}correct{% else %}incorrect{% endif %}">
-        {% if last_question_info.is_correct %}
-            ✅ Question {{ last_question_info.question_number }} was CORRECT!
-        {% else %}
-            ❌ Question {{ last_question_info.question_number }} was INCORRECT! (Correct answer: {{ last_question_info.correct_answer }})
-        {% endif %}
-    </div>
-  {% endif %}
+  <hr>
 
-
-  <hr> 
-
-  
   {% if is_guest %}
-  <div class="button-group"> 
+  <div class="button-group">
     <a href="{% url 'player_register' %}?guest_score={{ score }}" class="neon-button">Register Now!</a>
   </div>
   <div class="button-group">
     <a href="{% url 'game_start' %}" class="neon-button">Play Again as Guest</a>
   </div>
   {% else %}
-  
   <div class="button-group">
     <a href="{% url 'game_start' %}" class="neon-button">🔁 Play Again</a>
   </div>
@@ -452,7 +598,7 @@ tbody td {
   <hr> 
 
   <h2>🏆Global Ranking Top 20 Players</h2>
-  <div class="table-wrapper"> 
+  <div class="table-wrapper">
     <table>
       <thead>
         <tr>
@@ -475,12 +621,11 @@ tbody td {
         {% endfor %}
       </tbody>
     </table>
-  </div> 
+  </div>
 
-  
   <div class="button-group">
     <a href="{% url 'player_logout' %}" class="neon-button">🚪 Logout</a>
-    {% if not is_guest %} 
+    {% if not is_guest %}
     <form method="post" action="{% url 'delete_player_confirm' %}" onsubmit="return confirm('Are you sure you want to delete your account? This action cannot be undone.');">
       {% csrf_token %}
       <button type="submit" class="neon-button delete">🗑️ Delete My Account</button>
@@ -488,6 +633,7 @@ tbody td {
     {% endif %}
   </div>
 </div>
+
 
 {{ score|default:0|json_script:"score-data" }}
 <script>
