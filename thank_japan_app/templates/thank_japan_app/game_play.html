@@ -392,6 +392,41 @@
     flex-grow: 3;
   }
 
+  /* 英語ヒントのコンテナ */
+  .english-meaning-display {
+    margin: 10px auto 20px; 
+    padding: 8px 15px;
+    background: rgba(0, 0, 0, 0.4); 
+    border: 1px solid #444; 
+    border-left: 4px solid #00ffff; 
+    border-radius: 4px;
+    display: inline-block; 
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.1);
+    animation: fadeIn 1s ease-in;
+  }
+
+  .meaning-label {
+    color: #aaa; 
+    font-size: 1.2rem;
+    margin-right: 8px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+
+  .meaning-text {
+    color: #fff; 
+    font-weight: bold;
+    font-size: 2.0rem;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+  }
+
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
   @media (max-width: 768px) {
     body {
       padding-left: 10px;
@@ -504,12 +539,21 @@
 
   <h2>Category: {{ object.category|title }}</h2>
 
+  {% if difficulty == 'easy' %}
+      <div class="english-meaning-display">
+          <span class="meaning-label">English:</span>
+          <span class="meaning-text">{{ object.englishname }}</span>
+      </div>
+  {% endif %}
+
   <div class="hint-section">
     <p class="hint-label">Hint:</p>
     <div id="visual-hint-container" class="visual-hint-container" tabindex="0">
     </div>
     <p class="hint-length-display">({{ hint_length }} letters)</p>
   </div>
+
+
 
   <form method="post" action="{% url 'game_answer' object.id %}" id="answer-form">
     {% csrf_token %}
