@@ -524,56 +524,6 @@ def game_start(request):
     })
 
 
-
-def game_restart(request):
-    difficulty = request.GET.get('difficulty', 'normal') 
-    
-    player, is_guest = get_current_player_info(request)
-    
-    if difficulty == 'super_hard':
-        current_total_score = player.total_score if not is_guest else 0
-        if current_total_score < 300:
-            messages.error(request, "🔒 You need 300 Total Points to unlock MANIA mode! Keep playing!")
-            return redirect('game_start')
-    
-    if difficulty not in DIFFICULTY_SETTINGS:
-        messages.error(request, "Invalid difficulty selected. Defaulting to Normal.")
-        difficulty = 'normal'
-
-    settings = DIFFICULTY_SETTINGS[difficulty]
-    
-    questions_queryset = ThankJapanModel.objects.all()
-
-    if settings['category_filter']:
-        questions_queryset = questions_queryset.filter(category__in=settings['category_filter'])
-
-    if settings['length_regex']:
-        questions_queryset = questions_queryset.filter(name__iregex=settings['length_regex'])
-
-    if questions_queryset.count() < settings['num_questions']:
-        messages.warning(request, f"Not enough questions for '{difficulty}' difficulty. Displaying all available questions.")
-        
-    all_question_ids = list(questions_queryset.values_list('id', flat=True))
-    random.shuffle(all_question_ids)
-
-    selected_question_ids = all_question_ids[:settings['num_questions']]
-
-    if not selected_question_ids:
-        messages.error(request, "No questions available for the selected difficulty. Please try another or contact support.")
-        return redirect('game_start')
-
-    request.session['game_question_ids'] = selected_question_ids
-    request.session['game_current_index'] = 0
-    request.session['game_score'] = 0
-    request.session['game_difficulty'] = difficulty
-    request.session.pop('game_message', None)
-    
-    request.session['game_history'] = [] 
-
-    messages.info(request, f"🚀 Starting a new game on {difficulty.upper()} difficulty!")
-    return redirect('game_play')
-
-
 def game_play(request):
     player, is_guest = get_current_player_info(request)
 
@@ -682,15 +632,72 @@ def game_answer(request, pk):
         return redirect('game_play')
     
 
+def game_restart(request):
+    difficulty = request.GET.get('difficulty', 'normal') 
+    
+    player, is_guest = get_current_player_info(request)
+    
+    if difficulty == 'super_hard':
+        current_total_score = player.total_score if not is_guest else 0
+        if current_total_score < 300:
+            messages.error(request, "🔒 You need 300 Total Points to unlock MANIA mode! Keep playing!")
+            return redirect('game_start')
+    
+    if difficulty not in DIFFICULTY_SETTINGS:
+        messages.error(request, "Invalid difficulty selected. Defaulting to Normal.")
+        difficulty = 'normal'
+
+    settings = DIFFICULTY_SETTINGS[difficulty]
+    
+    questions_queryset = ThankJapanModel.objects.all()
+
+    if settings['category_filter']:
+        questions_queryset = questions_queryset.filter(category__in=settings['category_filter'])
+
+    if settings['length_regex']:
+        questions_queryset = questions_queryset.filter(name__iregex=settings['length_regex'])
+
+    if questions_queryset.count() < settings['num_questions']:
+        messages.warning(request, f"Not enough questions for '{difficulty}' difficulty. Displaying all available questions.")
+        
+    all_question_ids = list(questions_queryset.values_list('id', flat=True))
+    random.shuffle(all_question_ids)
+
+    selected_question_ids = all_question_ids[:settings['num_questions']]
+
+    if not selected_question_ids:
+        messages.error(request, "No questions available for the selected difficulty. Please try another or contact support.")
+        return redirect('game_start')
+
+    keys_to_clear = [
+        'game_question_ids', 'game_current_index', 'game_score', 
+        'game_difficulty', 'game_message', 'game_history', 'score_saved'
+    ]
+    for key in keys_to_clear:
+        request.session.pop(key, None)
+
+    request.session['game_question_ids'] = selected_question_ids
+    request.session['game_current_index'] = 0
+    request.session['game_score'] = 0
+    request.session['game_difficulty'] = difficulty
+    request.session['game_history'] = [] 
+
+    messages.info(request, f"🚀 Starting a new game on {difficulty.upper()} difficulty!")
+    return redirect('game_play')
+
+
 def game_result(request):
     current_game_score = request.session.get('game_score', 0)
     player, is_guest = get_current_player_info(request)
 
-    if not is_guest:
-        player.total_score += current_game_score
-        player.last_score = current_game_score
-        player.save()
-    
+    if not request.session.get('score_saved', False):
+        if not is_guest:
+            player.total_score += current_game_score
+            player.last_score = current_game_score
+            player.save()
+        
+        request.session['score_saved'] = True
+
     game_history = request.session.get('game_history', [])
     
     played_question_ids = [item['question_id'] for item in game_history]
@@ -708,13 +715,6 @@ def game_result(request):
                 'correct_answer': item['correct_answer'],
             })
 
-    game_keys_to_clear = [
-        'game_question_ids', 'game_current_index', 'game_score', 
-        'game_difficulty', 'game_message', 'game_history'
-    ]
-    for key in game_keys_to_clear:
-        request.session.pop(key, None)
-
     ranking = Player.objects.order_by('-total_score')[:20]
 
     return render(request, 'thank_japan_app/game_result.html', {
@@ -723,7 +723,9 @@ def game_result(request):
         'ranking': ranking,
         'is_guest': is_guest,
         'review_data': review_data,
-    })    
+    })
+
+
                 
 #category view                                
 class FoodView(ListView):
