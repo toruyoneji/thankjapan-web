@@ -185,14 +185,6 @@
     </div>
 
     <div class="currency-section">
-        <h2>USD</h2>
-        <a class="amount-button" href="{% url 'create_payment' %}?amount=2.00&currency=USD">$2</a>
-        <a class="amount-button" href="{% url 'create_payment' %}?amount=5.00&currency=USD">$5</a>
-        <a class="amount-button" href="{% url 'create_payment' %}?amount=7.00&currency=USD">$7</a>
-        <a class="amount-button" href="{% url 'create_payment' %}?amount=10.00&currency=USD">$10</a>
-    </div>
-
-    <div class="currency-section">
         <h2>KRW</h2>
         <a class="amount-button" href="{% url 'create_payment' %}?amount=3000&currency=KRW">₩3,000</a>
         <a class="amount-button" href="{% url 'create_payment' %}?amount=5000&currency=KRW">₩5,000</a>
@@ -202,20 +194,13 @@
 
 
     <div class="currency-section">
-        <h2>EUR</h2>
-        <a class="amount-button" href="{% url 'create_payment' %}?amount=2.00&currency=EUR">€2</a>
-        <a class="amount-button" href="{% url 'create_payment' %}?amount=5.00&currency=EUR">€5</a>
-        <a class="amount-button" href="{% url 'create_payment' %}?amount=7.00&currency=EUR">€7</a>
-        <a class="amount-button" href="{% url 'create_payment' %}?amount=10.00&currency=EUR">€10</a>
+        <h2>USD</h2>
+        <a class="amount-button" href="{% url 'create_payment' %}?amount=2.00&currency=USD">$2</a>
+        <a class="amount-button" href="{% url 'create_payment' %}?amount=5.00&currency=USD">$5</a>
+        <a class="amount-button" href="{% url 'create_payment' %}?amount=7.00&currency=USD">$7</a>
+        <a class="amount-button" href="{% url 'create_payment' %}?amount=10.00&currency=USD">$10</a>
     </div>
 
-    <div class="currency-section">
-        <h2>GBP</h2>
-        <a class="amount-button" href="{% url 'create_payment' %}?amount=2.00&currency=GBP">£2</a>
-        <a class="amount-button" href="{% url 'create_payment' %}?amount=5.00&currency=GBP">£5</a>
-        <a class="amount-button" href="{% url 'create_payment' %}?amount=7.00&currency=GBP">£7</a>
-        <a class="amount-button" href="{% url 'create_payment' %}?amount=10.00&currency=GBP">£10</a>
-    </div>
 
     <div class="currency-section">
         <h2>JPY</h2>
@@ -223,69 +208,6 @@
         <a class="amount-button" href="{% url 'create_payment' %}?amount=500&currency=JPY">¥500</a>
         <a class="amount-button" href="{% url 'create_payment' %}?amount=700&currency=JPY">¥700</a>
         <a class="amount-button" href="{% url 'create_payment' %}?amount=1000&currency=JPY">¥1000</a>
-    </div>
-
-    <div class="currency-section">
-        <h2>CAD</h2>
-        <a class="amount-button" href="{% url 'create_payment' %}?amount=2.70&currency=CAD">$3</a>
-        <a class="amount-button" href="{% url 'create_payment' %}?amount=5.40&currency=CAD">$6</a>
-        <a class="amount-button" href="{% url 'create_payment' %}?amount=6.75&currency=CAD">$7</a>
-        <a class="amount-button" href="{% url 'create_payment' %}?amount=13.50&currency=CAD">$15</a>
-    </div>
-
-    <div class="currency-section">
-        <h2>TWD</h2>
-        <a class="amount-button" href="{% url 'create_payment' %}?amount=50&currency=TWD">NT$50</a>
-        <a class="amount-button" href="{% url 'create_payment' %}?amount=100&currency=TWD">NT$100</a>
-        <a class="amount-button" href="{% url 'create_payment' %}?amount=200&currency=TWD">NT$200</a>
-        <a class="amount-button" href="{% url 'create_payment' %}?amount=500&currency=TWD">NT$500</a>
-    </div>
-
-    <div class="currency-section">
-        <h2>HKD</h2>
-        <a class="amount-button" href="{% url 'create_payment' %}?amount=20&currency=HKD">HK$20</a>
-        <a class="amount-button" href="{% url 'create_payment' %}?amount=50&currency=HKD">HK$50</a>
-        <a class="amount-button" href="{% url 'create_payment' %}?amount=100&currency=HKD">HK$100</a>
-        <a class="amount-button" href="{% url 'create_payment' %}?amount=200&currency=HKD">HK$200</a>
-    </div>
-
-    <div class="currency-section">
-        <h2>VND</h2>
-        <a class="amount-button" href="{% url 'create_payment' %}?amount=50000&currency=VND">₫50,000</a>
-        <a class="amount-button" href="{% url 'create_payment' %}?amount=100000&currency=VND">₫100,000</a>
-        <a class="amount-button" href="{% url 'create_payment' %}?amount=200000&currency=VND">₫200,000</a>
-        <a class="amount-button" href="{% url 'create_payment' %}?amount=500000&currency=VND">₫500,000</a>
-    </div>
-
-
-    <div class="currency-section">
-        <h2>AUD</h2>
-        <a class="amount-button" href="{% url 'create_payment' %}?amount=2.90&currency=AUD">$3</a>
-        <a class="amount-button" href="{% url 'create_payment' %}?amount=4.90&currency=AUD">$5</a>
-        <a class="amount-button" href="{% url 'create_payment' %}?amount=7.35&currency=AUD">$7</a>
-        <a class="amount-button" href="{% url 'create_payment' %}?amount=14.70&currency=AUD">$15</a>
-    </div>
-
-    <div class="currency-section">
-        <h2>SGD</h2>
-        <a class="amount-button" href="{% url 'create_payment' %}?amount=2.70&currency=SGD">S$3</a>
-        <a class="amount-button" href="{% url 'create_payment' %}?amount=5.40&currency=SGD">S$6</a>
-        <a class="amount-button" href="{% url 'create_payment' %}?amount=6.80&currency=SGD">S$7</a>
-        <a class="amount-button" href="{% url 'create_payment' %}?amount=13.60&currency=SGD">S$15</a>
-    </div>
-
-    <div class="currency-section">
-        <h2>INR</h2>
-        <a class="amount-button" href="{% url 'create_payment' %}?amount=150.00&currency=INR">₹150</a>
-        <a class="amount-button" href="{% url 'create_payment' %}?amount=300.00&currency=INR">₹300</a>
-        <a class="amount-button" href="{% url 'create_payment' %}?amount=500.00&currency=INR">₹500</a>
-        <a class="amount-button" href="{% url 'create_payment' %}?amount=750.00&currency=INR">₹750</a>
-    </div>
-
-    <div class="currency-section">
-        <h2>BRL</h2>
-        <a class="amount-button" href="{% url 'create_payment' %}?amount=10.20&currency=BRL">R$10</a>
-        <a class="amount-button" href="{% url 'create_payment' %}?amount=20.40&currency=BRL">R$20</a>
     </div>
 
     <a href="{% url 'toppageko' %}" class="button">홈으로 돌아가기</a>
