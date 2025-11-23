@@ -6,6 +6,25 @@
 {% block og_url %}{{ request.build_absolute_uri }}{% endblock %}
 {% block description %}일본을 음식 그 이상으로 체험하세요: 역사적인 성, 아름다운 일본식 정원, 활기찬 전통 축제, 독특한 공예, 일본 문화를 정의하는 일상 관습을 발견하고 경험해보세요. 일본 문화를 진정으로 느껴보세요!{% endblock %}
 
+{% block hreflang_tags %}
+    <link rel="alternate" hreflang="en" href="https://www.thankjapan.com/japanculture/">
+    <link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/japanculture/ja/">
+    <link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/japanculture/vi/">
+    <link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/japanculture/fr/">
+    <link rel="alternate" hreflang="it" href="https://www.thankjapan.com/japanculture/it/">
+    <link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/japanculture/pt/">
+    <link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/japanculture/zh-hant/">
+    <link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/japanculture/ko/">
+    <link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/japanculture/es-es/">
+    <link rel="alternate" hreflang="de" href="https://www.thankjapan.com/japanculture/de/">
+    <link rel="alternate" hreflang="th" href="https://www.thankjapan.com/japanculture/th/">
+    <link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/japanculture/pt-br/">
+    <link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/japanculture/es-mx/">
+    <link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/japanculture/en-in/">
+    <link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/japanculture/">
+
+{% endblock %}
+
 {% block content %}
 
  {% include 'jpculture/japanculture_ko.html' %}
