@@ -600,7 +600,7 @@
   {% else %}
 
     <div class="hint-section">
-      <p class="hint-label">Type Romaji:</p>
+      <p class="hint-label">Answer(Type Romaji):</p>
       <div id="visual-hint-container" class="visual-hint-container" tabindex="0">
       </div>
       <p class="hint-length-display">({{ hint_length }} letters)</p>
@@ -693,15 +693,15 @@ document.addEventListener('DOMContentLoaded', function() {
     const answerForm = document.getElementById('answer-form');
     const combinedAnswerInput = document.getElementById('combined-answer-input');
     const mainContainer = document.querySelector('.main2');
+    const keyboardContainer = document.getElementById('keyboard-container');
 
-    if (!visualHintContainer || !answerForm) {
-        return; 
-    }
+    if (!visualHintContainer || !answerForm) return;
 
     const hintLength = parseInt(mainContainer.dataset.hintLength);
     let currentInputIndex = 0;
     let currentAnswerArray = Array(hintLength).fill('_');
 
+    
     function createHintSpans() {
         visualHintContainer.innerHTML = '';
         for (let i = 0; i < hintLength; i++) {
@@ -713,36 +713,33 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+    
     function updateCombinedAnswerAndVisuals() {
         let currentAnswer = '';
         const charSpans = visualHintContainer.querySelectorAll('.hint-char-display');
+
         charSpans.forEach((span, index) => {
-            currentAnswer += (currentAnswerArray[index] === '_') ? '' : currentAnswerArray[index];
+            currentAnswer += currentAnswerArray[index] === '_' ? '' : currentAnswerArray[index];
 
             span.classList.remove('active', 'filled');
-            if (currentAnswerArray[index] !== '_') {
-                span.classList.add('filled');
-            }
-            if (index === currentInputIndex) {
-                span.classList.add('active');
-            }
+            if (currentAnswerArray[index] !== '_') span.classList.add('filled');
+            if (index === currentInputIndex) span.classList.add('active');
         });
+
         combinedAnswerInput.value = currentAnswer;
     }
 
     createHintSpans();
-    visualHintContainer.focus();
     updateCombinedAnswerAndVisuals();
+    visualHintContainer.focus();
 
+    
     visualHintContainer.addEventListener('keydown', function(e) {
         if (e.key.match(/^[a-zA-Z]$/)) {
             e.preventDefault();
             if (currentInputIndex < hintLength) {
                 currentAnswerArray[currentInputIndex] = e.key.toUpperCase();
-                currentInputIndex++;
-                if (currentInputIndex >= hintLength) {
-                    currentInputIndex = hintLength - 1;
-                }
+                currentInputIndex = Math.min(currentInputIndex + 1, hintLength - 1);
                 createHintSpans();
                 updateCombinedAnswerAndVisuals();
             }
@@ -755,25 +752,19 @@ document.addEventListener('DOMContentLoaded', function() {
                     currentInputIndex--;
                     currentAnswerArray[currentInputIndex] = '_';
                 }
-                createHintSpans();
-                updateCombinedAnswerAndVisuals();
-            } else if (currentInputIndex === 0 && currentAnswerArray[0] !== '_') {
+            } else if (currentAnswerArray[0] !== '_') {
                 currentAnswerArray[0] = '_';
-                createHintSpans();
-                updateCombinedAnswerAndVisuals();
             }
+            createHintSpans();
+            updateCombinedAnswerAndVisuals();
         } else if (e.key === 'ArrowRight') {
             e.preventDefault();
-            if (currentInputIndex < hintLength - 1) {
-                currentInputIndex++;
-                updateCombinedAnswerAndVisuals();
-            }
+            if (currentInputIndex < hintLength - 1) currentInputIndex++;
+            updateCombinedAnswerAndVisuals();
         } else if (e.key === 'ArrowLeft') {
             e.preventDefault();
-            if (currentInputIndex > 0) {
-                currentInputIndex--;
-                updateCombinedAnswerAndVisuals();
-            }
+            if (currentInputIndex > 0) currentInputIndex--;
+            updateCombinedAnswerAndVisuals();
         } else if (e.key === 'Enter') {
             e.preventDefault();
             updateCombinedAnswerAndVisuals();
@@ -781,18 +772,49 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    visualHintContainer.addEventListener('click', function() {
-        visualHintContainer.focus();
-    });
+   
+    if (keyboardContainer) {
+        keyboardContainer.addEventListener('click', function(e) {
+            const key = e.target.dataset.key;
+            if (!key) return;
 
+            if (key.match(/^[A-Z]$/)) {
+                if (currentInputIndex < hintLength) {
+                    currentAnswerArray[currentInputIndex] = key;
+                    currentInputIndex = Math.min(currentInputIndex + 1, hintLength - 1);
+                }
+            } else if (key === 'Backspace') {
+                if (currentInputIndex > 0) {
+                    if (currentAnswerArray[currentInputIndex] !== '_') {
+                        currentAnswerArray[currentInputIndex] = '_';
+                    } else {
+                        currentInputIndex--;
+                        currentAnswerArray[currentInputIndex] = '_';
+                    }
+                } else if (currentAnswerArray[0] !== '_') {
+                    currentAnswerArray[0] = '_';
+                }
+            } else if (key === 'Enter') {
+                answerForm.submit();
+                return;
+            }
+
+            createHintSpans();
+            updateCombinedAnswerAndVisuals();
+            visualHintContainer.focus();
+        });
+    }
+
+   
     visualHintContainer.addEventListener('click', function(e) {
         if (e.target.classList.contains('hint-char-display')) {
             currentInputIndex = parseInt(e.target.dataset.index);
             updateCombinedAnswerAndVisuals();
         }
+        visualHintContainer.focus();
     });
-    
-    answerForm.addEventListener('submit', function(e) {
+
+    answerForm.addEventListener('submit', function() {
         updateCombinedAnswerAndVisuals();
     });
 });
