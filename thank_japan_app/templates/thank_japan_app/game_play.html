@@ -581,7 +581,7 @@
                 <p><strong>Meaning:</strong> {{ object.englishname }}</p>
                 <p><strong>Description:</strong> {{ object.description|linebreaksbr }}</p>
                 <div style="text-align: right; margin-top: 10px;">
-                    <a href="{% url 'detail' object.id %}" target="_blank" style="font-size: 0.8em; color: #aaa;">View full page ↗</a>
+                    <a href="{% url 'category_detail' category=object.category slug=object.slug %}" target="_blank" style="font-size: 0.8em; color: #aaa;">View full page ↗</a>
                 </div>
             </div>
         {% endif %}
