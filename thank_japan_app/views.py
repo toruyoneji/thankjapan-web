@@ -41,7 +41,7 @@ def normalize_romaji(text):
     
     replacements = [
         ('aa', 'a'), ('ii', 'i'), ('uu', 'u'), 
-        ('ee', 'e'), ('oo', 'o'), ('ou', 'o')
+        ('ee', 'e'), ('oo', 'o'), ('ou', 'o'),('tt', 't'),
     ]
     
     for old, new in replacements:
