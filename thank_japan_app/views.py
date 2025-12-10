@@ -543,8 +543,20 @@ def game_play(request):
     current_difficulty = request.session.get('game_difficulty', 'normal')
     max_questions_for_difficulty = DIFFICULTY_SETTINGS.get(current_difficulty, {}).get('num_questions', total_questions)
 
-    original_name = question.name.lower() 
+    original_name = question.name.lower()
     
+    english_text = question.englishname.strip().lower() if question.englishname else ""
+    romaji_text = original_name.strip()
+    
+    show_english = True
+    
+    if english_text == romaji_text:
+        show_english = False
+    elif english_text.replace('k', 'c') == romaji_text.replace('k', 'c'):
+        show_english = False
+    elif (english_text in romaji_text or romaji_text in english_text) and abs(len(english_text) - len(romaji_text)) <= 1:
+        show_english = False
+
     if current_difficulty != 'super_hard':
         friendly_name = normalize_romaji(original_name) 
         hint_length = len(friendly_name) 
@@ -561,6 +573,7 @@ def game_play(request):
         'is_guest': is_guest,
         'hint_length': hint_length, 
         'difficulty': current_difficulty, 
+        'show_english': show_english,
     })
 
 
@@ -569,21 +582,29 @@ def game_answer(request, pk):
         return redirect('game_play') 
 
     player, is_guest = get_current_player_info(request)
-
     question = get_object_or_404(ThankJapanModel, id=pk)
     form = AnswerForm(request.POST)
+
+    current_difficulty = request.session.get('game_difficulty', 'normal')
+    
+    original_name = question.name.lower()
+    if current_difficulty != 'super_hard':
+        friendly_name = normalize_romaji(original_name) 
+        hint_length = len(friendly_name) 
+    else:
+        friendly_name = original_name
+        hint_length = len(original_name)
 
     if form.is_valid():
         user_input = form.cleaned_data['answer'].strip().lower()
         db_answer = question.name.strip().lower()
         
-        current_difficulty = request.session.get('game_difficulty', 'normal')
-
         is_correct = False
 
-        if user_input == db_answer:
-            is_correct = True
-        elif current_difficulty != 'super_hard':
+        if current_difficulty == 'super_hard':
+            if user_input == db_answer:
+                is_correct = True
+        else:
             if normalize_consonants(user_input) == normalize_consonants(db_answer):
                 is_correct = True
 
@@ -596,40 +617,57 @@ def game_answer(request, pk):
         })
         request.session['game_history'] = history
 
-        current_question_index = request.session.get('game_current_index', 0)
-        current_question_number = current_question_index + 1
-        
         if is_correct:
             request.session['game_score'] = request.session.get('game_score', 0) + 1
-
-        request.session['game_current_index'] = current_question_index + 1
         
+        index = request.session.get('game_current_index', 0)
         ids = request.session.get('game_question_ids', [])
-        total_questions = len(ids)
+        is_last_question = (index + 1) >= len(ids)
 
-        if (current_question_index + 1) >= total_questions:
-            return redirect('game_result')
-        else:
-            if is_correct:
-                messages.success(request, f"✅ Question {current_question_number} was CORRECT!")
-            else:
-                try:
-                    detail_url = reverse('detail', kwargs={'pk': question.id})
-                    error_msg = f"""
-                        ❌ Question {current_question_number} was INCORRECT! 
-                        The answer was: <strong>{question.name}</strong>. 
-                        <a href="{detail_url}" target="_blank" style="text-decoration:underline; margin-left:5px;">📖 Study Now</a>
-                    """
-                except:
-                    error_msg = f"❌ Question {current_question_number} was INCORRECT! The answer was: {question.name}"
-                
-                messages.error(request, mark_safe(error_msg))
-            
-            return redirect('game_play')
+        english_text = question.englishname.strip().lower() if question.englishname else ""
+        romaji_text = db_answer
+        show_english = True
+        
+        if english_text == romaji_text:
+            show_english = False
+        elif english_text.replace('k', 'c') == romaji_text.replace('k', 'c'):
+            show_english = False
+        elif (english_text in romaji_text or romaji_text in english_text) and abs(len(english_text) - len(romaji_text)) <= 1:
+            show_english = False
+
+        return render(request, 'thank_japan_app/game_play.html', {
+            'object': question,
+            'form': form,
+            'user_input': user_input,
+            'is_correct': is_correct,
+            'show_result': True,       
+            'is_last_question': is_last_question,
+            'current_index': index + 1,
+            'total_questions': len(ids),
+            'score': request.session.get('game_score', 0),
+            'player': player,
+            'is_guest': is_guest,
+            'hint_length': hint_length,
+            'difficulty': current_difficulty,
+            'show_english': show_english,
+        })
 
     else:
         messages.warning(request, "⚠️ Please enter a valid answer.")
         return redirect('game_play')
+    
+    
+def game_next_question(request):
+    
+    current_index = request.session.get('game_current_index', 0)
+    request.session['game_current_index'] = current_index + 1
+    
+    
+    ids = request.session.get('game_question_ids', [])
+    if request.session['game_current_index'] >= len(ids):
+        return redirect('game_result')
+    
+    return redirect('game_play')    
     
 
 def game_restart(request):
@@ -657,10 +695,11 @@ def game_restart(request):
     if settings['length_regex']:
         questions_queryset = questions_queryset.filter(name__iregex=settings['length_regex'])
 
-    if questions_queryset.count() < settings['num_questions']:
-        messages.warning(request, f"Not enough questions for '{difficulty}' difficulty. Displaying all available questions.")
-        
     all_question_ids = list(questions_queryset.values_list('id', flat=True))
+
+    if len(all_question_ids) < settings['num_questions']:
+        messages.warning(request, f"Not enough questions for '{difficulty}' difficulty. Displaying all available questions.")
+
     random.shuffle(all_question_ids)
 
     selected_question_ids = all_question_ids[:settings['num_questions']]
