@@ -13,6 +13,7 @@ from django.urls import reverse
 from django.utils.safestring import mark_safe
 import logging
 import random
+import re
 
 logger = logging.getLogger(__name__)
 
@@ -32,51 +33,58 @@ Sitemap: https://www.thankjapan.com/sitemap.xml
 """
     return HttpResponse(content, content_type="text/plain")
 
+def strip_parentheses(text):
+    return re.sub(r'\(.*?\)', '', text).strip()
+
+def extract_base_name(text):
+    return strip_parentheses(text)
+
 def normalize_romaji(text):
-    
     if not text:
         return ""
     text = text.lower().strip()
-    
-    
+    text = re.sub(r'[^a-z0-9]', '', text)
     replacements = [
-        ('aa', 'a'), ('ii', 'i'), ('uu', 'u'), 
-        ('ee', 'e'), ('oo', 'o'), ('ou', 'o'),('tt', 't'),
+        ('aa', 'a'), ('ii', 'i'), ('uu', 'u'),
+        ('ee', 'e'), ('oo', 'o'),
+        ('ou', 'o'),
     ]
-    
     for old, new in replacements:
         text = text.replace(old, new)
-        
     return text
 
 def normalize_consonants(text):
-    
-    if not text: return ""
+    if not text:
+        return ""
     text = text.lower().strip()
-    
-    
     text = normalize_romaji(text)
-    
     replacements = [
         ('tsu', 'tu'),
         ('fu', 'hu'),
         ('shi', 'si'),
         ('chi', 'ti'),
         ('ji', 'zi'),
-        ('shu', 'syu'), 
-        ('sha', 'sya'), 
-        ('sho', 'syo'), 
+        ('shu', 'syu'),
+        ('sha', 'sya'),
+        ('sho', 'syo'),
         ('cho', 'tyo'),
         ('cha', 'tya'),
         ('chu', 'tyu'),
-        ('jyu', 'zyu'), 
-        ('jya', 'zya'), 
+        ('jyu', 'zyu'),
+        ('jya', 'zya'),
         ('jyo', 'zyo'),
     ]
-    
     for old, new in replacements:
         text = text.replace(old, new)
-        
+    text = re.sub(r'(.)\1', r'\1', text)
+    text = text.replace("nn", "n")
+    return text
+
+def normalize_for_judge(text):
+    if not text:
+        return ""
+    text = text.lower().strip()
+    text = normalize_consonants(text)
     return text
 
 
@@ -466,8 +474,8 @@ def delete_player(request):
 
 DIFFICULTY_SETTINGS = {
     'easy': {
-        'category_filter': ['food', 'cook', 'animal', 'sports'],
-        'length_regex': r'^.{3,6}$',
+        'category_filter': ['animal', 'nature'],
+        'length_regex': r'^.{11,13}$',
         'num_questions': 3,
     },
     'normal': {
@@ -544,12 +552,12 @@ def game_play(request):
     max_questions_for_difficulty = DIFFICULTY_SETTINGS.get(current_difficulty, {}).get('num_questions', total_questions)
 
     original_name = question.name.lower()
+    romaji_for_judge = extract_base_name(original_name)
     
     english_text = question.englishname.strip().lower() if question.englishname else ""
     romaji_text = original_name.strip()
     
     show_english = True
-    
     if english_text == romaji_text:
         show_english = False
     elif english_text.replace('k', 'c') == romaji_text.replace('k', 'c'):
@@ -557,55 +565,49 @@ def game_play(request):
     elif (english_text in romaji_text or romaji_text in english_text) and abs(len(english_text) - len(romaji_text)) <= 1:
         show_english = False
 
-    if current_difficulty != 'super_hard':
-        friendly_name = normalize_romaji(original_name) 
-        hint_length = len(friendly_name) 
-    else:
-        hint_length = len(original_name) 
+    hint_length = len(romaji_for_judge)
 
     return render(request, 'thank_japan_app/game_play.html', {
         'object': question,
         'form': form,
-        'current_index': index + 1, 
+        'current_index': index + 1,
         'total_questions': max_questions_for_difficulty,
         'score': request.session.get('game_score', 0),
         'player': player,
         'is_guest': is_guest,
-        'hint_length': hint_length, 
-        'difficulty': current_difficulty, 
+        'hint_length': hint_length,
+        'difficulty': current_difficulty,
         'show_english': show_english,
     })
 
-
 def game_answer(request, pk):
     if request.method != 'POST':
-        return redirect('game_play') 
+        return redirect('game_play')
 
     player, is_guest = get_current_player_info(request)
     question = get_object_or_404(ThankJapanModel, id=pk)
     form = AnswerForm(request.POST)
 
     current_difficulty = request.session.get('game_difficulty', 'normal')
-    
+
     original_name = question.name.lower()
-    if current_difficulty != 'super_hard':
-        friendly_name = normalize_romaji(original_name) 
-        hint_length = len(friendly_name) 
-    else:
-        friendly_name = original_name
-        hint_length = len(original_name)
+    romaji_for_hint = extract_base_name(original_name)
+    hint_length = len(romaji_for_hint)
 
     if form.is_valid():
         user_input = form.cleaned_data['answer'].strip().lower()
-        db_answer = question.name.strip().lower()
-        
-        is_correct = False
+        db_answer = extract_base_name(question.name).lower()  # <- ここを変更
 
+        judge_user = normalize_for_judge(user_input)
+        judge_db = normalize_for_judge(db_answer)
+
+        is_correct = False
+        
         if current_difficulty == 'super_hard':
-            if user_input == db_answer:
+            if user_input == question.name.lower():  # super_hard は完全一致
                 is_correct = True
         else:
-            if normalize_consonants(user_input) == normalize_consonants(db_answer):
+            if judge_user == judge_db:
                 is_correct = True
 
         history = request.session.get('game_history', [])
@@ -619,7 +621,7 @@ def game_answer(request, pk):
 
         if is_correct:
             request.session['game_score'] = request.session.get('game_score', 0) + 1
-        
+
         index = request.session.get('game_current_index', 0)
         ids = request.session.get('game_question_ids', [])
         is_last_question = (index + 1) >= len(ids)
@@ -627,7 +629,7 @@ def game_answer(request, pk):
         english_text = question.englishname.strip().lower() if question.englishname else ""
         romaji_text = db_answer
         show_english = True
-        
+
         if english_text == romaji_text:
             show_english = False
         elif english_text.replace('k', 'c') == romaji_text.replace('k', 'c'):
@@ -640,7 +642,7 @@ def game_answer(request, pk):
             'form': form,
             'user_input': user_input,
             'is_correct': is_correct,
-            'show_result': True,       
+            'show_result': True,
             'is_last_question': is_last_question,
             'current_index': index + 1,
             'total_questions': len(ids),
@@ -655,7 +657,6 @@ def game_answer(request, pk):
     else:
         messages.warning(request, "⚠️ Please enter a valid answer.")
         return redirect('game_play')
-    
     
 def game_next_question(request):
     
