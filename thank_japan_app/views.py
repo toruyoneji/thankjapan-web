@@ -474,8 +474,8 @@ def delete_player(request):
 
 DIFFICULTY_SETTINGS = {
     'easy': {
-        'category_filter': ['animal', 'nature'],
-        'length_regex': r'^.{11,13}$',
+        'category_filter': ['food', 'cook', 'animal', 'sports'],
+        'length_regex': r'^.{3,6}$',
         'num_questions': 3,
     },
     'normal': {
