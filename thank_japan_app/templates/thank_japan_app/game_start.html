@@ -301,11 +301,15 @@ body::before, body::after {
     letter-spacing: 1px;
 }
 
+/* スマホ・タブレット対応 (768px以下) */
 @media (max-width: 768px) {
     .container {
         width: 95%;
-        margin-top: 150px !important;
-        padding: 0;
+        /* ★修正: marginではなくpaddingで中身を押し下げる */
+        padding-top: 160px !important; 
+        margin-top: 0 !important;
+        padding-left: 0;
+        padding-right: 0;
     }
 
     .game-start-container {
@@ -334,6 +338,7 @@ body::before, body::after {
         font-size: 1.5em; 
     }
 }
+
 </style>
 
 <div class="game-start-container">
