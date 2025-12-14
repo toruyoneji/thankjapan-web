@@ -302,29 +302,46 @@ body::before, body::after {
 }
 
 /* スマホ・タブレット対応 (768px以下) */
+/* === スマホ・タブレットの強力なレイアウト修正 === */
 @media (max-width: 768px) {
-    .container {
-        width: 95%;
-        /* ★修正: marginではなくpaddingで中身を押し下げる */
-        padding-top: 160px !important; 
-        margin-top: 0 !important;
-        padding-left: 0;
-        padding-right: 0;
+    /* 1. Flexboxを解除し、通常のブロック配置にする */
+    body {
+        display: block !important;
+        /* ヘッダーの高さ分（+余裕）をbody自体の余白として確保 */
+        padding-top: 140px !important; 
+        height: auto !important; /* 高さを自由に伸ばす */
     }
 
+    /* 2. コンテナの位置調整 */
+    .container {
+        width: 95% !important;
+        margin: 0 auto !important; /* 左右中央寄せ */
+        padding: 0 !important;
+        /* 上の余白はbodyのpaddingで確保したので0にする */
+        margin-top: 0 !important; 
+        background: transparent !important;
+        box-shadow: none !important;
+        border: none !important;
+    }
+
+    /* 3. 中身のデザイン調整 */
     .game-start-container {
         padding: 15px;
         border-width: 5px;
+        background: rgba(255, 255, 255, 0.9); /* 背景色を少しつけて読みやすく */
+        border-radius: 4px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
     }
 
     .start-game-title {
-        width: 80%;
+        width: 90%;
         font-size: 1.5em;
         padding: 20px;
         border-top-width: 20px;
         border-bottom-width: 20px;
     }
 
+    /* 畳ボタン */
     .difficulty-options {
         grid-template-columns: 1fr 1fr;
     }
