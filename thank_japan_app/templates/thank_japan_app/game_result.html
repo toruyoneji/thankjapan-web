@@ -558,7 +558,7 @@ tbody td {
                             <span class="category-badge">{{ item.object.category|title }}</span>
                         </div>
 
-                        <h3 class="answer-title">{{ item.object.name|title }}</h3>
+                        <h3 class="answer-title">{{ item.object.jpname }} ({{ item.object.name|title }})</h3>
 
                         {% if item.is_correct %}
                             <p class="status-text correct">✅ Correct!</p>

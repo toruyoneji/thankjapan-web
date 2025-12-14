@@ -183,11 +183,12 @@ img:hover { transform: scale(1.07); }
     <div class="result-section" style="text-align: center; margin-top: 20px;">
         {% if is_correct %}
             <h2 style="color: #4caf50; font-size: 2em; text-shadow: 0 0 10px #4caf50;">✅ Correct!</h2>
-            <p style="font-size: 1.5em; margin: 10px 0;">{{ object.name }}</p>
+            <p style="font-size: 1.5em; margin: 10px 0;">{{ object.jpname }}<br />
+              {{ object.name }}</p>
         {% else %}
             <h2 style="color: #ff4081; font-size: 2em; text-shadow: 0 0 10px #ff4081;">❌ Incorrect...</h2>
             <p>Your answer: <span style="text-decoration: line-through;">{{ user_input }}</span></p>
-            <p style="font-size: 1.5em; margin: 10px 0;">Correct: <strong>{{ object.name }}</strong></p>
+            <p style="font-size: 1.5em; margin: 10px 0;">Correct: <strong>{{object.jpname}}({{ object.name }})</strong></p>
             
             <button type="button" onclick="toggleDetails()" style="
                 background: none; border: 1px solid #00bcd4; color: #00bcd4; 
