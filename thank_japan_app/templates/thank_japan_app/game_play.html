@@ -200,7 +200,8 @@ img:hover { transform: scale(1.07); }
                 <p><strong>Meaning:</strong> {{ object.englishname }}</p>
                 <p><strong>Description:</strong> {{ object.description|linebreaksbr }}</p>
                 <div style="text-align: right; margin-top: 10px;">
-                    <a href="{% url 'category_detail' category=object.category slug=object.slug %}" style="font-size: 0.8em; color: #aaa;">View full page ↗</a>
+                    <a href="{% url 'category_detail' category=object.category slug=object.slug %}" target="_blank" 
+       rel="noopener noreferrer" style="font-size: 0.8em; color: #aaa;">View full page ↗</a>
                 </div>
             </div>
         {% endif %}
@@ -254,8 +255,6 @@ document.addEventListener('DOMContentLoaded', function() {
         
         let displayInput = rawInput
             .replace(/aa/g, 'a-')
-            .replace(/ii/g, 'i-')
-            .replace(/uu/g, 'u-')
             .replace(/ee/g, 'e-')
             .replace(/oo/g, 'o-');
 
@@ -362,4 +361,5 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 </script>
+
 {% endblock %}
