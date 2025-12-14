@@ -33,6 +33,8 @@ Sitemap: https://www.thankjapan.com/sitemap.xml
 """
     return HttpResponse(content, content_type="text/plain")
 
+import re
+
 def strip_parentheses(text):
     return re.sub(r'\(.*?\)', '', text).strip()
 
@@ -43,14 +45,15 @@ def normalize_romaji(text):
     if not text:
         return ""
     text = text.lower().strip()
-    text = re.sub(r'[^a-z0-9]', '', text)
-    replacements = [
-        ('aa', 'a'), ('ii', 'i'), ('uu', 'u'),
-        ('ee', 'e'), ('oo', 'o'),
-        ('ou', 'o'),
-    ]
-    for old, new in replacements:
-        text = text.replace(old, new)
+    
+    text = re.sub(r'[^a-z0-9\-]', '', text)
+    
+    text = re.sub(r'(a)\-', r'aa', text)
+    text = re.sub(r'(i)\-', r'ii', text)
+    text = re.sub(r'(u)\-', r'uu', text)
+    text = re.sub(r'(e)\-', r'ee', text)
+    text = re.sub(r'(o)\-', r'oo', text)
+    
     return text
 
 def normalize_consonants(text):
@@ -58,6 +61,7 @@ def normalize_consonants(text):
         return ""
     text = text.lower().strip()
     text = normalize_romaji(text)
+    
     replacements = [
         ('tsu', 'tu'),
         ('fu', 'hu'),
@@ -76,7 +80,7 @@ def normalize_consonants(text):
     ]
     for old, new in replacements:
         text = text.replace(old, new)
-    text = re.sub(r'(.)\1', r'\1', text)
+
     text = text.replace("nn", "n")
     return text
 
@@ -86,7 +90,6 @@ def normalize_for_judge(text):
     text = text.lower().strip()
     text = normalize_consonants(text)
     return text
-
 
 #company infomation
 class CompanyFormView(TemplateView):
