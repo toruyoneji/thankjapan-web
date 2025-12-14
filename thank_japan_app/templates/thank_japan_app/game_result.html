@@ -532,13 +532,13 @@ tbody td {
 <div class="main2">
   <h1>🎉 Game Result 🎉</h1>
 
-  <div class="score-box">
+  <div class="score-box" style="color: #000000;">
     {% if player %}
-        <p style="font-size:1.5rem;">Player: {{ player.username }} ({{ player.country|default:"Unknown" }})</p>
+        <p style="font-size:1.5rem; color: #000000;">Player: {{ player.username }} ({{ player.country|default:"Unknown" }})</p>
     {% else %}
-        <p style="font-size:1.5rem;">Player: Guest</p>
+        <p style="font-size:1.5rem; color: #000000;">Player: Guest</p>
     {% endif %}
-    <p>Your Score: <span class="score-number" id="score">{{ score }}</span> pts</p>
+    <p style="color: #000000;">Your Score: <span class="score-number" id="score" style="color: #000000;">{{ score }}</span> pts</p>
   </div>
 
   <hr>
