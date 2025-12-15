@@ -2,7 +2,10 @@
 {% block title %}Question {{ current_index }} | ThankJapan{% endblock %}
 
 {% block content %}
+<!-- WanaKana -->
 <script src="https://unpkg.com/wanakana"></script>
+<!-- Canvas Confetti (紙吹雪ライブラリ) -->
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
 <style>
 body {
@@ -332,6 +335,7 @@ img:hover { transform: scale(1.02); }
   {% if show_result %}
     <div class="result-section" style="text-align: center; margin-top: 20px;">
         {% if is_correct %}
+            <!-- 正解フラグ -->
             <div id="correct-flag" data-word="{{ object.jpname }}"></div>
 
             <h2 style="color: #4caf50; font-size: 2em; text-shadow: 0 0 10px #4caf50;">✅ Correct!</h2>
@@ -341,6 +345,7 @@ img:hover { transform: scale(1.02); }
             </div>
             <p style="font-size: 1.5em; margin-bottom: 20px; color: #ccc;">{{ object.name }}</p>
         {% else %}
+            <!-- 不正解フラグ -->
             <div id="incorrect-flag" data-word="{{ object.jpname }}"></div>
 
             <h2 style="color: #ff4081; font-size: 2em; text-shadow: 0 0 10px #ff4081;">❌ Incorrect...</h2>
@@ -414,33 +419,29 @@ function playChime() {
 
     const t = ctx.currentTime;
 
+    // ピン（C6）
     const osc1 = ctx.createOscillator();
     const gain1 = ctx.createGain();
     osc1.connect(gain1);
     gain1.connect(ctx.destination);
-
     osc1.type = 'sine';
     osc1.frequency.setValueAtTime(1046.5, t); 
-    
     gain1.gain.setValueAtTime(0, t);
     gain1.gain.linearRampToValueAtTime(0.1, t + 0.05);
     gain1.gain.exponentialRampToValueAtTime(0.001, t + 0.5); 
-
     osc1.start(t);
     osc1.stop(t + 0.5);
 
+    // ポン（A5）
     const osc2 = ctx.createOscillator();
     const gain2 = ctx.createGain();
     osc2.connect(gain2);
     gain2.connect(ctx.destination);
-
     osc2.type = 'sine';
     osc2.frequency.setValueAtTime(880, t + 0.4); 
-    
     gain2.gain.setValueAtTime(0, t + 0.4);
     gain2.gain.linearRampToValueAtTime(0.1, t + 0.45);
     gain2.gain.exponentialRampToValueAtTime(0.001, t + 1.2); 
-
     osc2.start(t + 0.4);
     osc2.stop(t + 1.2);
 }
@@ -493,25 +494,35 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    // 正解・不正解の自動再生ロジック
     const correctFlag = document.getElementById('correct-flag');
     const incorrectFlag = document.getElementById('incorrect-flag');
     
-    if (isSoundOn) {
-        if (correctFlag) {
+    if (correctFlag) {
+        // 紙吹雪は音の設定に関係なく発射
+        confetti({
+            particleCount: 100,
+            spread: 70,
+            origin: { y: 0.6 },
+            colors: ['#b7282e', '#7b942e', '#e0d5c0', '#ffffff'] // 和風カラー
+        });
+
+        if (isSoundOn) {
             playChime();
             const wordToSpeak = correctFlag.getAttribute('data-word');
             if (wordToSpeak) {
                 setTimeout(() => {
                     speakJapanese(wordToSpeak, true);
-                }, 1500); 
+                }, 1500); // 1.5秒後
             }
         }
-        else if (incorrectFlag) {
+    } else if (incorrectFlag) {
+        if (isSoundOn) {
             const wordToSpeak = incorrectFlag.getAttribute('data-word');
             if (wordToSpeak) {
                 setTimeout(() => {
                     speakJapanese(wordToSpeak, true);
-                }, 500);
+                }, 500); // 0.5秒後
             }
         }
     }
