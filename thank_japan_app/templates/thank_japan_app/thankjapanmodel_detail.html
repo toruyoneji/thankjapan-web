@@ -27,6 +27,7 @@ body {
     margin-bottom: 30px;
     object-fit: cover;
     max-height: 400px;
+    filter: sepia(0.2);
 }
 
 .detaildt {
@@ -37,16 +38,25 @@ body {
 }
 
 .jpname-container {
-    margin-bottom: 10px;
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .label-text {
-    display: block;
     font-size: 0.9rem;
     color: #8d7b72;
     text-transform: uppercase;
     letter-spacing: 2px;
     margin-bottom: 5px;
+}
+
+.jpname-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
 }
 
 .jpname-text {
@@ -55,6 +65,29 @@ body {
     font-weight: 700;
     line-height: 1.2;
     text-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+.voice-btn {
+    background: transparent;
+    border: 2px solid #fcd5b5;
+    color: #fcd5b5;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    font-size: 1.2rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    padding: 0;
+}
+
+.voice-btn:hover {
+    background: #fcd5b5;
+    color: #2f2a26;
+    transform: scale(1.1);
+    box-shadow: 0 0 15px rgba(252, 213, 181, 0.4);
 }
 
 .romaji-container {
@@ -140,7 +173,12 @@ footer {
 
     <div class="jpname-container">
         <span class="label-text">Japanese Name</span>
-        <span class="jpname-text">{{ object.jpname }}</span>
+        <div class="jpname-wrapper">
+            <span class="jpname-text">{{ object.jpname }}</span>
+            <button type="button" class="voice-btn" onclick="speakJapanese('{{ object.jpname }}')" title="Listen">
+                🔊
+            </button>
+        </div>
     </div>
 
     <div class="romaji-container">
@@ -173,4 +211,22 @@ footer {
         © 2025 Thank Japan All Rights Reserved.
     </footer>
 </div>
+
+<script>
+function speakJapanese(text) {
+    if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'ja-JP';
+        utterance.rate = 0.9;
+        utterance.pitch = 1.0;
+        utterance.volume = 1.0;
+
+        window.speechSynthesis.speak(utterance);
+    } else {
+        alert("Sorry, your browser does not support text-to-speech.");
+    }
+}
+</script>
 {% endblock %}
