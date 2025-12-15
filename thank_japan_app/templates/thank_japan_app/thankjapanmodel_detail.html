@@ -1,48 +1,7 @@
-{% extends 'base/basecategory.html' %}
+{% extends 'basecategory.html' %}
 
-{% block title %}
-{% if object %}
-  {{ object.englishname }} ({{ object.jpname }}) - {{ object.category }} | ThankJapan
-{% else %}
-  ThankJapan - Japanese Culture, Food & History
-{% endif %}
-{% endblock %}
-
-{% block description %}
-{% if object %}
-  {% if object.description %}
-    {{ object.description|truncatechars:160|striptags }}
-  {% else %}
-    Discover the meaning, history, and cultural significance of {{ object.englishname }} ({{ object.jpname }}) in Japanese culture.
-  {% endif %}
-{% else %}
-  Explore Japanese culture, food, history, and more at ThankJapan.
-{% endif %}
-{% endblock %}
-
-{% block og_title %}
-{% if object %}
-  {{ object.englishname }} ({{ object.jpname }}) - {{ object.category }} | ThankJapan
-{% else %}
-  ThankJapan - Japanese Culture, Food & History
-{% endif %}
-{% endblock %}
-
-{% block og_description %}
-{% if object %}
-  {% if object.description %}
-    {{ object.description|truncatechars:200|striptags }}
-  {% else %}
-    Discover the meaning, history, and cultural significance of {{ object.englishname }} ({{ object.jpname }}) in Japanese culture.
-  {% endif %}
-{% else %}
-  Explore Japanese culture, food, history, and more at ThankJapan.
-{% endif %}
-{% endblock %}
-
-
+{% block title %}{{ object.englishname }} - Meaning & History{% endblock %}
 {% block content %}
-
 {% load static %}
 
 <style>
@@ -77,18 +36,37 @@ body {
     margin-bottom: 20px;
 }
 
-.jpname {
-    font-size: 1rem;
-    color: #d6c0b2;
-    margin-bottom: 20px;
+.jpname-container {
+    margin-bottom: 10px;
 }
 
-.romaji {
-    font-size: 0.95rem;
-    color: #c3b1a1;
-    font-style: italic;
-    margin-bottom: 25px;
+.label-text {
     display: block;
+    font-size: 0.9rem;
+    color: #8d7b72;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 5px;
+}
+
+.jpname-text {
+    font-size: 3.5rem;
+    color: #fff;
+    font-weight: 700;
+    line-height: 1.2;
+    text-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+.romaji-container {
+    margin-bottom: 40px;
+}
+
+.romaji-text {
+    font-size: 1.8rem;
+    color: #fcd5b5;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    letter-spacing: 1px;
 }
 
 .cards {
@@ -147,8 +125,10 @@ footer {
 }
 
 @media screen and (max-width: 768px) {
-      .detailgazou { height: 280px; }
-    }
+    .detailgazou { height: 280px; }
+    .jpname-text { font-size: 2.5rem; }
+    .romaji-text { font-size: 1.4rem; }
+}
 </style>
 
 <div class="main2">
@@ -157,8 +137,15 @@ footer {
     {% endif %}
 
     <h1 class="detaildt">{{ object.englishname }}</h1>
-    <p class="jpname">Japanese Name: {{ object.jpname }}</p>
-    <p class="romaji">Romaji: {{ object.name }}</p>
+
+    <div class="jpname-container">
+        <span class="label-text">Japanese Name</span>
+        <span class="jpname-text">{{ object.jpname }}</span>
+    </div>
+
+    <div class="romaji-container">
+        <span class="romaji-text">{{ object.name }}</span>
+    </div>
 
     <div class="cards">
         <div class="card">
@@ -181,7 +168,6 @@ footer {
     </div>
 
     <button onclick="window.history.back()" class="btn-back">← Back</button>
-
 
     <footer>
         © 2025 Thank Japan All Rights Reserved.
