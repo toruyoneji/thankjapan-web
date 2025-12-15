@@ -32,6 +32,7 @@ body {
   animation: fadeIn 1.5s ease-in-out;
   box-sizing: border-box; 
   width: 95%;
+  position: relative;
 }
 
 h1 {
@@ -49,6 +50,14 @@ h2 {
     font-weight: 600; 
     margin: 20px 0; 
     font-size: 1.4rem; 
+}
+
+.score-box {
+    color: #000000;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 15px;
+    border-radius: 4px;
+    margin-bottom: 20px;
 }
 
 .player-info { 
@@ -219,6 +228,58 @@ img:hover { transform: scale(1.02); }
 .footer-note a { color: #8c7042; text-decoration: none; border-bottom: 1px dotted #8c7042; }
 .footer-note a:hover { text-decoration: none; border-bottom: 1px solid #8c7042; }
 
+.sound-toggle-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 10px;
+}
+
+.sound-toggle-btn {
+    background: transparent;
+    border: 1px solid #8c7042;
+    color: #fff;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    font-family: 'Zen Antique', serif;
+    transition: all 0.3s;
+    opacity: 0.8;
+}
+
+.sound-toggle-btn:hover {
+    background: rgba(140, 112, 66, 0.3);
+    opacity: 1;
+}
+
+.sound-toggle-btn.muted {
+    color: #aaa;
+    border-color: #555;
+    text-decoration: line-through;
+}
+
+.voice-btn {
+    background: #fff;
+    border: 2px solid #7b942e;
+    color: #7b942e;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    font-size: 1.2rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    padding: 0;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+.voice-btn:hover {
+    background: #7b942e;
+    color: #fff;
+    transform: scale(1.1);
+}
+
 @media (max-width: 1024px) {
   .main2 {
       padding: 20px 10px;
@@ -235,13 +296,25 @@ img:hover { transform: scale(1.02); }
   .onscreen-keyboard { display: flex; }
 }
 </style>
+
 <div class="main2" data-hint-length="{{ hint_length }}" data-total-questions="{{ total_questions }}">
+  
+  <div class="sound-toggle-container">
+    <button id="sound-toggle-btn" class="sound-toggle-btn" title="Toggle Sound">
+        <span id="sound-icon">🔊</span> Sound: <span id="sound-status">ON</span>
+    </button>
+  </div>
+
   <h1>Question {{ current_index }} / {{ total_questions }}</h1>
 
-  <p class="player-info">
-    Player: <strong>{% if player %}{{ player.username }}{% else %}guest{% endif %}</strong>
-    {% if player and player.country %}({{ player.country }}){% endif %}
-  </p>
+  <div class="score-box" style="color: #000000;">
+    {% if player %}
+        <p style="font-size:1.5rem; color: #000000;">Player: {{ player.username }} ({{ player.country|default:"Unknown" }})</p>
+    {% else %}
+        <p style="font-size:1.5rem; color: #000000;">Player: Guest</p>
+    {% endif %}
+    <p style="color: #000000;">Your Score: <span class="score-number" id="score" style="color: #000000;">{{ score }}</span> pts</p>
+  </div>
 
   {% if object.image %}
     <img src="{{ object.image.url }}" alt="Question image">
@@ -259,13 +332,25 @@ img:hover { transform: scale(1.02); }
   {% if show_result %}
     <div class="result-section" style="text-align: center; margin-top: 20px;">
         {% if is_correct %}
+            <div id="correct-flag" data-word="{{ object.jpname }}"></div>
+
             <h2 style="color: #4caf50; font-size: 2em; text-shadow: 0 0 10px #4caf50;">✅ Correct!</h2>
-            <p style="font-size: 1.5em; margin: 10px 0;">{{ object.jpname }}<br />
-              {{ object.name }}</p>
+            <div style="display: flex; align-items: center; justify-content: center; gap: 10px; margin: 10px 0;">
+                <p style="font-size: 2.5em; margin: 0; color: #fff;">{{ object.jpname }}</p>
+                <button type="button" class="voice-btn" onclick="speakJapanese('{{ object.jpname }}')" title="Listen">🔊</button>
+            </div>
+            <p style="font-size: 1.5em; margin-bottom: 20px; color: #ccc;">{{ object.name }}</p>
         {% else %}
+            <div id="incorrect-flag" data-word="{{ object.jpname }}"></div>
+
             <h2 style="color: #ff4081; font-size: 2em; text-shadow: 0 0 10px #ff4081;">❌ Incorrect...</h2>
             <p>Your answer: <span style="text-decoration: line-through;">{{ user_input }}</span></p>
-            <p style="font-size: 1.5em; margin: 10px 0;">Correct: <strong>{{object.jpname}}({{ object.name }})</strong></p>
+            
+            <div style="display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 15px;">
+                <p style="font-size: 1.5em; margin: 0; color: #fff;">Correct: <strong>{{ object.jpname }}</strong></p>
+                <button type="button" class="voice-btn" onclick="speakJapanese('{{ object.jpname }}')" title="Listen">🔊</button>
+            </div>
+            <p style="font-size: 1.2em; margin-bottom: 20px; color: #ccc;">{{ object.name }}</p>
             
             <button type="button" onclick="toggleDetails()" style="
                 background: none; border: 1px solid #00bcd4; color: #00bcd4; 
@@ -317,7 +402,120 @@ function toggleDetails() {
     else details.style.display = "none";
 }
 
+let isSoundOn = true; 
+
+function playChime() {
+    if (!isSoundOn) return;
+
+    const AudioContext = window.AudioContext || window.webkitAudioContext;
+    if (!AudioContext) return;
+    const ctx = new AudioContext();
+    if (ctx.state === 'suspended') ctx.resume();
+
+    const t = ctx.currentTime;
+
+    const osc1 = ctx.createOscillator();
+    const gain1 = ctx.createGain();
+    osc1.connect(gain1);
+    gain1.connect(ctx.destination);
+
+    osc1.type = 'sine';
+    osc1.frequency.setValueAtTime(1046.5, t); 
+    
+    gain1.gain.setValueAtTime(0, t);
+    gain1.gain.linearRampToValueAtTime(0.1, t + 0.05);
+    gain1.gain.exponentialRampToValueAtTime(0.001, t + 0.5); 
+
+    osc1.start(t);
+    osc1.stop(t + 0.5);
+
+    const osc2 = ctx.createOscillator();
+    const gain2 = ctx.createGain();
+    osc2.connect(gain2);
+    gain2.connect(ctx.destination);
+
+    osc2.type = 'sine';
+    osc2.frequency.setValueAtTime(880, t + 0.4); 
+    
+    gain2.gain.setValueAtTime(0, t + 0.4);
+    gain2.gain.linearRampToValueAtTime(0.1, t + 0.45);
+    gain2.gain.exponentialRampToValueAtTime(0.001, t + 1.2); 
+
+    osc2.start(t + 0.4);
+    osc2.stop(t + 1.2);
+}
+
+function speakJapanese(text, isAuto = false) {
+    if (isAuto && !isSoundOn) return;
+
+    if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'ja-JP';
+        utterance.rate = 0.9;
+        window.speechSynthesis.speak(utterance);
+    }
+}
+
 document.addEventListener('DOMContentLoaded', function() {
+    const soundBtn = document.getElementById('sound-toggle-btn');
+    const soundIcon = document.getElementById('sound-icon');
+    const soundStatus = document.getElementById('sound-status');
+    const savedSetting = localStorage.getItem('thankjapan_sound');
+    
+    if (savedSetting === 'off') {
+        isSoundOn = false;
+        updateSoundButton();
+    } else {
+        isSoundOn = true;
+        updateSoundButton();
+    }
+
+    function updateSoundButton() {
+        if (!soundIcon || !soundStatus) return;
+        if (isSoundOn) {
+            soundIcon.textContent = '🔊';
+            soundStatus.textContent = 'ON';
+            if (soundBtn) soundBtn.classList.remove('muted');
+        } else {
+            soundIcon.textContent = '🔇';
+            soundStatus.textContent = 'OFF';
+            if (soundBtn) soundBtn.classList.add('muted');
+        }
+    }
+
+    if (soundBtn) {
+        soundBtn.addEventListener('click', function() {
+            isSoundOn = !isSoundOn;
+            localStorage.setItem('thankjapan_sound', isSoundOn ? 'on' : 'off');
+            updateSoundButton();
+            if (isSoundOn) playChime();
+        });
+    }
+
+    const correctFlag = document.getElementById('correct-flag');
+    const incorrectFlag = document.getElementById('incorrect-flag');
+    
+    if (isSoundOn) {
+        if (correctFlag) {
+            playChime();
+            const wordToSpeak = correctFlag.getAttribute('data-word');
+            if (wordToSpeak) {
+                setTimeout(() => {
+                    speakJapanese(wordToSpeak, true);
+                }, 1500); 
+            }
+        }
+        else if (incorrectFlag) {
+            const wordToSpeak = incorrectFlag.getAttribute('data-word');
+            if (wordToSpeak) {
+                setTimeout(() => {
+                    speakJapanese(wordToSpeak, true);
+                }, 500);
+            }
+        }
+    }
+
     const visualHintContainer = document.getElementById('visual-hint-container');
     const answerForm = document.getElementById('answer-form');
     const combinedAnswerInput = document.getElementById('combined-answer-input');
@@ -329,7 +527,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function updateDisplay() {
         visualHintContainer.innerHTML = '';
-        
         let displayInput = rawInput
             .replace(/aa/g, 'a-')
             .replace(/ee/g, 'e-')
@@ -340,11 +537,9 @@ document.addEventListener('DOMContentLoaded', function() {
             let hiragana = wanakana.toHiragana(token);
             const span = document.createElement('div');
             span.className = 'hint-char-display filled';
-            
             const mainSpan = document.createElement('span');
             mainSpan.className = 'char-main';
             mainSpan.textContent = hiragana;
-            
             const subSpan = document.createElement('span');
             subSpan.className = 'char-sub';
             
@@ -353,12 +548,10 @@ document.addEventListener('DOMContentLoaded', function() {
             } else {
                 subSpan.innerHTML = '&nbsp;';
             }
-
             span.appendChild(mainSpan);
             span.appendChild(subSpan);
             visualHintContainer.appendChild(span);
         });
-
         const cursor = document.createElement('div');
         cursor.className = 'cursor-bar';
         visualHintContainer.appendChild(cursor);
@@ -383,7 +576,6 @@ document.addEventListener('DOMContentLoaded', function() {
             ['A','S','D','F','G','H','J','K','L','-'],
             ['Z','X','C','V','B','N','M']
         ];
-        
         rows.forEach(row => {
             const rowDiv = document.createElement('div');
             rowDiv.className = 'keyboard-row';
@@ -396,21 +588,17 @@ document.addEventListener('DOMContentLoaded', function() {
             });
             keyboardContainer.appendChild(rowDiv);
         });
-        
         const controlRow = document.createElement('div');
         controlRow.className = 'keyboard-row';
-        
         const backBtn = document.createElement('div');
         backBtn.className = 'key-btn special';
         backBtn.textContent = '⌫';
         backBtn.onclick = () => handleInput('BACKSPACE');
-        
         const enterBtn = document.createElement('div');
         enterBtn.className = 'key-btn special';
         enterBtn.textContent = 'ENTER';
         enterBtn.style.color = '#00e5ff';
         enterBtn.onclick = () => handleInput('ENTER');
-        
         controlRow.appendChild(backBtn);
         controlRow.appendChild(enterBtn);
         keyboardContainer.appendChild(controlRow);
@@ -438,5 +626,4 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 </script>
-
 {% endblock %}
