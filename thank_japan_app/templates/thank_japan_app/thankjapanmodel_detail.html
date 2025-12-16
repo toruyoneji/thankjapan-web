@@ -136,6 +136,64 @@ body {
     font-size: 0.95rem;
 }
 
+.game-invite-box {
+    margin: 50px auto 30px;
+    padding: 30px 20px;
+    background-color: #f6efe8;
+    border: 4px solid #a35c00;
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+    max-width: 600px;
+    position: relative;
+    overflow: hidden;
+}
+
+.game-invite-box::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-image: repeating-linear-gradient(45deg, rgba(163, 92, 0, 0.05) 0px, rgba(163, 92, 0, 0.05) 2px, transparent 2px, transparent 10px);
+    pointer-events: none;
+}
+
+.game-invite-title {
+    color: #3b2f2f;
+    font-size: 1.4rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+    font-family: 'Zen Antique', serif;
+}
+
+.game-invite-text {
+    color: #555;
+    font-size: 0.95rem;
+    margin-bottom: 20px;
+    line-height: 1.5;
+}
+
+.game-invite-btn {
+    display: inline-block;
+    background: #7b942e;
+    color: #fff;
+    padding: 15px 40px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1.2rem;
+    box-shadow: 0 4px 0 #556b2f;
+    transition: all 0.2s;
+    position: relative;
+    z-index: 2;
+}
+
+.game-invite-btn:hover {
+    background: #8da835;
+    transform: translateY(2px);
+    box-shadow: 0 2px 0 #556b2f;
+    color: #fff;
+}
+
 .btn-back {
     display: inline-block;
     background: #fcd5b5;
@@ -146,6 +204,9 @@ body {
     font-weight: 600;
     margin-top: 30px;
     transition: all 0.3s;
+    border: none;
+    font-size: 1rem;
+    cursor: pointer;
 }
 .btn-back:hover {
     background: #fbc9a2;
@@ -161,6 +222,7 @@ footer {
     .detailgazou { height: 280px; }
     .jpname-text { font-size: 2.5rem; }
     .romaji-text { font-size: 1.4rem; }
+    .game-invite-btn { width: 80%; }
 }
 </style>
 
@@ -205,7 +267,17 @@ footer {
         </div>
     </div>
 
-    <button onclick="window.history.back()" class="btn-back">← Back</button>
+    <div class="game-invite-box">
+        <h3 class="game-invite-title">Learn more Japanese words?</h3>
+        <p class="game-invite-text">
+            Play our free typing game and master Hiragana & Vocabulary in a Zen atmosphere. 🍵
+        </p>
+        <a href="{% url 'game_start' %}" class="game-invite-btn">
+            🎮 Play Game
+        </a>
+    </div>
+
+    <button onclick="smartBack()" class="btn-back" id="back-btn">← Back</button>
 
     <footer>
         © 2025 Thank Japan All Rights Reserved.
@@ -228,5 +300,22 @@ function speakJapanese(text) {
         alert("Sorry, your browser does not support text-to-speech.");
     }
 }
+
+function smartBack() {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('from') === 'game') {
+        window.close(); 
+    } else {
+        window.history.back(); 
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('from') === 'game') {
+        const btn = document.getElementById('back-btn');
+        if (btn) btn.textContent = '× Close';
+    }
+});
 </script>
 {% endblock %}
