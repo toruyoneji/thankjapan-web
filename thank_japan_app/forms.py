@@ -70,8 +70,8 @@ class UsernameForm(forms.Form):
     country = forms.CharField(
         label="Country",
         max_length=50,
-        required=False,
-        widget=forms.TextInput(attrs={'placeholder': 'Your Country (optional)'})
+        required=True,
+        widget=forms.TextInput(attrs={'placeholder': 'e.g. Japan, USA'})
     )
 
 
