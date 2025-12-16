@@ -1,38 +1,11 @@
 {% extends 'base/base.html' %}
-
-{% block meta %}
-  
-  <meta name="description" content="Start the ultimate Japan quiz! Explore Japanese culture, food, traditions, and more in this fun and educational game.">
-  <meta name="keywords" content="Japan quiz, Japanese culture, Japanese food, Japan game, online quiz, learn Japanese, Japan trivia">
-  <meta name="robots" content="index, follow">
-  <link rel="canonical" href="https://www.thankjapan.com/game/start/">
-
-  <!-- Open Graph / Facebook -->
-  <meta property="og:title" content="Start Game | ThankJapan - The Ultimate Japanese Culture Quiz">
-  <meta property="og:description" content="Think you know Japan? Start the quiz and test your knowledge of Japanese culture, food, and language.">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://www.thankjapan.com/game/start/">
-  <meta property="og:image" content="https://res.cloudinary.com/dotekofm5/image/upload/v1754642770/thankjapan/backgrounds/ntpvmxgudcmvp0snpiur.png">
-  <meta property="og:site_name" content="ThankJapan">
-  <meta property="og:locale" content="en_US">
-
-  <!-- Twitter -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Start the Japan Quiz | ThankJapan">
-  <meta name="twitter:description" content="Play the ThankJapan quiz and test your knowledge of Japanese culture, food, and traditions.">
-  <meta name="twitter:image" content="https://res.cloudinary.com/dotekofm5/image/upload/v1754642770/thankjapan/backgrounds/ntpvmxgudcmvp0snpiur.png">
-  <meta name="twitter:site" content="@thankjapan0514">
-{% endblock %}
-
-{% block title %}Start the Ultimate Japan Quiz Challenge - Test Your Knowledge & Have Fun! | ThankJapan{% endblock %}
-
-
+{% block title %}Start Game | ThankJapan{% endblock %}
 
 {% block content %}
 <style>
 :root {
     --wall-color: #dccb96;
-    --tatami-color: #eaddcf;
+    --tatami-color: #f9f7f0;
     --tatami-border: #2f3e30;
     --scroll-paper: #fcfaf2;
     --scroll-cloth: #6d7058;
@@ -57,9 +30,7 @@ body {
     overflow-y: auto;
 }
 
-body::before, body::after {
-    display: none;
-}
+body::before, body::after { display: none; }
 
 .container {
     background: transparent;
@@ -138,27 +109,33 @@ body::before, body::after {
     text-decoration: none;
     color: var(--text-dark);
     min-height: 100px;
-    transition: all 0.3s ease;
+    transition: all 0.1s ease;
     
     background-color: #fffdfa; 
-    
     background-image: repeating-linear-gradient(
         90deg,
         transparent,
         transparent 2px,
         rgba(0,0,0,0.03) 2px, 
+        rgba(0,0,0,0.03) 4px
     );
-    
     border: 4px solid var(--tatami-border);
     position: relative;
+    -webkit-tap-highlight-color: transparent; 
 }
 
-
 .difficulty-card:hover,
-.difficulty-card:active {
-    background-color: #d6e9ca; 
+.difficulty-card:active,
+.difficulty-card:focus {
+    background-color: #d6e9ca;
     box-shadow: inset 0 0 20px rgba(0,0,0,0.1);
     transform: translateY(-2px);
+    outline: none;
+}
+
+.difficulty-card:active {
+    transition: none !important;
+    background-color: #d6e9ca !important;
 }
 
 .difficulty-card .emoji {
@@ -179,18 +156,34 @@ body::before, body::after {
     margin-top: 2px;
 }
 
+.easy { border-color: var(--matcha); }
+.normal { border-color: var(--bamboo); }
+.hard { border-color: var(--azuki); }
+
+.super-hard {
+    border-color: var(--charcoal);
+    background-color: #e6e6e6;
+}
+.super-hard:hover {
+    background-color: #333;
+    color: #fff;
+    border-color: #000;
+}
+.super-hard:hover h3, 
+.super-hard:hover p {
+    color: #fff;
+}
+
 .difficulty-card.locked {
     background-color: #dcdcdc;
     border-color: #999;
     color: #999;
     cursor: not-allowed;
     filter: grayscale(100%);
+    pointer-events: none;
 }
-
-.easy { border-color: var(--matcha); }
-.normal { border-color: var(--bamboo); }
-.hard { border-color: var(--azuki); }
-.super-hard { border-color: var(--charcoal); }
+.difficulty-card.locked h3 { font-family: 'Courier New', monospace; color: #777; }
+.difficulty-card.locked p { color: #777; font-weight: bold; }
 
 .player-info {
     width: 100%;
@@ -215,41 +208,88 @@ body::before, body::after {
     display: inline-block;
     margin-top: 10px;
 }
-
 .logout-button:hover {
     background: var(--dark-wood);
     color: #fff;
     transform: none;
 }
 
-.register-button {
-    background: var(--matcha);
+.guest-action-area {
+    margin-top: 20px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+.register-btn-main {
+    background-color: #b7282e;
     color: #fff;
-    border: none;
+    text-decoration: none;
+    padding: 15px 30px;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    box-shadow: 0 4px 15px rgba(183, 40, 46, 0.4);
+    border: 2px solid #fff;
+    transition: all 0.3s ease;
+    width: 80%;
+    max-width: 350px;
 }
 
-.login-link {
-    font-size: 1.2em;
-    margin-top: 10px;
-    text-align: center;
+.register-btn-main:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 8px 25px rgba(183, 40, 46, 0.6);
+    background-color: #d6353b;
 }
 
-.login-link a { 
-    color: var(--dark-wood); 
+.btn-icon { font-size: 1.8rem; }
+
+.btn-text {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    font-weight: bold;
+    font-size: 1.2rem;
+    line-height: 1.2;
+}
+
+.btn-text small {
+    font-size: 0.8rem;
+    font-weight: normal;
+    opacity: 0.9;
+    margin-top: 3px;
+}
+
+.login-link-sub {
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.login-link-sub a {
+    color: var(--dark-wood);
+    font-weight: bold;
+    text-decoration: underline;
 }
 
 .visual-rule-container {
     background: #fffdfa;
     border-top: 10px solid #a65e4e;
     border-bottom: 10px solid #a65e4e;
-    border-radius: 4px;
-    padding: 20px;
+    border-left: 1px solid #e0d5c0;
+    border-right: 1px solid #e0d5c0;
+    border-radius: 2px;
+    padding: 25px 20px;
     margin-bottom: 30px;
-    color: var(--text-dark);
+    color: #333;
     box-shadow: 0 5px 15px rgba(0,0,0,0.1);
     max-width: 500px;
     width: 100%;
     text-align: center;
+    box-sizing: border-box;
 }
 
 .rule-step { 
@@ -259,7 +299,6 @@ body::before, body::after {
     font-size: 1.5rem;
     margin-bottom: 15px;
 }
-
 .step-arrow { color: var(--azuki); margin: 0 5px; }
 
 .rule-example-box {
@@ -270,88 +309,61 @@ body::before, body::after {
     font-family: 'Courier New', monospace; 
     font-weight: bold;
     font-size: 1.1rem;
+    margin-bottom: 15px;
 }
 
 .example-item.correct {
-    background: transparent;
+    background: #f1f8e9;
     border: 1px solid var(--matcha);
-    color: var(--matcha);
-    border-radius: 50%;
-    padding: 10px 15px;
+    color: #556b2f;
+    border-radius: 50px;
+    padding: 8px 15px;
 }
 
 .example-item.wrong {
-    background: transparent;
+    background: #fff5f5;
     border: 1px solid var(--azuki);
     color: var(--azuki);
-    text-decoration: none;
-    position: relative;
-    padding: 5px 15px;
-    border-radius: 8px;
+    text-decoration: line-through;
+    border-radius: 4px;
+    padding: 8px 15px;
+    opacity: 0.8;
 }
 
-.example-item.wrong::after {
-    content: '×';
-    position: absolute;
-    top: -10px; right: -5px;
-    font-size: 1.5em;
-    color: var(--azuki);
-}
-
-.example-mark {
-    display: none;
-}
-
-.example-divider {
-    font-size: 0.9rem;
-    color: #888;
-}
+.example-mark { display: inline-block; margin-left: 5px; text-decoration: none; }
+.example-divider { font-size: 0.9rem; color: #888; font-style: italic; font-family: serif; }
 
 .rule-caption { 
-    color: #666; 
-    font-size: 0.85em; 
-    margin-top: 10px;
-    letter-spacing: 1px;
+    color: #5d4037; 
+    font-size: 0.9em; 
+    margin-top: 15px;
+    line-height: 1.6;
+    font-family: 'Noto Sans JP', sans-serif;
 }
-
+.rule-caption strong { color: #b7282e; font-weight: bold; }
+.rule-caption span[style] { color: #666 !important; }
 
 @media (max-width: 768px) {
-
-    body {
-        display: block !important;
-        padding-top: 140px !important; 
-        height: auto !important; 
-    }
-
-    
     .container {
-        width: 95% !important;
-        margin: 0 auto !important; 
-        padding: 0 !important;
-        margin-top: 0 !important; 
-        background: transparent !important;
-        box-shadow: none !important;
-        border: none !important;
+        width: 95%;
+        padding-top: 160px !important;
+        margin-top: 0 !important;
+        padding-left: 0; padding-right: 0;
     }
 
-    
     .game-start-container {
         padding: 15px;
         border-width: 5px;
-        background: rgba(255, 255, 255, 0.9); 
-        border-radius: 4px;
-        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
     }
 
     .start-game-title {
-        width: 90%;
+        width: 80%;
         font-size: 1.5em;
         padding: 20px;
         border-top-width: 20px;
         border-bottom-width: 20px;
     }
 
-    
     .difficulty-options {
         grid-template-columns: 1fr 1fr;
     }
@@ -360,114 +372,122 @@ body::before, body::after {
         padding: 15px 5px;
         min-height: 80px;
     }
+    .difficulty-card.locked { min-height: 80px; }
 
-    .difficulty-card .emoji { 
-        font-size: 1.5em; 
-    }
+    .difficulty-card .emoji { font-size: 1.5em; }
+    
+    .register-btn-main { width: 90%; padding: 12px 20px; }
+    .btn-icon { font-size: 1.5rem; }
+    .btn-text { font-size: 1.1rem; }
 }
-
 </style>
 
-<div class="game-start-container">
-    <h2 class="start-game-title">Start Game</h2>
+<div class="container">
+    <div class="game-start-container">
+        <h2 class="start-game-title">Start Game</h2>
 
-    
-    <div class="visual-rule-container">
-        <div class="rule-step">
-            <span class="step-emoji">🖼️</span>
-            <span class="step-arrow">➡</span>
-            <span class="step-emoji">🇯🇵</span>
-            <span class="step-arrow">➡</span>
-            <span class="step-emoji">⌨️</span>
+        <div class="visual-rule-container">
+            <div class="rule-step">
+                <span class="step-emoji">🖼️</span>
+                <span class="step-arrow">➡</span>
+                <span class="step-emoji">🇯🇵</span>
+                <span class="step-arrow">➡</span>
+                <span class="step-emoji">⌨️</span>
+            </div>
+            
+            <div class="rule-example-box">
+                <div class="example-item correct">
+                    <span class="example-icon">🍣</span>
+                    <span class="example-text">SUSHI</span>
+                    <span class="example-mark">✅</span>
+                </div>
+                <div class="example-divider">vs</div>
+                <div class="example-item wrong">
+                    <span class="example-icon">🍣</span>
+                    <span class="example-text">Fish</span>
+                    <span class="example-mark">❌</span>
+                </div>
+            </div>
+
+            <p class="rule-caption">
+                Type Japanese Name in Romaji!<br>
+                Use hyphen <strong>'-'</strong> for long vowels (ー).<br>
+                <span style="font-size: 0.9em; color: #aaa;">(e.g. <em>suki-</em> for スキー, <em>taifuu</em> for 台風)</span><br>
+                Fuzzy input allowed: "shi"="si", "tu"="tsu", etc.
+            </p>
         </div>
-        
-        <div class="rule-example-box">
-            <div class="example-item correct">
-                <span class="example-icon">🍣</span>
-                <span class="example-text">SUSHI</span>
-                <span class="example-mark">✅</span>
-            </div>
-            <div class="example-divider">vs</div>
-            <div class="example-item wrong">
-                <span class="example-icon">🍣</span>
-                <span class="example-text">Fish</span>
-                <span class="example-mark">❌</span>
-            </div>
-        </div>
-        <p class="rule-caption">
-            Type Japanese Name in Romaji!<br>
-            Use hyphen <strong>'-'</strong> for long vowels (ー).<br>
-            <span style="font-size: 0.9em; color: #aaa;">(e.g. <em>suki-</em> for スキー, <em>taifuu</em> for 台風)</span><br>
-            Fuzzy input allowed: "shi"="si", "tu"="tsu", etc.
-        </p>
 
-    </div>
-    
-
-    <div class="difficulty-options">
-        
-    </div>
-
-    <div class="difficulty-options">
-         <a href="{% url 'game_restart' %}?difficulty=easy" class="difficulty-card easy">
-            <span class="emoji">🙂</span>
-            <div class="difficulty-info">
-                <h3>EASY</h3>
-                <p>Simple words (e.g. Sushi, Ninja), common objects</p>
-            </div>
-        </a>
-         <a href="{% url 'game_restart' %}?difficulty=normal" class="difficulty-card normal">
-            <span class="emoji">😐</span>
-            <div class="difficulty-info">
-                <h3>NORMAL</h3>
-                <p>Everyday language, general knowledge</p>
-            </div>
-        </a>
-         <a href="{% url 'game_restart' %}?difficulty=hard" class="difficulty-card hard">
-            <span class="emoji">😡</span>
-            <div class="difficulty-info">
-                <h3>HARD</h3>
-                <p>Culture & concepts, idioms</p>
-            </div>
-        </a>
-
-        <!-- Super Hard (隠しダンジョン) -->
-        {% if player and player.total_score >= 300 %}
-            <a href="{% url 'game_restart' %}?difficulty=super_hard" class="difficulty-card super-hard">
-                <span class="emoji">👹</span>
+        <div class="difficulty-options">
+             <a href="{% url 'game_restart' %}?difficulty=easy" class="difficulty-card easy">
+                <span class="emoji">🙂</span>
                 <div class="difficulty-info">
-                    <h3>MANIA</h3>
-                    <p>God Tier! Good luck...</p>
+                    <h3>EASY</h3>
+                    <p>Simple words</p>
                 </div>
             </a>
-        {% else %}
-            <div class="difficulty-card locked">
-                <span class="emoji">🔒</span>
+             <a href="{% url 'game_restart' %}?difficulty=normal" class="difficulty-card normal">
+                <span class="emoji">😐</span>
                 <div class="difficulty-info">
-                    <h3>???</h3>
-                    <p>Unlock at Total 300pts</p>
+                    <h3>NORMAL</h3>
+                    <p>Everyday life</p>
                 </div>
-                {% if not player %}
-                    <a href="{% url 'player_register' %}" style="position:absolute; top:0; left:0; width:100%; height:100%;"></a>
-                {% endif %}
+            </a>
+             <a href="{% url 'game_restart' %}?difficulty=hard" class="difficulty-card hard">
+                <span class="emoji">😡</span>
+                <div class="difficulty-info">
+                    <h3>HARD</h3>
+                    <p>Culture & Arts</p>
+                </div>
+            </a>
+            
+            {% if player and player.total_score >= 300 %}
+                <a href="{% url 'game_restart' %}?difficulty=super_hard" class="difficulty-card super-hard">
+                    <span class="emoji">👹</span>
+                    <div class="difficulty-info">
+                        <h3>MANIA</h3>
+                        <p>God Tier!</p>
+                    </div>
+                </a>
+            {% else %}
+                <div class="difficulty-card locked">
+                    <span class="emoji">🔒</span>
+                    <div class="difficulty-info">
+                        <h3>???</h3>
+                        <p>Unlock at 300pts</p>
+                    </div>
+                    {% if not player %}
+                        <a href="{% url 'player_register' %}" style="position:absolute; top:0; left:0; width:100%; height:100%; z-index:10;"></a>
+                    {% endif %}
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="player-info">
+            Player:
+            {% if player %}
+                {{ player.username }}
+            {% else %}
+                Guest
+            {% endif %}
+        </div>
+
+        {% if not is_guest %}
+            <a href="{% url 'player_logout' %}" class="logout-button">Logout</a>
+        {% else %}
+            <div class="guest-action-area">
+                <a href="{% url 'player_register' %}" class="register-btn-main">
+                    <span class="btn-icon">✍️</span>
+                    <span class="btn-text">
+                        Register to Save Score
+                        <small>Don't lose your rank!</small>
+                    </span>
+                </a>
+                
+                <p class="login-link-sub">
+                    Already have an account? <a href="{% url 'player_login' %}">Log in</a>
+                </p>
             </div>
         {% endif %}
     </div>
-
-    <div class="player-info">
-        Player:
-        {% if player %}
-            {{ player.username }}
-        {% else %}
-            Guest
-        {% endif %}
-    </div>
-
-    {% if not is_guest %}
-        <a href="{% url 'player_logout' %}" class="logout-button">Logout</a>
-    {% else %}
-        <p class="login-link"><a href="{% url 'player_register' %}">Register to Save Score</a></p>
-        <a href="{% url 'player_login' %}" class="logout-button register-button">Already have an account? Log in</a>
-    {% endif %}
 </div>
 {% endblock %}
