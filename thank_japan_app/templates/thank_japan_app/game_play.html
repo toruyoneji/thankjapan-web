@@ -308,14 +308,53 @@ img:hover { transform: scale(1.02); }
 
   <h1>Question {{ current_index }} / {{ total_questions }}</h1>
 
-  <div class="score-box" style="color: #000000;">
-    {% if player %}
-        <p style="font-size:1.5rem; color: #000000;">Player: {{ player.username }} ({{ player.country|default:"Unknown" }})</p>
+  <div class="score-box" style="color: #000000; position: relative;">
+    {% if not is_guest %}
+        <p style="font-size:1.5rem; color: #000000;">
+            Player: {{ player.username }} 
+            <span style="font-size: 0.8em; color: #555;">({{ player.country|default:"Jp" }})</span>
+        </p>
+        
+        <div style="margin: 10px 0; padding: 10px; background: rgba(0,0,0,0.05); border-radius: 4px;">
+            <span style="font-weight: bold; color: #333;">Rank:</span>
+            
+            {% with s=player.total_score %}
+                {% if s >= 2000 %}
+                    <span style="color: #b8860b; font-weight: bold; font-size: 1.2em;">👑 Shogun (将軍)</span>
+                {% elif s >= 1000 %}
+                    <span style="color: #4a3b2a; font-weight: bold; font-size: 1.2em;">🏯 Daimyo (大名)</span>
+                {% elif s >= 500 %}
+                    <span style="color: #26456e; font-weight: bold; font-size: 1.2em;">⚔️ Samurai (侍)</span>
+                {% elif s >= 200 %}
+                    <span style="color: #556b2f; font-weight: bold; font-size: 1.2em;">🥷 Ninja (忍者)</span>
+                {% elif s >= 50 %}
+                    <span style="color: #8c7042; font-weight: bold; font-size: 1.2em;">🎒 Traveler (旅人)</span>
+                {% else %}
+                    <span style="color: #666; font-weight: bold; font-size: 1.2em;">🎋 Villager (村人)</span>
+                {% endif %}
+            {% endwith %}
+        </div>
+
     {% else %}
-        <p style="font-size:1.5rem; color: #000000;">Player: Guest</p>
+         <p style="font-size:1.5rem; color: #000000;">Player: Guest</p>
+        
+        <div style="margin: 10px 0; padding: 10px; background: rgba(255, 0, 0, 0.05); border: 1px dashed #b7282e; border-radius: 4px;">
+            <span style="color: #666;">Rank: 🌱 Guest</span><br>
+            <span style="color: #b7282e; font-size: 0.9rem; font-weight: bold;">
+                ⚠ Data NOT saved (データは保存されません)
+            </span>
+            <div style="margin-top: 5px;">
+                <a href="{% url 'player_register' %}" style="color: #26456e; text-decoration: underline; font-size: 0.9rem;">
+                    Sign up to save rank ↗
+                </a>
+            </div>
+        </div>
     {% endif %}
-    <p style="color: #000000;">Your Score: <span class="score-number" id="score" style="color: #000000;">{{ score }}</span> pts</p>
-  </div>
+
+    <p style="color: #000000; margin-top: 10px;">
+        Current Score: <span class="score-number" id="score" style="color: #000000;">{{ score }}</span> pts
+    </p>
+</div>
 
   {% if object.image %}
     <img src="{{ object.image.url }}" alt="Question image">
