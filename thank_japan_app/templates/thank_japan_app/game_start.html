@@ -423,14 +423,26 @@ body::before, body::after {
             </div>
         </a>
 
-        {% if player.total_score >= 300 %}
+        <!-- Super Hard (隠しダンジョン) -->
+        {% if player and player.total_score >= 300 %}
             <a href="{% url 'game_restart' %}?difficulty=super_hard" class="difficulty-card super-hard">
                 <span class="emoji">👹</span>
-                    <div class="difficulty-info">
+                <div class="difficulty-info">
                     <h3>MANIA</h3>
                     <p>God Tier! Good luck...</p>
                 </div>
             </a>
+        {% else %}
+            <div class="difficulty-card locked">
+                <span class="emoji">🔒</span>
+                <div class="difficulty-info">
+                    <h3>???</h3>
+                    <p>Unlock at Total 300pts</p>
+                </div>
+                {% if not player %}
+                    <a href="{% url 'player_register' %}" style="position:absolute; top:0; left:0; width:100%; height:100%;"></a>
+                {% endif %}
+            </div>
         {% endif %}
     </div>
 
