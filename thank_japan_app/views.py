@@ -355,6 +355,15 @@ class CategoryDetailView(DetailView):
         category = self.kwargs['category']
         return ThankJapanModel.objects.filter(category=category)
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        current_item = self.object
+        context['related_items'] = ThankJapanModel.objects.filter(
+            category=current_item.category
+        ).exclude(
+            id=current_item.id
+        ).order_by('?')[:6]
+        return context
      
 
 def contact_view(request):
