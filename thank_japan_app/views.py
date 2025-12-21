@@ -817,7 +817,11 @@ def category_list_es_mx(request):
 def category_list_es_es(request):
     return render(request, 'thank_japan_app/category/category_list_es_es.html')
  
+def category_list_en_in(request):
+    return render(request, 'thank_japan_app/category/category_list_en_in.html')
  
+def category_list_de(request):
+    return render(request, 'thank_japan_app/category/category_list_de.html')
  
  
 #category view
