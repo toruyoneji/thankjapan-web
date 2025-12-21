@@ -779,7 +779,12 @@ def game_result(request):
 
 
                 
-#category view                                
+#category view
+
+def category_list(request):
+    return render(request, 'thank_japan_app/category/category_list.html') 
+
+                            
 class FoodView(ListView):
     template_name = "thank_japan_app/food.html"
     paginate_by = 24
