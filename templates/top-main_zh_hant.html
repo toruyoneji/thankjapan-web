@@ -106,22 +106,41 @@ h2, h3 {
 }
 
 .explore-btn {
-  background: var(--stone-dark);
+  background:
+    linear-gradient(135deg,
+      #fff1b8 0%,
+      #ffd700 25%,
+      #e6b800 45%,
+      #ffec9e 60%,
+      #d4af37 80%,
+      #fff1b8 100%
+    ),
+    repeating-linear-gradient(
+      45deg,
+      rgba(255,255,255,0.15) 0px,
+      rgba(255,255,255,0.15) 2px,
+      rgba(255,255,255,0) 4px,
+      rgba(255,255,255,0) 6px
+    );
+
   color: #fff;
-  padding: 15px 50px;
+  padding: 18px 80px;
   border-radius: 50px;
-  text-decoration: none;
-  font-weight: 600;
-  transition: all 0.4s ease;
-  border: 1px solid var(--stone-gray);
-  font-size: 1.1rem;
+  font-weight: 700;
+  font-size: 1.3rem;
   letter-spacing: 2px;
+  border: 1px solid #ffeb99;
+  box-shadow:
+    0 6px 18px rgba(212, 175, 55, 0.6),
+    inset 0 1px 3px rgba(255, 255, 255, 0.6);
+  transition: all 0.4s ease;
+  display: inline-block;
 }
 
 .explore-btn:hover {
-  background: var(--moss-green);
-  transform: scale(1.02);
-  box-shadow: 0 5px 15px rgba(85, 107, 47, 0.4);
+  transform: translateY(-3px);
+  filter: brightness(1.15);
+  box-shadow: 0 8px 25px rgba(255, 215, 0, 0.7);
 }
 
 .game-call-to-action {
@@ -378,7 +397,12 @@ footer .footer-links a:hover { color: #fff; }
   
   .hero h1 { font-size: 2.0rem; letter-spacing: 3px; }
   .hero p { font-size: 0.95rem; }
-  .explore-btn { padding: 10px 25px; font-size: 1.0rem; }
+  .explore-btn {
+  padding: 18px 40px;
+  font-size: 1.3rem;
+  width: 80%;
+  margin-top: -30px; 
+  }
 
   .game-call-to-action { 
       margin: 40px auto; 
