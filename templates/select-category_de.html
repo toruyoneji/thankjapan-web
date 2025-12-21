@@ -1,0 +1,217 @@
+{% load static %}
+<style>
+    .category-container {
+        max-width: 100%;
+        margin: 0 auto;
+        padding-top: 160px;
+        padding-bottom: 60px;
+        padding-left: 20px;
+        padding-right: 20px;
+        text-align: center;
+        min-height: 100vh;
+        background-color: #e6dcb8;
+        background-image: 
+            repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                rgba(0, 0, 0, 0.05) 2px,
+                rgba(0, 0, 0, 0.05) 4px
+            );
+        border-left: 15px solid #2f4f4f;
+        border-right: 15px solid #2f4f4f;
+    }
+
+    .category-header h1 {
+        color: #3e2723;
+        font-family: "Hiragino Mincho ProN", "Yu Mincho", serif;
+        font-size: 2.5rem;
+        margin-bottom: 10px;
+        letter-spacing: 2px;
+        text-shadow: 1px 1px 0px rgba(255,255,255,0.8);
+    }
+
+    .category-header p {
+        color: #5d4037;
+        margin-bottom: 50px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        letter-spacing: 1px;
+    }
+
+    .category-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+        gap: 25px;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .cat-card {
+        background-color: #fffbf0;
+        border: 4px solid #6d4c41; 
+        border-radius: 4px;
+        padding: 30px 10px;
+        text-decoration: none;
+        color: #3e2723;
+        transition: all 0.3s ease;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .cat-card::before {
+        content: "";
+        position: absolute;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background-image: 
+            linear-gradient(#eaddcf 1px, transparent 1px),
+            linear-gradient(90deg, #eaddcf 1px, transparent 1px);
+        background-size: 25px 25px;
+        opacity: 0.4;
+        pointer-events: none;
+    }
+
+    .cat-card:hover {
+        transform: translateY(-5px);
+        background-color: #fff;
+        border-color: #8d6e63;
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.25);
+    }
+
+    .cat-icon {
+        font-size: 3rem;
+        margin-bottom: 15px;
+        color: #2b1b17;
+        z-index: 2;
+        filter: drop-shadow(0 0 2px rgba(255,255,255,0.8));
+    }
+
+    .cat-name {
+        font-size: 1.1rem;
+        font-weight: 700;
+        letter-spacing: 1px;
+        color: #3e2723;
+        z-index: 2;
+    }
+
+    .btn-more {
+    display: inline-block;
+    background: #ffb347;
+    color: white;
+    padding: 10px 24px;
+    border-radius: 25px;
+    text-decoration: none;
+    font-weight: 600;
+    margin-top: 20px;
+    transition: background 0.3s;
+    }
+
+    .btn-more:hover {
+    background: #ff9642;
+    }
+
+
+    @media (max-width: 600px) {
+        .category-container {
+            padding-top: 140px;
+            border-left: 8px solid #2f4f4f;
+            border-right: 8px solid #2f4f4f;
+        }
+        .category-grid {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+    }
+</style>
+
+<div class="category-container">
+    <div class="category-header">
+        <h1>Lernen starten 📚</h1>
+        <p>Wählen Sie ein Thema, um japanische Vokabeln zu meistern!</p>
+    </div>
+
+    <div class="category-grid">
+        
+        <a href="{% url 'culturepage' %}" class="cat-card">
+            <span class="cat-icon">⛩️</span>
+            <span class="cat-name">Kultur</span>
+        </a>
+
+        
+        <a href="{% url 'foodpage' %}" class="cat-card">
+            <span class="cat-icon">🍣</span>
+            <span class="cat-name">Essen</span>
+        </a>
+
+        
+        <a href="{% url 'cookpage' %}" class="cat-card">
+            <span class="cat-icon">🍳</span>
+            <span class="cat-name">Küche</span>
+        </a>
+
+        
+        <a href="{% url 'fashionpage' %}" class="cat-card">
+            <span class="cat-icon">👘</span>
+            <span class="cat-name">Mode</span>
+        </a>
+
+        
+        <a href="{% url 'naturepage' %}" class="cat-card">
+            <span class="cat-icon">🗻</span>
+            <span class="cat-name">Natur</span>
+        </a>
+
+        
+        <a href="{% url 'animalpage' %}" class="cat-card">
+            <span class="cat-icon">🐕</span>
+            <span class="cat-name">Tiere</span>
+        </a>
+
+        
+        <a href="{% url 'sportspage' %}" class="cat-card">
+            <span class="cat-icon">🥋</span>
+            <span class="cat-name">Sport</span>
+        </a>
+
+        <a href="{% url 'householditemspage' %}" class="cat-card">
+            <span class="cat-icon">🪑</span>
+            <span class="cat-name">Haushaltsgegenstände</span>
+        </a>
+
+        <a href="{% url 'appliancespage' %}" class="cat-card">
+            <span class="cat-icon">📺</span>
+            <span class="cat-name">Geräte</span>
+        </a>
+
+        <a href="{% url 'buildingpage' %}" class="cat-card">
+            <span class="cat-icon">🏯</span>
+            <span class="cat-name">Gebäude</span>
+        </a>
+
+        <a href="{% url 'flowerpage' %}" class="cat-card">
+            <span class="cat-icon">🌸</span>
+            <span class="cat-name">Blumen</span>
+        </a>
+
+        <a href="{% url 'workpage' %}" class="cat-card">
+            <span class="cat-icon">💼</span>
+            <span class="cat-name">Arbeit</span>
+        </a>
+
+        <a href="{% url 'livepage' %}" class="cat-card">
+            <span class="cat-icon">🍵</span>
+            <span class="cat-name">Lebensstil</span>
+        </a>
+
+    </div>
+
+    
+    <div style="text-align:center; margin:50px 0;">
+        <a class="btn-more" href="javascript:history.back();">← Back</a>
+
+    </div>
+</div>

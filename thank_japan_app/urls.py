@@ -6,7 +6,8 @@ from .views import (TopView, TopViewFR, TopViewIT, TopViewPT, TopViewZHHANT,TopV
                     CategoryDetailView, BuildingView, FlowerView, HouseholdItemsView,LiveView,
                     SportsView, WorkView,  game_start, game_play, game_next_question,
                     game_answer, game_result, game_restart, player_login, player_logout, delete_player_confirm,
-                    player_register, delete_player,  contact_view, contact_thanks, category_list,
+                    player_register, delete_player,  contact_view, contact_thanks, category_list, category_list_zhhant,
+                    category_list_vi, category_list_th,
                     JapanFoodView,JapanFoodDEView, JapanFoodENINView, JapanFoodESESView,
                     JapanFoodESMXView, JapanFoodFRView, JapanFoodITView, JapanFoodJAView ,JapanFoodKOView,
                     JapanFoodPTBRView, JapanFoodPTView, JapanFoodTHView, JapanFoodVIView, JapanFoodZHHANTView,
@@ -92,6 +93,10 @@ urlpatterns = [
     
     #category select page
     path("categories/", category_list, name="category_list"),
+    path("categories/zh-hant/", category_list_zhhant, name="category_list_zhHant"),
+    path("categories/vi/", category_list_vi, name="category_list_vi"),
+    path("categories/th/", category_list_th, name="category_list_th"),
+    
     
     #category list page
     path("food/", FoodView.as_view(), name="foodpage"),

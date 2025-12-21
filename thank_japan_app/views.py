@@ -779,11 +779,21 @@ def game_result(request):
 
 
                 
-#category view
+#category select view
 
 def category_list(request):
     return render(request, 'thank_japan_app/category/category_list.html') 
 
+def category_list_zhhant(request):
+    return render(request, 'thank_japan_app/category/category_list_zh_hant.html') 
+
+def category_list_vi(request):
+    return render(request, 'thank_japan_app/category/category_list_vi.html') 
+
+def category_list_th(request):
+    return render(request, 'thank_japan_app/category/category_list_th.html') 
+
+#category view
                             
 class FoodView(ListView):
     template_name = "thank_japan_app/food.html"
