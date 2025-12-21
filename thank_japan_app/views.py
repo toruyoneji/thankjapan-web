@@ -805,6 +805,21 @@ def category_list_ko(request):
 def category_list_ja(request):
     return render(request, 'thank_japan_app/category/category_list_ja.html')
  
+def category_list_it(request):
+    return render(request, 'thank_japan_app/category/category_list_it.html')
+ 
+def category_list_fr(request):
+    return render(request, 'thank_japan_app/category/category_list_fr.html')
+
+def category_list_es_mx(request):
+    return render(request, 'thank_japan_app/category/category_list_es_mx.html')
+
+def category_list_es_es(request):
+    return render(request, 'thank_japan_app/category/category_list_es_es.html')
+ 
+ 
+ 
+ 
 #category view
                             
 class FoodView(ListView):
