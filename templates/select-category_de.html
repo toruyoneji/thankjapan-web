@@ -105,9 +105,26 @@
         hyphens: auto;
     }
 
+    .btn-more {
+        display: inline-block;
+        background: #ffb347;
+        color: white;
+        padding: 10px 24px;
+        border-radius: 25px;
+        text-decoration: none;
+        font-weight: 600;
+        margin-top: 20px;
+        transition: background 0.3s;
+    }
+    
+    .btn-more:hover {
+        background: #ff9642;
+    }
+
+
     @media (max-width: 600px) {
         .category-container {
-            padding-top: 200px;
+            padding-top: 160px;
             border-left: 8px solid #2f4f4f;
             border-right: 8px solid #2f4f4f;
         }
@@ -140,37 +157,31 @@
             <span class="cat-name">Kultur</span>
         </a>
 
-        
         <a href="{% url 'foodpage' %}" class="cat-card">
             <span class="cat-icon">🍣</span>
             <span class="cat-name">Essen</span>
         </a>
 
-        
         <a href="{% url 'cookpage' %}" class="cat-card">
             <span class="cat-icon">🍳</span>
             <span class="cat-name">Küche</span>
         </a>
 
-        
         <a href="{% url 'fashionpage' %}" class="cat-card">
             <span class="cat-icon">👘</span>
             <span class="cat-name">Mode</span>
         </a>
 
-        
         <a href="{% url 'naturepage' %}" class="cat-card">
             <span class="cat-icon">🗻</span>
             <span class="cat-name">Natur</span>
         </a>
 
-        
         <a href="{% url 'animalpage' %}" class="cat-card">
             <span class="cat-icon">🐕</span>
             <span class="cat-name">Tiere</span>
         </a>
 
-        
         <a href="{% url 'sportspage' %}" class="cat-card">
             <span class="cat-icon">🥋</span>
             <span class="cat-name">Sport</span>
