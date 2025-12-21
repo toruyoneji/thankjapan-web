@@ -791,8 +791,20 @@ def category_list_vi(request):
     return render(request, 'thank_japan_app/category/category_list_vi.html') 
 
 def category_list_th(request):
-    return render(request, 'thank_japan_app/category/category_list_th.html') 
+    return render(request, 'thank_japan_app/category/category_list_th.html')
 
+def category_list_pt(request):
+    return render(request, 'thank_japan_app/category/category_list_pt.html') 
+
+def category_list_pt_br(request):
+    return render(request, 'thank_japan_app/category/category_list_pt_br.html') 
+
+def category_list_ko(request):
+    return render(request, 'thank_japan_app/category/category_list_ko.html') 
+
+def category_list_ja(request):
+    return render(request, 'thank_japan_app/category/category_list_ja.html')
+ 
 #category view
                             
 class FoodView(ListView):

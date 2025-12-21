@@ -1,0 +1,48 @@
+{% extends 'base/base_ko.html' %}
+{% block title %}카테고리 선택 | 일본어 배우기 | ThankJapan{% endblock %}
+
+{% block meta %}
+    <meta name="title" content="일본어 학습을 위한 카테고리 선택 | ThankJapan">
+    <meta name="description" content="일본어 어휘를 마스터할 주제를 선택하세요. 문화, 음식, 스포츠 등. 퀴즈를 풀기 전에 이미지로 학습을 시작해보세요!">
+
+    <meta name="robots" content="index,follow">
+    <meta name="keywords" content="일본어 단어, 일본어 배우기, 학습 주제, 일본 문화, 음식, 한자">
+
+    <meta property="og:title" content="카테고리 선택 | 일본어 배우기 | ThankJapan" />
+    <meta property="og:description" content="일본어 어휘를 마스터할 주제를 선택하세요. 문화, 음식, 스포츠 등." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.thankjapan.com/categories/ko/" />
+    <meta property="og:image" content="https://res.cloudinary.com/dotekofm5/image/upload/v1761402106/thankjapan/backgrounds/jtbdzjsksgbgehuxl954.jpg" />
+    <meta property="og:site_name" content="ThankJapan" />
+    <meta property="og:locale" content="ko_KR" />
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="카테고리 선택 | 일본어 배우기 | ThankJapan">
+    <meta name="twitter:description" content="일본어 어휘를 마스터할 주제를 선택하세요. 문화, 음식, 스포츠 등.">
+    <meta name="twitter:image" content="https://res.cloudinary.com/dotekofm5/image/upload/v1761402106/thankjapan/backgrounds/jtbdzjsksgbgehuxl954.jpg">
+    <meta name="twitter:site" content="@thankjapan0514">
+{% endblock %}
+
+{% block hreflang_tags %}
+    <link rel="alternate" hreflang="en" href="https://www.thankjapan.com/categories/">
+    <link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/categories/ja/">
+    <link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/categories/vi/">
+    <link rel="alternate" hreflang="en-IN" href="https://www.thankjapan.com/categories/en-in/">
+    <link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/categories/fr/">
+    <link rel="alternate" hreflang="it" href="https://www.thankjapan.com/categories/it/">
+    <link rel="alternate" hreflang="pt-PT" href="https://www.thankjapan.com/categories/pt/">
+    <link rel="alternate" hreflang="pt-BR" href="https://www.thankjapan.com/categories/pt-br/">
+    <link rel="alternate" hreflang="zh-Hant" href="https://www.thankjapan.com/categories/zh-hant/">
+    <link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/categories/ko/">
+    <link rel="alternate" hreflang="es-ES" href="https://www.thankjapan.com/categories/es-es/">
+    <link rel="alternate" hreflang="es-MX" href="https://www.thankjapan.com/categories/es-mx/">
+    <link rel="alternate" hreflang="de" href="https://www.thankjapan.com/categories/de/">
+    <link rel="alternate" hreflang="th" href="https://www.thankjapan.com/categories/th/">
+    <link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/categories/">
+{% endblock %}
+
+{% block content %}
+
+ {% include 'select-category_ko.html' %}
+
+{% endblock %}
