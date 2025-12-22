@@ -33,7 +33,6 @@ Sitemap: https://www.thankjapan.com/sitemap.xml
 """
     return HttpResponse(content, content_type="text/plain")
 
-import re
 
 def strip_parentheses(text):
     return re.sub(r'\(.*?\)', '', text).strip()
