@@ -111,6 +111,21 @@
     text-decoration: none;
   }
 
+  .btn-more {
+    display: inline-block;
+    background: #ffb347;
+    color: white;
+    padding: 10px 24px;
+    border-radius: 25px;
+    text-decoration: none;
+    font-weight: 600;
+    margin-top: 20px;
+    transition: background 0.3s;
+  }
+  .btn-more:hover {
+    background: #ff9642;
+  }
+
   @media (max-width: 600px) {
     .main2 {
       width: 90%;
@@ -170,6 +185,11 @@
   </form>
 
   <p>Already have an account? <a href="{% url 'player_login' %}">Login here</a>.</p>
+
+  <div style="text-align:center; margin:50px 0;">
+    <a class="btn-more" href="{% url 'toppage' %}">← Back To Home</a>
+  </div>
+  
 </div>
 
 {% endblock %}
