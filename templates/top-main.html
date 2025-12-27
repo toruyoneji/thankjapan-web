@@ -1,68 +1,534 @@
-{% extends 'base/base.html' %}
-{% block content %}
+{% load static %}
+
 <style>
-:root { --sand-bg: #f3f4f6; --moss-green: #556b2f; }
-body { background-color: var(--sand-bg); background-image: repeating-radial-gradient(circle at 50% 30%, transparent 0, transparent 10px, rgba(0,0,0,0.03) 11px, rgba(0,0,0,0.03) 12px); }
-.main { max-width: 1100px; margin: 0 auto; }
+:root {
+    --sand-bg: #f3f4f6;
+    --stone-gray: #7a7a7a;
+    --stone-dark: #4a4a4a;
+    --moss-green: #556b2f;
+    --moss-light: #8f9779;
+    --text-main: #333333;
+    --accent-red: #a63737;
+    --wood-dark: #4a3b2a;
+}
+
+body {
+  margin: 0;
+  font-family: 'Zen Antique', 'Shippori Mincho', 'Noto Serif JP', serif;
+  background-color: var(--sand-bg);
+  background-image: 
+    repeating-radial-gradient(
+      circle at 50% 30%, 
+      transparent 0, 
+      transparent 10px, 
+      rgba(0,0,0,0.03) 11px, 
+      rgba(0,0,0,0.03) 12px
+    );
+  color: var(--text-main);
+  text-align: center;
+  padding-top: 0;
+}
+
+.header {
+  width: 100%;
+  height: 120px;
+  background-image: url("https://res.cloudinary.com/dotekofm5/image/upload/v1754641165/thankjapan/backgrounds/urhlsfokzrozs5835nkh.png");
+  background-size: cover;
+  background-position: center;
+  position: fixed; 
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  border-bottom: 6px solid var(--stone-gray); 
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.main {
+  max-width: 1100px;
+  margin-left: 250px; 
+  padding: 0; 
+}
+
+h2, h3 {
+  color: var(--stone-dark);
+  text-shadow: none;
+  font-weight: 700;
+  border-bottom: 1px solid var(--moss-green); 
+  display: inline-block;
+  padding-bottom: 10px;
+  margin-bottom: 30px;
+  letter-spacing: 3px;
+}
+
 .hero {
   background: linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.3)), 
               url("https://res.cloudinary.com/dotekofm5/image/upload/v1761402106/thankjapan/backgrounds/jtbdzjsksgbgehuxl954.jpg");
-  background-position: center 30%; background-size: cover; height: 750px; 
-  display: flex; flex-direction: column; justify-content: center; align-items: center; color: #fff; text-align: center;
-  mask-image: linear-gradient(to bottom, black 85%, transparent 100%); -webkit-mask-image: linear-gradient(to bottom, black 85%, transparent 100%);
+  background-position: center 30%;
+  background-size: cover;
+  background-repeat: no-repeat;
+  
+  margin-top: 60px; 
+  height: 750px; 
+  
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  
+  color: #fff;
+  text-align: center;
+  padding: 0 20px;
+  
+  border-bottom: none;
+  mask-image: linear-gradient(to bottom, black 85%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, black 85%, transparent 100%);
 }
-.hero h1 { font-size: 3.5rem; letter-spacing: 8px; text-shadow: 0 2px 20px rgba(0,0,0,0.8); }
-.hero p { font-size: 1.2rem; background: rgba(0,0,0,0.5); padding: 10px 30px; border-radius: 50px; margin-top: 15px; }
-.explore-btn { background: linear-gradient(135deg, #fff1b8, #ffd700, #e6b800, #d4af37); color: #000; padding: 18px 80px; border-radius: 50px; font-weight: bold; font-size: 1.3rem; text-decoration: none; margin-top: 30px; box-shadow: 0 6px 18px rgba(212,175,55,0.6); }
-.game-call-to-action { margin: 60px auto; max-width: 600px; padding: 50px; background: #fff; box-shadow: 0 20px 40px rgba(0,0,0,0.05); text-align: center; }
-.play-game-button { background: var(--moss-green); color: #fff; padding: 20px; display: block; width: 80%; margin: 0 auto; text-decoration: none; border-radius: 50px; font-weight: bold; font-size: 1.4rem; }
-.category-grid { display: flex; justify-content: center; flex-wrap: wrap; gap: 40px; padding: 40px 20px; }
-.category-card { width: 280px; text-align: center; }
-.category-card img { width: 200px; height: 200px; object-fit: cover; border-radius: 50%; border: 4px solid #fff; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
-footer { background: #1f1f1f; padding: 60px 20px; color: #777; text-align: center; }
-.footer-links { margin-bottom: 20px; }
-.footer-links a { color: #777; text-decoration: none; margin: 0 10px; }
-@media screen and (max-width: 768px) { .hero { height: 450px; } .hero h1 { font-size: 2rem; } .explore-btn { width: 90%; padding: 18px 20px; } }
+
+.hero h1 {
+  font-size: 3.5rem;
+  letter-spacing: 8px;
+  margin-bottom: 15px;
+  color: #fff;
+  text-shadow: 0 2px 20px rgba(0,0,0,0.8);
+  font-family: 'Zen Antique', serif;
+}
+
+.hero p {
+  font-size: 1.2rem;
+  margin-bottom: 40px;
+  font-family: 'Poppins', sans-serif;
+  color: #fff;
+  background: rgba(0,0,0,0.5);
+  padding: 10px 30px;
+  border-radius: 50px;
+  border: 1px solid rgba(255,255,255,0.5);
+  text-shadow: none;
+}
+
+.explore-btn {
+  background:
+    linear-gradient(135deg,
+      #fff1b8 0%,
+      #ffd700 25%,
+      #e6b800 45%,
+      #ffec9e 60%,
+      #d4af37 80%,
+      #fff1b8 100%
+    ),
+    repeating-linear-gradient(
+      45deg,
+      rgba(255,255,255,0.15) 0px,
+      rgba(255,255,255,0.15) 2px,
+      rgba(255,255,255,0) 4px,
+      rgba(255,255,255,0) 6px
+    );
+
+  color: #000;
+  padding: 18px 80px;
+  border-radius: 50px;
+  font-weight: 700;
+  font-size: 1.3rem;
+  letter-spacing: 2px;
+  border: 1px solid #ffeb99;
+  box-shadow:
+    0 6px 18px rgba(212, 175, 55, 0.6),
+    inset 0 1px 3px rgba(255, 255, 255, 0.6);
+  transition: all 0.4s ease;
+  display: inline-block;
+}
+
+.explore-btn:hover {
+  transform: translateY(-3px);
+  filter: brightness(1.15);
+  box-shadow: 0 8px 25px rgba(255, 215, 0, 0.7);
+}
+
+
+.game-call-to-action {
+  text-align: center;
+  margin: 60px auto;
+  max-width: 600px;
+  padding: 50px 30px;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 2px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.05);
+}
+
+.play-game-button {
+  display: block;
+  width: 80%;
+  margin: 0 auto 20px auto;
+  padding: 20px 25px;
+  background: var(--moss-green);
+  color: #fff;
+  font-size: 1.4em;
+  font-weight: bold;
+  text-decoration: none;
+  border-radius: 50px;
+  box-shadow: 0 5px 15px rgba(85, 107, 47, 0.3);
+  transition: all 0.3s ease;
+  letter-spacing: 0.1em;
+  font-family: 'Zen Antique', serif;
+}
+
+.play-game-button:hover {
+  background: var(--stone-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+}
+
+.game-icon { margin-left: 10px; }
+.game-description {
+  color: #666;
+  font-size: 0.95em;
+  margin-top: 15px;
+  line-height: 1.8;
+}
+
+.categories {
+  max-width: 1100px;
+  margin: 40px auto;
+  padding: 0 20px 80px;
+}
+
+.categories h2 {
+  font-size: 2.0rem;
+  margin-bottom: 50px;
+  border-bottom-color: var(--stone-gray);
+}
+
+.category-grid {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 40px;
+}
+
+.category-card {
+  width: 280px;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  text-align: center;
+  transition: transform 0.4s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.category-card a {
+  display: block;
+  width: 100%;
+}
+
+.category-card img {
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin: 0 auto 20px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  filter: none;
+  transition: all 0.4s ease;
+  border: 4px solid #fff;
+  display: block;
+}
+
+.category-card:hover img { 
+    transform: scale(1.05);
+    border-color: var(--moss-green);
+    filter: brightness(1.1);
+}
+
+.category-card h3 {
+  color: var(--text-main);
+  background: transparent;
+  padding: 0;
+  font-size: 1.1rem;
+  letter-spacing: 2px;
+  border: none;
+  margin-top: 10px;
+  width: 100%;
+  min-height: 3rem;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.category-card:hover {
+  transform: translateY(-5px);
+}
+
+.trending-categories {
+  background: #fff;
+  padding: 25px;
+  border-radius: 50px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+  text-align: center;
+  margin: 40px auto 80px;
+  border: 1px solid #eee;
+  max-width: 800px;
+}
+
+.trending-categories h2 {
+    border: none;
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+    color: #888;
+}
+
+.category-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+
+.trending-categories a {
+  color: #666;
+  text-decoration: none;
+  padding: 8px 20px;
+  border-radius: 20px;
+  transition: all 0.3s ease;
+  background: var(--sand-bg);
+  font-size: 0.9rem;
+  font-weight: normal;
+  border: 1px solid transparent;
+}
+
+.trending-categories a:hover {
+  background-color: var(--stone-dark);
+  color: #fff;
+  transform: none;
+}
+
+.support {
+  background: var(--stone-dark);
+  padding: 100px 20px;
+  text-align: center;
+  color: #ddd;
+}
+
+.support h2 {
+  color: #fff;
+  border-bottom: 1px solid #666;
+  margin-bottom: 20px;
+}
+
+.support a {
+  background: transparent;
+  color: #fff;
+  text-decoration: none;
+  padding: 12px 40px;
+  border-radius: 50px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  border: 1px solid #fff;
+  margin-top: 30px;
+  display: inline-block;
+}
+
+.support a:hover {
+  background: #fff;
+  color: var(--text-main);
+}
+
+footer {
+  background: #1f1f1f;
+  text-align: center;
+  padding: 60px 20px;
+  font-size: 0.85rem;
+  color: #777;
+  letter-spacing: 1px;
+}
+
+footer .footer-links a {
+  color: #777;
+  text-decoration: none;
+  transition: color 0.3s;
+  margin: 0 10px;
+}
+
+footer .footer-links a:hover { color: #fff; }
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 10000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(255,255,255,0.9);
+  backdrop-filter: blur(5px);
+}
+.modal.active { display: flex; justify-content: center; align-items: center; }
+.modal-content {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  max-width: 90%;
+  width: 400px;
+  padding: 40px;
+  position: relative;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+  text-align: center;
+}
+.modal-content img { width: 100%; border-radius: 4px; margin-bottom: 20px; }
+.modal-close {
+  position: absolute; top: 10px; right: 10px;
+  font-size: 2rem; cursor: pointer; color: #ccc;
+  transition: color 0.2s;
+}
+.modal-close:hover { color: var(--text-main); }
+
+@media screen and (max-width: 768px) {
+  .main { margin-left: 0; }
+
+  .hero { 
+      
+      height: auto; 
+      min-height: 450px; 
+      
+      margin-top: 130px; 
+      background-position: center center;
+      
+      
+      padding: 60px 15px; 
+      
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+  }
+  
+  .hero h1 { 
+      font-size: 2.0rem; 
+      letter-spacing: 3px;
+      margin-bottom: 15px;
+  }
+  
+  .hero p { 
+      font-size: 1.0rem; 
+      line-height: 1.6;
+      margin-bottom: 30px; 
+      width: 90%; 
+  }
+
+  .explore-btn {
+      padding: 18px 40px;
+      font-size: 1.3rem;
+      width: 80%;
+      
+      
+      margin-top: 20px; 
+      position: relative;
+      bottom: auto; 
+  }
+
+  .game-call-to-action { 
+      margin: 40px auto; 
+      width: 90%;
+      padding: 30px 15px; 
+  }
+  .play-game-button { font-size: 1.3em; padding: 15px 20px; width: 95%; }
+  
+  .category-grid { 
+      display: flex;
+      flex-direction: column;
+      align-items: center; 
+      gap: 30px;
+  }
+  .category-card { width: 100%; max-width: 350px; }
+  
+  .footer-links { flex-direction: column; gap: 15px; }
+  .food-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+}
+
+@media screen and (max-width: 500px) {
+  .hero { 
+    
+      margin-top: 140px; 
+      height: auto;      
+      min-height: 350px;
+      padding: 40px 15px;
+  }
+  
+  .hero h1 { font-size: 1.5rem; }
+  
+  
+  .explore-btn {
+      font-size: 1.1rem;
+      padding: 15px 30px;
+  }
+}
+
 </style>
 
-<div class="main">
   <section class="hero">
     <h1>THANK JAPAN</h1>
-    <p>The fun way to learn Japanese Language & Culture.</p>
+    <p>
+      The fun way to learn Japanese Language & Culture.<br>
+      Study with images, test your skills with quizzes, and rank up!
+    </p>
     <a href="{% url 'category_list' %}" class="explore-btn">Start Learning 📖</a>
   </section>
+
   <div class="game-call-to-action">
-    <a href="{% url 'game_start' %}" class="play-game-button">PLAY GAME NOW! 🎮</a>
-    <p>Test Your Japanese Knowledge?</p>
+    <a href="{% url 'game_start' %}" class="play-game-button">
+        PLAY GAME NOW!
+        <span class="game-icon">🎮</span> 
+    </a>
+    <p class="game-description">
+        Test Your Japanese Knowledge? <br>Learn Japanese words and culture!
+    </p>
   </div>
+
   <section class="categories">
+    <h2>Discover Japan</h2>
     <div class="category-grid">
       <div class="category-card">
-        <a href="{% url 'japanfood' %}"><img src="https://res.cloudinary.com/dotekofm5/image/upload/v1761200066/thankjapan/backgrounds/adfqqgtdfozxi848gopz.png"></a>
+        <a href="{% url 'japanfood' %}">
+          <img src="https://res.cloudinary.com/dotekofm5/image/upload/v1761200066/thankjapan/backgrounds/adfqqgtdfozxi848gopz.png" alt="Japanese Cuisine">
+        </a>
         <h3>Food & Culinary Delights</h3>
       </div>
+
+
       <div class="category-card">
-        <a href="{% url 'japanculture' %}"><img src="https://res.cloudinary.com/dotekofm5/image/upload/v1761842683/thankjapan/backgrounds/ixyersx9bdpxytxzetix.jpg"></a>
+        <a href="{% url 'japanculture' %}">
+          <img src="https://res.cloudinary.com/dotekofm5/image/upload/v1761842683/thankjapan/backgrounds/ixyersx9bdpxytxzetix.jpg" alt="Japanese Tradition">
+        </a>
         <h3>Traditions & Arts</h3>
       </div>
+
       <div class="category-card">
-        <a href="{% url 'naturepage' %}"><img src="https://res.cloudinary.com/dotekofm5/image/upload/v1754645312/thankjapan/backgrounds/hutwikylfzofnnzrahgh.png"></a>
+        <a href="{% url 'naturepage' %}">
+          <img src="https://res.cloudinary.com/dotekofm5/image/upload/v1754645312/thankjapan/backgrounds/hutwikylfzofnnzrahgh.png" alt="Japanese Nature">
+        </a>
         <h3>Nature & Adventures</h3>
       </div>
     </div>
   </section>
-  <section class="support" style="background: #4a4a4a; padding: 80px 20px; color: #fff; text-align: center;">
+
+  <section class="support">
     <h2>💖 Support Thank Japan</h2>
-    <a href="{% url 'select_amount' %}" style="color: #fff; border: 1px solid #fff; padding: 10px 40px; display: inline-block; margin-top: 20px; text-decoration: none; border-radius: 50px;">Donate via PayPal</a>
+    <p>Your support helps us share the beauty and culture of Japan with the world.</p>
+    <a href="{% url 'select_amount' %}" target="_blank" rel="noopener noreferrer">Donate via PayPal</a>
   </section>
+
   <footer>
     <div class="footer-links">
       <a href="{% url 'infomationpage' %}">About Us</a>
       <a href="{% url 'privacy_policy' %}">Privacy Policy</a>
-      <a href="{% url 'riyoukiyaku' %}">Terms</a>
+      <a href="{% url 'riyoukiyaku' %}">Terms of Use</a>
       <a href="{% url 'contact' %}">Contact</a>
     </div>
-    <small>© 2025 Thank Japan</small>
+    <small>© 2025 Thank Japan | Explore, enjoy, and fall in love with Japanese culture</small>
   </footer>
-</div>
-{% endblock %}
+
+
