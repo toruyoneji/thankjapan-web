@@ -12,8 +12,13 @@
     --wood-dark: #4a3b2a;
 }
 
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 body {
-  margin: 0;
   font-family: 'Zen Antique', 'Shippori Mincho', 'Noto Serif JP', serif;
   background-color: var(--sand-bg);
   background-image: 
@@ -26,14 +31,14 @@ body {
     );
   color: var(--text-main);
   text-align: center;
-  padding-top: 0;
 }
 
 .header {
   width: 100%;
   height: 120px;
   background-image: url("https://res.cloudinary.com/dotekofm5/image/upload/v1754641165/thankjapan/backgrounds/urhlsfokzrozs5835nkh.png");
-  background-size: cover;
+  background-size: auto 100%;
+  background-repeat: repeat-x;
   background-position: center;
   position: fixed; 
   top: 0;
@@ -112,7 +117,7 @@ body {
 
 .main {
   max-width: 1100px;
-  margin-left: 250px; 
+  margin: 0 auto 0 250px; 
   padding: 0; 
 }
 
@@ -246,7 +251,7 @@ footer {
 
 @media screen and (max-width: 768px) {
   .main { margin-left: 0; }
-  .header { height: auto; min-height: 140px; padding: 10px; }
+  .header { height: auto; min-height: 140px; padding: 10px; background-size: cover; }
   .auth-section { width: 100%; justify-content: center; margin-top: 10px; }
   .hero { margin-top: 180px; min-height: 450px; padding: 60px 15px; }
   .hero h1 { font-size: 2.0rem; }
@@ -260,7 +265,6 @@ footer {
   .hero { margin-top: 200px; }
   .hero h1 { font-size: 1.5rem; }
 }
-
 </style>
 
   <section class="hero">
