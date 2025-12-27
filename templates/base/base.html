@@ -44,84 +44,221 @@
     <title>{% block title %}{% endblock %}</title>
 
 <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    html, body { width: 100%; overflow-x: hidden; }
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    html, body {
+        width: 100%;
+        overflow-x: hidden;
+    }
+
     body {
         font-family: 'Zen Antique', 'Shippori Mincho', 'Noto Serif JP', serif;
         background-color: #f3f4f6;
-        padding-top: 100px; 
         background-image: repeating-radial-gradient(circle at 50% 30%, transparent 0, transparent 10px, rgba(0,0,0,0.03) 11px, rgba(0,0,0,0.03) 12px);
+        padding-top: 0 !important;
     }
 
     header.nav-bar {
-        position: fixed; top: 0; left: 0; width: 100%; min-height: 80px;
-        background: rgba(10, 10, 10, 0.95); backdrop-filter: blur(10px);
-        display: flex; align-items: center; justify-content: space-between;
-        padding: 10px 30px; z-index: 9999; border-bottom: 4px solid #7a7a7a;
+        position: -webkit-sticky;
+        position: sticky;
+        top: 0;
+        width: 100%;
+        min-height: 80px;
+        background: rgba(10, 10, 10, 0.95);
+        backdrop-filter: blur(10px);
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 30px;
+        z-index: 9999;
+        border-bottom: 4px solid #7a7a7a;
     }
-    .logo-link { color: white; text-decoration: none; font-weight: bold; font-size: 1.6rem; white-space: nowrap; }
-    .sns-buttons { display: flex; gap: 10px; }
-    .sns-buttons a { color: #fff; font-size: 1.1rem; text-decoration: none; }
-    nav { display: flex; align-items: center; gap: 15px; flex-wrap: wrap; }
 
-    .auth-section { display: flex; align-items: center; gap: 10px; }
-    .user-info, .guest-info { display: flex; align-items: center; gap: 10px; }
-    .user-name { color: #ffffff !important; font-weight: bold; font-size: 0.9rem; white-space: nowrap; text-shadow: 1px 1px 2px #000; }
-    .premium-badge { background: linear-gradient(45deg, #ffd700, #ffa500); color: #000 !important; padding: 2px 8px; border-radius: 12px; font-size: 0.7rem; font-weight: bold; }
-    .upgrade-link { color: #f1c40f !important; text-decoration: none; font-size: 0.8rem; font-weight: bold; border: 1px solid #f1c40f; padding: 2px 8px; border-radius: 10px; }
-    .auth-btn { text-decoration: none; font-size: 0.8rem; padding: 6px 14px; border-radius: 20px; font-weight: bold; border: 1px solid #fff; color: #fff !important; white-space: nowrap; transition: 0.3s; }
+    .logo-link {
+        color: white;
+        text-decoration: none;
+        font-weight: bold;
+        font-size: 1.6rem;
+        white-space: nowrap;
+    }
+
+    .sns-buttons {
+        display: flex;
+        gap: 10px;
+    }
+
+    .sns-buttons a {
+        color: #fff;
+        font-size: 1.1rem;
+        text-decoration: none;
+    }
+
+    nav {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        flex-wrap: wrap;
+    }
+
+    .auth-section {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .user-name {
+        color: #ffffff !important;
+        font-weight: bold;
+        font-size: 0.9rem;
+        white-space: nowrap;
+        text-shadow: 1px 1px 2px #000;
+    }
+
+    .premium-badge {
+        background: linear-gradient(45deg, #ffd700, #ffa500);
+        color: #000 !important;
+        padding: 2px 8px;
+        border-radius: 12px;
+        font-size: 0.7rem;
+        font-weight: bold;
+    }
+
+    .upgrade-link {
+        color: #f1c40f !important;
+        text-decoration: none;
+        font-size: 0.8rem;
+        font-weight: bold;
+        border: 1px solid #f1c40f;
+        padding: 2px 8px;
+        border-radius: 10px;
+    }
+
+    .auth-btn {
+        text-decoration: none;
+        font-size: 0.8rem;
+        padding: 6px 14px;
+        border-radius: 20px;
+        font-weight: bold;
+        border: 1px solid #fff;
+        color: #fff !important;
+        white-space: nowrap;
+    }
+
     .signup { background-color: #e67e22; border: none; }
 
-    .dropbtn, .game-link { color: #eee; background: none; border: none; font-size: 0.9rem; cursor: pointer; text-decoration: none; }
+    .dropbtn, .game-link {
+        color: #eee;
+        background: none;
+        border: none;
+        font-size: 0.9rem;
+        cursor: pointer;
+        text-decoration: none;
+    }
+
     .dropdown { position: relative; }
-    .dropdown-content { display: none; position: absolute; top: 100%; left: 0; background-color: #1a1a1a; min-width: 160px; border-radius: 8px; z-index: 1000; }
-    .dropdown-content a { color: #eee; padding: 10px 15px; display: block; text-decoration: none; font-size: 0.8rem; }
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        background-color: #1a1a1a;
+        min-width: 160px;
+        border-radius: 8px;
+        z-index: 1000;
+    }
+
+    .dropdown-content a {
+        color: #eee;
+        padding: 10px 15px;
+        display: block;
+        text-decoration: none;
+        font-size: 0.8rem;
+    }
 
     .hero {
-        margin-top: 0 !important; width: 100%; height: 750px; 
-        display: flex; flex-direction: column; justify-content: center; align-items: center;
+        margin-top: 0 !important;
+        width: 100%;
+        height: 750px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
         background: linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.3)), url("https://res.cloudinary.com/dotekofm5/image/upload/v1761402106/thankjapan/backgrounds/jtbdzjsksgbgehuxl954.jpg");
-        background-position: center 30%; background-size: cover; color: #fff; text-align: center;
+        background-position: center 30%;
+        background-size: cover;
+        color: #fff;
+        text-align: center;
         mask-image: linear-gradient(to bottom, black 85%, transparent 100%);
         -webkit-mask-image: linear-gradient(to bottom, black 85%, transparent 100%);
     }
-    .hero h1 { font-size: 3.5rem; letter-spacing: 8px; text-shadow: 0 2px 20px rgba(0,0,0,0.8); }
-    .hero p { font-size: 1.2rem; background: rgba(0,0,0,0.5); padding: 10px 30px; border-radius: 50px; margin: 20px 0; }
 
     .explore-btn {
         background: linear-gradient(135deg, #fff1b8, #ffd700, #e6b800, #d4af37);
-        color: #000; padding: 18px 80px; border-radius: 50px; font-weight: 700; font-size: 1.3rem;
-        letter-spacing: 2px; text-decoration: none; display: inline-block; box-shadow: 0 6px 18px rgba(212, 175, 55, 0.6);
+        color: #000;
+        padding: 18px 80px;
+        border-radius: 50px;
+        font-weight: 700;
+        font-size: 1.3rem;
+        letter-spacing: 2px;
+        text-decoration: none;
+        display: inline-block;
+        box-shadow: 0 6px 18px rgba(212, 175, 55, 0.6);
     }
-    .play-game-button { background: #556b2f; color: #fff; padding: 15px 30px; border-radius: 50px; text-decoration: none; font-weight: bold; display: inline-block; }
 
-    footer { background: #1f1f1f; text-align: center; padding: 60px 20px; font-size: 0.85rem; color: #777; }
+    .main, .hero, .main2, .game-container, .categories, .container {
+        margin-top: 0 !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+        width: 100% !important;
+        max-width: 1100px;
+        display: block !important;
+    }
+
+    footer { background: #1f1f1f; text-align: center; padding: 60px 20px; font-size: 0.85rem; color: #777; width: 100%; }
     .footer-links a { color: #777; text-decoration: none; margin: 0 10px; }
 
     @media screen and (max-width: 1024px) {
-        body { padding-top: 160px !important; }
-        header.nav-bar { flex-direction: column; padding: 10px; gap: 8px; }
-        .logo, .auth-section, .sns-buttons, nav { width: 100%; justify-content: center; margin: 0; }
-        .auth-section { order: -1; padding-bottom: 5px; border-bottom: 1px solid #333; }
-        .main, .hero, .container, .category-container, .game-container, #game-area, [class*="main"], [class*="container"] {
-            margin-left: 0 !important; margin-right: 0 !important; width: 100% !important; max-width: 100% !important; left: 0 !important;
+        header.nav-bar {
+            flex-direction: column;
+            padding: 10px;
+            gap: 10px;
+        }
+
+        .logo, .auth-section, .sns-buttons, nav {
+            width: 100%;
+            justify-content: center;
+            margin: 0;
+        }
+
+        .auth-section {
+            order: -1;
+            padding-bottom: 5px;
+            border-bottom: 1px solid #333;
+        }
+
+        .main, .hero, .main2, .game-container, .container {
+            margin-left: 0 !important;
+            margin-right: 0 !important;
+            width: 100% !important;
+            max-width: 100% !important;
         }
     }
 
     @media screen and (max-width: 480px) {
-        body { padding-top: 200px !important; }
         .hero { height: auto; min-height: 400px; padding: 40px 15px; }
-        .hero h1 { font-size: 1.8rem; letter-spacing: 3px; }
         .explore-btn { width: 85%; padding: 15px 20px; font-size: 1.1rem; }
     }
 
-    .cookie-consent-banner {
-        position: fixed; bottom: 0; left: 0; width: 100%; background-color: rgba(0,0,0,0.95);
-        color: #eee; padding: 15px; z-index: 10001; display: none; flex-direction: column; align-items: center;
-    }
+    .cookie-consent-banner { position: fixed; bottom: 0; left: 0; width: 100%; background-color: rgba(0,0,0,0.95); color: #eee; padding: 15px; z-index: 10001; display: none; flex-direction: column; align-items: center; }
     .cookie-consent-banner.show { display: flex; }
     .cookie-consent-btn { padding: 8px 20px; background: #e63946; color: #fff; border: none; border-radius: 5px; margin-top: 10px; cursor: pointer; font-size: 0.8rem; font-weight: bold; }
 </style>
+
 
     <script async src="https://www.googletagmanager.com/gtag/js?id={{ GA_TRACKING_ID }}"></script>
     <script>
