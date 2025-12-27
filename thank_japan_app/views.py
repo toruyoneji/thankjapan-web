@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404, HttpResponse, 
 from django.views import View
 from django.views.generic import ListView, DetailView, FormView, TemplateView
 from django.views.generic.edit import FormView
-from .models import ThankJapanModel, Player
+from .models import ThankJapanModel, Player, Profile
 from django.contrib import messages
 from django.core.mail import send_mail
 from django.conf import settings
@@ -11,6 +11,8 @@ from django.views.decorators.http import require_POST
 from django.http import Http404
 from django.urls import reverse
 from django.utils.safestring import mark_safe
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 import logging
 import random
 import re
@@ -397,6 +399,7 @@ def contact_thanks(request):
 
 #Game
 
+
 def player_register(request):
     if request.method == "POST":
         form = UsernameForm(request.POST)
@@ -405,17 +408,24 @@ def player_register(request):
             raw_password = form.cleaned_data['password']
             country = form.cleaned_data['country']
 
-            if Player.objects.filter(username=username).exists():
+            if User.objects.filter(username=username).exists() or Player.objects.filter(username=username).exists():
                 messages.error(request, "This username is already taken.")
                 return redirect('player_register')
 
+            user = User.objects.create_user(username=username, password=raw_password)
+            
             player = Player(username=username, country=country)
             player.set_password(raw_password)
             player.save()
+
+            if hasattr(user, 'profile'):
+                user.profile.country = country
+                user.profile.save()
             
-            messages.success(request, "Account created! Please log in to start playing and save your scores.")
+            messages.success(request, "Account created! Please log in to start playing.")
             
-            for key in ['is_guest', 'game_score', 'game_question_ids', 'game_current_index', 'game_message', 'last_question_info', 'game_difficulty', 'player_id']:
+            keys_to_clear = ['is_guest', 'game_score', 'game_question_ids', 'game_current_index', 'game_message', 'last_question_info', 'game_difficulty', 'player_id']
+            for key in keys_to_clear:
                 request.session.pop(key, None)
             
             return redirect('player_login') 
@@ -429,59 +439,63 @@ def player_login(request):
         username = request.POST.get('username')
         password = request.POST.get('password')
 
-        try:
-            player = Player.objects.get(username=username)
-            if player.check_password(password):
-                for key in ['is_guest', 'game_score', 'game_question_ids', 'game_current_index', 'game_message', 'last_question_info', 'game_difficulty']:
-                    request.session.pop(key, None)
-                
-                request.session['player_id'] = player.id
-                request.session['is_guest'] = False 
+        user = authenticate(request, username=username, password=password)
 
-                messages.success(request, "Logged in successfully! Your scores from now on will be saved.")
-                return redirect('game_start')
-            else:
-                messages.error(request, "Incorrect password.")
-        except Player.DoesNotExist:
-            messages.error(request, "Username not found.")
+        if user is not None:
+            keys_to_clear = ['is_guest', 'game_score', 'game_question_ids', 'game_current_index', 'game_message', 'last_question_info', 'game_difficulty']
+            for key in keys_to_clear:
+                request.session.pop(key, None)
+            
+            auth_login(request, user)
+            
+            try:
+                player = Player.objects.get(username=username)
+                request.session['player_id'] = player.id
+            except Player.DoesNotExist:
+                pass
+
+            request.session['is_guest'] = False 
+
+            messages.success(request, f"Welcome back, {user.username}!")
+            return redirect('game_start')
+        else:
+            messages.error(request, "Invalid username or password.")
+            
     return render(request, 'thank_japan_app/player_login.html')
 
-
 def player_logout(request):
-    for key in ['player_id', 'game_question_ids', 'game_current_index', 'game_score', 'game_message', 'last_question_info', 'game_difficulty']:
+    auth_logout(request)
+    
+    keys_to_clear = ['player_id', 'game_question_ids', 'game_current_index', 'game_score', 'game_message', 'last_question_info', 'game_difficulty']
+    for key in keys_to_clear:
         request.session.pop(key, None)
     
     request.session['is_guest'] = True 
-
     messages.info(request, "You have been logged out.")
     return redirect('player_login')
 
 def delete_player_confirm(request):
-    player_id = request.session.get('player_id')
-    if not player_id:
+    if not request.user.is_authenticated:
         return redirect('player_login')
-
     return render(request, 'thank_japan_app/delete_player.html')
-
 
 @require_POST
 def delete_player(request):
-    player_id = request.session.get('player_id')
-    if not player_id:
+    if not request.user.is_authenticated:
         return redirect('player_login')
 
     password = request.POST.get('password')
-    player = get_object_or_404(Player, id=player_id)
+    user = request.user
 
-    if player.check_password(password):
-        player.delete()
+    if user.check_password(password):
+        Player.objects.filter(username=user.username).delete()
+        user.delete()
         request.session.flush()
         messages.success(request, "Your account has been deleted.")
+        return redirect('toppage')
     else:
         messages.error(request, "Incorrect password. Account not deleted.")
-
-    return redirect('player_login')
-
+        return redirect('delete_player_confirm')
 
 DIFFICULTY_SETTINGS = {
     'easy': {
