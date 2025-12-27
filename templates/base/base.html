@@ -5,261 +5,112 @@
     {% include 'css.html' %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-
     {% block meta %}
-    <meta name="title" content="Learn Japanese & Culture | Free Quiz Game | ThankJapan">
-    <meta name="description" content="Master Japanese vocabulary, Kanji, and culture for free. Learn with images, test your skills with interactive quizzes, and rank up from 'Traveler'!">
+    <meta name="title" content="Discover Japan's Culture, Food & Language | ThankJapan">
+    <meta name="description" content="Explore Japanese life, cuisine, and language with interactive content and fun learning games. Experience Japan from anywhere in the world.">
     <meta name="robots" content="index,follow">
     <meta name="keywords" content="Japanese, japan">
-
-    <meta property="og:title" content="Play Free Japanese Games (No Download) | ThankJapan" />
+    <meta property="og:title" content="ThankJapan sharing" />
     <meta property="og:description" content="japanese introduction." />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://www.thankjapan.com" />
-    <meta property="og:image" content="https://res.cloudinary.com/dotekofm5/image/upload/v1761402106/thankjapan/backgrounds/jtbdzjsksgbgehuxl954.jpg" />
+    <meta property="og:image" content="https://res.cloudinary.com/dotekofm5/image/upload/v1754642770/thankjapan/backgrounds/ntpvmxgudcmvp0snpiur.png" />
     <meta property="og:site_name" content="ThankJapan" />
     <meta property="og:locale" content="en_US"  />
-
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Play Free Japanese Games (No Download) | ThankJapan">
+    <meta name="twitter:title" content="ThankJapan sharing">
     <meta name="twitter:description" content="This site introduces Japanese culture, food, and language to the world.">
-    <meta name="twitter:image" content="https://res.cloudinary.com/dotekofm5/image/upload/v1761402106/thankjapan/backgrounds/jtbdzjsksgbgehuxl954.jpg">
+    <meta name="twitter:image" content="https://res.cloudinary.com/dotekofm5/image/upload/v1754642770/thankjapan/backgrounds/ntpvmxgudcmvp0snpiur.png">
     <meta name="twitter:site" content="@thankjapan0514">
-
-    
+    <link rel="alternate" hreflang="en" href="https://www.thankjapan.com/">
+    <link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/ja/">
+    <link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/vi/">
+    <link rel="alternate" hreflang="en-IN" href="https://www.thankjapan.com/en-in/">
+    <link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/fr/">
+    <link rel="alternate" hreflang="it" href="https://www.thankjapan.com/it/">
+    <link rel="alternate" hreflang="pt-PT" href="https://www.thankjapan.com/pt/">
+    <link rel="alternate" hreflang="pt-BR" href="https://www.thankjapan.com/pt-br/">
+    <link rel="alternate" hreflang="zh-Hant" href="https://www.thankjapan.com/zh-hant/">
+    <link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/ko/">
+    <link rel="alternate" hreflang="es-ES" href="https://www.thankjapan.com/es-es/">
+    <link rel="alternate" hreflang="es-MX" href="https://www.thankjapan.com/es-mx/">
+    <link rel="alternate" hreflang="de" href="https://www.thankjapan.com/de/">
+    <link rel="alternate" hreflang="th" href="https://www.thankjapan.com/th/">
+    <link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/">
     {% endblock %}
-
-    {% block hreflang_tags %}
-     <link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/">
-    {% endblock %}
-
     <title>{% block title %}ThankJapan{% endblock %}</title>
-
-{% block content %}
-<style>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    font-family: 'Zen Antique', 'Shippori Mincho', 'Noto Serif JP', serif;
-    padding-top: 90px;
-    background-color: #f3f4f6;
-    overflow-x: hidden;
-}
-
-/* --- Header --- */
-header.nav-bar {
-    position: fixed;
-    top: 0;
-    width: 100%;
-    min-height: 80px;
-    background: rgba(20, 20, 20, 0.95);
-    backdrop-filter: blur(10px);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 30px;
-    z-index: 9999;
-    border-bottom: 3px solid #7a7a7a;
-}
-
-.logo-link {
-    color: white;
-    text-decoration: none;
-    font-weight: bold;
-    font-size: 1.5rem;
-}
-
-.sns-buttons {
-    display: flex;
-    gap: 8px;
-}
-
-.sns-buttons a {
-    font-size: 0.9rem;
-    width: 28px;
-    height: 28px;
-    background-color: #333;
-    border-radius: 50%;
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-decoration: none;
-}
-
-nav {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-}
-
-/* --- Auth Section --- */
-.auth-section {
-    display: flex;
-    align-items: center;
-}
-
-.user-info, .guest-info {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.user-name {
-    color: #ffffff !important;
-    font-weight: bold;
-    font-size: 0.85rem;
-    white-space: nowrap;
-}
-
-.premium-badge {
-    background: linear-gradient(45deg, #ffd700, #ffa500);
-    color: #000 !important;
-    padding: 2px 8px;
-    border-radius: 12px;
-    font-size: 0.7rem;
-    font-weight: bold;
-}
-
-.upgrade-link {
-    color: #f1c40f !important;
-    text-decoration: none;
-    font-size: 0.8rem;
-    font-weight: bold;
-    border: 1px solid #f1c40f;
-    padding: 2px 8px;
-    border-radius: 10px;
-}
-
-.auth-btn {
-    text-decoration: none;
-    font-size: 0.75rem;
-    padding: 6px 12px;
-    border-radius: 20px;
-    font-weight: bold;
-}
-
-.login { color: #ffffff !important; border: 1px solid #ffffff; }
-.signup { background-color: #e67e22; color: white !important; }
-.logout { color: #ffffff !important; border: 1px solid #ffffff; opacity: 0.8; }
-
-/* --- Dropdowns --- */
-.dropbtn, .game-link {
-    color: #eee;
-    background: none;
-    border: none;
-    font-size: 0.9rem;
-    cursor: pointer;
-    text-decoration: none;
-}
-
-.dropdown-content {
-    display: none;
-    position: absolute;
-    top: 100%;
-    background-color: #1a1a1a;
-    min-width: 160px;
-    border-radius: 8px;
-}
-
-/* --- Cookie Banner --- */
-.cookie-consent-banner {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    background: rgba(0,0,0,0.95);
-    color: #fff;
-    padding: 20px;
-    z-index: 10000;
-    display: none;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-}
-
-.cookie-consent-banner.show { display: flex; }
-
-.cookie-consent-buttons {
-    display: flex;
-    gap: 10px;
-    margin-top: 15px;
-}
-
-.cookie-consent-btn {
-    padding: 8px 20px;
-    border-radius: 5px;
-    border: none;
-    cursor: pointer;
-    font-weight: bold;
-}
-
-.accept-btn { background: #e63946; color: white; }
-
-/* --- Mobile (768px以下) --- */
-@media screen and (max-width: 768px) {
-    body { padding-top: 250px; } /* ヘッダーが縦に伸びる分を確保 */
-    
+    <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+        font-family: 'Zen Antique', 'Shippori Mincho', 'Noto Serif JP', serif;
+        padding-top: 80px;
+        background-color: #f3f4f6;
+        overflow-x: hidden;
+    }
     header.nav-bar {
-        flex-direction: column;
-        padding: 10px;
-        gap: 10px;
+        position: fixed;
+        top: 0; width: 100%;
+        background: rgba(20, 20, 20, 0.95);
+        backdrop-filter: blur(10px);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 30px;
+        z-index: 9999;
+        border-bottom: 2px solid #7a7a7a;
     }
-
-    .logo, .sns-buttons, .auth-section, nav {
-        width: 100%;
-        justify-content: center;
-        margin: 0;
+    .logo-link { color: white; text-decoration: none; font-weight: bold; font-size: 1.5rem; }
+    nav { display: flex; align-items: center; gap: 15px; }
+    nav a, .dropbtn { color: #eee; text-decoration: none; font-size: 0.9rem; background: none; border: none; cursor: pointer; }
+    .auth-section { display: flex; align-items: center; gap: 15px; }
+    .user-info, .guest-info { display: flex; align-items: center; gap: 10px; }
+    .user-name { color: #fff !important; font-weight: bold; font-size: 0.9rem; white-space: nowrap; }
+    .premium-badge { background: linear-gradient(45deg, #ffd700, #ffa500); color: #000 !important; padding: 2px 8px; border-radius: 12px; font-size: 0.7rem; font-weight: bold; }
+    .upgrade-link { color: #f1c40f !important; text-decoration: none; font-size: 0.8rem; font-weight: bold; border: 1px solid #f1c40f; padding: 2px 8px; border-radius: 10px; }
+    .auth-btn { text-decoration: none; font-size: 0.8rem; padding: 6px 14px; border-radius: 20px; font-weight: bold; white-space: nowrap; transition: 0.3s; }
+    .login, .logout { color: #fff !important; border: 1px solid #fff; }
+    .signup { background-color: #e67e22; color: #fff !important; border: none; }
+    .dropdown { position: relative; display: inline-block; }
+    .dropdown-content { display: none; position: absolute; top: 100%; left: 0; background-color: #1a1a1a; min-width: 160px; max-height: 250px; overflow-y: auto; border-radius: 8px; z-index: 999; }
+    .dropdown-content a { color: #eee; padding: 10px 16px; display: block; text-decoration: none; font-size: 0.85rem; }
+    .sns-buttons { display: flex; gap: 8px; }
+    .sns-buttons a { font-size: 1rem; width: 30px; height: 30px; background-color: #333; border-radius: 50%; color: white; display: flex; align-items: center; justify-content: center; text-decoration: none; }
+    .cookie-consent-banner {
+        position: fixed; bottom: 0; left: 0; width: 100%;
+        background: rgba(0,0,0,0.95); color: #eee; padding: 20px;
+        z-index: 10000; display: none; flex-direction: column; align-items: center; text-align: center;
+        transition: transform 0.3s ease; transform: translateY(100%);
     }
-
-    .auth-section {
-        order: 2;
-        padding: 5px 0;
-        border-bottom: 1px solid #333;
+    .cookie-consent-banner.show { display: flex; transform: translateY(0); }
+    .cookie-consent-buttons { display: flex; gap: 10px; margin-top: 15px; flex-wrap: wrap; justify-content: center; }
+    .cookie-consent-btn { padding: 8px 20px; border-radius: 5px; border: none; cursor: pointer; font-weight: bold; }
+    .accept-btn { background: #e63946; color: #fff; }
+    .manage-btn { background: #555; color: #fff; }
+    @media screen and (max-width: 768px) {
+        body { padding-top: 250px; }
+        header.nav-bar { flex-direction: column; padding: 10px; gap: 10px; }
+        .logo, .sns-buttons, .auth-section, nav { width: 100%; justify-content: center; margin: 0; }
+        .auth-section { border-bottom: 1px solid #444; padding-bottom: 10px; order: 2; }
+        .sns-buttons { order: 3; }
+        nav { flex-wrap: wrap; gap: 12px; order: 4; }
+        .cookie-consent-buttons { flex-direction: column; width: 100%; }
+        .cookie-consent-btn { width: 100%; }
     }
-
-    .sns-buttons { order: 3; }
-    
-    nav {
-        order: 4;
-        flex-wrap: wrap;
-        gap: 10px;
-    }
-}
-</style>
-
-    <script async src="https://www.googletagmanager.com/gtag/js?id={{ GA_TRACKING_ID }}"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-
-        gtag('config', '{{ GA_TRACKING_ID }}');
-    </script>
+    </style>
 </head>
-
 <body>
 <header class="nav-bar">
     <div class="logo">
         <a class="logo-link" href="{% url 'toppage' %}">Thank Japan</a>
     </div>
-
-    <!-- SNSボタン -->
-  <div class="sns-buttons">
-    <a href="https://x.com/thankjapan0514" target="_blank"><i class="fab fa-x twitter"></i></a>
-    <a href="https://www.instagram.com/thankjapan/" target="_blank"><i class="fab fa-instagram"></i></a>
-    <a href="https://www.facebook.com/ToruYone" target="_blank"><i class="fab fa-facebook"></i></a>
-    <a href="https://www.tiktok.com/@thankjapan" target="_blank"><i class="fab fa-tiktok"></i></a>
-    <a href="https://www.pinterest.com/yonetoru/" target="_blank"><i class="fab fa-pinterest"></i></a>
-    <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://www.thankjapan.com" target="_blank" title="Share on LinkedIn"><i class="fab fa-linkedin"></i></a>
-  </div>
-
-
-
+    <div class="sns-buttons">
+        <a href="https://x.com/thankjapan0514" target="_blank"><i class="fab fa-x-twitter"></i></a>
+        <a href="https://www.instagram.com/thankjapan/" target="_blank"><i class="fab fa-instagram"></i></a>
+        <a href="https://www.facebook.com/ToruYone" target="_blank"><i class="fab fa-facebook"></i></a>
+        <a href="https://www.tiktok.com/@thankjapan" target="_blank"><i class="fab fa-tiktok"></i></a>
+        <a href="https://www.pinterest.com/yonetoru/" target="_blank"><i class="fab fa-pinterest"></i></a>
+        <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://www.thankjapan.com" target="_blank"><i class="fab fa-linkedin"></i></a>
+    </div>
     <nav>
         <div class="auth-section">
             {% if user.is_authenticated %}
@@ -268,19 +119,18 @@ nav {
                     {% if user.profile.is_premium %}
                         <span class="premium-badge">💎 Premium</span>
                     {% else %}
-                        <a href="#" class="upgrade-link">💎 Get Premium</a>
+                        <a href="{% url 'premium_info' %}" class="upgrade-link">💎 Get Premium</a>
                     {% endif %}
                     <a href="{% url 'player_logout' %}" class="auth-btn logout">Logout</a>
                 </div>
             {% else %}
                 <div class="guest-info">
-                    <span class="user-name">👤 Guest</span> 
+                    <span class="user-name">👤 Guest</span>
                     <a href="{% url 'player_login' %}" class="auth-btn login">Login</a>
                     <a href="{% url 'player_register' %}" class="auth-btn signup">Sign Up Free 🚀</a>
                 </div>
             {% endif %}
         </div>
-
         <div class="dropdown">
             <button class="dropbtn">Learn Japanese ▾</button>
             <div class="dropdown-content">
@@ -299,116 +149,53 @@ nav {
                 <a href="{% url 'livepage' %}">Lifestyle</a>
             </div>
         </div>
-
         <a href="{% url 'game_start' %}" class="game-link">Game</a>
-
         <div class="lang-switch dropdown">
             <button class="dropbtn">🌎Language ▾</button>
             <div class="dropdown-content">
                 <a href="{% url 'toppage' %}">EN</a>
-                <a href="{% url 'toppageenIN' %}">EN_IN</a>
-                <a href="{% url 'toppageit' %}">IT</a>
-                <a href="{% url 'toppagefr' %}">FR</a>
-                <a href="{% url 'toppagede' %}">DE</a>
-                <a href="{% url 'toppagept' %}">PT</a>
-                <a href="{% url 'toppageptBR' %}">PT_BR</a>
                 <a href="{% url 'toppageja' %}">JA</a>
-                <a href="{% url 'toppageesES' %}">ES</a>
-                <a href="{% url 'toppageesMX' %}">ES_MX</a>
                 <a href="{% url 'toppagevi' %}">VI</a>
-                <a href="{% url 'toppageko' %}">KO</a>
                 <a href="{% url 'toppageth' %}">TH</a>
-                <a href="{% url 'toppagezhHANT' %}">ZH-HANT</a>
             </div>
         </div>
     </nav>
 </header>
-
-{% endblock %}
-
+{% block content %}{% endblock %}
 <div id="cookieConsentBanner" class="cookie-consent-banner">
-    <p>This website uses cookies to improve your experience and provide personalized content. 
-       By clicking "Accept All", you agree to the storing of cookies on your device to enhance site navigation, analyze site usage, and assist in our marketing efforts. You can find more details in our <a href="{% url 'privacy_policy' %}" class="cookie-policy-link">Privacy Policy</a>.
-    </p>
+    <p>This website uses cookies to improve your experience. By clicking "Accept All", you agree to our <a href="{% url 'privacy_policy' %}" style="color:#e63946;">Privacy Policy</a>.</p>
     <div class="cookie-consent-buttons">
         <button id="acceptCookiesBtn" class="cookie-consent-btn accept-btn">Accept All Cookies</button>
         <button id="manageCookiesBtn" class="cookie-consent-btn manage-btn">Manage Preferences</button>
     </div>
 </div>
-
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const dropdowns = document.querySelectorAll('.dropdown');
-
     dropdowns.forEach(dropdown => {
         const btn = dropdown.querySelector('.dropbtn');
         const content = dropdown.querySelector('.dropdown-content');
-
         btn.addEventListener('click', function(e) {
-            e.stopPropagation(); // 他のクリックイベントに影響させない
-            // 既に開いていたら閉じる
+            e.stopPropagation();
             const isOpen = content.style.display === 'block';
             document.querySelectorAll('.dropdown-content').forEach(dc => dc.style.display = 'none');
             content.style.display = isOpen ? 'none' : 'block';
         });
     });
-
-    // ページのどこかクリックしたら閉じる
-    document.addEventListener('click', function() {
+    document.addEventListener('click', () => {
         document.querySelectorAll('.dropdown-content').forEach(dc => dc.style.display = 'none');
     });
-
-    // --- クッキー同意バナーのJavaScriptをここに追加 ---
     const cookieBanner = document.getElementById('cookieConsentBanner');
-    const acceptBtn = document.getElementById('acceptCookiesBtn');
-    const manageBtn = document.getElementById('manageCookiesBtn');
-
-    // クッキーが存在するかチェック
-    function getCookie(name) {
-        const nameEQ = name + "=";
-        const ca = document.cookie.split(';');
-        for(let i=0; i < ca.length; i++) {
-            let c = ca[i];
-            while (c.charAt(0) === ' ') c = c.substring(1, c.length);
-            if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
-        }
-        return null;
-    }
-
-    // クッキーを設定
-    function setCookie(name, value, days) {
-        let expires = "";
-        if (days) {
-            const date = new Date();
-            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-            expires = "; expires=" + date.toUTCString();
-        }
-        document.cookie = name + "=" + (value || "")  + expires + "; path=/";
-    }
-
-    // バナーを表示するかどうか
-    if (!getCookie('cookie_consent')) {
-        setTimeout(() => { 
-            cookieBanner.classList.add('show');
-        }, 1000); 
-    } else {
-        cookieBanner.classList.remove('show'); 
-    }
-
-    // 「Accept All Cookies」ボタンがクリックされた時の処理
-    acceptBtn.addEventListener('click', function() {
-        setCookie('cookie_consent', 'accepted', 365); 
-        cookieBanner.classList.remove('show'); 
-        
+    function getCookie(n){let b=document.cookie.match('(^|;)\\s*'+n+'\\s*=\\s*([^;]+)');return b?b.pop():'';}
+    if(!getCookie('cookie_consent')){ setTimeout(()=>cookieBanner.classList.add('show'), 1000); }
+    document.getElementById('acceptCookiesBtn').addEventListener('click', ()=>{
+        document.cookie = "cookie_consent=accepted; max-age="+(365*24*60*60)+"; path=/";
+        cookieBanner.classList.remove('show');
     });
-
-    // 「Manage Preferences」ボタンがクリックされた時の処理
-    manageBtn.addEventListener('click', function() {
-        // プライバシーポリシーのクッキー設定セクションへ誘導
+    document.getElementById('manageCookiesBtn').addEventListener('click', ()=>{
         window.location.href = "{% url 'privacy_policy' %}#cookie-settings"; 
     });
 });
 </script>
-
 </body>
 </html>
