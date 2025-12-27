@@ -36,7 +36,7 @@
     <title>{% block title %}ThankJapan{% endblock %}</title>
 
 <style>
-    * {
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -44,7 +44,8 @@
 
 body {
     font-family: 'Zen Antique', 'Shippori Mincho', 'Noto Serif JP', serif;
-    padding-top: 80px; 
+    padding-top: 80px; /* PC版ヘッダーの高さ */
+    background-color: #f3f4f6;
 }
 
 header.nav-bar {
@@ -52,8 +53,8 @@ header.nav-bar {
     top: 0;
     width: 100%;
     min-height: 80px;
-    background: rgba(26, 26, 26, 0.95);
-    backdrop-filter: blur(6px);
+    background: rgba(26, 26, 26, 0.98);
+    backdrop-filter: blur(8px);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -77,8 +78,8 @@ header.nav-bar {
 
 .sns-buttons a {
     font-size: 1rem;
-    width: 28px;
-    height: 28px;
+    width: 32px;
+    height: 32px;
     background-color: #333;
     border-radius: 50%;
     color: white;
@@ -134,7 +135,7 @@ nav {
 .auth-btn {
     text-decoration: none;
     font-size: 0.8rem;
-    padding: 6px 14px;
+    padding: 7px 16px;
     border-radius: 20px;
     font-weight: bold;
     white-space: nowrap;
@@ -172,12 +173,12 @@ nav {
 
 @media screen and (max-width: 768px) {
     body {
-        padding-top: 180px; 
+        padding-top: 240px; /* スマホ版ヘッダー4段分の高さ */
     }
     header.nav-bar {
         flex-direction: column;
         padding: 10px;
-        gap: 10px;
+        gap: 12px;
     }
     .logo, .sns-buttons, nav {
         width: 100%;
@@ -187,19 +188,14 @@ nav {
         width: 100%;
         justify-content: center;
         margin-left: 0;
-        padding: 5px 0;
-        border-bottom: 1px solid #333;
+        padding-bottom: 5px;
     }
     nav {
         flex-wrap: wrap;
         gap: 12px;
         justify-content: center;
-    }
-}
-
-@media screen and (max-width: 500px) {
-    body {
-        padding-top: 220px; 
+        border-top: 1px solid #444;
+        padding-top: 10px;
     }
 }
 </style>
