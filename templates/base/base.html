@@ -35,6 +35,7 @@
 
     <title>{% block title %}ThankJapan{% endblock %}</title>
 
+{% block content %}
 <style>
 * {
     margin: 0;
@@ -44,17 +45,19 @@
 
 body {
     font-family: 'Zen Antique', 'Shippori Mincho', 'Noto Serif JP', serif;
-    padding-top: 80px; /* PC版ヘッダーの高さ */
+    padding-top: 90px;
     background-color: #f3f4f6;
+    overflow-x: hidden;
 }
 
+/* --- Header --- */
 header.nav-bar {
     position: fixed;
     top: 0;
     width: 100%;
     min-height: 80px;
-    background: rgba(26, 26, 26, 0.98);
-    backdrop-filter: blur(8px);
+    background: rgba(20, 20, 20, 0.95);
+    backdrop-filter: blur(10px);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -68,18 +71,17 @@ header.nav-bar {
     text-decoration: none;
     font-weight: bold;
     font-size: 1.5rem;
-    white-space: nowrap;
 }
 
 .sns-buttons {
     display: flex;
-    gap: 10px;
+    gap: 8px;
 }
 
 .sns-buttons a {
-    font-size: 1rem;
-    width: 32px;
-    height: 32px;
+    font-size: 0.9rem;
+    width: 28px;
+    height: 28px;
     background-color: #333;
     border-radius: 50%;
     color: white;
@@ -95,6 +97,7 @@ nav {
     gap: 15px;
 }
 
+/* --- Auth Section --- */
 .auth-section {
     display: flex;
     align-items: center;
@@ -109,7 +112,7 @@ nav {
 .user-name {
     color: #ffffff !important;
     font-weight: bold;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     white-space: nowrap;
 }
 
@@ -134,28 +137,22 @@ nav {
 
 .auth-btn {
     text-decoration: none;
-    font-size: 0.8rem;
-    padding: 7px 16px;
+    font-size: 0.75rem;
+    padding: 6px 12px;
     border-radius: 20px;
     font-weight: bold;
-    white-space: nowrap;
 }
 
-.login, .logout {
-    color: #ffffff !important;
-    border: 1px solid #ffffff;
-}
+.login { color: #ffffff !important; border: 1px solid #ffffff; }
+.signup { background-color: #e67e22; color: white !important; }
+.logout { color: #ffffff !important; border: 1px solid #ffffff; opacity: 0.8; }
 
-.signup {
-    background-color: #e67e22;
-    color: white !important;
-}
-
+/* --- Dropdowns --- */
 .dropbtn, .game-link {
     color: #eee;
     background: none;
     border: none;
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     cursor: pointer;
     text-decoration: none;
 }
@@ -166,36 +163,71 @@ nav {
     top: 100%;
     background-color: #1a1a1a;
     min-width: 160px;
-    max-height: 250px;
-    overflow-y: auto;
     border-radius: 8px;
 }
 
+/* --- Cookie Banner --- */
+.cookie-consent-banner {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: rgba(0,0,0,0.95);
+    color: #fff;
+    padding: 20px;
+    z-index: 10000;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.cookie-consent-banner.show { display: flex; }
+
+.cookie-consent-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.cookie-consent-btn {
+    padding: 8px 20px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.accept-btn { background: #e63946; color: white; }
+
+/* --- Mobile (768px以下) --- */
 @media screen and (max-width: 768px) {
-    body {
-        padding-top: 240px; /* スマホ版ヘッダー4段分の高さ */
-    }
+    body { padding-top: 250px; } /* ヘッダーが縦に伸びる分を確保 */
+    
     header.nav-bar {
         flex-direction: column;
         padding: 10px;
-        gap: 12px;
+        gap: 10px;
     }
-    .logo, .sns-buttons, nav {
+
+    .logo, .sns-buttons, .auth-section, nav {
         width: 100%;
         justify-content: center;
+        margin: 0;
     }
+
     .auth-section {
-        width: 100%;
-        justify-content: center;
-        margin-left: 0;
-        padding-bottom: 5px;
+        order: 2;
+        padding: 5px 0;
+        border-bottom: 1px solid #333;
     }
+
+    .sns-buttons { order: 3; }
+    
     nav {
+        order: 4;
         flex-wrap: wrap;
-        gap: 12px;
-        justify-content: center;
-        border-top: 1px solid #444;
-        padding-top: 10px;
+        gap: 10px;
     }
 }
 </style>
@@ -292,7 +324,7 @@ nav {
     </nav>
 </header>
 
-{% block content %}{% endblock %}
+{% endblock %}
 
 <div id="cookieConsentBanner" class="cookie-consent-banner">
     <p>This website uses cookies to improve your experience and provide personalized content. 
