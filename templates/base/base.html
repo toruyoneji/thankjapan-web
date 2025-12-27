@@ -5,62 +5,53 @@
     {% include 'css.html' %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    {% block meta %}
-    <meta name="title" content="Discover Japan's Culture, Food & Language | ThankJapan">
-    <meta name="description" content="Explore Japanese life, cuisine, and language with interactive content and fun learning games.">
-    {% endblock %}
     <title>{% block title %}ThankJapan{% endblock %}</title>
 
     <style>
-    /* サイト共通の基本リセット */
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    
-    body {
-        font-family: 'Zen Antique', 'Shippori Mincho', 'Noto Serif JP', serif;
-        padding-top: 120px; /* PC版ヘッダーの高さ分あける */
-    }
+    body { font-family: 'Zen Antique', serif; padding-top: 120px; background-color: #f3f4f6; }
 
-    /* --- ヘッダー設定 --- */
+    /* --- Header --- */
     header.nav-bar {
-        position: fixed;
-        top: 0; width: 100%;
-        min-height: 120px;
-        background: rgba(0,0,0,0.85); /* 黒透過 */
-        backdrop-filter: blur(6px);
-        display: flex;
-        flex-direction: column; /* 要素を縦に積む */
-        justify-content: center;
-        align-items: center;
-        padding: 10px 20px;
-        z-index: 9999;
-        border-bottom: 6px solid #7a7a7a;
+        position: fixed; top: 0; width: 100%; min-height: 120px;
+        background: rgba(0,0,0,0.85); backdrop-filter: blur(6px);
+        display: flex; flex-direction: column; align-items: center; justify-content: center;
+        padding: 10px 20px; z-index: 9999; border-bottom: 6px solid #7a7a7a;
     }
+    .logo-link { color: white; text-decoration: none; font-weight: bold; font-size: 1.6rem; margin-bottom: 5px; }
 
-    .logo-link { color: white; text-decoration: none; font-weight: bold; font-size: 1.8rem; margin-bottom: 5px; }
+    /* 認証エリア */
+    .auth-section { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+    .user-name { color: #fff !important; font-weight: bold; font-size: 0.9rem; }
+    .premium-badge { background: linear-gradient(45deg, #ffd700, #ffa500); color: #000; padding: 2px 8px; border-radius: 12px; font-size: 0.7rem; font-weight: bold; }
+    .upgrade-link { color: #f1c40f; text-decoration: none; font-size: 0.8rem; font-weight: bold; border: 1px solid #f1c40f; padding: 2px 8px; border-radius: 10px; }
+    .auth-btn { text-decoration: none; font-size: 0.8rem; padding: 5px 12px; border-radius: 20px; font-weight: bold; border: 1px solid #fff; color: #fff; }
+    .signup { background-color: #e67e22; border: none; }
 
-    /* 認証エリア（名前表示） */
-    .auth-section { display: flex; align-items: center; gap: 10px; margin-bottom: 5px; }
-    .user-name { color: #fff !important; font-weight: bold; font-size: 0.95rem; text-shadow: 1px 1px 2px #000; }
-    .premium-badge { background: linear-gradient(45deg, #ffd700, #ffa500); color: #000; padding: 2px 8px; border-radius: 12px; font-size: 0.75rem; font-weight: bold; }
-    .upgrade-link { color: #f1c40f; text-decoration: none; font-size: 0.85rem; font-weight: bold; border: 1px solid #f1c40f; padding: 2px 8px; border-radius: 10px; }
-    .auth-btn { text-decoration: none; font-size: 0.85rem; padding: 5px 15px; border-radius: 20px; font-weight: bold; }
-    .login, .logout { color: #fff; border: 1px solid #fff; }
-    .signup { background-color: #e67e22; color: #fff; }
-
-    /* ナビゲーション */
+    /* ナビ */
     nav { display: flex; align-items: center; gap: 15px; flex-wrap: wrap; justify-content: center; }
-    nav a, .dropbtn { color: #eee; text-decoration: none; font-size: 0.95rem; background: none; border: none; cursor: pointer; }
-    .sns-buttons { display: flex; gap: 12px; margin: 5px 0; }
-    .sns-buttons a { color: #fff; font-size: 1.2rem; }
+    nav a, .dropbtn { color: #eee; text-decoration: none; font-size: 0.9rem; background: none; border: none; cursor: pointer; }
+    .sns-buttons { display: flex; gap: 15px; margin-bottom: 5px; }
+    .sns-buttons a { color: #fff; font-size: 1.1rem; }
 
     /* ドロップダウン */
     .dropdown { position: relative; display: inline-block; }
-    .dropdown-content { display: none; position: absolute; top: 100%; background: #1a1a1a; min-width: 160px; border-radius: 8px; z-index: 999; }
+    .dropdown-content { display: none; position: absolute; top: 100%; left: 0; background-color: #1a1a1a; min-width: 160px; border-radius: 8px; z-index: 1000; }
     .dropdown-content a { color: #eee; padding: 10px 16px; display: block; text-decoration: none; font-size: 0.85rem; }
+    .dropdown-content a:hover { background-color: #333; }
 
-    /* スマホ対応：要素が増えるので高さを自動調整 */
+    /* Cookie Banner */
+    .cookie-consent-banner {
+        position: fixed; bottom: 0; left: 0; width: 100%;
+        background: rgba(0,0,0,0.95); color: #eee; padding: 20px;
+        z-index: 10001; display: none; flex-direction: column; align-items: center; text-align: center;
+        transition: transform 0.3s ease; transform: translateY(100%);
+    }
+    .cookie-consent-banner.show { display: flex; transform: translateY(0); }
+    .cookie-consent-btn { padding: 10px 20px; border-radius: 5px; border: none; cursor: pointer; font-weight: bold; margin-top: 10px; background: #e63946; color: #fff; }
+
     @media screen and (max-width: 768px) {
-        body { padding-top: 250px; } /* コンテンツが隠れないようにたっぷりあける */
+        body { padding-top: 250px; }
         header.nav-bar { min-height: 250px; }
     }
     </style>
@@ -82,12 +73,13 @@
         {% endif %}
     </div>
 
+    <div class="sns-buttons">
+        <a href="https://x.com/thankjapan0514" target="_blank"><i class="fab fa-x-twitter"></i></a>
+        <a href="https://www.instagram.com/thankjapan/" target="_blank"><i class="fab fa-instagram"></i></a>
+        <a href="https://www.facebook.com/ToruYone" target="_blank"><i class="fab fa-facebook"></i></a>
+    </div>
+
     <nav>
-        <div class="sns-buttons">
-            <a href="https://x.com/thankjapan0514" target="_blank"><i class="fab fa-x-twitter"></i></a>
-            <a href="https://www.instagram.com/thankjapan/" target="_blank"><i class="fab fa-instagram"></i></a>
-            <a href="https://www.facebook.com/ToruYone" target="_blank"><i class="fab fa-facebook"></i></a>
-        </div>
         <div class="dropdown">
             <button class="dropbtn">Learn Japanese ▾</button>
             <div class="dropdown-content">
@@ -99,6 +91,36 @@
         <a href="{% url 'game_start' %}" class="game-link">Game</a>
     </nav>
 </header>
+
 {% block content %}{% endblock %}
+
+<div id="cookieConsentBanner" class="cookie-consent-banner">
+    <p>This website uses cookies to improve your experience. <a href="{% url 'privacy_policy' %}" style="color:#e63946;">Privacy Policy</a></p>
+    <button id="acceptCookiesBtn" class="cookie-consent-btn">Accept All Cookies</button>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const dropdowns = document.querySelectorAll('.dropdown');
+    dropdowns.forEach(dropdown => {
+        const btn = dropdown.querySelector('.dropbtn');
+        const content = dropdown.querySelector('.dropdown-content');
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const isOpen = content.style.display === 'block';
+            document.querySelectorAll('.dropdown-content').forEach(dc => dc.style.display = 'none');
+            content.style.display = isOpen ? 'none' : 'block';
+        });
+    });
+    document.addEventListener('click', () => document.querySelectorAll('.dropdown-content').forEach(dc => dc.style.display = 'none'));
+
+    const cookieBanner = document.getElementById('cookieConsentBanner');
+    if(!document.cookie.includes('cookie_consent')){ setTimeout(()=>cookieBanner.classList.add('show'), 1000); }
+    document.getElementById('acceptCookiesBtn').addEventListener('click', ()=>{
+        document.cookie = "cookie_consent=accepted; max-age="+(365*24*60*60)+"; path=/";
+        cookieBanner.classList.remove('show');
+    });
+});
+</script>
 </body>
 </html>

@@ -1,60 +1,28 @@
 {% extends 'base.html' %}
 {% block content %}
 <style>
-:root {
-    --sand-bg: #f3f4f6;
-    --stone-gray: #7a7a7a;
-    --moss-green: #556b2f;
-    --text-main: #333333;
-}
-
-body {
-  background-color: var(--sand-bg);
-  background-image: repeating-radial-gradient(circle at 50% 30%, transparent 0, transparent 10px, rgba(0,0,0,0.03) 11px, rgba(0,0,0,0.03) 12px);
-}
-
-.main { max-width: 1100px; margin: 0 auto; padding: 0; }
-
+:root { --sand-bg: #f3f4f6; --moss-green: #556b2f; }
+body { background-color: var(--sand-bg); background-image: repeating-radial-gradient(circle at 50% 30%, transparent 0, transparent 10px, rgba(0,0,0,0.03) 11px, rgba(0,0,0,0.03) 12px); }
+.main { max-width: 1100px; margin: 0 auto; }
 .hero {
   background: linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.3)), 
               url("https://res.cloudinary.com/dotekofm5/image/upload/v1761402106/thankjapan/backgrounds/jtbdzjsksgbgehuxl954.jpg");
-  background-position: center 30%; background-size: cover;
-  margin-top: 0 !important; height: 750px; 
-  display: flex; flex-direction: column; justify-content: center; align-items: center;
-  color: #fff; text-align: center; padding: 0 20px;
-  mask-image: linear-gradient(to bottom, black 85%, transparent 100%);
-  -webkit-mask-image: linear-gradient(to bottom, black 85%, transparent 100%);
+  background-position: center 30%; background-size: cover; height: 750px; 
+  display: flex; flex-direction: column; justify-content: center; align-items: center; color: #fff; text-align: center;
+  mask-image: linear-gradient(to bottom, black 85%, transparent 100%); -webkit-mask-image: linear-gradient(to bottom, black 85%, transparent 100%);
 }
-
-.hero h1 { font-size: 3.5rem; letter-spacing: 8px; font-family: 'Zen Antique', serif; text-shadow: 0 2px 20px rgba(0,0,0,0.8); }
+.hero h1 { font-size: 3.5rem; letter-spacing: 8px; text-shadow: 0 2px 20px rgba(0,0,0,0.8); }
 .hero p { font-size: 1.2rem; background: rgba(0,0,0,0.5); padding: 10px 30px; border-radius: 50px; margin-top: 15px; }
-
-/* 金色の探索ボタンを復活 */
-.explore-btn {
-  background: linear-gradient(135deg, #fff1b8, #ffd700, #e6b800, #d4af37);
-  color: #000; padding: 18px 80px; border-radius: 50px; font-weight: 700; font-size: 1.3rem;
-  letter-spacing: 2px; text-decoration: none; display: inline-block; margin-top: 30px;
-  box-shadow: 0 6px 18px rgba(212, 175, 55, 0.6);
-}
-
+.explore-btn { background: linear-gradient(135deg, #fff1b8, #ffd700, #e6b800, #d4af37); color: #000; padding: 18px 80px; border-radius: 50px; font-weight: bold; font-size: 1.3rem; text-decoration: none; margin-top: 30px; box-shadow: 0 6px 18px rgba(212,175,55,0.6); }
 .game-call-to-action { margin: 60px auto; max-width: 600px; padding: 50px; background: #fff; box-shadow: 0 20px 40px rgba(0,0,0,0.05); text-align: center; }
 .play-game-button { background: var(--moss-green); color: #fff; padding: 20px; display: block; width: 80%; margin: 0 auto; text-decoration: none; border-radius: 50px; font-weight: bold; font-size: 1.4rem; }
-
 .category-grid { display: flex; justify-content: center; flex-wrap: wrap; gap: 40px; padding: 40px 20px; }
 .category-card { width: 280px; text-align: center; }
 .category-card img { width: 200px; height: 200px; object-fit: cover; border-radius: 50%; border: 4px solid #fff; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
-.category-card h3 { margin-top: 15px; letter-spacing: 2px; color: var(--text-main); font-size: 1.1rem; }
-
-/* フッターデザインを復活 */
 footer { background: #1f1f1f; padding: 60px 20px; color: #777; text-align: center; }
 .footer-links { margin-bottom: 20px; }
 .footer-links a { color: #777; text-decoration: none; margin: 0 10px; }
-
-@media screen and (max-width: 768px) {
-  .hero { height: auto; min-height: 450px; padding: 60px 15px; }
-  .hero h1 { font-size: 2.0rem; }
-  .explore-btn { width: 90%; padding: 18px 20px; font-size: 1.1rem; }
-}
+@media screen and (max-width: 768px) { .hero { height: 450px; } .hero h1 { font-size: 2rem; } .explore-btn { width: 90%; padding: 18px 20px; } }
 </style>
 
 <div class="main">
@@ -63,12 +31,10 @@ footer { background: #1f1f1f; padding: 60px 20px; color: #777; text-align: cente
     <p>The fun way to learn Japanese Language & Culture.</p>
     <a href="{% url 'category_list' %}" class="explore-btn">Start Learning 📖</a>
   </section>
-
   <div class="game-call-to-action">
     <a href="{% url 'game_start' %}" class="play-game-button">PLAY GAME NOW! 🎮</a>
-    <p class="game-description">Test Your Japanese Knowledge? <br>Learn Japanese words and culture!</p>
+    <p>Test Your Japanese Knowledge?</p>
   </div>
-
   <section class="categories">
     <div class="category-grid">
       <div class="category-card">
@@ -85,12 +51,10 @@ footer { background: #1f1f1f; padding: 60px 20px; color: #777; text-align: cente
       </div>
     </div>
   </section>
-
   <section class="support" style="background: #4a4a4a; padding: 80px 20px; color: #fff; text-align: center;">
     <h2>💖 Support Thank Japan</h2>
     <a href="{% url 'select_amount' %}" style="color: #fff; border: 1px solid #fff; padding: 10px 40px; display: inline-block; margin-top: 20px; text-decoration: none; border-radius: 50px;">Donate via PayPal</a>
   </section>
-
   <footer>
     <div class="footer-links">
       <a href="{% url 'infomationpage' %}">About Us</a>
@@ -98,7 +62,7 @@ footer { background: #1f1f1f; padding: 60px 20px; color: #777; text-align: cente
       <a href="{% url 'riyoukiyaku' %}">Terms</a>
       <a href="{% url 'contact' %}">Contact</a>
     </div>
-    <small>© 2025 Thank Japan | Explore, enjoy, and fall in love with Japanese culture</small>
+    <small>© 2025 Thank Japan</small>
   </footer>
 </div>
 {% endblock %}
