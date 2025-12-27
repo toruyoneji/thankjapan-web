@@ -227,6 +227,89 @@
       color: #eee; 
     }
 
+    /* --- Authentication Section (Header) --- */
+    .auth-section {
+        display: flex;
+        align-items: center;
+        margin-left: 15px;
+    }
+
+    .user-info, .guest-info {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .user-name {
+        color: #ffffff !important;
+        font-weight: bold;
+        font-size: 0.95rem;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        white-space: nowrap;
+    }
+
+    .premium-badge {
+        background: linear-gradient(45deg, #ffd700, #ffa500);
+        color: #000 !important;
+        padding: 3px 10px;
+        border-radius: 15px;
+        font-size: 0.75rem;
+        font-weight: bold;
+        box-shadow: 0 0 10px rgba(255, 215, 0, 0.4);
+        white-space: nowrap;
+    }
+
+    .upgrade-link {
+        color: #f1c40f !important;
+        text-decoration: none;
+        font-size: 0.85rem;
+        font-weight: bold;
+        border: 1px solid #f1c40f;
+        padding: 3px 10px;
+        border-radius: 10px;
+        transition: 0.3s;
+        white-space: nowrap;
+    }
+
+    .upgrade-link:hover {
+        background-color: #f1c40f;
+        color: #000 !important;
+    }
+
+    .auth-btn {
+        text-decoration: none;
+        font-size: 0.85rem;
+        padding: 7px 16px;
+        border-radius: 20px;
+        font-weight: bold;
+        transition: 0.3s;
+        display: inline-block;
+        white-space: nowrap;
+    }
+
+    .login, .logout {
+        color: #ffffff !important;
+        border: 1px solid #ffffff;
+    }
+
+    .login:hover, .logout:hover {
+        background: rgba(255, 255, 255, 0.2);
+    }
+
+    .signup {
+        background-color: #e67e22;
+        color: white !important;
+        border: 1px solid #e67e22;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+
+    .signup:hover {
+        background-color: #d35400;
+        transform: translateY(-1px);
+    }
+
+
+
     /* --- Responsive --- */
     @media screen and (max-width: 768px) {
         header.nav-bar {
@@ -276,6 +359,19 @@
         .dropdown-content {
             max-height: 200px;
         }
+
+        .auth-section {
+        margin-left: 0;
+        justify-content: center;
+        width: 100%;
+        margin-top: 10px;
+        }
+
+        .user-info, .guest-info {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 8px;
+        }
     }
 
     </style>
@@ -309,6 +405,26 @@
 
 
     <nav>
+        <div class="auth-section">
+            {% if user.is_authenticated %}
+                <div class="user-info">
+                    <span class="user-name">👤 {{ user.username }}</span>
+                    {% if user.profile.is_premium %}
+                        <span class="premium-badge">💎 Premium</span>
+                    {% else %}
+                        <a href="#" class="upgrade-link">💎 Get Premium</a>
+                    {% endif %}
+                    <a href="{% url 'player_logout' %}" class="auth-btn logout">Logout</a>
+                </div>
+            {% else %}
+                <div class="guest-info">
+                    <span class="user-name">👤 Guest</span> 
+                    <a href="{% url 'player_login' %}" class="auth-btn login">Login</a>
+                    <a href="{% url 'player_register' %}" class="auth-btn signup">Sign Up Free 🚀</a>
+                </div>
+            {% endif %}
+        </div>
+
         <div class="dropdown">
             <button class="dropbtn">Aprender Japonês ▾</button>
             <div class="dropdown-content">
