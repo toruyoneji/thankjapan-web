@@ -50,139 +50,103 @@
         box-sizing: border-box;
     }
 
+    html, body {
+        width: 100%;
+        overflow-x: hidden;
+    }
+
     body {
         font-family: 'Zen Antique', 'Shippori Mincho', 'Noto Serif JP', serif;
         background-color: #f3f4f6;
-        padding-top: 0 !important;
+        padding-top: 100px; 
     }
 
     header.nav-bar {
-        position: -webkit-sticky;
-        position: sticky;
+        position: fixed;
         top: 0;
+        left: 0;
         width: 100%;
-        z-index: 9999;
-        background: rgba(0,0,0,0.85);
-        backdrop-filter: blur(6px);
+        min-height: 100px;
+        background: rgba(0,0,0,0.9);
+        backdrop-filter: blur(8px);
         display: flex;
-        flex-wrap: wrap; /* 要素が増えても折り返せるようにする */
+        flex-direction: row;
         align-items: center;
         justify-content: space-between;
-        padding: 10px 20px;
-        border-bottom: 6px solid #7a7a7a;
-    }
-
-    .logo {
-        flex-shrink: 0; /* ロゴが潰れないように固定 */
+        padding: 0 30px;
+        z-index: 9999;
+        border-bottom: 5px solid #7a7a7a;
     }
 
     .logo-link {
         color: white;
         text-decoration: none;
         font-weight: bold;
-        font-size: 1.5rem;
+        font-size: 1.6rem;
         white-space: nowrap;
-    }
-
-    .sns-buttons {
-        display: flex;
-        gap: 10px;
-        flex-shrink: 0;
-    }
-
-    .sns-buttons a {
-        font-size: 1.1rem;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        width: 30px;
-        height: 30px;
-        background-color: #333;
-        border-radius: 50%;
-        color: white;
-        text-decoration: none;
     }
 
     nav {
         display: flex;
         align-items: center;
-        gap: 10px;
-        flex-wrap: wrap; /* ログイン時に要素が増えても2行に逃がす */
-        justify-content: flex-end;
+        gap: 20px;
     }
 
     .auth-section {
         display: flex;
         align-items: center;
-        gap: 8px;
-        flex-shrink: 1; /* 幅が足りない時に縮むのを許可 */
-    }
-
-    .user-info, .guest-info {
-        display: flex;
-        align-items: center;
-        gap: 8px;
+        gap: 12px;
     }
 
     .user-name {
         color: #ffffff !important;
         font-weight: bold;
-        font-size: 0.9rem;
-        text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        font-size: 0.95rem;
         white-space: nowrap;
-        max-width: 100px; /* 名前が長すぎる場合に崩れるのを防ぐ */
-        overflow: hidden;
-        text-overflow: ellipsis;
     }
 
     .premium-badge {
         background: linear-gradient(45deg, #ffd700, #ffa500);
         color: #000 !important;
         padding: 2px 8px;
-        border-radius: 15px;
-        font-size: 0.7rem;
+        border-radius: 12px;
+        font-size: 0.75rem;
         font-weight: bold;
-        flex-shrink: 0;
     }
 
     .upgrade-link {
         color: #f1c40f !important;
         text-decoration: none;
-        font-size: 0.8rem;
+        font-size: 0.85rem;
         font-weight: bold;
         border: 1px solid #f1c40f;
         padding: 2px 8px;
         border-radius: 10px;
-        white-space: nowrap;
     }
 
     .auth-btn {
         text-decoration: none;
-        font-size: 0.8rem;
-        padding: 6px 12px;
+        font-size: 0.85rem;
+        padding: 7px 16px;
         border-radius: 20px;
         font-weight: bold;
         white-space: nowrap;
+        border: 1px solid #fff;
+        color: #fff;
     }
 
-    .login, .logout {
-        color: #ffffff !important;
-        border: 1px solid #ffffff;
-    }
+    .signup { background-color: #e67e22; border: none; }
 
-    .signup {
-        background-color: #e67e22;
-        color: white !important;
-    }
+    .sns-buttons { display: flex; gap: 10px; }
+    .sns-buttons a { color: #fff; font-size: 1.2rem; text-decoration: none; }
 
     .dropbtn, .game-link {
         color: #eee;
-        text-decoration: none;
-        font-size: 0.9rem;
         background: none;
         border: none;
+        font-size: 0.95rem;
         cursor: pointer;
-        white-space: nowrap;
+        text-decoration: none;
     }
 
     .dropdown { position: relative; }
@@ -193,18 +157,43 @@
         left: 0;
         background-color: #1a1a1a;
         min-width: 160px;
-        max-height: 250px;
-        overflow-y: auto;
         border-radius: 8px;
         z-index: 1000;
     }
 
-    .dropdown-content a {
-        color: #eee;
-        padding: 10px 16px;
-        display: block;
-        text-decoration: none;
-        font-size: 0.85rem;
+    @media screen and (max-width: 768px) {
+        body {
+            padding-top: 280px !important;
+        }
+
+        header.nav-bar {
+            flex-direction: column;
+            padding: 10px 0;
+            height: auto;
+            min-height: 250px;
+        }
+
+        .logo, .auth-section, .sns-buttons, nav {
+            width: 100%;
+            justify-content: center;
+            margin: 5px 0;
+        }
+
+        .auth-section {
+            border-top: 1px solid #333;
+            border-bottom: 1px solid #333;
+            padding: 10px 0;
+        }
+
+        .main, .hero, .container, .category-container, .game-container, #game-area, [class*="main"], [class*="container"] {
+            margin-left: 0 !important;
+            margin-right: 0 !important;
+            width: 100% !important;
+            max-width: 100% !important;
+            left: 0 !important;
+            position: relative !important;
+            transform: none !important;
+        }
     }
 
     .cookie-consent-banner {
@@ -220,49 +209,22 @@
         flex-direction: column;
         align-items: center;
         text-align: center;
-        transform: translateY(100%);
-        transition: transform 0.3s ease;
     }
 
-    .cookie-consent-banner.show { transform: translateY(0); display: flex; }
-
+    .cookie-consent-banner.show { display: flex; }
     .cookie-consent-btn {
         padding: 10px 20px;
-        border-radius: 5px;
-        border: none;
-        cursor: pointer;
-        margin-top: 10px;
         background-color: #e63946;
         color: #fff;
+        border: none;
+        border-radius: 5px;
+        margin-top: 10px;
+        cursor: pointer;
         font-weight: bold;
     }
-
-    @media screen and (max-width: 768px) {
-        header.nav-bar {
-            flex-direction: column;
-            padding: 15px 10px;
-            gap: 12px;
-        }
-
-        .logo, .auth-section, .sns-buttons, nav {
-            width: 100%;
-            justify-content: center;
-            margin: 0;
-        }
-
-        nav {
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        .auth-section {
-            order: -1; /* スマホでは名前を一番上に持ってくる */
-            padding-bottom: 8px;
-            border-bottom: 1px solid #444;
-        }
-    }
 </style>
-    
+
+
     <script async src="https://www.googletagmanager.com/gtag/js?id={{ GA_TRACKING_ID }}"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
