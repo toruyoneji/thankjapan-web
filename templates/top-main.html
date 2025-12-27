@@ -61,20 +61,16 @@ h2, h3 {
 }
 
 .hero {
-  background: linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.3)), 
-              url("https://res.cloudinary.com/dotekofm5/image/upload/v1761402106/thankjapan/backgrounds/jtbdzjsksgbgehuxl954.jpg");
+  margin-top: 0 !important;
+  background: linear-gradient(rgba(0,0,0,0.1), rgba(0,0,0,0.3)), url("https://res.cloudinary.com/dotekofm5/image/upload/v1761402106/thankjapan/backgrounds/jtbdzjsksgbgehuxl954.jpg");
   background-position: center 30%;
   background-size: cover;
-  background-repeat: no-repeat;
-  
-  margin-top: 60px; 
-  height: 750px; 
-  
+  height: 750px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  
+
   color: #fff;
   text-align: center;
   padding: 0 20px;
@@ -389,17 +385,11 @@ footer .footer-links a:hover { color: #fff; }
 @media screen and (max-width: 768px) {
   .main { margin-left: 0; }
 
-  .hero { 
-      height: auto; 
-      min-height: 450px; 
-      margin-top: 200px !important; 
-      background-position: center center;
-      padding: 60px 15px; 
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-  }
+  .hero {
+        margin-top: 0 !important;
+        height: auto;
+        min-height: 450px;
+    }
   
   .hero h1 { 
       font-size: 2.0rem; 
@@ -444,7 +434,7 @@ footer .footer-links a:hover { color: #fff; }
 
 @media screen and (max-width: 500px) {
   .hero { 
-      margin-top: 230px !important; 
+      margin-top: 0 !important;
       height: auto;      
       min-height: 350px;
       padding: 40px 15px;
