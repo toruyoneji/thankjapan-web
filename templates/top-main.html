@@ -1,103 +1,101 @@
-{% extends 'base/base.html' %}
+{% extends 'base.html' %}
 {% block content %}
 <style>
 :root {
     --sand-bg: #f3f4f6;
+    --stone-gray: #7a7a7a;
     --moss-green: #556b2f;
-    --stone-dark: #4a4a4a;
+    --text-main: #333333;
 }
-.main { max-width: 100%; margin: 0; padding: 0; }
-.hero {
-  background: linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.5)), 
-              url("https://res.cloudinary.com/dotekofm5/image/upload/v1761402106/thankjapan/backgrounds/jtbdzjsksgbgehuxl954.jpg");
-  background-position: center center;
-  background-size: cover;
-  margin-top: 0 !important; 
-  height: 700px; 
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  color: #fff;
-  text-align: center;
-  mask-image: linear-gradient(to bottom, black 90%, transparent 100%);
-  -webkit-mask-image: linear-gradient(to bottom, black 90%, transparent 100%);
-}
-.hero h1 { font-size: 3.5rem; letter-spacing: 5px; text-shadow: 0 2px 20px rgba(0,0,0,0.8); }
-.hero p { font-size: 1.2rem; background: rgba(0,0,0,0.6); padding: 10px 20px; border-radius: 30px; margin: 20px 0; }
-.explore-btn {
-  background: linear-gradient(135deg, #fff1b8, #ffd700, #d4af37);
-  color: #000;
-  padding: 15px 50px;
-  border-radius: 50px;
-  font-weight: bold;
-  text-decoration: none;
-  font-size: 1.2rem;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-}
-.game-call-to-action { text-align: center; margin: 60px auto; max-width: 600px; padding: 40px 20px; background: #fff; border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
-.play-game-button { display: block; width: 80%; margin: 0 auto 20px; padding: 15px; background: var(--moss-green); color: #fff; font-size: 1.3rem; font-weight: bold; text-decoration: none; border-radius: 50px; }
-.categories { padding: 60px 20px; text-align: center; }
-.category-grid { display: flex; justify-content: center; flex-wrap: wrap; gap: 40px; margin-top: 40px; }
-.category-card { width: 280px; text-align: center; }
-.category-card img { width: 200px; height: 200px; object-fit: cover; border-radius: 50%; border: 4px solid #fff; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
-.support { background: #2c3e50; padding: 80px 20px; color: #fff; text-align: center; }
-.support a { display: inline-block; margin-top: 20px; padding: 12px 40px; border: 2px solid #fff; color: #fff; text-decoration: none; border-radius: 50px; font-weight: bold; }
 
-footer { background: #111; padding: 60px 20px; color: #888; text-align: center; width: 100%; }
-.footer-links { margin-bottom: 25px; display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }
-.footer-links a { color: #aaa; text-decoration: none; font-size: 0.9rem; }
-.footer-links a:hover { color: #fff; }
+body {
+  background-color: var(--sand-bg);
+  background-image: repeating-radial-gradient(circle at 50% 30%, transparent 0, transparent 10px, rgba(0,0,0,0.03) 11px, rgba(0,0,0,0.03) 12px);
+}
+
+.main { max-width: 1100px; margin: 0 auto; padding: 0; }
+
+.hero {
+  background: linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.3)), 
+              url("https://res.cloudinary.com/dotekofm5/image/upload/v1761402106/thankjapan/backgrounds/jtbdzjsksgbgehuxl954.jpg");
+  background-position: center 30%; background-size: cover;
+  margin-top: 0 !important; height: 750px; 
+  display: flex; flex-direction: column; justify-content: center; align-items: center;
+  color: #fff; text-align: center; padding: 0 20px;
+  mask-image: linear-gradient(to bottom, black 85%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, black 85%, transparent 100%);
+}
+
+.hero h1 { font-size: 3.5rem; letter-spacing: 8px; font-family: 'Zen Antique', serif; text-shadow: 0 2px 20px rgba(0,0,0,0.8); }
+.hero p { font-size: 1.2rem; background: rgba(0,0,0,0.5); padding: 10px 30px; border-radius: 50px; margin-top: 15px; }
+
+/* 金色の探索ボタンを復活 */
+.explore-btn {
+  background: linear-gradient(135deg, #fff1b8, #ffd700, #e6b800, #d4af37);
+  color: #000; padding: 18px 80px; border-radius: 50px; font-weight: 700; font-size: 1.3rem;
+  letter-spacing: 2px; text-decoration: none; display: inline-block; margin-top: 30px;
+  box-shadow: 0 6px 18px rgba(212, 175, 55, 0.6);
+}
+
+.game-call-to-action { margin: 60px auto; max-width: 600px; padding: 50px; background: #fff; box-shadow: 0 20px 40px rgba(0,0,0,0.05); text-align: center; }
+.play-game-button { background: var(--moss-green); color: #fff; padding: 20px; display: block; width: 80%; margin: 0 auto; text-decoration: none; border-radius: 50px; font-weight: bold; font-size: 1.4rem; }
+
+.category-grid { display: flex; justify-content: center; flex-wrap: wrap; gap: 40px; padding: 40px 20px; }
+.category-card { width: 280px; text-align: center; }
+.category-card img { width: 200px; height: 200px; object-fit: cover; border-radius: 50%; border: 4px solid #fff; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+.category-card h3 { margin-top: 15px; letter-spacing: 2px; color: var(--text-main); font-size: 1.1rem; }
+
+/* フッターデザインを復活 */
+footer { background: #1f1f1f; padding: 60px 20px; color: #777; text-align: center; }
+.footer-links { margin-bottom: 20px; }
+.footer-links a { color: #777; text-decoration: none; margin: 0 10px; }
 
 @media screen and (max-width: 768px) {
-  .hero { height: 450px; }
-  .hero h1 { font-size: 2rem; }
-  .category-grid { flex-direction: column; align-items: center; }
-  .footer-links { flex-direction: column; gap: 15px; }
+  .hero { height: auto; min-height: 450px; padding: 60px 15px; }
+  .hero h1 { font-size: 2.0rem; }
+  .explore-btn { width: 90%; padding: 18px 20px; font-size: 1.1rem; }
 }
 </style>
 
 <div class="main">
   <section class="hero">
     <h1>THANK JAPAN</h1>
-    <p>The fun way to learn Japanese Language & Culture.<br>Study with images, test your skills with quizzes, and rank up!</p>
+    <p>The fun way to learn Japanese Language & Culture.</p>
     <a href="{% url 'category_list' %}" class="explore-btn">Start Learning 📖</a>
   </section>
 
   <div class="game-call-to-action">
-    <a href="{% url 'game_start' %}" class="play-game-button">PLAY GAME NOW! <span class="game-icon">🎮</span></a>
-    <p class="game-description">Test Your Japanese Knowledge?<br>Learn Japanese words and culture!</p>
+    <a href="{% url 'game_start' %}" class="play-game-button">PLAY GAME NOW! 🎮</a>
+    <p class="game-description">Test Your Japanese Knowledge? <br>Learn Japanese words and culture!</p>
   </div>
 
   <section class="categories">
-    <h2>Discover Japan</h2>
     <div class="category-grid">
       <div class="category-card">
-        <a href="{% url 'japanfood' %}"><img src="https://res.cloudinary.com/dotekofm5/image/upload/v1761200066/thankjapan/backgrounds/adfqqgtdfozxi848gopz.png" alt="Food"></a>
+        <a href="{% url 'japanfood' %}"><img src="https://res.cloudinary.com/dotekofm5/image/upload/v1761200066/thankjapan/backgrounds/adfqqgtdfozxi848gopz.png"></a>
         <h3>Food & Culinary Delights</h3>
       </div>
       <div class="category-card">
-        <a href="{% url 'japanculture' %}"><img src="https://res.cloudinary.com/dotekofm5/image/upload/v1761842683/thankjapan/backgrounds/ixyersx9bdpxytxzetix.jpg" alt="Culture"></a>
+        <a href="{% url 'japanculture' %}"><img src="https://res.cloudinary.com/dotekofm5/image/upload/v1761842683/thankjapan/backgrounds/ixyersx9bdpxytxzetix.jpg"></a>
         <h3>Traditions & Arts</h3>
       </div>
       <div class="category-card">
-        <a href="{% url 'naturepage' %}"><img src="https://res.cloudinary.com/dotekofm5/image/upload/v1754645312/thankjapan/backgrounds/hutwikylfzofnnzrahgh.png" alt="Nature"></a>
+        <a href="{% url 'naturepage' %}"><img src="https://res.cloudinary.com/dotekofm5/image/upload/v1754645312/thankjapan/backgrounds/hutwikylfzofnnzrahgh.png"></a>
         <h3>Nature & Adventures</h3>
       </div>
     </div>
   </section>
 
-  <section class="support">
+  <section class="support" style="background: #4a4a4a; padding: 80px 20px; color: #fff; text-align: center;">
     <h2>💖 Support Thank Japan</h2>
-    <p>Your support helps us share the beauty and culture of Japan with the world.</p>
-    <a href="{% url 'select_amount' %}" target="_blank" rel="noopener noreferrer">Donate via PayPal</a>
+    <a href="{% url 'select_amount' %}" style="color: #fff; border: 1px solid #fff; padding: 10px 40px; display: inline-block; margin-top: 20px; text-decoration: none; border-radius: 50px;">Donate via PayPal</a>
   </section>
 
   <footer>
     <div class="footer-links">
       <a href="{% url 'infomationpage' %}">About Us</a>
       <a href="{% url 'privacy_policy' %}">Privacy Policy</a>
-      <a href="{% url 'riyoukiyaku' %}">Terms of Use</a>
+      <a href="{% url 'riyoukiyaku' %}">Terms</a>
       <a href="{% url 'contact' %}">Contact</a>
     </div>
     <small>© 2025 Thank Japan | Explore, enjoy, and fall in love with Japanese culture</small>
