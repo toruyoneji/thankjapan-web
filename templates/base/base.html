@@ -43,32 +43,33 @@
 
     <title>{% block title %}{% endblock %}</title>
 
-    <style>
-    /* --- Header --- */
-    header.nav-bar {
-    position: -webkit-sticky; 
-    position: sticky; 
-    top: 0;
-    width: 100%;
-    z-index: 9999;
-    background: rgba(0,0,0,0.85);
-    backdrop-filter: blur(6px);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 10px 20px;
-    border-bottom: 6px solid #7a7a7a;
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
     }
 
     body {
-    padding-top: 0 !important;
+        font-family: 'Zen Antique', 'Shippori Mincho', 'Noto Serif JP', serif;
+        background-color: #f3f4f6;
+        padding-top: 0 !important;
     }
 
-    .logo {
-        font-size: 1.3rem;
-        font-weight: 700;
-        color: #fff;
+    header.nav-bar {
+        position: -webkit-sticky;
+        position: sticky;
+        top: 0;
+        width: 100%;
+        z-index: 9999;
+        background: rgba(0,0,0,0.85);
+        backdrop-filter: blur(6px);
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 30px;
+        border-bottom: 6px solid #7a7a7a;
     }
 
     .logo-link {
@@ -76,152 +77,24 @@
         text-decoration: none;
         font-weight: bold;
         font-size: 1.5rem;
+        white-space: nowrap;
     }
+
     .logo-link:hover { color: #e63946; }
 
     nav {
         display: flex;
         align-items: center;
         gap: 15px;
-        flex-wrap: wrap;
     }
 
-    nav a, .dropbtn {
-        color: #eee;
-        text-decoration: none;
-        font-weight: 500;
-        transition: color 0.3s ease;
-        background: none;
-        border: none;
-        cursor: pointer;
-        font-size: 1rem;
-        font-family: inherit;
-    }
-    nav a:hover, .dropbtn:hover { color: #e63946; }
-
-    /* --- Dropdown --- */
-    .dropdown {
-        position: relative;
-        display: inline-block;
-    }
-
-    .dropdown-content {
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    background-color: #1a1a1a;
-    min-width: 160px;
-    max-height: 300px; 
-    overflow-y: auto;  
-    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
-    border-radius: 8px;
-    z-index: 999;
-    scrollbar-width: thin; 
-    }
-
-
-    .dropdown-content::-webkit-scrollbar {
-        width: 6px;
-    }
-
-    .dropdown-content::-webkit-scrollbar-thumb {
-        background-color: #e63946;
-        border-radius: 3px;
-    }
-
-    .dropdown-content::-webkit-scrollbar-track {
-        background-color: #1a1a1a;
-    }
-
-    .dropdown-content a {
-        color: #eee;
-        padding: 10px 16px;
-        display: block;
-        text-decoration: none;
-    }
-
-    .dropdown-content a:hover {
-        background-color: #333;
-        color: #e63946;
-    }
-
-    /* Cookie Consent Banner Styling */
-    .cookie-consent-banner {
-        position: fixed; 
-        bottom: 0; 
-        left: 0;
-        width: 100%;
-        background-color: rgba(0,0,0,0.9); 
-        color: #eee; 
-        padding: 15px 20px;
-        box-shadow: 0 -2px 10px rgba(0,0,0,0.4);
-        z-index: 1000; 
-        display: flex; 
-        flex-direction: column; 
-        align-items: center; 
-        justify-content: center;
-        text-align: center;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-        font-size: 0.95rem;
-        line-height: 1.4;
-        transition: transform 0.3s ease-in-out; 
-        transform: translateY(100%); 
-    }
-
-    .cookie-consent-banner.show {
-        transform: translateY(0); 
-    }
-
-    .cookie-consent-banner p {
-        margin-bottom: 15px; 
-        max-width: 900px; 
-    }
-
-    .cookie-consent-buttons {
-        display: flex;
-        gap: 10px; 
-        flex-wrap: wrap; 
-        justify-content: center; 
-    }
-
-    .cookie-consent-btn {
-        padding: 10px 20px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        font-size: 0.9rem;
-        font-weight: 600;
-        transition: background-color 0.3s ease, color 0.3s ease;
-    }
-
-    .cookie-consent-btn.accept-btn {
-        background-color: #e63946; 
-        color: #fff;
-    }
-
-    .cookie-consent-btn.accept-btn:hover {
-        background-color: #c9303c; 
-    }
-
-    .cookie-consent-btn.manage-btn {
-        background-color: #555; 
-        color: #fff;
-    }
-
-    .cookie-consent-btn.manage-btn:hover {
-        background-color: #777;
-    }
-
-
-    /* --- SNS buttons --- */
     .sns-buttons {
         display: flex;
         gap: 10px;
     }
 
     .sns-buttons a {
-        font-size: 1.2rem;
+        font-size: 1.1rem;
         display: inline-flex;
         align-items: center;
         justify-content: center;
@@ -231,31 +104,25 @@
         border-radius: 50%;
         color: white;
         text-decoration: none;
-        transition: background-color 0.3s;
     }
+
     .sns-buttons a:hover { background-color: #e63946; }
 
-    .sns-buttons a .fa-x-twitter {
-      color: #eee; 
-    }
-
-    /* --- Authentication Section (Header) --- */
     .auth-section {
         display: flex;
         align-items: center;
-        margin-left: 15px;
     }
 
     .user-info, .guest-info {
         display: flex;
         align-items: center;
-        gap: 12px;
+        gap: 10px;
     }
 
     .user-name {
         color: #ffffff !important;
         font-weight: bold;
-        font-size: 0.95rem;
+        font-size: 0.9rem;
         text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
         white-space: nowrap;
     }
@@ -263,39 +130,28 @@
     .premium-badge {
         background: linear-gradient(45deg, #ffd700, #ffa500);
         color: #000 !important;
-        padding: 3px 10px;
+        padding: 2px 8px;
         border-radius: 15px;
-        font-size: 0.75rem;
+        font-size: 0.7rem;
         font-weight: bold;
-        box-shadow: 0 0 10px rgba(255, 215, 0, 0.4);
-        white-space: nowrap;
     }
 
     .upgrade-link {
         color: #f1c40f !important;
         text-decoration: none;
-        font-size: 0.85rem;
+        font-size: 0.8rem;
         font-weight: bold;
         border: 1px solid #f1c40f;
-        padding: 3px 10px;
+        padding: 2px 8px;
         border-radius: 10px;
-        transition: 0.3s;
-        white-space: nowrap;
-    }
-
-    .upgrade-link:hover {
-        background-color: #f1c40f;
-        color: #000 !important;
     }
 
     .auth-btn {
         text-decoration: none;
-        font-size: 0.85rem;
-        padding: 7px 16px;
+        font-size: 0.8rem;
+        padding: 6px 14px;
         border-radius: 20px;
         font-weight: bold;
-        transition: 0.3s;
-        display: inline-block;
         white-space: nowrap;
     }
 
@@ -304,94 +160,96 @@
         border: 1px solid #ffffff;
     }
 
-    .login:hover, .logout:hover {
-        background: rgba(255, 255, 255, 0.2);
-    }
-
     .signup {
         background-color: #e67e22;
         color: white !important;
-        border: 1px solid #e67e22;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
     }
 
-    .signup:hover {
-        background-color: #d35400;
-        transform: translateY(-1px);
+    .dropbtn, .game-link {
+        color: #eee;
+        text-decoration: none;
+        font-size: 0.9rem;
+        background: none;
+        border: none;
+        cursor: pointer;
     }
 
+    .dropdown { position: relative; display: inline-block; }
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        background-color: #1a1a1a;
+        min-width: 160px;
+        max-height: 250px;
+        overflow-y: auto;
+        border-radius: 8px;
+        z-index: 1000;
+    }
 
+    .dropdown-content a {
+        color: #eee;
+        padding: 10px 16px;
+        display: block;
+        text-decoration: none;
+        font-size: 0.85rem;
+    }
 
-    /* --- Responsive --- */
+    .cookie-consent-banner {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background-color: rgba(0,0,0,0.95);
+        color: #eee;
+        padding: 20px;
+        z-index: 10001;
+        display: none;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        transition: transform 0.3s ease;
+        transform: translateY(100%);
+    }
+
+    .cookie-consent-banner.show { transform: translateY(0); display: flex; }
+    .cookie-consent-btn {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-top: 10px;
+        background-color: #e63946;
+        color: #fff;
+        font-weight: bold;
+    }
+
     @media screen and (max-width: 768px) {
-         body {
-        padding-top: 0 !important;
-        }
-
         header.nav-bar {
             flex-direction: column;
-            align-items: flex-start;
-        }
-        nav {
-            width: 100%;
-            gap: 10px;
-        }
-        
-        .game-link {
-            order: 2;
-        }
-        .lang-switch {
-            order: 3;
-        }
-        .sns-buttons {
-            order: 1;
-            margin-bottom: 5px;
-        }
-        .cookie-consent-banner {
             padding: 15px 10px;
+            gap: 12px;
         }
-        .cookie-consent-banner p {
-            font-size: 0.85rem;
-            margin-bottom: 10px;
-        }
-        .cookie-consent-buttons {
-            flex-direction: column; 
+
+        nav, .auth-section, .sns-buttons {
             width: 100%;
+            justify-content: center;
+            margin: 0;
         }
-        .cookie-consent-btn {
-            width: 100%;
-        }
-  
-  
+
         nav {
             flex-wrap: wrap;
-            gap: 15px;
-        }
-
-        .sns-buttons {
-            margin-top: 10px; 
-        }
-
-        .dropdown-content {
-            max-height: 200px;
+            gap: 10px;
         }
 
         .auth-section {
-        margin-left: 0;
-        justify-content: center;
-        width: 100%;
-        margin-top: 10px;
-        }
-
-        .user-info, .guest-info {
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 8px;
+            order: -1;
+            padding-bottom: 5px;
+            border-bottom: 1px solid #444;
         }
     }
-
-    </style>
-
+</style>
     
     <script async src="https://www.googletagmanager.com/gtag/js?id={{ GA_TRACKING_ID }}"></script>
     <script>
