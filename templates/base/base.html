@@ -73,7 +73,7 @@
         {% if user.is_authenticated %}
             <span class="user-name">👤 {{ user.username }}</span>
             {% if user.profile.is_premium %}<span class="premium-badge">💎 Premium</span>
-            {% else %}<a href="{% url 'premium_info' %}" class="upgrade-link">💎 Get Premium</a>{% endif %}
+            {% else %}<a href="#" class="upgrade-link">💎 Get Premium</a>{% endif %}
             <a href="{% url 'player_logout' %}" class="auth-btn logout">Logout</a>
         {% else %}
             <span class="user-name">👤 Guest</span>
