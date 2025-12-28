@@ -1121,3 +1121,6 @@ class JapanCultureENINView(TemplateView):
 class JapanCultureDEView(TemplateView):
     template_name="thank_japan_app/japan/japanculturepage_de.html"
     
+def premium_info(request):
+    return render(request, 'thank_japan_app/premium_info.html')
+    

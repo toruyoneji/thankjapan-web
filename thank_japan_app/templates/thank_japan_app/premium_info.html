@@ -1,0 +1,175 @@
+{% extends 'base/base.html' %}
+{% block content %}
+<style>
+    .premium-page {
+        max-width: 1000px;
+        margin: 30px auto;
+        padding: 20px;
+        color: #333;
+    }
+
+    .premium-header {
+        text-align: center;
+        margin-bottom: 40px;
+    }
+
+    .premium-header h1 {
+        font-size: 2.5rem;
+        color: #b22d35;
+        font-family: 'Zen Antique', serif;
+        margin-bottom: 10px;
+    }
+
+    .pricing-container {
+        display: flex;
+        justify-content: center;
+        gap: 25px;
+        flex-wrap: wrap;
+    }
+
+    .plan-card {
+        background: #fff;
+        border: 4px solid #5d5245;
+        border-radius: 8px;
+        width: 310px;
+        padding: 30px;
+        text-align: center;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        display: flex;
+        flex-direction: column;
+    }
+
+    .plan-card.featured {
+        border-color: #d4af37;
+        background: #fffdf0;
+        box-shadow: 0 15px 30px rgba(212, 175, 55, 0.3);
+    }
+
+    .plan-badge {
+        background: #d4af37;
+        color: #fff;
+        padding: 4px 12px;
+        font-size: 0.75rem;
+        font-weight: bold;
+        border-radius: 20px;
+        display: inline-block;
+        margin-bottom: 10px;
+    }
+
+    .plan-name {
+        font-size: 1.6rem;
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+
+    .plan-price {
+        font-size: 2.2rem;
+        font-weight: bold;
+        margin-bottom: 20px;
+        color: #2c3e50;
+    }
+
+    .plan-price span {
+        font-size: 0.9rem;
+        color: #777;
+    }
+
+    .plan-features {
+        list-style: none;
+        padding: 0;
+        margin: 0 0 30px 0;
+        text-align: left;
+        flex-grow: 1;
+    }
+
+    .plan-features li {
+        padding: 8px 0;
+        border-bottom: 1px solid #eee;
+        font-size: 0.95rem;
+        display: flex;
+        align-items: center;
+    }
+
+    .plan-features li::before {
+        content: "✔️";
+        margin-right: 8px;
+    }
+
+    .plan-btn {
+        display: block;
+        padding: 14px;
+        text-decoration: none;
+        font-weight: bold;
+        border-radius: 30px;
+        transition: 0.3s;
+        font-size: 1rem;
+    }
+
+    .free-btn {
+        background: #eee;
+        color: #777;
+    }
+
+    .premium-btn {
+        background: linear-gradient(135deg, #d4af37, #ffd700);
+        color: #000;
+        box-shadow: 0 4px 12px rgba(212, 175, 55, 0.4);
+    }
+
+    @media (max-width: 1024px) {
+        .premium-page {
+            margin-top: 20px !important;
+            padding-top: 10px;
+        }
+        .pricing-container {
+            flex-direction: column;
+            align-items: center;
+        }
+        .plan-card {
+            width: 95%;
+            max-width: 350px;
+        }
+        .premium-header h1 {
+            font-size: 1.8rem;
+        }
+    }
+</style>
+
+<div class="premium-page">
+    <div class="premium-header">
+        <h1>Upgrade to Premium 💎</h1>
+        <p>Master Japanese for your work and life in Japan.</p>
+    </div>
+
+    <div class="pricing-container">
+        <div class="plan-card">
+            <div class="plan-name">Free</div>
+            <div class="plan-price">$0</div>
+            <ul class="plan-features">
+                <li>Basic Vocabulary</li>
+                <li>Culture & Food Quizzes</li>
+                <li>Limited Game Access</li>
+                <li>Community Ranking</li>
+            </ul>
+            <a href="{% url 'player_register' %}" class="plan-btn free-btn">Current Plan</a>
+        </div>
+
+        <div class="plan-card featured">
+            <div class="plan-badge">RECOMMENDED</div>
+            <div class="plan-name">Premium</div>
+            <div class="plan-price">$4.99 <span>/ month</span></div>
+            <ul class="plan-features">
+                <li><strong>Conversation</strong> Mastery</li>
+                <li><strong>Business</strong> Japanese</li>
+                <li>Japanese <strong>Etiquette</strong></li>
+                <li>Ad-Free Experience</li>
+                <li>All Future Updates</li>
+            </ul>
+            
+            <div id="paypal-button-container">
+                <a href="#" class="plan-btn premium-btn">Unlock Premium Now 🚀</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
