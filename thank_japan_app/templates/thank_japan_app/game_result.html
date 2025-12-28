@@ -423,6 +423,22 @@ tbody td {
     background: #5d4a35;
 }
 
+.btn-more {
+    display: inline-block;
+    background: #ffb347;
+    color: white;
+    padding: 10px 24px;
+    border-radius: 25px;
+    text-decoration: none;
+    font-weight: 600;
+    margin-top: 20px;
+    transition: background 0.3s;
+}
+.btn-more:hover {
+    background: #ff9642;
+}
+
+
 /* ==============================
    RESPONSIVE
 ============================== */
@@ -637,6 +653,10 @@ tbody td {
       <button type="submit" class="neon-button delete">🗑️ Delete My Account</button>
     </form>
     {% endif %}
+  </div>
+
+  <div style="text-align:center; margin:50px 0;">
+    <a class="btn-more" href="{% url 'toppage' %}">Back To Home</a>
   </div>
 </div>
 

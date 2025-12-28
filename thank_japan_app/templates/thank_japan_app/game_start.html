@@ -343,11 +343,26 @@ body::before, body::after { display: none; }
 .rule-caption strong { color: #b7282e; font-weight: bold; }
 .rule-caption span[style] { color: #666 !important; }
 
+.btn-more {
+    display: inline-block;
+    background: #ffb347;
+    color: white;
+    padding: 10px 24px;
+    border-radius: 25px;
+    text-decoration: none;
+    font-weight: 600;
+    margin-top: 20px;
+    transition: background 0.3s;
+}
+.btn-more:hover {
+    background: #ff9642;
+}
+
 
 @media (max-width: 768px) {
     .container {
         width: 95% !important;
-        padding-top: 100px !important;
+        padding-top: 90px !important;
         margin-top: 0 !important;
         padding-left: 0;
         padding-right: 0;
@@ -493,6 +508,10 @@ body::before, body::after { display: none; }
                 </p>
             </div>
         {% endif %}
+    </div>
+
+    <div style="text-align:center; margin:50px 0;">
+        <a class="btn-more" href="{% url 'toppage' %}">Back To Home</a>
     </div>
 </div>
 {% endblock %}
