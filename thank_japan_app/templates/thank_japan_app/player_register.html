@@ -126,16 +126,28 @@
     background: #ff9642;
   }
 
-  @media (max-width: 600px) {
-    .main2 {
-      width: 90%;
-      margin: 200px auto 40px;
-      padding: 30px 20px;
+ @media (max-width: 900px) {
+    .main {
+      margin-left: 0 !important;
+      width: 100% !important;
     }
-    h2 {
-      font-size: 1.4rem;
+
+    .main2 {
+      width: 92% !important;
+      max-width: 400px !important;
+      margin: 130px auto 40px !important;
+      padding: 30px 20px !important;
+      border-radius: 8px !important;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1) !important;
     }
   }
+
+  @media (max-width: 500px) {
+    .main2 {
+      margin-top: 120px !important;
+    }
+  }
+
 </style>
 
 <div class="main2">
