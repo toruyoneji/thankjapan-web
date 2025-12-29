@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.models import User
-from .models import ThankJapanModel, ThankJapanBackgroundModel, Player, Profile
+from .models import ThankJapanModel, ThankJapanBackgroundModel, Player, Profile, ThankJapanPremium
 import logging
 from django.core.exceptions import ValidationError
 
@@ -26,6 +26,11 @@ class ThankJapanAdmin(admin.ModelAdmin):
         except Exception as e:
             logger.error(f"Unexpected error: {e}")
     
+class ThankJapanPremiumAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name','category', 'jlpt_level')
+    search_fields = ('name', 'englishname', 'category')
+    
+    
 class ThankJapanBackgroundAdmin(admin.ModelAdmin):
     list_display = ('id', 'background_image')
     
@@ -43,6 +48,7 @@ class PlayerAdmin(admin.ModelAdmin):
 admin.site.unregister(User)
 admin.site.register(User, UserAdmin)
 admin.site.register(ThankJapanModel, ThankJapanAdmin)
+admin.site.register(ThankJapanPremium, ThankJapanPremiumAdmin)
 admin.site.register(ThankJapanBackgroundModel, ThankJapanBackgroundAdmin)
 admin.site.register(Player, PlayerAdmin)
 admin.site.register(Profile)

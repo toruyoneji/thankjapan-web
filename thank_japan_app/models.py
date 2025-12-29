@@ -30,6 +30,28 @@ class ThankJapanModel(models.Model):
 
     def __str__(self):
         return f"{self.name} ({self.category})"
+    
+class ThankJapanPremium(models.Model):
+    name = models.CharField(max_length=100, unique=True)
+    englishname = models.CharField(max_length=200)
+    jpname = models.CharField(max_length=200)
+    romaji = models.CharField(max_length=200)
+    slug = models.SlugField(unique=True, max_length=255, blank=True)
+    image = CloudinaryField('image', folder='thankjapan/premium')
+    category = models.CharField(max_length=100)
+    jlpt_level = models.CharField(max_length=10, blank=True, null=True)
+    description = models.TextField(max_length=2000)
+    history = models.TextField(max_length=2000)
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.englishname)
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return f"[{self.jlpt_level or 'No Level'}] {self.englishname}"
+
 
 class ThankJapanBackgroundModel(models.Model):
     background_image = CloudinaryField('background_image', folder='thankjapan/backgrounds/', blank=True, null=True)
