@@ -1,0 +1,385 @@
+{% extends 'base/basecategory.html' %}
+
+{% block title %}{{ object.englishname }} - Premium Lesson | ThankJapan{% endblock %}
+{% block content %}
+{% load static %}
+
+<style>
+body {
+    background-color: #1e1b19;
+    font-family: 'Noto Serif JP', 'Poppins', sans-serif;
+    color: #f6efe8;
+    margin: 0;
+    padding: 0;
+}
+
+.main2 {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 130px 20px 40px;
+    text-align: center;
+}
+
+.detailgazou {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 9 / 5;
+    border-radius: 16px;
+    padding: 0 !important;
+    margin-bottom: 30px;
+    object-fit: cover;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    border: 3px solid #d4af37;
+}
+
+.jlpt-tag {
+    display: inline-block;
+    background: linear-gradient(135deg, #d4af37, #f1c40f);
+    color: #000;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 0.9rem;
+    margin-bottom: 15px;
+    box-shadow: 0 4px 10px rgba(212, 175, 55, 0.3);
+}
+
+.detaildt {
+    font-size: 2.5rem;
+    color: #fcd5b5;
+    font-weight: 700;
+    margin-bottom: 25px;
+    font-family: 'Zen Antique', serif;
+    line-height: 1.2;
+}
+
+.jpname-container {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.label-text {
+    font-size: 0.8rem;
+    color: #d4af37;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    margin-bottom: 8px;
+}
+
+.jpname-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
+.jpname-text {
+    font-size: 3.2rem;
+    color: #fff;
+    font-weight: 700;
+    line-height: 1.1;
+    text-shadow: 0 4px 15px rgba(0,0,0,0.5);
+}
+
+.voice-btn {
+    background: #d4af37;
+    border: none;
+    color: #1e1b19;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    font-size: 1.5rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.3s;
+}
+
+.voice-btn:hover {
+    transform: scale(1.1) rotate(-5deg);
+    background: #f1c40f;
+}
+
+.romaji-container {
+    margin-bottom: 50px;
+}
+
+.romaji-text {
+    font-size: 1.8rem;
+    color: #d4af37;
+    font-family: 'Poppins', sans-serif;
+    letter-spacing: 1px;
+}
+
+.cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 25px;
+    justify-content: center;
+}
+
+.card {
+    flex: 1 1 320px;
+    background-color: #fdfcf0;
+    color: #2f2a26;
+    border-radius: 12px;
+    padding: 30px;
+    text-align: left;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+    border-left: 6px solid #d4af37;
+}
+
+.card h2 {
+    font-size: 1.3rem;
+    color: #b22d35; 
+    margin-bottom: 15px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+}
+
+.card li {
+    list-style: none;
+    margin-bottom: 12px;
+    font-size: 1.05rem;
+    line-height: 1.6;
+    position: relative;
+    padding-left: 20px;
+}
+
+.card li::before {
+    content: "◈";
+    position: absolute;
+    left: 0;
+    color: #d4af37;
+}
+
+.game-invite-box {
+    margin: 60px auto 40px;
+    padding: 40px 30px;
+    background: linear-gradient(135deg, #2f2a26, #1e1b19);
+    border: 2px solid #d4af37;
+    border-radius: 16px;
+    text-align: center;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+    max-width: 600px;
+}
+
+.game-invite-title {
+    color: #fcd5b5;
+    font-size: 1.6rem;
+    margin-bottom: 15px;
+}
+
+.game-invite-btn {
+    display: inline-block;
+    background: linear-gradient(135deg, #d4af37, #ffd700);
+    color: #000;
+    padding: 18px 50px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1.3rem;
+    transition: 0.3s;
+}
+
+.related-section {
+    max-width: 1000px;
+    margin: 60px auto 20px;
+    padding-top: 40px;
+    border-top: 1px solid #5c5048;
+}
+
+.related-header h3 {
+    font-size: 1.5rem;
+    color: #fcd5b5;
+    font-family: 'Poppins', sans-serif;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+}
+
+.related-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+}
+
+.related-card {
+    background-color: #f6efe8;
+    color: #3b2f2f;
+    border-radius: 12px;
+    overflow: hidden;
+    text-decoration: none;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+}
+
+.related-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(252, 213, 181, 0.2);
+}
+
+.related-card img {
+    width: 100%;
+    height: 120px;
+    object-fit: cover;
+    border-bottom: 1px solid #d4c4b7;
+}
+
+.related-card-body {
+    padding: 12px;
+    text-align: center;
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.related-card h4 {
+    margin: 0;
+    font-size: 0.95rem;
+    color: #a35c00;
+    font-weight: 700;
+}
+
+.btn-back {
+    display: inline-block;
+    color: #d4af37;
+    border: 1px solid #d4af37;
+    padding: 10px 30px;
+    border-radius: 30px;
+    text-decoration: none;
+    margin-top: 40px;
+    transition: 0.3s;
+}
+
+@media screen and (max-width: 768px) {
+    .main2 { padding-top: 180px; }
+    .detailgazou { padding-top: 0 !important; height: auto; }
+    .detaildt { font-size: 1.8rem; }
+    .jpname-text { font-size: 2.2rem; }
+    .romaji-text { font-size: 1.3rem; }
+    .related-grid { grid-template-columns: repeat(2, 1fr); }
+}
+</style>
+
+<div class="main2">
+    {% if object.jlpt_level %}
+        <div class="jlpt-tag">JLPT {{ object.jlpt_level }}</div>
+    {% endif %}
+
+    <h1 class="detaildt">{{ object.englishname }}</h1>
+
+    {% if object.image %}
+        <img class="detailgazou" src="{{ object.image.url }}" alt="{{ object.englishname }}">
+    {% endif %}
+
+    <div class="jpname-container">
+        <span class="label-text">Japanese</span>
+        <div class="jpname-wrapper">
+            <span class="jpname-text">{{ object.jpname }}</span>
+            <button type="button" class="voice-btn" onclick="speakJapanese('{{ object.jpname }}')">
+                🔊
+            </button>
+        </div>
+    </div>
+
+    <div class="romaji-container">
+        <span class="romaji-text">{{ object.romaji }}</span>
+    </div>
+
+    <div class="cards">
+        <div class="card">
+            <h2>Lesson & Usage</h2>
+            <ul>
+                {% for line in object.description.splitlines %}
+                    {% if line %}<li>{{ line }}</li>{% endif %}
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="card">
+            <h2>Culture & Etiquette</h2>
+            <ul>
+                {% for line in object.history.splitlines %}
+                    {% if line %}<li>{{ line }}</li>{% endif %}
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    <div class="game-invite-box">
+        <h3 class="game-invite-title">Ready to Practice?</h3>
+        <p style="color:#c3b1a1; margin-bottom:25px;">Test your knowledge with the Premium Quiz.</p>
+        <a href="{% url 'game_start' %}?mode=premium&slug={{ object.slug }}" class="game-invite-btn">
+            🎮 Master this Phrase
+        </a>
+    </div>
+
+    {% if related_items %}
+    <div class="related-section">
+        <div class="related-header">
+            <h3>Explore More</h3>
+        </div>
+        <div class="related-grid">
+            {% for item in related_items %}
+            <!-- Link assumes URL name is 'detail' based on your list view -->
+            <a href="{% url 'detail_premium' category=item.category slug=item.slug %}" class="related-card">
+                {% if item.image %}
+                    <img src="{{ item.image.url }}" alt="{{ item.englishname }}">
+                {% else %}
+                    <div style="height:120px; background:#e0d6ce; display:flex; align-items:center; justify-content:center; color:#888;">
+                        No Image
+                    </div>
+                {% endif %}
+                <div class="related-card-body">
+                    <h4>{{ item.englishname }}</h4>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+
+    <button onclick="smartBack()" class="btn-back" id="back-btn">← Back</button>
+
+    <footer style="margin-top: 50px; opacity: 0.5; font-size: 0.8rem;">
+        © 2025 Thank Japan Premium
+    </footer>
+</div>
+
+<script>
+function speakJapanese(text) {
+    if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'ja-JP';
+        utterance.rate = 0.85;
+        window.speechSynthesis.speak(utterance);
+    }
+}
+
+function smartBack() {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('from') === 'game') {
+        window.close(); 
+    } else {
+        window.history.back(); 
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('from') === 'game') {
+        const btn = document.getElementById('back-btn');
+        if (btn) btn.textContent = '× Close';
+    }
+});
+
+</script>
+{% endblock %}

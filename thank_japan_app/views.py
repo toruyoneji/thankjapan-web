@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404, HttpResponse, 
 from django.views import View
 from django.views.generic import ListView, DetailView, FormView, TemplateView
 from django.views.generic.edit import FormView
-from .models import ThankJapanModel, Player, Profile
+from .models import ThankJapanModel, Player, Profile, ThankJapanPremium
 from django.contrib import messages
 from django.core.mail import send_mail
 from django.conf import settings
@@ -1121,6 +1121,32 @@ class JapanCultureENINView(TemplateView):
 class JapanCultureDEView(TemplateView):
     template_name="thank_japan_app/japan/japanculturepage_de.html"
     
+
+#Thank_Japan premium    
 def premium_info(request):
     return render(request, 'thank_japan_app/premium_info.html')
+
+class DailyConversationView(ListView):
+    template_name = "thank_japan_app/dairy_conversation.html"
+    paginate_by = 20
+    
+    def get_queryset(self):
+        return ThankJapanPremium.objects.filter(category="Daily Conversation").order_by('-timestamp')
+
+class ImgPremiumDetailView(DetailView):
+    template_name = "thank_japan_app/thankjapanmodel_detail_premium.html"
+    model = ThankJapanPremium
+    slug_field = 'slug'
+    slug_url_kwarg = 'slug'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        current_item = self.object
+        context['related_items'] = ThankJapanPremium.objects.filter(
+            category=current_item.category
+        ).exclude(
+            id=current_item.id
+        ).order_by('?')[:6]
+        return context
+
     

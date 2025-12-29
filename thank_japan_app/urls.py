@@ -9,7 +9,7 @@ from .views import (TopView, TopViewFR, TopViewIT, TopViewPT, TopViewZHHANT,TopV
                     player_register, delete_player,  contact_view, contact_thanks, category_list, category_list_zhhant,
                     category_list_vi, category_list_th, category_list_pt, category_list_pt_br, category_list_ko, 
                     category_list_ja, category_list_it, category_list_fr, category_list_es_mx, category_list_es_es,
-                    category_list_en_in, category_list_de, premium_info,
+                    category_list_en_in, category_list_de, premium_info, DailyConversationView, ImgPremiumDetailView,
                     JapanFoodView,JapanFoodDEView, JapanFoodENINView, JapanFoodESESView,
                     JapanFoodESMXView, JapanFoodFRView, JapanFoodITView, JapanFoodJAView ,JapanFoodKOView,
                     JapanFoodPTBRView, JapanFoodPTView, JapanFoodTHView, JapanFoodVIView, JapanFoodZHHANTView,
@@ -49,6 +49,7 @@ urlpatterns = [
     
     #premium
     path('premium/', premium_info, name='premium_info'),
+    path('dailyconversation/', DailyConversationView.as_view(), name='dailyconversation'),
     
     #japanfood
     path('japanfood/', JapanFoodView.as_view(), name='japanfood'),
@@ -202,5 +203,6 @@ urlpatterns = [
     
     #user look page
     path('<str:category>/<slug:slug>/', CategoryDetailView.as_view(), name='category_detail'),
+    path('premium-content/<str:category>/<slug:slug>/', ImgPremiumDetailView.as_view(), name='detail_premium'),
     
 ]
