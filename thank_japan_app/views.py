@@ -1128,7 +1128,7 @@ def premium_info(request):
 
 class DailyConversationView(ListView):
     template_name = "thank_japan_app/dairy_conversation.html"
-    paginate_by = 20
+    paginate_by = 24
     
     def get_queryset(self):
         return ThankJapanPremium.objects.filter(category="DailyConversation").order_by('-timestamp')
@@ -1149,4 +1149,17 @@ class ImgPremiumDetailView(DetailView):
         ).order_by('?')[:6]
         return context
 
+
+def sitemap_view(request):
+    
+    premium_items = ThankJapanPremium.objects.all()
+    
+    free_items = ThankJapanModel.objects.all()
+
+    context = {
+        'premium_items': premium_items,
+        'free_items': free_items,
+    }
+    
+    return render(request, 'sitemap.xml', context, content_type='application/xml')
     
