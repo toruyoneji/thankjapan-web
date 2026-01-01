@@ -1133,6 +1133,14 @@ class DailyConversationView(ListView):
     def get_queryset(self):
         return ThankJapanPremium.objects.filter(category="DailyConversation").order_by('-timestamp')
 
+class BusinessJapaneseView(ListView):
+    template_name = "thank_japan_app/business_japanese.html"
+    paginate_by = 24
+    
+    def get_queryset(self):
+        return ThankJapanPremium.objects.filter(category="BusinessJapanese").order_by('-timestamp')
+
+
 class ImgPremiumDetailView(DetailView):
     template_name = "thank_japan_app/thankjapanmodel_detail_premium.html"
     model = ThankJapanPremium
