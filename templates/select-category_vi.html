@@ -106,6 +106,55 @@
     }
 
     /* プレミアムカードの基本スタイル */
+    .cat-premium-card {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        text-decoration: none;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+        background: linear-gradient(135deg, #fffcf0 0%, #fff9e6 50%, #f7e48e 100%) !important;
+        border: 3px solid #d4af37 !important;
+        box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+    }
+
+    .premium-label {
+        position: absolute;
+        top: 5px;
+        right: -20px;
+        background: #b22d35;
+        color: white;
+        font-size: 0.6rem;
+        font-weight: bold;
+        padding: 2px 25px;
+        transform: rotate(45deg);
+        box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+
+    .cat-premium-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 25px rgba(212, 175, 55, 0.5);
+        border-color: #f1c40f !important;
+        filter: brightness(1.05);
+    }
+
+    .cat-premium-card .cat-icon {
+        font-size: 2.5rem;
+        margin-bottom: 10px;
+        filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+    }
+
+    .cat-premium-card .cat-name {
+        color: #4a3b2a;
+        font-weight: bold;
+        font-size: 1rem;
+        font-family: 'Zen Antique', serif;
+    }
+
     .premium-locked {
         position: relative;
         background: linear-gradient(145deg, #fff5e6, #ffdfba) !important; 
@@ -252,17 +301,19 @@
             <span class="cat-name">Lối sống</span>
         </a>
 
-        <a href="{% url 'dailyconversation' %}" class="cat-card">
+        <a href="{% url 'dailyconversation' %}" class="cat-premium-card">
+            <div class="premium-label">Special</div>
             <span class="cat-icon">💬</span>
             <span class="cat-name">Hội thoại</span>
         </a>
 
         <!-- Business Japanese (Premium) -->
         {% if user.is_authenticated and user.profile.is_premium %}
-        <a href="{% url 'businessjapanese'%}" class="cat-card">
+        <a href="{% url 'businessjapanese'%}" class="cat-premium-card">
         {% else %}
             <a href="#" class="cat-card premium-locked">
         {% endif %}
+            <div class="premium-label">Special</div>
             <span class="cat-icon">💼</span>
             <span class="cat-name">Tiếng Nhật thương mại</span>
             {% if not user.profile.is_premium %}
