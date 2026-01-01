@@ -2111,11 +2111,12 @@
   {% endfor %}
 
   {% for item in premium_items %}
-  <url>
-    <loc>https://www.thankjapan.com/premium-content/{{ item.category }}/{{ item.slug }}/</loc>
-  </url>
+    {% if item.category == "DailyConversation" %}
+      <url>
+        <loc>https://www.thankjapan.com/premium-content/{{ item.category }}/{{ item.slug }}/</loc>
+      </url>
+    {% endif %}
   {% endfor %}
-
 </urlset>
 
 

@@ -1146,6 +1146,16 @@ class ImgPremiumDetailView(DetailView):
     model = ThankJapanPremium
     slug_field = 'slug'
     slug_url_kwarg = 'slug'
+    
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+    
+        if self.object.category != "DailyConversation":
+        
+            if not request.user.is_authenticated or not request.user.profile.is_premium:
+                return redirect('premium_info')
+        
+        return super().get(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
