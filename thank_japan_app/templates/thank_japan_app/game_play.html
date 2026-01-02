@@ -403,8 +403,15 @@ img:hover { transform: scale(1.02); }
                 <p><strong>Meaning:</strong> {{ object.englishname }}</p>
                 <p><strong>Description:</strong> {{ object.description|linebreaksbr }}</p>
                 <div style="text-align: right; margin-top: 10px;">
-                    <a href="{% url 'category_detail' category=object.category slug=object.slug %}?from=game" target="_blank" 
-       rel="noopener noreferrer" style="font-size: 0.8em; color: #aaa;">View full page ↗</a>
+                    {% if is_premium_mode %}
+                        <a href="{% url 'detail_premium' category=object.category slug=object.slug %}" target="_blank">
+                            View full page ↗
+                        </a>
+                    {% else %}
+                        <a href="{% url 'category_detail' category=object.category slug=object.slug %}" target="_blank">
+                            View full page ↗
+                        </a>
+                    {% endif %}
                 </div>
             </div>
         {% endif %}
@@ -437,134 +444,8 @@ img:hover { transform: scale(1.02); }
 </div>
 
 <script>
-function toggleDetails() {
-    var details = document.getElementById("word-details");
-    if (details.style.display === "none") details.style.display = "block";
-    else details.style.display = "none";
-}
-
-let isSoundOn = true; 
-
-function playChime() {
-    if (!isSoundOn) return;
-
-    const AudioContext = window.AudioContext || window.webkitAudioContext;
-    if (!AudioContext) return;
-    const ctx = new AudioContext();
-    if (ctx.state === 'suspended') ctx.resume();
-
-    const t = ctx.currentTime;
-
-    const osc1 = ctx.createOscillator();
-    const gain1 = ctx.createGain();
-    osc1.connect(gain1);
-    gain1.connect(ctx.destination);
-
-    osc1.type = 'sine';
-    osc1.frequency.setValueAtTime(1046.5, t); 
-    
-    gain1.gain.setValueAtTime(0, t);
-    gain1.gain.linearRampToValueAtTime(0.1, t + 0.05);
-    gain1.gain.exponentialRampToValueAtTime(0.001, t + 0.5); 
-
-    osc1.start(t);
-    osc1.stop(t + 0.5);
-
-    const osc2 = ctx.createOscillator();
-    const gain2 = ctx.createGain();
-    osc2.connect(gain2);
-    gain2.connect(ctx.destination);
-
-    osc2.type = 'sine';
-    osc2.frequency.setValueAtTime(880, t + 0.4); 
-    
-    gain2.gain.setValueAtTime(0, t + 0.4);
-    gain2.gain.linearRampToValueAtTime(0.1, t + 0.45);
-    gain2.gain.exponentialRampToValueAtTime(0.001, t + 1.2); 
-
-    osc2.start(t + 0.4);
-    osc2.stop(t + 1.2);
-}
-
-function speakJapanese(text, isAuto = false) {
-    if (isAuto && !isSoundOn) return;
-
-    if ('speechSynthesis' in window) {
-        window.speechSynthesis.cancel();
-        const utterance = new SpeechSynthesisUtterance(text);
-        utterance.lang = 'ja-JP';
-        utterance.rate = 0.9;
-        window.speechSynthesis.speak(utterance);
-    }
-}
-
 document.addEventListener('DOMContentLoaded', function() {
-    const soundBtn = document.getElementById('sound-toggle-btn');
-    const soundIcon = document.getElementById('sound-icon');
-    const soundStatus = document.getElementById('sound-status');
-    const savedSetting = localStorage.getItem('thankjapan_sound');
-    
-    if (savedSetting === 'off') {
-        isSoundOn = false;
-        updateSoundButton();
-    } else {
-        isSoundOn = true;
-        updateSoundButton();
-    }
-
-    function updateSoundButton() {
-        if (!soundIcon || !soundStatus) return;
-        if (isSoundOn) {
-            soundIcon.textContent = '🔊';
-            soundStatus.textContent = 'ON';
-            if (soundBtn) soundBtn.classList.remove('muted');
-        } else {
-            soundIcon.textContent = '🔇';
-            soundStatus.textContent = 'OFF';
-            if (soundBtn) soundBtn.classList.add('muted');
-        }
-    }
-
-    if (soundBtn) {
-        soundBtn.addEventListener('click', function() {
-            isSoundOn = !isSoundOn;
-            localStorage.setItem('thankjapan_sound', isSoundOn ? 'on' : 'off');
-            updateSoundButton();
-            if (isSoundOn) playChime();
-        });
-    }
-
-    const correctFlag = document.getElementById('correct-flag');
-    const incorrectFlag = document.getElementById('incorrect-flag');
-    
-    if (correctFlag) {
-        confetti({
-            particleCount: 100,
-            spread: 70,
-            origin: { y: 0.6 },
-            colors: ['#b7282e', '#7b942e', '#e0d5c0', '#ffffff']
-        });
-
-        if (isSoundOn) {
-            playChime();
-            const wordToSpeak = correctFlag.getAttribute('data-word');
-            if (wordToSpeak) {
-                setTimeout(() => {
-                    speakJapanese(wordToSpeak, true);
-                }, 1500); 
-            }
-        }
-    } else if (incorrectFlag) {
-        if (isSoundOn) {
-            const wordToSpeak = incorrectFlag.getAttribute('data-word');
-            if (wordToSpeak) {
-                setTimeout(() => {
-                    speakJapanese(wordToSpeak, true);
-                }, 500);
-            }
-        }
-    }
-
+    const isPremiumMode = "{{ is_premium_mode|yesno:'true,false' }}" === "true";
     const visualHintContainer = document.getElementById('visual-hint-container');
     const answerForm = document.getElementById('answer-form');
     const combinedAnswerInput = document.getElementById('combined-answer-input');
@@ -576,10 +457,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function updateDisplay() {
         visualHintContainer.innerHTML = '';
-        let displayInput = rawInput
-            .replace(/aa/g, 'a-')
-            .replace(/ee/g, 'e-')
-            .replace(/oo/g, 'o-');
+        let displayInput = rawInput;
+        
+        if (!isPremiumMode) {
+            displayInput = displayInput
+                .replace(/aa/g, 'a-')
+                .replace(/ee/g, 'e-')
+                .replace(/oo/g, 'o-');
+        }
 
         const tokens = wanakana.tokenize(displayInput);
         tokens.forEach(token => {
@@ -655,8 +540,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     updateDisplay();
     visualHintContainer.focus();
-    visualHintContainer.addEventListener('click', () => visualHintContainer.focus());
-
     visualHintContainer.addEventListener('keydown', function(e) {
         if (e.key.match(/^[a-zA-Z\-]$/)) {
             e.preventDefault();
@@ -669,10 +552,7 @@ document.addEventListener('DOMContentLoaded', function() {
             handleInput('ENTER');
         }
     });
-    
-    answerForm.addEventListener('submit', function(e) {
-        combinedAnswerInput.value = rawInput;
-    });
 });
 </script>
+
 {% endblock %}

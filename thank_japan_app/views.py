@@ -40,7 +40,7 @@ def strip_parentheses(text):
     return re.sub(r'\(.*?\)', '', text).strip()
 
 def extract_base_name(text):
-    return strip_parentheses(text)
+    return re.sub(r'\(.*?\)', '', text).strip()
 
 def normalize_romaji(text):
     if not text:
@@ -86,10 +86,17 @@ def normalize_consonants(text):
     return text
 
 def normalize_for_judge(text):
-    if not text:
-        return ""
+    if not text: return ""
     text = text.lower().strip()
-    text = normalize_consonants(text)
+    text = re.sub(r'[^a-z0-9\-]', '', text)
+    text = re.sub(r'(a)\-', r'aa', text)
+    text = re.sub(r'(i)\-', r'ii', text)
+    text = re.sub(r'(u)\-', r'uu', text)
+    text = re.sub(r'(e)\-', r'ee', text)
+    text = re.sub(r'(o)\-', r'oo', text)
+    text = text.replace('ou', 'oo')
+    repls = [('tsu','tu'),('fu','hu'),('shi','si'),('chi','ti'),('ji','zi'),('sh','sy'),('ch','ty'),('jy','zy'),('nn','n')]
+    for old, new in repls: text = text.replace(old, new)
     return text
 
 #company infomation
@@ -498,121 +505,69 @@ def delete_player(request):
         return redirect('delete_player_confirm')
 
 DIFFICULTY_SETTINGS = {
-    'easy': {
-        'category_filter': ['food', 'cook', 'animal', 'sports'],
-        'length_regex': r'^.{3,6}$',
-        'num_questions': 3,
-    },
-    'normal': {
-        'category_filter': [
-            'food', 'cook', 'animal', 'sports', 
-            'culture', 'nature', 'fashion', 'building'
-        ],
-        'length_regex': r'^.{3,8}$',
-        'num_questions': 5,
-    },
-    'hard': {
-        'category_filter': None,
-        'length_regex': r'^.{2,9}$',
-        'num_questions': 7,
-    },
-    'super_hard': {
-        'category_filter': None, 
-        'length_regex': None, 
-        'num_questions': 10, 
-    }
+    'easy': {'category_filter': ['sports', 'food'], 'length_regex': r'^.{1,20}$', 'num_questions': 3, 'model_type': 'free'},
+    'normal': {'category_filter': ['cook', 'food', 'culture'], 'length_regex': r'^.{1,9}$', 'num_questions': 5, 'model_type': 'free'},
+    'hard': {'category_filter': None, 'length_regex': r'^.{1,9}$', 'num_questions': 7, 'model_type': 'free'},
+    'super_hard': {'category_filter': None, 'length_regex': None, 'num_questions': 7, 'model_type': 'free'},
+    'sample_premium': {'category_filter': ['DailyConversation'], 'jlpt_level': 'N5', 'num_questions': 5, 'model_type': 'premium'},
+    'n5_premium': {'jlpt_level': 'N5', 'num_questions': 3, 'model_type': 'premium'},
+    'n4_premium': {'jlpt_level': 'N4', 'num_questions': 3, 'model_type': 'premium'},
+    'n3_premium': {'jlpt_level': 'N3', 'num_questions': 3, 'model_type': 'premium'},
 }
 
-
 def get_current_player_info(request):
-    player_id = request.session.get('player_id')
     player = None
     is_guest = True
-
-    if player_id:
+    if request.user.is_authenticated:
+        is_guest = False
+        player, _ = Player.objects.get_or_create(username=request.user.username)
+    elif 'player_id' in request.session:
         try:
-            player = Player.objects.get(id=player_id)
+            player = Player.objects.get(id=request.session['player_id'])
             is_guest = False
-            request.session.pop('is_guest', None) 
         except Player.DoesNotExist:
-            request.session.pop('player_id', None)
             is_guest = True
-    else:
-        if 'is_guest' not in request.session:
-            request.session['is_guest'] = True
-        is_guest = request.session['is_guest']
-    
-    if is_guest and not player:
-        player = Player(username='guest', country='Guestland') 
-    
+    if is_guest:
+        player = Player(username='guest', country='Guestland')
     return player, is_guest
-
 
 def game_start(request):
     player, is_guest = get_current_player_info(request)
-    
-    return render(request, 'thank_japan_app/game_start.html', {
-        'player': player,
-        'is_guest': is_guest
-    })
-
+    return render(request, 'thank_japan_app/game_start.html', {'player': player, 'is_guest': is_guest})
 
 def game_play(request):
     player, is_guest = get_current_player_info(request)
-
-    index = request.session.get('game_current_index', 0)
     ids = request.session.get('game_question_ids', [])
-    total_questions = len(ids)
+    index = request.session.get('game_current_index', 0)
+    is_premium_mode = request.session.get('is_premium_mode', False)
 
-    if not ids or index >= total_questions:
-        messages.info(request, "Game session ended or not started. Please select a difficulty to begin.")
-        return redirect('game_start')
+    if not ids or index >= len(ids): return redirect('game_start')
 
-    question_id = ids[index]
-    question = get_object_or_404(ThankJapanModel, id=question_id)
-
-    form = AnswerForm()
+    model = ThankJapanPremium if is_premium_mode else ThankJapanModel
+    question = get_object_or_404(model, id=ids[index])
     
-    current_difficulty = request.session.get('game_difficulty', 'normal')
-    max_questions_for_difficulty = DIFFICULTY_SETTINGS.get(current_difficulty, {}).get('num_questions', total_questions)
-
-    original_name = question.name.lower()
-    romaji_for_judge = extract_base_name(original_name)
-    
-    english_text = question.englishname.strip().lower() if question.englishname else ""
-    romaji_text = original_name.strip()
-    
-    show_english = True
-    if english_text == romaji_text:
-        show_english = False
-    elif english_text.replace('k', 'c') == romaji_text.replace('k', 'c'):
-        show_english = False
-    elif (english_text in romaji_text or romaji_text in english_text) and abs(len(english_text) - len(romaji_text)) <= 1:
-        show_english = False
-
-    hint_length = len(romaji_for_judge)
-
+    db_answer = extract_base_name(question.name).lower()
     return render(request, 'thank_japan_app/game_play.html', {
-        'object': question,
-        'form': form,
-        'current_index': index + 1,
-        'total_questions': max_questions_for_difficulty,
-        'score': request.session.get('game_score', 0),
-        'player': player,
-        'is_guest': is_guest,
-        'hint_length': hint_length,
-        'difficulty': current_difficulty,
-        'show_english': show_english,
+        'object': question, 'form': AnswerForm(), 'current_index': index + 1,
+        'total_questions': len(ids), 'score': request.session.get('game_score', 0),
+        'player': player, 'is_guest': is_guest, 'hint_length': len(db_answer),
+        'difficulty': request.session.get('game_difficulty'),
+        'is_premium_mode': is_premium_mode
     })
-
+    
 def game_answer(request, pk):
     if request.method != 'POST':
         return redirect('game_play')
 
     player, is_guest = get_current_player_info(request)
-    question = get_object_or_404(ThankJapanModel, id=pk)
-    form = AnswerForm(request.POST)
+    is_premium_mode = request.session.get('is_premium_mode', False)
 
+    if is_premium_mode:
+        question = get_object_or_404(ThankJapanPremium, id=pk)
+    else:
+        question = get_object_or_404(ThankJapanModel, id=pk)
+
+    form = AnswerForm(request.POST)
     current_difficulty = request.session.get('game_difficulty', 'normal')
 
     original_name = question.name.lower()
@@ -621,7 +576,7 @@ def game_answer(request, pk):
 
     if form.is_valid():
         user_input = form.cleaned_data['answer'].strip().lower()
-        db_answer = extract_base_name(question.name).lower()  # <- ここを変更
+        db_answer = extract_base_name(question.name).lower()
 
         judge_user = normalize_for_judge(user_input)
         judge_db = normalize_for_judge(db_answer)
@@ -629,7 +584,7 @@ def game_answer(request, pk):
         is_correct = False
         
         if current_difficulty == 'super_hard':
-            if user_input == question.name.lower():  # super_hard は完全一致
+            if user_input == question.name.lower():
                 is_correct = True
         else:
             if judge_user == judge_db:
@@ -677,119 +632,91 @@ def game_answer(request, pk):
             'hint_length': hint_length,
             'difficulty': current_difficulty,
             'show_english': show_english,
+            'is_premium_mode': is_premium_mode,
         })
 
     else:
         messages.warning(request, "⚠️ Please enter a valid answer.")
         return redirect('game_play')
     
+        
 def game_next_question(request):
-    
-    current_index = request.session.get('game_current_index', 0)
-    request.session['game_current_index'] = current_index + 1
-    
-    
-    ids = request.session.get('game_question_ids', [])
-    if request.session['game_current_index'] >= len(ids):
+    request.session['game_current_index'] = request.session.get('game_current_index', 0) + 1
+    if request.session['game_current_index'] >= len(request.session.get('game_question_ids', [])):
         return redirect('game_result')
-    
     return redirect('game_play')    
-    
 
 def game_restart(request):
-    difficulty = request.GET.get('difficulty', 'normal') 
-    
+    difficulty = request.GET.get('difficulty', 'normal')
     player, is_guest = get_current_player_info(request)
-    
-    if difficulty == 'super_hard':
-        current_total_score = player.total_score if not is_guest else 0
-        if current_total_score < 300:
-            messages.error(request, "🔒 You need 300 Total Points to unlock MANIA mode! Keep playing!")
-            return redirect('game_start')
-    
-    if difficulty not in DIFFICULTY_SETTINGS:
-        messages.error(request, "Invalid difficulty selected. Defaulting to Normal.")
-        difficulty = 'normal'
 
-    settings = DIFFICULTY_SETTINGS[difficulty]
-    
-    questions_queryset = ThankJapanModel.objects.all()
+    premium_only = ['n4_premium', 'n3_premium']
+    if difficulty in premium_only:
+        if is_guest or not getattr(request.user.profile, 'is_premium', False):
+            messages.warning(request, "🔒 This level is for Premium members.")
+            return redirect('premium_info')
 
-    if settings['category_filter']:
-        questions_queryset = questions_queryset.filter(category__in=settings['category_filter'])
-
-    if settings['length_regex']:
-        questions_queryset = questions_queryset.filter(name__iregex=settings['length_regex'])
-
-    all_question_ids = list(questions_queryset.values_list('id', flat=True))
-
-    if len(all_question_ids) < settings['num_questions']:
-        messages.warning(request, f"Not enough questions for '{difficulty}' difficulty. Displaying all available questions.")
-
-    random.shuffle(all_question_ids)
-
-    selected_question_ids = all_question_ids[:settings['num_questions']]
-
-    if not selected_question_ids:
-        messages.error(request, "No questions available for the selected difficulty. Please try another or contact support.")
+    if difficulty == 'super_hard' and (is_guest or player.total_score < 300):
+        messages.error(request, "🔒 You need 300 points to unlock MANIA mode!")
         return redirect('game_start')
 
-    keys_to_clear = [
-        'game_question_ids', 'game_current_index', 'game_score', 
-        'game_difficulty', 'game_message', 'game_history', 'score_saved'
-    ]
-    for key in keys_to_clear:
-        request.session.pop(key, None)
+    settings = DIFFICULTY_SETTINGS.get(difficulty, DIFFICULTY_SETTINGS['normal'])
+    is_premium_mode = settings['model_type'] == 'premium'
+    
+    model = ThankJapanPremium if is_premium_mode else ThankJapanModel
+    qs = model.objects.all()
+    if settings.get('category_filter'): qs = qs.filter(category__in=settings['category_filter'])
+    if settings.get('jlpt_level'): qs = qs.filter(jlpt_level=settings['jlpt_level'])
+    if settings.get('length_regex'): qs = qs.filter(name__iregex=settings['length_regex'])
 
-    request.session['game_question_ids'] = selected_question_ids
+    ids = list(qs.values_list('id', flat=True))
+    if not ids:
+        messages.error(request, "No questions found.")
+        return redirect('game_start')
+    
+    random.shuffle(ids)
+    selected_ids = ids[:settings['num_questions']]
+
+    keys_to_clear = ['game_question_ids', 'game_current_index', 'game_score', 'game_difficulty', 'game_history', 'score_saved', 'is_premium_mode']
+    for key in keys_to_clear: request.session.pop(key, None)
+
+    request.session['game_question_ids'] = selected_ids
     request.session['game_current_index'] = 0
     request.session['game_score'] = 0
     request.session['game_difficulty'] = difficulty
-    request.session['game_history'] = [] 
+    request.session['is_premium_mode'] = is_premium_mode
+    request.session['game_history'] = []
+    request.session['score_saved'] = False
 
-    messages.info(request, f"🚀 Starting a new game on {difficulty.upper()} difficulty!")
     return redirect('game_play')
 
-
 def game_result(request):
-    current_game_score = request.session.get('game_score', 0)
+    score = request.session.get('game_score', 0)
     player, is_guest = get_current_player_info(request)
+    is_premium_mode = request.session.get('is_premium_mode', False)
+    difficulty = request.session.get('game_difficulty')
 
-    if not request.session.get('score_saved', False):
-        if not is_guest:
-            player.total_score += current_game_score
-            player.last_score = current_game_score
-            player.save()
-        
+    if not request.session.get('score_saved', False) and not is_guest:
+        player.total_score += score
+        player.last_score = score
+        player.save()
         request.session['score_saved'] = True
 
-    game_history = request.session.get('game_history', [])
-    
-    played_question_ids = [item['question_id'] for item in game_history]
-    played_questions = ThankJapanModel.objects.in_bulk(played_question_ids)
+    history = request.session.get('game_history', [])
+    model = ThankJapanPremium if is_premium_mode else ThankJapanModel
+    played_questions = model.objects.in_bulk([h['question_id'] for h in history])
 
     review_data = []
-    for item in game_history:
-        q_obj = played_questions.get(item['question_id'])
-        if q_obj:
-            review_data.append({
-                'object': q_obj,
-                'question_id': item['question_id'],
-                'is_correct': item['is_correct'],
-                'user_input': item['user_input'],
-                'correct_answer': item['correct_answer'],
-            })
-
-    ranking = Player.objects.order_by('-total_score')[:20]
+    for h in history:
+        q = played_questions.get(h['question_id'])
+        if q: review_data.append({'object': q, 'is_correct': h['is_correct'], 'user_input': h['user_input'], 'correct_answer': h['correct_answer']})
 
     return render(request, 'thank_japan_app/game_result.html', {
-        'player': player,
-        'score': current_game_score,
-        'ranking': ranking,
-        'is_guest': is_guest,
-        'review_data': review_data,
+        'player': player, 'score': score, 'is_guest': is_guest, 
+        'review_data': review_data, 'difficulty': difficulty,
+        'is_premium_mode': is_premium_mode,
+        'ranking': Player.objects.order_by('-total_score')[:20]
     })
-
 
                 
 #category select view
