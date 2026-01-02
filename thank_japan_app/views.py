@@ -290,10 +290,6 @@ class KiyakuDEView(ListView):
     model = ThankJapanModel
     
 
-
-
-
-
 #country page
 class TopView(ListView):
     template_name = "thank_japan_app/toppage/toppage.html"
@@ -510,9 +506,9 @@ DIFFICULTY_SETTINGS = {
     'hard': {'category_filter': None, 'length_regex': r'^.{1,9}$', 'num_questions': 7, 'model_type': 'free'},
     'super_hard': {'category_filter': None, 'length_regex': None, 'num_questions': 7, 'model_type': 'free'},
     'sample_premium': {'category_filter': ['DailyConversation'], 'jlpt_level': 'N5', 'num_questions': 5, 'model_type': 'premium'},
-    'n5_premium': {'jlpt_level': 'N5', 'num_questions': 3, 'model_type': 'premium'},
-    'n4_premium': {'jlpt_level': 'N4', 'num_questions': 3, 'model_type': 'premium'},
-    'n3_premium': {'jlpt_level': 'N3', 'num_questions': 3, 'model_type': 'premium'},
+    'n5_premium': {'jlpt_level': 'N5', 'num_questions': 5, 'model_type': 'premium'},
+    'n4_premium': {'jlpt_level': 'N4', 'num_questions': 5, 'model_type': 'premium'},
+    'n3_premium': {'jlpt_level': 'N3', 'num_questions': 5, 'model_type': 'premium'},
 }
 
 def get_current_player_info(request):

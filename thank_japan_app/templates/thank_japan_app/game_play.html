@@ -521,6 +521,8 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     const correctFlag = document.getElementById('correct-flag');
+    const incorrectFlag = document.getElementById('incorrect-flag');
+
     if (correctFlag) {
         confetti({
             particleCount: 120,
@@ -530,11 +532,14 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         
         const wordToSpeak = correctFlag.getAttribute('data-word');
-        if (wordToSpeak) {
-            if (isSoundOn) {
-                playChime();
-                setTimeout(() => speakJapanese(wordToSpeak, true), 1000);
-            }
+        if (wordToSpeak && isSoundOn) {
+            playChime();
+            setTimeout(() => speakJapanese(wordToSpeak, true), 1000);
+        }
+    } else if (incorrectFlag) {
+        const wordToSpeak = incorrectFlag.getAttribute('data-word');
+        if (wordToSpeak && isSoundOn) {
+            setTimeout(() => speakJapanese(wordToSpeak, true), 500);
         }
     }
 
