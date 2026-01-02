@@ -575,7 +575,7 @@ body::before, body::after { display: none; }
         <div class="difficulty-options">
         <!-- free try  -->
 
-            <a href="#" class="difficulty-card sample-card">
+            <a href="{% url 'game_restart' %}?difficulty=sample_premium" class="difficulty-card sample-card">
                 <span class="emoji">🎁</span>
                 <div class="difficulty-info">
                     <h3>FREE SAMPLE</h3>
@@ -587,7 +587,7 @@ body::before, body::after { display: none; }
             
             
             {% if user.is_authenticated and user.profile.is_premium %}
-            <a href="#" class="difficulty-card premium-gold">
+            <a href="{% url 'game_restart' %}?difficulty=n5_premium" class="difficulty-card premium-gold">
             {% else %}
                 <a href="{% url 'premium_info' %}" class="difficulty-card premium-locked">
                 <div class="lock-overlay">🔒</div>
@@ -601,7 +601,7 @@ body::before, body::after { display: none; }
 
             
             {% if user.is_authenticated and user.profile.is_premium %}
-            <a href="#" class="difficulty-card premium-gold">
+            <a href="{% url 'game_restart' %}?difficulty=n4_premium" class="difficulty-card premium-gold">
             {% else %}
                 <a href="{% url 'premium_info' %}" class="difficulty-card premium-locked">
                 <div class="lock-overlay">🔒</div>
@@ -615,7 +615,7 @@ body::before, body::after { display: none; }
 
             
             {% if user.is_authenticated and user.profile.is_premium %}
-            <a href="#" class="difficulty-card premium-gold">
+            <a href="{% url 'game_restart' %}?difficulty=n3_premium" class="difficulty-card premium-gold">
             {% else %}
                 <a href="{% url 'premium_info' %}" class="difficulty-card premium-locked">
                     <div class="lock-overlay">🔒</div>
