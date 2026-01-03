@@ -99,6 +99,24 @@ def normalize_for_judge(text):
     for old, new in repls: text = text.replace(old, new)
     return text
 
+CATEGORY_URL_MAP = {
+    'culture': 'culturepage',
+    'food': 'foodpage',
+    'cook': 'cookpage',
+    'fashion': 'fashionpage',
+    'nature': 'naturepage',
+    'animal': 'animalpage',
+    'sports': 'sportspage',
+    'householditems': 'householditemspage',
+    'appliances': 'appliancespage',
+    'building': 'buildingpage',
+    'flower': 'flowerpage',
+    'work': 'workpage',
+    'live': 'livepage',
+    'DailyConversation': 'dailyconversation',
+    'BusinessJapanese': 'businessjapanese',
+}
+
 #company infomation
 class CompanyFormView(TemplateView):
      template_name = 'thank_japan_app/info/company.html'
@@ -367,8 +385,11 @@ class CategoryDetailView(DetailView):
         ).exclude(
             id=current_item.id
         ).order_by('?')[:6]
-        return context
-     
+
+        url_name = CATEGORY_URL_MAP.get(current_item.category, 'category_list')
+        context['category_list_url'] = reverse(url_name)
+        
+        return context     
 
 def contact_view(request):
     if request.method == "POST":
@@ -501,6 +522,7 @@ def delete_player(request):
         return redirect('delete_player_confirm')
 
 DIFFICULTY_SETTINGS = {
+    'single': {'num_questions': 1, 'model_type': 'free'},
     'easy': {'category_filter': ['sports', 'food'], 'length_regex': r'^.{1,20}$', 'num_questions': 3, 'model_type': 'free'},
     'normal': {'category_filter': ['cook', 'food', 'culture'], 'length_regex': r'^.{1,9}$', 'num_questions': 5, 'model_type': 'free'},
     'hard': {'category_filter': None, 'length_regex': r'^.{1,9}$', 'num_questions': 7, 'model_type': 'free'},
@@ -642,49 +664,52 @@ def game_next_question(request):
         return redirect('game_result')
     return redirect('game_play')    
 
+
 def game_restart(request):
     difficulty = request.GET.get('difficulty', 'normal')
+    mode = request.GET.get('mode')
     player, is_guest = get_current_player_info(request)
 
-    premium_only = ['n4_premium', 'n3_premium']
-    if difficulty in premium_only:
-        if is_guest or not getattr(request.user.profile, 'is_premium', False):
-            messages.warning(request, "🔒 This level is for Premium members.")
-            return redirect('premium_info')
+    if mode == 'single':
+        model_type = request.GET.get('model_type')
+        if model_type == 'premium':
+            slug = request.GET.get('slug')
+            question = get_object_or_404(ThankJapanPremium, slug=slug)
+            is_premium_mode = True
+        else:
+            pk = request.GET.get('pk')
+            question = get_object_or_404(ThankJapanModel, id=pk)
+            is_premium_mode = False
+        selected_question_ids = [question.id]
+        difficulty = 'single'
+    else:
+        premium_only = ['n4_premium', 'n3_premium']
+        if difficulty in premium_only:
+            if is_guest or not getattr(request.user.profile, 'is_premium', False):
+                return redirect('premium_info')
 
-    if difficulty == 'super_hard' and (is_guest or player.total_score < 300):
-        messages.error(request, "🔒 You need 300 points to unlock MANIA mode!")
-        return redirect('game_start')
-
-    settings = DIFFICULTY_SETTINGS.get(difficulty, DIFFICULTY_SETTINGS['normal'])
-    is_premium_mode = settings['model_type'] == 'premium'
-    
-    model = ThankJapanPremium if is_premium_mode else ThankJapanModel
-    qs = model.objects.all()
-    if settings.get('category_filter'): qs = qs.filter(category__in=settings['category_filter'])
-    if settings.get('jlpt_level'): qs = qs.filter(jlpt_level=settings['jlpt_level'])
-    if settings.get('length_regex'): qs = qs.filter(name__iregex=settings['length_regex'])
-
-    ids = list(qs.values_list('id', flat=True))
-    if not ids:
-        messages.error(request, "No questions found.")
-        return redirect('game_start')
-    
-    random.shuffle(ids)
-    selected_ids = ids[:settings['num_questions']]
+        settings = DIFFICULTY_SETTINGS.get(difficulty, DIFFICULTY_SETTINGS['normal'])
+        is_premium_mode = settings['model_type'] == 'premium'
+        model = ThankJapanPremium if is_premium_mode else ThankJapanModel
+        qs = model.objects.all()
+        if settings.get('category_filter'): qs = qs.filter(category__in=settings['category_filter'])
+        if settings.get('jlpt_level'): qs = qs.filter(jlpt_level=settings['jlpt_level'])
+        if settings.get('length_regex'): qs = qs.filter(name__iregex=settings['length_regex'])
+        ids = list(qs.values_list('id', flat=True))
+        random.shuffle(ids)
+        selected_question_ids = ids[:settings['num_questions']]
 
     keys_to_clear = ['game_question_ids', 'game_current_index', 'game_score', 'game_difficulty', 'game_history', 'score_saved', 'is_premium_mode']
     for key in keys_to_clear: request.session.pop(key, None)
 
-    request.session['game_question_ids'] = selected_ids
+    request.session['game_question_ids'] = selected_question_ids
     request.session['game_current_index'] = 0
     request.session['game_score'] = 0
     request.session['game_difficulty'] = difficulty
     request.session['is_premium_mode'] = is_premium_mode
     request.session['game_history'] = []
-    request.session['score_saved'] = False
-
     return redirect('game_play')
+
 
 def game_result(request):
     score = request.session.get('game_score', 0)
@@ -1072,12 +1097,9 @@ class ImgPremiumDetailView(DetailView):
     
     def get(self, request, *args, **kwargs):
         self.object = self.get_object()
-    
         if self.object.category != "DailyConversation":
-        
             if not request.user.is_authenticated or not request.user.profile.is_premium:
                 return redirect('premium_info')
-        
         return super().get(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
@@ -1088,9 +1110,13 @@ class ImgPremiumDetailView(DetailView):
         ).exclude(
             id=current_item.id
         ).order_by('?')[:6]
+
+        url_name = CATEGORY_URL_MAP.get(current_item.category, 'category_list')
+        context['category_list_url'] = reverse(url_name)
+        
         return context
-
-
+    
+    
 def sitemap_view(request):
     
     premium_items = ThankJapanPremium.objects.all()

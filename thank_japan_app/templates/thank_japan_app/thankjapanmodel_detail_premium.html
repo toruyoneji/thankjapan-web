@@ -313,24 +313,10 @@ body {
     </div>
 
     <div class="game-invite-box">
-        <h3 class="game-invite-title">Ready to Practice?</h3>
-        <p style="color:#c3b1a1; margin-bottom:25px;">
-            {% if not user.is_authenticated %}
-                Try this phrase in our game! Sign up for free to save your rank and progress.
-            {% else %}
-                Master this phrase by practicing in our typing game!
-            {% endif %}
-        </p>
-        
-        {% if not user.is_authenticated %}
-            <a href="{% url 'player_register' %}" class="game-invite-btn">
-                🚀 Register & Play
-            </a>
-        {% else %}
-            <a href="{% url 'game_start' %}" class="game-invite-btn">
-                🎮 Start Practice
-            </a>
-        {% endif %}
+        <h3 class="game-invite-title">Ready to Master this Phrase?</h3>
+        <a href="{% url 'game_restart' %}?mode=single&model_type=premium&slug={{ object.slug }}" class="game-invite-btn">
+            ⌨️ Master this Phrase
+        </a>
     </div>
 
     {% if related_items %}
@@ -377,13 +363,21 @@ function speakJapanese(text) {
     }
 }
 
-function smartBack() {
+function smartBack(categoryListUrl) {
     const params = new URLSearchParams(window.location.search);
+    
     if (params.get('from') === 'game') {
-        window.close(); 
-    } else {
-        window.history.back(); 
+        window.close();
+        return;
     }
+    
+    
+    if (params.get('origin') === 'category') {
+        window.location.href = categoryListUrl;
+        return;
+    }
+    
+    window.history.back();
 }
 
 document.addEventListener('DOMContentLoaded', function() {

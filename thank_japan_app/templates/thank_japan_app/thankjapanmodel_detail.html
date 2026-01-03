@@ -335,12 +335,9 @@ footer {
     </div>
 
     <div class="game-invite-box">
-        <h3 class="game-invite-title">Learn more Japanese words?</h3>
-        <p class="game-invite-text">
-            Play our free typing game and master Hiragana & Vocabulary in a Zen atmosphere. 🍵
-        </p>
-        <a href="{% url 'game_start' %}" class="game-invite-btn">
-            🎮 Play Game
+        <h3 class="game-invite-title">Ready to Practice this Word?</h3>
+        <a href="{% url 'game_restart' %}?mode=single&model_type=free&slug={{ object.slug }}" class="game-invite-btn">
+            ⌨️ Practice This Word
         </a>
     </div>
 
@@ -392,13 +389,21 @@ function speakJapanese(text) {
     }
 }
 
-function smartBack() {
+function smartBack(categoryListUrl) {
     const params = new URLSearchParams(window.location.search);
+    
     if (params.get('from') === 'game') {
-        window.close(); 
-    } else {
-        window.history.back(); 
+        window.close();
+        return;
     }
+    
+
+    if (params.get('origin') === 'category') {
+        window.location.href = categoryListUrl;
+        return;
+    }
+    
+    window.history.back();
 }
 
 document.addEventListener('DOMContentLoaded', function() {

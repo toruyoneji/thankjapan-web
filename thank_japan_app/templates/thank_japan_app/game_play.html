@@ -281,6 +281,35 @@ img:hover { transform: scale(1.02); }
     transform: scale(1.1);
 }
 
+.next-btn {
+    display: inline-block;
+    padding: 15px 30px;
+    margin: 10px 5px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1.1rem;
+    text-align: center;
+    transition: all 0.3s ease;
+    min-width: 220px;
+    cursor: pointer;
+}
+.btn-back-premium {
+    background: linear-gradient(135deg, #d4af37 0%, #f1c40f 100%) !important;
+    color: #1e1b19 !important;
+    box-shadow: 0 4px 0 #8b7326;
+}
+.btn-back-free {
+    background: #7b942e !important;
+    color: #fff !important;
+    box-shadow: 0 4px 0 #556b2f;
+}
+.btn-game-next {
+    background: #556b2f !important;
+    color: #fff !important;
+    box-shadow: 0 4px 0 #3e4a2a;
+}
+
 
 @media (max-width: 1024px) {
   .main2 {
@@ -297,6 +326,12 @@ img:hover { transform: scale(1.02); }
   .visual-hint-container { min-height: 70px; }
   .onscreen-keyboard { display: flex; }
 }
+
+@media screen and (max-width: 768px) {
+    .next-btn { width: 90%; font-size: 1rem; }
+}
+
+
 </style>
 
 <div class="main2" data-hint-length="{{ hint_length }}" data-total-questions="{{ total_questions }}">
@@ -431,11 +466,29 @@ img:hover { transform: scale(1.02); }
                 </div>
             </div>
         {% endif %}
-        <div style="margin-top: 30px;">
-            <a href="{% url 'game_next_question' %}" class="neon-button" style="text-decoration: none; display: inline-block;">
-                {% if is_last_question %}View Final Results 🏁{% else %}Next Question ➡️{% endif %}
-            </a>
+
+        
+
+        <div class="result-actions" style="margin-top: 20px; text-align: center;">
+            {% if difficulty == 'single' %}
+                {% if is_premium_mode %}
+                    <a href="{% url 'detail_premium' category=object.category slug=object.slug %}?origin=category" class="next-btn btn-back-premium">
+                        ✅ Finish & Back to Lesson
+                    </a>
+                {% else %}
+                    <a href="{% url 'category_detail' category=object.category slug=object.slug %}?origin=category" class="next-btn btn-back-free">
+                        ✅ Finish & Back to Lesson
+                    </a>
+                {% endif %}
+            {% else %}
+                {% if is_last_question %}
+                    <a href="{% url 'game_next_question' %}" class="next-btn btn-game-next">🏁 See Game Results</a>
+                {% else %}
+                    <a href="{% url 'game_next_question' %}" class="next-btn btn-game-next">Next Question ➔</a>
+                {% endif %}
+            {% endif %}
         </div>
+
     </div>
   {% else %}
 
