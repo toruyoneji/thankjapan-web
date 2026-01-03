@@ -88,6 +88,7 @@ def normalize_consonants(text):
 def normalize_for_judge(text):
     if not text: return ""
     text = text.lower().strip()
+    text = text.replace('wa', 'ha')
     text = re.sub(r'[^a-z0-9\-]', '', text)
     text = re.sub(r'(a)\-', r'aa', text)
     text = re.sub(r'(i)\-', r'ii', text)
