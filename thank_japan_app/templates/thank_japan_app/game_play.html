@@ -363,12 +363,28 @@ img:hover { transform: scale(1.02); }
   
   <h2>Category: {{ object.category|title }}</h2>
 
-  {% if difficulty != 'super_hard' and show_english %}
-    <div class="english-meaning-display">
-        <span class="meaning-label">English:</span>
-        <span class="meaning-text">{{ object.englishname }}</span>
+    <div class="hint-area" style="margin: 15px 0;">
+    <button type="button" id="hint-btn" onclick="showHint()" style="
+        background: #d4af37; 
+        color: #000; 
+        border: none; 
+        padding: 8px 20px; 
+        border-radius: 20px; 
+        font-weight: bold; 
+        cursor: pointer;
+        box-shadow: 0 4px 0 #8b7326;
+        transition: 0.2s;">
+        💡 Hint
+    </button>
+    <p id="english-hint-text" style="
+        display: none; 
+        font-size: 1.2rem; 
+        color: #fcd5b5; 
+        margin-top: 10px;
+        font-family: 'Poppins', sans-serif;">
+        Meaning: <strong>{{ object.englishname }}</strong>
+    </p>
     </div>
-  {% endif %}
 
   {% if show_result %}
     <div class="result-section" style="text-align: center; margin-top: 20px;">
@@ -444,6 +460,16 @@ img:hover { transform: scale(1.02); }
 </div>
 
 <script>
+function showHint() {
+    const hintBtn = document.getElementById('hint-btn');
+    const hintText = document.getElementById('english-hint-text');
+    
+    if (hintBtn && hintText) {
+        hintText.style.display = 'block';
+        hintBtn.style.display = 'none';
+    }
+}
+
 function toggleDetails() {
     var details = document.getElementById("word-details");
     if (details.style.display === "none") details.style.display = "block";
