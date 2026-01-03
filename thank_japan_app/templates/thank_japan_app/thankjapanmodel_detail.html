@@ -365,8 +365,10 @@ footer {
     </div>
     {% endif %}
 
-    <button onclick="smartBack()" class="btn-back" id="back-btn">← Back</button>
-
+    <button onclick="smartBack('{{ category_list_url }}')" class="btn-back" id="back-btn">
+        ← Back
+    </button>
+    
     <footer>
         © 2025 Thank Japan All Rights Reserved.
     </footer>
