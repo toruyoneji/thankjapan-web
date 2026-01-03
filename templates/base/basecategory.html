@@ -222,13 +222,12 @@
 function goToCategoryList() {
     const menuUrl = localStorage.getItem('tj_category_menu_url');
     if (menuUrl) {
-        // 履歴を無視して保存された言語のメニューへワープ
+        
         window.location.href = menuUrl;
     } else {
-        window.location.href = "{% url 'category_list' %}";
+        window.location.href = "/categories/"; 
     }
 }
-
 document.addEventListener('DOMContentLoaded', function() {
     const dropdowns = document.querySelectorAll('.dropdown');
 

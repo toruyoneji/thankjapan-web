@@ -325,7 +325,25 @@
 
 
     <div style="text-align:center; margin:50px 0;">
-        <a class="btn-more" href="javascript:history.back();">← Back</a>
-
+        <a class="btn-more" href="javascript:void(0);" onclick="goToTopPage()">← Back to Home</a>
     </div>
+
 </div>
+
+<script>
+    
+localStorage.setItem('tj_category_menu_url', window.location.href);
+
+function goToTopPage() {
+    const topUrl = localStorage.getItem('tj_top_url');
+    if (topUrl) {
+        
+        window.location.href = topUrl;
+    } else {
+    
+        window.location.href = "{% url 'toppage' %}";
+    }
+}
+
+</script>
+

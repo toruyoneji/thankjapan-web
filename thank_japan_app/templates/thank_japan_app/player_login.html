@@ -175,7 +175,7 @@
   <p>Don't have an account? <a href="{% url 'player_register' %}">Register here</a>.</p>
 
   <div style="text-align:center; margin:50px 0;">
-    <a class="btn-more" href="{% url 'toppage' %}">← Back To Home</a>
+    <a class="btn-more" href="javascript:void(0);" onclick="goToTopPage()">← Back to Home</a>
   </div>
 
   <!-- 折りたたみボタン -->
@@ -266,13 +266,24 @@
 </div>
 
 <script>
+
+    function goToTopPage() {
+        
+        const topUrl = localStorage.getItem('tj_top_url');
+        if (topUrl) {
+            window.location.href = topUrl;
+        } else {
+            window.location.href = "{% url 'toppage' %}";
+        }
+    }
+
 document.addEventListener("DOMContentLoaded", function(){
   const toggleBtn = document.getElementById("toggle-instruction");
   const content = document.getElementById("game-instruction");
 
   toggleBtn.addEventListener("click", function(){
     if(content.style.display === "none" || content.style.display === ""){
-      content.style.display = "grid"; // gridで表示
+      content.style.display = "grid"; 
       toggleBtn.textContent = "Hide Instructions 🎮";
     } else {
       content.style.display = "none";
