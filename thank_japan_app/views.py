@@ -115,6 +115,7 @@ CATEGORY_URL_MAP = {
     'live': 'livepage',
     'DailyConversation': 'dailyconversation',
     'BusinessJapanese': 'businessjapanese',
+    'LivingInJapan': 'living_in_japan_page',
 }
 
 #company infomation
@@ -1092,6 +1093,13 @@ class BusinessJapaneseView(ListView):
     
     def get_queryset(self):
         return ThankJapanPremium.objects.filter(category="BusinessJapanese").order_by('-timestamp')
+
+class LivingInJapanView(ListView):
+    template_name = "thank_japan_app/living_in_japan.html"
+    paginate_by = 24
+    
+    def get_queryset(self):
+        return ThankJapanPremium.objects.filter(category="LivingInJapan").order_by('-timestamp')
 
 
 class ImgPremiumDetailView(DetailView):

@@ -1,18 +1,17 @@
 {% extends 'base/basecategory.html' %}
-{% block title %}Popular Sports in Japan | Martial Arts, Baseball & More | ThankJapan{% endblock %}
-
-{% block og_title %}Japanese Sports - Traditional & Modern Games | ThankJapan{% endblock %}
-{% block og_description %}From soccer basketball to baseball, discover Japan’s unique mix of traditional and modern sports.{% endblock %}
+{% block title %}Practical Living | Master Daily Life in Japan | ThankJapan{% endblock %}
+{% block og_title %}Practical Living - Survival Japanese for Daily Life | ThankJapan{% endblock %}
+{% block og_description %}Learn essential Japanese for your daily life in Japan. Master garbage rules, city hall procedures, healthcare, and survival phrases through interactive lessons.{% endblock %}
 {% block og_url %}{{ request.build_absolute_uri }}{% endblock %}
-{% block description %}From sumo wrestling to baseball, discover Japan’s unique mix of traditional and modern sports.{% endblock %}
+{% block description %}Learn essential Japanese for your daily life in Japan. Master garbage rules, city hall procedures, healthcare, and survival phrases through interactive lessons.{% endblock %}
+
 
 {% block content %}
+{% load static %}
 
-    {% load static %}
-
-    <script>
-        window.shareText = "Learn About Japanese Sports with ThankJapan!";
-    </script>
+<script>
+    window.shareText = "Master Japanese Conversations with ThankJapan!";
+</script>
 
 <style>
 body {
@@ -24,18 +23,21 @@ body {
 .category-header {
     text-align: center;
     padding: 60px 20px 40px;
-    background: linear-gradient(135deg, #ffe8d6 0%, #fffaf5 100%);
+    background: linear-gradient(135deg, #fdfcf0 0%, #fffaf5 100%);
     border-radius: 0 0 40px 40px;
-    margin-top: 10px; /* 上余白なし */
+    margin-top: 10px;
+    border-bottom: 2px solid #d4af37;
 }
+
 .category-header h1 {
     font-size: 3.0rem;
     font-family: 'Sawarabi Mincho', serif;
-    color: #d46a00;
+    color: #b22d35;
     letter-spacing: 1px;
 }
+
 .category-header p {
-    color: #666;
+    color: #5d5245;
     font-size: 1.1rem;
     margin-top: 10px;
 }
@@ -56,43 +58,63 @@ body {
     overflow: hidden;
     text-align: center;
     transition: all 0.3s ease;
-    border: 2px solid #ffe0b2;
+    border: 2px solid #f0e68c;
+    position: relative;
 }
+
 .food-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+    box-shadow: 0 8px 20px rgba(212, 175, 55, 0.2);
+    border-color: #d4af37;
 }
+
 .food-card img {
     width: 100%;
     height: 180px;
     object-fit: cover;
-    border-bottom: 2px solid #ffd6a5;
+    border-bottom: 2px solid #f0e68c;
     transition: transform 0.3s ease;
 }
+
 .food-card:hover img {
     transform: scale(1.04);
 }
+
+.jlpt-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(212, 175, 55, 0.9);
+    color: #fff;
+    padding: 2px 8px;
+    border-radius: 8px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    z-index: 10;
+}
+
 .food-card h3 {
     margin: 12px 0;
     font-size: 1rem;
     font-weight: 600;
     color: #444;
+    padding: 0 10px;
 }
 
 .no-image {
     width: 100%;
     height: 180px;
-    background-color: #ffe8d6;
+    background-color: #fdfcf0;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #d46a00;
+    color: #d4af37;
     font-weight: 600;
 }
 
 .btn-more {
     display: inline-block;
-    background: #ffb347;
+    background: #d4af37;
     color: white;
     padding: 10px 24px;
     border-radius: 25px;
@@ -101,25 +123,26 @@ body {
     margin-top: 20px;
     transition: background 0.3s;
 }
+
 .btn-more:hover {
-    background: #ff9642;
+    background: #b8860b;
 }
 
 .pagination-container {
-  overflow-x: auto;       /* 横スクロール許可 */
+  overflow-x: auto;
   padding: 15px 0;
-  -webkit-overflow-scrolling: touch; /* iOSスムーズスクロール */
+  -webkit-overflow-scrolling: touch;
 }
 
 .pagination {
   display: flex;
   gap: 10px;
-  min-width: max-content; 
-  justify-content: center; 
+  min-width: max-content;
+  justify-content: center;
 }
 
 .page-btn {
-  flex: 0 0 auto;         
+  flex: 0 0 auto;
   padding: 8px 14px;
   border-radius: 12px;
   border: 1px solid #ccc;
@@ -133,60 +156,63 @@ body {
 }
 
 .page-btn:hover {
-  background-color: #e63946;
+  background-color: #b22d35;
   color: #fff;
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
 }
 
 .page-btn.current {
-  background-color: #e63946;
+  background-color: #b22d35;
   color: #fff;
   font-weight: bold;
-  border-color: #e63946;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  border-color: #b22d35;
 }
 
-
-/* メディアクエリ */
 @media (max-width: 1200px) {
     .main2 { grid-template-columns: repeat(3, 1fr); }
 }
+
 @media (max-width: 900px) {
     .main2 { grid-template-columns: repeat(2, 1fr); gap: 16px; padding: 20px 4%; }
-    .category-header { padding-top: 150px; }
-    .category-header h1 { font-size: 2.0rem;}
+    .category-header { padding-top: 180px; }
+    .category-header h1 { font-size: 2.2rem;}
     .food-card img { height: 140px; }
-    .food-card h3 { font-size: 0.9rem; }
 }
+
 @media (max-width: 600px) {
     .main2 { grid-template-columns: repeat(2, 1fr); gap: 12px; padding: 20px 4%; }
-    .category-header { padding-top: 150px; }
+    .category-header { padding-top: 200px; }
     .category-header h1 { font-size: 2.0rem;}
     .food-card img { height: 120px; }
     .food-card h3 { font-size: 0.8rem; }
 }
-
 </style>
 
-<div class="category-header">
-    <h1>Sports Names in Japanese: Vocabulary & Romaji Guide</h1>
-    <p>Learn about traditional and modern sports popular in Japan, including martial arts, sumo, and more.</p>
 
+<div class="category-header">
+    <h1>Practical Living 🏠</h1>
+    <p>Master survival phrases and essential rules for your new life in Japan. Navigate daily errands, public services, and local customs with confidence.</p>
 </div>
 
 <div class="main2">
-    
     {% for item in object_list %}
         <div class="food-card">
+            {% if item.jlpt_level %}
+                <div class="jlpt-badge">{{ item.jlpt_level }}</div>
+            {% endif %}
+            
             {% if item.image %}
-                <a href="{% url 'category_detail' item.category item.slug %}">
+                <a href="{% url 'detail_premium' category=item.category slug=item.slug %}">
                     <img src="{{ item.image.url }}" alt="{{ item.englishname }}">
                 </a>
             {% else %}
-                <div class="no-image">No image available</div>
+                <div class="no-image">Coming Soon</div>
             {% endif %}
             <h3>{{ item.englishname }}</h3>
+        </div>
+    {% empty %}
+        <div style="grid-column: 1 / -1; text-align: center; padding: 50px;">
+            <p>New lessons are being prepared. Please check back soon!</p>
         </div>
     {% endfor %}
 </div>
@@ -212,7 +238,6 @@ body {
     {% endif %}
   </div>
 </div>
-
 
 <div style="text-align:center; margin:50px 0;">
     <a class="btn-more" href="javascript:void(0);" onclick="goToCategoryList()">← Back</a>
