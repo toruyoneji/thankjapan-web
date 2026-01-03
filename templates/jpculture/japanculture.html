@@ -73,6 +73,22 @@ h1 {
   border-radius: 15px 15px 0 0; /* 角丸は残す */
 }
 
+.btn-more {
+    display: inline-block;
+    background: #ffb347;
+    color: white;
+    padding: 10px 24px;
+    border-radius: 25px;
+    text-decoration: none;
+    font-weight: 600;
+    margin-top: 20px;
+    transition: background 0.3s;
+}
+.btn-more:hover {
+    background: #ff9642;
+}
+
+
 /* ===== レスポンシブ（スマホ2列） ===== */
 @media (max-width: 768px) {
   h1 {
@@ -208,6 +224,10 @@ h1 {
         alt="kanazawaosechi"/>
       <p>Osechi ryori are traditional Japanese New Year dishes, beautifully prepared to bring luck and celebrate the season.</p>
     </div>
+
+    <div style="text-align:center; margin:50px 0;">
+        <a class="btn-more" href="javascript:void(0);" onclick="goToTopPage()">← Back to Home</a>
+    </div>
     
   </div>
  
@@ -223,6 +243,15 @@ h1 {
 </div>
 
 <script>
+function goToTopPage() {
+        const topUrl = localStorage.getItem('tj_top_url');
+        if (topUrl) {
+            window.location.href = topUrl;
+        } else {
+            window.location.href = "{% url 'toppage' %}";
+        }
+    }
+
 const cards = document.querySelectorAll('.food-card');
 const modal = document.getElementById('modal');
 const modalImage = document.getElementById('modalImage');
