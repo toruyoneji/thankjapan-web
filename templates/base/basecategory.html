@@ -220,25 +220,16 @@
 
 <script>
 function goToCategoryList() {
-    const path = window.location.pathname;
-    let url = "{% url 'category_list' %}"; // デフォルト（英語）
+    
+    const savedUrl = localStorage.getItem('thankjapan_back_url');
 
-    // 現在のパスに含まれる言語コードから戻り先URLを判定
-    if (path.includes('/ja/')) url = "{% url 'category_list_ja' %}";
-    else if (path.includes('/zh-hant/')) url = "{% url 'category_list_zhHant' %}";
-    else if (path.includes('/vi/')) url = "{% url 'category_list_vi' %}";
-    else if (path.includes('/th/')) url = "{% url 'category_list_th' %}";
-    else if (path.includes('/ko/')) url = "{% url 'category_list_ko' %}";
-    else if (path.includes('/it/')) url = "{% url 'category_list_it' %}";
-    else if (path.includes('/fr/')) url = "{% url 'category_list_fr' %}";
-    else if (path.includes('/es-mx/')) url = "{% url 'category_list_esMX' %}";
-    else if (path.includes('/es-es/')) url = "{% url 'category_list_esES' %}";
-    else if (path.includes('/en-in/')) url = "{% url 'category_list_enIN' %}";
-    else if (path.includes('/de/')) url = "{% url 'category_list_de' %}";
-    else if (path.includes('/pt-br/')) url = "{% url 'category_list_ptBR' %}";
-    else if (path.includes('/pt/')) url = "{% url 'category_list_pt' %}";
-
-    window.location.href = url;
+    if (savedUrl) {
+        
+        window.location.href = savedUrl;
+    } else {
+    
+        window.location.href = "{% url 'category_list' %}";
+    }
 }
 
 document.addEventListener('DOMContentLoaded', function() {
