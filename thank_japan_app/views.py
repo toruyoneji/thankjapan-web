@@ -672,14 +672,18 @@ def game_restart(request):
 
     if mode == 'single':
         model_type = request.GET.get('model_type')
+        val = request.GET.get('slug') 
+        
         if model_type == 'premium':
-            slug = request.GET.get('slug')
-            question = get_object_or_404(ThankJapanPremium, slug=slug)
+            question = get_object_or_404(ThankJapanPremium, slug=val)
             is_premium_mode = True
         else:
-            pk = request.GET.get('pk')
-            question = get_object_or_404(ThankJapanModel, id=pk)
+            try:
+                question = ThankJapanModel.objects.get(slug=val)
+            except ThankJapanModel.DoesNotExist:
+                question = get_object_or_404(ThankJapanModel, name=val)
             is_premium_mode = False
+            
         selected_question_ids = [question.id]
         difficulty = 'single'
     else:
@@ -695,6 +699,7 @@ def game_restart(request):
         if settings.get('category_filter'): qs = qs.filter(category__in=settings['category_filter'])
         if settings.get('jlpt_level'): qs = qs.filter(jlpt_level=settings['jlpt_level'])
         if settings.get('length_regex'): qs = qs.filter(name__iregex=settings['length_regex'])
+        
         ids = list(qs.values_list('id', flat=True))
         random.shuffle(ids)
         selected_question_ids = ids[:settings['num_questions']]
@@ -708,8 +713,8 @@ def game_restart(request):
     request.session['game_difficulty'] = difficulty
     request.session['is_premium_mode'] = is_premium_mode
     request.session['game_history'] = []
+    
     return redirect('game_play')
-
 
 def game_result(request):
     score = request.session.get('game_score', 0)
