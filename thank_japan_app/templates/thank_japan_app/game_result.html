@@ -712,13 +712,24 @@ tbody td {
   </div>
 
   <div style="text-align:center; margin:50px 0;">
-    <a class="btn-more" href="{% url 'toppage' %}">← Back To Home</a>
+    <a class="btn-more" href="javascript:void(0);" onclick="goToTopPage()">← Back to Home</a>
   </div>
+  
 </div>
 
 
 {{ score|default:0|json_script:"score-data" }}
 <script>
+
+    function goToTopPage() {
+        const topUrl = localStorage.getItem('tj_top_url');
+        if (topUrl) {
+            window.location.href = topUrl;
+        } else {
+            window.location.href = "{% url 'toppage' %}";
+        }
+    }
+
   document.addEventListener('DOMContentLoaded', function() {
     const scoreElement = document.getElementById('score');
     if (scoreElement) {
