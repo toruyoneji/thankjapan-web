@@ -29,7 +29,7 @@ from .views import (TopView, TopViewFR, TopViewIT, TopViewPT, TopViewZHHANT,TopV
                     PrivacyPolicy, PrivacyPolicyDE, PrivacyPolicyENIN, PrivacyPolicyESES, PrivacyPolicyESMX,
                     PrivacyPolicyFR, PrivacyPolicyIT, PrivacyPolicyJA, PrivacyPolicyKO, PrivacyPolicyPT,
                     PrivacyPolicyPTBR, PrivacyPolicyTH, PrivacyPolicyVI, PrivacyPolicyZHHANT,
-                    update_premium_status) 
+                    update_premium_status, thank_you) 
 
 
 urlpatterns = [
@@ -52,6 +52,7 @@ urlpatterns = [
     #premium
     path('premium/', premium_info, name='premium_info'),
     path('update-premium-status/', update_premium_status, name='update_premium_status'),
+    path('thank-you/', thank_you, name='thank_you'),
     
     path('dailyconversation/', DailyConversationView.as_view(), name='dailyconversation'),
     path('businessjapanese/', BusinessJapaneseView.as_view(), name='businessjapanese'),

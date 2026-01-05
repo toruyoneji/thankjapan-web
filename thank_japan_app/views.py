@@ -507,7 +507,7 @@ def player_login(request):
             request.session['is_guest'] = False 
 
             messages.success(request, f"Welcome back, {user.username}!")
-            return redirect('game_start')
+            return redirect('toppage')
         else:
             messages.error(request, "Invalid username or password.")
             
@@ -1104,6 +1104,10 @@ class JapanCultureDEView(TemplateView):
 #Thank_Japan premium    
 def premium_info(request):
     return render(request, 'thank_japan_app/premium/premium_info.html')
+
+@login_required
+def thank_you(request):
+    return render(request, 'thank_japan_app/thankyou/thank_you.html')
 
 class DailyConversationView(ListView):
     template_name = "thank_japan_app/dairy_conversation.html"

@@ -85,6 +85,68 @@ h2, h3 {
   text-shadow: none;
 }
 
+.hero-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 25px;
+    flex-wrap: wrap;
+}
+
+.explore-btn {
+    display: inline-block;
+    padding: 15px 40px;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 1.1rem;
+    letter-spacing: 1px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border: none;
+    min-width: 200px;
+    text-align: center;
+}
+
+.btn-gold {
+    background: linear-gradient(135deg, #fff1b8, #ffd700, #d4af37);
+    color: #000;
+    box-shadow: 0 6px 18px rgba(212, 175, 55, 0.6);
+    border: 1px solid #ffeb99;
+}
+
+.btn-white {
+    background: #ffffff !important;
+    color: #4a4a4a !important;
+    border: 2px solid #4a4a4a;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.btn-accent {
+    background: #556b2f !important;
+    color: #fff !important;
+    box-shadow: 0 6px 18px rgba(85, 107, 47, 0.4);
+}
+
+.explore-btn:hover {
+    transform: translateY(-3px);
+    filter: brightness(1.1);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+}
+
+.login-prompt {
+    margin-top: 20px;
+    font-size: 0.95rem;
+    color: #fff;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
+}
+
+.login-prompt a {
+    color: #ffd700;
+    font-weight: bold;
+}
+
+
 .explore-btn {
   background:
     linear-gradient(135deg,
@@ -255,11 +317,19 @@ footer {
       min-height: 450px; 
       padding: 60px 15px; 
   }
+
+  .hero-buttons {
+      flex-direction: column;
+      align-items: center;
+      gap: 15px;
+  }
+
   .hero h1 { font-size: 2.0rem; letter-spacing: 3px; }
   .hero p { font-size: 1.0rem; width: 90%; }
-  .explore-btn { padding: 18px 40px; font-size: 1.1rem; width: 85%; }
+  .explore-btn { padding: 18px 40px; font-size: 1.1rem; width: 85%; margin-top: 10px; }
   .category-grid { flex-direction: column; align-items: center; }
   .footer-links { display: flex; flex-direction: column; gap: 15px; }
+  
 }
 
 @media screen and (max-width: 500px) {
@@ -271,14 +341,38 @@ footer {
 }
 </style>
 
-  <section class="hero">
+  
+
+
+<section class="hero">
+  {% if not user.is_authenticated %}
     <h1>THANK JAPAN</h1>
-    <p>
-      The fun way to learn Japanese Language & Culture.<br>
-      Study with images, test your skills with quizzes, and rank up!
+    <p>The fun way to learn Japanese Language & Culture.</p>
+    <div class="hero-buttons">
+      <a href="{% url 'premium_info' %}" class="explore-btn btn-gold">Join Community 🚀</a>
+    </div>
+    <p class="login-prompt">
+      Already a member? <a href="{% url 'player_login' %}">Login here</a>
     </p>
-    <a href="{% url 'category_list' %}" class="explore-btn">Start Learning 📖</a>
-  </section>
+
+  {% elif not user.profile.is_premium %}
+    <h1>Welcome back, {{ user.username }}!</h1>
+    <p>Ready to unlock your full potential in Japan?</p>
+    <div class="hero-buttons">
+      <a href="{% url 'premium_info' %}" class="explore-btn btn-gold">Upgrade to Premium 💎</a>
+      <a href="{% url 'category_list' %}" class="explore-btn btn-white">Start Learning 📖</a>
+    </div>
+
+  {% else %}
+    <h1>Welcome back, {{ user.username }}! 💎</h1>
+    <p>Enjoy your unlimited access to all lessons.</p>
+    <div class="hero-buttons">
+      <a href="{% url 'category_list' %}" class="explore-btn btn-accent">Go to Lessons 📖</a>
+      <a href="#" class="explore-btn btn-white">Manage Account ⚙️</a>
+    </div>
+  {% endif %}
+</section>
+
 
   <div class="game-call-to-action">
     <a href="{% url 'game_start' %}" class="play-game-button">
@@ -308,13 +402,6 @@ footer {
         <h3>Traditions & Arts</h3>
       </div>
 
-      <div class="category-card">
-        <a href="{% url 'naturepage' %}">
-          <img src="https://res.cloudinary.com/dotekofm5/image/upload/v1754645312/thankjapan/backgrounds/hutwikylfzofnnzrahgh.png" alt="Japanese Nature">
-        </a>
-        <h3>Nature & Adventures</h3>
-      </div>
-    </div>
   </section>
 
 
