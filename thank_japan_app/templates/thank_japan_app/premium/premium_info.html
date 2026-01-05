@@ -103,17 +103,13 @@
         border-radius: 30px;
         transition: 0.3s;
         font-size: 1rem;
+        text-align: center;
     }
 
     .free-btn {
-        background: #eee;
-        color: #777;
-    }
-
-    .premium-btn {
-        background: linear-gradient(135deg, #d4af37, #ffd700);
-        color: #000;
-        box-shadow: 0 4px 12px rgba(212, 175, 55, 0.4);
+        background: #ffffff;
+        color: #5d5245;
+        border: 2px solid #5d5245;
     }
 
     .btn-more {
@@ -127,10 +123,10 @@
         margin-top: 20px;
         transition: background 0.3s;
     }
-    .btn-more:hover {
-        background: #ff9642;
+    
+    #paypal-button-container {
+        min-height: 150px;
     }
-
 
     @media (max-width: 1024px) {
         .premium-page {
@@ -182,9 +178,7 @@
                 <li>All Future Updates</li>
             </ul>
             
-            <div id="paypal-button-container">
-                <a href="#" class="plan-btn premium-btn">Unlock Premium Now 🚀</a>
-            </div>
+            <div id="paypal-button-container"></div>
         </div>
     </div>
 
@@ -192,7 +186,6 @@
         <a class="btn-more" href="{% url 'toppage' %}">← Back To Home</a>
     </div>
 </div>
-
 
 <script src="https://www.paypal.com/sdk/js?client-id=AdD3iIp6pI4FXYd-pww24hHxJ9f_NRFVl8yxz6yUk5YeTBtXw8LI6p3R2ugSdKJMKwG6jKu-k9IHa44k&vault=true&intent=subscription&currency=USD"></script>
 
@@ -206,11 +199,12 @@
         },
         createSubscription: function(data, actions) {
             return actions.subscription.create({
-                
                 'plan_id': 'P-5CY84073BP573235GNFMXV4Y'
             });
         },
         onApprove: function(data, actions) {
+            document.getElementById('paypal-button-container').innerHTML = '<p style="color: #d4af37; font-weight: bold; padding: 20px;">Updating your account...<br>Please wait a moment.</p>';
+            
             fetch("{% url 'update_premium_status' %}", {
                 method: 'POST',
                 headers: {
@@ -228,7 +222,6 @@
                 }
             });
         },
-
         onError: function (err) {
             alert('PayPal Error occurred.');
         }
