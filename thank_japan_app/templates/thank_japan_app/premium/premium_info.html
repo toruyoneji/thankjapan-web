@@ -211,25 +211,24 @@
             });
         },
         onApprove: function(data, actions) {
-    
-            const btnContainer = document.getElementById('paypal-button-container');
-            btnContainer.innerHTML = '<p style="color: #e67e22; font-weight: bold;">Processing your premium access... Please wait.</p>';
-
-            return fetch("{% url 'update_premium_status' %}", {
+            fetch("{% url 'update_premium_status' %}", {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     'X-CSRFToken': '{{ csrf_token }}'
                 },
-                body: JSON.stringify({ subscriptionID: data.subscriptionID })
-                }).then(response => {
-                    if (response.ok) {
+                body: JSON.stringify({
+                    subscriptionID: data.subscriptionID
+                })
+            }).then(response => {
+                if (response.ok) {
                     setTimeout(function() {
-                        window.location.href = "{% url 'toppage' %}?status=premium_success";
-                    }, 2000); 
+                        window.location.href = "{% url 'index' %}";
+                    }, 3000);
                 }
             });
         },
+
         onError: function (err) {
             alert('PayPal Error occurred.');
         }
