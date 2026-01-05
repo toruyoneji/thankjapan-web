@@ -1103,7 +1103,7 @@ class JapanCultureDEView(TemplateView):
 
 #Thank_Japan premium    
 def premium_info(request):
-    return render(request, 'thank_japan_app/premium_info.html')
+    return render(request, 'thank_japan_app/premium/premium_info.html')
 
 class DailyConversationView(ListView):
     template_name = "thank_japan_app/dairy_conversation.html"

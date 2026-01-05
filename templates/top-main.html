@@ -317,11 +317,6 @@ footer {
     </div>
   </section>
 
-  <section class="support">
-    <h2>💖 Support Thank Japan</h2>
-    <p>Your support helps us share the beauty and culture of Japan with the world.</p>
-    <a href="{% url 'select_amount' %}" target="_blank" rel="noopener noreferrer">Donate via PayPal</a>
-  </section> 
 
   <footer>
     <div class="footer-links">
@@ -336,3 +331,48 @@ footer {
   <script>
     localStorage.setItem('tj_top_url', window.location.href);
   </script>
+
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+
+<script>
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('status') === 'premium_success') {
+      
+        const duration = 3 * 1000;
+        const end = Date.now() + duration;
+
+        (function frame() {
+            confetti({
+                particleCount: 3,
+                angle: 60,
+                spread: 55,
+                origin: { x: 0 },
+                colors: ['#f1c40f', '#ffffff', '#ff69b4'] 
+            });
+            confetti({
+                particleCount: 3,
+                angle: 120,
+                spread: 55,
+                origin: { x: 1 },
+                colors: ['#f1c40f', '#ffffff', '#ff69b4']
+            });
+
+            if (Date.now() < end) {
+                requestAnimationFrame(frame);
+            }
+        }());
+
+        const welcomeMsg = document.createElement('div');
+        welcomeMsg.innerHTML = `
+            <div style="background: rgba(255,255,255,0.95); padding: 30px; border-radius: 20px; border: 2px solid #f1c40f; box-shadow: 0 15px 50px rgba(0,0,0,0.3); text-align: center;">
+                <h2 style="color: #2c3e50; margin-bottom: 10px;">✨ Welcome to Premium! ✨</h2>
+                <p style="color: #555; font-size: 1.1rem;">Thank you for supporting ThankJapan.<br>Your future in Japan starts now!</p>
+                <button onclick="this.parentElement.parentElement.remove()" style="margin-top: 15px; padding: 8px 25px; background: #2c3e50; color: white; border: none; border-radius: 25px; cursor: pointer;">Let's Start</button>
+            </div>
+        `;
+        welcomeMsg.style = "position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 2000; font-family: sans-serif;";
+        document.body.appendChild(welcomeMsg);
+        
+        setTimeout(() => { if(welcomeMsg) welcomeMsg.remove(); }, 5000);
+    }
+</script>

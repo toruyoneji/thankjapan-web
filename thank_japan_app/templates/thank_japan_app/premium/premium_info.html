@@ -211,21 +211,22 @@
             });
         },
         onApprove: function(data, actions) {
-            fetch("{% url 'update_premium_status' %}", {
+    
+            const btnContainer = document.getElementById('paypal-button-container');
+            btnContainer.innerHTML = '<p style="color: #e67e22; font-weight: bold;">Processing your premium access... Please wait.</p>';
+
+            return fetch("{% url 'update_premium_status' %}", {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     'X-CSRFToken': '{{ csrf_token }}'
                 },
-                body: JSON.stringify({
-                    subscriptionID: data.subscriptionID
-                })
-            }).then(response => {
-                if (response.ok) {
-                    alert('Premium Active! Thank you!');
-                    window.location.href = "/";
-                } else {
-                    alert('Status update failed.');
+                body: JSON.stringify({ subscriptionID: data.subscriptionID })
+                }).then(response => {
+                    if (response.ok) {
+                    setTimeout(function() {
+                        window.location.href = "{% url 'toppage' %}?status=premium_success";
+                    }, 2000); 
                 }
             });
         },
