@@ -1105,7 +1105,7 @@ class JapanCultureDEView(TemplateView):
 def premium_info(request):
     return render(request, 'thank_japan_app/premium/premium_info.html')
 
-@login_required
+# @login_required
 def thank_you(request):
     return render(request, 'thank_japan_app/thankyou/thank_you.html')
 
