@@ -28,7 +28,8 @@ from .views import (TopView, TopViewFR, TopViewIT, TopViewPT, TopViewZHHANT,TopV
                     KiyakuVIView, KiyakuZHHANTView,
                     PrivacyPolicy, PrivacyPolicyDE, PrivacyPolicyENIN, PrivacyPolicyESES, PrivacyPolicyESMX,
                     PrivacyPolicyFR, PrivacyPolicyIT, PrivacyPolicyJA, PrivacyPolicyKO, PrivacyPolicyPT,
-                    PrivacyPolicyPTBR, PrivacyPolicyTH, PrivacyPolicyVI, PrivacyPolicyZHHANT) 
+                    PrivacyPolicyPTBR, PrivacyPolicyTH, PrivacyPolicyVI, PrivacyPolicyZHHANT,
+                    update_premium_status) 
 
 
 urlpatterns = [
@@ -50,6 +51,8 @@ urlpatterns = [
     
     #premium
     path('premium/', premium_info, name='premium_info'),
+    path('update-premium-status/', update_premium_status, name='update_premium_status'),
+    
     path('dailyconversation/', DailyConversationView.as_view(), name='dailyconversation'),
     path('businessjapanese/', BusinessJapaneseView.as_view(), name='businessjapanese'),
     path('livinginjapan/', LivingInJapanView.as_view(), name='living_in_japan_page'),

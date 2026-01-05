@@ -192,4 +192,46 @@
         <a class="btn-more" href="{% url 'toppage' %}">← Back To Home</a>
     </div>
 </div>
+
+
+<script src="https://www.paypal.com/sdk/js?client-id=AdD3iIp6pI4FXYd-pww24hHxJ9f_NRFVl8yxz6yUk5YeTBtXw8LI6p3R2ugSdKJMKwG6jKu-k9IHa44k&vault=true&intent=subscription&currency=JPY"></script>
+
+<script>
+    paypal.Buttons({
+        style: {
+            shape: 'rect',
+            color: 'gold',
+            layout: 'vertical',
+            label: 'subscribe'
+        },
+        createSubscription: function(data, actions) {
+            return actions.subscription.create({
+                
+                'plan_id': 'P-5U650658UB867773HNFN6IVY'
+            });
+        },
+        onApprove: function(data, actions) {
+            fetch("{% url 'update_premium_status' %}", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                body: JSON.stringify({
+                    subscriptionID: data.subscriptionID
+                })
+            }).then(response => {
+                if (response.ok) {
+                    alert('Premium Active! Thank you!');
+                    window.location.href = "/";
+                } else {
+                    alert('Status update failed.');
+                }
+            });
+        },
+        onError: function (err) {
+            alert('PayPal Error occurred.');
+        }
+    }).render('#paypal-button-container');
+</script>
 {% endblock %}

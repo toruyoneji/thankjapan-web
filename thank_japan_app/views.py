@@ -8,14 +8,18 @@ from django.core.mail import send_mail
 from django.conf import settings
 from .forms import AnswerForm, ContactForm, UsernameForm
 from django.views.decorators.http import require_POST
+from django.contrib.auth.decorators import login_required
 from django.http import Http404
 from django.urls import reverse
 from django.utils.safestring import mark_safe
 from django.contrib.auth.models import User
+from django.http import JsonResponse
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 import logging
 import random
 import re
+import json
+
 
 logger = logging.getLogger(__name__)
 
@@ -119,6 +123,26 @@ CATEGORY_URL_MAP = {
     'LivingInJapan': 'living_in_japan_page',
 }
 
+
+#premium_info
+
+@login_required
+@require_POST
+def update_premium_status(request):
+    try:
+        data = json.loads(request.body)
+        subscription_id = data.get('subscriptionID')
+
+        if subscription_id:
+            profile = request.user.profile
+            profile.is_premium = True
+            profile.save()
+            return JsonResponse({'status': 'success'})
+        else:
+            return JsonResponse({'status': 'error'}, status=400)
+    except Exception as e:
+        return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
+    
 #company infomation
 class CompanyFormView(TemplateView):
      template_name = 'thank_japan_app/info/company.html'
