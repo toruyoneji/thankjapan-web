@@ -354,7 +354,10 @@ footer {
     <p class="login-prompt">
       Already a member? <a href="{% url 'player_login' %}">Login here</a>
     </p>
-
+    <div class="hero-buttons">
+      <a href="{% url 'category_list' %}" class="explore-btn btn-white">Start Learning 📖</a>
+    </div>
+    
   {% elif not user.profile.is_premium %}
     <h1>Welcome back, {{ user.username }}!</h1>
     <p>Ready to unlock your full potential in Japan?</p>
