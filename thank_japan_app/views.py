@@ -1107,7 +1107,6 @@ def update_premium_status(request):
         return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
 
 
-@login_required
 def premium_info(request):
     context = {
         'paypal_client_id': settings.PAYPAL_CLIENT_ID,
