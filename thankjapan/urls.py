@@ -11,10 +11,9 @@ app_name = "thank_japan_app"
 urlpatterns = [
     path('robots.txt', robots_txt),
     path('kanrisha/', admin.site.urls),
-    path('support/', include('payment.urls')),
     path('', include('thank_japan_app.urls')),
    
-     path('sitemap.xml', sitemap_view, name='sitemap'),
+    path('sitemap.xml', sitemap_view, name='sitemap'),
     path('ja/sitemap.xml', sitemap_view),
     path('vi/sitemap.xml', sitemap_view),
     path('th/sitemap.xml', sitemap_view),
