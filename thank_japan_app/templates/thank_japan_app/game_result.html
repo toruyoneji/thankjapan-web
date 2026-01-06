@@ -665,7 +665,6 @@ tbody td {
 
   <div class="button-group">
     {% if is_guest %}
-        <a href="{% url 'player_login' %}" class="neon-button secondary">Login</a>
         <a href="{% url 'game_start' %}" class="neon-button">Back to Menu</a>
     {% else %}
         <a href="{% url 'game_restart' %}?difficulty={{ difficulty }}" class="neon-button">🔁 Play Again</a>
@@ -701,15 +700,6 @@ tbody td {
     </table>
   </div>
 
-  <div class="button-group">
-    {% if not is_guest %}
-    <a href="{% url 'player_logout' %}" class="neon-button">🚪 Logout</a>
-    <form method="post" action="{% url 'delete_player_confirm' %}" onsubmit="return confirm('Are you sure you want to delete your account? This action cannot be undone.');">
-      {% csrf_token %}
-      <button type="submit" class="neon-button delete">🗑️ Delete My Account</button>
-    </form>
-    {% endif %}
-  </div>
 
   <div style="text-align:center; margin:50px 0;">
     <a class="btn-more" href="javascript:void(0);" onclick="goToTopPage()">← Back to Home</a>

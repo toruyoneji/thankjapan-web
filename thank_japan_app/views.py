@@ -1118,6 +1118,40 @@ def premium_info(request):
 def thank_you(request):
     return render(request, 'thank_japan_app/thankyou/thank_you.html')
 
+
+@login_required
+def account_settings(request):
+    profile = request.user.profile
+    context = {
+        'total_score': profile.total_score,
+    }
+    return render(request, 'thank_japan_app/account/account_settings.html', context)
+
+@login_required
+@require_POST
+def downgrade_premium(request):
+    profile = request.user.profile
+    profile.is_premium = False
+    profile.save()
+    return redirect('downgrade_success')
+
+@login_required
+@require_POST
+def delete_account(request):
+    username_to_delete = request.user.username
+    user_to_delete = request.user
+    Player.objects.filter(username=username_to_delete).delete()
+    user_to_delete.delete()
+    return redirect('delete_success')
+
+def downgrade_success(request):
+    return render(request, 'thank_japan_app/downgrade/downgrade_success.html')
+
+def delete_success(request):
+    return render(request, 'thank_japan_app/delete/delete_success.html')
+
+
+
 class DailyConversationView(ListView):
     template_name = "thank_japan_app/dairy_conversation.html"
     paginate_by = 24

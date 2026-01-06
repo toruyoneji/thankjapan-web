@@ -29,7 +29,8 @@ from .views import (TopView, TopViewFR, TopViewIT, TopViewPT, TopViewZHHANT,TopV
                     PrivacyPolicy, PrivacyPolicyDE, PrivacyPolicyENIN, PrivacyPolicyESES, PrivacyPolicyESMX,
                     PrivacyPolicyFR, PrivacyPolicyIT, PrivacyPolicyJA, PrivacyPolicyKO, PrivacyPolicyPT,
                     PrivacyPolicyPTBR, PrivacyPolicyTH, PrivacyPolicyVI, PrivacyPolicyZHHANT,
-                    update_premium_status, thank_you) 
+                    update_premium_status, thank_you, account_settings,delete_account, delete_success,
+                    downgrade_premium, downgrade_success) 
 
 
 urlpatterns = [
@@ -53,6 +54,11 @@ urlpatterns = [
     path('premium/', premium_info, name='premium_info'),
     path('update-premium-status/', update_premium_status, name='update_premium_status'),
     path('thank-you/', thank_you, name='thank_you'),
+    path('account/settings/', account_settings, name='account_settings'),
+    path('account/downgrade/', downgrade_premium, name='downgrade_premium'),
+    path('account/delete/', delete_account, name='delete_account'),
+    path('account/downgrade-success/', downgrade_success, name='downgrade_success'),
+    path('account/delete-success/', delete_success, name='delete_success'),
     
     path('dailyconversation/', DailyConversationView.as_view(), name='dailyconversation'),
     path('businessjapanese/', BusinessJapaneseView.as_view(), name='businessjapanese'),

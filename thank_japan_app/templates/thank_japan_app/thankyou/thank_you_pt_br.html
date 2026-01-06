@@ -1,0 +1,67 @@
+{% extends 'base/base.html' %}
+{% block content %}
+<style>
+    .thank-you-container {
+        margin-top: 150px;
+        text-align: center;
+        padding: 50px 20px;
+        min-height: 60vh;
+    }
+    .thank-you-card {
+        background: white;
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 50px 40px;
+        border: 4px solid #d4af37;
+        border-radius: 15px;
+        box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+    }
+    .thank-you-card h1 {
+        color: #b22d35;
+        font-family: 'Zen Antique', serif;
+        font-size: 2.2rem;
+        margin-bottom: 10px;
+    }
+    .thank-you-card h2 {
+        font-size: 1.5rem;
+        color: #5d5245;
+        margin-bottom: 25px;
+    }
+    .thank-you-card p {
+        font-size: 1.1rem;
+        margin: 20px 0;
+        line-height: 1.8;
+        color: #333;
+    }
+    .back-home-btn {
+        display: inline-block;
+        background: linear-gradient(135deg, #d4af37, #ffd700);
+        color: black;
+        padding: 16px 45px;
+        border-radius: 35px;
+        text-decoration: none;
+        font-weight: bold;
+        font-size: 1.1rem;
+        margin-top: 25px;
+        box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
+        transition: transform 0.3s ease;
+    }
+    .back-home-btn:hover {
+        transform: translateY(-3px);
+        filter: brightness(1.1);
+    }
+</style>
+
+<div class="thank-you-container">
+    <div class="thank-you-card">
+        <h1>Welcome to Premium!</h1>
+        <h2>Your future in Japan starts here.</h2>
+        <p>
+            Thank you for your support! Your payment was successful.<br>
+            You now have unlimited access to all categories including <br>
+            <strong>Business Japanese</strong> and <strong>Practical Living</strong>.
+        </p>
+        <a href="{% url 'toppage' %}?status=premium_success" class="back-home-btn">Go to Home & Explore 🌸</a>
+    </div>
+</div>
+{% endblock %}

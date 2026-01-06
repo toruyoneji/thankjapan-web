@@ -638,23 +638,6 @@ body::before, body::after { display: none; }
             {% endif %}
         </div>
 
-        {% if not is_guest %}
-            <a href="{% url 'player_logout' %}" class="logout-button">Logout</a>
-        {% else %}
-            <div class="guest-action-area">
-                <a href="{% url 'player_register' %}" class="register-btn-main">
-                    <span class="btn-icon">✍️</span>
-                    <span class="btn-text">
-                        Register to Save Score
-                        <small>Don't lose your rank!</small>
-                    </span>
-                </a>
-                
-                <p class="login-link-sub">
-                    Already have an account? <a href="{% url 'player_login' %}">Log in</a>
-                </p>
-            </div>
-        {% endif %}
     </div>
 
     <div style="text-align:center; margin:50px 0;">
