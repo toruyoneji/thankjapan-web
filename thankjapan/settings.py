@@ -67,7 +67,6 @@ INSTALLED_APPS = [
     'thank_japan_app.apps.ThankJapanAppConfig',
     'cloudinary',
     'cloudinary_storage',
-    'payment',
     'corsheaders',
 ]
 
