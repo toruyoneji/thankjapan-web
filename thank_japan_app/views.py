@@ -19,6 +19,7 @@ import logging
 import random
 import re
 import json
+import paypalrestsdk
 
 
 logger = logging.getLogger(__name__)
@@ -124,24 +125,6 @@ CATEGORY_URL_MAP = {
 }
 
 
-#premium_info
-
-@login_required
-@require_POST
-def update_premium_status(request):
-    try:
-        data = json.loads(request.body)
-        subscription_id = data.get('subscriptionID')
-
-        if subscription_id:
-            profile = request.user.profile
-            profile.is_premium = True
-            profile.save()
-            return JsonResponse({'status': 'success'})
-        else:
-            return JsonResponse({'status': 'error'}, status=400)
-    except Exception as e:
-        return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
     
 #company infomation
 class CompanyFormView(TemplateView):
@@ -1101,11 +1084,38 @@ class JapanCultureDEView(TemplateView):
     template_name="thank_japan_app/japan/japanculturepage_de.html"
     
 
-#Thank_Japan premium    
-def premium_info(request):
-    return render(request, 'thank_japan_app/premium/premium_info.html')
+#Thank_Japan premium 
 
-# @login_required
+#premium_info
+
+@login_required
+@require_POST
+def update_premium_status(request):
+    try:
+        data = json.loads(request.body)
+        subscription_id = data.get('subscriptionID')
+        subscription = paypalrestsdk.Subscription.find(sub_id)
+
+        if subscription.status == "ACTIVE":
+            profile = request.user.profile
+            profile.is_premium = True
+            profile.save()
+            return JsonResponse({'status': 'success'})
+        else:
+            return JsonResponse({'status': 'error'}, status=400)
+    except Exception as e:
+        return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
+
+
+@login_required
+def premium_info(request):
+    context = {
+        'paypal_client_id': settings.PAYPAL_CLIENT_ID,
+        'paypal_plan_id': settings.PAYPAL_PLAN_ID,
+    }
+    return render(request, 'thank_japan_app/premium/premium_info.html', context)
+
+@login_required
 def thank_you(request):
     return render(request, 'thank_japan_app/thankyou/thank_you.html')
 

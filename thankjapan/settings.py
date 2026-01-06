@@ -26,6 +26,7 @@ DATABASES = {
 
 PAYPAL_MODE = os.getenv('PAYPAL_MODE', 'live')
 PAYPAL_CLIENT_ID = os.getenv('PAYPAL_CLIENT_ID')
+PAYPAL_PLAN_ID = os.getenv('PAYPAL_PLAN_ID')
 PAYPAL_CLIENT_SECRET = os.getenv('PAYPAL_CLIENT_SECRET')
 paypalrestsdk.configure({
     "mode": PAYPAL_MODE,
