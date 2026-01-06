@@ -351,7 +351,7 @@ footer {
       <a href="{% url 'premium_info' %}" class="explore-btn btn-gold">Rejoindre la communauté 🚀</a>
     </div>
     <p class="login-prompt">
-      Déjà membre ? <a href="{% url 'player_login' %}">Connectez-vous ici</a>
+      Déjà membre ? <a href="{% url 'player_login' %}?next={{ request.path }}">Connectez-vous ici</a>
     </p>
     <div class="hero-buttons">
       <a href="{% url 'category_list' %}" class="explore-btn btn-white">Commencer l'apprentissage 📖</a>

@@ -468,6 +468,9 @@ def player_register(request):
     return render(request, 'thank_japan_app/player_register.html', {'form': form})
 
 def player_login(request):
+    
+    next_url = request.GET.get('next') or request.POST.get('next') or 'toppage'
+
     if request.method == "POST":
         username = request.POST.get('username')
         password = request.POST.get('password')
@@ -490,11 +493,14 @@ def player_login(request):
             request.session['is_guest'] = False 
 
             messages.success(request, f"Welcome back, {user.username}!")
-            return redirect('toppage')
+            
+            # 固定の 'toppage' ではなく取得した next_url へリダイレクト
+            return redirect(next_url)
         else:
             messages.error(request, "Invalid username or password.")
             
-    return render(request, 'thank_japan_app/player_login.html')
+    return render(request, 'thank_japan_app/player_login.html', {'next': next_url})
+
 
 def player_logout(request):
     auth_logout(request)

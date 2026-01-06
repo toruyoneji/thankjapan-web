@@ -352,7 +352,7 @@ footer {
       <a href="{% url 'premium_info' %}" class="explore-btn btn-gold">Join Community 🚀</a>
     </div>
     <p class="login-prompt">
-      Already a member? <a href="{% url 'player_login' %}">Login here</a>
+      Already a member? <a href="{% url 'player_login' %}?next={{ request.path }}">Login here</a>
     </p>
     <div class="hero-buttons">
       <a href="{% url 'category_list' %}" class="explore-btn btn-white">Start Learning 📖</a>

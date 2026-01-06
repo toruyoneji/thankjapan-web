@@ -350,7 +350,7 @@ footer {
       <a href="{% url 'premium_info' %}" class="explore-btn btn-gold">加入社群 🚀</a>
     </div>
     <p class="login-prompt">
-      已經是會員？ <a href="{% url 'player_login' %}">由此登入</a>
+      已經是會員？ <a href="{% url 'player_login' %}?next={{ request.path }}">由此登入</a>
     </p>
     <div class="hero-buttons">
       <a href="{% url 'category_list' %}" class="explore-btn btn-white">開始學習 📖</a>

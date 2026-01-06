@@ -350,7 +350,7 @@ footer {
       <a href="{% url 'premium_info' %}" class="explore-btn btn-gold">커뮤니티 가입하기 🚀</a>
     </div>
     <p class="login-prompt">
-      이미 회원이신가요? <a href="{% url 'player_login' %}">여기에서 로그인</a>
+      이미 회원이신가요? <a href="{% url 'player_login' %}?next={{ request.path }}">여기에서 로그인</a>
     </p>
     <div class="hero-buttons">
       <a href="{% url 'category_list' %}" class="explore-btn btn-white">학습 시작하기 📖</a>
