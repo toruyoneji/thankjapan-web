@@ -35,6 +35,7 @@
             {% else %}
                 <form action="{% url 'downgrade_premium' %}" method="POST" onsubmit="return confirm('確定要切換回免費方案嗎？')">
                     {% csrf_token %}
+                    <input type="hidden" name="downgrade_url_name" value="downgrade_successzhHANT">
                     <button type="submit" class="btn-manage btn-downgrade">取消 Premium 訂閱</button>
                 </form>
             {% endif %}

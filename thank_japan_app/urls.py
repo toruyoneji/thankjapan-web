@@ -29,7 +29,7 @@ from .views import (TopView, TopViewFR, TopViewIT, TopViewPT, TopViewZHHANT,TopV
                     PrivacyPolicy, PrivacyPolicyDE, PrivacyPolicyENIN, PrivacyPolicyESES, PrivacyPolicyESMX,
                     PrivacyPolicyFR, PrivacyPolicyIT, PrivacyPolicyJA, PrivacyPolicyKO, PrivacyPolicyPT,
                     PrivacyPolicyPTBR, PrivacyPolicyTH, PrivacyPolicyVI, PrivacyPolicyZHHANT,
-                    update_premium_status, delete_account, downgrade_premium, downgrade_success,
+                    update_premium_status, delete_account, downgrade_premium, 
                     premium_info, premium_infoDE, premium_infoENIN, premium_infoESES, premium_infoESMX,
                     premium_infoFR, premium_infoIT, premium_infoJA, premium_infoKO, premium_infoPT,
                     premium_infoPTBR, premium_infoTH, premium_infoVI, premium_infoZHHANT,
@@ -43,7 +43,10 @@ from .views import (TopView, TopViewFR, TopViewIT, TopViewPT, TopViewZHHANT,TopV
                     delete_success, delete_successDE, delete_successENIN, delete_successESES,
                     delete_successESMX, delete_successFR, delete_successIT, delete_successJA, delete_successKO,
                     delete_successPT, delete_successPTBR, delete_successTH, delete_successVI, delete_successZHHANT,
-                    ) 
+                    downgrade_success, downgrade_successDE, downgrade_successENIN, downgrade_successESES,
+                    downgrade_successESMX, downgrade_successFR, downgrade_successIT, downgrade_successJA,
+                    downgrade_successKO, downgrade_successPT, downgrade_successPTBR, downgrade_successTH,
+                    downgrade_successVI, downgrade_successZHHANT) 
 
 
 urlpatterns = [
@@ -127,14 +130,31 @@ urlpatterns = [
     path('account/delete-success/vi/', delete_successVI, name='delete_successvi'),
     path('account/delete-success/zh-hant/', delete_successZHHANT, name='delete_successzhHANT'),
     
+    #downgrade
+    path('account/downgrade-success/', downgrade_success, name='downgrade_success'),
+    path('account/downgrade-success/de/', downgrade_successDE, name='downgrade_successde'),
+    path('account/downgrade-success/en-in/', downgrade_successENIN, name='downgrade_successenIN'),
+    path('account/downgrade-success/es-es/', downgrade_successESES, name='downgrade_successesES'),
+    path('account/downgrade-success/es-mx/', downgrade_successESMX, name='downgrade_successesMX'),
+    path('account/downgrade-success/fr/', downgrade_successFR, name='downgrade_successfr'),
+    path('account/downgrade-success/it/', downgrade_successIT, name='downgrade_successit'),
+    path('account/downgrade-success/ja/', downgrade_successJA, name='downgrade_successja'),
+    path('account/downgrade-success/ko/', downgrade_successKO, name='downgrade_successko'),
+    path('account/downgrade-success/pt-br/', downgrade_successPTBR, name='downgrade_successptbr'),
+    path('account/downgrade-success/pt/', downgrade_successPT, name='downgrade_successpt'),
+    path('account/downgrade-success/th/', downgrade_successTH, name='downgrade_successth'),
+    path('account/downgrade-success/vi/', downgrade_successVI, name='downgrade_successvi'),
+    path('account/downgrade-success/zh-hant/', downgrade_successZHHANT, name='downgrade_successzhHANT'),
+    
+    
     #premium-status
     path('update-premium-status/', update_premium_status, name='update_premium_status'),
-    
-    
+
     path('account/downgrade/', downgrade_premium, name='downgrade_premium'),
     path('account/delete/', delete_account, name='delete_account'),
-    path('account/downgrade-success/', downgrade_success, name='downgrade_success'),
     
+    
+    #premium-category
     
     path('dailyconversation/', DailyConversationView.as_view(), name='dailyconversation'),
     path('businessjapanese/', BusinessJapaneseView.as_view(), name='businessjapanese'),

@@ -1,10 +1,11 @@
-{% extends 'base/base.html' %}
+{% extends 'base/base_vi.html' %}
 {% block content %}
 <div style="text-align: center; margin-top: 200px; padding: 20px; font-family: 'Zen Antique', serif;">
-    <h1 style="color: #5d5245;">Subscription Canceled</h1>
-    <p>You have successfully switched to the Free Plan.</p>
+    <h1 style="color: #5d5245;">Đã hủy gói đăng ký</h1>
+    <p>Bạn đã chuyển sang Gói Miễn phí thành công.</p>
     <script>
-        setTimeout(function() { window.location.href = "{% url 'toppage' %}"; }, 3000);
+        setTimeout(function() { window.location.href = "{% url 'toppagevi' %}"; }, 3000);
     </script>
 </div>
+
 {% endblock %}

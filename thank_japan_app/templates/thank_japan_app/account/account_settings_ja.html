@@ -35,6 +35,7 @@
             {% else %}
                 <form action="{% url 'downgrade_premium' %}" method="POST" onsubmit="return confirm('無料プランに切り替えますか？')">
                     {% csrf_token %}
+                    <input type="hidden" name="downgrade_url_name" value="downgrade_successja">
                     <button type="submit" class="btn-manage btn-downgrade">プレミアム購読を解約する</button>
                 </form>
             {% endif %}

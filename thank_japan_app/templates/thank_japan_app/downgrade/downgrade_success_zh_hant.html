@@ -1,10 +1,11 @@
-{% extends 'base/base.html' %}
+{% extends 'base/base_zh_hant.html' %}
 {% block content %}
 <div style="text-align: center; margin-top: 200px; padding: 20px; font-family: 'Zen Antique', serif;">
-    <h1 style="color: #5d5245;">Subscription Canceled</h1>
-    <p>You have successfully switched to the Free Plan.</p>
+    <h1 style="color: #5d5245;">已取消訂閱</h1>
+    <p>您已成功切換至免費方案。</p>
     <script>
-        setTimeout(function() { window.location.href = "{% url 'toppage' %}"; }, 3000);
+        setTimeout(function() { window.location.href = "{% url 'toppagezhHANT' %}"; }, 3000);
     </script>
 </div>
+
 {% endblock %}

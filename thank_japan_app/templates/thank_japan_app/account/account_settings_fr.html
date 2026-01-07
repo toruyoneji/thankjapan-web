@@ -35,6 +35,7 @@
             {% else %}
                 <form action="{% url 'downgrade_premium' %}" method="POST" onsubmit="return confirm('Passer au Plan Gratuit ?')">
                     {% csrf_token %}
+                    <input type="hidden" name="downgrade_url_name" value="downgrade_successfr">
                     <button type="submit" class="btn-manage btn-downgrade">Annuler l'abonnement Premium</button>
                 </form>
             {% endif %}

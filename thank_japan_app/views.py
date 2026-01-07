@@ -1385,14 +1385,16 @@ def account_settingsDE(request):
     return render(request, 'thank_japan_app/account/account_settings_de.html', context)
 
 
-
-@login_required
-@require_POST
+# @login_required
+# @require_POST
 def downgrade_premium(request):
     profile = request.user.profile
     profile.is_premium = False
     profile.save()
-    return redirect('downgrade_success')
+
+    next_success_url = request.POST.get('downgrade_url_name', 'downgrade_success')
+    return redirect(next_success_url)
+
 
 @login_required
 @require_POST
@@ -1410,6 +1412,46 @@ def delete_account(request):
 
 def downgrade_success(request):
     return render(request, 'thank_japan_app/downgrade/downgrade_success.html')
+
+def downgrade_successZHHANT(request):
+    return render(request, 'thank_japan_app/downgrade/downgrade_success_zh_hant.html')
+
+def downgrade_successVI(request):
+    return render(request, 'thank_japan_app/downgrade/downgrade_success_vi.html')
+
+def downgrade_successTH(request):
+    return render(request, 'thank_japan_app/downgrade/downgrade_success_th.html')
+
+def downgrade_successPT(request):
+    return render(request, 'thank_japan_app/downgrade/downgrade_success_pt.html')
+
+def downgrade_successPTBR(request):
+    return render(request, 'thank_japan_app/downgrade/downgrade_success_pt_br.html')
+
+def downgrade_successKO(request):
+    return render(request, 'thank_japan_app/downgrade/downgrade_success_ko.html')
+
+def downgrade_successJA(request):
+    return render(request, 'thank_japan_app/downgrade/downgrade_success_ja.html')
+
+def downgrade_successIT(request):
+    return render(request, 'thank_japan_app/downgrade/downgrade_success_it.html')
+
+def downgrade_successFR(request):
+    return render(request, 'thank_japan_app/downgrade/downgrade_success_fr.html')
+
+def downgrade_successESMX(request):
+    return render(request, 'thank_japan_app/downgrade/downgrade_success_es_mx.html')
+
+def downgrade_successESES(request):
+    return render(request, 'thank_japan_app/downgrade/downgrade_success_es_es.html')
+
+def downgrade_successENIN(request):
+    return render(request, 'thank_japan_app/downgrade/downgrade_success_en_in.html')
+
+def downgrade_successDE(request):
+    return render(request, 'thank_japan_app/downgrade/downgrade_success_de.html')
+
 
 #delete_success
 
