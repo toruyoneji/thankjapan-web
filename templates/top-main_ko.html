@@ -353,7 +353,7 @@ footer {
       이미 회원이신가요? <a href="{% url 'player_login' %}?next={{ request.path }}">여기에서 로그인</a>
     </p>
     <div class="hero-buttons">
-      <a href="{% url 'category_list' %}" class="explore-btn btn-white">학습 시작하기 📖</a>
+      <a href="{% url 'category_list_ko' %}" class="explore-btn btn-white">학습 시작하기 📖</a>
     </div>
     
   {% elif not user.profile.is_premium %}
@@ -361,14 +361,14 @@ footer {
     <p>일본에서의 잠재력을 발휘할 준비가 되셨나요?</p>
     <div class="hero-buttons">
       <a href="{% url 'premium_infoko' %}" class="explore-btn btn-gold">프리미엄으로 업그레이드 💎</a>
-      <a href="{% url 'category_list' %}" class="explore-btn btn-white">학습 시작하기 📖</a>
+      <a href="{% url 'category_list_ko' %}" class="explore-btn btn-white">학습 시작하기 📖</a>
     </div>
 
   {% else %}
     <h1>환영합니다, {{ user.username }}님! 💎</h1>
     <p>모든 강의를 무제한으로 이용해 보세요.</p>
     <div class="hero-buttons">
-      <a href="{% url 'category_list' %}" class="explore-btn btn-accent">강의 바로가기 📖</a>
+      <a href="{% url 'category_list_ko' %}" class="explore-btn btn-accent">강의 바로가기 📖</a>
       <a href="{% url 'account_settings' %}" class="explore-btn btn-white">계정 관리 ⚙️</a>
     </div>
   {% endif %}

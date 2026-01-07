@@ -353,7 +353,7 @@ footer {
       Already a member? <a href="{% url 'player_login' %}?next={{ request.path }}">Login here</a>
     </p>
     <div class="hero-buttons">
-      <a href="{% url 'category_list' %}" class="explore-btn btn-white">Start Learning 📖</a>
+      <a href="{% url 'category_list_enIN' %}" class="explore-btn btn-white">Start Learning 📖</a>
     </div>
     
   {% elif not user.profile.is_premium %}
@@ -361,14 +361,14 @@ footer {
     <p>Ready to unlock your full potential in Japan?</p>
     <div class="hero-buttons">
       <a href="{% url 'premium_infoenIN' %}" class="explore-btn btn-gold">Upgrade to Premium 💎</a>
-      <a href="{% url 'category_list' %}" class="explore-btn btn-white">Start Learning 📖</a>
+      <a href="{% url 'category_list_enIN' %}" class="explore-btn btn-white">Start Learning 📖</a>
     </div>
 
   {% else %}
     <h1>Welcome back, {{ user.username }}! 💎</h1>
     <p>Enjoy your unlimited access to all lessons.</p>
     <div class="hero-buttons">
-      <a href="{% url 'category_list' %}" class="explore-btn btn-accent">Go to Lessons 📖</a>
+      <a href="{% url 'category_list_enIN' %}" class="explore-btn btn-accent">Go to Lessons 📖</a>
       <a href="{% url 'account_settings' %}" class="explore-btn btn-white">Manage Account ⚙️</a>
     </div>
   {% endif %}

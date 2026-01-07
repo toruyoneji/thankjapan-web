@@ -353,7 +353,7 @@ footer {
       เป็นสมาชิกอยู่แล้วใช่ไหม? <a href="{% url 'player_login' %}?next={{ request.path }}">เข้าสู่ระบบที่นี่</a>
     </p>
     <div class="hero-buttons">
-      <a href="{% url 'category_list' %}" class="explore-btn btn-white">เริ่มเรียนรู้ 📖</a>
+      <a href="{% url 'category_list_th' %}" class="explore-btn btn-white">เริ่มเรียนรู้ 📖</a>
     </div>
     
   {% elif not user.profile.is_premium %}
@@ -361,14 +361,14 @@ footer {
     <p>พร้อมที่จะปลดล็อกศักยภาพของคุณในญี่ปุ่นหรือยัง?</p>
     <div class="hero-buttons">
       <a href="{% url 'premium_infoth' %}" class="explore-btn btn-gold">อัปเกรดเป็นพรีเมียม 💎</a>
-      <a href="{% url 'category_list' %}" class="explore-btn btn-white">เริ่มเรียนรู้ 📖</a>
+      <a href="{% url 'category_list_th' %}" class="explore-btn btn-white">เริ่มเรียนรู้ 📖</a>
     </div>
 
   {% else %}
     <h1>ยินดีต้อนรับกลับมา {{ user.username }}! 💎</h1>
     <p>เพลิดเพลินกับการเข้าถึงบทเรียนทั้งหมดได้อย่างไม่จำกัด</p>
     <div class="hero-buttons">
-      <a href="{% url 'category_list' %}" class="explore-btn btn-accent">ไปที่บทเรียน 📖</a>
+      <a href="{% url 'category_list_th' %}" class="explore-btn btn-accent">ไปที่บทเรียน 📖</a>
       <a href="{% url 'account_settings' %}" class="explore-btn btn-white">จัดการบัญชี ⚙️</a>
     </div>
   {% endif %}

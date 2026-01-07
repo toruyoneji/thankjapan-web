@@ -353,7 +353,7 @@ footer {
       Đã là thành viên? <a href="{% url 'player_login' %}?next={{ request.path }}">Đăng nhập tại đây</a>
     </p>
     <div class="hero-buttons">
-      <a href="{% url 'category_list' %}" class="explore-btn btn-white">Bắt đầu học 📖</a>
+      <a href="{% url 'category_list_vi' %}" class="explore-btn btn-white">Bắt đầu học 📖</a>
     </div>
     
   {% elif not user.profile.is_premium %}
@@ -361,14 +361,14 @@ footer {
     <p>Sẵn sàng để khai phá tiềm năng của bạn tại Nhật Bản?</p>
     <div class="hero-buttons">
       <a href="{% url 'premium_infovi' %}" class="explore-btn btn-gold">Nâng cấp lên Premium 💎</a>
-      <a href="{% url 'category_list' %}" class="explore-btn btn-white">Bắt đầu học 📖</a>
+      <a href="{% url 'category_list_vi' %}" class="explore-btn btn-white">Bắt đầu học 📖</a>
     </div>
 
   {% else %}
     <h1>Chào mừng trở lại, {{ user.username }}! 💎</h1>
     <p>Tận hưởng quyền truy cập không giới hạn vào tất cả bài học.</p>
     <div class="hero-buttons">
-      <a href="{% url 'category_list' %}" class="explore-btn btn-accent">Đi đến bài học 📖</a>
+      <a href="{% url 'category_list_vi' %}" class="explore-btn btn-accent">Đi đến bài học 📖</a>
       <a href="{% url 'account_settings' %}" class="explore-btn btn-white">Quản lý tài khoản ⚙️</a>
     </div>
   {% endif %}

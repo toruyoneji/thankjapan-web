@@ -353,7 +353,7 @@ footer {
       Sei già un membro? <a href="{% url 'player_login' %}?next={{ request.path }}">Accedi qui</a>
     </p>
     <div class="hero-buttons">
-      <a href="{% url 'category_list' %}" class="explore-btn btn-white">Inizia a Imparare 📖</a>
+      <a href="{% url 'category_list_it' %}" class="explore-btn btn-white">Inizia a Imparare 📖</a>
     </div>
     
   {% elif not user.profile.is_premium %}
@@ -361,14 +361,14 @@ footer {
     <p>Pronto a sbloccare il tuo pieno potenziale in Giappone?</p>
     <div class="hero-buttons">
       <a href="{% url 'premium_infoit' %}" class="explore-btn btn-gold">Passa a Premium 💎</a>
-      <a href="{% url 'category_list' %}" class="explore-btn btn-white">Inizia a Imparare 📖</a>
+      <a href="{% url 'category_list_it' %}" class="explore-btn btn-white">Inizia a Imparare 📖</a>
     </div>
 
   {% else %}
     <h1>Bentornato, {{ user.username }}! 💎</h1>
     <p>Goditi l'accesso illimitato a tutte le lezioni.</p>
     <div class="hero-buttons">
-      <a href="{% url 'category_list' %}" class="explore-btn btn-accent">Vai alle lezioni 📖</a>
+      <a href="{% url 'category_list_it' %}" class="explore-btn btn-accent">Vai alle lezioni 📖</a>
       <a href="{% url 'account_settings' %}" class="explore-btn btn-white">Gestisci Account ⚙️</a>
     </div>
   {% endif %}
