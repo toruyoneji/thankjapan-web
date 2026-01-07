@@ -1394,8 +1394,8 @@ def downgrade_premium(request):
     profile.save()
     return redirect('downgrade_success')
 
-# @login_required
-# @require_POST
+@login_required
+@require_POST
 def delete_account(request):
     username_to_delete = request.user.username
     

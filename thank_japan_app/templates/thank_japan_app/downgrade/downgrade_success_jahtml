@@ -1,0 +1,11 @@
+{% extends 'base/base_ja.html' %}
+{% block content %}
+<div style="text-align: center; margin-top: 200px; padding: 20px; font-family: 'Zen Antique', serif;">
+    <h1 style="color: #5d5245;">定期購読を解除しました</h1>
+    <p>無料プランへの切り替えが完了しました。</p>
+    <script>
+        setTimeout(function() { window.location.href = "{% url 'toppageja' %}"; }, 3000);
+    </script>
+</div>
+
+{% endblock %}
