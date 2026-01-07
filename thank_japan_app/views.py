@@ -1385,8 +1385,8 @@ def account_settingsDE(request):
     return render(request, 'thank_japan_app/account/account_settings_de.html', context)
 
 
-# @login_required
-# @require_POST
+@login_required
+@require_POST
 def downgrade_premium(request):
     profile = request.user.profile
     profile.is_premium = False
