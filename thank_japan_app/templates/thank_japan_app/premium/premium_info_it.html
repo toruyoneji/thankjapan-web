@@ -165,6 +165,19 @@
         font-weight: 600;
     }
 
+    .agreement-text {
+    font-size: 0.75rem;
+    color: #777;
+    margin-top: 15px;
+    margin-bottom: 10px;
+    line-height: 1.4;
+    }
+
+    .agreement-text a {
+    color: #b22d35; 
+    text-decoration: underline; 
+    }
+
 
     @media (max-width: 1024px) {
         .premium-page {
@@ -215,6 +228,12 @@
                 <li>Esperienza senza pubblicità</li>
                 <li>Tutti i futuri aggiornamenti</li>
             </ul>
+
+            <p class="agreement-text">
+                Iscrivendoti, accetti i nostri 
+                <a href="{% url 'riyoukiyakuit' %}" target="_blank">Termini di utilizzo</a> e l'
+                <a href="{% url 'privacy_policyit' %}" target="_blank">Informativa sulla privacy</a>.
+            </p><br>
             <div id="paypal-button-container"></div>
         </div>
     </div>

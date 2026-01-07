@@ -165,6 +165,19 @@
         font-weight: 600;
     }
 
+    .agreement-text {
+    font-size: 0.75rem;
+    color: #777;
+    margin-top: 15px;
+    margin-bottom: 10px;
+    line-height: 1.4;
+    }
+
+    .agreement-text a {
+    color: #b22d35; 
+    text-decoration: underline; 
+    }
+
 
     @media (max-width: 1024px) {
         .premium-page {
@@ -215,6 +228,12 @@
                 <li>Werbefreies Erlebnis</li>
                 <li>Alle zukünftigen Updates</li>
             </ul>
+
+            <p class="agreement-text">
+                Mit dem Abonnement erklären Sie sich mit unseren 
+                <a href="{% url 'riyoukiyakude' %}" target="_blank">Nutzungsbedingungen</a> und 
+                <a href="{% url 'privacy_policyde' %}" target="_blank">Datenschutzbestimmungen</a> einverstanden.
+            </p><br>
             <div id="paypal-button-container"></div>
         </div>
     </div>

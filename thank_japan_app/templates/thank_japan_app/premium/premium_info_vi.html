@@ -165,6 +165,19 @@
         font-weight: 600;
     }
 
+    .agreement-text {
+    font-size: 0.75rem;
+    color: #777;
+    margin-top: 15px;
+    margin-bottom: 10px;
+    line-height: 1.4;
+    }
+
+    .agreement-text a {
+    color: #b22d35; 
+    text-decoration: underline; 
+    }
+
 
     @media (max-width: 1024px) {
         .premium-page {
@@ -215,6 +228,12 @@
                 <li>Trải nghiệm không quảng cáo</li>
                 <li>Cập nhật trong tương lai</li>
             </ul>
+
+            <p class="agreement-text">
+                Bằng cách đăng ký, bạn đồng ý với 
+                <a href="{% url 'riyoukiyakuvi' %}" target="_blank">Điều khoản sử dụng</a> và 
+                <a href="{% url 'privacy_policyvi' %}" target="_blank">Chính sách bảo mật</a> của chúng tôi.
+            </p><br>
             <div id="paypal-button-container"></div>
         </div>
     </div>

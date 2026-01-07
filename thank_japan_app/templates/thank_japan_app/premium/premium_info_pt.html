@@ -165,6 +165,19 @@
         font-weight: 600;
     }
 
+    .agreement-text {
+    font-size: 0.75rem;
+    color: #777;
+    margin-top: 15px;
+    margin-bottom: 10px;
+    line-height: 1.4;
+    }
+
+    .agreement-text a {
+    color: #b22d35; 
+    text-decoration: underline; 
+    }
+
 
     @media (max-width: 1024px) {
         .premium-page {
@@ -215,6 +228,12 @@
                 <li>Experiência sem Anúncios</li>
                 <li>Todas as Atualizações Futuras</li>
             </ul>
+
+            <p class="agreement-text">
+                Ao subscrever, aceita os nossos 
+                <a href="{% url 'riyoukiyakupt' %}" target="_blank">Termos de Utilização</a> e a 
+                <a href="{% url 'privacy_policypt' %}" target="_blank">Política de Privacidade</a>.
+            </p><br>
             <div id="paypal-button-container"></div>
         </div>
     </div>

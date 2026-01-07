@@ -165,6 +165,19 @@
         font-weight: 600;
     }
 
+    .agreement-text {
+    font-size: 0.75rem;
+    color: #777;
+    margin-top: 15px;
+    margin-bottom: 10px;
+    line-height: 1.4;
+    }
+
+    .agreement-text a {
+    color: #b22d35; 
+    text-decoration: underline; 
+    }
+
 
     @media (max-width: 1024px) {
         .premium-page {
@@ -215,6 +228,12 @@
                 <li>광고 없는 체험</li>
                 <li>모든 향후 업데이트</li>
             </ul>
+
+            <p class="agreement-text">
+                구독하면 당사의 
+                <a href="{% url 'riyoukiyakuko' %}" target="_blank">이용 약관</a> 및 
+                <a href="{% url 'privacy_policyko' %}" target="_blank">개인정보 처리방침</a>에 동의하게 됩니다.
+            </p><br>
             <div id="paypal-button-container"></div>
         </div>
     </div>

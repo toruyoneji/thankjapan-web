@@ -165,6 +165,18 @@
         font-weight: 600;
     }
 
+    .agreement-text {
+    font-size: 0.75rem;
+    color: #777;
+    margin-top: 15px;
+    margin-bottom: 10px;
+    line-height: 1.4;
+    }
+
+    .agreement-text a {
+    color: #b22d35; 
+    text-decoration: underline; 
+    }
 
     @media (max-width: 1024px) {
         .premium-page {
@@ -215,7 +227,14 @@
                 <li>広告なしでのプレイ</li>
                 <li>今後の全アップデート</li>
             </ul>
+
+            <p class="agreement-text">
+                定期購読を申し込むことで、
+                <a href="{% url 'riyoukiyakuja' %}" target="_blank">利用規約</a>および
+                <a href="{% url 'privacy_policyja' %}" target="_blank">プライバシーポリシー</a>に同意したものとみなされます。
+            </p><br>
             <div id="paypal-button-container"></div>
+            
         </div>
     </div>
 

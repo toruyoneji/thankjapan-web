@@ -165,6 +165,19 @@
         font-weight: 600;
     }
 
+    .agreement-text {
+    font-size: 0.75rem;
+    color: #777;
+    margin-top: 15px;
+    margin-bottom: 10px;
+    line-height: 1.4;
+    }
+
+    .agreement-text a {
+    color: #b22d35; 
+    text-decoration: underline; 
+    }
+
 
     @media (max-width: 1024px) {
         .premium-page {
@@ -215,6 +228,12 @@
                 <li>無廣告體驗</li>
                 <li>未來所有更新</li>
             </ul>
+
+            <p class="agreement-text">
+                訂閱即表示您同意我們的
+                <a href="{% url 'riyoukiyakuzhHANT' %}" target="_blank">使用條款</a>和
+                <a href="{% url 'privacy_policyzhHANT' %}" target="_blank">隱私權政策</a>。
+            </p><br>
             <div id="paypal-button-container"></div>
         </div>
     </div>

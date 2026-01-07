@@ -165,6 +165,19 @@
         font-weight: 600;
     }
 
+    .agreement-text {
+    font-size: 0.75rem;
+    color: #777;
+    margin-top: 15px;
+    margin-bottom: 10px;
+    line-height: 1.4;
+    }
+
+    .agreement-text a {
+    color: #b22d35; 
+    text-decoration: underline; 
+    }
+
 
     @media (max-width: 1024px) {
         .premium-page {
@@ -215,6 +228,12 @@
                 <li>Expérience sans publicité</li>
                 <li>Toutes les mises à jour</li>
             </ul>
+
+            <p class="agreement-text">
+                En vous abonnant, vous acceptez nos 
+                <a href="{% url 'riyoukiyakufr' %}" target="_blank">Conditions d'utilisation</a> et notre 
+                <a href="{% url 'privacy_policyfr' %}" target="_blank">Politique de confidentialité</a>.
+            </p><br>
             <div id="paypal-button-container"></div>
         </div>
     </div>
