@@ -1,4 +1,4 @@
-{% extends 'base/base.html' %}
+{% extends 'base/base_pt.html' %}
 {% block content %}
 <style>
     .thank-you-container {
@@ -54,14 +54,15 @@
 
 <div class="thank-you-container">
     <div class="thank-you-card">
-        <h1>Welcome to Premium!</h1>
-        <h2>Your future in Japan starts here.</h2>
+        <h1>Bem-vindo ao Premium!</h1>
+        <h2>O seu futuro no Japão começa aqui.</h2>
         <p>
-            Thank you for your support! Your payment was successful.<br>
-            You now have unlimited access to all categories including <br>
-            <strong>Business Japanese</strong> and <strong>Practical Living</strong>.
+            Obrigado pelo seu apoio! O seu pagamento foi bem-sucedido.<br>
+            Agora tem acesso ilimitado a todas as categorias, incluindo <br>
+            <strong>Japonês de Negócios</strong> e <strong>Vida Prática</strong>.
         </p>
-        <a href="{% url 'toppage' %}?status=premium_success" class="back-home-btn">Go to Home & Explore 🌸</a>
+        <a href="{% url 'toppagept' %}?status=premium_success" class="back-home-btn">Ir para a Home & Explorar 🌸</a>
     </div>
 </div>
+
 {% endblock %}

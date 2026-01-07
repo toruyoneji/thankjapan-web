@@ -208,7 +208,7 @@
                 body: JSON.stringify({ subscriptionID: data.subscriptionID })
             }).then(response => {
                 if (response.ok) {
-                    setTimeout(function() { window.location.href = "{% url 'thank_you' %}"; }, 3000);
+                    setTimeout(function() { window.location.href = "{% url 'thank_youenIN' %}"; }, 3000);
                 }
             });
         },

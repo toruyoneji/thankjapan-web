@@ -1218,7 +1218,59 @@ def premium_infoDE(request):
 def thank_you(request):
     return render(request, 'thank_japan_app/thankyou/thank_you.html')
 
+@login_required
+def thank_youZHHANT(request):
+    return render(request, 'thank_japan_app/thankyou/thank_you_zh_hant.html')
 
+@login_required
+def thank_youVI(request):
+    return render(request, 'thank_japan_app/thankyou/thank_you_vi.html')
+
+@login_required
+def thank_youTH(request):
+    return render(request, 'thank_japan_app/thankyou/thank_you_th.html')
+
+@login_required
+def thank_youPT(request):
+    return render(request, 'thank_japan_app/thankyou/thank_you_pt.html')
+
+@login_required
+def thank_youPTBR(request):
+    return render(request, 'thank_japan_app/thankyou/thank_you_pt_br.html')
+
+@login_required
+def thank_youKO(request):
+    return render(request, 'thank_japan_app/thankyou/thank_you_ko.html')
+
+@login_required
+def thank_youJA(request):
+    return render(request, 'thank_japan_app/thankyou/thank_you_ja.html')
+
+@login_required
+def thank_youIT(request):
+    return render(request, 'thank_japan_app/thankyou/thank_you_it.html')
+
+@login_required
+def thank_youFR(request):
+    return render(request, 'thank_japan_app/thankyou/thank_you_fr.html')
+
+@login_required
+def thank_youESMX(request):
+    return render(request, 'thank_japan_app/thankyou/thank_you_es_mx.html')
+
+@login_required
+def thank_youESES(request):
+    return render(request, 'thank_japan_app/thankyou/thank_you_es_es.html')
+
+@login_required
+def thank_youENIN(request):
+    return render(request, 'thank_japan_app/thankyou/thank_you_en_in.html')
+
+@login_required
+def thank_youDE(request):
+    return render(request, 'thank_japan_app/thankyou/thank_you_de.html')
+
+#account_settings
 @login_required
 def account_settings(request):
     profile = request.user.profile

@@ -29,11 +29,14 @@ from .views import (TopView, TopViewFR, TopViewIT, TopViewPT, TopViewZHHANT,TopV
                     PrivacyPolicy, PrivacyPolicyDE, PrivacyPolicyENIN, PrivacyPolicyESES, PrivacyPolicyESMX,
                     PrivacyPolicyFR, PrivacyPolicyIT, PrivacyPolicyJA, PrivacyPolicyKO, PrivacyPolicyPT,
                     PrivacyPolicyPTBR, PrivacyPolicyTH, PrivacyPolicyVI, PrivacyPolicyZHHANT,
-                    update_premium_status, thank_you, account_settings,delete_account, delete_success,
+                    update_premium_status,  account_settings,delete_account, delete_success,
                     downgrade_premium, downgrade_success,
                     premium_info, premium_infoDE, premium_infoENIN, premium_infoESES, premium_infoESMX,
                     premium_infoFR, premium_infoIT, premium_infoJA, premium_infoKO, premium_infoPT,
-                    premium_infoPTBR, premium_infoTH, premium_infoVI, premium_infoZHHANT) 
+                    premium_infoPTBR, premium_infoTH, premium_infoVI, premium_infoZHHANT,
+                    thank_you, thank_youDE, thank_youENIN, thank_youESES, thank_youESMX, thank_youFR,
+                    thank_youIT, thank_youJA, thank_youKO, thank_youPT, thank_youPTBR, thank_youTH,
+                    thank_youVI, thank_youZHHANT) 
 
 
 urlpatterns = [
@@ -69,9 +72,26 @@ urlpatterns = [
     path('premium/vi/', premium_infoVI, name='premium_infovi'),
     path('premium/zh-hant/', premium_infoZHHANT, name='premium_infozhHANT'),
     
+    #thankyou
+    path('thank-you/', thank_you, name='thank_you'),
+    path('thank-you/de/', thank_youDE, name='thank_youde'),
+    path('thank-you/en-in/', thank_youENIN, name='thank_youenIN'),
+    path('thank-you/es-es/', thank_youESES, name='thank_youesES'),
+    path('thank-you/es-mx/', thank_youESMX, name='thank_youesMX'),
+    path('thank-you/fr/', thank_youFR, name='thank_youfr'),
+    path('thank-you/it/', thank_youIT, name='thank_youit'),
+    path('thank-you/ja/', thank_youJA, name='thank_youja'),
+    path('thank-you/ko/', thank_youKO, name='thank_youko'),
+    path('thank-you/pt-br/', thank_youPTBR, name='thank_youptBR'),
+    path('thank-you/pt/', thank_youPT, name='thank_youpt'),
+    path('thank-you/th/', thank_youTH, name='thank_youth'),
+    path('thank-you/vi/', thank_youVI, name='thank_youvi'),
+    path('thank-you/zh-hant/', thank_youZHHANT, name='thank_youzhHANT'),
+    
+    
     #premium-status
     path('update-premium-status/', update_premium_status, name='update_premium_status'),
-    path('thank-you/', thank_you, name='thank_you'),
+    
     path('account/settings/', account_settings, name='account_settings'),
     path('account/downgrade/', downgrade_premium, name='downgrade_premium'),
     path('account/delete/', delete_account, name='delete_account'),
