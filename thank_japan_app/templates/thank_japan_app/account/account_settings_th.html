@@ -1,0 +1,52 @@
+{% extends 'base/base_th.html' %}
+{% block content %}
+<style>
+    .settings-page { margin-top: 150px; padding: 40px 20px; font-family: 'Zen Antique', serif; }
+    .settings-card { background: #ffffff; max-width: 500px; margin: 0 auto; padding: 40px; border: 4px solid #5d5245; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); text-align: center; }
+    .stats-container { background: #fdfaf0; border: 1px solid #d4af37; border-radius: 10px; padding: 20px; margin: 20px 0; }
+    .stat-value { font-size: 1.8rem; font-weight: bold; color: #b22d35; display: block; }
+    .stat-label { font-size: 0.9rem; color: #777; }
+    .status-badge { display: inline-block; padding: 6px 18px; border-radius: 25px; font-weight: bold; font-size: 0.9rem; margin-top: 10px; }
+    .status-free { background: #eee; color: #666; }
+    .status-premium { background: linear-gradient(135deg, #d4af37, #ffd700); color: #000; border: 1px solid #ffeb99; }
+    .action-group { display: flex; flex-direction: column; gap: 15px; margin-top: 30px; }
+    .btn-manage { display: block; padding: 15px; border-radius: 30px; text-decoration: none; font-weight: bold; transition: 0.3s; border: none; cursor: pointer; width: 100%; font-size: 1rem; }
+    .btn-upgrade { background: #b22d35; color: white; }
+    .btn-downgrade { background: white; color: #b22d35; border: 2px solid #b22d35; }
+    .btn-delete { background: none; color: #999; text-decoration: underline; font-size: 0.85rem; cursor: pointer; border: none; margin-top: 10px; }
+</style>
+
+<div class="settings-page">
+    <div class="settings-card">
+        <h2>ตั้งค่าบัญชี</h2>
+        <p style="font-size: 1.2rem; margin-bottom: 5px;"><strong>{{ user.username }}</strong></p>
+        {% if user.profile.is_premium %}
+            <span class="status-badge status-premium">สมาชิกพรีเมียม 💎</span>
+        {% else %}
+            <span class="status-badge status-free">แผนฟรี</span>
+        {% endif %}
+        <div class="stats-container">
+            <span class="stat-label">คะแนนรวม</span>
+            <span class="stat-value">{{ total_score }}</span>
+        </div>
+        <div class="action-group">
+            {% if not user.profile.is_premium %}
+                <a href="{% url 'premium_infoth' %}" class="btn-manage btn-upgrade">อัปเกรดเป็นพรีเมียม 💎</a>
+            {% else %}
+                <form action="{% url 'downgrade_premium' %}" method="POST" onsubmit="return confirm('เปลี่ยนเป็นแผนฟรีใช่หรือไม่?')">
+                    {% csrf_token %}
+                    <button type="submit" class="btn-manage btn-downgrade">ยกเลิกการสมัครพรีเมียม</button>
+                </form>
+            {% endif %}
+            <form action="{% url 'delete_account' %}" method="POST" onsubmit="return confirm('อันตราย: ลบบัญชีและข้อมูลทั้งหมดถาวรใช่หรือไม่?')">
+                {% csrf_token %}
+                <button type="submit" class="btn-delete">ลบบัญชีของฉันถาวร</button>
+            </form>
+        </div>
+        <div style="margin-top: 30px;">
+            <a href="{% url 'toppageth' %}" style="color: #5d5245; text-decoration: none;">← กลับหน้าแรก</a>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

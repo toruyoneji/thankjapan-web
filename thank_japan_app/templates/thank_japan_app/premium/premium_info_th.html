@@ -188,8 +188,15 @@
         </div>
     </div>
 
-    <div style="text-align:center; margin:50px 0;">
-        <a class="btn-more" href="{% url 'toppageth' %}">← กลับหน้าแรก</a>
+    <div class="bottom-nav-zone">
+        {% if user.is_authenticated %}
+            <a href="{% url 'account_settingsth' %}" class="btn-manage-account">
+                จัดการโปรไฟล์ / ตั้งค่าบัญชี ⚙️
+            </a>
+        {% endif %}
+        <a href="{% url 'toppageth' %}" class="btn-back-home">
+            ← กลับหน้าแรก
+        </a>
     </div>
 </div>
 

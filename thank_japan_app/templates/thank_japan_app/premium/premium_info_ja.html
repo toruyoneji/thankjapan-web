@@ -188,8 +188,15 @@
         </div>
     </div>
 
-    <div style="text-align:center; margin:50px 0;">
-        <a class="btn-more" href="{% url 'toppageja' %}">← ホームに戻る</a>
+    <div class="bottom-nav-zone">
+        {% if user.is_authenticated %}
+            <a href="{% url 'account_settingsja' %}" class="btn-manage-account">
+                プロフィール管理 / アカウント設定 ⚙️
+            </a>
+        {% endif %}
+        <a href="{% url 'toppageja' %}" class="btn-back-home">
+            ← ホームに戻る
+        </a>
     </div>
 </div>
 

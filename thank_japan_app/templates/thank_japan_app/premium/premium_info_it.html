@@ -188,8 +188,15 @@
         </div>
     </div>
 
-    <div style="text-align:center; margin:50px 0;">
-        <a class="btn-more" href="{% url 'toppageit' %}">← Torna alla Home</a>
+    <div class="bottom-nav-zone">
+        {% if user.is_authenticated %}
+            <a href="{% url 'account_settingsit' %}" class="btn-manage-account">
+                Gestisci profilo / Impostazioni account ⚙️
+            </a>
+        {% endif %}
+        <a href="{% url 'toppageit' %}" class="btn-back-home">
+            ← Torna alla Home
+        </a>
     </div>
 </div>
 

@@ -188,8 +188,15 @@
         </div>
     </div>
 
-    <div style="text-align:center; margin:50px 0;">
-        <a class="btn-more" href="{% url 'toppageptBR' %}">← Voltar para Home</a>
+    <div class="bottom-nav-zone">
+        {% if user.is_authenticated %}
+            <a href="{% url 'account_settingsptBR' %}" class="btn-manage-account">
+                Gerenciar Perfil / Configurações da Conta ⚙️
+            </a>
+        {% endif %}
+        <a href="{% url 'toppageptBR' %}" class="btn-back-home">
+            ← Voltar para Home
+        </a>
     </div>
 </div>
 

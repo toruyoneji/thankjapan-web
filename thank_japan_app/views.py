@@ -1270,6 +1270,7 @@ def thank_youENIN(request):
 def thank_youDE(request):
     return render(request, 'thank_japan_app/thankyou/thank_you_de.html')
 
+
 #account_settings
 @login_required
 def account_settings(request):
@@ -1278,6 +1279,112 @@ def account_settings(request):
         'total_score': profile.total_score,
     }
     return render(request, 'thank_japan_app/account/account_settings.html', context)
+
+@login_required
+def account_settingsZHHANT(request):
+    profile = request.user.profile
+    context = {
+        'total_score': profile.total_score,
+    }
+    return render(request, 'thank_japan_app/account/account_settings_zh_hant.html', context)
+
+@login_required
+def account_settingsVI(request):
+    profile = request.user.profile
+    context = {
+        'total_score': profile.total_score,
+    }
+    return render(request, 'thank_japan_app/account/account_settings_vi.html', context)
+
+@login_required
+def account_settingsTH(request):
+    profile = request.user.profile
+    context = {
+        'total_score': profile.total_score,
+    }
+    return render(request, 'thank_japan_app/account/account_settings_th.html', context)
+
+@login_required
+def account_settingsPT(request):
+    profile = request.user.profile
+    context = {
+        'total_score': profile.total_score,
+    }
+    return render(request, 'thank_japan_app/account/account_settings_pt.html', context)
+
+@login_required
+def account_settingsPTBR(request):
+    profile = request.user.profile
+    context = {
+        'total_score': profile.total_score,
+    }
+    return render(request, 'thank_japan_app/account/account_settings_pt_br.html', context)
+
+@login_required
+def account_settingsKO(request):
+    profile = request.user.profile
+    context = {
+        'total_score': profile.total_score,
+    }
+    return render(request, 'thank_japan_app/account/account_settings_ko.html', context)
+
+@login_required
+def account_settingsJA(request):
+    profile = request.user.profile
+    context = {
+        'total_score': profile.total_score,
+    }
+    return render(request, 'thank_japan_app/account/account_settings_ja.html', context)
+
+@login_required
+def account_settingsIT(request):
+    profile = request.user.profile
+    context = {
+        'total_score': profile.total_score,
+    }
+    return render(request, 'thank_japan_app/account/account_settings_it.html', context)
+
+@login_required
+def account_settingsFR(request):
+    profile = request.user.profile
+    context = {
+        'total_score': profile.total_score,
+    }
+    return render(request, 'thank_japan_app/account/account_settings_fr.html', context)
+
+@login_required
+def account_settingsESMX(request):
+    profile = request.user.profile
+    context = {
+        'total_score': profile.total_score,
+    }
+    return render(request, 'thank_japan_app/account/account_settings_es_mx.html', context)
+
+@login_required
+def account_settingsESES(request):
+    profile = request.user.profile
+    context = {
+        'total_score': profile.total_score,
+    }
+    return render(request, 'thank_japan_app/account/account_settings_es_es.html', context)
+
+@login_required
+def account_settingsENIN(request):
+    profile = request.user.profile
+    context = {
+        'total_score': profile.total_score,
+    }
+    return render(request, 'thank_japan_app/account/account_settings_en_in.html', context)
+
+@login_required
+def account_settingsDE(request):
+    profile = request.user.profile
+    context = {
+        'total_score': profile.total_score,
+    }
+    return render(request, 'thank_japan_app/account/account_settings_de.html', context)
+
+
 
 @login_required
 @require_POST

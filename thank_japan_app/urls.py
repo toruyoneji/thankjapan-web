@@ -29,14 +29,18 @@ from .views import (TopView, TopViewFR, TopViewIT, TopViewPT, TopViewZHHANT,TopV
                     PrivacyPolicy, PrivacyPolicyDE, PrivacyPolicyENIN, PrivacyPolicyESES, PrivacyPolicyESMX,
                     PrivacyPolicyFR, PrivacyPolicyIT, PrivacyPolicyJA, PrivacyPolicyKO, PrivacyPolicyPT,
                     PrivacyPolicyPTBR, PrivacyPolicyTH, PrivacyPolicyVI, PrivacyPolicyZHHANT,
-                    update_premium_status,  account_settings,delete_account, delete_success,
+                    update_premium_status, delete_account, delete_success,
                     downgrade_premium, downgrade_success,
                     premium_info, premium_infoDE, premium_infoENIN, premium_infoESES, premium_infoESMX,
                     premium_infoFR, premium_infoIT, premium_infoJA, premium_infoKO, premium_infoPT,
                     premium_infoPTBR, premium_infoTH, premium_infoVI, premium_infoZHHANT,
                     thank_you, thank_youDE, thank_youENIN, thank_youESES, thank_youESMX, thank_youFR,
                     thank_youIT, thank_youJA, thank_youKO, thank_youPT, thank_youPTBR, thank_youTH,
-                    thank_youVI, thank_youZHHANT) 
+                    thank_youVI, thank_youZHHANT,
+                    account_settings, account_settingsDE, account_settingsENIN, account_settingsESES,
+                    account_settingsESMX, account_settingsFR, account_settingsIT, account_settingsJA,
+                    account_settingsKO, account_settingsPT, account_settingsPTBR, account_settingsTH,
+                    account_settingsVI, account_settingsZHHANT) 
 
 
 urlpatterns = [
@@ -88,11 +92,27 @@ urlpatterns = [
     path('thank-you/vi/', thank_youVI, name='thank_youvi'),
     path('thank-you/zh-hant/', thank_youZHHANT, name='thank_youzhHANT'),
     
+    #account-settings
+    path('account/settings/', account_settings, name='account_settings'),
+    path('account/settings/de/', account_settingsDE, name='account_settingsde'),
+    path('account/settings/en-in/', account_settingsENIN, name='account_settingsenIN'),
+    path('account/settings/es-es/', account_settingsESES, name='account_settingsesES'),
+    path('account/settings/es-mx/', account_settingsESMX, name='account_settingsesMX'),
+    path('account/settings/fr/', account_settingsFR, name='account_settingsfr'),
+    path('account/settings/it/', account_settingsIT, name='account_settingsit'),
+    path('account/settings/ja/', account_settingsJA, name='account_settingsja'),
+    path('account/settings/ko/', account_settingsKO, name='account_settingsko'),
+    path('account/settings/pt-br/', account_settingsPTBR, name='account_settingsptBR'),
+    path('account/settings/pt/', account_settingsPT, name='account_settingspt'),
+    path('account/settings/th/', account_settingsTH, name='account_settingsth'),
+    path('account/settings/vi/', account_settingsVI, name='account_settingsvi'),
+    path('account/settings/zh-hant/', account_settingsZHHANT, name='account_settingszhHANT'),
+    
     
     #premium-status
     path('update-premium-status/', update_premium_status, name='update_premium_status'),
     
-    path('account/settings/', account_settings, name='account_settings'),
+    
     path('account/downgrade/', downgrade_premium, name='downgrade_premium'),
     path('account/delete/', delete_account, name='delete_account'),
     path('account/downgrade-success/', downgrade_success, name='downgrade_success'),

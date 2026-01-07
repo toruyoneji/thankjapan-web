@@ -188,8 +188,15 @@
         </div>
     </div>
 
-    <div style="text-align:center; margin:50px 0;">
-        <a class="btn-more" href="{% url 'toppageesES' %}">← Volver al Inicio</a>
+    <div class="bottom-nav-zone">
+        {% if user.is_authenticated %}
+            <a href="{% url 'account_settingsesES' %}" class="btn-manage-account">
+                Gestionar Perfil / Ajustes de cuenta ⚙️
+            </a>
+        {% endif %}
+        <a href="{% url 'toppageesES' %}" class="btn-back-home">
+            ← Volver al Inicio
+        </a>
     </div>
 </div>
 
