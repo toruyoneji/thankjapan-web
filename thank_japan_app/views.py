@@ -1242,7 +1242,7 @@ def thank_youPTBR(request):
 def thank_youKO(request):
     return render(request, 'thank_japan_app/thankyou/thank_you_ko.html')
 
-# @login_required
+@login_required
 def thank_youJA(request):
     return render(request, 'thank_japan_app/thankyou/thank_you_ja.html')
 
