@@ -40,6 +40,7 @@
             {% endif %}
             <form action="{% url 'delete_account' %}" method="POST" onsubmit="return confirm('警告：アカウントとすべてのデータが永久に削除されます。よろしいですか？')">
                 {% csrf_token %}
+                <input type="hidden" name="success_url_name" value="delete_successja">
                 <button type="submit" class="btn-delete">アカウントを完全に削除する</button>
             </form>
         </div>

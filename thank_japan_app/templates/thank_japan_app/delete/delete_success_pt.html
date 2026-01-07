@@ -1,0 +1,11 @@
+{% extends 'base/base_pt.html' %}
+{% block content %}
+<div style="text-align: center; margin-top: 200px; padding: 20px; font-family: 'Zen Antique', serif;">
+    <h1 style="color: #7a7a7a;">Conta eliminada</h1>
+    <p>Todos os seus dados foram removidos. Esperamos vê-lo novamente!</p>
+    <script>
+        setTimeout(function() { window.location.href = "{% url 'toppagept' %}"; }, 3000);
+    </script>
+</div>
+
+{% endblock %}

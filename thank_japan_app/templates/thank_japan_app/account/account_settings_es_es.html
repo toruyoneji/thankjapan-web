@@ -40,6 +40,7 @@
             {% endif %}
             <form action="{% url 'delete_account' %}" method="POST" onsubmit="return confirm('PELIGRO: ¿Eliminar cuenta y datos de forma permanente?')">
                 {% csrf_token %}
+                <input type="hidden" name="success_url_name" value="delete_successesES">
                 <button type="submit" class="btn-delete">Eliminar mi cuenta permanentemente</button>
             </form>
         </div>

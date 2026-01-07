@@ -1,0 +1,11 @@
+{% extends 'base/base_en_in.html' %}
+{% block content %}
+<div style="text-align: center; margin-top: 200px; padding: 20px; font-family: 'Zen Antique', serif;">
+    <h1 style="color: #7a7a7a;">Account Deleted</h1>
+    <p>All your data has been removed. We hope to see you again!</p>
+    <script>
+        setTimeout(function() { window.location.href = "{% url 'toppageenIN' %}"; }, 3000);
+    </script>
+</div>
+
+{% endblock %}

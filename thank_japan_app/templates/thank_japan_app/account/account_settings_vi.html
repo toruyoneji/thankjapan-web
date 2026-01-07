@@ -40,6 +40,7 @@
             {% endif %}
             <form action="{% url 'delete_account' %}" method="POST" onsubmit="return confirm('NGUY HIỂM: Xóa tài khoản và tất cả dữ liệu vĩnh viễn?')">
                 {% csrf_token %}
+                <input type="hidden" name="success_url_name" value="delete_successvi">
                 <button type="submit" class="btn-delete">Xóa tài khoản của tôi vĩnh viễn</button>
             </form>
         </div>

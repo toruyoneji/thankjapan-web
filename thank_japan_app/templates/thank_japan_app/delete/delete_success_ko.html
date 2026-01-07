@@ -1,0 +1,11 @@
+{% extends 'base/base_ko.html' %}
+{% block content %}
+<div style="text-align: center; margin-top: 200px; padding: 20px; font-family: 'Zen Antique', serif;">
+    <h1 style="color: #7a7a7a;">계정 삭제 완료</h1>
+    <p>모든 데이터가 삭제되었습니다. 다시 만나기를 기대합니다!</p>
+    <script>
+        setTimeout(function() { window.location.href = "{% url 'toppageko' %}"; }, 3000);
+    </script>
+</div>
+
+{% endblock %}

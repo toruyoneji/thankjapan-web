@@ -1,0 +1,11 @@
+{% extends 'base/base_de.html' %}
+{% block content %}
+<div style="text-align: center; margin-top: 200px; padding: 20px; font-family: 'Zen Antique', serif;">
+    <h1 style="color: #7a7a7a;">Konto gelöscht</h1>
+    <p>Alle Ihre Daten wurden entfernt. Wir hoffen, Sie bald wiederzusehen!</p>
+    <script>
+        setTimeout(function() { window.location.href = "{% url 'toppagede' %}"; }, 3000);
+    </script>
+</div>
+
+{% endblock %}

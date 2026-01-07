@@ -1394,20 +1394,66 @@ def downgrade_premium(request):
     profile.save()
     return redirect('downgrade_success')
 
-@login_required
-@require_POST
+# @login_required
+# @require_POST
 def delete_account(request):
     username_to_delete = request.user.username
+    
+    next_success_url = request.POST.get('success_url_name', 'delete_success')
+
     user_to_delete = request.user
     Player.objects.filter(username=username_to_delete).delete()
     user_to_delete.delete()
-    return redirect('delete_success')
+
+    return redirect(next_success_url)
+
 
 def downgrade_success(request):
     return render(request, 'thank_japan_app/downgrade/downgrade_success.html')
 
+#delete_success
+
 def delete_success(request):
     return render(request, 'thank_japan_app/delete/delete_success.html')
+
+def delete_successZHHANT(request):
+    return render(request, 'thank_japan_app/delete/delete_success_zh_hant.html')
+
+def delete_successVI(request):
+    return render(request, 'thank_japan_app/delete/delete_success_vi.html')
+
+def delete_successTH(request):
+    return render(request, 'thank_japan_app/delete/delete_success_th.html')
+
+def delete_successPT(request):
+    return render(request, 'thank_japan_app/delete/delete_success_pt.html')
+
+def delete_successPTBR(request):
+    return render(request, 'thank_japan_app/delete/delete_success_pt_br.html')
+
+def delete_successKO(request):
+    return render(request, 'thank_japan_app/delete/delete_success_ko.html')
+
+def delete_successJA(request):
+    return render(request, 'thank_japan_app/delete/delete_success_ja.html')
+
+def delete_successIT(request):
+    return render(request, 'thank_japan_app/delete/delete_success_it.html')
+
+def delete_successFR(request):
+    return render(request, 'thank_japan_app/delete/delete_success_fr.html')
+
+def delete_successESMX(request):
+    return render(request, 'thank_japan_app/delete/delete_success_es_mx.html')
+
+def delete_successESES(request):
+    return render(request, 'thank_japan_app/delete/delete_success_es_es.html')
+
+def delete_successENIN(request):
+    return render(request, 'thank_japan_app/delete/delete_success_en_in.html')
+
+def delete_successDE(request):
+    return render(request, 'thank_japan_app/delete/delete_success_de.html')
 
 
 

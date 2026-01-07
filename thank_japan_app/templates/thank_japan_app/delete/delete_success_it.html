@@ -1,0 +1,11 @@
+{% extends 'base/base_it.html' %}
+{% block content %}
+<div style="text-align: center; margin-top: 200px; padding: 20px; font-family: 'Zen Antique', serif;">
+    <h1 style="color: #7a7a7a;">Account eliminato</h1>
+    <p>Tutti i tuoi dati sono stati rimossi. Speriamo di rivederti presto!</p>
+    <script>
+        setTimeout(function() { window.location.href = "{% url 'toppageit' %}"; }, 3000);
+    </script>
+</div>
+
+{% endblock %}

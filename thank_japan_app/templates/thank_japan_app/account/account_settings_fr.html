@@ -40,6 +40,7 @@
             {% endif %}
             <form action="{% url 'delete_account' %}" method="POST" onsubmit="return confirm('DANGER : Supprimer le compte et toutes les données définitivement ?')">
                 {% csrf_token %}
+                <input type="hidden" name="success_url_name" value="delete_successfr">
                 <button type="submit" class="btn-delete">Supprimer mon compte définitivement</button>
             </form>
         </div>

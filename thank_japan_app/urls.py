@@ -29,8 +29,7 @@ from .views import (TopView, TopViewFR, TopViewIT, TopViewPT, TopViewZHHANT,TopV
                     PrivacyPolicy, PrivacyPolicyDE, PrivacyPolicyENIN, PrivacyPolicyESES, PrivacyPolicyESMX,
                     PrivacyPolicyFR, PrivacyPolicyIT, PrivacyPolicyJA, PrivacyPolicyKO, PrivacyPolicyPT,
                     PrivacyPolicyPTBR, PrivacyPolicyTH, PrivacyPolicyVI, PrivacyPolicyZHHANT,
-                    update_premium_status, delete_account, delete_success,
-                    downgrade_premium, downgrade_success,
+                    update_premium_status, delete_account, downgrade_premium, downgrade_success,
                     premium_info, premium_infoDE, premium_infoENIN, premium_infoESES, premium_infoESMX,
                     premium_infoFR, premium_infoIT, premium_infoJA, premium_infoKO, premium_infoPT,
                     premium_infoPTBR, premium_infoTH, premium_infoVI, premium_infoZHHANT,
@@ -40,7 +39,11 @@ from .views import (TopView, TopViewFR, TopViewIT, TopViewPT, TopViewZHHANT,TopV
                     account_settings, account_settingsDE, account_settingsENIN, account_settingsESES,
                     account_settingsESMX, account_settingsFR, account_settingsIT, account_settingsJA,
                     account_settingsKO, account_settingsPT, account_settingsPTBR, account_settingsTH,
-                    account_settingsVI, account_settingsZHHANT) 
+                    account_settingsVI, account_settingsZHHANT,
+                    delete_success, delete_successDE, delete_successENIN, delete_successESES,
+                    delete_successESMX, delete_successFR, delete_successIT, delete_successJA, delete_successKO,
+                    delete_successPT, delete_successPTBR, delete_successTH, delete_successVI, delete_successZHHANT,
+                    ) 
 
 
 urlpatterns = [
@@ -108,6 +111,21 @@ urlpatterns = [
     path('account/settings/vi/', account_settingsVI, name='account_settingsvi'),
     path('account/settings/zh-hant/', account_settingsZHHANT, name='account_settingszhHANT'),
     
+    #delete-success
+    path('account/delete-success/', delete_success, name='delete_success'),
+    path('account/delete-success/de/', delete_successDE, name='delete_successde'),
+    path('account/delete-success/en-in/', delete_successENIN, name='delete_successenIN'),
+    path('account/delete-success/es-es/', delete_successESES, name='delete_successesES'),
+    path('account/delete-success/es-mx/', delete_successESMX, name='delete_successesMX'),
+    path('account/delete-success/fr/', delete_successFR, name='delete_successfr'),
+    path('account/delete-success/it/', delete_successIT, name='delete_successit'),
+    path('account/delete-success/ja/', delete_successJA, name='delete_successja'),
+    path('account/delete-success/ko/', delete_successKO, name='delete_successko'),
+    path('account/delete-success/pt-br/', delete_successPTBR, name='delete_successptBR'),
+    path('account/delete-success/pt/', delete_successPT, name='delete_successpt'),
+    path('account/delete-success/th/', delete_successTH, name='delete_successth'),
+    path('account/delete-success/vi/', delete_successVI, name='delete_successvi'),
+    path('account/delete-success/zh-hant/', delete_successZHHANT, name='delete_successzhHANT'),
     
     #premium-status
     path('update-premium-status/', update_premium_status, name='update_premium_status'),
@@ -116,7 +134,7 @@ urlpatterns = [
     path('account/downgrade/', downgrade_premium, name='downgrade_premium'),
     path('account/delete/', delete_account, name='delete_account'),
     path('account/downgrade-success/', downgrade_success, name='downgrade_success'),
-    path('account/delete-success/', delete_success, name='delete_success'),
+    
     
     path('dailyconversation/', DailyConversationView.as_view(), name='dailyconversation'),
     path('businessjapanese/', BusinessJapaneseView.as_view(), name='businessjapanese'),

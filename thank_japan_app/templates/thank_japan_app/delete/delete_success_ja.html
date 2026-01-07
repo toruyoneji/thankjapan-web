@@ -1,0 +1,11 @@
+{% extends 'base/base_ja.html' %}
+{% block content %}
+<div style="text-align: center; margin-top: 200px; padding: 20px; font-family: 'Zen Antique', serif;">
+    <h1 style="color: #7a7a7a;">アカウント削除完了</h1>
+    <p>すべてのデータが削除されました。またのご利用をお待ちしております！</p>
+    <script>
+        setTimeout(function() { window.location.href = "{% url 'toppageja' %}"; }, 3000);
+    </script>
+</div>
+
+{% endblock %}
