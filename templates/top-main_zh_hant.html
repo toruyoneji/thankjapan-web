@@ -353,7 +353,7 @@ footer {
       已經是會員？ <a href="{% url 'player_login' %}?next={{ request.path }}">由此登入</a>
     </p>
     <div class="hero-buttons">
-      <a href="{% url 'category_list_zhHANT' %}" class="explore-btn btn-white">開始學習 📖</a>
+      <a href="{% url 'category_list_zhHant' %}" class="explore-btn btn-white">開始學習 📖</a>
     </div>
     
   {% elif not user.profile.is_premium %}
@@ -361,14 +361,14 @@ footer {
     <p>準備好在開發您在日本的無限潛力了嗎？</p>
     <div class="hero-buttons">
       <a href="{% url 'premium_infozhHANT' %}" class="explore-btn btn-gold">升級至 Premium 💎</a>
-      <a href="{% url 'category_list_zhHANT' %}" class="explore-btn btn-white">開始學習 📖</a>
+      <a href="{% url 'category_list_zhHant' %}" class="explore-btn btn-white">開始學習 📖</a>
     </div>
 
   {% else %}
     <h1>歡迎回來，{{ user.username }}！ 💎</h1>
     <p>盡情享受所有課程的無限訪問權限。</p>
     <div class="hero-buttons">
-      <a href="{% url 'category_list_zhHANT' %}" class="explore-btn btn-accent">進入課程 📖</a>
+      <a href="{% url 'category_list_zhHant' %}" class="explore-btn btn-accent">進入課程 📖</a>
       <a href="{% url 'account_settingszhHANT' %}" class="explore-btn btn-white">管理帳戶 ⚙️</a>
     </div>
   {% endif %}
