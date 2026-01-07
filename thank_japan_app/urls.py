@@ -9,7 +9,7 @@ from .views import (TopView, TopViewFR, TopViewIT, TopViewPT, TopViewZHHANT,TopV
                     player_register, delete_player,  contact_view, contact_thanks, category_list, category_list_zhhant,
                     category_list_vi, category_list_th, category_list_pt, category_list_pt_br, category_list_ko, 
                     category_list_ja, category_list_it, category_list_fr, category_list_es_mx, category_list_es_es,
-                    category_list_en_in, category_list_de, premium_info, DailyConversationView, BusinessJapaneseView, 
+                    category_list_en_in, category_list_de, DailyConversationView, BusinessJapaneseView, 
                     LivingInJapanView, ImgPremiumDetailView,
                     JapanFoodView,JapanFoodDEView, JapanFoodENINView, JapanFoodESESView,
                     JapanFoodESMXView, JapanFoodFRView, JapanFoodITView, JapanFoodJAView ,JapanFoodKOView,
@@ -30,7 +30,10 @@ from .views import (TopView, TopViewFR, TopViewIT, TopViewPT, TopViewZHHANT,TopV
                     PrivacyPolicyFR, PrivacyPolicyIT, PrivacyPolicyJA, PrivacyPolicyKO, PrivacyPolicyPT,
                     PrivacyPolicyPTBR, PrivacyPolicyTH, PrivacyPolicyVI, PrivacyPolicyZHHANT,
                     update_premium_status, thank_you, account_settings,delete_account, delete_success,
-                    downgrade_premium, downgrade_success) 
+                    downgrade_premium, downgrade_success,
+                    premium_info, premium_infoDE, premium_infoENIN, premium_infoESES, premium_infoESMX,
+                    premium_infoFR, premium_infoIT, premium_infoJA, premium_infoKO, premium_infoPT,
+                    premium_infoPTBR, premium_infoTH, premium_infoVI, premium_infoZHHANT) 
 
 
 urlpatterns = [
@@ -52,6 +55,21 @@ urlpatterns = [
     
     #premium
     path('premium/', premium_info, name='premium_info'),
+    path('premium/de/', premium_infoDE, name='premium_infode'),
+    path('premium/en-in/', premium_infoENIN, name='premium_infoenIN'),
+    path('premium/es-es/', premium_infoESES, name='premium_infoesES'),
+    path('premium/es-mx/', premium_infoESMX, name='premium_infoesMX'),
+    path('premium/fr/', premium_infoFR, name='premium_infofr'),
+    path('premium/it/', premium_infoIT, name='premium_infoit'),
+    path('premium/ja/', premium_infoJA, name='premium_infoja'),
+    path('premium/ko/', premium_infoKO, name='premium_infoko'),
+    path('premium/pt-br/', premium_infoPTBR, name='premium_infoptBR'),
+    path('premium/pt/', premium_infoPT, name='premium_infopt'),
+    path('premium/th/', premium_infoTH, name='premium_infoth'),
+    path('premium/vi/', premium_infoVI, name='premium_infovi'),
+    path('premium/zh-hant/', premium_infoZHHANT, name='premium_infozhHANT'),
+    
+    #premium-status
     path('update-premium-status/', update_premium_status, name='update_premium_status'),
     path('thank-you/', thank_you, name='thank_you'),
     path('account/settings/', account_settings, name='account_settings'),

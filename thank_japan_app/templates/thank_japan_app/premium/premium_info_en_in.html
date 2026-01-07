@@ -163,7 +163,7 @@
     <div class="pricing-container">
         <div class="plan-card">
             <div class="plan-name">Free</div>
-            <div class="plan-price">$0</div>
+            <div class="plan-price">₹0</div>
             <ul class="plan-features">
                 <li>Basic Vocabulary</li>
                 <li>Culture & Food Quizzes</li>
@@ -184,54 +184,34 @@
                 <li>Ad-Free Experience</li>
                 <li>All Future Updates</li>
             </ul>
-            
             <div id="paypal-button-container"></div>
         </div>
     </div>
 
     <div style="text-align:center; margin:50px 0;">
-        <a class="btn-more" href="{% url 'toppage' %}">← Back To Home</a>
+        <a class="btn-more" href="{% url 'toppageenIN' %}">← Back To Home</a>
     </div>
 </div>
 
 <script src="https://www.paypal.com/sdk/js?client-id={{ paypal_client_id }}&vault=true&intent=subscription&currency=USD"></script>
-
 <script>
     paypal.Buttons({
-        style: {
-            shape: 'rect',
-            color: 'gold',
-            layout: 'vertical',
-            label: 'subscribe'
-        },
+        style: { shape: 'rect', color: 'gold', layout: 'vertical', label: 'subscribe' },
         createSubscription: function(data, actions) {
-            return actions.subscription.create({
-                'plan_id': '{{ paypal_plan_id }}'
-            });
+            return actions.subscription.create({ 'plan_id': '{{ paypal_plan_id }}' });
         },
         onApprove: function(data, actions) {
-            document.getElementById('paypal-button-container').innerHTML = '<p style="color: #d4af37; font-weight: bold; padding: 20px;">Updating your account...<br>Please wait a moment.</p>';
-            
+            document.getElementById('paypal-button-container').innerHTML = '<p style="color: #d4af37; font-weight: bold; padding: 20px;">Updating account...<br>Please wait a moment.</p>';
             fetch("{% url 'update_premium_status' %}", {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRFToken': '{{ csrf_token }}'
-                },
-                body: JSON.stringify({
-                    subscriptionID: data.subscriptionID
-                })
+                headers: { 'Content-Type': 'application/json', 'X-CSRFToken': '{{ csrf_token }}' },
+                body: JSON.stringify({ subscriptionID: data.subscriptionID })
             }).then(response => {
                 if (response.ok) {
-                    setTimeout(function() {
-                        window.location.href = "{% url 'thank_you' %}";
-                    }, 3000);
+                    setTimeout(function() { window.location.href = "{% url 'thank_you' %}"; }, 3000);
                 }
             });
         },
-        onError: function (err) {
-            alert('PayPal Error occurred.');
-        }
+        onError: function (err) { alert('PayPal Error occurred.'); }
     }).render('#paypal-button-container');
 </script>
-{% endblock %}

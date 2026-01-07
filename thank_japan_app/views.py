@@ -1112,6 +1112,7 @@ def update_premium_status(request):
     except Exception as e:
         return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
 
+#premium_info
 
 def premium_info(request):
     context = {
@@ -1120,6 +1121,99 @@ def premium_info(request):
     }
     return render(request, 'thank_japan_app/premium/premium_info.html', context)
 
+def premium_infoZHHANT(request):
+    context = {
+        'paypal_client_id': settings.PAYPAL_CLIENT_ID,
+        'paypal_plan_id': settings.PAYPAL_PLAN_ID,
+    }
+    return render(request, 'thank_japan_app/premium/premium_info_zh_hant.html', context)
+
+def premium_infoVI(request):
+    context = {
+        'paypal_client_id': settings.PAYPAL_CLIENT_ID,
+        'paypal_plan_id': settings.PAYPAL_PLAN_ID,
+    }
+    return render(request, 'thank_japan_app/premium/premium_info_vi.html', context)
+
+def premium_infoTH(request):
+    context = {
+        'paypal_client_id': settings.PAYPAL_CLIENT_ID,
+        'paypal_plan_id': settings.PAYPAL_PLAN_ID,
+    }
+    return render(request, 'thank_japan_app/premium/premium_info_th.html', context)
+
+def premium_infoPT(request):
+    context = {
+        'paypal_client_id': settings.PAYPAL_CLIENT_ID,
+        'paypal_plan_id': settings.PAYPAL_PLAN_ID,
+    }
+    return render(request, 'thank_japan_app/premium/premium_info_pt.html', context)
+
+def premium_infoPTBR(request):
+    context = {
+        'paypal_client_id': settings.PAYPAL_CLIENT_ID,
+        'paypal_plan_id': settings.PAYPAL_PLAN_ID,
+    }
+    return render(request, 'thank_japan_app/premium/premium_info_pt_br.html', context)
+
+def premium_infoKO(request):
+    context = {
+        'paypal_client_id': settings.PAYPAL_CLIENT_ID,
+        'paypal_plan_id': settings.PAYPAL_PLAN_ID,
+    }
+    return render(request, 'thank_japan_app/premium/premium_info_ko.html', context)
+
+def premium_infoJA(request):
+    context = {
+        'paypal_client_id': settings.PAYPAL_CLIENT_ID,
+        'paypal_plan_id': settings.PAYPAL_PLAN_ID,
+    }
+    return render(request, 'thank_japan_app/premium/premium_info_ja.html', context)
+
+def premium_infoIT(request):
+    context = {
+        'paypal_client_id': settings.PAYPAL_CLIENT_ID,
+        'paypal_plan_id': settings.PAYPAL_PLAN_ID,
+    }
+    return render(request, 'thank_japan_app/premium/premium_info_it.html', context)
+
+def premium_infoFR(request):
+    context = {
+        'paypal_client_id': settings.PAYPAL_CLIENT_ID,
+        'paypal_plan_id': settings.PAYPAL_PLAN_ID,
+    }
+    return render(request, 'thank_japan_app/premium/premium_info_fr.html', context)
+
+def premium_infoESMX(request):
+    context = {
+        'paypal_client_id': settings.PAYPAL_CLIENT_ID,
+        'paypal_plan_id': settings.PAYPAL_PLAN_ID,
+    }
+    return render(request, 'thank_japan_app/premium/premium_info_es_mx.html', context)
+
+def premium_infoESES(request):
+    context = {
+        'paypal_client_id': settings.PAYPAL_CLIENT_ID,
+        'paypal_plan_id': settings.PAYPAL_PLAN_ID,
+    }
+    return render(request, 'thank_japan_app/premium/premium_info_es_es.html', context)
+
+def premium_infoENIN(request):
+    context = {
+        'paypal_client_id': settings.PAYPAL_CLIENT_ID,
+        'paypal_plan_id': settings.PAYPAL_PLAN_ID,
+    }
+    return render(request, 'thank_japan_app/premium/premium_info_en_in.html', context)
+
+def premium_infoDE(request):
+    context = {
+        'paypal_client_id': settings.PAYPAL_CLIENT_ID,
+        'paypal_plan_id': settings.PAYPAL_PLAN_ID,
+    }
+    return render(request, 'thank_japan_app/premium/premium_info_de.html', context)
+
+
+#thankyou
 @login_required
 def thank_you(request):
     return render(request, 'thank_japan_app/thankyou/thank_you.html')

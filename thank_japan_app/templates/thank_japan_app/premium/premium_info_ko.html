@@ -156,82 +156,62 @@
 
 <div class="premium-page">
     <div class="premium-header">
-        <h1>Upgrade to Premium 💎</h1>
-        <p>Master Japanese for your work and life in Japan.</p>
+        <h1>프리미엄으로 업그레이드 💎</h1>
+        <p>일본에서의 업무와 생활을 위한 실전 일본어를 마스터하세요.</p>
     </div>
 
     <div class="pricing-container">
         <div class="plan-card">
-            <div class="plan-name">Free</div>
-            <div class="plan-price">$0</div>
+            <div class="plan-name">무료</div>
+            <div class="plan-price">₩0</div>
             <ul class="plan-features">
-                <li>Basic Vocabulary</li>
-                <li>Culture & Food Quizzes</li>
-                <li>Limited Game Access</li>
-                <li>Community Ranking</li>
+                <li>기초 어휘</li>
+                <li>문화 및 음식 퀴즈</li>
+                <li>제한된 게임 이용</li>
+                <li>커뮤니티 랭킹</li>
             </ul>
-            <a href="{% url 'player_register' %}" class="plan-btn free-btn">Current Plan</a>
+            <a href="{% url 'player_register' %}" class="plan-btn free-btn">현재 플랜</a>
         </div>
 
         <div class="plan-card featured">
-            <div class="plan-badge">RECOMMENDED</div>
-            <div class="plan-name">Premium</div>
-            <div class="plan-price">$5.00 <span>/ month</span></div>
+            <div class="plan-badge">추천</div>
+            <div class="plan-name">프리미엄</div>
+            <div class="plan-price">$5.00 <span>/ 월</span></div>
             <ul class="plan-features">
-                <li><strong>Conversation</strong> Mastery</li>
-                <li><strong>Business</strong> Japanese</li>
-                <li>Japanese <strong>Etiquette</strong></li>
-                <li>Ad-Free Experience</li>
-                <li>All Future Updates</li>
+                <li><strong>회화</strong> 마스터</li>
+                <li><strong>비즈니스</strong> 일본어</li>
+                <li>일본 <strong>에티켓</strong></li>
+                <li>광고 없는 체험</li>
+                <li>모든 향후 업데이트</li>
             </ul>
-            
             <div id="paypal-button-container"></div>
         </div>
     </div>
 
     <div style="text-align:center; margin:50px 0;">
-        <a class="btn-more" href="{% url 'toppage' %}">← Back To Home</a>
+        <a class="btn-more" href="{% url 'toppageko' %}">← 홈으로 돌아가기</a>
     </div>
 </div>
 
 <script src="https://www.paypal.com/sdk/js?client-id={{ paypal_client_id }}&vault=true&intent=subscription&currency=USD"></script>
-
 <script>
     paypal.Buttons({
-        style: {
-            shape: 'rect',
-            color: 'gold',
-            layout: 'vertical',
-            label: 'subscribe'
-        },
+        style: { shape: 'rect', color: 'gold', layout: 'vertical', label: 'subscribe' },
         createSubscription: function(data, actions) {
-            return actions.subscription.create({
-                'plan_id': '{{ paypal_plan_id }}'
-            });
+            return actions.subscription.create({ 'plan_id': '{{ paypal_plan_id }}' });
         },
         onApprove: function(data, actions) {
-            document.getElementById('paypal-button-container').innerHTML = '<p style="color: #d4af37; font-weight: bold; padding: 20px;">Updating your account...<br>Please wait a moment.</p>';
-            
+            document.getElementById('paypal-button-container').innerHTML = '<p style="color: #d4af37; font-weight: bold; padding: 20px;">계정 정보 업데이트 중...<br>잠시만 기다려 주세요.</p>';
             fetch("{% url 'update_premium_status' %}", {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRFToken': '{{ csrf_token }}'
-                },
-                body: JSON.stringify({
-                    subscriptionID: data.subscriptionID
-                })
+                headers: { 'Content-Type': 'application/json', 'X-CSRFToken': '{{ csrf_token }}' },
+                body: JSON.stringify({ subscriptionID: data.subscriptionID })
             }).then(response => {
                 if (response.ok) {
-                    setTimeout(function() {
-                        window.location.href = "{% url 'thank_you' %}";
-                    }, 3000);
+                    setTimeout(function() { window.location.href = "{% url 'thank_you' %}"; }, 3000);
                 }
             });
         },
-        onError: function (err) {
-            alert('PayPal Error occurred.');
-        }
+        onError: function (err) { alert('PayPal 오류가 발생했습니다.'); }
     }).render('#paypal-button-container');
 </script>
-{% endblock %}

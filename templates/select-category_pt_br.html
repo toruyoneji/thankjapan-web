@@ -311,7 +311,7 @@
         {% if user.is_authenticated and user.profile.is_premium %}
         <a href="{% url 'businessjapanese'%}" class="cat-premium-card">
         {% else %}
-            <a href="{% url 'premium_info' %}" class="cat-card premium-locked">
+            <a href="{% url 'premium_infoptBR' %}" class="cat-card premium-locked">
         {% endif %}
             <div class="premium-label">Special</div>
             <span class="cat-icon">💼</span>
@@ -325,7 +325,7 @@
         {% if user.is_authenticated and user.profile.is_premium %}
         <a href="{% url 'living_in_japan_page'%}" class="cat-premium-card">
         {% else %}
-            <a href="{% url 'premium_info' %}" class="cat-card premium-locked">
+            <a href="{% url 'premium_infoptBR' %}" class="cat-card premium-locked">
         {% endif %}
             <div class="premium-label">Special</div>
             <span class="cat-icon">🏠</span>

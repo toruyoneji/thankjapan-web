@@ -156,82 +156,62 @@
 
 <div class="premium-page">
     <div class="premium-header">
-        <h1>Upgrade to Premium 💎</h1>
-        <p>Master Japanese for your work and life in Japan.</p>
+        <h1>อัปเกรดเป็นพรีเมียม 💎</h1>
+        <p>เก่งภาษาญี่ปุ่นเพื่อการทำงานและการใช้ชีวิตในญี่ปุ่น</p>
     </div>
 
     <div class="pricing-container">
         <div class="plan-card">
-            <div class="plan-name">Free</div>
-            <div class="plan-price">$0</div>
+            <div class="plan-name">ฟรี</div>
+            <div class="plan-price">0฿</div>
             <ul class="plan-features">
-                <li>Basic Vocabulary</li>
-                <li>Culture & Food Quizzes</li>
-                <li>Limited Game Access</li>
-                <li>Community Ranking</li>
+                <li>คำศัพท์พื้นฐาน</li>
+                <li>ควิซวัฒนธรรมและอาหาร</li>
+                <li>เข้าถึงเกมได้อย่างจำกัด</li>
+                <li>การจัดอันดับชุมชน</li>
             </ul>
-            <a href="{% url 'player_register' %}" class="plan-btn free-btn">Current Plan</a>
+            <a href="{% url 'player_register' %}" class="plan-btn free-btn">แผนปัจจุบัน</a>
         </div>
 
         <div class="plan-card featured">
-            <div class="plan-badge">RECOMMENDED</div>
-            <div class="plan-name">Premium</div>
-            <div class="plan-price">$5.00 <span>/ month</span></div>
+            <div class="plan-badge">แนะนำ</div>
+            <div class="plan-name">พรีเมียม</div>
+            <div class="plan-price">$5.00 <span>/ เดือน</span></div>
             <ul class="plan-features">
-                <li><strong>Conversation</strong> Mastery</li>
-                <li><strong>Business</strong> Japanese</li>
-                <li>Japanese <strong>Etiquette</strong></li>
-                <li>Ad-Free Experience</li>
-                <li>All Future Updates</li>
+                <li>เก่ง <strong>การสนทนา</strong></li>
+                <li>ภาษาญี่ปุ่น <strong>ธุรกิจ</strong></li>
+                <li><strong>มารยาท</strong> ญี่ปุ่น</li>
+                <li>เล่นแบบไม่มีโฆษณา</li>
+                <li>อัปเดตทั้งหมดในอนาคต</li>
             </ul>
-            
             <div id="paypal-button-container"></div>
         </div>
     </div>
 
     <div style="text-align:center; margin:50px 0;">
-        <a class="btn-more" href="{% url 'toppage' %}">← Back To Home</a>
+        <a class="btn-more" href="{% url 'toppageth' %}">← กลับหน้าแรก</a>
     </div>
 </div>
 
 <script src="https://www.paypal.com/sdk/js?client-id={{ paypal_client_id }}&vault=true&intent=subscription&currency=USD"></script>
-
 <script>
     paypal.Buttons({
-        style: {
-            shape: 'rect',
-            color: 'gold',
-            layout: 'vertical',
-            label: 'subscribe'
-        },
+        style: { shape: 'rect', color: 'gold', layout: 'vertical', label: 'subscribe' },
         createSubscription: function(data, actions) {
-            return actions.subscription.create({
-                'plan_id': '{{ paypal_plan_id }}'
-            });
+            return actions.subscription.create({ 'plan_id': '{{ paypal_plan_id }}' });
         },
         onApprove: function(data, actions) {
-            document.getElementById('paypal-button-container').innerHTML = '<p style="color: #d4af37; font-weight: bold; padding: 20px;">Updating your account...<br>Please wait a moment.</p>';
-            
+            document.getElementById('paypal-button-container').innerHTML = '<p style="color: #d4af37; font-weight: bold; padding: 20px;">กำลังอัปเดตบัญชี...<br>กรุณารอสักครู่</p>';
             fetch("{% url 'update_premium_status' %}", {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRFToken': '{{ csrf_token }}'
-                },
-                body: JSON.stringify({
-                    subscriptionID: data.subscriptionID
-                })
+                headers: { 'Content-Type': 'application/json', 'X-CSRFToken': '{{ csrf_token }}' },
+                body: JSON.stringify({ subscriptionID: data.subscriptionID })
             }).then(response => {
                 if (response.ok) {
-                    setTimeout(function() {
-                        window.location.href = "{% url 'thank_you' %}";
-                    }, 3000);
+                    setTimeout(function() { window.location.href = "{% url 'thank_you' %}"; }, 3000);
                 }
             });
         },
-        onError: function (err) {
-            alert('PayPal Error occurred.');
-        }
+        onError: function (err) { alert('เกิดข้อผิดพลาดกับ PayPal'); }
     }).render('#paypal-button-container');
 </script>
-{% endblock %}
