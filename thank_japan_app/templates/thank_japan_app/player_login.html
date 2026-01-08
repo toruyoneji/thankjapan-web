@@ -171,6 +171,12 @@
     <input type="password" name="password" id="id_password" required autocomplete="current-password">
 
     <button type="submit">Login</button>
+
+    <div style="margin-top: 15px;">
+        <a href="{% url 'password_reset' %}" style="font-size: 0.85rem; color: #7a7a7a; text-decoration: underline;">
+            Forgot your password?
+        </a>
+    </div>
   </form>
 
   <p>Don't have an account? <a href="{% url 'player_register' %}">Register here</a>.</p>

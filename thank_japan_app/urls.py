@@ -1,4 +1,5 @@
 from django.urls import path
+from django.contrib.auth import views as auth_views
 from .views import (TopView, TopViewFR, TopViewIT, TopViewPT, TopViewZHHANT,TopViewKO, TopViewESES,
                     TopViewDE, TopViewTH, TopViewPTBR, TopViewESMX, TopViewENIN, TopViewJA, TopViewVI,
                     FoodView, NatureView, FashionView, 
@@ -311,6 +312,22 @@ urlpatterns = [
     path('contact/', contact_view, name='contact'),
     path('contact/thanks/', contact_thanks, name='contact_thanks'),
     
+    #password-reset
+    path('password-reset/', 
+         auth_views.PasswordResetView.as_view(template_name='thank_japan_app/registration/password_reset_form.html'), 
+         name='password_reset'),
+    
+    path('password-reset/done/', 
+         auth_views.PasswordResetDoneView.as_view(template_name='thank_japan_app/registration/password_reset_done.html'), 
+         name='password_reset_done'),
+    
+    path('password-reset-confirm/<uidb64>/<token>/', 
+         auth_views.PasswordResetConfirmView.as_view(template_name='thank_japan_app/registration/password_reset_confirm.html'), 
+         name='password_reset_confirm'),
+    
+    path('password-reset-complete/', 
+         auth_views.PasswordResetCompleteView.as_view(template_name='thank_japan_app/registration/password_reset_complete.html'), 
+         name='password_reset_complete'),
     
     #user look page
     path('<str:category>/<slug:slug>/', CategoryDetailView.as_view(), name='category_detail'),
