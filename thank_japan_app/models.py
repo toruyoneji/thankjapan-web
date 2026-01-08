@@ -81,6 +81,7 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
     is_premium = models.BooleanField(default=False)
     country = models.CharField(max_length=50, blank=True, null=True)
+    privacy_policy_version = models.CharField(max_length=10, default="2025-08")
     total_score = models.PositiveIntegerField(default=0)
     last_score = models.PositiveIntegerField(default=0)
 
