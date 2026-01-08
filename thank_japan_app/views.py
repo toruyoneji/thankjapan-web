@@ -124,6 +124,16 @@ CATEGORY_URL_MAP = {
 }
 
 
+#new-privacy-policy
+
+@login_required
+@require_POST
+def update_policy_agreement(request):
+    profile = request.user.profile
+    profile.privacy_policy_version = "2026-01"
+    profile.save()
+    return JsonResponse({'status': 'success'})
+
     
 #company infomation
 class CompanyFormView(TemplateView):

@@ -204,43 +204,51 @@
 {% block content %}{% endblock %}
 
 <div id="cookieConsentBanner" class="cookie-consent-banner">
-    <p>Trang web này sử dụng cookie để cải thiện trải nghiệm của bạn và cung cấp nội dung cá nhân hóa.
-       Bằng cách nhấp vào "Chấp nhận tất cả", bạn đồng ý với việc lưu trữ cookie trên thiết bị của mình để tăng cường điều hướng trang web, phân tích việc sử dụng trang web và hỗ trợ các nỗ lực tiếp thị của chúng tôi. Bạn có thể tìm thêm chi tiết trong <a href="{% url 'privacy_policyvi' %}" class="cookie-policy-link">Chính sách quyền riêng tư</a> của chúng tôi.
+    <p>Trang web này sử dụng cookie để cải thiện trải nghiệm của bạn và cung cấp nội dung được cá nhân hóa. 
+       Bằng cách nhấp vào "Chấp nhận tất cả", bạn đồng ý với việc lưu trữ cookie. Chi tiết tại <a href="{% url 'privacy_policyvi' %}" class="cookie-policy-link">Chính sách bảo mật</a>.
     </p>
     <div class="cookie-consent-buttons">
-        <button id="acceptCookiesBtn" class="cookie-consent-btn accept-btn">Chấp nhận tất cả cookie</button>
+        <button id="acceptCookiesBtn" class="cookie-consent-btn accept-btn">Chấp nhận tất cả</button>
         <button id="manageCookiesBtn" class="cookie-consent-btn manage-btn">Quản lý tùy chọn</button>
     </div>
 </div>
 
+{% if user.is_authenticated and user.profile.privacy_policy_version != "2026-01" %}
+<div id="policyUpdateBanner" style="position: fixed; bottom: 0; left: 0; width: 100%; background: #b22d35; color: white; padding: 20px; z-index: 10002; text-align: center; box-shadow: 0 -5px 15px rgba(0,0,0,0.3);">
+    <p style="margin: 0 0 10px 0; font-size: 0.95rem; line-height: 1.5;">
+        <strong>Chính sách bảo mật đã được cập nhật (Tháng 1/2026)</strong><br>
+        Chúng tôi đã cập nhật chính sách liên quan đến đăng ký Premium và sử dụng AI. Vui lòng xác nhận sự đồng ý của bạn.
+    </p>
+    <div style="display: flex; justify-content: center; gap: 15px;">
+        <button onclick="agreeToPolicy()" style="padding: 10px 25px; background: white; color: #b22d35; border: none; border-radius: 25px; font-weight: bold; cursor: pointer; font-size: 0.9rem;">
+            Tôi đồng ý
+        </button>
+        <a href="{% url 'privacy_policyvi' %}" target="_blank" style="color: white; text-decoration: underline; font-size: 0.8rem; align-self: center;">Đọc chính sách</a>
+    </div>
+</div>
+{% endif %}
+
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const dropdowns = document.querySelectorAll('.dropdown');
-
     dropdowns.forEach(dropdown => {
         const btn = dropdown.querySelector('.dropbtn');
         const content = dropdown.querySelector('.dropdown-content');
-
         btn.addEventListener('click', function(e) {
-            e.stopPropagation(); // 他のクリックイベントに影響させない
-            // 既に開いていたら閉じる
+            e.stopPropagation();
             const isOpen = content.style.display === 'block';
             document.querySelectorAll('.dropdown-content').forEach(dc => dc.style.display = 'none');
             content.style.display = isOpen ? 'none' : 'block';
         });
     });
-
-    // ページのどこかクリックしたら閉じる
     document.addEventListener('click', function() {
         document.querySelectorAll('.dropdown-content').forEach(dc => dc.style.display = 'none');
     });
 
-    // --- クッキー同意バナーのJavaScriptをここに追加 ---
     const cookieBanner = document.getElementById('cookieConsentBanner');
     const acceptBtn = document.getElementById('acceptCookiesBtn');
     const manageBtn = document.getElementById('manageCookiesBtn');
 
-    // クッキーが存在するかチェック
     function getCookie(name) {
         const nameEQ = name + "=";
         const ca = document.cookie.split(';');
@@ -252,7 +260,6 @@ document.addEventListener('DOMContentLoaded', function() {
         return null;
     }
 
-    // クッキーを設定
     function setCookie(name, value, days) {
         let expires = "";
         if (days) {
@@ -263,28 +270,35 @@ document.addEventListener('DOMContentLoaded', function() {
         document.cookie = name + "=" + (value || "")  + expires + "; path=/";
     }
 
-    // バナーを表示するかどうか
     if (!getCookie('cookie_consent')) {
-        setTimeout(() => { 
-            cookieBanner.classList.add('show');
-        }, 1000); 
-    } else {
-        cookieBanner.classList.remove('show'); 
+        setTimeout(() => { cookieBanner.classList.add('show'); }, 1000);
     }
 
-    // 「Accept All Cookies」ボタンがクリックされた時の処理
     acceptBtn.addEventListener('click', function() {
-        setCookie('cookie_consent', 'accepted', 365); 
-        cookieBanner.classList.remove('show'); 
-        
+        setCookie('cookie_consent', 'accepted', 365);
+        cookieBanner.classList.remove('show');
     });
 
-    // 「Manage Preferences」ボタンがクリックされた時の処理
     manageBtn.addEventListener('click', function() {
-        // プライバシーポリシーのクッキー設定セクションへ誘導
         window.location.href = "{% url 'privacy_policyvi' %}#cookie-settings"; 
     });
 });
+
+function agreeToPolicy() {
+    fetch("{% url 'update_policy_agreement' %}", {
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': '{{ csrf_token }}',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ version: "2026-01" })
+    }).then(response => {
+        if (response.ok) {
+            const banner = document.getElementById('policyUpdateBanner');
+            if (banner) banner.style.display = 'none';
+        }
+    });
+}
 </script>
 
 </body>
