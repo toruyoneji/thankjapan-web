@@ -26,15 +26,14 @@ logger = logging.getLogger(__name__)
 
 def robots_txt(request):
     content = """User-agent: *
-Disallow: /payment/create/
-Disallow: /payment/success/
-Disallow: /payment/cancel/
-Disallow: /payment/webhook/
+
 Disallow: /game/play/
 Disallow: /game/result/
 Disallow: /game/start/
 Disallow: /login/
 Disallow: /register/
+Disallow: /account/
+Disallow: /thank-you/
 
 Sitemap: https://www.thankjapan.com/sitemap.xml
 """

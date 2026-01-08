@@ -149,7 +149,6 @@ urlpatterns = [
     
     #premium-status
     path('update-premium-status/', update_premium_status, name='update_premium_status'),
-
     path('account/downgrade/', downgrade_premium, name='downgrade_premium'),
     path('account/delete/', delete_account, name='delete_account'),
     
