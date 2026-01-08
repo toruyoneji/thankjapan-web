@@ -63,6 +63,7 @@ class ThankJapanBackgroundModel(models.Model):
 
 class Player(models.Model):
     username = models.CharField(max_length=50, unique=True)
+    email = models.EmailField(max_length=255, unique=True, null=True, blank=True) 
     country = models.CharField(max_length=50, blank=True, null=True)
     password = models.CharField(max_length=128) 
     total_score = models.PositiveIntegerField(default=0)
