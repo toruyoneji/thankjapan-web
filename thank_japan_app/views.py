@@ -450,10 +450,17 @@ def player_register(request):
             raw_password = form.cleaned_data['password']
             country = form.cleaned_data['country']
 
+
             if User.objects.filter(username=username).exists() or Player.objects.filter(username=username).exists():
                 messages.error(request, "This username is already taken.")
-                return redirect('player_register')
+                return render(request, 'thank_japan_app/player_register.html', {'form': form})
 
+            
+            if User.objects.filter(email=email).exists() or Player.objects.filter(email=email).exists():
+                messages.error(request, "This email address is already registered.")
+                return render(request, 'thank_japan_app/player_register.html', {'form': form})
+
+            
             user = User.objects.create_user(username=username, email=email, password=raw_password)
             
             player = Player(username=username, email=email, country=country)
