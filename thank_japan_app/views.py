@@ -439,14 +439,14 @@ def contact_thanks(request):
     template = 'thank_japan_app/contact_thanks.html'
     return render(request, template)
 
-#Game
-
+#Game and login register
 
 def player_register(request):
     if request.method == "POST":
         form = UsernameForm(request.POST)
         if form.is_valid():
             username = form.cleaned_data['username']
+            email = form.cleaned_data['email']
             raw_password = form.cleaned_data['password']
             country = form.cleaned_data['country']
 
@@ -454,9 +454,9 @@ def player_register(request):
                 messages.error(request, "This username is already taken.")
                 return redirect('player_register')
 
-            user = User.objects.create_user(username=username, password=raw_password)
+            user = User.objects.create_user(username=username, email=email, password=raw_password)
             
-            player = Player(username=username, country=country)
+            player = Player(username=username, email=email, country=country)
             player.set_password(raw_password)
             player.save()
 
@@ -475,6 +475,7 @@ def player_register(request):
         form = UsernameForm()
 
     return render(request, 'thank_japan_app/player_register.html', {'form': form})
+
 
 def player_login(request):
     
@@ -1101,26 +1102,30 @@ class JapanCultureDEView(TemplateView):
 
 #Thank_Japan premium 
 
-#premium_info
-
 @login_required
 @require_POST
 def update_premium_status(request):
     try:
         data = json.loads(request.body)
         subscription_id = data.get('subscriptionID')
-        subscription = paypalrestsdk.Subscription.find(sub_id)
 
-        if subscription.status == "ACTIVE":
-            profile = request.user.profile
-            profile.is_premium = True
-            profile.save()
-            return JsonResponse({'status': 'success'})
+        if subscription_id:
+            subscription = paypalrestsdk.Subscription.find(subscription_id)
+            
+            if subscription.status == "ACTIVE":
+                profile = request.user.profile
+                profile.is_premium = True
+                profile.save()
+                return JsonResponse({'status': 'success'})
+            else:
+                return JsonResponse({'status': 'error', 'message': 'Subscription is not active'}, status=400)
         else:
-            return JsonResponse({'status': 'error'}, status=400)
+            return JsonResponse({'status': 'error', 'message': 'No ID provided'}, status=400)
+
     except Exception as e:
         return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
-
+    
+    
 #premium_info
 
 def premium_info(request):

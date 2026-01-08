@@ -59,6 +59,13 @@ class UsernameForm(forms.Form):
         help_text='Please connect your names with underscores (e.g., john_doe).',
     )
     
+    email = forms.EmailField(
+        label="Email Address",
+        widget=forms.EmailInput(attrs={'placeholder': 'Enter your email'}),
+        required=True,
+        help_text="Required for password reset.",
+    )
+    
     password = forms.CharField(
         label="Password",
         max_length=128,
