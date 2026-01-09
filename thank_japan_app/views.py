@@ -1119,89 +1119,47 @@ def update_premium_status(request):
         data = json.loads(request.body)
         subscription_id = data.get('subscriptionID')
         
-        print(f"--- WEBHOOK START: ID={subscription_id} USER={request.user.username} ---")
-
         if not subscription_id:
-            return JsonResponse({'status': 'error', 'message': 'No ID provided'}, status=400)
+            return JsonResponse({'status': 'error'}, status=400)
 
-        # 1. Profileを取得、なければ作成する (AttributeError対策)
         profile, created = Profile.objects.get_or_create(user=request.user)
         
-        # 2. PayPalの情報を取得してチェック
-        try:
-            subscription = paypalrestsdk.Subscription.find(subscription_id)
-            status = subscription.status
-            print(f"--- PAYPAL STATUS: {status} ---")
-        except Exception as sdk_err:
-            # SDKエラーが起きてもログに残して、最悪フラグだけ立てることも検討
-            print(f"--- SDK ERROR: {str(sdk_err)} ---")
-            status = "UNKNOWN_ERROR"
-
-        # 3. 本来はACTIVEであるべきだが、決済が終わっていれば強制的にフラグを立てて救済する
-        # status == "ACTIVE" または一時的なステータスでも許可
-        if status in ["ACTIVE", "APPROVAL_PENDING", "APPROVED", "UNKNOWN_ERROR"]:
-            profile.is_premium = True
-            profile.paypal_subscription_id = subscription_id
-            profile.save()
-            print(f"--- DB SAVED SUCCESS: {request.user.username} is now Premium ---")
-            return JsonResponse({'status': 'success'})
-        else:
-            return JsonResponse({'status': 'error', 'message': f'Status: {status}'}, status=400)
+        profile.is_premium = True
+        profile.paypal_subscription_id = subscription_id
+        profile.save()
+        
+        return JsonResponse({'status': 'success'})
 
     except Exception as e:
-        # ここに具体的なエラー内容が出る
-        print(f"--- CRITICAL ERROR: {str(e)} ---")
-        return JsonResponse({'status': 'error', 'message': str(e)}, status=500)    
-        
-#webhook
+        print(f"Update Error: {str(e)}")
+        return JsonResponse({'status': 'error'}, status=500)
 
 @csrf_exempt
 def paypal_webhook(request):
     
-    transmission_id = request.headers.get('PAYPAL-TRANSMISSION-ID')
-    timestamp = request.headers.get('PAYPAL-TRANSMISSION-TIME')
-    actual_signature = request.headers.get('PAYPAL-TRANSMISSION-SIG')
-    cert_url = request.headers.get('PAYPAL-CERT-URL')
-    auth_algo = request.headers.get('PAYPAL-AUTH-ALGO')
-    webhook_id = settings.PAYPAL_WEBHOOK_ID  
-    
-    
     try:
         data = json.loads(request.body)
+        event_type = data.get('event_type')
+        resource = data.get('resource')
+        subscription_id = resource.get('id')
+
         
-        
-        is_valid = paypalrestsdk.WebhookEvent.verify(
-            transmission_id, timestamp, webhook_id, request.body.decode('utf-8'),
-            cert_url, actual_signature, auth_algo
-        )
+        trigger_events = [
+            "BILLING.SUBSCRIPTION.CANCELLED",
+            "BILLING.SUBSCRIPTION.SUSPENDED",
+            "BILLING.SUBSCRIPTION.EXPIRED",
+            "BILLING.SUBSCRIPTION.PAYMENT.FAILED"
+        ]
 
-        if is_valid:
-            event_type = data.get('event_type')
-            resource = data.get('resource')
-            subscription_id = resource.get('id')
+        if event_type in trigger_events:
+            Profile.objects.filter(paypal_subscription_id=subscription_id).update(is_premium=False)
+            print(f"Webhook Handled: {subscription_id} to Free")
 
-            trigger_events = [
-                "BILLING.SUBSCRIPTION.CANCELLED",
-                "BILLING.SUBSCRIPTION.SUSPENDED",
-                "BILLING.SUBSCRIPTION.EXPIRED",
-                "BILLING.SUBSCRIPTION.PAYMENT.FAILED"
-            ]
+        return HttpResponse(status=200)
 
-            if event_type in trigger_events:
-                try:
-                    profile = Profile.objects.get(paypal_subscription_id=subscription_id)
-                    profile.is_premium = False
-                    profile.save()
-                except Profile.DoesNotExist:
-                    pass
-                    
-            return HttpResponse(status=200)
-        else:
-            return HttpResponse(status=400) 
-
-    except Exception:
-        return HttpResponse(status=500)
-    
+    except Exception as e:
+        print(f"Webhook Error: {str(e)}")
+        return HttpResponse(status=200)     
         
 #premium_info
 
