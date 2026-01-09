@@ -83,6 +83,7 @@ class Profile(models.Model):
     is_premium = models.BooleanField(default=False)
     country = models.CharField(max_length=50, blank=True, null=True)
     privacy_policy_version = models.CharField(max_length=10, default="2025-08")
+    paypal_subscription_id = models.CharField(max_length=50, blank=True, null=True)
     total_score = models.PositiveIntegerField(default=0)
     last_score = models.PositiveIntegerField(default=0)
 
