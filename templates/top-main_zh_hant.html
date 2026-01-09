@@ -345,23 +345,24 @@ footer {
 <section class="hero">
   {% if not user.is_authenticated %}
     <h1>THANK JAPAN</h1>
-    <p>學習日語和日本文化的趣味方式。</p>
+    <div class="hero-buttons">
+      <a href="{% url 'category_list_zhHant' %}" class="explore-btn btn-white">開始學習 📖</a>
+    </div>
     <div class="hero-buttons">
       <a href="{% url 'premium_infozhHANT' %}" class="explore-btn btn-gold">加入社群 🚀</a>
     </div>
     <p class="login-prompt">
       已經是會員？ <a href="{% url 'player_login' %}?next={{ request.path }}">由此登入</a>
     </p>
-    <div class="hero-buttons">
-      <a href="{% url 'category_list_zhHant' %}" class="explore-btn btn-white">開始學習 📖</a>
-    </div>
+    
     
   {% elif not user.profile.is_premium %}
     <h1>歡迎回來，{{ user.username }}！</h1>
-    <p>準備好在開發您在日本的無限潛力了嗎？</p>
+    <div class="hero-buttons">
+      <a href="{% url 'category_list_zhHant' %}" class="explore-btn btn-white">開始學習 📖</a>
+    </div>
     <div class="hero-buttons">
       <a href="{% url 'premium_infozhHANT' %}" class="explore-btn btn-gold">升級至 Premium 💎</a>
-      <a href="{% url 'category_list_zhHant' %}" class="explore-btn btn-white">開始學習 📖</a>
     </div>
 
   {% else %}

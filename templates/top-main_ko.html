@@ -345,23 +345,24 @@ footer {
 <section class="hero">
   {% if not user.is_authenticated %}
     <h1>THANK JAPAN</h1>
-    <p>일본어와 일본 문화를 배우는 즐거운 방법.</p>
+    <div class="hero-buttons">
+      <a href="{% url 'category_list_ko' %}" class="explore-btn btn-white">학습 시작하기 📖</a>
+    </div>
     <div class="hero-buttons">
       <a href="{% url 'premium_infoko' %}" class="explore-btn btn-gold">커뮤니티 가입하기 🚀</a>
     </div>
     <p class="login-prompt">
       이미 회원이신가요? <a href="{% url 'player_login' %}?next={{ request.path }}">여기에서 로그인</a>
     </p>
-    <div class="hero-buttons">
-      <a href="{% url 'category_list_ko' %}" class="explore-btn btn-white">학습 시작하기 📖</a>
-    </div>
+    
     
   {% elif not user.profile.is_premium %}
     <h1>환영합니다, {{ user.username }}님!</h1>
-    <p>일본에서의 잠재력을 발휘할 준비가 되셨나요?</p>
+    <div class="hero-buttons">
+      <a href="{% url 'category_list_ko' %}" class="explore-btn btn-white">학습 시작하기 📖</a>
+    </div>
     <div class="hero-buttons">
       <a href="{% url 'premium_infoko' %}" class="explore-btn btn-gold">프리미엄으로 업그레이드 💎</a>
-      <a href="{% url 'category_list_ko' %}" class="explore-btn btn-white">학습 시작하기 📖</a>
     </div>
 
   {% else %}

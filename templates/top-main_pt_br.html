@@ -345,23 +345,24 @@ footer {
 <section class="hero">
   {% if not user.is_authenticated %}
     <h1>THANK JAPAN</h1>
-    <p>A maneira divertida de aprender a língua e a cultura japonesa.</p>
+    <div class="hero-buttons">
+      <a href="{% url 'category_list_ptBR' %}" class="explore-btn btn-white">Começar a Aprender 📖</a>
+    </div>
     <div class="hero-buttons">
       <a href="{% url 'premium_infoptBR' %}" class="explore-btn btn-gold">Participar da Comunidade 🚀</a>
     </div>
     <p class="login-prompt">
       Já é membro? <a href="{% url 'player_login' %}?next={{ request.path }}">Faça login aqui</a>
     </p>
-    <div class="hero-buttons">
-      <a href="{% url 'category_list_ptBR' %}" class="explore-btn btn-white">Começar a Aprender 📖</a>
-    </div>
+    
     
   {% elif not user.profile.is_premium %}
     <h1>Bem-vindo de volta, {{ user.username }}!</h1>
-    <p>Pronto para desbloquear todo o seu potencial no Japão?</p>
+    <div class="hero-buttons">
+      <a href="{% url 'category_list_ptBR' %}" class="explore-btn btn-white">Começar a Aprender 📖</a>
+    </div>
     <div class="hero-buttons">
       <a href="{% url 'premium_infoptBR' %}" class="explore-btn btn-gold">Upgrade para Premium 💎</a>
-      <a href="{% url 'category_list_ptBR' %}" class="explore-btn btn-white">Começar a Aprender 📖</a>
     </div>
 
   {% else %}
