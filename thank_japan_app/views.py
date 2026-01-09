@@ -13,13 +13,16 @@ from django.http import Http404
 from django.urls import reverse
 from django.utils.safestring import mark_safe
 from django.contrib.auth.models import User
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
+from django.views.decorators.csrf import csrf_exempt
 import logging
 import random
 import re
 import json
 import paypalrestsdk
+
+
 
 
 logger = logging.getLogger(__name__)
@@ -1122,6 +1125,7 @@ def update_premium_status(request):
             if subscription.status == "ACTIVE":
                 profile = request.user.profile
                 profile.is_premium = True
+                profile.paypal_subscription_id = subscription_id
                 profile.save()
                 return JsonResponse({'status': 'success'})
             else:
@@ -1132,7 +1136,56 @@ def update_premium_status(request):
     except Exception as e:
         return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
     
+#webhook
+
+@csrf_exempt
+def paypal_webhook(request):
     
+    transmission_id = request.headers.get('PAYPAL-TRANSMISSION-ID')
+    timestamp = request.headers.get('PAYPAL-TRANSMISSION-TIME')
+    actual_signature = request.headers.get('PAYPAL-TRANSMISSION-SIG')
+    cert_url = request.headers.get('PAYPAL-CERT-URL')
+    auth_algo = request.headers.get('PAYPAL-AUTH-ALGO')
+    webhook_id = settings.PAYPAL_WEBHOOK_ID  
+    
+    
+    try:
+        data = json.loads(request.body)
+        
+        
+        is_valid = paypalrestsdk.WebhookEvent.verify(
+            transmission_id, timestamp, webhook_id, request.body.decode('utf-8'),
+            cert_url, actual_signature, auth_algo
+        )
+
+        if is_valid:
+            event_type = data.get('event_type')
+            resource = data.get('resource')
+            subscription_id = resource.get('id')
+
+            trigger_events = [
+                "BILLING.SUBSCRIPTION.CANCELLED",
+                "BILLING.SUBSCRIPTION.SUSPENDED",
+                "BILLING.SUBSCRIPTION.EXPIRED",
+                "BILLING.SUBSCRIPTION.PAYMENT.FAILED"
+            ]
+
+            if event_type in trigger_events:
+                try:
+                    profile = Profile.objects.get(paypal_subscription_id=subscription_id)
+                    profile.is_premium = False
+                    profile.save()
+                except Profile.DoesNotExist:
+                    pass
+                    
+            return HttpResponse(status=200)
+        else:
+            return HttpResponse(status=400) 
+
+    except Exception:
+        return HttpResponse(status=500)
+    
+        
 #premium_info
 
 def premium_info(request):

@@ -47,7 +47,7 @@ from .views import (TopView, TopViewFR, TopViewIT, TopViewPT, TopViewZHHANT,TopV
                     downgrade_success, downgrade_successDE, downgrade_successENIN, downgrade_successESES,
                     downgrade_successESMX, downgrade_successFR, downgrade_successIT, downgrade_successJA,
                     downgrade_successKO, downgrade_successPT, downgrade_successPTBR, downgrade_successTH,
-                    downgrade_successVI, downgrade_successZHHANT, update_policy_agreement) 
+                    downgrade_successVI, downgrade_successZHHANT, update_policy_agreement, paypal_webhook) 
 
 
 urlpatterns = [
@@ -150,6 +150,7 @@ urlpatterns = [
     
     #premium-status
     path('update-premium-status/', update_premium_status, name='update_premium_status'),
+    path('paypal/webhook/', paypal_webhook, name='paypal_webhook'),
     path('account/downgrade/', downgrade_premium, name='downgrade_premium'),
     path('account/delete/', delete_account, name='delete_account'),
     
