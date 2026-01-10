@@ -21,6 +21,7 @@ import random
 import re
 import json
 import paypalrestsdk
+import requests
 
 
 
@@ -1434,59 +1435,52 @@ def account_settingsDE(request):
     return render(request, 'thank_japan_app/account/account_settings_de.html', context)
 
 
+
+def get_paypal_access_token():
+    auth_url = "https://api-m.paypal.com/v1/oauth2/token"
+    if settings.PAYPAL_MODE == "sandbox":
+        auth_url = "https://api-m.sandbox.paypal.com/v1/oauth2/token"
+    resp = requests.post(auth_url, auth=(settings.PAYPAL_CLIENT_ID, settings.PAYPAL_CLIENT_SECRET), data={"grant_type": "client_credentials"})
+    return resp.json().get('access_token')
+
+def cancel_paypal_subscription(subscription_id, reason):
+    token = get_paypal_access_token()
+    if token:
+        cancel_url = f"https://api-m.paypal.com/v1/billing/subscriptions/{subscription_id}/cancel"
+        if settings.PAYPAL_MODE == "sandbox":
+            cancel_url = f"https://api-m.sandbox.paypal.com/v1/billing/subscriptions/{subscription_id}/cancel"
+        requests.post(cancel_url, headers={"Authorization": f"Bearer {token}", "Content-Type": "application/json"}, json={"reason": reason})
+
 @login_required
 @require_POST
 def downgrade_premium(request):
     profile = request.user.profile
+    if profile.is_premium and profile.paypal_subscription_id:
+        try:
+            cancel_paypal_subscription(profile.paypal_subscription_id, "User downgraded")
+        except Exception:
+            pass
     profile.is_premium = False
     profile.save()
-
-    next_success_url = request.POST.get('downgrade_url_name', 'downgrade_success')
-    return redirect(next_success_url)
-
-#delete_account
+    next_url = request.POST.get('downgrade_url_name', 'downgrade_success')
+    return redirect(next_url)
 
 @login_required
 @require_POST
 def delete_account(request):
-    username_to_delete = request.user.username
-    user_to_delete = request.user
-    profile = user_to_delete.profile
-
+    username = request.user.username
+    user = request.user
+    profile = user.profile
     if profile.is_premium and profile.paypal_subscription_id:
         try:
-            auth_url = "https://api-m.paypal.com/v1/oauth2/token"
-            if settings.PAYPAL_MODE == "sandbox":
-                auth_url = "https://api-m.sandbox.paypal.com/v1/oauth2/token"
-            
-            token_resp = requests.post(
-                auth_url,
-                auth=(settings.PAYPAL_CLIENT_ID, settings.PAYPAL_CLIENT_SECRET),
-                data={"grant_type": "client_credentials"}
-            )
-            token = token_resp.json().get('access_token')
-
-            if token:
-                cancel_url = f"https://api-m.paypal.com/v1/billing/subscriptions/{profile.paypal_subscription_id}/cancel"
-                if settings.PAYPAL_MODE == "sandbox":
-                    cancel_url = f"https://api-m.sandbox.paypal.com/v1/billing/subscriptions/{profile.paypal_subscription_id}/cancel"
-                
-                requests.post(
-                    cancel_url,
-                    headers={
-                        "Authorization": f"Bearer {token}",
-                        "Content-Type": "application/json"
-                    },
-                    json={"reason": "User deleted account"}
-                )
+            cancel_paypal_subscription(profile.paypal_subscription_id, "User deleted account")
         except Exception:
             pass
+    Player.objects.filter(username=username).delete()
+    user.delete()
+    next_url = request.POST.get('success_url_name', 'delete_success')
+    return redirect(next_url)
 
-    Player.objects.filter(username=username_to_delete).delete()
-    user_to_delete.delete()
-
-    next_success_url = request.POST.get('success_url_name', 'delete_success')
-    return redirect(next_success_url)
 
 
 def downgrade_success(request):
