@@ -1621,33 +1621,39 @@ class MedicalEmergencyView(PremiumAccessMixin, ListView):
 
 
 #premium-detail
+
 class ImgPremiumDetailView(DetailView):
     template_name = "thank_japan_app/thankjapanmodel_detail_premium.html"
     model = ThankJapanPremium
     slug_field = 'slug'
     slug_url_kwarg = 'slug'
-    
-    def get(self, request, *args, **kwargs):
+
+    def dispatch(self, request, *args, **kwargs):
         self.object = self.get_object()
+        
         if self.object.category != "DailyConversation":
-            if not request.user.is_authenticated or not request.user.profile.is_premium:
+            
+            if not request.user.is_authenticated or not getattr(request.user.profile, 'is_premium', False):
                 return redirect('premium_info')
-        return super().get(request, *args, **kwargs)
+        
+        return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         current_item = self.object
+        
+        
         context['related_items'] = ThankJapanPremium.objects.filter(
             category=current_item.category
         ).exclude(
             id=current_item.id
         ).order_by('?')[:6]
 
+        
         url_name = CATEGORY_URL_MAP.get(current_item.category, 'category_list')
         context['category_list_url'] = reverse(url_name)
         
-        return context
-    
+        return context    
     
 def sitemap_view(request):
     
