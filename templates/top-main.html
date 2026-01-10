@@ -333,10 +333,25 @@ footer {
 }
 
 @media screen and (max-width: 500px) {
-  .hero { 
-      min-height: 350px;
-      padding: 40px 15px;
-  }
+  body { 
+        padding-top: 180px !important;
+    }
+
+    .hero {
+        background-size: 140% auto !important;
+        background-repeat: no-repeat !important;
+        margin-top: 0 !important;
+        background-position: center 10% !important; 
+        background-color: #000 !important;
+        height: 520px !important;
+        min-height: 500px !important;
+        padding-bottom: 40px !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: flex-end !important; 
+        align-items: center !important;
+    }
+
   .hero h1 { font-size: 1.5rem; }
 }
 </style>
