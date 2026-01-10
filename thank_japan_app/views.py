@@ -124,6 +124,7 @@ CATEGORY_URL_MAP = {
     'DailyConversation': 'dailyconversation',
     'BusinessJapanese': 'businessjapanese',
     'LivingInJapan': 'living_in_japan_page',
+    'MedicalEmergency': 'medical_emergency'
 }
 
 
@@ -1575,6 +1576,7 @@ def delete_successDE(request):
     return render(request, 'thank_japan_app/delete/delete_success_de.html')
 
 
+#premium-category
 
 class DailyConversationView(ListView):
     template_name = "thank_japan_app/dairy_conversation.html"
@@ -1582,6 +1584,7 @@ class DailyConversationView(ListView):
     
     def get_queryset(self):
         return ThankJapanPremium.objects.filter(category="DailyConversation").order_by('-timestamp')
+    
 
 class BusinessJapaneseView(ListView):
     template_name = "thank_japan_app/business_japanese.html"
@@ -1589,6 +1592,7 @@ class BusinessJapaneseView(ListView):
     
     def get_queryset(self):
         return ThankJapanPremium.objects.filter(category="BusinessJapanese").order_by('-timestamp')
+    
 
 class LivingInJapanView(ListView):
     template_name = "thank_japan_app/living_in_japan.html"
@@ -1596,8 +1600,19 @@ class LivingInJapanView(ListView):
     
     def get_queryset(self):
         return ThankJapanPremium.objects.filter(category="LivingInJapan").order_by('-timestamp')
+    
+    
+
+class MedicalEmergencyView(ListView):
+    template_name = "thank_japan_app/medical_emergency.html"
+    paginate_by = 24
+    
+    def get_queryset(self):
+        return ThankJapanPremium.objects.filter(category="MedicalEmergency").order_by('-timestamp')
+    
 
 
+#premium-detail
 class ImgPremiumDetailView(DetailView):
     template_name = "thank_japan_app/thankjapanmodel_detail_premium.html"
     model = ThankJapanPremium
