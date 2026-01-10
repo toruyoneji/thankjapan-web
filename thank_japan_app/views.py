@@ -1455,8 +1455,30 @@ def delete_account(request):
 
     if profile.is_premium and profile.paypal_subscription_id:
         try:
-            subscription = paypalrestsdk.Subscription.find(profile.paypal_subscription_id)
-            subscription.cancel({"reason": "User deleted account"})
+            auth_url = "https://api-m.paypal.com/v1/oauth2/token"
+            if settings.PAYPAL_MODE == "sandbox":
+                auth_url = "https://api-m.sandbox.paypal.com/v1/oauth2/token"
+            
+            token_resp = requests.post(
+                auth_url,
+                auth=(settings.PAYPAL_CLIENT_ID, settings.PAYPAL_CLIENT_SECRET),
+                data={"grant_type": "client_credentials"}
+            )
+            token = token_resp.json().get('access_token')
+
+            if token:
+                cancel_url = f"https://api-m.paypal.com/v1/billing/subscriptions/{profile.paypal_subscription_id}/cancel"
+                if settings.PAYPAL_MODE == "sandbox":
+                    cancel_url = f"https://api-m.sandbox.paypal.com/v1/billing/subscriptions/{profile.paypal_subscription_id}/cancel"
+                
+                requests.post(
+                    cancel_url,
+                    headers={
+                        "Authorization": f"Bearer {token}",
+                        "Content-Type": "application/json"
+                    },
+                    json={"reason": "User deleted account"}
+                )
         except Exception:
             pass
 
