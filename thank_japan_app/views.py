@@ -14,7 +14,7 @@ from django.urls import reverse
 from django.utils.safestring import mark_safe
 from django.contrib.auth.models import User
 from django.http import JsonResponse, HttpResponse
-from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
+from django.contrib.auth import authenticate, logout, login as auth_login, logout as auth_logout
 from django.views.decorators.csrf import csrf_exempt
 import logging
 import random
@@ -1435,6 +1435,8 @@ def account_settingsDE(request):
     return render(request, 'thank_japan_app/account/account_settings_de.html', context)
 
 
+#subscription
+
 
 def get_paypal_access_token():
     auth_url = "https://api-m.paypal.com/v1/oauth2/token"
@@ -1478,10 +1480,12 @@ def delete_account(request):
             pass
     Player.objects.filter(username=username).delete()
     user.delete()
+    logout(request) 
     next_url = request.POST.get('success_url_name', 'delete_success')
     return redirect(next_url)
 
 
+#downgrade_success
 
 def downgrade_success(request):
     return render(request, 'thank_japan_app/downgrade/downgrade_success.html')
