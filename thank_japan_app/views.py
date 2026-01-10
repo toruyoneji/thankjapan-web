@@ -1444,18 +1444,26 @@ def downgrade_premium(request):
     next_success_url = request.POST.get('downgrade_url_name', 'downgrade_success')
     return redirect(next_success_url)
 
+#delete_account
 
 @login_required
 @require_POST
 def delete_account(request):
     username_to_delete = request.user.username
-    
-    next_success_url = request.POST.get('success_url_name', 'delete_success')
-
     user_to_delete = request.user
+    profile = user_to_delete.profile
+
+    if profile.is_premium and profile.paypal_subscription_id:
+        try:
+            subscription = paypalrestsdk.Subscription.find(profile.paypal_subscription_id)
+            subscription.cancel({"reason": "User deleted account"})
+        except Exception:
+            pass
+
     Player.objects.filter(username=username_to_delete).delete()
     user_to_delete.delete()
 
+    next_success_url = request.POST.get('success_url_name', 'delete_success')
     return redirect(next_success_url)
 
 
