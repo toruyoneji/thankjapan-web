@@ -9,6 +9,7 @@ from django.conf import settings
 from .forms import AnswerForm, ContactForm, UsernameForm
 from django.views.decorators.http import require_POST
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.http import Http404
 from django.urls import reverse
 from django.utils.safestring import mark_safe
@@ -22,6 +23,7 @@ import re
 import json
 import paypalrestsdk
 import requests
+
 
 
 
@@ -1576,7 +1578,7 @@ def delete_successDE(request):
     return render(request, 'thank_japan_app/delete/delete_success_de.html')
 
 
-#premium-category
+#free-category
 
 class DailyConversationView(ListView):
     template_name = "thank_japan_app/dairy_conversation.html"
@@ -1586,30 +1588,36 @@ class DailyConversationView(ListView):
         return ThankJapanPremium.objects.filter(category="DailyConversation").order_by('-timestamp')
     
 
-class BusinessJapaneseView(ListView):
+
+#premium-category
+
+class PremiumAccessMixin(LoginRequiredMixin, UserPassesTestMixin):
+    def test_func(self):
+        return self.request.user.is_authenticated and self.request.user.profile.is_premium
+
+    def handle_no_permission(self):
+        return redirect('premium_info')
+
+class BusinessJapaneseView(PremiumAccessMixin, ListView):
     template_name = "thank_japan_app/business_japanese.html"
     paginate_by = 24
     
     def get_queryset(self):
         return ThankJapanPremium.objects.filter(category="BusinessJapanese").order_by('-timestamp')
-    
 
-class LivingInJapanView(ListView):
+class LivingInJapanView(PremiumAccessMixin, ListView):
     template_name = "thank_japan_app/living_in_japan.html"
     paginate_by = 24
     
     def get_queryset(self):
         return ThankJapanPremium.objects.filter(category="LivingInJapan").order_by('-timestamp')
-    
-    
 
-class MedicalEmergencyView(ListView):
+class MedicalEmergencyView(PremiumAccessMixin, ListView):
     template_name = "thank_japan_app/medical_emergency.html"
     paginate_by = 24
     
     def get_queryset(self):
-        return ThankJapanPremium.objects.filter(category="MedicalEmergency").order_by('-timestamp')
-    
+        return ThankJapanPremium.objects.filter(category="MedicalEmergency").order_by('-timestamp')    
 
 
 #premium-detail

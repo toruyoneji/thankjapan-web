@@ -336,7 +336,7 @@
 
         <!-- Medical & Emergency (Premium) -->
         {% if user.is_authenticated and user.profile.is_premium %}
-        <a href="#" class="cat-premium-card">
+        <a href="{% url 'medical_emergency' %}" class="cat-premium-card">
         {% else %}
             <a href="{% url 'premium_info' %}" class="cat-card premium-locked">
         {% endif %}
