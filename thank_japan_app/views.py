@@ -587,9 +587,12 @@ def get_current_player_info(request):
         player = Player(username='guest', country='Guestland')
     return player, is_guest
 
+#game_start_play
+
 def game_start(request):
     player, is_guest = get_current_player_info(request)
     return render(request, 'thank_japan_app/game_start.html', {'player': player, 'is_guest': is_guest})
+
 
 def game_play(request):
     player, is_guest = get_current_player_info(request)
@@ -610,6 +613,7 @@ def game_play(request):
         'difficulty': request.session.get('game_difficulty'),
         'is_premium_mode': is_premium_mode
     })
+    
     
 def game_answer(request, pk):
     if request.method != 'POST':
@@ -714,6 +718,11 @@ def game_restart(request):
         
         if model_type == 'premium':
             question = get_object_or_404(ThankJapanPremium, slug=val)
+            
+            if question.category != "DailyConversation":
+                if is_guest or not getattr(request.user.profile, 'is_premium', False):
+                    return redirect('premium_info')
+        
             is_premium_mode = True
         else:
             try:
@@ -753,6 +762,8 @@ def game_restart(request):
     request.session['game_history'] = []
     
     return redirect('game_play')
+
+
 
 def game_result(request):
     score = request.session.get('game_score', 0)
