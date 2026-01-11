@@ -362,11 +362,9 @@ footer {
   {% if not user.is_authenticated %}
     <h1>THANK JAPAN</h1>
     <div class="hero-buttons">
-      <a href="{% url 'category_list_vi' %}" class="explore-btn btn-white">Bắt đầu học 📖</a>
+      <a href="{% url 'category_list_vi' %}" class="explore-btn btn-white">Học tiếng Nhật</a>
     </div>
-    <div class="hero-buttons">
-      <a href="{% url 'premium_infovi' %}" class="explore-btn btn-gold">Tham gia cộng đồng 🚀</a>
-    </div>
+    
     <p class="login-prompt">
       Đã là thành viên? <a href="{% url 'player_login' %}?next={{ request.path }}">Đăng nhập tại đây</a>
     </p>

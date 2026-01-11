@@ -363,11 +363,9 @@ footer {
   {% if not user.is_authenticated %}
     <h1>THANK JAPAN</h1>
     <div class="hero-buttons">
-      <a href="{% url 'category_list_pt' %}" class="explore-btn btn-white">Começar a Aprender 📖</a>
+      <a href="{% url 'category_list_pt' %}" class="explore-btn btn-white">Aprender japonês</a>
     </div>
-    <div class="hero-buttons">
-      <a href="{% url 'premium_infopt' %}" class="explore-btn btn-gold">Aderir à Comunidade 🚀</a>
-    </div>
+    
     <p class="login-prompt">
       Já é membro? <a href="{% url 'player_login' %}?next={{ request.path }}">Inicie sessão aqui</a>
     </p>
