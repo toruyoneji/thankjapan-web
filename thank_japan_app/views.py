@@ -126,7 +126,8 @@ CATEGORY_URL_MAP = {
     'DailyConversation': 'dailyconversation',
     'BusinessJapanese': 'businessjapanese',
     'LivingInJapan': 'living_in_japan_page',
-    'MedicalEmergency': 'medical_emergency'
+    'MedicalEmergency': 'medical_emergency',
+    'RealEstateRules': 'real_estate_rules'
 }
 
 
@@ -1629,6 +1630,15 @@ class MedicalEmergencyView(PremiumAccessMixin, ListView):
     
     def get_queryset(self):
         return ThankJapanPremium.objects.filter(category="MedicalEmergency").order_by('-timestamp')    
+
+
+class RealestateRulesView(PremiumAccessMixin, ListView):
+    template_name = "thank_japan_app/realestate_rules.html"
+    paginate_by = 24
+    
+    def get_queryset(self):
+        return ThankJapanPremium.objects.filter(category="RealEstateRules").order_by('-timestamp')    
+
 
 
 #premium-detail
