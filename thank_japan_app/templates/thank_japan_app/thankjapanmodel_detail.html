@@ -281,6 +281,38 @@ footer {
     color: #c6b6a9;
 }
 
+
+.twitter-share-btn-white {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #ffffff; 
+    color: #000000;            
+    font-weight: bold;
+    text-decoration: none;
+    padding: 10px 25px;        
+    border-radius: 30px;
+    font-size: 1.0rem;
+    transition: all 0.3s ease;
+    border: 2px solid #000000; 
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.twitter-share-btn-white:hover {
+    background-color: #f0f0f0; 
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+}
+
+    
+.x-icon-black {
+    fill: #000000; 
+    width: 18px;
+    height: 18px;
+    margin-right: 10px;
+}
+    
+
 @media screen and (max-width: 768px) {
     .detailgazou { height: 280px; }
     .jpname-text { font-size: 2.5rem; }
@@ -341,6 +373,21 @@ footer {
         </a>
     </div>
 
+    
+    <div style="margin: 30px 0; text-align: center;">
+        <a href="https://twitter.com/intent/tweet?text=Discovering Japanese Culture: {{ object.englishname }} 🇯🇵 Check this out!&url={{ request.build_absolute_uri }}&hashtags=ThankJapan,LearnJapanese,JapanCulture" 
+           target="_blank" 
+           class="twitter-share-btn-white">
+           
+           <svg viewBox="0 0 24 24" aria-hidden="true" class="x-icon-black">
+               <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path>
+           </svg>
+           
+           Share on X
+        </a>
+    </div>
+
+    
     {% if related_items %}
     <div class="related-section">
         <div class="related-header">
