@@ -632,26 +632,19 @@ tbody td {
   </div>
 
   
-    {% with user_rank=player.rank|default:"Traveler" score_val=score|default:"0" %}
+    <div style="margin-top: 20px; text-align: center;">
     
-        {% with text="I reached rank: "|add:user_rank|add:" (Score: "|add:score_val|add:") on ThankJapan! 🇯🇵 Can you beat me? 🎮" %}
-        
-            <div style="margin-top: 20px; text-align: center;">
-                <a href="https://twitter.com/intent/tweet?text={{ text|urlencode }}&url=https://www.thankjapan.com&hashtags=LearnJapanese,JapanQuiz,ThankJapan" 
-                    target="_blank" 
-                    class="twitter-share-btn">
-               
-                    <svg viewBox="0 0 24 24" aria-hidden="true" class="x-icon">
-                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path>
-                    </svg>
-               
-                    Share on X
-                    </a>
-            </div>
-
-        {% endwith %}
-
-    {% endwith %}
+        <a href="https://twitter.com/intent/tweet?text=I reached rank: {{ player.rank|default:'Traveler' }} (Score: {{ score|default:0 }}) on ThankJapan! 🇯🇵 Can you beat me? 🎮&url=https://www.thankjapan.com&hashtags=LearnJapanese,JapanQuiz,ThankJapan" 
+            target="_blank" 
+            class="twitter-share-btn">
+       
+            <svg viewBox="0 0 24 24" aria-hidden="true" class="x-icon">
+                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path>
+            </svg>
+            
+            Share on X
+        </a>
+    </div>
 
   <hr>
 
