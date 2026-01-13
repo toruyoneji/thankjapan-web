@@ -1,5 +1,26 @@
 {% extends 'base/basecategory.html' %}
 
+{% block title %}{{ object.englishname }} | ThankJapan{% endblock %}
+
+{% block meta %}
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ object.englishname }} | Learn Japanese">
+    <meta name="twitter:description" content="Learn about {{ object.englishname }} ({{ object.jpname }}) on ThankJapan.">
+    
+    {% if object.image %}
+        <meta name="twitter:image" content="{{ object.image.url }}">
+        <meta property="og:image" content="{{ object.image.url }}">
+    {% else %}
+        <meta name="twitter:image" content="https://res.cloudinary.com/dotekofm5/image/upload/v1761402106/thankjapan/backgrounds/jtbdzjsksgbgehuxl954.jpg">
+        <meta property="og:image" content="https://res.cloudinary.com/dotekofm5/image/upload/v1761402106/thankjapan/backgrounds/jtbdzjsksgbgehuxl954.jpg">
+    {% endif %}
+
+    <meta property="og:title" content="{{ object.englishname }} | ThankJapan" />
+    <meta property="og:description" content="Learn about {{ object.englishname }} ({{ object.jpname }}) on ThankJapan." />
+    <meta property="og:url" content="{{ request.build_absolute_uri }}" />
+    <meta property="og:type" content="article" />
+{% endblock %}
+
 {% block title %}{{ object.englishname }} - Meaning & History{% endblock %}
 {% block content %}
 {% load static %}
