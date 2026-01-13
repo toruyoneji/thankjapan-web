@@ -224,6 +224,8 @@
     </div>
 </div>
 
+<p style="color: black; background: white;">DEBUG: {{ user.username }} - Version: [{{ user.profile.privacy_policy_version }}]</p>
+
 {% if user.is_authenticated and user.profile.privacy_policy_version != "2026-01" %}
 <div id="policyUpdateBanner" style="position: fixed; bottom: 0; left: 0; width: 100%; background: #b22d35; color: white; padding: 20px; z-index: 10002; text-align: center; box-shadow: 0 -5px 15px rgba(0,0,0,0.3);">
     <p style="margin: 0 0 10px 0; font-size: 0.95rem; line-height: 1.5;">
