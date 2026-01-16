@@ -54,38 +54,32 @@
         {% endif %}">
 
         <h2>Account Settings</h2>
-        <p style="font-size: 1.2rem; margin-bottom: 5px;"><strong>{{ user.username }}</strong></p>
+        
+        <p style="font-size: 1.2rem; margin-bottom: 10px;">
+            <strong>{{ user.username }}</strong>
+            <span style="font-size: 0.9rem; color: #666; margin-left: 10px; font-weight: normal;">
+                (Rank: 
+                {% with s=total_score %}
+                    {% if s >= 2000 %}🗾 Legend
+                    {% elif s >= 1200 %}👑 General
+                    {% elif s >= 900 %}🐎 Shogun
+                    {% elif s >= 650 %}🏯 Daimyo
+                    {% elif s >= 450 %}🚩 Hatamoto
+                    {% elif s >= 300 %}⚔️ Samurai
+                    {% elif s >= 200 %}🥷 Ninja
+                    {% elif s >= 100 %}🚣 Ronin
+                    {% elif s >= 50 %}🎒 Traveler
+                    {% else %}🌾 Villager
+                    {% endif %}
+                {% endwith %})
+            </span>
+        </p>
+
         {% if user.profile.is_premium %}
             <span class="status-badge status-premium">Premium Member 💎</span>
         {% else %}
             <span class="status-badge status-free">Free Plan</span>
         {% endif %}
-        
-         <p style="margin-bottom: 5px;">
-            {% with s=total_score %}
-                {% if s >= 2000 %}
-                    <span style="color: #b22d35; font-weight: 900; font-size: 1.4em; text-shadow: 0 0 10px rgba(178,45,53,0.3);">🗾 Legend (伝説)</span>
-                {% elif s >= 1200 %}
-                    <span style="color: #f1c40f; font-weight: bold; font-size: 1.2em;">👑 General (大将軍)</span>
-                {% elif s >= 900 %}
-                    <span style="color: #8a2be2; font-weight: bold; font-size: 1.2em;">🐎 Shogun (将軍)</span>
-                {% elif s >= 650 %}
-                    <span style="color: #4a3b2a; font-weight: bold; font-size: 1.2em;">🏯 Daimyo (大名)</span>
-                {% elif s >= 450 %}
-                    <span style="color: #b22d35; font-weight: bold; font-size: 1.2em;">🚩 Hatamoto (旗本)</span>
-                {% elif s >= 300 %}
-                    <span style="color: #26456e; font-weight: bold; font-size: 1.2em;">⚔️ Samurai (侍)</span>
-                {% elif s >= 200 %}
-                    <span style="color: #4b0082; font-weight: bold; font-size: 1.2em;">🥷 Ninja (忍者)</span>
-                {% elif s >= 100 %}
-                    <span style="color: #556b2f; font-weight: bold; font-size: 1.2em;">🚣 Ronin (浪人)</span>
-                {% elif s >= 50 %}
-                    <span style="color: #8c7042; font-weight: bold; font-size: 1.2em;">🎒 Traveler (旅人)</span>
-                {% else %}
-                    <span style="color: #666; font-weight: bold; font-size: 1.2em;">🌾 Villager (村人)</span>
-                {% endif %}
-            {% endwith %}
-        </p>
 
 
         <div class="stats-container">
