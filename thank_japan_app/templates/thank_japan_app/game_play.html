@@ -356,27 +356,27 @@ img:hover { transform: scale(1.02); }
             
             {% with s=player.total_score %}
                 {% if s >= 2000 %}
-                    <span style="color: #b22d35; font-weight: 900; font-size: 1.4em; text-shadow: 0 0 10px rgba(178,45,53,0.3);">🗾 Legend (伝説)</span>
+                    <span style="color: #ff4d4d; font-weight: 900; font-size: 1.5em; text-shadow: 0 0 15px rgba(255,255,255,0.5);">🗾 伝説 (Legend)</span>
                 {% elif s >= 1200 %}
-                    <span style="color: #b8860b; font-weight: bold; font-size: 1.2em;">👑 General (大将軍)</span>
+                    <span style="color: #f1c40f; font-weight: bold; font-size: 1.3em; text-shadow: 0 0 10px rgba(0,0,0,0.5);">👑 大将軍 (General)</span>
                 {% elif s >= 900 %}
-                    <span style="color: #8a2be2; font-weight: bold; font-size: 1.2em;">🐎 Shogun (将軍)</span>
+                    <span style="color: #ffd700; font-weight: bold; font-size: 1.3em;">🐎 将軍 (Shogun)</span>
                 {% elif s >= 650 %}
-                    <span style="color: #4a3b2a; font-weight: bold; font-size: 1.2em;">🏯 Daimyo (大名)</span>
+                    <span style="color: #e67e22; font-weight: bold; font-size: 1.3em;">🏯 大名 (Daimyo)</span>
                 {% elif s >= 450 %}
-                    <span style="color: #b22d35; font-weight: bold; font-size: 1.2em;">🚩 Hatamoto (旗本)</span>
+                    <span style="color: #ff6b6b; font-weight: bold; font-size: 1.2em;">🚩 旗本 (Hatamoto)</span>
                 {% elif s >= 300 %}
-                    <span style="color: #26456e; font-weight: bold; font-size: 1.2em;">⚔️ Samurai (侍)</span>
+                    <span style="color: #3498db; font-weight: bold; font-size: 1.2em;">⚔️ 侍 (Samurai)</span>
                 {% elif s >= 200 %}
-                    <span style="color: #4b0082; font-weight: bold; font-size: 1.2em;">🥷 Ninja (忍者)</span>
+                    <span style="color: #9b59b6; font-weight: bold; font-size: 1.2em;">🥷 忍者 (Ninja)</span>
                 {% elif s >= 100 %}
-                    <span style="color: #556b2f; font-weight: bold; font-size: 1.2em;">🚣 Ronin (浪人)</span>
+                    <span style="color: #2ecc71; font-weight: bold; font-size: 1.2em;">🚣 浪人 (Ronin)</span>
                 {% elif s >= 50 %}
-                    <span style="color: #8c7042; font-weight: bold; font-size: 1.2em;">🎒 Traveler (旅人)</span>
+                    <span style="color: #f39c12; font-weight: bold; font-size: 1.2em;">🎒 旅人 (Traveler)</span>
                 {% else %}
-                    <span style="color: #666; font-weight: bold; font-size: 1.2em;">🌾 Villager (村人)</span>
+                    <span style="color: #bdc3c7; font-weight: bold; font-size: 1.2em;">🌾 村人 (Villager)</span>
                 {% endif %}
-            {% endwith %}
+            {% endwith %}    
         </div>
 
     {% else %}

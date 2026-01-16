@@ -52,7 +52,27 @@
         {% endif %}">
 
         <h2>Account Settings</h2>
-        <p style="font-size: 1.2rem; margin-bottom: 5px;"><strong>{{ user.username }}</strong></p>
+        
+        <p style="font-size: 1.2rem; margin-bottom: 10px;">
+            <strong>{{ user.username }}</strong>
+            <span style="font-size: 1rem; color: #000; margin-left: 10px; font-weight: bold;">
+                (Rank: 
+                {% with s=total_score %}
+                    {% if s >= 2000 %}🗾 伝説 (Legend)
+                    {% elif s >= 1200 %}👑 大将軍 (General)
+                    {% elif s >= 900 %}🐎 将軍 (Shogun)
+                    {% elif s >= 650 %}🏯 大名 (Daimyo)
+                    {% elif s >= 450 %}🚩 旗本 (Hatamoto)
+                    {% elif s >= 300 %}⚔️ 侍 (Samurai)
+                    {% elif s >= 200 %}🥷 忍者 (Ninja)
+                    {% elif s >= 100 %}🚣 浪人 (Ronin)
+                    {% elif s >= 50 %}🎒 旅人 (Traveler)
+                    {% else %}🌾 村人 (Villager)
+                    {% endif %}
+                {% endwith %})
+            </span>
+        </p>
+        
         {% if user.profile.is_premium %}
             <span class="status-badge status-premium">Premium Member 💎</span>
         {% else %}
