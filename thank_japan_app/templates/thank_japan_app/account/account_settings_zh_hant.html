@@ -1,23 +1,57 @@
 {% extends 'base/base_zh_hant.html' %}
 {% block content %}
+
 <style>
     .settings-page { margin-top: 150px; padding: 40px 20px; font-family: 'Zen Antique', serif; }
-    .settings-card { background: #ffffff; max-width: 500px; margin: 0 auto; padding: 40px; border: 4px solid #5d5245; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); text-align: center; }
-    .stats-container { background: #fdfaf0; border: 1px solid #d4af37; border-radius: 10px; padding: 20px; margin: 20px 0; }
-    .stat-value { font-size: 1.8rem; font-weight: bold; color: #b22d35; display: block; }
-    .stat-label { font-size: 0.9rem; color: #777; }
-    .status-badge { display: inline-block; padding: 6px 18px; border-radius: 25px; font-weight: bold; font-size: 0.9rem; margin-top: 10px; }
+    .settings-card { max-width: 550px; margin: 0 auto; padding: 40px; border-radius: 12px; transition: all 0.8s ease; text-align: center; position: relative; overflow: hidden; }
+
+    .card-paper { background: #ffffff !important; border: 2px solid #ddd !important; box-shadow: 0 5px 15px rgba(0,0,0,0.05) !important; }
+
+    .card-wood { background-color: #fff9f0 !important; border: 10px solid #5d4037 !important; box-shadow: inset 0 0 20px rgba(0,0,0,0.1), 0 10px 25px rgba(0,0,0,0.2) !important; }
+
+    .card-silver { background: linear-gradient(135deg, #ffffff, #e6e9ea, #bdc3c7) !important; border: 6px solid #dcdde1 !important; box-shadow: 0 0 0 2px #bdc3c7, 0 15px 35px rgba(149,165,166,0.15) !important; position: relative; }
+    .card-silver::after { content: ""; position: absolute; top: -100%; left: -100%; width: 50%; height: 300%; background: linear-gradient(to right, transparent, rgba(255,255,255,0.4), transparent); transform: rotate(45deg); animation: silver-sheen 6s infinite; pointer-events: none; }
+    @keyframes silver-sheen { 0% { left: -100%; } 20% { left: 200%; } 100% { left: 200%; } }
+
+    .card-gold { background: #ffffff !important; border: 8px solid transparent !important; background-clip: padding-box !important; border-image: linear-gradient(135deg, #fff1b8, #ffd700, #d4af37, #f1c40f) 1 !important; box-shadow: 0 20px 50px rgba(212, 175, 55, 0.4) !important; }
+    .card-gold::before { content: ""; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: linear-gradient(45deg, transparent 45%, rgba(255,215,0,0.2) 50%, transparent 55%); animation: shine 4s infinite; transform: rotate(30deg); pointer-events: none; }
+    @keyframes shine { 0% { left: -100%; } 100% { left: 100%; } }
+
+    .card-platinum { background: linear-gradient(135deg, #f0f4f8 0%, #e6eef8 50%, #f0f4f8 100%) !important; border: 6px solid #b8c6db !important; box-shadow: 0 15px 45px rgba(173, 181, 189, 0.4), inset 0 0 30px rgba(255, 255, 255, 0.8) !important; }
+    .card-platinum::before { content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-image: radial-gradient(circle, #fff 1.5px, transparent 1.5px), radial-gradient(circle, rgba(135, 206, 250, 0.8) 1px, transparent 1px), radial-gradient(circle, rgba(255, 182, 193, 0.5) 1px, transparent 1px); background-size: 80px 80px, 110px 110px, 150px 150px; background-position: 0 0, 40px 60px, 90px 20px; animation: diamond-pulse 4s infinite alternate; opacity: 1; pointer-events: none; }
+    .card-platinum::after { content: ""; position: absolute; top: -100%; left: -100%; width: 300%; height: 300%; background: linear-gradient(45deg, transparent, rgba(255,255,255,0.4) 45%, rgba(135,206,250,0.2) 50%, transparent 55%); transform: rotate(25deg); animation: prism-flow 7s infinite linear; pointer-events: none; }
+    @keyframes diamond-pulse { 0% { opacity: 0.4; filter: brightness(1) drop-shadow(0 0 2px #fff); } 100% { opacity: 1; filter: brightness(1.2) drop-shadow(0 0 8px #fff); } }
+    @keyframes prism-flow { 0% { transform: translate(-30%, -30%) rotate(25deg); } 100% { transform: translate(10%, 10%) rotate(25deg); } }
+
+    .card-shogun { background: #1a1a1a !important; color: #f1c40f !important; border: 10px double #d4af37 !important; box-shadow: 0 0 50px rgba(212, 175, 55, 0.5), inset 0 0 30px rgba(212, 175, 55, 0.2) !important; }
+    .card-shogun h2, .card-shogun p { color: #f1c40f !important; }
+    .card-shogun .stats-container { background: rgba(212, 175, 55, 0.1) !important; border: 1px solid #f1c40f !important; }
+
+    .stats-container { background: #fdfaf0; border: 1px solid #d4af37; border-radius: 10px; padding: 15px; margin: 20px 0; display: flex; justify-content: space-around; }
+    .stat-value { font-size: 1.4rem; font-weight: bold; color: #b22d35; display: block; }
+    .stat-label { font-size: 0.8rem; color: #777; }
+    .status-badge { display: inline-block; padding: 5px 15px; border-radius: 25px; font-weight: bold; margin-top: 10px; font-size: 0.9rem; }
     .status-free { background: #eee; color: #666; }
     .status-premium { background: linear-gradient(135deg, #d4af37, #ffd700); color: #000; border: 1px solid #ffeb99; }
-    .action-group { display: flex; flex-direction: column; gap: 15px; margin-top: 30px; }
-    .btn-manage { display: block; padding: 15px; border-radius: 30px; text-decoration: none; font-weight: bold; transition: 0.3s; border: none; cursor: pointer; width: 100%; font-size: 1rem; }
-    .btn-upgrade { background: #f1c40f; color: white; }
+    .action-group { display: flex; flex-direction: row; justify-content: center; gap: 15px; margin-top: 30px; flex-wrap: wrap; }
+    .btn-manage { display: inline-block; padding: 12px 25px; border-radius: 30px; text-decoration: none; font-weight: bold; transition: 0.3s; border: none; cursor: pointer; font-size: 1rem; text-align: center; }
+    .btn-upgrade { background: #f1c40f; color: #000; }
     .btn-downgrade { background: white; color: #b22d35; border: 2px solid #b22d35; }
     .btn-delete { background: #b22d35; color: white; }
+
+    @media screen and (max-width: 600px) { .action-group { flex-direction: column; } .btn-manage { width: 100%; } }
 </style>
 
 <div class="settings-page">
-    <div class="settings-card">
+    <div class="settings-card 
+        {% if total_score < 50 %} card-paper
+        {% elif total_score < 100 %} card-wood
+        {% elif total_score < 200 %} card-silver
+        {% elif total_score < 500 %} card-gold
+        {% elif total_score < 1000 %} card-platinum
+        {% else %} card-shogun
+        {% endif %}">
+
         <h2>帳戶設定</h2>
         <p style="font-size: 1.2rem; margin-bottom: 5px;"><strong>{{ user.username }}</strong></p>
         {% if user.profile.is_premium %}
