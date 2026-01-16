@@ -776,6 +776,13 @@ def game_result(request):
         player.total_score += score
         player.last_score = score
         player.save()
+
+        if request.user.is_authenticated:
+            profile = request.user.profile
+            profile.total_score += score
+            profile.last_score = score
+            profile.save()
+
         request.session['score_saved'] = True
 
     history = request.session.get('game_history', [])
@@ -793,8 +800,8 @@ def game_result(request):
         'is_premium_mode': is_premium_mode,
         'ranking': Player.objects.order_by('-total_score')[:20]
     })
-
-                
+    
+                    
 #category select view
 
 def category_list(request):
