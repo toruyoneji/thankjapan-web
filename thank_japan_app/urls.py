@@ -1,7 +1,7 @@
 from django.urls import path
 from django.contrib.auth import views as auth_views
 from .views import (TopView, TopViewFR, TopViewIT, TopViewPT, TopViewZHHANT,TopViewKO, TopViewESES,
-                    TopViewDE, TopViewTH, TopViewPTBR, TopViewESMX, TopViewENIN, TopViewJA, TopViewVI,
+                    TopViewDE, TopViewTH, TopViewPTBR, TopViewESMX, TopViewENIN, TopViewJA, TopViewVI, account_settings_redirect,
                     FoodView, NatureView, FashionView, 
                     CultureView, CookView, AppliancesView, AnimalView,
                     CategoryDetailView, BuildingView, FlowerView, HouseholdItemsView,LiveView,
@@ -66,6 +66,8 @@ urlpatterns = [
     path('pt-br/', TopViewPTBR.as_view(), name='toppageptBR'),
     path('es-mx/', TopViewESMX.as_view(), name='toppageesMX'),
     path('en-in/', TopViewENIN.as_view(), name='toppageenIN'),
+    
+    path('account/settings-redirect/', account_settings_redirect, name='account_settings_redirect'),
     
     #premium
     path('premium/', premium_info, name='premium_info'),

@@ -337,59 +337,126 @@ class KiyakuDEView(ListView):
 class TopView(ListView):
     template_name = "thank_japan_app/toppage/toppage.html"
     model = ThankJapanModel
+    def get(self, request, *args, **kwargs):
+        request.session['user_lang'] = 'en'
+        return super().get(request, *args, **kwargs)
     
 class TopViewJA(ListView):
     template_name = "thank_japan_app/toppage/toppage_ja.html"
     model = ThankJapanModel
+    def get(self, request, *args, **kwargs):
+        request.session['user_lang'] = 'ja'
+        return super().get(request, *args, **kwargs)
     
 class TopViewVI(ListView):
     template_name = "thank_japan_app/toppage/toppage_vi.html"
     model = ThankJapanModel
+    def get(self, request, *args, **kwargs):
+        request.session['user_lang'] = 'vi'
+        return super().get(request, *args, **kwargs)
     
 class TopViewFR(ListView):
     template_name = "thank_japan_app/toppage/toppage_fr.html"
     model = ThankJapanModel
+    def get(self, request, *args, **kwargs):
+        request.session['user_lang'] = 'fr'
+        return super().get(request, *args, **kwargs)
     
 class TopViewIT(ListView):
     template_name = "thank_japan_app/toppage/toppage_it.html"
     model = ThankJapanModel
+    def get(self, request, *args, **kwargs):
+        request.session['user_lang'] = 'it'
+        return super().get(request, *args, **kwargs)
     
 class TopViewPT(ListView):
     template_name = "thank_japan_app/toppage/toppage_pt.html"
     model = ThankJapanModel
+    def get(self, request, *args, **kwargs):
+        request.session['user_lang'] = 'pt'
+        return super().get(request, *args, **kwargs)
     
 class TopViewZHHANT(ListView):
     template_name = "thank_japan_app/toppage/toppage_zh_hant.html"
     model = ThankJapanModel
+    def get(self, request, *args, **kwargs):
+        request.session['user_lang'] = 'zh-hant'
+        return super().get(request, *args, **kwargs)
     
 class TopViewKO(ListView):
     template_name = "thank_japan_app/toppage/toppage_ko.html"
     model = ThankJapanModel
+    def get(self, request, *args, **kwargs):
+        request.session['user_lang'] = 'ko'
+        return super().get(request, *args, **kwargs)
 
 class TopViewESES(ListView):
     template_name = "thank_japan_app/toppage/toppage_es_es.html"
     model = ThankJapanModel
+    def get(self, request, *args, **kwargs):
+        request.session['user_lang'] = 'es-es'
+        return super().get(request, *args, **kwargs)
     
 class TopViewDE(ListView):
     template_name = "thank_japan_app/toppage/toppage_de.html"
     model = ThankJapanModel
+    def get(self, request, *args, **kwargs):
+        request.session['user_lang'] = 'de'
+        return super().get(request, *args, **kwargs)
     
 class TopViewTH(ListView):
     template_name = "thank_japan_app/toppage/toppage_th.html"
     model = ThankJapanModel
+    def get(self, request, *args, **kwargs):
+        request.session['user_lang'] = 'th'
+        return super().get(request, *args, **kwargs)
     
 class TopViewPTBR(ListView):
     template_name = "thank_japan_app/toppage/toppage_pt_br.html"
     model = ThankJapanModel
+    def get(self, request, *args, **kwargs):
+        request.session['user_lang'] = 'pt-br'
+        return super().get(request, *args, **kwargs)
     
 class TopViewESMX(ListView):
     template_name = "thank_japan_app/toppage/toppage_es_mx.html"
     model = ThankJapanModel
+    def get(self, request, *args, **kwargs):
+        request.session['user_lang'] = 'es-mx'
+        return super().get(request, *args, **kwargs)
     
 class TopViewENIN(ListView):
     template_name = "thank_japan_app/toppage/toppage_en_in.html"
     model = ThankJapanModel
-
+    def get(self, request, *args, **kwargs):
+        request.session['user_lang'] = 'en-in'
+        return super().get(request, *args, **kwargs)
+    
+    
+#manage_btn
+@login_required
+def account_settings_redirect(request):
+    lang = request.session.get('user_lang', 'en')
+    
+    mapping = {
+        'en': 'account_settings',
+        'ja': 'account_settingsja',
+        'vi': 'account_settingsvi',
+        'fr': 'account_settingsfr',
+        'it': 'account_settingsit',
+        'pt': 'account_settingspt',
+        'zh-hant': 'account_settingszhHANT',
+        'ko': 'account_settingsko',
+        'es-es': 'account_settingsesES',
+        'de': 'account_settingsde',
+        'th': 'account_settingsth',
+        'pt-br': 'account_settingsptBR',
+        'es-mx': 'account_settingsesMX',
+        'en-in': 'account_settingsenIN',
+    }
+    
+    url_name = mapping.get(lang, 'account_settings')
+    return redirect(f"{reverse(url_name)}?from=result")
 
 # views.py
 class CategoryDetailView(DetailView):

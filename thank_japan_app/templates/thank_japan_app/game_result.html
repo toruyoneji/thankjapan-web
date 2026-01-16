@@ -511,6 +511,17 @@ tbody td {
     margin-right: 10px; 
 }
 
+.btn-manage-account {
+    display: inline-block;
+    background: #fef5d1;
+    color: #5d5245;
+    border: 2px solid #5d5245;
+    padding: 12px 30px;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 0.9rem;
+}
 
 
 /* ==============================
@@ -654,8 +665,10 @@ tbody td {
             <p>🌟 You finished the game! <br><strong>Sign up for free</strong> to save your points and rank up!</p>
             <a href="{% url 'player_register' %}?guest_score={{ score }}" class="neon-button">Register Now</a>
         {% else %}
-            <p>💎 Great job! Ready to level up?<br><strong>Get Premium</strong> to unlock all N5, N4, and N3 phrases!</p>
-            <a href="{% url 'premium_info' %}" class="neon-button">Go Premium</a>
+            
+            <a href="{% url 'account_settings_redirect' %}" class="btn-manage-account">
+                Manage Profile / Account Settings ⚙️
+            </a>
         {% endif %}
     </div>
   {% endif %}
