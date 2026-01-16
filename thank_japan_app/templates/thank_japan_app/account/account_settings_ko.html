@@ -79,9 +79,20 @@
             </form>
         </div>
         <div style="margin-top: 30px;">
-            <a href="{% url 'toppageko' %}" style="color: #5d5245; text-decoration: none;">← 홈으로 돌아가기</a>
+            <a href="javascript:void(0);" onclick="smartBack()" style="color: #5d5245; text-decoration: none; font-weight: bold;">
+                {% if request.GET.from == 'result' %}← 결과로 돌아가기{% else %}← 뒤로 가기{% endif %}
+            </a>
         </div>
     </div>
 </div>
 
+<script>
+function smartBack() {
+    if (document.referrer && document.referrer.includes(window.location.hostname)) {
+        history.back();
+    } else {
+        window.location.href = "{% url 'toppageko' %}";
+    }
+}
+</script>
 {% endblock %}

@@ -80,9 +80,20 @@
             </form>
         </div>
         <div style="margin-top: 30px;">
-            <a href="{% url 'toppagezhHANT' %}" style="color: #5d5245; text-decoration: none;">← 返回首頁</a>
+            <a href="javascript:void(0);" onclick="smartBack()" style="color: #5d5245; text-decoration: none; font-weight: bold;">
+                {% if request.GET.from == 'result' %}← 返回結果{% else %}← 返回{% endif %}
+            </a>
         </div>
     </div>
 </div>
 
+<script>
+function smartBack() {
+    if (document.referrer && document.referrer.includes(window.location.hostname)) {
+        history.back();
+    } else {
+        window.location.href = "{% url 'toppagezhHANT' %}";
+    }
+}
+</script>
 {% endblock %}

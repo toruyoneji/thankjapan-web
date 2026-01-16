@@ -79,9 +79,20 @@
             </form>
         </div>
         <div style="margin-top: 30px;">
-            <a href="{% url 'toppagevi' %}" style="color: #5d5245; text-decoration: none;">← Quay lại Trang chủ</a>
+            <a href="javascript:void(0);" onclick="smartBack()" style="color: #5d5245; text-decoration: none; font-weight: bold;">
+                {% if request.GET.from == 'result' %}← Quay lại kết quả{% else %}← Quay lại{% endif %}
+            </a>
         </div>
     </div>
 </div>
 
+<script>
+function smartBack() {
+    if (document.referrer && document.referrer.includes(window.location.hostname)) {
+        history.back();
+    } else {
+        window.location.href = "{% url 'toppagevi' %}";
+    }
+}
+</script>
 {% endblock %}

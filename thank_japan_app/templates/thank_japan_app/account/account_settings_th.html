@@ -79,9 +79,20 @@
             </form>
         </div>
         <div style="margin-top: 30px;">
-            <a href="{% url 'toppageth' %}" style="color: #5d5245; text-decoration: none;">← กลับหน้าแรก</a>
+            <a href="javascript:void(0);" onclick="smartBack()" style="color: #5d5245; text-decoration: none; font-weight: bold;">
+                {% if request.GET.from == 'result' %}← กลับไปที่ผลลัพธ์{% else %}← ย้อนกลับ{% endif %}
+            </a>
         </div>
     </div>
 </div>
 
+<script>
+function smartBack() {
+    if (document.referrer && document.referrer.includes(window.location.hostname)) {
+        history.back();
+    } else {
+        window.location.href = "{% url 'toppageth' %}";
+    }
+}
+</script>
 {% endblock %}

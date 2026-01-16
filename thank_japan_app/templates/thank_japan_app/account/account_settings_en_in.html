@@ -79,9 +79,21 @@
             </form>
         </div>
         <div style="margin-top: 30px;">
-            <a href="{% url 'toppageenIN' %}" style="color: #5d5245; text-decoration: none;">← Back to Home</a>
+            <a href="javascript:void(0);" onclick="smartBack()" style="color: #5d5245; text-decoration: none; font-weight: bold;">
+                {% if request.GET.from == 'result' %}← Back to Results{% else %}← Back{% endif %}
+            </a>
         </div>
     </div>
 </div>
 
+
+<script>
+function smartBack() {
+    if (document.referrer && document.referrer.includes(window.location.hostname)) {
+        history.back();
+    } else {
+        window.location.href = "{% url 'toppageenIN' %}";
+    }
+}
+</script>
 {% endblock %}
