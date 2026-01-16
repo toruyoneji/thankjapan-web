@@ -16,7 +16,7 @@ class UserAdmin(BaseUserAdmin):
     inlines = (ProfileInline,)
 
 class ThankJapanAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name')
+    list_display = ('id', 'name', 'category')
     
     def save_model(self, request, obj, form, change):
         try:
