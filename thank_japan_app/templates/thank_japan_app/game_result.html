@@ -659,20 +659,17 @@ tbody td {
 
   <hr>
 
-  {% if not user.profile.is_premium %}
     <div class="appeal-section">
         {% if is_guest %}
             <p>🌟 You finished the game! <br><strong>Sign up for free</strong> to save your points and rank up!</p>
             <a href="{% url 'player_register' %}?guest_score={{ score }}" class="neon-button">Register Now</a>
         {% else %}
-            
+            <p>🌟 Great job! <br>Check your new total score and rank in your profile!</p>
             <a href="{% url 'account_settings_redirect' %}" class="btn-manage-account">
                 Manage Profile / Account Settings ⚙️
             </a>
         {% endif %}
     </div>
-  {% endif %}
-
   <hr>
 
   {% if review_data %}
