@@ -356,17 +356,25 @@ img:hover { transform: scale(1.02); }
             
             {% with s=player.total_score %}
                 {% if s >= 2000 %}
-                    <span style="color: #b8860b; font-weight: bold; font-size: 1.2em;">👑 Shogun (将軍)</span>
-                {% elif s >= 1000 %}
+                    <span style="color: #b22d35; font-weight: 900; font-size: 1.4em; text-shadow: 0 0 10px rgba(178,45,53,0.3);">🗾 Legend (伝説)</span>
+                {% elif s >= 1200 %}
+                    <span style="color: #b8860b; font-weight: bold; font-size: 1.2em;">👑 General (大将軍)</span>
+                {% elif s >= 900 %}
+                    <span style="color: #8a2be2; font-weight: bold; font-size: 1.2em;">🐎 Shogun (将軍)</span>
+                {% elif s >= 650 %}
                     <span style="color: #4a3b2a; font-weight: bold; font-size: 1.2em;">🏯 Daimyo (大名)</span>
-                {% elif s >= 500 %}
+                {% elif s >= 450 %}
+                    <span style="color: #b22d35; font-weight: bold; font-size: 1.2em;">🚩 Hatamoto (旗本)</span>
+                {% elif s >= 300 %}
                     <span style="color: #26456e; font-weight: bold; font-size: 1.2em;">⚔️ Samurai (侍)</span>
                 {% elif s >= 200 %}
-                    <span style="color: #556b2f; font-weight: bold; font-size: 1.2em;">🥷 Ninja (忍者)</span>
+                    <span style="color: #4b0082; font-weight: bold; font-size: 1.2em;">🥷 Ninja (忍者)</span>
+                {% elif s >= 100 %}
+                    <span style="color: #556b2f; font-weight: bold; font-size: 1.2em;">🚣 Ronin (浪人)</span>
                 {% elif s >= 50 %}
                     <span style="color: #8c7042; font-weight: bold; font-size: 1.2em;">🎒 Traveler (旅人)</span>
                 {% else %}
-                    <span style="color: #666; font-weight: bold; font-size: 1.2em;">🎋 Villager (村人)</span>
+                    <span style="color: #666; font-weight: bold; font-size: 1.2em;">🌾 Villager (村人)</span>
                 {% endif %}
             {% endwith %}
         </div>

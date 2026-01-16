@@ -631,7 +631,7 @@ DIFFICULTY_SETTINGS = {
     'single': {'num_questions': 1, 'model_type': 'free'},
     'easy': {'category_filter': ['sports', 'food'], 'length_regex': r'^.{1,20}$', 'num_questions': 3, 'model_type': 'free'},
     'normal': {'category_filter': ['cook', 'food', 'culture'], 'length_regex': r'^.{1,9}$', 'num_questions': 5, 'model_type': 'free'},
-    'hard': {'category_filter': None, 'length_regex': r'^.{1,9}$', 'num_questions': 7, 'model_type': 'free'},
+    'hard': {'category_filter': None, 'length_regex': r'^.{1,9}$', 'num_questions': 5, 'model_type': 'free'},
     'super_hard': {'category_filter': None, 'length_regex': None, 'num_questions': 7, 'model_type': 'free'},
     'sample_premium': {'category_filter': ['DailyConversation'], 'jlpt_level': 'N5', 'num_questions': 5, 'model_type': 'premium'},
     'n5_premium': {'jlpt_level': 'N5', 'num_questions': 5, 'model_type': 'premium'},
