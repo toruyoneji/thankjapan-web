@@ -19,6 +19,7 @@ urlpatterns = [
     path('th/sitemap.xml', sitemap_view),
     path('ko/sitemap.xml', sitemap_view),
     path('zh-hant/sitemap.xml', sitemap_view),
+    path('zh-cn/sitemap.xml', sitemap_view),
     path('it/sitemap.xml', sitemap_view),
     path('fr/sitemap.xml', sitemap_view),
     path('es-es/sitemap.xml', sitemap_view),
