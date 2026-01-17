@@ -77,8 +77,20 @@
 
     .dropbtn, .game-link { color: #eee; background: none; border: none; font-size: 0.9rem; cursor: pointer; text-decoration: none; }
     .dropdown { position: relative; }
-    .dropdown-content { display: none; position: absolute; top: 100%; left: 0; background-color: #1a1a1a; min-width: 160px; border-radius: 8px; z-index: 1000; }
+    .dropdown-content { 
+        display: none; 
+        position: absolute; 
+        top: 100%; 
+        left: 0; 
+        background-color: #1a1a1a; 
+        min-width: 160px; 
+        border-radius: 8px; 
+        z-index: 1000; 
+        max-height: 300px; 
+        overflow-y: auto; 
+    }
     .dropdown-content a { color: #eee; padding: 10px 15px; display: block; text-decoration: none; font-size: 0.8rem; }
+    .dropdown:hover .dropdown-content { display: block; }
 
     .hero {
         margin-top: 0 !important; width: 100%; height: 750px; 
