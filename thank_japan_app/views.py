@@ -146,6 +146,9 @@ def update_policy_agreement(request):
 class CompanyFormView(TemplateView):
      template_name = 'thank_japan_app/info/company.html'
      
+class CompanyFormZHCNView(TemplateView):
+     template_name = 'thank_japan_app/info/company_zh_cn.html'
+     
 class CompanyFormZHHANTView(TemplateView):
      template_name = 'thank_japan_app/info/company_zh_hant.html'
      
@@ -189,6 +192,9 @@ class CompanyFormDEView(TemplateView):
 
 class LegalNoticeView(TemplateView):
     template_name = "thank_japan_app/legal/legal_notice.html"
+    
+class LegalNoticeZHCNView(TemplateView):
+    template_name = "thank_japan_app/legal/legal_notice_zh_cn.html"
      
 class LegalNoticeZHHANTView(TemplateView):
     template_name = "thank_japan_app/legal/legal_notice_zh_hant.html"
@@ -235,6 +241,9 @@ class LegalNoticeDEView(TemplateView):
 class PrivacyPolicy(TemplateView):
     template_name = "thank_japan_app/privacy/privacy_policy.html"
     
+class PrivacyPolicyZHCN(TemplateView):
+    template_name = "thank_japan_app/privacy/privacy_policy_zh_cn.html"
+    
 class PrivacyPolicyZHHANT(TemplateView):
     template_name = "thank_japan_app/privacy/privacy_policy_zh_hant.html"
     
@@ -278,6 +287,10 @@ class PrivacyPolicyDE(TemplateView):
 #riyoukiyaku    
 class KiyakuView(ListView):
     template_name = "thank_japan_app/kiyaku/riyoukiyaku.html"
+    model = ThankJapanModel
+    
+class KiyakuZHCNView(ListView):
+    template_name = "thank_japan_app/kiyaku/riyoukiyaku_zh_cn.html"
     model = ThankJapanModel
     
 class KiyakuZHHANTView(ListView):
@@ -376,6 +389,13 @@ class TopViewPT(ListView):
         request.session['user_lang'] = 'pt'
         return super().get(request, *args, **kwargs)
     
+class TopViewZHCN(ListView):
+    template_name = "thank_japan_app/toppage/toppage_zh_cn.html"
+    model = ThankJapanModel
+    def get(self, request, *args, **kwargs):
+        request.session['user_lang'] = 'zh-cn'
+        return super().get(request, *args, **kwargs)
+    
 class TopViewZHHANT(ListView):
     template_name = "thank_japan_app/toppage/toppage_zh_hant.html"
     model = ThankJapanModel
@@ -453,6 +473,7 @@ def account_settings_redirect(request):
         'pt-br': 'account_settingsptBR',
         'es-mx': 'account_settingsesMX',
         'en-in': 'account_settingsenIN',
+        'zh-cn': 'account_settingszhCN',
     }
     
     url_name = mapping.get(lang, 'account_settings')
@@ -874,6 +895,9 @@ def game_result(request):
 def category_list(request):
     return render(request, 'thank_japan_app/category/category_list.html') 
 
+def category_list_zhcn(request):
+    return render(request, 'thank_japan_app/category/category_list_zh_cn.html') 
+
 def category_list_zhhant(request):
     return render(request, 'thank_japan_app/category/category_list_zh_hant.html') 
 
@@ -1115,6 +1139,9 @@ class LiveView(ListView):
 class JapanFoodView(TemplateView):
     template_name="thank_japan_app/japan/japanfoodpage.html"
     
+class JapanFoodZHCNView(TemplateView):
+    template_name="thank_japan_app/japan/japanfoodpage_zh_cn.html"
+    
 class JapanFoodZHHANTView(TemplateView):
     template_name="thank_japan_app/japan/japanfoodpage_zh_hant.html"
     
@@ -1158,6 +1185,9 @@ class JapanFoodDEView(TemplateView):
 #japan culture    
 class JapanCultureView(TemplateView):
     template_name="thank_japan_app/japan/japanculturepage.html"
+    
+class JapanCultureZHCNView(TemplateView):
+    template_name="thank_japan_app/japan/japanculturepage_zh_cn.html"
     
 class JapanCultureZHHANTView(TemplateView):
     template_name="thank_japan_app/japan/japanculturepage_zh_hant.html"
@@ -1260,6 +1290,14 @@ def premium_info(request):
     }
     return render(request, 'thank_japan_app/premium/premium_info.html', context)
 
+def premium_infoZHCN(request):
+    context = {
+        'paypal_client_id': settings.PAYPAL_CLIENT_ID,
+        'paypal_plan_id': settings.PAYPAL_PLAN_ID,
+    }
+    return render(request, 'thank_japan_app/premium/premium_info_zh_cn.html', context)
+
+
 def premium_infoZHHANT(request):
     context = {
         'paypal_client_id': settings.PAYPAL_CLIENT_ID,
@@ -1358,6 +1396,11 @@ def thank_you(request):
     return render(request, 'thank_japan_app/thankyou/thank_you.html')
 
 @login_required
+def thank_youZHCN(request):
+    return render(request, 'thank_japan_app/thankyou/thank_you_zh_cn.html')
+
+
+@login_required
 def thank_youZHHANT(request):
     return render(request, 'thank_japan_app/thankyou/thank_you_zh_hant.html')
 
@@ -1418,6 +1461,15 @@ def account_settings(request):
         'total_score': profile.total_score,
     }
     return render(request, 'thank_japan_app/account/account_settings.html', context)
+
+@login_required
+def account_settingsZHCN(request):
+    profile = request.user.profile
+    context = {
+        'total_score': profile.total_score,
+    }
+    return render(request, 'thank_japan_app/account/account_settings_zh_cn.html', context)
+
 
 @login_required
 def account_settingsZHHANT(request):
@@ -1579,6 +1631,9 @@ def delete_account(request):
 def downgrade_success(request):
     return render(request, 'thank_japan_app/downgrade/downgrade_success.html')
 
+def downgrade_successZHCN(request):
+    return render(request, 'thank_japan_app/downgrade/downgrade_success_zh_cn.html')
+
 def downgrade_successZHHANT(request):
     return render(request, 'thank_japan_app/downgrade/downgrade_success_zh_hant.html')
 
@@ -1623,6 +1678,9 @@ def downgrade_successDE(request):
 
 def delete_success(request):
     return render(request, 'thank_japan_app/delete/delete_success.html')
+
+def delete_successZHCN(request):
+    return render(request, 'thank_japan_app/delete/delete_success_zh_cn.html')
 
 def delete_successZHHANT(request):
     return render(request, 'thank_japan_app/delete/delete_success_zh_hant.html')

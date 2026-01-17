@@ -1,0 +1,466 @@
+{% load static %}
+
+<style>
+:root {
+    --sand-bg: #f3f4f6;
+    --stone-gray: #7a7a7a;
+    --stone-dark: #4a4a4a;
+    --moss-green: #556b2f;
+    --moss-light: #8f9779;
+    --text-main: #333333;
+    --accent-red: #a63737;
+    --wood-dark: #4a3b2a;
+}
+
+body {
+  margin: 0;
+  font-family: 'Zen Antique', 'Shippori Mincho', 'Noto Serif JP', serif;
+  background-color: var(--sand-bg);
+  background-image: 
+    repeating-radial-gradient(
+      circle at 50% 30%, 
+      transparent 0, 
+      transparent 10px, 
+      rgba(0,0,0,0.03) 11px, 
+      rgba(0,0,0,0.03) 12px
+    );
+  color: var(--text-main);
+  text-align: center;
+}
+
+.main {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0; 
+}
+
+h2, h3 {
+  color: var(--stone-dark);
+  text-shadow: none;
+  font-weight: 700;
+  border-bottom: 1px solid var(--moss-green); 
+  display: inline-block;
+  padding-bottom: 10px;
+  margin-bottom: 30px;
+  letter-spacing: 3px;
+}
+
+.hero {
+  margin-top: 0 !important;
+  background: linear-gradient(rgba(0,0,0,0.1), rgba(0,0,0,0.3)), url("https://res.cloudinary.com/dotekofm5/image/upload/v1768385674/thankjapan/backgrounds/gx8xbypllgs1qogcsvak.jpg");
+  background-position: center 30%;
+  background-size: cover;
+  height: 750px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  text-align: center;
+  padding: 0 20px;
+  border-bottom: none;
+  mask-image: linear-gradient(to bottom, black 85%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, black 85%, transparent 100%);
+}
+
+.hero h1 {
+  font-size: 3.5rem;
+  letter-spacing: 8px;
+  margin-bottom: 15px;
+  color: #fff;
+  text-shadow: 0 2px 20px rgba(0,0,0,0.8);
+  font-family: 'Zen Antique', serif;
+}
+
+.hero p {
+  font-size: 1.2rem;
+  margin-bottom: 40px;
+  font-family: 'Poppins', sans-serif;
+  color: #fff;
+  background: rgba(0,0,0,0.5);
+  padding: 10px 30px;
+  border-radius: 50px;
+  border: 1px solid rgba(255,255,255,0.5);
+  text-shadow: none;
+}
+
+.hero-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 25px;
+    flex-wrap: wrap;
+}
+
+.explore-btn {
+    display: inline-block;
+    padding: 15px 40px;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 1.1rem;
+    letter-spacing: 1px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border: none;
+    min-width: 200px;
+    text-align: center;
+}
+
+.btn-gold {
+    background: linear-gradient(135deg, #fff1b8, #ffd700, #d4af37);
+    color: #000;
+    box-shadow: 0 6px 18px rgba(212, 175, 55, 0.6);
+    border: 1px solid #ffeb99;
+}
+
+.btn-white {
+    background: #ffffff !important;
+    color: #4a4a4a !important;
+    border: 2px solid #4a4a4a;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.btn-accent {
+    background: #556b2f !important;
+    color: #fff !important;
+    box-shadow: 0 6px 18px rgba(85, 107, 47, 0.4);
+}
+
+.explore-btn:hover {
+    transform: translateY(-3px);
+    filter: brightness(1.1);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+}
+
+.login-prompt {
+    margin-top: 20px;
+    font-size: 0.95rem;
+    color: #fff;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
+}
+
+.login-prompt a {
+    color: #ffd700;
+    font-weight: bold;
+}
+
+
+.explore-btn {
+  background:
+    linear-gradient(135deg,
+      #fff1b8 0%,
+      #ffd700 25%,
+      #e6b800 45%,
+      #ffec9e 60%,
+      #d4af37 80%,
+      #fff1b8 100%
+    );
+  color: #000;
+  padding: 18px 80px;
+  border-radius: 50px;
+  font-weight: 700;
+  font-size: 1.3rem;
+  letter-spacing: 2px;
+  border: 1px solid #ffeb99;
+  box-shadow: 0 6px 18px rgba(212, 175, 55, 0.6);
+  transition: all 0.4s ease;
+  display: inline-block;
+  text-decoration: none;
+}
+
+.explore-btn:hover {
+  transform: translateY(-3px);
+  filter: brightness(1.15);
+  box-shadow: 0 8px 25px rgba(255, 215, 0, 0.7);
+}
+
+.game-call-to-action {
+  text-align: center;
+  margin: 60px auto;
+  max-width: 600px;
+  padding: 50px 30px;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 2px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.05);
+}
+
+.play-game-button {
+  display: block;
+  width: 80%;
+  margin: 0 auto 20px auto;
+  padding: 20px 25px;
+  background: var(--moss-green);
+  color: #fff;
+  font-size: 1.4em;
+  font-weight: bold;
+  text-decoration: none;
+  border-radius: 50px;
+  box-shadow: 0 5px 15px rgba(85, 107, 47, 0.3);
+  transition: all 0.3s ease;
+  letter-spacing: 0.1em;
+  font-family: 'Zen Antique', serif;
+}
+
+.play-game-button:hover {
+  background: var(--stone-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+}
+
+.game-description {
+  color: #666;
+  font-size: 0.95em;
+  margin-top: 15px;
+  line-height: 1.8;
+}
+
+.categories {
+  max-width: 1100px;
+  margin: 40px auto;
+  padding: 0 20px 80px;
+}
+
+.category-grid {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 40px;
+}
+
+.category-card {
+  width: 280px;
+  text-align: center;
+  transition: transform 0.4s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.category-card img {
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin-bottom: 20px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  border: 4px solid #fff;
+  transition: all 0.4s ease;
+}
+
+.category-card:hover img { 
+    transform: scale(1.05);
+    border-color: var(--moss-green);
+}
+
+.category-card h3 {
+  color: var(--text-main);
+  font-size: 1.1rem;
+  letter-spacing: 2px;
+  border: none;
+  margin-top: 10px;
+}
+
+.support {
+  background: var(--stone-dark);
+  padding: 100px 20px;
+  text-align: center;
+  color: #ddd;
+}
+
+.support h2 {
+  color: #fff;
+  border-bottom: 1px solid #666;
+  margin-bottom: 20px;
+}
+
+.support a {
+  background: transparent;
+  color: #fff;
+  text-decoration: none;
+  padding: 12px 40px;
+  border-radius: 50px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  border: 1px solid #fff;
+  margin-top: 30px;
+  display: inline-block;
+}
+
+.support a:hover {
+  background: #fff;
+  color: var(--text-main);
+}
+
+
+footer {
+  background: #1f1f1f;
+  text-align: center;
+  padding: 60px 20px;
+  font-size: 0.85rem;
+  color: #777;
+}
+
+.footer-links a {
+  color: #777;
+  text-decoration: none;
+  margin: 0 10px;
+}
+
+@media screen and (max-width: 768px) {
+  .main { margin: 0 auto; }
+  .hero { 
+      margin-top: 0 !important;
+      height: auto; 
+      min-height: 450px; 
+      padding: 60px 15px; 
+  }
+
+  .hero-buttons {
+      flex-direction: column;
+      align-items: center;
+      gap: 15px;
+  }
+
+  .hero h1 { font-size: 2.0rem; letter-spacing: 3px; }
+  .hero p { font-size: 1.0rem; width: 90%; }
+  .explore-btn { padding: 18px 40px; font-size: 1.1rem; width: 85%; margin-top: 10px; }
+  .category-grid { flex-direction: column; align-items: center; }
+  .footer-links { display: flex; flex-direction: column; gap: 15px; }
+  
+}
+
+@media screen and (max-width: 500px) {
+  body { 
+        padding-top: 180px !important;
+    }
+
+    .hero {
+        background-size: 140% auto !important;
+        background-repeat: no-repeat !important;
+        margin-top: 0 !important;
+        background-position: center 10% !important; 
+        background-color: #000 !important;
+        height: 520px !important;
+        min-height: 500px !important;
+        padding-bottom: 40px !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: flex-end !important; 
+        align-items: center !important;
+    }
+
+  .hero h1 { font-size: 1.5rem; }
+}
+
+</style>
+
+
+<section class="hero">
+  {% if not user.is_authenticated %}
+    <h1>THANK JAPAN</h1>
+    <div class="hero-buttons">
+      <a href="{% url 'category_list_zhCN' %}" class="explore-btn btn-white">学习日语</a>
+    </div>
+    
+    <p class="login-prompt">
+      已经是会员？ <a href="{% url 'player_login' %}?next={{ request.path }}">由此登录</a>
+    </p>
+    
+    
+  {% elif not user.profile.is_premium %}
+    <h1>欢迎回来，{{ user.username }}！</h1>
+    <div class="hero-buttons">
+      <a href="{% url 'category_list_zhCN' %}" class="explore-btn btn-white">开始学习 📖</a>
+    </div>
+    <div class="hero-buttons">
+      <a href="{% url 'premium_infozhCN' %}" class="explore-btn btn-gold">升级至 Premium 💎</a>
+    </div>
+
+  {% else %}
+    <h1>欢迎回来，{{ user.username }}！ 💎</h1>
+    <p>尽情享受所有课程的无限访问权限。</p>
+    <div class="hero-buttons">
+      <a href="{% url 'category_list_zhCN' %}" class="explore-btn btn-accent">进入课程 📖</a>
+      <a href="{% url 'account_settingszhCN' %}" class="explore-btn btn-white">管理账户 ⚙️</a>
+    </div>
+  {% endif %}
+</section>
+
+
+  <div class="game-call-to-action">
+    <a href="{% url 'game_start' %}" class="play-game-button">
+        立即游玩，探索日本！
+        <span class="game-icon">🎮</span> 
+    </a>
+    <p class="game-description">
+        轻松学习日语词汇，深入体验日本文化。<br>你的日本知识之旅，从这里开始！
+    </p>
+  </div>
+
+  <section class="categories">
+    <h2>探索日本</h2>
+    <div class="category-grid">
+      <div class="category-card">
+        <a href="{% url 'japanfoodzhCN' %}">
+          <img src="https://res.cloudinary.com/dotekofm5/image/upload/v1761200066/thankjapan/backgrounds/adfqqgtdfozxi848gopz.png" alt="日本美食">
+        </a>
+        <h3>美味体验 & 特色料理</h3>
+      </div>
+
+      <div class="category-card">
+        <a href="{% url 'japanculturezhCN' %}">
+          <img src="https://res.cloudinary.com/dotekofm5/image/upload/v1761842683/thankjapan/backgrounds/ixyersx9bdpxytxzetix.jpg" alt="日本文化">
+        </a>
+        <h3>传统 & 艺术</h3>
+      </div>
+    </div>
+  </section>
+
+  
+  <footer>
+    <div class="footer-links">
+      <a href="{% url 'infomationpagezhCN' %}">关于我们</a>
+      <a href="{% url 'privacy_policyzhCN' %}">隐私政策</a>
+      <a href="{% url 'riyoukiyakuzhCN' %}">使用条款</a>
+      <a href="{% url 'contact' %}">联系我们</a>
+    </div>
+    <small>© 2025 Thank Japan | 探索、品味并爱上日本文化</small>
+  </footer>
+
+  <script>
+    localStorage.setItem('tj_top_url', window.location.href);
+  </script>
+
+{% if user.is_authenticated and user.profile.is_premium %}
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const duration = 2500;
+        const end = Date.now() + duration;
+
+        (function frame() {
+            confetti({
+                particleCount: 2,
+                angle: 60,
+                spread: 55,
+                origin: { x: 0, y: 0.8 },
+                colors: ['#f1c40f', '#ffffff']
+            });
+            confetti({
+                particleCount: 2,
+                angle: 120,
+                spread: 55,
+                origin: { x: 1, y: 0.8 },
+                colors: ['#f1c40f', '#ffffff']
+            });
+
+            if (Date.now() < end) {
+                requestAnimationFrame(frame);
+            }
+        }());
+    });
+</script>
+{% endif %}

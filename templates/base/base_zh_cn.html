@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="zh-CN" translate="no">
+<head>
+    {% include 'css.html' %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    
+    <link rel="icon" href="https://res.cloudinary.com/dotekofm5/image/upload/w_96,h_96,c_fill/v1768197979/thankjapan/backgrounds/lzqkopi7hngponvt8ekw.png" sizes="96x96" type="image/png">
+    <link rel="apple-touch-icon" href="https://res.cloudinary.com/dotekofm5/image/upload/w_180,h_180,c_fill/v1768197979/thankjapan/backgrounds/lzqkopi7hngponvt8ekw.png">
+
+
+    {% block meta %}
+    <meta name="title" content="学习日语与文化 | 免费测验游戏 | ThankJapan">
+    <meta name="description" content="免费掌握日语词汇、汉字和文化。通过图片学习，利用互动测验测试你的实力，并从“旅人”等级开始晋升！">
+    <meta name="robots" content="index,follow">
+    <meta name="keywords" content="日本,日本文化,日本美食">
+
+    <meta property="og:title" content="免费玩日本游戏（无需下载） | ThankJapan" />
+    <meta property="og:description" content="介绍日本文化。" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.thankjapan.com" />
+    <meta property="og:image" content="https://res.cloudinary.com/dotekofm5/image/upload/v1761402106/thankjapan/backgrounds/jtbdzjsksgbgehuxl954.jpg" />
+    <meta property="og:site_name" content="ThankJapan" />
+    <meta property="og:locale" content="zh-CN" />
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="免费玩日本游戏（无需下载） | ThankJapan">
+    <meta name="twitter:description" content="向全世界介绍日本的文化、美食和语言。">
+    <meta name="twitter:image" content="https://res.cloudinary.com/dotekofm5/image/upload/v1761402106/thankjapan/backgrounds/jtbdzjsksgbgehuxl954.jpg">
+    <meta name="twitter:site" content="@thankjapan0514">
+
+    
+    {% endblock %}
+
+    {% block hreflang_tags %}
+     <link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/">
+    {% endblock %}
+
+
+    <title>{% block title %}ThankJapan{% endblock %}</title>
+
+<style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { width: 100%; overflow-x: hidden; }
+    body {
+        font-family: 'Zen Antique', 'Shippori Mincho', 'Noto Serif JP', serif;
+        background-color: #f3f4f6;
+        padding-top: 80px; 
+        background-image: repeating-radial-gradient(circle at 50% 30%, transparent 0, transparent 10px, rgba(0,0,0,0.03) 11px, rgba(0,0,0,0.03) 12px);
+    }
+
+    header.nav-bar {
+        position: fixed; top: 0; left: 0; width: 100%; min-height: 80px;
+        background: rgba(10, 10, 10, 0.95); backdrop-filter: blur(10px);
+        display: flex; align-items: center; justify-content: space-between;
+        padding: 10px 30px; z-index: 9999; border-bottom: 4px solid #7a7a7a;
+    }
+    .logo-link { color: white; text-decoration: none; font-weight: bold; font-size: 1.6rem; white-space: nowrap; }
+    .sns-buttons { display: flex; gap: 10px; }
+    .sns-buttons a { color: #fff; font-size: 1.1rem; text-decoration: none; }
+    nav { display: flex; align-items: center; gap: 15px; flex-wrap: wrap; }
+
+    .auth-section { display: flex; align-items: center; gap: 10px; }
+    .user-info, .guest-info { display: flex; align-items: center; gap: 10px; }
+    .user-name { color: #ffffff !important; font-weight: bold; font-size: 0.9rem; white-space: nowrap; text-shadow: 1px 1px 2px #000; }
+    .premium-badge { background: linear-gradient(45deg, #ffd700, #ffa500); color: #000 !important; padding: 2px 8px; border-radius: 12px; font-size: 0.7rem; font-weight: bold; }
+    .upgrade-link { color: #f1c40f !important; text-decoration: none; font-size: 0.8rem; font-weight: bold; border: 1px solid #f1c40f; padding: 2px 8px; border-radius: 10px; }
+    .auth-btn { text-decoration: none; font-size: 0.8rem; padding: 6px 14px; border-radius: 20px; font-weight: bold; border: 1px solid #fff; color: #fff !important; white-space: nowrap; transition: 0.3s; }
+    .signup { background-color: #e67e22; border: none; }
+
+    .dropbtn, .game-link { color: #eee; background: none; border: none; font-size: 0.9rem; cursor: pointer; text-decoration: none; }
+    .dropdown { position: relative; }
+    .dropdown-content { display: none; position: absolute; top: 100%; left: 0; background-color: #1a1a1a; min-width: 160px; border-radius: 8px; z-index: 1000; }
+    .dropdown-content a { color: #eee; padding: 10px 15px; display: block; text-decoration: none; font-size: 0.8rem; }
+
+    .hero {
+        margin-top: 0 !important; width: 100%; height: 750px; 
+        display: flex; flex-direction: column; justify-content: center; align-items: center;
+        background: linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.3)), url("https://res.cloudinary.com/dotekofm5/image/upload/v1761402106/thankjapan/backgrounds/jtbdzjsksgbgehuxl954.jpg");
+        background-position: center 30%; background-size: cover; color: #fff; text-align: center;
+        mask-image: linear-gradient(to bottom, black 85%, transparent 100%);
+        -webkit-mask-image: linear-gradient(to bottom, black 85%, transparent 100%);
+    }
+    .hero h1 { font-size: 3.5rem; letter-spacing: 8px; text-shadow: 0 2px 20px rgba(0,0,0,0.8); }
+    .hero p { font-size: 1.2rem; background: rgba(0,0,0,0.5); padding: 10px 30px; border-radius: 50px; margin: 20px 0; }
+
+    .explore-btn {
+        background: linear-gradient(135deg, #fff1b8, #ffd700, #e6b800, #d4af37);
+        color: #000; padding: 18px 80px; border-radius: 50px; font-weight: 700; font-size: 1.3rem;
+        letter-spacing: 2px; text-decoration: none; display: inline-block; box-shadow: 0 6px 18px rgba(212, 175, 55, 0.6);
+    }
+    .play-game-button { background: #556b2f; color: #fff; padding: 15px 30px; border-radius: 50px; text-decoration: none; font-weight: bold; display: inline-block; }
+
+    footer { background: #1f1f1f; text-align: center; padding: 60px 20px; font-size: 0.85rem; color: #777; }
+    .footer-links a { color: #777; text-decoration: none; margin: 0 10px; }
+
+    @media screen and (max-width: 1024px) {
+        body { padding-top: 140px !important; }
+        header.nav-bar { flex-direction: column; padding: 10px; gap: 8px; }
+        .logo, .auth-section, .sns-buttons, nav { width: 100%; justify-content: center; margin: 0; }
+        .auth-section { order: -1; padding-bottom: 5px; border-bottom: 1px solid #333; }
+        .main, .hero, .container, .category-container, .game-container, #game-area, [class*="main"], [class*="container"] {
+            margin-left: 0 !important; margin-right: 0 !important; width: 100% !important; max-width: 100% !important; left: 0 !important;
+        }
+    }
+
+    @media screen and (max-width: 480px) {
+        body { padding-top: 160px !important; }
+        .hero { height: auto; min-height: 400px; padding: 40px 15px; }
+        .hero h1 { font-size: 1.8rem; letter-spacing: 3px; }
+        .explore-btn { width: 85%; padding: 15px 20px; font-size: 1.1rem; }
+    }
+
+    .cookie-consent-banner {
+        position: fixed; bottom: 0; left: 0; width: 100%; background-color: rgba(0,0,0,0.95);
+        color: #eee; padding: 15px; z-index: 10001; display: none; flex-direction: column; align-items: center;
+    }
+    .cookie-consent-banner.show { display: flex; }
+    .cookie-consent-btn { padding: 8px 20px; background: #e63946; color: #fff; border: none; border-radius: 5px; margin-top: 10px; cursor: pointer; font-size: 0.8rem; font-weight: bold; }
+</style>
+
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id={{ GA_TRACKING_ID }}"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', '{{ GA_TRACKING_ID }}');
+    </script>
+
+    {% block extra_head %}{% endblock %}
+</head>
+
+<body>
+<header class="nav-bar">
+    <div class="logo">
+        <a class="logo-link" href="{% url 'toppagezhCN' %}">Thank Japan</a>
+    </div>
+
+    <!-- SNSボタン -->
+  <div class="sns-buttons">
+    <a href="https://x.com/thankjapan0514" target="_blank"><i class="fab fa-x twitter"></i></a>
+    <a href="https://www.instagram.com/thankjapan/" target="_blank"><i class="fab fa-instagram"></i></a>
+    <a href="https://www.facebook.com/ToruYone" target="_blank"><i class="fab fa-facebook"></i></a>
+    <a href="https://www.tiktok.com/@thankjapan" target="_blank"><i class="fab fa-tiktok"></i></a>
+    <a href="https://www.pinterest.com/yonetoru/" target="_blank"><i class="fab fa-pinterest"></i></a>
+    <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://www.thankjapan.com" target="_blank" title="Share on LinkedIn"><i class="fab fa-linkedin"></i></a>
+  </div>
+
+
+
+    <nav>
+        <div class="auth-section">
+            {% if user.is_authenticated %}
+                <div class="user-info">
+                    <span class="user-name">👤 {{ user.username }}</span>
+                    {% if user.profile.is_premium %}
+                        <span class="premium-badge">💎 Premium</span>
+                    {% else %}
+                        <a href="{% url 'premium_infozhCN' %}" class="upgrade-link">💎 Get Premium</a>
+                    {% endif %}
+                    <a href="{% url 'player_logout' %}" class="auth-btn logout">Logout</a>
+                </div>
+            {% else %}
+                <div class="guest-info">
+                    <span class="user-name">👤 Guest</span> 
+                    <a href="{% url 'player_login' %}" class="auth-btn login">Login</a>
+                    <a href="{% url 'player_register' %}" class="auth-btn signup">Sign Up Free 🚀</a>
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="dropdown">
+            <button class="dropbtn">学习日语 ▾</button>
+            <div class="dropdown-content">
+                <a href="{% url 'category_list_zhCN' %}">类别列表</a>
+            </div>
+        </div>
+
+        <a href="{% url 'game_start' %}" class="game-link">游戏</a>
+
+        <div class="lang-switch dropdown">
+            <button class="dropbtn">🌐 Language ▾</button>
+            <div class="dropdown-content">
+                <a href="{% url 'toppage' %}">English</a>
+                <a href="{% url 'toppageenIN' %}">English (India)</a>
+                <a href="{% url 'toppageit' %}">Italiano</a>
+                <a href="{% url 'toppagefr' %}">Français</a>
+                <a href="{% url 'toppagede' %}">Deutsch</a>
+                <a href="{% url 'toppagept' %}">Português</a>
+                <a href="{% url 'toppageptBR' %}">Português (Brasil)</a>
+                <a href="{% url 'toppageja' %}">日本語</a>
+                <a href="{% url 'toppageesES' %}">Español</a>
+                <a href="{% url 'toppageesMX' %}">Español (México)</a>
+                <a href="{% url 'toppagevi' %}">Tiếng Việt</a>
+                <a href="{% url 'toppageko' %}">한국어</a>
+                <a href="{% url 'toppageth' %}">ภาษาไทย</a>
+                <a href="{% url 'toppagezhHANT' %}">繁體中文</a>
+                <a href="{% url 'toppagezhCN' %}">简体中文</a>
+            </div>
+        </div>
+    </nav>
+</header>
+
+{% block content %}{% endblock %}
+
+<div id="cookieConsentBanner" class="cookie-consent-banner">
+    <p>本网站使用 Cookie 以改善您的体验并提供个性化内容。
+       点击“接受所有”即表示您同意存储 Cookie。您可以在我们的<a href="{% url 'privacy_policyzhCN' %}" class="cookie-policy-link">隐私政策</a>中找到更多详细信息。
+    </p>
+    <div class="cookie-consent-buttons">
+        <button id="acceptCookiesBtn" class="cookie-consent-btn accept-btn">接受所有 Cookie</button>
+        <button id="manageCookiesBtn" class="cookie-consent-btn manage-btn">管理偏好设置</button>
+    </div>
+</div>
+
+{% if user.is_authenticated and user.profile.privacy_policy_version != "2026-01" %}
+<div id="policyUpdateBanner" style="position: fixed; bottom: 0; left: 0; width: 100%; background: #b22d35; color: white; padding: 20px; z-index: 10002; text-align: center; box-shadow: 0 -5px 15px rgba(0,0,0,0.3);">
+    <p style="margin: 0 0 10px 0; font-size: 0.95rem; line-height: 1.5;">
+        <strong>隐私政策已更新 (2026年1月)</strong><br>
+        我们已更新关于高级订阅和 AI 使用的政策。请确认您同意新条款。
+    </p>
+    <div style="display: flex; justify-content: center; gap: 15px;">
+        <button onclick="agreeToPolicy()" style="padding: 10px 25px; background: white; color: #b22d35; border: none; border-radius: 25px; font-weight: bold; cursor: pointer; font-size: 0.9rem;">
+            我同意
+        </button>
+        <a href="{% url 'privacy_policyzhCN' %}" target="_blank" style="color: white; text-decoration: underline; font-size: 0.8rem; align-self: center;">阅读政策</a>
+    </div>
+</div>
+{% endif %}
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const dropdowns = document.querySelectorAll('.dropdown');
+    dropdowns.forEach(dropdown => {
+        const btn = dropdown.querySelector('.dropbtn');
+        const content = dropdown.querySelector('.dropdown-content');
+        btn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            const isOpen = content.style.display === 'block';
+            document.querySelectorAll('.dropdown-content').forEach(dc => dc.style.display = 'none');
+            content.style.display = isOpen ? 'none' : 'block';
+        });
+    });
+    document.addEventListener('click', function() {
+        document.querySelectorAll('.dropdown-content').forEach(dc => dc.style.display = 'none');
+    });
+
+    const cookieBanner = document.getElementById('cookieConsentBanner');
+    const acceptBtn = document.getElementById('acceptCookiesBtn');
+    const manageBtn = document.getElementById('manageCookiesBtn');
+
+    function getCookie(name) {
+        const nameEQ = name + "=";
+        const ca = document.cookie.split(';');
+        for(let i=0; i < ca.length; i++) {
+            let c = ca[i];
+            while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+            if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+        }
+        return null;
+    }
+
+    function setCookie(name, value, days) {
+        let expires = "";
+        if (days) {
+            const date = new Date();
+            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+            expires = "; expires=" + date.toUTCString();
+        }
+        document.cookie = name + "=" + (value || "")  + expires + "; path=/";
+    }
+
+    if (!getCookie('cookie_consent')) {
+        setTimeout(() => { cookieBanner.classList.add('show'); }, 1000);
+    }
+
+    acceptBtn.addEventListener('click', function() {
+        setCookie('cookie_consent', 'accepted', 365);
+        cookieBanner.classList.remove('show');
+    });
+
+    manageBtn.addEventListener('click', function() {
+        window.location.href = "{% url 'privacy_policyzhCN' %}#cookie-settings"; 
+    });
+});
+
+function agreeToPolicy() {
+    fetch("{% url 'update_policy_agreement' %}", {
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': '{{ csrf_token }}',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ version: "2026-01" })
+    }).then(response => {
+        if (response.ok) {
+            const banner = document.getElementById('policyUpdateBanner');
+            if (banner) banner.style.display = 'none';
+        }
+    });
+}
+</script>
+
+</body>
+</html>

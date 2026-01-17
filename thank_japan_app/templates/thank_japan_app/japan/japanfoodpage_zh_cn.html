@@ -1,0 +1,34 @@
+{% extends 'base/base_zh_cn.html' %}
+
+{% block title %}日本美食大全 | 寿司、拉面、天妇罗、和菓子与传统日式料理指南 | ThankJapan{% endblock %}
+{% block og_title %}深入日本美食世界 - 寿司、拉面、天妇罗、街头小吃、和菓子与正宗日式料理 | ThankJapan{% endblock %}
+{% block og_description %}探索日本美食的每一个角落：从地道寿司、浓郁拉面、酥脆天妇罗，到传统和菓子与街头小吃。掌握最正宗的日式食谱、烹饪技巧与文化故事，让你在家也能体验日本风味与美食魅力。{% endblock %}
+{% block og_url %}{{ request.build_absolute_uri }}{% endblock %}
+{% block description %}全面体验日本美食：寿司、拉面、天妇罗、和菓子、日式街头小吃与传统料理。了解每道美食的历史背景、地道食材与制作秘诀，发掘日本料理文化的精髓，享受最地道的日本味道与餐饮魅力。{% endblock %}
+
+{% block hreflang_tags %}
+    <link rel="alternate" hreflang="en" href="https://www.thankjapan.com/japanfood/">
+    <link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/japanfood/ja/">
+    <link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/japanfood/vi/">
+    <link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/japanfood/fr/">
+    <link rel="alternate" hreflang="it" href="https://www.thankjapan.com/japanfood/it/">
+    <link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/japanfood/pt/">
+    <link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/japanfood/zh-hant/">
+    <link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/japanfood/ko/">
+    <link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/japanfood/es-es/">
+    <link rel="alternate" hreflang="de" href="https://www.thankjapan.com/japanfood/de/">
+    <link rel="alternate" hreflang="th" href="https://www.thankjapan.com/japanfood/th/">
+    <link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/japanfood/pt-br/">
+    <link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/japanfood/es-mx/">
+    <link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/japanfood/en-in/">
+    <link rel="alternate" hreflang="zh-cn" href="https://www.thankjapan.com/japanfood/zh-cn/">
+    <link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/japanfood/">
+
+{% endblock %}
+
+
+{% block content %}
+
+ {% include 'jpfood/japanfood_zh_cn.html' %}
+
+{% endblock %}

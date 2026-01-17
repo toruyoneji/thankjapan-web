@@ -1,51 +1,51 @@
 from django.urls import path
 from django.contrib.auth import views as auth_views
-from .views import (TopView, TopViewFR, TopViewIT, TopViewPT, TopViewZHHANT,TopViewKO, TopViewESES,
+from .views import (TopView, TopViewFR, TopViewIT, TopViewPT, TopViewZHHANT,TopViewKO, TopViewESES, TopViewZHCN,
                     TopViewDE, TopViewTH, TopViewPTBR, TopViewESMX, TopViewENIN, TopViewJA, TopViewVI, account_settings_redirect,
                     FoodView, NatureView, FashionView, 
                     CultureView, CookView, AppliancesView, AnimalView,
                     CategoryDetailView, BuildingView, FlowerView, HouseholdItemsView,LiveView,
                     SportsView, WorkView,  game_start, game_play, game_next_question,
                     game_answer, game_result, game_restart, player_login, player_logout, delete_player_confirm,
-                    player_register, delete_player,  contact_view, contact_thanks, category_list, category_list_zhhant,
+                    player_register, delete_player,  contact_view, contact_thanks, category_list, category_list_zhhant, category_list_zhcn,
                     category_list_vi, category_list_th, category_list_pt, category_list_pt_br, category_list_ko, 
                     category_list_ja, category_list_it, category_list_fr, category_list_es_mx, category_list_es_es,
                     category_list_en_in, category_list_de, DailyConversationView, BusinessJapaneseView, 
                     LivingInJapanView, MedicalEmergencyView, RealestateRulesView, ImgPremiumDetailView,
                     JapanFoodView,JapanFoodDEView, JapanFoodENINView, JapanFoodESESView,
                     JapanFoodESMXView, JapanFoodFRView, JapanFoodITView, JapanFoodJAView ,JapanFoodKOView,
-                    JapanFoodPTBRView, JapanFoodPTView, JapanFoodTHView, JapanFoodVIView, JapanFoodZHHANTView,
+                    JapanFoodPTBRView, JapanFoodPTView, JapanFoodTHView, JapanFoodVIView, JapanFoodZHHANTView, JapanFoodZHCNView,
                     JapanCultureView, JapanCultureDEView, JapanCultureENINView, JapanCultureESESView,
                     JapanCultureESMXView, JapanCultureFRView,JapanCultureITView, JapanCultureJAView,JapanCultureKOView,
-                    JapanCulturePTBRView,JapanCulturePTView,JapanCultureTHView,JapanCultureVIView,
+                    JapanCulturePTBRView,JapanCulturePTView,JapanCultureTHView,JapanCultureVIView, JapanCultureZHCNView,
                     JapanCultureZHHANTView, CompanyFormView, CompanyFormDEView, CompanyFormENINView, CompanyFormESESView,
                     CompanyFormESMXView, CompanyFormFRView, CompanyFormITView, CompanyFormJAView, CompanyFormKOView,
-                    CompanyFormPTBRView, CompanyFormPTView, CompanyFormTHView, CompanyFormVIView, CompanyFormZHHANTView, 
+                    CompanyFormPTBRView, CompanyFormPTView, CompanyFormTHView, CompanyFormVIView, CompanyFormZHHANTView, CompanyFormZHCNView, 
                     LegalNoticeView, LegalNoticeDEView, LegalNoticeENINView, LegalNoticeESESView, LegalNoticeESMXView,
                     LegalNoticeFRView, LegalNoticeITView, LegalNoticeJAView, LegalNoticeKOView, LegalNoticePTBRView,
-                    LegalNoticePTView, LegalNoticeTHView, LegalNoticeVIView, LegalNoticeZHHANTView,
+                    LegalNoticePTView, LegalNoticeTHView, LegalNoticeVIView, LegalNoticeZHHANTView, LegalNoticeZHCNView,
                     KiyakuView, KiyakuDEView, KiyakuENINView, KiyakuESESView, KiyakuESMXView, KiyakuFRView,
                     KiyakuITView, KiyakuJAView, KiyakuKOView, KiyakuPTBRView, KiyakuPTView, KiyakuTHView,
-                    KiyakuVIView, KiyakuZHHANTView,
+                    KiyakuVIView, KiyakuZHHANTView, KiyakuZHCNView,
                     PrivacyPolicy, PrivacyPolicyDE, PrivacyPolicyENIN, PrivacyPolicyESES, PrivacyPolicyESMX,
                     PrivacyPolicyFR, PrivacyPolicyIT, PrivacyPolicyJA, PrivacyPolicyKO, PrivacyPolicyPT,
-                    PrivacyPolicyPTBR, PrivacyPolicyTH, PrivacyPolicyVI, PrivacyPolicyZHHANT,
+                    PrivacyPolicyPTBR, PrivacyPolicyTH, PrivacyPolicyVI, PrivacyPolicyZHHANT, PrivacyPolicyZHCN,
                     update_premium_status, delete_account, downgrade_premium, 
                     premium_info, premium_infoDE, premium_infoENIN, premium_infoESES, premium_infoESMX,
                     premium_infoFR, premium_infoIT, premium_infoJA, premium_infoKO, premium_infoPT,
-                    premium_infoPTBR, premium_infoTH, premium_infoVI, premium_infoZHHANT,
+                    premium_infoPTBR, premium_infoTH, premium_infoVI, premium_infoZHHANT, premium_infoZHCN,
                     thank_you, thank_youDE, thank_youENIN, thank_youESES, thank_youESMX, thank_youFR,
                     thank_youIT, thank_youJA, thank_youKO, thank_youPT, thank_youPTBR, thank_youTH,
-                    thank_youVI, thank_youZHHANT,
+                    thank_youVI, thank_youZHHANT, thank_youZHCN,
                     account_settings, account_settingsDE, account_settingsENIN, account_settingsESES,
                     account_settingsESMX, account_settingsFR, account_settingsIT, account_settingsJA,
                     account_settingsKO, account_settingsPT, account_settingsPTBR, account_settingsTH,
-                    account_settingsVI, account_settingsZHHANT,
-                    delete_success, delete_successDE, delete_successENIN, delete_successESES,
+                    account_settingsVI, account_settingsZHHANT, account_settingsZHCN,
+                    delete_success, delete_successDE, delete_successENIN, delete_successESES, delete_successZHCN,
                     delete_successESMX, delete_successFR, delete_successIT, delete_successJA, delete_successKO,
                     delete_successPT, delete_successPTBR, delete_successTH, delete_successVI, delete_successZHHANT,
                     downgrade_success, downgrade_successDE, downgrade_successENIN, downgrade_successESES,
-                    downgrade_successESMX, downgrade_successFR, downgrade_successIT, downgrade_successJA,
+                    downgrade_successESMX, downgrade_successFR, downgrade_successIT, downgrade_successJA, downgrade_successZHCN,
                     downgrade_successKO, downgrade_successPT, downgrade_successPTBR, downgrade_successTH,
                     downgrade_successVI, downgrade_successZHHANT, update_policy_agreement, paypal_webhook) 
 
@@ -59,6 +59,7 @@ urlpatterns = [
     path('it/', TopViewIT.as_view(), name='toppageit'),
     path('pt/', TopViewPT.as_view(), name='toppagept'),
     path('zh-hant/', TopViewZHHANT.as_view(), name='toppagezhHANT'),
+    path('zh-cn/', TopViewZHCN.as_view(), name='toppagezhCN'),
     path('ko/', TopViewKO.as_view(), name='toppageko'),
     path('es-es/', TopViewESES.as_view(), name='toppageesES'),
     path('de/', TopViewDE.as_view(), name='toppagede'),
@@ -84,6 +85,7 @@ urlpatterns = [
     path('premium/th/', premium_infoTH, name='premium_infoth'),
     path('premium/vi/', premium_infoVI, name='premium_infovi'),
     path('premium/zh-hant/', premium_infoZHHANT, name='premium_infozhHANT'),
+    path('premium/zh-cn/', premium_infoZHCN, name='premium_infozhCN'),
     
     #thankyou
     path('thank-you/', thank_you, name='thank_you'),
@@ -100,6 +102,7 @@ urlpatterns = [
     path('thank-you/th/', thank_youTH, name='thank_youth'),
     path('thank-you/vi/', thank_youVI, name='thank_youvi'),
     path('thank-you/zh-hant/', thank_youZHHANT, name='thank_youzhHANT'),
+    path('thank-you/zh-cn/', thank_youZHCN, name='thank_youzhCN'),
     
     #account-settings
     path('account/settings/', account_settings, name='account_settings'),
@@ -116,6 +119,7 @@ urlpatterns = [
     path('account/settings/th/', account_settingsTH, name='account_settingsth'),
     path('account/settings/vi/', account_settingsVI, name='account_settingsvi'),
     path('account/settings/zh-hant/', account_settingsZHHANT, name='account_settingszhHANT'),
+    path('account/settings/zh-cn/', account_settingsZHCN, name='account_settingszhCN'),
     
     #delete-success
     path('account/delete-success/', delete_success, name='delete_success'),
@@ -132,6 +136,7 @@ urlpatterns = [
     path('account/delete-success/th/', delete_successTH, name='delete_successth'),
     path('account/delete-success/vi/', delete_successVI, name='delete_successvi'),
     path('account/delete-success/zh-hant/', delete_successZHHANT, name='delete_successzhHANT'),
+    path('account/delete-success/zh-cn/', delete_successZHCN, name='delete_successzhCN'),
     
     #downgrade
     path('account/downgrade-success/', downgrade_success, name='downgrade_success'),
@@ -148,6 +153,7 @@ urlpatterns = [
     path('account/downgrade-success/th/', downgrade_successTH, name='downgrade_successth'),
     path('account/downgrade-success/vi/', downgrade_successVI, name='downgrade_successvi'),
     path('account/downgrade-success/zh-hant/', downgrade_successZHHANT, name='downgrade_successzhHANT'),
+    path('account/downgrade-success/zh-cn/', downgrade_successZHCN, name='downgrade_successzhCN'),
     
     
     #premium-status
@@ -181,6 +187,7 @@ urlpatterns = [
     path('japanfood/th/', JapanFoodTHView.as_view(), name='japanfoodth'),
     path('japanfood/vi/', JapanFoodVIView.as_view(), name='japanfoodvi'),
     path('japanfood/zh-hant/', JapanFoodZHHANTView.as_view(), name='japanfoodzhHANT'),
+    path('japanfood/zh-cn/', JapanFoodZHCNView.as_view(), name='japanfoodzhCN'),
     
     
     #japanculture
@@ -198,6 +205,7 @@ urlpatterns = [
     path('japanculture/th/', JapanCultureTHView.as_view(), name='japancultureth'),
     path('japanculture/vi/', JapanCultureVIView.as_view(), name='japanculturevi'),
     path('japanculture/zh-hant/', JapanCultureZHHANTView.as_view(), name='japanculturezhHANT'),
+    path('japanculture/zh-cn/', JapanCultureZHCNView.as_view(), name='japanculturezhCN'),
     
     #game
     path('game/start/', game_start, name='game_start'),
@@ -215,6 +223,7 @@ urlpatterns = [
     #category select page
     path("categories/", category_list, name="category_list"),
     path("categories/zh-hant/", category_list_zhhant, name="category_list_zhHant"),
+    path("categories/zh-cn/", category_list_zhcn, name="category_list_zhCN"),
     path("categories/vi/", category_list_vi, name="category_list_vi"),
     path("categories/th/", category_list_th, name="category_list_th"),
     path("categories/pt/", category_list_pt, name="category_list_pt"),
@@ -259,6 +268,7 @@ urlpatterns = [
     path("riyoukiyaku/th/", KiyakuTHView.as_view(), name="riyoukiyakuth"),
     path("riyoukiyaku/vi/", KiyakuVIView.as_view(), name="riyoukiyakuvi"),
     path("riyoukiyaku/zh-hant/", KiyakuZHHANTView.as_view(), name="riyoukiyakuzhHANT"),
+    path("riyoukiyaku/zh-cn/", KiyakuZHCNView.as_view(), name="riyoukiyakuzhCN"),
     
     #infomation
     path("infomation/", CompanyFormView.as_view(), name="infomationpage"),
@@ -275,6 +285,7 @@ urlpatterns = [
     path("infomation/th/", CompanyFormTHView.as_view(), name="infomationpageth"),
     path("infomation/vi/", CompanyFormVIView.as_view(), name="infomationpagevi"),
     path("infomation/zh-hant/", CompanyFormZHHANTView.as_view(), name="infomationpagezhHANT"),
+    path("infomation/zh-cn/", CompanyFormZHCNView.as_view(), name="infomationpagezhCN"),
     
     
     #legalnotice
@@ -292,6 +303,7 @@ urlpatterns = [
     path('legal-notice/th/', LegalNoticeTHView.as_view(), name='legal_noticeth'),
     path('legal-notice/vi/', LegalNoticeVIView.as_view(), name='legal_noticevi'),
     path('legal-notice/zh-hant/', LegalNoticeZHHANTView.as_view(), name='legal_noticezhHANT'),
+    path('legal-notice/zh-cn/', LegalNoticeZHCNView.as_view(), name='legal_noticezhCN'),
     
     #update-privacypolicy
     path('update-policy-agreement/', update_policy_agreement, name='update_policy_agreement'),
@@ -311,6 +323,7 @@ urlpatterns = [
     path('privacy-policy/th/', PrivacyPolicyTH.as_view(), name="privacy_policyth"),
     path('privacy-policy/vi/', PrivacyPolicyVI.as_view(), name="privacy_policyvi"),
     path('privacy-policy/zh-hant/', PrivacyPolicyZHHANT.as_view(), name="privacy_policyzhHANT"),
+    path('privacy-policy/zh-cn/', PrivacyPolicyZHCN.as_view(), name="privacy_policyzhCN"),
     
     
     #contact

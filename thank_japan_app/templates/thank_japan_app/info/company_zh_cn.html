@@ -1,0 +1,133 @@
+{% extends 'base/base_zh_cn.html' %}
+{% load static %}
+
+{% block title %}公司信息{% endblock %}
+
+{% block hreflang_tags %}
+     <link rel="alternate" hreflang="en" href="https://www.thankjapan.com/infomation/">
+    <link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/infomation/ja/">
+    <link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/infomation/vi/">
+    <link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/infomation/fr/">
+    <link rel="alternate" hreflang="it" href="https://www.thankjapan.com/infomation/it/">
+    <link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/infomation/pt/">
+    <link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/infomation/zh-hant/">
+    <link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/infomation/ko/">
+    <link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/infomation/es-es/">
+    <link rel="alternate" hreflang="de" href="https://www.thankjapan.com/infomation/de/">
+    <link rel="alternate" hreflang="th" href="https://www.thankjapan.com/infomation/th/">
+    <link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/infomation/pt-br/">
+    <link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/infomation/es-mx/">
+    <link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/infomation/en-in/">
+    <link rel="alternate" hreflang="zh-cn" href="https://www.thankjapan.com/infomation/zh-cn/">
+    <link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/infomation/">
+
+{% endblock %}
+
+{% block content %}
+<style>
+  .main2 {
+    max-width: 800px;
+    margin: 40px auto;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #222;
+    background: #fff;
+    padding: 30px 40px;
+    border-radius: 14px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+  }
+
+  .main2 h1 {
+    font-size: 2.8rem;
+    font-weight: 700;
+    color: #f27a54;
+    margin-bottom: 0.4em;
+    padding-top: 50px;
+    text-align: center;
+    text-shadow: 1px 1px 3px rgba(242, 122, 84, 0.5);
+  }
+
+  hr {
+    border: none;
+    border-top: 2px solid #f27a54;
+    margin: 1.8em 0;
+    opacity: 0.7;
+  }
+
+  h2 {
+    color: #f27a54;
+    font-weight: 700;
+    margin-top: 1.8em;
+    margin-bottom: 0.6em;
+    border-left: 6px solid #f27a54;
+    padding-left: 12px;
+    font-size: 1.6rem;
+  }
+
+  ul {
+    list-style-type: square;
+    padding-left: 20px;
+    color: #444;
+    font-size: 1.1rem;
+  }
+
+  ul li {
+    margin-bottom: 0.5em;
+  }
+
+  p {
+    font-size: 1.15rem;
+    line-height: 1.6;
+    color: #555;
+  }
+
+  a.anchor {
+    color: #f27a54;
+    font-weight: 700;
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+
+  a.anchor:hover {
+    color: yellowgreen;
+    text-decoration: underline;
+  }
+
+  /* Legal Notice h3 styling */
+  h2 a h3 {
+    display: inline-block;
+    margin: 0;
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: inherit;
+  }
+</style>
+
+<div class="main2">
+    <h1>公司信息</h1>
+    <hr>
+
+    <h2>公司</h2>
+    <ul>
+        <li><strong>公司名称：</strong> ThankJapan</li>      
+        <li><strong>公司地址：</strong> 日本石川县金泽市</li>
+    </ul>
+    <hr>
+
+    <h2>公司简介</h2>
+    <p>ThankJapan 是一个致力于向世界分享日本之美与精神的全球学习平台。我们独特的方法不仅关注传统日本文化，还关注普遍概念如何在日语中表达。我们相信通过理解这些联系，您可以获得对日本更深层的洞察，提升语言技能并增进跨文化欣赏。</p>
+    <p>加入我们，探索从日常物品到商务礼仪的一切内容。我们为寻求专业商务技能和日本实用生活见解的人士提供优质的学习体验。ThankJapan 是您通过全球视角体验日本的指南。</p>
+    <hr>
+    <p>我们使用 Cookie 来确保安全支付、记录您的学习进度并改善您的体验。继续浏览即表示您同意我们使用 Cookie。</p>
+    <hr>
+
+    <h2><a class="anchor" href="{% url 'riyoukiyakuzhCN' %}">使用条款</a></h2>
+    <hr>
+
+    <h2><a class="anchor" href="{% url 'legal_noticezhCN' %}">法律声明</a></h2>
+    <hr>
+
+    <h2><a class="anchor" href="{% url 'privacy_policyzhCN' %}">隐私政策</a></h2>
+    <hr>
+
+    <h2><a class="anchor" href="{% url 'contact' %}">联系我们</a></h2>
+</div>

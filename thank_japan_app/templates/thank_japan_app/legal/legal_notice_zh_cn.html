@@ -1,0 +1,138 @@
+{% extends 'base/base_zh_cn.html' %}
+
+{% block title %}法律声明 | Japan Introduction{% endblock %}
+
+{% block hreflang_tags %}
+    <link rel="alternate" hreflang="en" href="https://www.thankjapan.com/legal-notice/">
+    <link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/legal-notice/ja/">
+    <link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/legal-notice/vi/">
+    <link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/legal-notice/fr/">
+    <link rel="alternate" hreflang="it" href="https://www.thankjapan.com/legal-notice/it/">
+    <link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/legal-notice/pt/">
+    <link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/legal-notice/zh-hant/">
+    <link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/legal-notice/ko/">
+    <link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/legal-notice/es-es/">
+    <link rel="alternate" hreflang="de" href="https://www.thankjapan.com/legal-notice/de/">
+    <link rel="alternate" hreflang="th" href="https://www.thankjapan.com/legal-notice/th/">
+    <link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/legal-notice/pt-br/">
+    <link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/legal-notice/es-mx/">
+    <link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/legal-notice/en-in/">
+    <link rel="alternate" hreflang="zh-cn" href="https://www.thankjapan.com/legal-notice/zh-cn/">
+    <link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/legal-notice/">
+
+{% endblock %}
+
+{% block content %}
+<style>
+    body {
+        background: linear-gradient(135deg, #f6f9fc, #eef3f8);
+        font-family: 'Helvetica Neue', 'Noto Sans JP', sans-serif;
+    }
+
+    .legal-container {
+        max-width: 850px;
+        margin: 70px auto;
+        background: #fff;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+        border-radius: 16px;
+        padding: 50px 60px;
+        color: #333;
+        line-height: 1.9;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .legal-container::before {
+        content: "";
+        position: absolute;
+        top: -80px;
+        right: -80px;
+        width: 200px;
+        height: 200px;
+        background: radial-gradient(circle at center, #009cde33 0%, transparent 70%);
+        border-radius: 50%;
+        z-index: 0;
+    }
+
+    .legal-container h2 {
+        color: #0068b4;
+        font-size: 1.8rem;
+        margin-bottom: 20px;
+        border-left: 5px solid #009cde;
+        padding-left: 15px;
+        position: relative;
+        z-index: 1;
+    }
+
+    .legal-container section {
+        margin-bottom: 45px;
+        position: relative;
+        z-index: 1;
+        background: #fafcff;
+        padding: 25px 30px;
+        border-radius: 12px;
+        border: 1px solid #e3ecf3;
+        transition: all 0.3s ease;
+    }
+
+    .legal-container section:hover {
+        background: #f5faff;
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(0, 156, 222, 0.08);
+    }
+
+    .legal-container p {
+        margin: 8px 0 14px;
+    }
+
+    .legal-container strong {
+        color: #111;
+        font-weight: 600;
+    }
+
+    .btn-more {
+            display: inline-block;
+            background: #ffb347;
+            color: white;
+            padding: 10px 24px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 20px;
+            transition: background 0.3s;
+        }
+        .btn-more:hover {
+            background: #ff9642;
+        }
+    
+
+    @media (max-width: 600px) {
+        .legal-container {
+            padding: 35px 25px;
+        }
+    }
+</style>
+
+<div class="legal-container" style="max-width: 800px; margin: 150px auto; padding: 20px; text-align: left; font-family: sans-serif; line-height: 1.6;">
+    <h2 style="text-align: center; color: #b22d35;">法律公告（特定商业交易法）</h2>
+
+    <section style="background: white; padding: 30px; border: 1px solid #ddd; border-radius: 8px;">
+        <p><strong>经营者：</strong><br>Japan Introduction (ThankJapan)</p>
+        <p><strong>代表人：</strong><br>Toru Yonejima</p>
+        <p><strong>营业地址：</strong><br>Moroemachi Nakacho, Kanazawa City, Ishikawa 920-0016, Japan</p>
+        <p><strong>电话号码：</strong><br>+81 80-8699-7640<br><span style="font-size: 0.8rem; color: #666;">※如有咨询，请通过电子邮件与我们联系，以便快速回复。</span></p>
+        <p><strong>电子邮件：</strong><br>yonetoru0@gmail.com</p>
+        <p><strong>销售价格：</strong><br>如方案选择页面所示（含税）。</p>
+        <p><strong>额外费用：</strong><br>无（网络连接费用由用户负担）。</p>
+        <p><strong>服务提供时间：</strong><br>支付/注册流程完成后，服务立即生效。</p>
+        <p><strong>支付方式：</strong><br>信用卡 / 借记卡（通过 PayPal）。</p>
+        <p><strong>支付时间：</strong><br>首次支付在订阅时立即处理。后续支付将在每月的同一日期自动扣款。</p>
+        <p><strong>退货 / 取消政策：</strong><br>由于数字服务的性质，我们不接受付款后的退款。您可以随时通过“账户设置”页面取消订阅。取消将于下一个计费周期生效。</p>
+    </section>
+
+    <div style="text-align:center; margin:50px 0;">
+        <a href="{% url 'toppagezhCN' %}" class="btn-more">← 返回首页</a>
+    </div>
+</div>
+
+{% endblock %}

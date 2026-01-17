@@ -1,0 +1,67 @@
+{% extends 'base/base_zh_cn.html' %}
+{% block content %}
+<style>
+    .thank-you-container {
+        margin-top: 150px;
+        text-align: center;
+        padding: 50px 20px;
+        min-height: 60vh;
+    }
+    .thank-you-card {
+        background: white;
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 50px 40px;
+        border: 4px solid #d4af37;
+        border-radius: 15px;
+        box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+    }
+    .thank-you-card h1 {
+        color: #b22d35;
+        font-family: 'Zen Antique', serif;
+        font-size: 2.2rem;
+        margin-bottom: 10px;
+    }
+    .thank-you-card h2 {
+        font-size: 1.5rem;
+        color: #5d5245;
+        margin-bottom: 25px;
+    }
+    .thank-you-card p {
+        font-size: 1.1rem;
+        margin: 20px 0;
+        line-height: 1.8;
+        color: #333;
+    }
+    .back-home-btn {
+        display: inline-block;
+        background: linear-gradient(135deg, #d4af37, #ffd700);
+        color: black;
+        padding: 16px 45px;
+        border-radius: 35px;
+        text-decoration: none;
+        font-weight: bold;
+        font-size: 1.1rem;
+        margin-top: 25px;
+        box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
+        transition: transform 0.3s ease;
+    }
+    .back-home-btn:hover {
+        transform: translateY(-3px);
+        filter: brightness(1.1);
+    }
+</style>
+
+<div class="thank-you-container">
+    <div class="thank-you-card">
+        <h1>欢迎加入 Premium！</h1>
+        <h2>您在日本的未来从这里开始。</h2>
+        <p>
+            感谢您的支持！您的付款已成功完成。<br>
+            您现在可以无限访问所有类别，包括 <br>
+            <strong>商务日语</strong> 和 <strong>生活实用日语</strong>。
+        </p>
+        <a href="{% url 'toppagezhCN' %}?status=premium_success" class="back-home-btn">返回首页并开始探索 🌸</a>
+    </div>
+</div>
+{% endblock %}

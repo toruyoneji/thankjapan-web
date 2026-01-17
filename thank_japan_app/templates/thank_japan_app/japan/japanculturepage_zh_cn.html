@@ -1,0 +1,34 @@
+{% extends 'base/base_zh_cn.html' %}
+
+{% block title %}探索日本文化 | 城堡、庭园、节庆与传统 | ThankJapan{% endblock %}
+{% block og_title %}发现日本丰富的文化 - 城堡、庭园、节庆与日常生活 | ThankJapan{% endblock %}
+{% block og_description %}深入了解日本的文化遗产。探索历史城堡、宁静庭园、季节性节庆、传统艺术以及使日本独特的日常生活。{% endblock %}
+{% block og_url %}{{ request.build_absolute_uri }}{% endblock %}
+{% block description %}体验日本不只是美食。了解历史城堡、美丽庭园、充满活力的节庆、传统工艺，以及定义日本文化的迷人习俗。{% endblock %}
+
+{% block hreflang_tags %}
+    <link rel="alternate" hreflang="en" href="https://www.thankjapan.com/japanculture/">
+    <link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/japanculture/ja/">
+    <link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/japanculture/vi/">
+    <link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/japanculture/fr/">
+    <link rel="alternate" hreflang="it" href="https://www.thankjapan.com/japanculture/it/">
+    <link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/japanculture/pt/">
+    <link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/japanculture/zh-hant/">
+    <link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/japanculture/ko/">
+    <link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/japanculture/es-es/">
+    <link rel="alternate" hreflang="de" href="https://www.thankjapan.com/japanculture/de/">
+    <link rel="alternate" hreflang="th" href="https://www.thankjapan.com/japanculture/th/">
+    <link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/japanculture/pt-br/">
+    <link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/japanculture/es-mx/">
+    <link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/japanculture/en-in/">
+    <link rel="alternate" hreflang="zh-cn" href="https://www.thankjapan.com/japanculture/zh-cn/">
+    <link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/japanculture/">
+
+{% endblock %}
+
+
+{% block content %}
+
+ {% include 'jpculture/japanculture_zh_cn.html' %}
+
+{% endblock %}

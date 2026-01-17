@@ -1,0 +1,11 @@
+{% extends 'base/base_zh_cn.html' %}
+{% block content %}
+<div style="text-align: center; margin-top: 200px; padding: 20px; font-family: 'Zen Antique', serif;">
+    <h1 style="color: #7a7a7a;">账户已删除</h1>
+    <p>您的所有数据已移除。期待再次见到您！</p>
+    <script>
+        // 3秒後に簡体字トップページへリダイレクト
+        setTimeout(function() { window.location.href = "{% url 'toppagezhCN' %}"; }, 3000);
+    </script>
+</div>
+{% endblock %}

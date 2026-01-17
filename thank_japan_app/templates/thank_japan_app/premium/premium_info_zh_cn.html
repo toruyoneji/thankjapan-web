@@ -1,0 +1,303 @@
+{% extends 'base/base_zh_cn.html' %}
+
+{% block title %}升级至 Premium | 精通日语 | ThankJapan{% endblock %}
+
+{% block meta %}
+    <meta name="description" content="解锁高级日语课程。通过 Premium 权限精通商务日语和日常会话。">
+    <meta name="robots" content="index,follow">
+    {{ block.super }} 
+{% endblock %}
+
+{% block extra_head %}
+    <link rel="alternate" hreflang="en" href="https://www.thankjapan.com/premium/">
+    <link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/premium/ja/">
+    <link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/premium/vi/">
+    <link rel="alternate" hreflang="en-IN" href="https://www.thankjapan.com/premium/en-in/">
+    <link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/premium/fr/">
+    <link rel="alternate" hreflang="it" href="https://www.thankjapan.com/premium/it/">
+    <link rel="alternate" hreflang="pt-PT" href="https://www.thankjapan.com/premium/pt/">
+    <link rel="alternate" hreflang="pt-BR" href="https://www.thankjapan.com/premium/pt-br/">
+    <link rel="alternate" hreflang="zh-Hant" href="https://www.thankjapan.com/premium/zh-hant/">
+    <link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/premium/ko/">
+    <link rel="alternate" hreflang="es-ES" href="https://www.thankjapan.com/premium/es-es/">
+    <link rel="alternate" hreflang="es-MX" href="https://www.thankjapan.com/premium/es-mx/">
+    <link rel="alternate" hreflang="de" href="https://www.thankjapan.com/premium/de/">
+    <link rel="alternate" hreflang="th" href="https://www.thankjapan.com/premium/th/">
+    <link rel="alternate" hreflang="zh-cn" href="https://www.thankjapan.com/premium/zh-cn/">
+    <link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/premium/">
+{% endblock %}
+{% block content %}
+<style>
+    .premium-page {
+        max-width: 1000px;
+        margin: 30px auto;
+        padding: 20px;
+        color: #333;
+    }
+
+    .premium-header {
+        text-align: center;
+        margin-bottom: 40px;
+    }
+
+    .premium-header h1 {
+        font-size: 2.5rem;
+        color: #b22d35;
+        font-family: 'Zen Antique', serif;
+        margin-bottom: 10px;
+    }
+
+    .pricing-container {
+        display: flex;
+        justify-content: center;
+        gap: 25px;
+        flex-wrap: wrap;
+    }
+
+    .plan-card {
+        background: #fff;
+        border: 4px solid #5d5245;
+        border-radius: 8px;
+        width: 310px;
+        padding: 30px;
+        text-align: center;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        display: flex;
+        flex-direction: column;
+    }
+
+    .plan-card.featured {
+        border-color: #d4af37;
+        background: #fffdf0;
+        box-shadow: 0 15px 30px rgba(212, 175, 55, 0.3);
+    }
+
+    .plan-badge {
+        background: #d4af37;
+        color: #fff;
+        padding: 4px 12px;
+        font-size: 0.75rem;
+        font-weight: bold;
+        border-radius: 20px;
+        display: inline-block;
+        margin-bottom: 10px;
+    }
+
+    .plan-name {
+        font-size: 1.6rem;
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+
+    .plan-price {
+        font-size: 2.2rem;
+        font-weight: bold;
+        margin-bottom: 20px;
+        color: #2c3e50;
+    }
+
+    .plan-price span {
+        font-size: 0.9rem;
+        color: #777;
+    }
+
+    .plan-features {
+        list-style: none;
+        padding: 0;
+        margin: 0 0 30px 0;
+        text-align: left;
+        flex-grow: 1;
+    }
+
+    .plan-features li {
+        padding: 8px 0;
+        border-bottom: 1px solid #eee;
+        font-size: 0.95rem;
+        display: flex;
+        align-items: center;
+    }
+
+    .plan-features li::before {
+        content: "✔️";
+        margin-right: 8px;
+    }
+
+    .plan-btn {
+        display: block;
+        padding: 14px;
+        text-decoration: none;
+        font-weight: bold;
+        border-radius: 30px;
+        transition: 0.3s;
+        font-size: 1rem;
+        text-align: center;
+    }
+
+    .free-btn {
+        background: #fef5d1;
+        color: #5d5245;      
+        border: 2px solid #5d5245;
+        transition: background 0.3s;
+    }
+
+    
+    .free-btn:hover {
+        background: #fbeba0;
+        color: #5d5245;
+    }
+
+    .btn-more {
+        display: inline-block;
+        background: #ffb347;
+        color: white;
+        padding: 10px 24px;
+        border-radius: 25px;
+        text-decoration: none;
+        font-weight: 600;
+        margin-top: 20px;
+        transition: background 0.3s;
+    }
+    
+    #paypal-button-container {
+        min-height: 150px;
+    }
+
+    .bottom-nav-zone {
+        margin-top: 60px;
+        padding-top: 30px;
+        border-top: 1px dashed #ddd;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+    }
+    .btn-manage-account {
+        display: inline-block;
+        background: #fef5d1;
+        color: #5d5245;
+        border: 2px solid #5d5245;
+        padding: 12px 30px;
+        border-radius: 30px;
+        text-decoration: none;
+        font-weight: bold;
+        font-size: 0.9rem;
+    }
+    .btn-back-home {
+        display: inline-block;
+        background: #7a7a7a;
+        color: white;
+        padding: 10px 40px;
+        border-radius: 25px;
+        text-decoration: none;
+        font-weight: 600;
+    }
+
+    .agreement-text {
+    font-size: 0.75rem;
+    color: #777;
+    margin-top: 15px;
+    margin-bottom: 10px;
+    line-height: 1.4;
+    }
+
+    .agreement-text a {
+    color: #b22d35; 
+    text-decoration: underline; 
+    }
+
+
+    @media (max-width: 1024px) {
+        .premium-page {
+            margin-top: 20px !important;
+            padding-top: 10px;
+        }
+        .pricing-container {
+            flex-direction: column;
+            align-items: center;
+        }
+        .plan-card {
+            width: 95%;
+            max-width: 350px;
+        }
+        .premium-header h1 {
+            font-size: 1.8rem;
+        }
+    }
+</style>
+
+<div class="premium-page">
+    <div class="premium-header">
+        <h1>升级至 Premium 💎</h1>
+        <p>为您在日本的工作与生活掌握实用日语。</p>
+    </div>
+
+    <div class="pricing-container">
+        <div class="plan-card">
+            <div class="plan-name">免费版</div>
+            <div class="plan-price">$0</div>
+            <ul class="plan-features">
+                <li>基础词汇</li>
+                <li>文化与美食测验</li>
+                <li>有限的游戏访问权限</li>
+                <li>社区排名</li>
+            </ul>
+            <a href="{% url 'player_register' %}" class="plan-btn free-btn">当前方案</a>
+        </div>
+
+        <div class="plan-card featured">
+            <div class="plan-badge">热门推荐</div>
+            <div class="plan-name">Premium</div>
+            <div class="plan-price">$5.00 <span>/ 每月</span></div>
+            <ul class="plan-features">
+                <li>掌握<strong>日常会话</strong></li>
+                <li><strong>商务</strong>日语</li>
+                <li>日本<strong>礼仪规范</strong></li>
+                <li>无广告体验</li>
+                <li>未来所有更新</li>
+            </ul>
+
+            <p class="agreement-text">
+                订阅即表示您同意我们的
+                <a href="{% url 'riyoukiyakuzhCN' %}" target="_blank">使用条款</a>和
+                <a href="{% url 'privacy_policyzhCN' %}" target="_blank">隐私政策</a>。
+            </p><br>
+            <div id="paypal-button-container"></div>
+        </div>
+    </div>
+
+    <div class="bottom-nav-zone">
+        {% if user.is_authenticated %}
+            <a href="{% url 'account_settingszhCN' %}" class="btn-manage-account">
+                管理个人资料 / 账户设置 ⚙️
+            </a>
+        {% endif %}
+        <a href="{% url 'toppagezhCN' %}" class="btn-back-home">
+            ← 返回首页
+        </a>
+    </div>
+</div>
+
+
+<script src="https://www.paypal.com/sdk/js?client-id={{ paypal_client_id }}&vault=true&intent=subscription&currency=USD"></script>
+<script>
+    paypal.Buttons({
+        style: { shape: 'rect', color: 'gold', layout: 'vertical', label: 'subscribe' },
+        createSubscription: function(data, actions) {
+            return actions.subscription.create({ 'plan_id': '{{ paypal_plan_id }}' });
+        },
+        onApprove: function(data, actions) {
+            document.getElementById('paypal-button-container').innerHTML = '<p style="color: #d4af37; font-weight: bold; padding: 20px;">正在更新账户...<br>请稍候。</p>';
+            fetch("{% url 'update_premium_status' %}", {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'X-CSRFToken': '{{ csrf_token }}' },
+                body: JSON.stringify({ subscriptionID: data.subscriptionID })
+            }).then(response => {
+                if (response.ok) {
+                    setTimeout(function() { window.location.href = "{% url 'thank_youzhCN' %}"; }, 3000);
+                }
+            });
+        },
+        onError: function (err) { alert('PayPal 发生错误。'); }
+    }).render('#paypal-button-container');
+</script>
+{% endblock %}
