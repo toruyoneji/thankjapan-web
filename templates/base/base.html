@@ -265,7 +265,6 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // --- 1. ドロップダウン（言語切替・学習メニュー共通）の処理 ---
     const dropdowns = document.querySelectorAll('.dropdown');
 
     dropdowns.forEach(dropdown => {
@@ -274,28 +273,23 @@ document.addEventListener('DOMContentLoaded', function() {
 
         if (btn && content) {
             btn.addEventListener('click', function(e) {
-                e.stopPropagation(); // 親要素へのクリック伝播を防ぐ
+                e.stopPropagation();
                 
-                // 他の開いているドロップダウンをすべて閉じる
                 document.querySelectorAll('.dropdown-content').forEach(dc => {
                     if (dc !== content) dc.classList.remove('show');
                 });
 
-                // クリックされたメニューの表示・非表示を切り替える
                 content.classList.toggle('show');
             });
         }
     });
 
-    // 画面のどこかをタップしたら全てのドロップダウンを閉じる
     document.addEventListener('click', function() {
         document.querySelectorAll('.dropdown-content').forEach(dc => {
             dc.classList.remove('show');
         });
     });
 
-
-    // --- 2. Cookieバナーの処理 ---
     const cookieBanner = document.getElementById('cookieConsentBanner');
     const acceptBtn = document.getElementById('acceptCookiesBtn');
     const manageBtn = document.getElementById('manageCookiesBtn');
@@ -334,13 +328,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
     if (manageBtn) {
         manageBtn.addEventListener('click', function() {
-            // 現在の言語設定に合わせてプライバシーポリシーへ飛ばす
             window.location.href = "{% url 'privacy_policy' %}#cookie-settings"; 
         });
     }
 });
 
-// --- 3. プライバシーポリシー合意の処理 ---
 function agreeToPolicy() {
     fetch("{% url 'update_policy_agreement' %}", {
         method: 'POST',
