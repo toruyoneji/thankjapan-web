@@ -68,10 +68,27 @@
     .auth-btn { text-decoration: none; font-size: 0.8rem; padding: 6px 14px; border-radius: 20px; font-weight: bold; border: 1px solid #fff; color: #fff !important; white-space: nowrap; transition: 0.3s; }
     .signup { background-color: #e67e22; border: none; }
 
-    .dropbtn, .game-link { color: #eee; background: none; border: none; font-size: 0.9rem; cursor: pointer; text-decoration: none; }
+    .dropbtn, .game-link { color: #eee; background: none; border: none; font-size: 0.9rem; cursor: pointer; text-decoration: none; padding: 10px; }
     .dropdown { position: relative; }
-    .dropdown-content { display: none; position: absolute; top: 100%; left: 0; background-color: #1a1a1a; min-width: 160px; border-radius: 8px; z-index: 1000; }
-    .dropdown-content a { color: #eee; padding: 10px 15px; display: block; text-decoration: none; font-size: 0.8rem; }
+    .dropdown-content { 
+        display: none; 
+        position: absolute; 
+        top: 100%; 
+        left: 0; 
+        background-color: #1a1a1a; 
+        min-width: 160px; 
+        border-radius: 8px; 
+        z-index: 1000; 
+        max-height: 300px; 
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch; 
+    }
+
+    .dropdown-content a { color: #eee; padding: 12px 15px; display: block; text-decoration: none; font-size: 0.9rem; border-bottom: 1px solid #333; }
+
+    .dropdown:hover .dropdown-content { display: block; }
+
+    .dropdown-content.show { display: block; }
 
     .hero {
         margin-top: 0 !important; width: 100%; height: 750px; 
@@ -109,6 +126,10 @@
         .hero { height: auto; min-height: 400px; padding: 40px 15px; }
         .hero h1 { font-size: 1.8rem; letter-spacing: 3px; }
         .explore-btn { width: 85%; padding: 15px 20px; font-size: 1.1rem; }
+        .dropdown-content {
+        left: auto;
+        right: 0;
+        }
     }
 
     .cookie-consent-banner {
@@ -234,18 +255,28 @@
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const dropdowns = document.querySelectorAll('.dropdown');
+
     dropdowns.forEach(dropdown => {
         const btn = dropdown.querySelector('.dropbtn');
         const content = dropdown.querySelector('.dropdown-content');
-        btn.addEventListener('click', function(e) {
-            e.stopPropagation();
-            const isOpen = content.style.display === 'block';
-            document.querySelectorAll('.dropdown-content').forEach(dc => dc.style.display = 'none');
-            content.style.display = isOpen ? 'none' : 'block';
-        });
+
+        if (btn && content) {
+            btn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                
+                document.querySelectorAll('.dropdown-content').forEach(dc => {
+                    if (dc !== content) dc.classList.remove('show');
+                });
+
+                content.classList.toggle('show');
+            });
+        }
     });
+
     document.addEventListener('click', function() {
-        document.querySelectorAll('.dropdown-content').forEach(dc => dc.style.display = 'none');
+        document.querySelectorAll('.dropdown-content').forEach(dc => {
+            dc.classList.remove('show');
+        });
     });
 
     const cookieBanner = document.getElementById('cookieConsentBanner');
@@ -273,18 +304,22 @@ document.addEventListener('DOMContentLoaded', function() {
         document.cookie = name + "=" + (value || "")  + expires + "; path=/";
     }
 
-    if (!getCookie('cookie_consent')) {
+    if (cookieBanner && !getCookie('cookie_consent')) {
         setTimeout(() => { cookieBanner.classList.add('show'); }, 1000);
     }
 
-    acceptBtn.addEventListener('click', function() {
-        setCookie('cookie_consent', 'accepted', 365);
-        cookieBanner.classList.remove('show');
-    });
+    if (acceptBtn) {
+        acceptBtn.addEventListener('click', function() {
+            setCookie('cookie_consent', 'accepted', 365);
+            cookieBanner.classList.remove('show');
+        });
+    }
 
-    manageBtn.addEventListener('click', function() {
-        window.location.href = "{% url 'privacy_policyenIN' %}#cookie-settings"; 
-    });
+    if (manageBtn) {
+        manageBtn.addEventListener('click', function() {
+            window.location.href = "{% url 'privacy_policyenIN' %}#cookie-settings"; 
+        });
+    }
 });
 
 function agreeToPolicy() {
