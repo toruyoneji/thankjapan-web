@@ -220,48 +220,84 @@ body {
 }
 
 @media (max-width: 600px) {
-    .main2 { grid-template-columns: repeat(2, 1fr); gap: 12px; padding: 20px 4%; }
-    .category-header { padding-top: 50px !important; }
-    .category-header h1 { font-size: 2.0rem;}
+    .main2 {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+        padding: 20px 4%;
+    }
+    .category-header {
+        padding-top: 50px !important;
+    }
+    .category-header h1 {
+        font-size: 2.0rem;
+    }
     
-    .flashcard { height: 160px; }
+    .flashcard {
+        height: 200px;
+    }
     
     .flashcard-front img {
-        object-fit: cover; 
+        object-fit: cover;
         padding: 0;
     }
 
     .flashcard-back {
-        padding: 5px;
-        justify-content: space-evenly;
+        padding: 8px 5px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        overflow: hidden;
     }
     
+    .flashcard-back h3, 
+    .jp-text, 
+    .romaji {
+        width: 100%;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        margin: 2px 0;
+        flex-shrink: 1;
+    }
+
     .flashcard-back h3 {
         font-size: 0.9rem;
-        margin-bottom: 0;
         line-height: 1.1;
+        max-height: 2.2em;
+        overflow: hidden;
     }
 
     .jp-text {
-        font-size: 1.3rem;
-        margin: 2px 0;
+        font-size: 1.1rem;
+        font-weight: bold;
+        line-height: 1.2;
     }
 
     .romaji {
-        font-size: 0.8rem;
-        margin-bottom: 5px;
+        font-size: 0.75rem;
+        color: #666;
+        line-height: 1.1;
+        max-height: 3.3em;
+        overflow-y: auto;
+    }
+
+    .audio-btn, 
+    .more-detail-link {
+        flex-shrink: 0;
     }
 
     .audio-btn {
         padding: 4px 12px;
         font-size: 0.8rem;
-        margin-bottom: 2px;
+        margin-bottom: 4px;
     }
     
     .more-detail-link {
-        font-size: 0.8rem;
+        font-size: 0.75rem;
+        padding: 2px 0;
     }
 }
+
 </style>
 
 <div class="category-header">
