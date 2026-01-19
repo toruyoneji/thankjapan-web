@@ -26,7 +26,7 @@ body {
     padding: 60px 20px 40px;
     background: linear-gradient(135deg, #ffe8d6 0%, #fffaf5 100%);
     border-radius: 0 0 40px 40px;
-    margin-top: 10px; /* 上余白なし */
+    margin-top: 10px;
 }
 .category-header h1 {
     font-size: 3.0rem;
@@ -49,45 +49,149 @@ body {
     margin: 0 auto;
 }
 
-.food-card {
-    background-color: #fff;
+.flashcard {
+    background-color: transparent;
+    width: 100%;
+    height: 280px;
+    perspective: 1000px;
+    cursor: pointer;
+}
+
+.flashcard-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
     border-radius: 16px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-    overflow: hidden;
-    text-align: center;
-    transition: all 0.3s ease;
-    border: 2px solid #ffe0b2;
 }
-.food-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+
+.flashcard.flipped .flashcard-inner {
+    transform: rotateY(180deg);
 }
-.food-card img {
+
+.flashcard-front, .flashcard-back {
+    position: absolute;
     width: 100%;
-    height: 180px;
+    height: 100%;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 2px solid #ffe0b2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #fff;
+}
+
+.flashcard-front img {
+    width: 100%;
+    height: 100%;
     object-fit: cover;
-    border-bottom: 2px solid #ffd6a5;
-    transition: transform 0.3s ease;
 }
-.food-card:hover img {
-    transform: scale(1.04);
-}
-.food-card h3 {
-    margin: 12px 0;
-    font-size: 1rem;
-    font-weight: 600;
-    color: #444;
+
+.tap-hint {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    background: rgba(212, 106, 0, 0.8);
+    color: white;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    pointer-events: none;
 }
 
 .no-image {
     width: 100%;
-    height: 180px;
+    height: 100%;
     background-color: #ffe8d6;
     display: flex;
     align-items: center;
     justify-content: center;
     color: #d46a00;
     font-weight: 600;
+}
+
+.flashcard-back {
+    background-color: #fff8e1;
+    transform: rotateY(180deg);
+    padding: 10px;
+}
+
+.flashcard-back h3 {
+    font-size: 1.2rem;
+    color: #d46a00;
+    margin-bottom: 5px;
+}
+
+.jp-text {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #333;
+    margin: 5px 0;
+}
+
+.romaji {
+    font-size: 1rem;
+    color: #888;
+    margin-bottom: 15px;
+}
+
+.audio-btn {
+    background: #ffb347;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 50px;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-bottom: 10px;
+    transition: 0.3s;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+.audio-btn:hover { background: #ff9642; }
+
+.more-detail-link {
+    font-size: 0.9rem;
+    color: #d46a00;
+    text-decoration: underline;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.pagination-container {
+  overflow-x: auto;
+  padding: 15px 0;
+  -webkit-overflow-scrolling: touch;
+}
+.pagination {
+  display: flex;
+  gap: 10px;
+  min-width: max-content;
+  justify-content: center;
+}
+.page-btn {
+  flex: 0 0 auto;
+  padding: 8px 14px;
+  border-radius: 12px;
+  border: 1px solid #ccc;
+  background-color: #f8f8f8;
+  color: #333;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+.page-btn:hover, .page-btn.current {
+  background-color: #e63946;
+  color: #fff;
+  border-color: #e63946;
 }
 
 .btn-more {
@@ -101,72 +205,62 @@ body {
     margin-top: 20px;
     transition: background 0.3s;
 }
-.btn-more:hover {
-    background: #ff9642;
-}
+.btn-more:hover { background: #ff9642; }
 
-.pagination-container {
-  overflow-x: auto;       /* 横スクロール許可 */
-  padding: 15px 0;
-  -webkit-overflow-scrolling: touch; /* iOSスムーズスクロール */
-}
-
-.pagination {
-  display: flex;
-  gap: 10px;
-  min-width: max-content; 
-  justify-content: center; 
-}
-
-.page-btn {
-  flex: 0 0 auto;         
-  padding: 8px 14px;
-  border-radius: 12px;
-  border: 1px solid #ccc;
-  background-color: #f8f8f8;
-  color: #333;
-  text-decoration: none;
-  font-weight: 500;
-  transition: all 0.2s ease;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-  white-space: nowrap;
-}
-
-.page-btn:hover {
-  background-color: #e63946;
-  color: #fff;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-}
-
-.page-btn.current {
-  background-color: #e63946;
-  color: #fff;
-  font-weight: bold;
-  border-color: #e63946;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-}
-
-
-/* メディアクエリ */
 @media (max-width: 1200px) {
     .main2 { grid-template-columns: repeat(3, 1fr); }
 }
+
 @media (max-width: 900px) {
     .main2 { grid-template-columns: repeat(2, 1fr); gap: 16px; padding: 20px 4%; }
     .category-header { padding-top: 50px !important; }
     .category-header h1 { font-size: 2.0rem;}
-    .food-card img { height: 140px; }
-    .food-card h3 { font-size: 0.9rem; }
-}
-@media (max-width: 600px) {
-    .main2 { grid-template-columns: repeat(2, 1fr); gap: 12px; padding: 20px 4%; }
-    .category-header { padding-top: 50px !important;  }
-    .category-header h1 { font-size: 2.0rem;}
-    .food-card img { height: 120px; }
-    .food-card h3 { font-size: 0.8rem; }
+    .flashcard { height: 240px; }
 }
 
+@media (max-width: 600px) {
+    .main2 { grid-template-columns: repeat(2, 1fr); gap: 12px; padding: 20px 4%; }
+    .category-header { padding-top: 50px !important; }
+    .category-header h1 { font-size: 2.0rem;}
+    
+    .flashcard { height: 160px; }
+    
+    .flashcard-front img {
+        object-fit: cover; 
+        padding: 0;
+    }
+
+    .flashcard-back {
+        padding: 5px;
+        justify-content: space-evenly;
+    }
+    
+    .flashcard-back h3 {
+        font-size: 0.9rem;
+        margin-bottom: 0;
+        line-height: 1.1;
+    }
+
+    .jp-text {
+        font-size: 1.3rem;
+        margin: 2px 0;
+    }
+
+    .romaji {
+        font-size: 0.8rem;
+        margin-bottom: 5px;
+    }
+
+    .audio-btn {
+        padding: 4px 12px;
+        font-size: 0.8rem;
+        margin-bottom: 2px;
+    }
+    
+    .more-detail-link {
+        font-size: 0.8rem;
+    }
+}
 </style>
 
 <div class="category-header">
@@ -176,17 +270,34 @@ body {
 </div>
 
 <div class="main2">
-    
     {% for item in object_list %}
-        <div class="food-card">
-            {% if item.image %}
-                <a href="{% url 'category_detail' item.category item.slug %}">
-                    <img src="{{ item.image.url }}" alt="{{ item.englishname }}">
-                </a>
-            {% else %}
-                <div class="no-image">No image available</div>
-            {% endif %}
-            <h3>{{ item.englishname }}</h3>
+        <div class="flashcard" onclick="this.classList.toggle('flipped')">
+            <div class="flashcard-inner">
+                
+                <div class="flashcard-front">
+                    {% if item.image %}
+                        <img src="{{ item.image.url }}" alt="{{ item.englishname }}">
+                    {% else %}
+                        <div class="no-image">No Image</div>
+                    {% endif %}
+                    <div class="tap-hint">Tap to Flip</div>
+                </div>
+
+                <div class="flashcard-back">
+                    <h3>{{ item.englishname }}</h3>
+                    <p class="jp-text">{{ item.jpname }}</p>
+                    <p class="romaji">{{ item.name }}</p>
+
+                    <button class="audio-btn" onclick="speakJapanese('{{ item.jpname }}'); event.stopPropagation();">
+                        🔊 Listen
+                    </button>
+
+                    <a href="{% url 'category_detail' item.category item.slug %}" class="more-detail-link" onclick="event.stopPropagation();">
+                        More Details &gt;
+                    </a>
+                </div>
+
+            </div>
         </div>
     {% endfor %}
 </div>
@@ -213,9 +324,23 @@ body {
   </div>
 </div>
 
-
 <div style="text-align:center; margin:50px 0;">
-    <a class="btn-more" href="javascript:void(0);" onclick="goToCategoryList()">← Back</a>
+   <a class="btn-more" href="javascript:void(0);" onclick="goToCategoryList()">← Back</a>
 </div>
+
+<script>
+function speakJapanese(text) {
+    if (!window.speechSynthesis) {
+        alert("Audio not supported.");
+        return;
+    }
+    const uttr = new SpeechSynthesisUtterance(text);
+    uttr.lang = 'ja-JP';
+    uttr.rate = 0.9;
+    speechSynthesis.speak(uttr);
+}
+
+
+</script>
 
 {% endblock %}
