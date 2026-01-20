@@ -653,6 +653,7 @@ document.addEventListener('DOMContentLoaded', function() {
         tokens.forEach(token => {
             let hiragana = wanakana.toHiragana(token);
         
+            if (hiragana === "'" || token === "'") return;
             if (hiragana === 'n') hiragana = 'ん';
 
             const span = document.createElement('div');
