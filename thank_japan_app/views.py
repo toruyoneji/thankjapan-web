@@ -1283,6 +1283,34 @@ def paypal_webhook(request):
         
 #premium_info
 
+def get_premium_url_name(request):
+    path = request.path.lower()
+    
+    lang_map = {
+        '/de/': 'premium_infode',
+        '/en-in/': 'premium_infoenIN',
+        '/es-es/': 'premium_infoesES',
+        '/es-mx/': 'premium_infoesMX',
+        '/fr/': 'premium_infofr',
+        '/it/': 'premium_infoit',
+        '/ja/': 'premium_infoja',
+        '/ko/': 'premium_infoko',
+        '/pt-br/': 'premium_infoptBR',
+        '/pt/': 'premium_infopt',
+        '/th/': 'premium_infoth',
+        '/vi/': 'premium_infovi',
+        '/zh-hant/': 'premium_infozhHANT',
+        '/zh-cn/': 'premium_infozhCN',
+    }
+
+    for key, url_name in lang_map.items():
+        if key in path:
+            return url_name
+            
+    return 'premium_info'
+
+
+
 def premium_info(request):
     context = {
         'paypal_client_id': settings.PAYPAL_CLIENT_ID,
@@ -1743,7 +1771,7 @@ class PremiumAccessMixin(LoginRequiredMixin, UserPassesTestMixin):
         return redirect('premium_info')
     
     
-
+    
 class BusinessJapaneseView(ListView):
     template_name = "thank_japan_app/business_japanese.html"
     paginate_by = 24
@@ -1751,7 +1779,7 @@ class BusinessJapaneseView(ListView):
     def dispatch(self, request, *args, **kwargs):
         is_premium = request.user.is_authenticated and getattr(request.user.profile, 'is_premium', False)
         if not is_premium and request.GET.get('page', '1') != '1':
-            return redirect('premium_info') 
+            return redirect(get_premium_url_name(request)) 
         return super().dispatch(request, *args, **kwargs)
     
     def get_queryset(self):
@@ -1769,11 +1797,13 @@ class BusinessJapaneseView(ListView):
             context['object_list'] = context['object_list'][:6]
             context['is_locked'] = True
             context['hidden_count'] = max(0, total_count - 6)
+            context['premium_url_name'] = get_premium_url_name(self.request)
         else:
             context['is_locked'] = False
             
         return context
-
+    
+    
 class LivingInJapanView(ListView):
     template_name = "thank_japan_app/living_in_japan.html"
     paginate_by = 24
@@ -1799,10 +1829,12 @@ class LivingInJapanView(ListView):
             context['object_list'] = context['object_list'][:6]
             context['is_locked'] = True
             context['hidden_count'] = max(0, total_count - 6)
+            context['premium_url_name'] = get_premium_url_name(self.request)
         else:
             context['is_locked'] = False
             
         return context
+    
     
 class MedicalEmergencyView(ListView):
     template_name = "thank_japan_app/medical_emergency.html"
@@ -1830,10 +1862,12 @@ class MedicalEmergencyView(ListView):
             context['object_list'] = context['object_list'][:6]
             context['is_locked'] = True
             context['hidden_count'] = max(0, total_count - 6)
+            context['premium_url_name'] = get_premium_url_name(self.request)
         else:
             context['is_locked'] = False
             
         return context
+    
     
 class RealestateRulesView(ListView):
     template_name = "thank_japan_app/realestate_rules.html"
@@ -1861,6 +1895,7 @@ class RealestateRulesView(ListView):
             context['object_list'] = context['object_list'][:6]
             context['is_locked'] = True
             context['hidden_count'] = max(0, total_count - 6)
+            context['premium_url_name'] = get_premium_url_name(self.request)
         else:
             context['is_locked'] = False
             
@@ -1889,7 +1924,7 @@ class ImgPremiumDetailView(DetailView):
                 ).order_by('-timestamp').values_list('id', flat=True)[:6]
                 
                 if self.object.id not in free_sample_ids:
-                    return redirect('premium_info')
+                    return redirect(get_premium_url_name(request))
         
         return super(DetailView, self).dispatch(request, *args, **kwargs)
 
