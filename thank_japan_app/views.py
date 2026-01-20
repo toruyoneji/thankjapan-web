@@ -1291,34 +1291,57 @@ def paypal_webhook(request):
 #premium_info
 
 def get_lang_info(request):
-    path = request.path.lower()
-    referer = request.META.get('HTTP_REFERER', '').lower()
-    lang_query = request.GET.get('lang', '').lower()
     
-    search_text = f"{path} {referer} {lang_query}"
+    lang_code = request.GET.get('lang')
     
-    lang_map = {
-        'zh-hant': ('premium_infozhHANT', 'zh-hant'),
-        'zh-cn': ('premium_infozhCN', 'zh-cn'),
-        'de': ('premium_infode', 'de'),
-        'en-in': ('premium_infoenIN', 'en-in'),
-        'es-es': ('premium_infoesES', 'es-es'),
-        'es-mx': ('premium_infoesMX', 'es-mx'),
-        'fr': ('premium_infofr', 'fr'),
-        'it': ('premium_infoit', 'it'),
-        'ja': ('premium_infoja', 'ja'),
-        'ko': ('premium_infoko', 'ko'),
-        'pt-br': ('premium_infoptBR', 'pt-br'),
-        'pt': ('premium_infopt', 'pt'),
-        'th': ('premium_infoth', 'th'),
-        'vi': ('premium_infovi', 'vi'),
-    }
+    
+    if not lang_code:
+        path = request.path.lower()
+        lang_keys = [
+            'zh-hant', 'zh-cn', 'de', 'en-in', 'es-es', 'es-mx', 
+            'fr', 'it', 'ja', 'ko', 'pt-br', 'pt', 'th', 'vi'
+        ]
+        for key in lang_keys:
+            if f'/{key}/' in path:
+                lang_code = key
+                break
 
-    for key, value in lang_map.items():
-        if key in search_text:
-            return value[0], value[1]
-            
-    return 'premium_info', 'en'
+    
+    if not lang_code:
+        lang_code = request.session.get('user_lang')
+
+    
+    if not lang_code:
+        referer = request.META.get('HTTP_REFERER', '').lower()
+        for key in lang_keys:
+            if f'/{key}/' in referer:
+                lang_code = key
+                break
+
+    if not lang_code:
+        lang_code = 'en'
+
+    request.session['user_lang'] = lang_code
+
+    lang_map = {
+        'de': 'premium_infode',
+        'en-in': 'premium_infoenIN',
+        'es-es': 'premium_infoesES',
+        'es-mx': 'premium_infoesMX',
+        'fr': 'premium_infofr',
+        'it': 'premium_infoit',
+        'ja': 'premium_infoja',
+        'ko': 'premium_infoko',
+        'pt-br': 'premium_infoptBR',
+        'pt': 'premium_infopt',
+        'th': 'premium_infoth',
+        'vi': 'premium_infovi',
+        'zh-hant': 'premium_infozhHANT',
+        'zh-cn': 'premium_infozhCN',
+    }
+    
+    url_name = lang_map.get(lang_code, 'premium_info')
+    return url_name, lang_code
 
 
 def premium_info(request):
