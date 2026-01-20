@@ -1284,31 +1284,37 @@ def paypal_webhook(request):
 #premium_info
 
 def get_premium_url_name(request):
-    path = request.path.lower()
+
+    lang_param = request.GET.get('lang', '').lower()
     
+    referer = request.META.get('HTTP_REFERER', '').lower()
+    
+    path = request.path.lower()
+
+    check_string = f"{lang_param} {referer} {path}"
+
     lang_map = {
-        '/de/': 'premium_infode',
-        '/en-in/': 'premium_infoenIN',
-        '/es-es/': 'premium_infoesES',
-        '/es-mx/': 'premium_infoesMX',
-        '/fr/': 'premium_infofr',
-        '/it/': 'premium_infoit',
-        '/ja/': 'premium_infoja',
-        '/ko/': 'premium_infoko',
-        '/pt-br/': 'premium_infoptBR',
-        '/pt/': 'premium_infopt',
-        '/th/': 'premium_infoth',
-        '/vi/': 'premium_infovi',
-        '/zh-hant/': 'premium_infozhHANT',
-        '/zh-cn/': 'premium_infozhCN',
+        'zh-hant': 'premium_infozhHANT',
+        'zh-cn': 'premium_infozhCN',
+        'de': 'premium_infode',
+        'en-in': 'premium_infoenIN',
+        'es-es': 'premium_infoesES',
+        'es-mx': 'premium_infoesMX',
+        'fr': 'premium_infofr',
+        'it': 'premium_infoit',
+        'ja': 'premium_infoja',
+        'ko': 'premium_infoko',
+        'pt-br': 'premium_infoptBR',
+        'pt': 'premium_infopt',
+        'th': 'premium_infoth',
+        'vi': 'premium_infovi',
     }
 
     for key, url_name in lang_map.items():
-        if key in path:
+        if key in check_string:
             return url_name
             
     return 'premium_info'
-
 
 
 def premium_info(request):
@@ -1797,7 +1803,9 @@ class BusinessJapaneseView(ListView):
             context['object_list'] = context['object_list'][:6]
             context['is_locked'] = True
             context['hidden_count'] = max(0, total_count - 6)
-            context['premium_url_name'] = get_premium_url_name(self.request)
+            url_name, lang_code = get_premium_url_name(self.request)
+            context['premium_url_name'] = url_name
+            context['lang_code'] = lang_code
         else:
             context['is_locked'] = False
             
@@ -1829,7 +1837,9 @@ class LivingInJapanView(ListView):
             context['object_list'] = context['object_list'][:6]
             context['is_locked'] = True
             context['hidden_count'] = max(0, total_count - 6)
-            context['premium_url_name'] = get_premium_url_name(self.request)
+            url_name, lang_code = get_premium_url_name(self.request)
+            context['premium_url_name'] = url_name
+            context['lang_code'] = lang_code
         else:
             context['is_locked'] = False
             
@@ -1862,7 +1872,9 @@ class MedicalEmergencyView(ListView):
             context['object_list'] = context['object_list'][:6]
             context['is_locked'] = True
             context['hidden_count'] = max(0, total_count - 6)
-            context['premium_url_name'] = get_premium_url_name(self.request)
+            url_name, lang_code = get_premium_url_name(self.request)
+            context['premium_url_name'] = url_name
+            context['lang_code'] = lang_code
         else:
             context['is_locked'] = False
             
@@ -1895,7 +1907,9 @@ class RealestateRulesView(ListView):
             context['object_list'] = context['object_list'][:6]
             context['is_locked'] = True
             context['hidden_count'] = max(0, total_count - 6)
-            context['premium_url_name'] = get_premium_url_name(self.request)
+            url_name, lang_code = get_premium_url_name(self.request)
+            context['premium_url_name'] = url_name
+            context['lang_code'] = lang_code
         else:
             context['is_locked'] = False
             
