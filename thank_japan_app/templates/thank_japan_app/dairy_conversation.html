@@ -312,7 +312,7 @@ body {
                     {% if item.jlpt_level %}
                         <div class="jlpt-badge">{{ item.jlpt_level }}</div>
                     {% endif %}
-                    
+
                     {% if item.image %}
                         <img src="{{ item.image.url }}" alt="{{ item.englishname }}">
                     {% else %}
@@ -330,7 +330,7 @@ body {
                         🔊 Listen
                     </button>
 
-                    <a href="{% url 'detail_premium' category=item.category slug=item.slug %}" class="more-detail-link" onclick="event.stopPropagation();">
+                    <a href="{% url 'category_detail' category=item.category slug=item.slug %}" class="more-detail-link" onclick="event.stopPropagation();">
                         More Details &gt;
                     </a>
                 </div>
