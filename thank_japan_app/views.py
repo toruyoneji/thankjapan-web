@@ -1768,7 +1768,7 @@ class BusinessJapaneseView(ListView):
             total_count = self.get_queryset().count()
             context['object_list'] = context['object_list'][:6]
             context['is_locked'] = True
-            context['hidden_count'] = max(0, total_count - 3)
+            context['hidden_count'] = max(0, total_count - 6)
         else:
             context['is_locked'] = False
             
@@ -1798,7 +1798,7 @@ class LivingInJapanView(ListView):
             total_count = self.get_queryset().count()
             context['object_list'] = context['object_list'][:6]
             context['is_locked'] = True
-            context['hidden_count'] = max(0, total_count - 3)
+            context['hidden_count'] = max(0, total_count - 6)
         else:
             context['is_locked'] = False
             
@@ -1829,7 +1829,7 @@ class MedicalEmergencyView(ListView):
             total_count = self.get_queryset().count()
             context['object_list'] = context['object_list'][:6]
             context['is_locked'] = True
-            context['hidden_count'] = max(0, total_count - 3)
+            context['hidden_count'] = max(0, total_count - 6)
         else:
             context['is_locked'] = False
             
@@ -1860,7 +1860,7 @@ class RealestateRulesView(ListView):
             total_count = self.get_queryset().count()
             context['object_list'] = context['object_list'][:6]
             context['is_locked'] = True
-            context['hidden_count'] = max(0, total_count - 3)
+            context['hidden_count'] = max(0, total_count - 6)
         else:
             context['is_locked'] = False
             
@@ -1886,7 +1886,7 @@ class ImgPremiumDetailView(DetailView):
             if not is_premium:
                 free_sample_ids = ThankJapanPremium.objects.filter(
                     category=self.object.category
-                ).order_by('-timestamp').values_list('id', flat=True)[:3]
+                ).order_by('-timestamp').values_list('id', flat=True)[:6]
                 
                 if self.object.id not in free_sample_ids:
                     return redirect('premium_info')
@@ -1897,14 +1897,19 @@ class ImgPremiumDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         current_item = self.object
         
+        is_premium = self.request.user.is_authenticated and getattr(self.request.user.profile, 'is_premium', False)
+        if not is_premium:
+            context['free_sample_ids'] = ThankJapanPremium.objects.filter(
+                category=current_item.category
+            ).order_by('-timestamp').values_list('id', flat=True)[:6]
+
         context['related_items'] = ThankJapanPremium.objects.filter(
             category=current_item.category
         ).exclude(
             id=current_item.id
         ).order_by('?')[:6]
         
-        return context
-    
+        return context    
         
 def sitemap_view(request):
     
