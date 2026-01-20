@@ -1283,38 +1283,34 @@ def paypal_webhook(request):
         
 #premium_info
 
-def get_premium_url_name(request):
-
-    lang_param = request.GET.get('lang', '').lower()
-    
-    referer = request.META.get('HTTP_REFERER', '').lower()
-    
+def get_lang_info(request):
     path = request.path.lower()
-
-    check_string = f"{lang_param} {referer} {path}"
-
+    referer = request.META.get('HTTP_REFERER', '').lower()
+    search_text = f"{path} {referer}"
+    
     lang_map = {
-        'zh-hant': 'premium_infozhHANT',
-        'zh-cn': 'premium_infozhCN',
-        'de': 'premium_infode',
-        'en-in': 'premium_infoenIN',
-        'es-es': 'premium_infoesES',
-        'es-mx': 'premium_infoesMX',
-        'fr': 'premium_infofr',
-        'it': 'premium_infoit',
-        'ja': 'premium_infoja',
-        'ko': 'premium_infoko',
-        'pt-br': 'premium_infoptBR',
-        'pt': 'premium_infopt',
-        'th': 'premium_infoth',
-        'vi': 'premium_infovi',
+        '/de/': ('premium_infode', 'de'),
+        '/en-in/': ('premium_infoenIN', 'en-in'),
+        '/es-es/': ('premium_infoesES', 'es-es'),
+        '/es-mx/': ('premium_infoesMX', 'es-mx'),
+        '/fr/': ('premium_infofr', 'fr'),
+        '/it/': ('premium_infoit', 'it'),
+        '/ja/': ('premium_infoja', 'ja'),
+        '/ko/': ('premium_infoko', 'ko'),
+        '/pt-br/': ('premium_infoptBR', 'pt-br'),
+        '/pt/': ('premium_infopt', 'pt'),
+        '/th/': ('premium_infoth', 'th'),
+        '/vi/': ('premium_infovi', 'vi'),
+        '/zh-hant/': ('premium_infozhHANT', 'zh-hant'),
+        '/zh-cn/': ('premium_infozhCN', 'zh-cn'),
     }
 
-    for key, url_name in lang_map.items():
-        if key in check_string:
-            return url_name
+    for key, value in lang_map.items():
+        if key in search_text:
+            return value[0], value[1]
             
-    return 'premium_info'
+    return 'premium_info', 'en'
+
 
 
 def premium_info(request):
@@ -1785,7 +1781,8 @@ class BusinessJapaneseView(ListView):
     def dispatch(self, request, *args, **kwargs):
         is_premium = request.user.is_authenticated and getattr(request.user.profile, 'is_premium', False)
         if not is_premium and request.GET.get('page', '1') != '1':
-            return redirect(get_premium_url_name(request)) 
+            url_name, _ = get_lang_info(request)
+            return redirect(url_name) 
         return super().dispatch(request, *args, **kwargs)
     
     def get_queryset(self):
@@ -1803,14 +1800,15 @@ class BusinessJapaneseView(ListView):
             context['object_list'] = context['object_list'][:6]
             context['is_locked'] = True
             context['hidden_count'] = max(0, total_count - 6)
-            url_name, lang_code = get_premium_url_name(self.request)
+            
+            url_name, lang_code = get_lang_info(self.request)
             context['premium_url_name'] = url_name
             context['lang_code'] = lang_code
         else:
             context['is_locked'] = False
             
         return context
-    
+        
     
 class LivingInJapanView(ListView):
     template_name = "thank_japan_app/living_in_japan.html"
