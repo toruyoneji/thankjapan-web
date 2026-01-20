@@ -431,7 +431,7 @@ body {
                         🔊 Listen
                     </button>
 
-                    <a href="{% url 'detail_premium' category=item.category slug=item.slug %}" class="more-detail-link" onclick="event.stopPropagation();">
+                    <a href="{% url 'detail_premium' category=item.category slug=item.slug %}?lang={{ lang_code }}" class="more-detail-link" onclick="event.stopPropagation();">
                         More Details &gt;
                     </a>
                 </div>

@@ -1286,23 +1286,25 @@ def paypal_webhook(request):
 def get_lang_info(request):
     path = request.path.lower()
     referer = request.META.get('HTTP_REFERER', '').lower()
-    search_text = f"{path} {referer}"
+    lang_query = request.GET.get('lang', '').lower()
+    
+    search_text = f"{path} {referer} {lang_query}"
     
     lang_map = {
-        '/de/': ('premium_infode', 'de'),
-        '/en-in/': ('premium_infoenIN', 'en-in'),
-        '/es-es/': ('premium_infoesES', 'es-es'),
-        '/es-mx/': ('premium_infoesMX', 'es-mx'),
-        '/fr/': ('premium_infofr', 'fr'),
-        '/it/': ('premium_infoit', 'it'),
-        '/ja/': ('premium_infoja', 'ja'),
-        '/ko/': ('premium_infoko', 'ko'),
-        '/pt-br/': ('premium_infoptBR', 'pt-br'),
-        '/pt/': ('premium_infopt', 'pt'),
-        '/th/': ('premium_infoth', 'th'),
-        '/vi/': ('premium_infovi', 'vi'),
-        '/zh-hant/': ('premium_infozhHANT', 'zh-hant'),
-        '/zh-cn/': ('premium_infozhCN', 'zh-cn'),
+        'zh-hant': ('premium_infozhHANT', 'zh-hant'),
+        'zh-cn': ('premium_infozhCN', 'zh-cn'),
+        'de': ('premium_infode', 'de'),
+        'en-in': ('premium_infoenIN', 'en-in'),
+        'es-es': ('premium_infoesES', 'es-es'),
+        'es-mx': ('premium_infoesMX', 'es-mx'),
+        'fr': ('premium_infofr', 'fr'),
+        'it': ('premium_infoit', 'it'),
+        'ja': ('premium_infoja', 'ja'),
+        'ko': ('premium_infoko', 'ko'),
+        'pt-br': ('premium_infoptBR', 'pt-br'),
+        'pt': ('premium_infopt', 'pt'),
+        'th': ('premium_infoth', 'th'),
+        'vi': ('premium_infovi', 'vi'),
     }
 
     for key, value in lang_map.items():
@@ -1310,7 +1312,6 @@ def get_lang_info(request):
             return value[0], value[1]
             
     return 'premium_info', 'en'
-
 
 
 def premium_info(request):
@@ -1937,7 +1938,9 @@ class ImgPremiumDetailView(DetailView):
                 ).order_by('-timestamp').values_list('id', flat=True)[:6]
                 
                 if self.object.id not in free_sample_ids:
-                    return redirect(get_premium_url_name(request))
+        
+                    url_name, _ = get_lang_info(request)
+                    return redirect(url_name)
         
         return super(DetailView, self).dispatch(request, *args, **kwargs)
 
@@ -1946,6 +1949,11 @@ class ImgPremiumDetailView(DetailView):
         current_item = self.object
         
         is_premium = self.request.user.is_authenticated and getattr(self.request.user.profile, 'is_premium', False)
+        
+        url_name, lang_code = get_lang_info(self.request)
+        context['premium_url_name'] = url_name
+        context['lang_code'] = lang_code
+
         if not is_premium:
             context['free_sample_ids'] = ThankJapanPremium.objects.filter(
                 category=current_item.category
@@ -1957,12 +1965,7 @@ class ImgPremiumDetailView(DetailView):
             id=current_item.id
         ).order_by('?')[:6]
         
-        url_name, lang_code = get_lang_info(self.request)
-        context['premium_url_name'] = url_name
-        context['lang_code'] = lang_code
-        
-        return context    
-        
+        return context        
 def sitemap_view(request):
     
     premium_items = ThankJapanPremium.objects.all()
