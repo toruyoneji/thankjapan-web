@@ -809,8 +809,16 @@ def game_restart(request):
             question = get_object_or_404(ThankJapanPremium, slug=val)
             
             if question.category != "DailyConversation":
-                if is_guest or not getattr(request.user.profile, 'is_premium', False):
-                    return redirect('premium_info')
+                is_premium = request.user.is_authenticated and getattr(request.user.profile, 'is_premium', False)
+                
+                if not is_premium:
+                    free_sample_ids = ThankJapanPremium.objects.filter(
+                        category=question.category
+                    ).order_by('-timestamp').values_list('id', flat=True)[:6]
+                    
+                    if question.id not in free_sample_ids:
+                        url_name, _ = get_lang_info(request)
+                        return redirect(url_name)
         
             is_premium_mode = True
         else:
@@ -826,7 +834,8 @@ def game_restart(request):
         premium_only = ['n4_premium', 'n3_premium']
         if difficulty in premium_only:
             if is_guest or not getattr(request.user.profile, 'is_premium', False):
-                return redirect('premium_info')
+                url_name, _ = get_lang_info(request)
+                return redirect(url_name)
 
         settings = DIFFICULTY_SETTINGS.get(difficulty, DIFFICULTY_SETTINGS['normal'])
         is_premium_mode = settings['model_type'] == 'premium'
@@ -851,8 +860,6 @@ def game_restart(request):
     request.session['game_history'] = []
     
     return redirect('game_play')
-
-
 
 def game_result(request):
     score = request.session.get('game_score', 0)

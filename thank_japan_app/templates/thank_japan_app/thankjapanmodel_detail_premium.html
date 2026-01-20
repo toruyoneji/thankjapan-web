@@ -402,7 +402,7 @@ body {
 
     <div class="game-invite-box">
         <h3 class="game-invite-title">Ready to Master this Phrase?</h3>
-        <a href="{% url 'game_restart' %}?mode=single&model_type=premium&slug={{ object.slug }}" class="game-invite-btn">
+        <a href="{% url 'game_restart' %}?mode=single&model_type=premium&slug={{ object.slug }}&lang={{ lang_code }}" class="game-invite-btn">
             ⌨️ Master this Phrase
         </a>
     </div>
