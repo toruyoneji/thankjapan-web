@@ -642,6 +642,8 @@ document.addEventListener('DOMContentLoaded', function() {
     function updateDisplay() {
         visualHintContainer.innerHTML = '';
         let displayInput = rawInput;
+        displayInput = displayInput.replace(/n-/g, 'nn'); 
+
         if (!isPremiumMode) {
             displayInput = displayInput.replace(/aa/g, 'a-').replace(/ee/g, 'e-').replace(/oo/g, 'o-');
         }

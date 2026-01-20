@@ -98,16 +98,18 @@ def normalize_for_judge(text):
     if not text: return ""
     text = text.lower().strip()
     text = text.replace('wa', 'ha')
-    text = re.sub(r'[^a-z0-9\-]', '', text)
-    text = re.sub(r'(a)\-', r'aa', text)
-    text = re.sub(r'(i)\-', r'ii', text)
-    text = re.sub(r'(u)\-', r'uu', text)
-    text = re.sub(r'(e)\-', r'ee', text)
-    text = re.sub(r'(o)\-', r'oo', text)
+    text = text.replace('n-', 'nn')
+    text = re.sub(r'a\-', 'aa', text)
+    text = re.sub(r'i\-', 'ii', text)
+    text = re.sub(r'u\-', 'uu', text)
+    text = re.sub(r'e\-', 'ee', text)
+    text = re.sub(r'o\-', 'oo', text)
     text = text.replace('ou', 'oo')
     repls = [('tsu','tu'),('fu','hu'),('shi','si'),('chi','ti'),('ji','zi'),('sh','sy'),('ch','ty'),('jy','zy'),('nn','n')]
     for old, new in repls: text = text.replace(old, new)
+    text = re.sub(r'[^a-z0-9]', '', text)
     return text
+
 
 CATEGORY_URL_MAP = {
     'culture': 'culturepage',
