@@ -1793,19 +1793,16 @@ class DailyConversationView(ListView):
     
     def get_queryset(self):
         return ThankJapanPremium.objects.filter(category="DailyConversation").order_by('-timestamp')
-    
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        _, lang_code = get_lang_info(self.request)
+        context['lang_code'] = lang_code
+        return context    
 
 
 #premium-category
-
-class PremiumAccessMixin(LoginRequiredMixin, UserPassesTestMixin):
-    def test_func(self):
-        return self.request.user.is_authenticated and self.request.user.profile.is_premium
-
-    def handle_no_permission(self):
-        return redirect('premium_info')
-    
-    
+   
     
 class BusinessJapaneseView(ListView):
     template_name = "thank_japan_app/business_japanese.html"
@@ -1949,7 +1946,6 @@ class RealestateRulesView(ListView):
 
                 
 
-
 #premium-detail
 
 class ImgPremiumDetailView(DetailView):
@@ -1992,10 +1988,18 @@ class ImgPremiumDetailView(DetailView):
         context['category_list_url'] = f"{base_category_url}?lang={lang_code}"
 
         is_premium = self.request.user.is_authenticated and getattr(self.request.user.profile, 'is_premium', False)
-        if not is_premium:
+        if current_item.category == "DailyConversation":
+        
             context['free_sample_ids'] = ThankJapanPremium.objects.filter(
                 category=current_item.category
-            ).order_by('-timestamp').values_list('id', flat=True)[:6]
+            ).values_list('id', flat=True)
+        
+        else:
+        
+            if not is_premium:
+                context['free_sample_ids'] = ThankJapanPremium.objects.filter(
+                    category=current_item.category
+                ).order_by('-timestamp').values_list('id', flat=True)[:6]
 
         context['related_items'] = ThankJapanPremium.objects.filter(
             category=current_item.category

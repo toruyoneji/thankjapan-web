@@ -205,6 +205,20 @@ body {
 }
 .btn-more:hover { background: #ff9642; }
 
+.jlpt-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: #d4af37;
+    color: #000;
+    font-weight: bold;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    z-index: 10;
+}
+
+
 @media (max-width: 1200px) {
     .main2 { grid-template-columns: repeat(3, 1fr); }
 }
@@ -330,7 +344,7 @@ body {
                         🔊 Listen
                     </button>
 
-                    <a href="{% url 'category_detail' category=item.category slug=item.slug %}" class="more-detail-link" onclick="event.stopPropagation();">
+                    <a href="{% url 'detail_premium' category=item.category slug=item.slug %}?lang={{ lang_code }}" class="more-detail-link" onclick="event.stopPropagation();">
                         More Details &gt;
                     </a>
                 </div>
