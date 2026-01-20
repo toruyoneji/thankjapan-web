@@ -164,6 +164,7 @@
   <form method="post" novalidate>
     {% csrf_token %}
     <input type="hidden" name="next" value="{{ next }}">
+    
     <label for="id_username">Username:</label>
     <input type="text" name="username" id="id_username" required autocomplete="username" autofocus>
 

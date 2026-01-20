@@ -86,6 +86,7 @@ class Profile(models.Model):
     paypal_subscription_id = models.CharField(max_length=50, blank=True, null=True)
     total_score = models.PositiveIntegerField(default=0)
     last_score = models.PositiveIntegerField(default=0)
+    last_bonus_date = models.DateField(null=True, blank=True)
 
     def __str__(self):
         return f"{self.user.username}'s Profile"
