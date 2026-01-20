@@ -187,84 +187,87 @@
 
   <!-- 折りたたみボタン -->
 
-  <p style="text-align:center; font-size:0.95rem; color:#f06595; font-weight:600; margin-top:30px;">
-    👇 Tap below to get started! 
+  <p style="text-align:center; font-size:1rem; color:#333; font-weight:600; margin-top:30px; letter-spacing: 0.5px;">
+    👇 Master the Game & Rise Your Rank!
   </p>
-
 
   <button id="toggle-instruction" style="
       display:block;
-      margin:30px auto 10px;
-      padding:12px 20px;
-      font-size:1rem;
-      font-weight:600;
-      border:none;
+      margin:15px auto 10px;
+      padding:12px 28px;
+      font-size:1.05rem;
+      font-weight:700;
+      border: 2px solid #d4af37;
       border-radius:12px;
-      background:#f06595;
-      color:white;
+      background:#1a1a1a;
+      color:#d4af37;
       cursor:pointer;
       transition:0.3s;
-  ">Show me how!! 🎮</button>
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    " onmouseover="this.style.background='#d4af37'; this.style.color='#1a1a1a';" onmouseout="this.style.background='#1a1a1a'; this.style.color='#d4af37';">
+    How to Play ⚔️
+  </button>
+
 
   <!-- 折りたたみコンテンツ -->
   <div id="game-instruction" style="display:none; transition: all 0.3s ease;">
     <div class="game-grid" style="display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:15px; margin-top:20px; padding:0 10px;">
       
-      <div class="game-card" style="background:#fff; border-radius:15px; box-shadow:0 4px 10px rgba(0,0,0,0.1); overflow:hidden; text-align:center; transition:transform 0.2s;">
-        <a href="{% url 'game_start' %}">
-          <img src="https://res.cloudinary.com/dotekofm5/image/upload/v1760316354/thankjapan/backgrounds/ltbitwummwokpabkcmer.png" alt="Register" style="width:100%; height:150px; object-fit:cover; border-bottom:1px solid #f0f0f0;">
-        </a>
-        <p style="padding:10px 5px; font-size:0.9rem; color:#555; font-weight:500;">Create your game account</p>
-      </div>
+      <div class="game-card" style="background:#ffffff; border-radius:15px; box-shadow:0 4px 12px rgba(0,0,0,0.15); overflow:hidden; text-align:center; transition:transform 0.2s; border: 2px solid #d4af37; font-family: 'Noto Sans JP', sans-serif;">
+        
+      
+        <div style="background: #1a1a1a; color: #d4af37; padding: 10px 5px; font-weight: bold; font-size: 1.1rem; border-bottom: 2px solid #d4af37;">
+            🏆 Rank System
+        </div>
 
-      <div class="game-card" style="background:#fff; border-radius:15px; box-shadow:0 4px 10px rgba(0,0,0,0.1); overflow:hidden; text-align:center; transition:transform 0.2s;">
-        <a href="{% url 'game_start' %}">
-          <img src="https://res.cloudinary.com/dotekofm5/image/upload/v1760316343/thankjapan/backgrounds/jtnzkwsrcuxlgeucrh1g.png" alt="Login" style="width:100%; height:150px; object-fit:cover; border-bottom:1px solid #f0f0f0;">
-        </a>
-        <p style="padding:10px 5px; font-size:0.9rem; color:#555; font-weight:500;">Log in with your account name & password</p>
-      </div>
+        <div style="padding: 10px 8px; font-size: 0.8rem; text-align: left; background: #ffffff;">
+            
+            <div style="display:flex; justify-content:space-between; border-bottom:1px solid #f0f0f0; padding:4px 5px; align-items:center;">
+                <span style="color:#333;">🗾 <strong style="font-size:0.9rem;">伝説</strong> <small style="color:#999;">Legend</small></span>
+                <span style="color:#d46a00; font-weight:bold;">2000~</span>
+            </div>
+            <div style="display:flex; justify-content:space-between; border-bottom:1px solid #f0f0f0; padding:4px 5px; align-items:center;">
+                <span style="color:#333;">👑 <strong style="font-size:0.9rem;">大将軍</strong> <small style="color:#999;">General</small></span>
+                <span style="color:#d46a00; font-weight:bold;">1200~</span>
+            </div>
+            <div style="display:flex; justify-content:space-between; border-bottom:1px solid #f0f0f0; padding:4px 5px; align-items:center;">
+                <span style="color:#333;">🐎 <strong style="font-size:0.9rem;">将軍</strong> <small style="color:#999;">Shogun</small></span>
+                <span style="color:#d46a00; font-weight:bold;">900~</span>
+            </div>
+            <div style="display:flex; justify-content:space-between; border-bottom:1px solid #f0f0f0; padding:4px 5px; align-items:center;">
+                <span style="color:#333;">🏯 <strong style="font-size:0.9rem;">大名</strong> <small style="color:#999;">Daimyo</small></span>
+                <span style="color:#d46a00; font-weight:bold;">650~</span>
+            </div>
+            <div style="display:flex; justify-content:space-between; border-bottom:1px solid #f0f0f0; padding:4px 5px; align-items:center;">
+                <span style="color:#333;">🚩 <strong style="font-size:0.9rem;">旗本</strong> <small style="color:#999;">Hatamoto</small></span>
+                <span style="color:#d46a00; font-weight:bold;">450~</span>
+            </div>
+            <div style="display:flex; justify-content:space-between; border-bottom:1px solid #f0f0f0; padding:4px 5px; align-items:center;">
+                <span style="color:#333;">⚔️ <strong style="font-size:0.9rem;">侍</strong> <small style="color:#999;">Samurai</small></span>
+                <span style="color:#d46a00; font-weight:bold;">300~</span>
+            </div>
+            <div style="display:flex; justify-content:space-between; border-bottom:1px solid #f0f0f0; padding:4px 5px; align-items:center;">
+                <span style="color:#333;">🥷 <strong style="font-size:0.9rem;">忍者</strong> <small style="color:#999;">Ninja</small></span>
+                <span style="color:#d46a00; font-weight:bold;">200~</span>
+            </div>
+            <div style="display:flex; justify-content:space-between; border-bottom:1px solid #f0f0f0; padding:4px 5px; align-items:center;">
+                <span style="color:#333;">🚣 <strong style="font-size:0.9rem;">浪人</strong> <small style="color:#999;">Ronin</small></span>
+                <span style="color:#d46a00; font-weight:bold;">100~</span>
+            </div>
+            <div style="display:flex; justify-content:space-between; border-bottom:1px solid #f0f0f0; padding:4px 5px; align-items:center;">
+                <span style="color:#333;">🎒 <strong style="font-size:0.9rem;">旅人</strong> <small style="color:#999;">Traveler</small></span>
+                <span style="color:#d46a00; font-weight:bold;">50~</span>
+            </div>
+            <div style="display:flex; justify-content:space-between; padding:4px 5px; align-items:center;">
+                <span style="color:#333;">🌾 <strong style="font-size:0.9rem;">村人</strong> <small style="color:#999;">Villager</small></span>
+                <span style="color:#d46a00; font-weight:bold;">0~</span>
+            </div>
 
-      <div class="game-card" style="background:#fff; border-radius:15px; box-shadow:0 4px 10px rgba(0,0,0,0.1); overflow:hidden; text-align:center; transition:transform 0.2s;">
-        <a href="{% url 'game_start' %}">
-          <img src="https://res.cloudinary.com/dotekofm5/image/upload/v1760316373/thankjapan/backgrounds/iydarejspqczunrkhpvx.png" alt="Start Game" style="width:100%; height:150px; object-fit:cover; border-bottom:1px solid #f0f0f0;">
-        </a>
-        <p style="padding:10px 5px; font-size:0.9rem; color:#555; font-weight:500;">Press "game_start" to begin</p>
-      </div>
+        </div>
 
-      <!-- 他のゲームカードも同様に追加 -->
-      <div class="game-card" style="background:#fff; border-radius:15px; box-shadow:0 4px 10px rgba(0,0,0,0.1); overflow:hidden; text-align:center; transition:transform 0.2s;">
-        <a href="{% url 'game_start' %}">
-          <img src="https://res.cloudinary.com/dotekofm5/image/upload/v1761848974/thankjapan/backgrounds/vsgi72ehhbryt0yjowwr.png" alt="Answer" style="width:100%; height:150px; object-fit:cover; border-bottom:1px solid #f0f0f0;">
-        </a>
-        <p style="padding:10px 5px; font-size:0.9rem; color:#555; font-weight:500;">Enter the answer in Roman letters</p>
-      </div>
-
-      <div class="game-card" style="background:#fff; border-radius:15px; box-shadow:0 4px 10px rgba(0,0,0,0.1); overflow:hidden; text-align:center; transition:transform 0.2s;">
-        <a href="{% url 'game_start' %}">
-          <img src="https://res.cloudinary.com/dotekofm5/image/upload/v1761848986/thankjapan/backgrounds/x0ebsqfw4kvvcy4ocskd.png" alt="Correct" style="width:100%; height:150px; object-fit:cover; border-bottom:1px solid #f0f0f0;">
-        </a>
-        <p style="padding:10px 5px; font-size:0.9rem; color:#555; font-weight:500;">If correct, "collect" appears</p>
-      </div>
-
-      <div class="game-card" style="background:#fff; border-radius:15px; box-shadow:0 4px 10px rgba(0,0,0,0.1); overflow:hidden; text-align:center; transition:transform 0.2s;">
-        <a href="{% url 'game_start' %}">
-          <img src="https://res.cloudinary.com/dotekofm5/image/upload/v1761848996/thankjapan/backgrounds/tnkl2q2uuvcidqoe4led.png" alt="Incorrect" style="width:100%; height:150px; object-fit:cover; border-bottom:1px solid #f0f0f0;">
-        </a>
-        <p style="padding:10px 5px; font-size:0.9rem; color:#555; font-weight:500;">If incorrect, correct answer is shown</p>
-      </div>
-
-      <div class="game-card" style="background:#fff; border-radius:15px; box-shadow:0 4px 10px rgba(0,0,0,0.1); overflow:hidden; text-align:center; transition:transform 0.2s;">
-        <a href="{% url 'game_start' %}">
-          <img src="https://res.cloudinary.com/dotekofm5/image/upload/v1761849004/thankjapan/backgrounds/tty0isukhlwuzavxxocy.png" alt="Results" style="width:100%; height:150px; object-fit:cover; border-bottom:1px solid #f0f0f0;">
-        </a>
-        <p style="padding:10px 5px; font-size:0.9rem; color:#555; font-weight:500;">View your results & Ranking</p>
-      </div>
-
-      <div class="game-card" style="background:#fff; border-radius:15px; box-shadow:0 4px 10px rgba(0,0,0,0.1); overflow:hidden; text-align:center; transition:transform 0.2s;">
-        <a href="{% url 'game_start' %}">
-          <img src="https://res.cloudinary.com/dotekofm5/image/upload/v1761849018/thankjapan/backgrounds/zpfywmphljhspbxahvje.png" alt="Ranking" style="width:100%; height:150px; object-fit:cover; border-bottom:1px solid #f0f0f0;">
-        </a>
-        <p style="padding:10px 5px; font-size:0.9rem; color:#555; font-weight:500;">Rankings & account management</p>
+        <div style="padding:8px 5px; font-size:0.8rem; color:#d46a00; font-weight:bold; background:#fff7e6; border-top:1px solid #f0f0f0;">
+            🎁 Daily Login: +1 pt
+        </div>
       </div>
 
     </div>
@@ -290,14 +293,15 @@ document.addEventListener("DOMContentLoaded", function(){
 
   toggleBtn.addEventListener("click", function(){
     if(content.style.display === "none" || content.style.display === ""){
-      content.style.display = "grid"; 
-      toggleBtn.textContent = "Hide Instructions 🎮";
+      content.style.display = "grid";
+      toggleBtn.textContent = "Close Guide ❌";
     } else {
       content.style.display = "none";
-      toggleBtn.textContent = "How to Play the Game 🎮";
+      toggleBtn.textContent = "How to Play ⚔️";
     }
   });
 });
+
 </script>
 
 {% endblock %}
