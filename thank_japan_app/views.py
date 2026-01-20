@@ -1766,7 +1766,7 @@ class BusinessJapaneseView(ListView):
 
         if not is_premium:
             total_count = self.get_queryset().count()
-            context['object_list'] = context['object_list'][:3]
+            context['object_list'] = context['object_list'][:6]
             context['is_locked'] = True
             context['hidden_count'] = max(0, total_count - 3)
         else:
@@ -1796,7 +1796,7 @@ class LivingInJapanView(ListView):
 
         if not is_premium:
             total_count = self.get_queryset().count()
-            context['object_list'] = context['object_list'][:3]
+            context['object_list'] = context['object_list'][:6]
             context['is_locked'] = True
             context['hidden_count'] = max(0, total_count - 3)
         else:
@@ -1827,7 +1827,7 @@ class MedicalEmergencyView(ListView):
 
         if not is_premium:
             total_count = self.get_queryset().count()
-            context['object_list'] = context['object_list'][:3]
+            context['object_list'] = context['object_list'][:6]
             context['is_locked'] = True
             context['hidden_count'] = max(0, total_count - 3)
         else:
@@ -1858,7 +1858,7 @@ class RealestateRulesView(ListView):
 
         if not is_premium:
             total_count = self.get_queryset().count()
-            context['object_list'] = context['object_list'][:3]
+            context['object_list'] = context['object_list'][:6]
             context['is_locked'] = True
             context['hidden_count'] = max(0, total_count - 3)
         else:
