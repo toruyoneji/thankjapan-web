@@ -49,9 +49,12 @@
 </div>
 {% endif %}
 {% if show_guest_alert %}
-<div id="guest-bonus-alert" style="position: fixed; top: 100px; left: 50%; transform: translateX(-50%); background: #fff5f5; color: #e63946; border: 2px solid #e63946; padding: 12px 25px; border-radius: 50px; z-index: 11000; font-weight: bold; box-shadow: 0 4px 20px rgba(0,0,0,0.2); white-space: nowrap; display: flex; align-items: center; gap: 10px;">
-    <span>⚠️</span> You missed today's bonus! 
-    <a href="{% url 'player_register' %}?next={{ request.path }}" style="color: #e63946; text-decoration: underline; margin-left: 5px;">Sign up to get 1pt </a>
+<div id="guest-bonus-alert" style="position: fixed; top: 100px; left: 50%; transform: translateX(-50%); background: #fff5f5; color: #e63946; border: 2px solid #e63946; padding: 12px 25px; border-radius: 50px; z-index: 11000; font-weight: bold; box-shadow: 0 4px 20px rgba(0,0,0,0.2); width: 92%; max-width: 400px; display: flex; align-items: center; gap: 10px;">
+    <span>⚠️</span>
+    <div style="flex: 1; line-height: 1.3; font-size: 0.85rem;">
+        You missed today's bonus!<br>
+        <a href="{% url 'player_register' %}?next={{ request.path }}" style="color: #e63946; text-decoration: underline;">Sign up to get 1pt</a>
+    </div>
 </div>
 {% endif %}
 <script>
