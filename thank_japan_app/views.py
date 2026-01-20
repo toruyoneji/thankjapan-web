@@ -17,6 +17,8 @@ from django.contrib.auth.models import User
 from django.http import JsonResponse, HttpResponse
 from django.contrib.auth import authenticate, logout, login as auth_login, logout as auth_logout
 from django.views.decorators.csrf import csrf_exempt
+from django.utils import timezone
+from django.utils.http import urlencode
 import logging
 import random
 import re
@@ -360,112 +362,260 @@ class KiyakuDEView(ListView):
     template_name = "thank_japan_app/kiyaku/riyoukiyaku_de.html"
     model = ThankJapanModel
     
+    
+#login_bonus
+
+def apply_login_bonus(request):
+    
+    if request.user.is_authenticated:
+        profile = request.user.profile
+        today = timezone.now().date()
+
+        
+        if profile.last_bonus_date != today:
+            profile.total_score += 1
+            profile.last_bonus_date = today
+            profile.save()
+
+            
+            player = Player.objects.filter(username=request.user.username).first()
+            if player:
+                player.total_score += 1
+                player.save()
+            
+        
+            request.session['show_bonus_toast'] = True
+    else:
+    
+        request.session['show_guest_bonus_alert'] = True
+    
 
 #country page
-class TopView(ListView):
+class TopView(ListView): 
     template_name = "thank_japan_app/toppage/toppage.html"
     model = ThankJapanModel
+
     def get(self, request, *args, **kwargs):
         request.session['user_lang'] = 'en'
+        apply_login_bonus(request)
         return super().get(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['bonus_received'] = self.request.session.pop('show_bonus_toast', False)
+        context['show_guest_alert'] = self.request.session.pop('show_guest_bonus_alert', False)
+        return context
     
+        
 class TopViewJA(ListView):
     template_name = "thank_japan_app/toppage/toppage_ja.html"
     model = ThankJapanModel
     def get(self, request, *args, **kwargs):
         request.session['user_lang'] = 'ja'
+        apply_login_bonus(request)
         return super().get(request, *args, **kwargs)
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['bonus_received'] = self.request.session.pop('show_bonus_toast', False)
+        context['show_guest_alert'] = self.request.session.pop('show_guest_bonus_alert', False)
+        return context
+    
     
 class TopViewVI(ListView):
     template_name = "thank_japan_app/toppage/toppage_vi.html"
     model = ThankJapanModel
     def get(self, request, *args, **kwargs):
         request.session['user_lang'] = 'vi'
+        apply_login_bonus(request)
         return super().get(request, *args, **kwargs)
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['bonus_received'] = self.request.session.pop('show_bonus_toast', False)
+        context['show_guest_alert'] = self.request.session.pop('show_guest_bonus_alert', False)
+        return context
+    
     
 class TopViewFR(ListView):
     template_name = "thank_japan_app/toppage/toppage_fr.html"
     model = ThankJapanModel
     def get(self, request, *args, **kwargs):
         request.session['user_lang'] = 'fr'
+        apply_login_bonus(request)
         return super().get(request, *args, **kwargs)
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['bonus_received'] = self.request.session.pop('show_bonus_toast', False)
+        context['show_guest_alert'] = self.request.session.pop('show_guest_bonus_alert', False)
+        return context
+    
     
 class TopViewIT(ListView):
     template_name = "thank_japan_app/toppage/toppage_it.html"
     model = ThankJapanModel
     def get(self, request, *args, **kwargs):
         request.session['user_lang'] = 'it'
+        apply_login_bonus(request)
         return super().get(request, *args, **kwargs)
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['bonus_received'] = self.request.session.pop('show_bonus_toast', False)
+        context['show_guest_alert'] = self.request.session.pop('show_guest_bonus_alert', False)
+        return context
+    
     
 class TopViewPT(ListView):
     template_name = "thank_japan_app/toppage/toppage_pt.html"
     model = ThankJapanModel
     def get(self, request, *args, **kwargs):
         request.session['user_lang'] = 'pt'
+        apply_login_bonus(request)
         return super().get(request, *args, **kwargs)
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['bonus_received'] = self.request.session.pop('show_bonus_toast', False)
+        context['show_guest_alert'] = self.request.session.pop('show_guest_bonus_alert', False)
+        return context
+    
     
 class TopViewZHCN(ListView):
     template_name = "thank_japan_app/toppage/toppage_zh_cn.html"
     model = ThankJapanModel
     def get(self, request, *args, **kwargs):
         request.session['user_lang'] = 'zh-cn'
+        apply_login_bonus(request)
         return super().get(request, *args, **kwargs)
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['bonus_received'] = self.request.session.pop('show_bonus_toast', False)
+        context['show_guest_alert'] = self.request.session.pop('show_guest_bonus_alert', False)
+        return context
+    
     
 class TopViewZHHANT(ListView):
     template_name = "thank_japan_app/toppage/toppage_zh_hant.html"
     model = ThankJapanModel
     def get(self, request, *args, **kwargs):
         request.session['user_lang'] = 'zh-hant'
+        apply_login_bonus(request)
         return super().get(request, *args, **kwargs)
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['bonus_received'] = self.request.session.pop('show_bonus_toast', False)
+        context['show_guest_alert'] = self.request.session.pop('show_guest_bonus_alert', False)
+        return context
+    
     
 class TopViewKO(ListView):
     template_name = "thank_japan_app/toppage/toppage_ko.html"
     model = ThankJapanModel
     def get(self, request, *args, **kwargs):
         request.session['user_lang'] = 'ko'
+        apply_login_bonus(request)
         return super().get(request, *args, **kwargs)
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['bonus_received'] = self.request.session.pop('show_bonus_toast', False)
+        context['show_guest_alert'] = self.request.session.pop('show_guest_bonus_alert', False)
+        return context
+    
 
 class TopViewESES(ListView):
     template_name = "thank_japan_app/toppage/toppage_es_es.html"
     model = ThankJapanModel
     def get(self, request, *args, **kwargs):
         request.session['user_lang'] = 'es-es'
+        apply_login_bonus(request)
         return super().get(request, *args, **kwargs)
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['bonus_received'] = self.request.session.pop('show_bonus_toast', False)
+        context['show_guest_alert'] = self.request.session.pop('show_guest_bonus_alert', False)
+        return context
+    
     
 class TopViewDE(ListView):
     template_name = "thank_japan_app/toppage/toppage_de.html"
     model = ThankJapanModel
     def get(self, request, *args, **kwargs):
         request.session['user_lang'] = 'de'
+        apply_login_bonus(request)
         return super().get(request, *args, **kwargs)
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['bonus_received'] = self.request.session.pop('show_bonus_toast', False)
+        context['show_guest_alert'] = self.request.session.pop('show_guest_bonus_alert', False)
+        return context
+    
     
 class TopViewTH(ListView):
     template_name = "thank_japan_app/toppage/toppage_th.html"
     model = ThankJapanModel
     def get(self, request, *args, **kwargs):
         request.session['user_lang'] = 'th'
+        apply_login_bonus(request)
         return super().get(request, *args, **kwargs)
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['bonus_received'] = self.request.session.pop('show_bonus_toast', False)
+        context['show_guest_alert'] = self.request.session.pop('show_guest_bonus_alert', False)
+        return context
+    
     
 class TopViewPTBR(ListView):
     template_name = "thank_japan_app/toppage/toppage_pt_br.html"
     model = ThankJapanModel
     def get(self, request, *args, **kwargs):
         request.session['user_lang'] = 'pt-br'
+        apply_login_bonus(request)
         return super().get(request, *args, **kwargs)
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['bonus_received'] = self.request.session.pop('show_bonus_toast', False)
+        context['show_guest_alert'] = self.request.session.pop('show_guest_bonus_alert', False)
+        return context
+    
     
 class TopViewESMX(ListView):
     template_name = "thank_japan_app/toppage/toppage_es_mx.html"
     model = ThankJapanModel
     def get(self, request, *args, **kwargs):
         request.session['user_lang'] = 'es-mx'
+        apply_login_bonus(request)
         return super().get(request, *args, **kwargs)
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['bonus_received'] = self.request.session.pop('show_bonus_toast', False)
+        context['show_guest_alert'] = self.request.session.pop('show_guest_bonus_alert', False)
+        return context
+    
     
 class TopViewENIN(ListView):
     template_name = "thank_japan_app/toppage/toppage_en_in.html"
     model = ThankJapanModel
     def get(self, request, *args, **kwargs):
         request.session['user_lang'] = 'en-in'
+        apply_login_bonus(request)
         return super().get(request, *args, **kwargs)
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['bonus_received'] = self.request.session.pop('show_bonus_toast', False)
+        context['show_guest_alert'] = self.request.session.pop('show_guest_bonus_alert', False)
+        return context
+    
     
     
 #manage_btn
@@ -552,27 +702,27 @@ def contact_thanks(request):
 #Game and login register
 
 def player_register(request):
+    
+    next_url = request.GET.get('next') or request.POST.get('next') or 'toppage'
+
     if request.method == "POST":
         form = UsernameForm(request.POST)
         if form.is_valid():
+            
             username = form.cleaned_data['username']
             email = form.cleaned_data['email']
             raw_password = form.cleaned_data['password']
             country = form.cleaned_data['country']
 
-
             if User.objects.filter(username=username).exists() or Player.objects.filter(username=username).exists():
                 messages.error(request, "This username is already taken.")
-                return render(request, 'thank_japan_app/player_register.html', {'form': form})
+                return render(request, 'thank_japan_app/player_register.html', {'form': form, 'next': next_url})
 
-            
             if User.objects.filter(email=email).exists() or Player.objects.filter(email=email).exists():
                 messages.error(request, "This email address is already registered.")
-                return render(request, 'thank_japan_app/player_register.html', {'form': form})
+                return render(request, 'thank_japan_app/player_register.html', {'form': form, 'next': next_url})
 
-            
             user = User.objects.create_user(username=username, email=email, password=raw_password)
-            
             player = Player(username=username, email=email, country=country)
             player.set_password(raw_password)
             player.save()
@@ -583,15 +733,21 @@ def player_register(request):
             
             messages.success(request, "Account created! Please log in to start playing.")
             
+        
             keys_to_clear = ['is_guest', 'game_score', 'game_question_ids', 'game_current_index', 'game_message', 'last_question_info', 'game_difficulty', 'player_id']
             for key in keys_to_clear:
                 request.session.pop(key, None)
             
-            return redirect('player_login') 
+            
+            login_url = reverse('player_login')
+            return redirect(f"{login_url}?{urlencode({'next': next_url})}")
+
     else:
         form = UsernameForm()
 
-    return render(request, 'thank_japan_app/player_register.html', {'form': form})
+    
+    return render(request, 'thank_japan_app/player_register.html', {'form': form, 'next': next_url})
+
 
 
 def player_login(request):
