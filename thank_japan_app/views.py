@@ -1741,36 +1741,106 @@ class PremiumAccessMixin(LoginRequiredMixin, UserPassesTestMixin):
 
     def handle_no_permission(self):
         return redirect('premium_info')
+    
+    
 
-class BusinessJapaneseView(PremiumAccessMixin, ListView):
+class BusinessJapaneseView(ListView):
     template_name = "thank_japan_app/business_japanese.html"
     paginate_by = 24
     
     def get_queryset(self):
         return ThankJapanPremium.objects.filter(category="BusinessJapanese").order_by('-timestamp')
 
-class LivingInJapanView(PremiumAccessMixin, ListView):
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        
+        is_premium = False
+        if self.request.user.is_authenticated and getattr(self.request.user.profile, 'is_premium', False):
+            is_premium = True
+
+        if not is_premium:
+            total_count = self.get_queryset().count()
+            context['object_list'] = context['object_list'][:3]
+            context['is_locked'] = True
+            context['hidden_count'] = max(0, total_count - 3)
+        else:
+            context['is_locked'] = False
+            
+        return context
+
+class LivingInJapanView(ListView):
     template_name = "thank_japan_app/living_in_japan.html"
     paginate_by = 24
     
     def get_queryset(self):
         return ThankJapanPremium.objects.filter(category="LivingInJapan").order_by('-timestamp')
 
-class MedicalEmergencyView(PremiumAccessMixin, ListView):
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        
+        is_premium = False
+        if self.request.user.is_authenticated and getattr(self.request.user.profile, 'is_premium', False):
+            is_premium = True
+
+        if not is_premium:
+            total_count = self.get_queryset().count()
+            context['object_list'] = context['object_list'][:3]
+            context['is_locked'] = True
+            context['hidden_count'] = max(0, total_count - 3)
+        else:
+            context['is_locked'] = False
+            
+        return context
+    
+class MedicalEmergencyView(ListView):
     template_name = "thank_japan_app/medical_emergency.html"
     paginate_by = 24
     
     def get_queryset(self):
-        return ThankJapanPremium.objects.filter(category="MedicalEmergency").order_by('-timestamp')    
+        return ThankJapanPremium.objects.filter(category="MedicalEmergency").order_by('-timestamp')
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        
+        is_premium = False
+        if self.request.user.is_authenticated and getattr(self.request.user.profile, 'is_premium', False):
+            is_premium = True
 
-class RealestateRulesView(PremiumAccessMixin, ListView):
+        if not is_premium:
+            total_count = self.get_queryset().count()
+            context['object_list'] = context['object_list'][:3]
+            context['is_locked'] = True
+            context['hidden_count'] = max(0, total_count - 3)
+        else:
+            context['is_locked'] = False
+            
+        return context
+    
+class RealestateRulesView(ListView):
     template_name = "thank_japan_app/realestate_rules.html"
     paginate_by = 24
     
     def get_queryset(self):
-        return ThankJapanPremium.objects.filter(category="RealEstateRules").order_by('-timestamp')    
+        return ThankJapanPremium.objects.filter(category="RealEstateRules").order_by('-timestamp')
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        
+        is_premium = False
+        if self.request.user.is_authenticated and getattr(self.request.user.profile, 'is_premium', False):
+            is_premium = True
+
+        if not is_premium:
+            total_count = self.get_queryset().count()
+            context['object_list'] = context['object_list'][:3]
+            context['is_locked'] = True
+            context['hidden_count'] = max(0, total_count - 3)
+        else:
+            context['is_locked'] = False
+            
+        return context
+    
+        
 
 
 #premium-detail
@@ -1785,29 +1855,31 @@ class ImgPremiumDetailView(DetailView):
         self.object = self.get_object()
         
         if self.object.category != "DailyConversation":
+            is_premium = request.user.is_authenticated and getattr(request.user.profile, 'is_premium', False)
             
-            if not request.user.is_authenticated or not getattr(request.user.profile, 'is_premium', False):
-                return redirect('premium_info')
+            if not is_premium:
+                free_sample_ids = ThankJapanPremium.objects.filter(
+                    category=self.object.category
+                ).order_by('-timestamp').values_list('id', flat=True)[:3]
+                
+                if self.object.id not in free_sample_ids:
+                    return redirect('premium_info')
         
-        return super().dispatch(request, *args, **kwargs)
+        return super(DetailView, self).dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         current_item = self.object
-        
         
         context['related_items'] = ThankJapanPremium.objects.filter(
             category=current_item.category
         ).exclude(
             id=current_item.id
         ).order_by('?')[:6]
-
         
-        url_name = CATEGORY_URL_MAP.get(current_item.category, 'category_list')
-        context['category_list_url'] = reverse(url_name)
-        
-        return context    
+        return context
     
+        
 def sitemap_view(request):
     
     premium_items = ThankJapanPremium.objects.all()

@@ -308,6 +308,40 @@ body {
     margin-right: 10px;
 }
 
+.no-image-box {
+    height: 120px;
+    background: #e0d6ce;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #888;
+}
+
+.locked-related {
+    position: relative;
+    cursor: pointer;
+}
+
+.image-wrapper {
+    position: relative;
+    overflow: hidden;
+}
+
+.blurred-img {
+    filter: blur(3px) grayscale(50%);
+    opacity: 0.7;
+}
+
+.lock-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 2rem;
+    text-shadow: 0 2px 5px rgba(0,0,0,0.5);
+    z-index: 2;
+}
+
 
 @media screen and (max-width: 768px) {
     .detailgazou { height: 280px; }
@@ -387,31 +421,49 @@ body {
     </div>
 
 
-    {% if related_items %}
+{% if related_items %}
     <div class="related-section">
         <div class="related-header">
             <h3>Explore More</h3>
         </div>
         <div class="related-grid">
             {% for item in related_items %}
-            <!-- Link assumes URL name is 'detail' based on your list view -->
-            <a href="{% url 'detail_premium' category=item.category slug=item.slug %}" class="related-card">
-                {% if item.image %}
-                    <img src="{{ item.image.url }}" alt="{{ item.englishname }}">
-                {% else %}
-                    <div style="height:120px; background:#e0d6ce; display:flex; align-items:center; justify-content:center; color:#888;">
-                        No Image
+            
+            {% if request.user.profile.is_premium or item.id in free_sample_ids %}
+            
+                <a href="{% url 'detail_premium' category=item.category slug=item.slug %}" class="related-card">
+                    {% if item.image %}
+                        <img src="{{ item.image.url }}" alt="{{ item.englishname }}">
+                    {% else %}
+                        <div class="no-image-box">No Image</div>
+                    {% endif %}
+                    <div class="related-card-body">
+                        <h4>{{ item.englishname }}</h4>
                     </div>
-                {% endif %}
-                <div class="related-card-body">
-                    <h4>{{ item.englishname }}</h4>
-                </div>
-            </a>
+                </a>
+
+            {% else %}
+
+                <a href="{% url 'premium_info' %}" class="related-card locked-related">
+                    <div class="image-wrapper">
+                        {% if item.image %}
+                            <img src="{{ item.image.url }}" alt="{{ item.englishname }}" class="blurred-img">
+                        {% else %}
+                            <div class="no-image-box blurred-img"></div>
+                        {% endif %}
+                        <div class="lock-overlay">🔒</div>
+                    </div>
+                    <div class="related-card-body">
+                        <h4 style="color: #888;">{{ item.englishname }} (Premium)</h4>
+                    </div>
+                </a>
+
+            {% endif %}
+
             {% endfor %}
         </div>
     </div>
-    {% endif %}
-
+{% endif %}
 
     <button onclick="smartBack('{{ category_list_url }}')" class="btn-back" id="back-btn">
         ← Back

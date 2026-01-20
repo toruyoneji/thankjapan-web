@@ -205,6 +205,110 @@ body {
 }
 .btn-more:hover { background: #ff9642; }
 
+.locked-card-container {
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+    margin-bottom: 20px;
+    padding: 0 20px;
+}
+
+.locked-card {
+    background: linear-gradient(135deg, #1a1a1a, #2c3e50);
+    color: #fff;
+    padding: 40px;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    max-width: 600px;
+    width: 100%;
+    border: 2px solid #d4af37;
+    position: relative;
+    overflow: hidden;
+}
+
+.locked-card::before {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 60%);
+    animation: shine 6s infinite linear;
+}
+
+@keyframes shine {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.locked-content {
+    position: relative;
+    z-index: 1;
+}
+
+.lock-icon {
+    font-size: 3.5rem;
+    margin-bottom: 15px;
+    text-shadow: 0 0 15px rgba(212, 175, 55, 0.6);
+}
+
+.locked-card h3 {
+    font-size: 1.8rem;
+    margin-bottom: 15px;
+    color: #d4af37;
+    font-family: serif;
+}
+
+.locked-card p {
+    color: #e0e0e0;
+    margin-bottom: 30px;
+    font-size: 1.1rem;
+    line-height: 1.6;
+}
+
+.unlock-btn {
+    display: inline-block;
+    background: linear-gradient(45deg, #d4af37, #f3e5ab, #d4af37);
+    background-size: 200% auto;
+    color: #000;
+    font-weight: bold;
+    font-size: 1.2rem;
+    padding: 15px 50px;
+    border-radius: 50px;
+    text-decoration: none;
+    box-shadow: 0 5px 15px rgba(212, 175, 55, 0.4);
+    transition: all 0.3s ease;
+    animation: pulse-gold 2s infinite;
+}
+
+.unlock-btn:hover {
+    background-position: right center;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(212, 175, 55, 0.6);
+}
+
+@keyframes pulse-gold {
+    0% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.7); }
+    70% { box-shadow: 0 0 0 10px rgba(212, 175, 55, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); }
+}
+
+.jlpt-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: #d4af37;
+    color: #000;
+    font-weight: bold;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    z-index: 10;
+}
+
 @media (max-width: 1200px) {
     .main2 { grid-template-columns: repeat(3, 1fr); }
 }
@@ -335,6 +439,24 @@ body {
             </div>
         </div>
     {% endfor %}
+
+    {% if is_locked %}
+    <div class="locked-card-container">
+        <div class="locked-card">
+            <div class="locked-content">
+                <div class="lock-icon">🔒</div>
+                <h3>Unlock Premium Content</h3>
+                <p>
+                    You've viewed the free samples.<br>
+                    Upgrade to access <b>{{ hidden_count }}+</b> more phrases and master Business Japanese!
+                </p>
+                <a href="{% url 'premium_info' %}" class="unlock-btn">
+                    💎 Unlock Now
+                </a>
+            </div>
+        </div>
+    </div>
+    {% endif %}
 </div>
 
 <div class="pagination-container">
