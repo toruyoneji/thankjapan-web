@@ -331,6 +331,17 @@ footer {
     height: 18px;
     margin-right: 10px;
 }
+
+.rule-caption { 
+    color: #5d4037; 
+    font-size: 0.9em; 
+    margin-top: 15px;
+    line-height: 1.6;
+    font-family: 'Noto Sans JP', sans-serif;
+}
+.rule-caption strong { color: #b7282e; font-weight: bold; }
+.rule-caption span[style] { color: #666 !important; }
+
     
 
 @media screen and (max-width: 768px) {
@@ -388,6 +399,13 @@ footer {
 
     <div class="game-invite-box">
         <h3 class="game-invite-title">Ready to Practice this Word?</h3>
+        <p class="rule-caption">
+                Type Japanese Name in Romaji!<br>
+                Use hyphen <strong>'-'</strong> for long vowels (ー).<br>
+                Use <strong>'nn'</strong> for "ん" (n).<br>
+                <span style="font-size: 0.9em; color: #aaa;">(e.g. <em>suki-</em> for スキー, <em>ra-mennya</em> for らーめんや)</span><br>
+                Fuzzy input allowed: "shi"="si", "tu"="tsu", etc.
+        </p>
         <a href="{% url 'game_restart' %}?mode=single&model_type=free&slug={{ object.slug }}" class="game-invite-btn">
             ⌨️ Practice This Word
         </a>
