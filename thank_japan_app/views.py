@@ -1978,12 +1978,18 @@ class ImgPremiumDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         current_item = self.object
         
-        is_premium = self.request.user.is_authenticated and getattr(self.request.user.profile, 'is_premium', False)
-        
         url_name, lang_code = get_lang_info(self.request)
         context['premium_url_name'] = url_name
         context['lang_code'] = lang_code
 
+        url_target_name = CATEGORY_URL_MAP.get(current_item.category, 'top_page')
+        try:
+            base_category_url = reverse(url_target_name)
+        except:
+            base_category_url = "/"
+        context['category_list_url'] = f"{base_category_url}?lang={lang_code}"
+
+        is_premium = self.request.user.is_authenticated and getattr(self.request.user.profile, 'is_premium', False)
         if not is_premium:
             context['free_sample_ids'] = ThankJapanPremium.objects.filter(
                 category=current_item.category
@@ -1991,11 +1997,12 @@ class ImgPremiumDetailView(DetailView):
 
         context['related_items'] = ThankJapanPremium.objects.filter(
             category=current_item.category
-        ).exclude(
-            id=current_item.id
-        ).order_by('?')[:6]
+        ).exclude(id=current_item.id).order_by('?')[:6]
         
-        return context        
+        return context
+    
+    
+            
 def sitemap_view(request):
     
     premium_items = ThankJapanPremium.objects.all()

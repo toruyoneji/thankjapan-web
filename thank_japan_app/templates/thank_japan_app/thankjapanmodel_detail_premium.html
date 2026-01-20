@@ -487,19 +487,23 @@ function speakJapanese(text) {
 
 function smartBack(categoryListUrl) {
     const params = new URLSearchParams(window.location.search);
-    
+    const referrer = document.referrer;
+
     if (params.get('from') === 'game') {
         window.close();
         return;
     }
-    
-    
-    if (params.get('origin') === 'category') {
+
+    if (referrer.includes('/game/') || params.get('mode') === 'single' || params.get('origin') === 'category') {
         window.location.href = categoryListUrl;
         return;
     }
-    
+
     window.history.back();
+    
+    setTimeout(() => {
+        window.location.href = categoryListUrl;
+    }, 300);
 }
 
 document.addEventListener('DOMContentLoaded', function() {
