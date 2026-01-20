@@ -309,6 +309,10 @@ body {
             <div class="flashcard-inner">
                 
                 <div class="flashcard-front">
+                    {% if item.jlpt_level %}
+                        <div class="jlpt-badge">{{ item.jlpt_level }}</div>
+                    {% endif %}
+                    
                     {% if item.image %}
                         <img src="{{ item.image.url }}" alt="{{ item.englishname }}">
                     {% else %}

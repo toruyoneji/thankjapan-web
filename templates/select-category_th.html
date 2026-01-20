@@ -308,59 +308,31 @@
         </a>
 
         <!-- Business Japanese (Premium) -->
-        {% if user.is_authenticated and user.profile.is_premium %}
-        <a href="{% url 'businessjapanese'%}" class="cat-premium-card">
-        {% else %}
-            <a href="{% url 'premium_infoth' %}" class="cat-card premium-locked">
-        {% endif %}
+        <a href="{% url 'businessjapanese'%}?lang=th" class="cat-premium-card">
             <div class="premium-label">Special</div>
             <span class="cat-icon">👔</span>
             <span class="cat-name">ภาษาญี่ปุ่นธุรกิจ</span>
-            {% if not user.profile.is_premium %}
-                <div class="lock-badge">🔒 Premium</div>
-            {% endif %}
         </a>
 
         <!-- Practical Living (Premium) -->
-        {% if user.is_authenticated and user.profile.is_premium %}
-        <a href="{% url 'living_in_japan_page'%}" class="cat-premium-card">
-        {% else %}
-            <a href="{% url 'premium_infoth' %}" class="cat-card premium-locked">
-        {% endif %}
+        <a href="{% url 'living_in_japan_page'%}?lang=th" class="cat-premium-card">
             <div class="premium-label">Special</div>
             <span class="cat-icon">🏠</span>
             <span class="cat-name">การใช้ชีวิตจริงในญี่ปุ่น</span>
-            {% if not user.profile.is_premium %}
-                <div class="lock-badge">🔒 Premium</div>
-            {% endif %}
         </a>
 
         <!-- Medical & Emergency (Premium) -->
-        {% if user.is_authenticated and user.profile.is_premium %}
-        <a href="{% url 'medical_emergency' %}" class="cat-premium-card">
-        {% else %}
-            <a href="{% url 'premium_info' %}" class="cat-card premium-locked">
-        {% endif %}
+        <a href="{% url 'medical_emergency' %}?lang=th" class="cat-premium-card">
             <div class="premium-label">Special</div>
             <span class="cat-icon">🏥</span>
             <span class="cat-name">การแพทย์และเหตุฉุกเฉิน</span>
-            {% if not user.profile.is_premium %}
-                <div class="lock-badge">🔒 Premium</div>
-            {% endif %}
         </a>
 
         <!-- Real Estate & Hidden Rules (Premium) -->
-        {% if user.is_authenticated and user.profile.is_premium %}
-            <a href="{% url 'real_estate_rules' %}" class="cat-premium-card">
-        {% else %}
-            <a href="{% url 'premium_info' %}" class="cat-card premium-locked">
-        {% endif %}
+        <a href="{% url 'real_estate_rules' %}?lang=th" class="cat-premium-card">
             <div class="premium-label">Special</div>
             <span class="cat-icon">🏢</span>
             <span class="cat-name">อสังหาริมทรัพย์และกฎเกณฑ์</span>
-            {% if not user.profile.is_premium %}
-                <div class="lock-badge">🔒 Premium</div>
-            {% endif %}
         </a>
         
     </div>
