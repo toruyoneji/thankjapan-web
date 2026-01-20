@@ -459,6 +459,7 @@ body {
     {% endif %}
 </div>
 
+{% if not is_locked %}
 <div class="pagination-container">
   <div class="pagination">
     {% if page_obj.has_previous %}
@@ -480,6 +481,7 @@ body {
     {% endif %}
   </div>
 </div>
+{% endif %}
 
 <div style="text-align:center; margin:50px 0;">
    <a class="btn-more" href="javascript:void(0);" onclick="goToCategoryList()">← Back</a>

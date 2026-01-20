@@ -1748,6 +1748,12 @@ class BusinessJapaneseView(ListView):
     template_name = "thank_japan_app/business_japanese.html"
     paginate_by = 24
     
+    def dispatch(self, request, *args, **kwargs):
+        is_premium = request.user.is_authenticated and getattr(request.user.profile, 'is_premium', False)
+        if not is_premium and request.GET.get('page', '1') != '1':
+            return redirect('premium_info') 
+        return super().dispatch(request, *args, **kwargs)
+    
     def get_queryset(self):
         return ThankJapanPremium.objects.filter(category="BusinessJapanese").order_by('-timestamp')
 
@@ -1771,6 +1777,12 @@ class BusinessJapaneseView(ListView):
 class LivingInJapanView(ListView):
     template_name = "thank_japan_app/living_in_japan.html"
     paginate_by = 24
+    
+    def dispatch(self, request, *args, **kwargs):
+        is_premium = request.user.is_authenticated and getattr(request.user.profile, 'is_premium', False)
+        if not is_premium and request.GET.get('page', '1') != '1':
+            return redirect('premium_info') 
+        return super().dispatch(request, *args, **kwargs)
     
     def get_queryset(self):
         return ThankJapanPremium.objects.filter(category="LivingInJapan").order_by('-timestamp')
@@ -1796,6 +1808,13 @@ class MedicalEmergencyView(ListView):
     template_name = "thank_japan_app/medical_emergency.html"
     paginate_by = 24
     
+    def dispatch(self, request, *args, **kwargs):
+        is_premium = request.user.is_authenticated and getattr(request.user.profile, 'is_premium', False)
+        if not is_premium and request.GET.get('page', '1') != '1':
+            return redirect('premium_info') 
+        return super().dispatch(request, *args, **kwargs)
+    
+    
     def get_queryset(self):
         return ThankJapanPremium.objects.filter(category="MedicalEmergency").order_by('-timestamp')
 
@@ -1819,6 +1838,13 @@ class MedicalEmergencyView(ListView):
 class RealestateRulesView(ListView):
     template_name = "thank_japan_app/realestate_rules.html"
     paginate_by = 24
+    
+    def dispatch(self, request, *args, **kwargs):
+        is_premium = request.user.is_authenticated and getattr(request.user.profile, 'is_premium', False)
+        if not is_premium and request.GET.get('page', '1') != '1':
+            return redirect('premium_info') 
+        return super().dispatch(request, *args, **kwargs)
+    
     
     def get_queryset(self):
         return ThankJapanPremium.objects.filter(category="RealEstateRules").order_by('-timestamp')
