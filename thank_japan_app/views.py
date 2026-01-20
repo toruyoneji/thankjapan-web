@@ -1808,7 +1808,6 @@ class BusinessJapaneseView(ListView):
             context['is_locked'] = False
             
         return context
-        
     
 class LivingInJapanView(ListView):
     template_name = "thank_japan_app/living_in_japan.html"
@@ -1817,7 +1816,8 @@ class LivingInJapanView(ListView):
     def dispatch(self, request, *args, **kwargs):
         is_premium = request.user.is_authenticated and getattr(request.user.profile, 'is_premium', False)
         if not is_premium and request.GET.get('page', '1') != '1':
-            return redirect('premium_info') 
+            url_name, _ = get_lang_info(request)
+            return redirect(url_name) 
         return super().dispatch(request, *args, **kwargs)
     
     def get_queryset(self):
@@ -1835,15 +1835,15 @@ class LivingInJapanView(ListView):
             context['object_list'] = context['object_list'][:6]
             context['is_locked'] = True
             context['hidden_count'] = max(0, total_count - 6)
-            url_name, lang_code = get_premium_url_name(self.request)
+            
+            url_name, lang_code = get_lang_info(self.request)
             context['premium_url_name'] = url_name
             context['lang_code'] = lang_code
         else:
             context['is_locked'] = False
             
         return context
-    
-    
+
 class MedicalEmergencyView(ListView):
     template_name = "thank_japan_app/medical_emergency.html"
     paginate_by = 24
@@ -1851,9 +1851,9 @@ class MedicalEmergencyView(ListView):
     def dispatch(self, request, *args, **kwargs):
         is_premium = request.user.is_authenticated and getattr(request.user.profile, 'is_premium', False)
         if not is_premium and request.GET.get('page', '1') != '1':
-            return redirect('premium_info') 
+            url_name, _ = get_lang_info(request)
+            return redirect(url_name) 
         return super().dispatch(request, *args, **kwargs)
-    
     
     def get_queryset(self):
         return ThankJapanPremium.objects.filter(category="MedicalEmergency").order_by('-timestamp')
@@ -1870,15 +1870,15 @@ class MedicalEmergencyView(ListView):
             context['object_list'] = context['object_list'][:6]
             context['is_locked'] = True
             context['hidden_count'] = max(0, total_count - 6)
-            url_name, lang_code = get_premium_url_name(self.request)
+            
+            url_name, lang_code = get_lang_info(self.request)
             context['premium_url_name'] = url_name
             context['lang_code'] = lang_code
         else:
             context['is_locked'] = False
             
         return context
-    
-    
+
 class RealestateRulesView(ListView):
     template_name = "thank_japan_app/realestate_rules.html"
     paginate_by = 24
@@ -1886,9 +1886,9 @@ class RealestateRulesView(ListView):
     def dispatch(self, request, *args, **kwargs):
         is_premium = request.user.is_authenticated and getattr(request.user.profile, 'is_premium', False)
         if not is_premium and request.GET.get('page', '1') != '1':
-            return redirect('premium_info') 
+            url_name, _ = get_lang_info(request)
+            return redirect(url_name) 
         return super().dispatch(request, *args, **kwargs)
-    
     
     def get_queryset(self):
         return ThankJapanPremium.objects.filter(category="RealEstateRules").order_by('-timestamp')
@@ -1905,15 +1905,16 @@ class RealestateRulesView(ListView):
             context['object_list'] = context['object_list'][:6]
             context['is_locked'] = True
             context['hidden_count'] = max(0, total_count - 6)
-            url_name, lang_code = get_premium_url_name(self.request)
+            
+            url_name, lang_code = get_lang_info(self.request)
             context['premium_url_name'] = url_name
             context['lang_code'] = lang_code
         else:
             context['is_locked'] = False
             
         return context
-    
-        
+
+                
 
 
 #premium-detail
@@ -1955,6 +1956,10 @@ class ImgPremiumDetailView(DetailView):
         ).exclude(
             id=current_item.id
         ).order_by('?')[:6]
+        
+        url_name, lang_code = get_lang_info(self.request)
+        context['premium_url_name'] = url_name
+        context['lang_code'] = lang_code
         
         return context    
         

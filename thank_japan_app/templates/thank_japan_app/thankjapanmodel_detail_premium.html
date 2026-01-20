@@ -444,7 +444,7 @@ body {
 
             {% else %}
 
-                <a href="{% url 'premium_info' %}" class="related-card locked-related">
+                <a href="{% url premium_url_name %}" class="related-card locked-related">
                     <div class="image-wrapper">
                         {% if item.image %}
                             <img src="{{ item.image.url }}" alt="{{ item.englishname }}" class="blurred-img">
