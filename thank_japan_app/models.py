@@ -89,6 +89,21 @@ class Profile(models.Model):
 
     def __str__(self):
         return f"{self.user.username}'s Profile"
+    
+    # models.py の Profile クラス内に追加
+    @property
+    def rank_info(self):
+        s = self.total_score
+        if s >= 2000: return {"emoji": "🗾", "name": "Legend"}
+        if s >= 1200: return {"emoji": "👑", "name": "General"}
+        if s >= 900:  return {"emoji": "🐎", "name": "Shogun"}
+        if s >= 650:  return {"emoji": "🏯", "name": "Daimyo"}
+        if s >= 450:  return {"emoji": "🚩", "name": "Hatamoto"}
+        if s >= 300:  return {"emoji": "⚔️", "name": "Samurai"}
+        if s >= 200:  return {"emoji": "🥷", "name": "Ninja"}
+        if s >= 100:  return {"emoji": "🚣", "name": "Ronin"}
+        if s >= 50:   return {"emoji": "🎒", "name": "Traveler"}
+        return {"emoji": "🌾", "name": "Villager"}
 
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
