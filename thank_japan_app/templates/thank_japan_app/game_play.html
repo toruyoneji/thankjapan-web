@@ -1088,7 +1088,9 @@ document.addEventListener('DOMContentLoaded', function() {
         visualHintContainer.innerHTML = '';
         let displayInput = rawInput;
 
-        displayInput = displayInput.replace(/n-/g, "n'").replace(/nn/g, "n'");
+
+        displayInput = displayInput.replace(/nn/g,'ん');
+
 
         displayInput = displayInput.replace(/aa/g,'ー')
                            .replace(/ii/g,'ー')
@@ -1096,12 +1098,18 @@ document.addEventListener('DOMContentLoaded', function() {
                            .replace(/ee/g,'ー')
                            .replace(/oo/g,'ー');
 
-        displayInput = displayInput.replace(/([kstp])\1([aiueo])/g,'っ$1$2');
+
+        displayInput = displayInput.replace(/kk([aiueo])/g,'っ$1')
+                           .replace(/tt([aiueo])/g,'っ$1')
+                           .replace(/pp([aiueo])/g,'っ$1')
+                           .replace(/ss([aiueo])/g,'っ$1');
+
 
         const tokens = wanakana.tokenize(displayInput);
         tokens.forEach(token => {
             let hiragana = wanakana.toHiragana(token);
-        
+
+    
             if (hiragana === "'" || token === "'") return;
             if (hiragana === 'n') hiragana = 'ん';
 
@@ -1110,7 +1118,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const mainSpan = document.createElement('span');
             mainSpan.className = 'char-main';
             mainSpan.textContent = hiragana;
-        
+
             const subSpan = document.createElement('span');
             subSpan.className = 'char-sub';
 
@@ -1124,6 +1132,7 @@ document.addEventListener('DOMContentLoaded', function() {
             span.appendChild(mainSpan);
             span.appendChild(subSpan);
             visualHintContainer.appendChild(span);
+
         });
         const cursor = document.createElement('div');
         cursor.className = 'cursor-bar';
