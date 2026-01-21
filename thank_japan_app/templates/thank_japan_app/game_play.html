@@ -1099,8 +1099,6 @@ document.addEventListener('DOMContentLoaded', function() {
                            .replace(/oo/g,'ー');
 
 
-        displayInput = displayInput.replace(/([kstp])\1([aiueo])/g,'っ$2');
-
 
         const tokens = wanakana.tokenize(displayInput);
         tokens.forEach(token => {
