@@ -996,7 +996,7 @@ def game_restart(request):
                 if not is_premium:
                     free_sample_ids = ThankJapanPremium.objects.filter(
                         category=question.category
-                    ).order_by('-timestamp').values_list('id', flat=True)[:6]
+                    ).order_by('-timestamp').values_list('id', flat=True)[:5]
                     
                     if question.id not in free_sample_ids:
                         url_name, _ = get_lang_info(request)
