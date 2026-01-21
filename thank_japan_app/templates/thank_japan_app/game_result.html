@@ -631,15 +631,73 @@ tbody td {
 </style>
 
 <div class="main2">
-  <h1>🎉 Game Result 🎉</h1>
+  <h1>
+    {% if lang_code == 'ja' %}🎉 ゲーム結果 🎉
+    {% elif lang_code == 'zh-hant' %}🎉 遊戲結果 🎉
+    {% elif lang_code == 'zh-cn' %}🎉 游戏结果 🎉
+    {% elif lang_code == 'de' %}🎉 Spielergebnis 🎉
+    {% elif lang_code == 'fr' %}🎉 Résultat du jeu 🎉
+    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}🎉 Resultado del juego 🎉
+    {% elif lang_code == 'it' %}🎉 Risultato del gioco 🎉
+    {% elif lang_code == 'ko' %}🎉 게임 결과 🎉
+    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}🎉 Resultado do jogo 🎉
+    {% elif lang_code == 'vi' %}🎉 Kết quả trò chơi 🎉
+    {% elif lang_code == 'th' %}🎉 ผลลัพธ์เกม 🎉
+    {% else %}🎉 Game Result 🎉
+    {% endif %}
+
+  </h1>
 
   <div class="score-box" style="color: #000000;">
     {% if player %}
-        <p style="font-size:1.5rem; color: #000000;">Player: {{ player.username }} ({{ player.country|default:"Unknown" }})</p>
+        <p style="font-size:1.5rem; color: #000000;">
+            {% if lang_code == 'ja' %}プレイヤー
+            {% elif lang_code == 'zh-hant' %}玩家
+            {% elif lang_code == 'zh-cn' %}玩家
+            {% elif lang_code == 'de' %}Spieler
+            {% elif lang_code == 'fr' %}Joueur
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Jugador
+            {% elif lang_code == 'it' %}Giocatore
+            {% elif lang_code == 'ko' %}플레이어
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Jogador
+            {% elif lang_code == 'vi' %}Người chơi
+            {% elif lang_code == 'th' %}ผู้เล่น
+            {% else %}Player
+            {% endif %}
+            {{ player.username }} ({{ player.country|default:"Unknown" }})</p>
     {% else %}
-        <p style="font-size:1.5rem; color: #000000;">Player: Guest</p>
+        <p style="font-size:1.5rem; color: #000000;">
+            {% if lang_code == 'ja' %}プレイヤー: ゲスト
+            {% elif lang_code == 'zh-hant' %}玩家: 訪客
+            {% elif lang_code == 'zh-cn' %}玩家: 游客
+            {% elif lang_code == 'de' %}Spieler: Gast
+            {% elif lang_code == 'fr' %}Joueur: Invité
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Jugador: Invitado
+            {% elif lang_code == 'it' %}Giocatore: Ospite
+            {% elif lang_code == 'ko' %}플레이어: 게스트
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Jogador: Convidado
+            {% elif lang_code == 'vi' %}Người chơi: Khách
+            {% elif lang_code == 'th' %}ผู้เล่น: แขก
+            {% else %}Player: Guest
+            {% endif %}
+
+        </p>
     {% endif %}
-    <p style="color: #000000;">Your Score: <span class="score-number" id="score" style="color: #000000;">{{ score }}</span> pts</p>
+    <p style="color: #000000;">
+        {% if lang_code == 'ja' %}スコア:
+        {% elif lang_code == 'zh-hant' %}分數:
+        {% elif lang_code == 'zh-cn' %}分数:
+        {% elif lang_code == 'de' %}Punktestand:
+        {% elif lang_code == 'fr' %}Score:
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Puntuación:
+        {% elif lang_code == 'it' %}Punteggio:
+        {% elif lang_code == 'ko' %}점수:
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Pontuação:
+        {% elif lang_code == 'vi' %}Điểm số:
+        {% elif lang_code == 'th' %}คะแนน:
+        {% else %}Your Score:
+        {% endif %}
+ <span class="score-number" id="score" style="color: #000000;">{{ score }}</span> pts</p>
   </div>
 
   
@@ -653,7 +711,20 @@ tbody td {
                 <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path>
             </svg>
             
-            Share on X
+            {% if lang_code == 'ja' %}Xでシェア
+            {% elif lang_code == 'zh-hant' %}在 X 分享
+            {% elif lang_code == 'zh-cn' %}在 X 分享
+            {% elif lang_code == 'de' %}Auf X teilen
+            {% elif lang_code == 'fr' %}Partager sur X
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Compartir en X
+            {% elif lang_code == 'it' %}Condividi su X
+            {% elif lang_code == 'ko' %}X에 공유
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Compartilhar no X
+            {% elif lang_code == 'vi' %}Chia sẻ trên X
+            {% elif lang_code == 'th' %}แชร์บน X
+            {% else %}Share on X
+            {% endif %}
+
         </a>
     </div>
 
@@ -661,12 +732,70 @@ tbody td {
 
     <div class="appeal-section">
         {% if is_guest %}
-            <p>🌟 You finished the game! <br><strong>Sign up for free</strong> to save your points and rank up!</p>
-            <a href="{% url 'player_register' %}?guest_score={{ score }}" class="neon-button">Register Now</a>
+            <p>
+                {% if lang_code == 'ja' %}🌟 ゲームをクリアしました！<br><strong>無料登録</strong>してポイントとランクを保存しましょう！
+                {% elif lang_code == 'zh-hant' %}🌟 你完成了遊戲！<br><strong>免費註冊</strong>以保存你的積分和等級！
+                {% elif lang_code == 'zh-cn' %}🌟 你完成了游戏！<br><strong>免费注册</strong>以保存你的积分和等级！
+                {% elif lang_code == 'de' %}🌟 Du hast das Spiel beendet!<br><strong>Kostenlos anmelden</strong>, um Punkte und Rang zu speichern!
+                {% elif lang_code == 'fr' %}🌟 Vous avez terminé le jeu !<br><strong>Inscrivez-vous gratuitement</strong> pour sauvegarder vos points et votre rang !
+                {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}🌟 ¡Has terminado el juego!<br><strong>Regístrate gratis</strong> para guardar tus puntos y subir de rango!
+                {% elif lang_code == 'it' %}🌟 Hai finito il gioco!<br><strong>Registrati gratuitamente</strong> per salvare i tuoi punti e il tuo livello!
+                {% elif lang_code == 'ko' %}🌟 게임을 완료했습니다!<br><strong>무료 가입</strong>하여 점수와 등급을 저장하세요!
+                {% elif lang_code == 'pt' or lang_code == 'pt-br' %}🌟 Você terminou o jogo!<br><strong>Cadastre-se gratuitamente</strong> para salvar seus pontos e subir de nível!
+                {% elif lang_code == 'vi' %}🌟 Bạn đã hoàn thành trò chơi!<br><strong>Đăng ký miễn phí</strong> để lưu điểm và thăng hạng!
+                {% elif lang_code == 'th' %}🌟 คุณเล่นเกมจบแล้ว!<br><strong>สมัครฟรี</strong>เพื่อบันทึกคะแนนและเลื่อนระดับ!
+                {% else %}🌟 You finished the game!<br><strong>Sign up for free</strong> to save your points and rank up!
+                {% endif %}
+
+            </p>
+            <a href="{% url 'player_register' %}?guest_score={{ score }}" class="neon-button">
+                {% if lang_code == 'ja' %}今すぐ登録
+                {% elif lang_code == 'zh-hant' %}立即註冊
+                {% elif lang_code == 'zh-cn' %}立即注册
+                {% elif lang_code == 'de' %}Jetzt registrieren
+                {% elif lang_code == 'fr' %}S'inscrire maintenant
+                {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Regístrate ahora
+                {% elif lang_code == 'it' %}Registrati ora
+                {% elif lang_code == 'ko' %}지금 등록
+                {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Registre-se agora
+                {% elif lang_code == 'vi' %}Đăng ký ngay
+                {% elif lang_code == 'th' %}ลงทะเบียนตอนนี้
+                {% else %}Register Now
+                {% endif %}
+
+            </a>
         {% else %}
-            <p>🌟 Great job! <br>Check your new total score and rank in your profile!</p>
+            <p>
+                {% if lang_code == 'ja' %}🌟 よくできました！<br>プロフィールで合計スコアとランクを確認しましょう！
+                {% elif lang_code == 'zh-hant' %}🌟 做得好！<br>在你的個人資料中查看新的總分和等級！
+                {% elif lang_code == 'zh-cn' %}🌟 做得好！<br>在你的个人资料中查看新的总分和等级！
+                {% elif lang_code == 'de' %}🌟 Gut gemacht!<br>Überprüfe deine neue Gesamtpunktzahl und deinen Rang in deinem Profil!
+                {% elif lang_code == 'fr' %}🌟 Bravo !<br>Vérifiez votre nouveau score total et votre rang dans votre profil !
+                {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}🌟 ¡Buen trabajo!<br>Revisa tu nuevo puntaje total y rango en tu perfil.
+                {% elif lang_code == 'it' %}🌟 Ben fatto!<br>Controlla il tuo nuovo punteggio totale e rango nel tuo profilo!
+                {% elif lang_code == 'ko' %}🌟 잘했어요!<br>프로필에서 새로운 총점과 등급을 확인하세요!
+                {% elif lang_code == 'pt' or lang_code == 'pt-br' %}🌟 Ótimo trabalho!<br>Confira sua nova pontuação total e classificação em seu perfil!
+                {% elif lang_code == 'vi' %}🌟 Làm tốt lắm!<br>Kiểm tra tổng điểm và hạng mới của bạn trong hồ sơ!
+                {% elif lang_code == 'th' %}🌟 ทำได้ดีมาก!<br>ตรวจสอบคะแนนรวมและอันดับใหม่ของคุณในโปรไฟล์!
+                {% else %}🌟 Great job!<br>Check your new total score and rank in your profile!
+                {% endif %}
+
+            </p>
             <a href="{% url 'account_settings_redirect' %}" class="btn-manage-account">
-                Manage Profile / Account Settings ⚙️
+                {% if lang_code == 'ja' %}プロフィール / アカウント設定 ⚙️
+                {% elif lang_code == 'zh-hant' %}管理個人資料 / 帳戶設定 ⚙️
+                {% elif lang_code == 'zh-cn' %}管理个人资料 / 账户设置 ⚙️
+                {% elif lang_code == 'de' %}Profil / Kontoeinstellungen verwalten ⚙️
+                {% elif lang_code == 'fr' %}Gérer le profil / Paramètres du compte ⚙️
+                {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Gestionar perfil / Configuración de la cuenta ⚙️
+                {% elif lang_code == 'it' %}Gestisci profilo / Impostazioni account ⚙️
+                {% elif lang_code == 'ko' %}프로필 / 계정 설정 관리 ⚙️
+                {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Gerenciar perfil / Configurações da conta ⚙️
+                {% elif lang_code == 'vi' %}Quản lý Hồ sơ / Cài đặt tài khoản ⚙️
+                {% elif lang_code == 'th' %}จัดการโปรไฟล์ / การตั้งค่าบัญชี ⚙️
+                {% else %}Manage Profile / Account Settings ⚙️
+                {% endif %}
+
             </a>
         {% endif %}
     </div>
@@ -674,7 +803,22 @@ tbody td {
 
   {% if review_data %}
     <div class="review-section">
-        <h2 class="section-title">📝 Review Your Answers</h2>
+        <h2 class="section-title">
+            {% if lang_code == 'ja' %}📝 回答を確認
+            {% elif lang_code == 'zh-hant' %}📝 查看你的答案
+            {% elif lang_code == 'zh-cn' %}📝 查看你的答案
+            {% elif lang_code == 'de' %}📝 Überprüfe deine Antworten
+            {% elif lang_code == 'fr' %}📝 Révisez vos réponses
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}📝 Revisa tus respuestas
+            {% elif lang_code == 'it' %}📝 Controlla le tue risposte
+            {% elif lang_code == 'ko' %}📝 답변 검토
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}📝 Reveja suas respostas
+            {% elif lang_code == 'vi' %}📝 Xem lại câu trả lời của bạn
+            {% elif lang_code == 'th' %}📝 ตรวจสอบคำตอบของคุณ
+            {% else %}📝 Review Your Answers
+            {% endif %}
+
+        </h2>
         <div class="review-list">
             {% for item in review_data %}
                 <div class="review-card {% if item.is_correct %}correct{% else %}wrong{% endif %}">
@@ -696,18 +840,92 @@ tbody td {
                         <h3 class="answer-title">{{ item.object.jpname }} ({{ item.object.name|title }})</h3>
 
                         {% if item.is_correct %}
-                            <p class="status-text correct">✅ Correct!</p>
+                            <p class="status-text correct">
+                                {% if lang_code == 'ja' %}✅ 正解！
+                                {% elif lang_code == 'zh-hant' %}✅ 正確！
+                                {% elif lang_code == 'zh-cn' %}✅ 正确！
+                                {% elif lang_code == 'de' %}✅ Richtig!
+                                {% elif lang_code == 'fr' %}✅ Correct !
+                                {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}✅ ¡Correcto!
+                                {% elif lang_code == 'it' %}✅ Corretto!
+                                {% elif lang_code == 'ko' %}✅ 정답!
+                                {% elif lang_code == 'pt' or lang_code == 'pt-br' %}✅ Correto!
+                                {% elif lang_code == 'vi' %}✅ Chính xác!
+                                {% elif lang_code == 'th' %}✅ ถูกต้อง!
+                                {% else %}✅ Correct!
+                                {% endif %}
+
+                            </p>
                         {% else %}
-                            <p class="status-text wrong">❌ Incorrect</p>
-                            <p class="user-input">You typed: <span>"{{ item.user_input }}"</span></p>
+                            <p class="status-text wrong">
+                                {% if lang_code == 'ja' %}❌ 不正解
+                                {% elif lang_code == 'zh-hant' %}❌ 錯誤
+                                {% elif lang_code == 'zh-cn' %}❌ 错误
+                                {% elif lang_code == 'de' %}❌ Falsch
+                                {% elif lang_code == 'fr' %}❌ Incorrect
+                                {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}❌ Incorrecto
+                                {% elif lang_code == 'it' %}❌ Sbagliato
+                                {% elif lang_code == 'ko' %}❌ 틀렸습니다
+                                {% elif lang_code == 'pt' or lang_code == 'pt-br' %}❌ Incorreto
+                                {% elif lang_code == 'vi' %}❌ Sai
+                                {% elif lang_code == 'th' %}❌ ไม่ถูกต้อง
+                                {% else %}❌ Incorrect
+                                {% endif %}
+
+                            </p>
+                            <p class="user-input">
+                                {% if lang_code == 'ja' %}あなたが入力した:
+                                {% elif lang_code == 'zh-hant' %}你輸入了:
+                                {% elif lang_code == 'zh-cn' %}你输入了:
+                                {% elif lang_code == 'de' %}Du hast eingegeben:
+                                {% elif lang_code == 'fr' %}Vous avez tapé :
+                                {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Escribiste:
+                                {% elif lang_code == 'it' %}Hai digitato:
+                                {% elif lang_code == 'ko' %}입력한 내용:
+                                {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Você digitou:
+                                {% elif lang_code == 'vi' %}Bạn đã nhập:
+                                {% elif lang_code == 'th' %}คุณพิมพ์:
+                                {% else %}You typed:
+                                {% endif %}
+                                 <span>"{{ item.user_input }}"</span></p>
                         {% endif %}
                     </div>
 
                     <div class="review-action">
                       {% if is_premium_mode %}
-                        <a href="{% url 'detail_premium' category=item.object.category slug=item.object.slug %}" class="study-btn">📖 Study</a>
+                        <a href="{% url 'detail_premium' category=item.object.category slug=item.object.slug %}" class="study-btn">
+                            {% if lang_code == 'ja' %}📖 学ぶ
+                            {% elif lang_code == 'zh-hant' %}📖 學習
+                            {% elif lang_code == 'zh-cn' %}📖 学习
+                            {% elif lang_code == 'de' %}📖 Lernen
+                            {% elif lang_code == 'fr' %}📖 Étudier
+                            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}📖 Estudiar
+                            {% elif lang_code == 'it' %}📖 Studia
+                            {% elif lang_code == 'ko' %}📖 공부하기
+                            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}📖 Estudar
+                            {% elif lang_code == 'vi' %}📖 Học
+                            {% elif lang_code == 'th' %}📖 ศึกษา
+                            {% else %}📖 Study
+                            {% endif %}
+
+                        </a>
                       {% else %}
-                        <a href="{% url 'category_detail' category=item.object.category slug=item.object.slug %}" class="study-btn">📖 Study</a>
+                        <a href="{% url 'category_detail' category=item.object.category slug=item.object.slug %}" class="study-btn">
+                            {% if lang_code == 'ja' %}📖 学ぶ
+                            {% elif lang_code == 'zh-hant' %}📖 學習
+                            {% elif lang_code == 'zh-cn' %}📖 学习
+                            {% elif lang_code == 'de' %}📖 Lernen
+                            {% elif lang_code == 'fr' %}📖 Étudier
+                            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}📖 Estudiar
+                            {% elif lang_code == 'it' %}📖 Studia
+                            {% elif lang_code == 'ko' %}📖 공부하기
+                            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}📖 Estudar
+                            {% elif lang_code == 'vi' %}📖 Học
+                            {% elif lang_code == 'th' %}📖 ศึกษา
+                            {% else %}📖 Study
+                            {% endif %}
+
+                        </a>
                       {% endif %}
                     </div>
 
@@ -721,24 +939,129 @@ tbody td {
 
   <div class="button-group">
     {% if is_guest %}
-        <a href="{% url 'game_start' %}" class="neon-button">Back to Menu</a>
+        <a href="{% url 'game_start' %}" class="neon-button">
+            {% if lang_code == 'ja' %}メニューに戻る
+            {% elif lang_code == 'zh-hant' %}返回選單
+            {% elif lang_code == 'zh-cn' %}返回菜单
+            {% elif lang_code == 'de' %}Zurück zum Menü
+            {% elif lang_code == 'fr' %}Retour au menu
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Volver al menú
+            {% elif lang_code == 'it' %}Torna al menu
+            {% elif lang_code == 'ko' %}메뉴로 돌아가기
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Voltar ao menu
+            {% elif lang_code == 'vi' %}Quay lại Menu
+            {% elif lang_code == 'th' %}กลับไปที่เมนู
+            {% else %}Back to Menu
+            {% endif %}
+
+        </a>
     {% else %}
-        <a href="{% url 'game_restart' %}?difficulty={{ difficulty }}" class="neon-button">🔁 Play Again</a>
-        <a href="{% url 'game_start' %}" class="neon-button secondary">Back to Menu</a>
+        <a href="{% url 'game_restart' %}?difficulty={{ difficulty }}" class="neon-button">
+            {% if lang_code == 'ja' %}🔁 もう一度プレイ
+            {% elif lang_code == 'zh-hant' %}🔁 再次遊玩
+            {% elif lang_code == 'zh-cn' %}🔁 再次游玩
+            {% elif lang_code == 'de' %}🔁 Nochmal spielen
+            {% elif lang_code == 'fr' %}🔁 Rejouer
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}🔁 Jugar de nuevo
+            {% elif lang_code == 'it' %}🔁 Gioca di nuovo
+            {% elif lang_code == 'ko' %}🔁 다시 플레이
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}🔁 Jogar novamente
+            {% elif lang_code == 'vi' %}🔁 Chơi lại
+            {% elif lang_code == 'th' %}🔁 เล่นอีกครั้ง
+            {% else %}🔁 Play Again
+            {% endif %}
+
+        </a>
+        <a href="{% url 'game_start' %}" class="neon-button secondary">
+            {% if lang_code == 'ja' %}メニューに戻る
+            {% elif lang_code == 'zh-hant' %}返回選單
+            {% elif lang_code == 'zh-cn' %}返回菜单
+            {% elif lang_code == 'de' %}Zurück zum Menü
+            {% elif lang_code == 'fr' %}Retour au menu
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Volver al menú
+            {% elif lang_code == 'it' %}Torna al menu
+            {% elif lang_code == 'ko' %}메뉴로 돌아가기
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Voltar ao menu
+            {% elif lang_code == 'vi' %}Quay lại Menu
+            {% elif lang_code == 'th' %}กลับไปที่เมนู
+            {% else %}Back to Menu
+            {% endif %}
+
+        </a>
     {% endif %}
   </div>
 
   <hr> 
 
-  <h2>🏆Global Ranking Top 20 Players</h2>
+  <h2>
+    {% if lang_code == 'ja' %}🏆 世界ランキング トップ20プレイヤー
+    {% elif lang_code == 'zh-hant' %}🏆 全球排名 前20名玩家
+    {% elif lang_code == 'zh-cn' %}🏆 全球排名 前20名玩家
+    {% elif lang_code == 'de' %}🏆 Globale Rangliste Top 20 Spieler
+    {% elif lang_code == 'fr' %}🏆 Classement mondial Top 20 joueurs
+    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}🏆 Ranking Global Top 20 jugadores
+    {% elif lang_code == 'it' %}🏆 Classifica globale Top 20 giocatori
+    {% elif lang_code == 'ko' %}🏆 글로벌 랭킹 상위 20명
+    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}🏆 Ranking Global Top 20 jogadores
+    {% elif lang_code == 'vi' %}🏆 Bảng xếp hạng toàn cầu Top 20 người chơi
+    {% elif lang_code == 'th' %}🏆 อันดับโลก 20 ผู้เล่นสูงสุด
+    {% else %}🏆 Global Ranking Top 20 Players
+    {% endif %}
+
+  </h2>
   <div class="table-wrapper">
     <table>
       <thead>
         <tr>
           <th>#</th>
-          <th>Username</th>
-          <th>Points</th>
-          <th>Country</th>
+          <th>
+            {% if lang_code == 'ja' %}ユーザー名
+            {% elif lang_code == 'zh-hant' %}使用者名稱
+            {% elif lang_code == 'zh-cn' %}用户名
+            {% elif lang_code == 'de' %}Benutzername
+            {% elif lang_code == 'fr' %}Nom d’utilisateur
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Nombre de usuario
+            {% elif lang_code == 'it' %}Nome utente
+            {% elif lang_code == 'ko' %}사용자 이름
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Nome de usuário
+            {% elif lang_code == 'vi' %}Tên người dùng
+            {% elif lang_code == 'th' %}ชื่อผู้ใช้
+            {% else %}Username
+            {% endif %}
+
+          </th>
+          <th>
+            {% if lang_code == 'ja' %}ポイント
+            {% elif lang_code == 'zh-hant' %}點數
+            {% elif lang_code == 'zh-cn' %}积分
+            {% elif lang_code == 'de' %}Punkte
+            {% elif lang_code == 'fr' %}Points
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Puntos
+            {% elif lang_code == 'it' %}Punti
+            {% elif lang_code == 'ko' %}점수
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Pontos
+            {% elif lang_code == 'vi' %}Điểm
+            {% elif lang_code == 'th' %}คะแนน
+            {% else %}Points
+            {% endif %}
+
+          </th>
+          <th>
+            {% if lang_code == 'ja' %}国
+            {% elif lang_code == 'zh-hant' %}國家
+            {% elif lang_code == 'zh-cn' %}国家
+            {% elif lang_code == 'de' %}Land
+            {% elif lang_code == 'fr' %}Pays
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}País
+            {% elif lang_code == 'it' %}Paese
+            {% elif lang_code == 'ko' %}국가
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}País
+            {% elif lang_code == 'vi' %}Quốc gia
+            {% elif lang_code == 'th' %}ประเทศ
+            {% else %}Country
+            {% endif %}
+
+          </th>
         </tr>
       </thead>
       <tbody>
@@ -750,7 +1073,22 @@ tbody td {
           <td>{{ r.country|default:"-" }}</td>
         </tr>
         {% empty %}
-        <tr><td colspan="4">No rankings yet.</td></tr>
+        <tr><td colspan="4">
+            {% if lang_code == 'ja' %}まだランキングはありません。
+            {% elif lang_code == 'zh-hant' %}尚無排名。
+            {% elif lang_code == 'zh-cn' %}尚无排名。
+            {% elif lang_code == 'de' %}Noch keine Rangliste vorhanden.
+            {% elif lang_code == 'fr' %}Pas encore de classement.
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Aún no hay clasificaciones.
+            {% elif lang_code == 'it' %}Nessuna classifica ancora.
+            {% elif lang_code == 'ko' %}아직 순위가 없습니다.
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Ainda não há classificações.
+            {% elif lang_code == 'vi' %}Chưa có bảng xếp hạng.
+            {% elif lang_code == 'th' %}ยังไม่มีการจัดอันดับ
+            {% else %}No rankings yet.
+            {% endif %}
+
+        </td></tr>
         {% endfor %}
       </tbody>
     </table>
@@ -758,7 +1096,22 @@ tbody td {
 
 
   <div style="text-align:center; margin:50px 0;">
-    <a class="btn-more" href="javascript:void(0);" onclick="goToTopPage()">← Back to Home</a>
+    <a class="btn-more" href="javascript:void(0);" onclick="goToTopPage()">
+        {% if lang_code == 'ja' %}← ホームに戻る
+        {% elif lang_code == 'zh-hant' %}← 返回首頁
+        {% elif lang_code == 'zh-cn' %}← 返回首页
+        {% elif lang_code == 'de' %}← Zur Startseite
+        {% elif lang_code == 'fr' %}← Retour à l’accueil
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}← Volver al inicio
+        {% elif lang_code == 'it' %}← Torna alla Home
+        {% elif lang_code == 'ko' %}← 홈으로 돌아가기
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}← Voltar para a página inicial
+        {% elif lang_code == 'vi' %}← Quay về Trang Chủ
+        {% elif lang_code == 'th' %}← กลับไปหน้าแรก
+        {% else %}← Back to Home
+        {% endif %}
+
+    </a>
   </div>
   
 </div>
