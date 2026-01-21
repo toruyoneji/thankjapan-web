@@ -207,6 +207,46 @@ body {
 }
 .btn-more:hover { background: #ff9642; }
 
+.tap-guide {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 100;
+    pointer-events: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.finger-icon {
+    font-size: 3rem;
+    filter: drop-shadow(0 2px 5px rgba(0,0,0,0.3));
+    animation: tap-animation 0.8s infinite;
+}
+
+.tap-text {
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 2px 10px;
+    border-radius: 10px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    margin-top: -5px;
+}
+
+@keyframes tap-animation {
+    0% { transform: scale(1) translateY(0); }
+    50% { transform: scale(1.2) translateY(-10px); }
+    100% { transform: scale(1) translateY(0); }
+}
+
+
+.flashcard.flipped .tap-guide {
+    display: none;
+}
+
 @media (max-width: 1200px) {
     .main2 { grid-template-columns: repeat(3, 1fr); }
 }
@@ -311,6 +351,13 @@ body {
             <div class="flashcard-inner">
                 
                 <div class="flashcard-front">
+                    {% if forloop.first %}
+                    <div class="tap-guide" id="first-card-guide">
+                        <div class="finger-icon">👆</div>
+                        <div class="tap-text">Tap!</div>
+                    </div>
+                    {% endif %}
+
                     {% if item.image %}
                         <img src="{{ item.image.url }}" alt="{{ item.englishname }}">
                     {% else %}
@@ -365,6 +412,13 @@ body {
 </div>
 
 <script>
+function hideGuide(card) {
+    const guide = card.querySelector('.tap-guide');
+    if (guide) {
+        guide.style.display = 'none';
+    }
+}
+
 function speakJapanese(text) {
     if (!window.speechSynthesis) {
         alert("Audio not supported.");
