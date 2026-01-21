@@ -851,8 +851,15 @@ def get_current_player_info(request):
 
 def game_start(request):
     player, is_guest = get_current_player_info(request)
-    return render(request, 'thank_japan_app/game_start.html', {'player': player, 'is_guest': is_guest})
+    
+    premium_url_name, lang_code = get_lang_info(request)
 
+    return render(request, 'thank_japan_app/game_start.html', {
+        'player': player, 
+        'is_guest': is_guest,
+        'lang_code': lang_code,
+        'premium_url_name': premium_url_name
+    })
 
 def game_play(request):
     player, is_guest = get_current_player_info(request)

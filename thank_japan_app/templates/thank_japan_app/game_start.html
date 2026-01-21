@@ -647,6 +647,363 @@ body::before, body::after { display: none; }
 
 </div>
 
+
+<div class="container">
+    <div class="game-start-container">
+        <h2 class="start-game-title">
+            {% if lang_code == 'ja' %}ゲーム開始
+            {% elif lang_code == 'zh-hant' %}開始遊戲
+            {% elif lang_code == 'zh-cn' %}开始游戏
+            {% elif lang_code == 'ko' %}게임 시작
+            {% elif lang_code == 'de' %}Spiel starten
+            {% elif lang_code == 'fr' %}Démarrer le jeu
+            {% elif lang_code == 'it' %}Inizia gioco
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Iniciar juego
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Iniciar Jogo
+            {% elif lang_code == 'vi' %}Bắt đầu trò chơi
+            {% elif lang_code == 'th' %}เริ่มเกม
+            {% else %}Start Game{% endif %}
+        </h2>
+
+        <div class="visual-rule-container">
+            <div class="rule-step">
+                <span class="step-emoji">🖼️</span>
+                <span class="step-arrow">➡</span>
+                <span class="step-emoji">🇯🇵</span>
+                <span class="step-arrow">➡</span>
+                <span class="step-emoji">⌨️</span>
+            </div>
+            
+            <div class="rule-example-box">
+                <div class="example-item correct">
+                    <span class="example-icon">🍣</span>
+                    <span class="example-text">SUSHI</span>
+                    <span class="example-mark">✅</span>
+                </div>
+                <div class="example-divider">vs</div>
+                <div class="example-item wrong">
+                    <span class="example-icon">🍣</span>
+                    <span class="example-text">
+                        {% if lang_code == 'ja' %}さかな
+                        {% elif lang_code == 'zh-hant' or lang_code == 'zh-cn' %}魚
+                        {% elif lang_code == 'de' %}Fisch
+                        {% elif lang_code == 'fr' %}Poisson
+                        {% elif lang_code == 'it' %}Pesce
+                        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Pescado
+                        {% elif lang_code == 'ko' %}물고기
+                        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Peixe
+                        {% elif lang_code == 'vi' %}Cá
+                        {% elif lang_code == 'th' %}ปลา
+                        {% else %}Fish{% endif %}
+                    </span>
+                    <span class="example-mark">❌</span>
+                </div>
+            </div>
+
+            <p class="rule-caption">
+                {% if lang_code == 'ja' %}
+                    ローマ字で日本語を入力してください！<br>
+                    長音(ー)には <strong>'-'</strong> を使用。<br>
+                    "ん"には <strong>'nn'</strong> を使用。<br>
+                    <small>(例: <em>suki-</em> = スキー, <em>ra-mennya</em> = らーめんや)</small>
+                {% elif lang_code == 'zh-hant' %}
+                    請用羅馬拼音輸入日文！<br>
+                    長音(ー)請使用 <strong>'-'</strong>。<br>
+                    輸入"ん"時請使用 <strong>'nn'</strong>。<br>
+                    <small>(例: <em>suki-</em> = スキー, <em>ra-mennya</em> = らーめんや)</small>
+                {% elif lang_code == 'zh-cn' %}
+                    请用罗马拼音输入日文！<br>
+                    长音(ー)请使用 <strong>'-'</strong>。<br>
+                    输入"ん"时请使用 <strong>'nn'</strong>。<br>
+                    <small>(例: <em>suki-</em> = スキー, <em>ra-mennya</em> = らーめんや)</small>
+                {% elif lang_code == 'ko' %}
+                    일본어 이름을 로마자로 입력하세요!<br>
+                    장음(ー)은 <strong>'-'</strong>를 사용합니다.<br>
+                    "ん"은 <strong>'nn'</strong>을 사용합니다.<br>
+                    <small>(예: <em>suki-</em> = スキー, <em>ra-mennya</em> = らーめんや)</small>
+                {% elif lang_code == 'de' %}
+                    Schreibe den japanischen Namen in Romaji!<br>
+                    Benutze <strong>'-'</strong> für Langvokale (ー).<br>
+                    Benutze <strong>'nn'</strong> für "ん" (n).<br>
+                    <small>(z.B. <em>suki-</em> für スキー, <em>ra-mennya</em> für らーめんや)</small>
+                {% elif lang_code == 'fr' %}
+                    Tapez le nom japonais en Romaji !<br>
+                    Utilisez le trait d'union <strong>'-'</strong> pour les voyelles longues (ー).<br>
+                    Utilisez <strong>'nn'</strong> pour "ん" (n).<br>
+                    <small>(ex: <em>suki-</em> = スキー, <em>ra-mennya</em> = らーめんや)</small>
+                {% elif lang_code == 'it' %}
+                    Scrivi il nome giapponese in Romaji!<br>
+                    Usa il trattino <strong>'-'</strong> per le vocali lunghe (ー).<br>
+                    Usa <strong>'nn'</strong> per "ん" (n).<br>
+                    <small>(es: <em>suki-</em> = スキー, <em>ra-mennya</em> = らーめんや)</small>
+                {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}
+                    ¡Escribe el nombre japonés en Romaji!<br>
+                    Usa el guion <strong>'-'</strong> para las vocales largas (ー).<br>
+                    Usa <strong>'nn'</strong> para la "ん" (n).<br>
+                    <small>(ej: <em>suki-</em> = スキー, <em>ra-mennya</em> = らーめんや)</small>
+                {% elif lang_code == 'pt' or lang_code == 'pt-br' %}
+                    Digite o nome japonês em Romaji!<br>
+                    Use o hífen <strong>'-'</strong> para vogais longas (ー).<br>
+                    Use <strong>'nn'</strong> para "ん" (n).<br>
+                    <small>(ex: <em>suki-</em> = スキー, <em>ra-mennya</em> = らーめんや)</small>
+                {% elif lang_code == 'vi' %}
+                    Nhập tên tiếng Nhật bằng Romaji!<br>
+                    Sử dụng dấu gạch ngang <strong>'-'</strong> cho các nguyên âm dài (ー).<br>
+                    Sử dụng <strong>'nn'</strong> cho "ん" (n).<br>
+                    <small>(vd: <em>suki-</em> = スキー, <em>ra-mennya</em> = らーめんや)</small>
+                {% elif lang_code == 'th' %}
+                    พิมพ์ชื่อภาษาญี่ปุ่นเป็น Romaji!<br>
+                    ใช้เครื่องหมายลบ <strong>'-'</strong> สำหรับเสียงยาว (ー).<br>
+                    ใช้ <strong>'nn'</strong> สำหรับ "ん" (n).<br>
+                    <small>(เช่น: <em>suki-</em> = สกี, <em>ra-mennya</em> = ราเมนยะ)</small>
+                {% else %}
+                    Type Japanese Name in Romaji!<br>
+                    Use hyphen <strong>'-'</strong> for long vowels (ー).<br>
+                    Use <strong>'nn'</strong> for "ん" (n).<br>
+                    <small>(e.g. <em>suki-</em> for スキー, <em>ra-mennya</em> for らーめんや)</small>
+                {% endif %}
+                <br><span style="font-size: 0.85rem; opacity: 0.8;">Fuzzy input allowed: "shi"="si", "tu"="tsu", etc.</span>
+            </p>
+        </div>
+
+        <div class="difficulty-options">
+            <a href="{% url 'game_restart' %}?difficulty=easy" class="difficulty-card easy">
+                <span class="emoji">🙂</span>
+                <div class="difficulty-info">
+                    <h3>EASY</h3>
+                    <p>
+                        {% if lang_code == 'ja' %}かんたんな単語
+                        {% elif lang_code == 'zh-hant' %}簡單單字
+                        {% elif lang_code == 'zh-cn' %}简单单字
+                        {% elif lang_code == 'ko' %}쉬운 단어
+                        {% elif lang_code == 'de' %}Einfache Wörter
+                        {% elif lang_code == 'fr' %}Mots simples
+                        {% elif lang_code == 'it' %}Parole semplici
+                        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Palabras simples
+                        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Palavras simples
+                        {% elif lang_code == 'vi' %}Từ đơn giản
+                        {% elif lang_code == 'th' %}คำง่ายๆ
+                        {% else %}Simple words{% endif %}
+                    </p>
+                </div>
+            </a>
+
+            <a href="{% url 'game_restart' %}?difficulty=normal" class="difficulty-card normal">
+                <span class="emoji">😐</span>
+                <div class="difficulty-info">
+                    <h3>NORMAL</h3>
+                    <p>
+                        {% if lang_code == 'ja' %}日常生活
+                        {% elif lang_code == 'zh-hant' or lang_code == 'zh-cn' %}日常生活
+                        {% elif lang_code == 'ko' %}일상 생활
+                        {% elif lang_code == 'de' %}Alltagsleben
+                        {% elif lang_code == 'fr' %}Vie quotidienne
+                        {% elif lang_code == 'it' %}Vita quotidiana
+                        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Vida cotidiana
+                        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Vida quotidiana
+                        {% elif lang_code == 'vi' %}Đời sống hàng ngày
+                        {% elif lang_code == 'th' %}ชีวิตประจำวัน
+                        {% else %}Everyday life{% endif %}
+                    </p>
+                </div>
+            </a>
+
+            <a href="{% url 'game_restart' %}?difficulty=hard" class="difficulty-card hard">
+                <span class="emoji">😡</span>
+                <div class="difficulty-info">
+                    <h3>HARD</h3>
+                    <p>
+                        {% if lang_code == 'ja' %}文化・芸術
+                        {% elif lang_code == 'zh-hant' %}文化與藝術
+                        {% elif lang_code == 'zh-cn' %}文化与艺术
+                        {% elif lang_code == 'ko' %}문화와 예술
+                        {% elif lang_code == 'de' %}Kultur & Kunst
+                        {% elif lang_code == 'fr' %}Culture & Arts
+                        {% elif lang_code == 'it' %}Cultura e arti
+                        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Cultura y artes
+                        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Cultura e artes
+                        {% elif lang_code == 'vi' %}Văn hóa & Nghệ thuật
+                        {% elif lang_code == 'th' %}วัฒนธรรมและศิลปะ
+                        {% else %}Culture & Arts{% endif %}
+                    </p>
+                </div>
+            </a>
+    
+            {% if player and player.total_score >= 300 %}
+            <a href="{% url 'game_restart' %}?difficulty=super_hard" class="difficulty-card super-hard">
+                <span class="emoji">👹</span>
+                <div class="difficulty-info">
+                    <h3>MANIA</h3>
+                    <p>God Tier!</p>
+                </div>
+            </a>
+            {% else %}
+                <div class="difficulty-card locked">
+                    <span class="emoji">🔒</span>
+                    <div class="difficulty-info">
+                        <h3>???</h3>
+                        <p>
+                            {% if lang_code == 'ja' %}300ptで開放
+                            {% elif lang_code == 'zh-hant' %}300pt解鎖
+                            {% elif lang_code == 'zh-cn' %}300pt解锁
+                            {% elif lang_code == 'ko' %}300pt에서 해제
+                            {% elif lang_code == 'de' %}Ab 300 Pkt.
+                            {% elif lang_code == 'fr' %}Débloquer à 300pts
+                            {% elif lang_code == 'it' %}Sblocca a 300pt
+                            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Desbloquea a 300pts
+                            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Desbloqueia a 300pts
+                            {% elif lang_code == 'vi' %}Mở khóa ở 300pt
+                            {% elif lang_code == 'th' %}ปลดล็อกที่ 300pt
+                            {% else %}Unlock at 300pts{% endif %}
+                        </p>
+                    </div>
+                    {% if not player %}
+                        <a href="{% url 'player_register' %}?next={{ request.path }}" style="position:absolute; top:0; left:0; width:100%; height:100%; z-index:10;"></a>
+                    {% endif %}
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="difficulty-options">
+            <a href="{% url 'game_restart' %}?difficulty=sample_premium" class="difficulty-card sample-card">
+                <span class="emoji">🎁</span>
+                <div class="difficulty-info">
+                    <h3>FREE SAMPLE</h3>
+                    <p>
+                        {% if lang_code == 'ja' %}プレミアムお試し
+                        {% elif lang_code == 'zh-hant' %}體驗高級短語
+                        {% elif lang_code == 'zh-cn' %}体验高级短语
+                        {% elif lang_code == 'ko' %}프리미엄 체험
+                        {% elif lang_code == 'de' %}Premium testen
+                        {% elif lang_code == 'fr' %}Essai Premium
+                        {% elif lang_code == 'it' %}Prova Premium
+                        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Prueba Premium
+                        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Amostra Premium
+                        {% elif lang_code == 'vi' %}Thử Premium
+                        {% elif lang_code == 'th' %}ทดลองใช้พรีเมียม
+                        {% else %}Try Premium!{% endif %}
+                    </p>
+                </div>
+                <span class="free-badge">TRY</span>
+            </a>
+
+            <!-- LEVEL N5 -->
+            {% if user.is_authenticated and user.profile.is_premium %}
+                <a href="{% url 'game_restart' %}?difficulty=n5_premium" class="difficulty-card premium-gold">
+            {% else %}
+                <a href="{% url premium_url_name %}?next={{ request.path }}" class="difficulty-card premium-locked">
+                <div class="lock-overlay">🔒</div>
+            {% endif %}
+                <span class="emoji">🌱</span>
+                <div class="difficulty-info">
+                    <h3>LEVEL N5</h3>
+                    <p>
+                        {% if lang_code == 'ja' %}旅行者・初心者
+                        {% elif lang_code == 'zh-hant' %}旅遊・初學者
+                        {% elif lang_code == 'zh-cn' %}旅游・初学者
+                        {% elif lang_code == 'de' %}Reisende & Anfänger
+                        {% elif lang_code == 'fr' %}Voyageurs & Débutants
+                        {% elif lang_code == 'ko' %}여행자・초보자
+                        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Viajeros y principiantes
+                        {% elif lang_code == 'it' %}Viaggiatori e principianti
+                        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Viajantes e iniciantes
+                        {% elif lang_code == 'vi' %}Khách du lịch & Người mới
+                        {% elif lang_code == 'th' %}นักท่องเที่ยวและผู้เริ่มต้น
+                        {% else %}Travelers & Newbies{% endif %}
+                    </p>
+                </div>
+            </a>
+
+            <!-- LEVEL N4 -->
+            {% if user.is_authenticated and user.profile.is_premium %}
+                <a href="{% url 'game_restart' %}?difficulty=n4_premium" class="difficulty-card premium-gold">
+            {% else %}
+                <a href="{% url premium_url_name %}?next={{ request.path }}" class="difficulty-card premium-locked">
+                <div class="lock-overlay">🔒</div>
+            {% endif %}
+                <span class="emoji">🏠</span>
+                <div class="difficulty-info">
+                    <h3>LEVEL N4</h3>
+                    <p>
+                        {% if lang_code == 'ja' %}日本居住者向け
+                        {% elif lang_code == 'zh-hant' %}適合居住者
+                        {% elif lang_code == 'zh-cn' %}适合居住者
+                        {% elif lang_code == 'de' %}Für Bewohner
+                        {% elif lang_code == 'fr' %}Pour les résidents
+                        {% elif lang_code == 'ko' %}일본 거주자용
+                        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Para residentes
+                        {% elif lang_code == 'it' %}Per i residenti
+                        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Para residentes
+                        {% elif lang_code == 'vi' %}Dành cho cư dân
+                        {% elif lang_code == 'th' %}สำหรับผู้อยู่อาศัย
+                        {% else %}Residents{% endif %}
+                    </p>
+                </div>
+            </a>
+
+            <!-- LEVEL N3 -->
+            {% if user.is_authenticated and user.profile.is_premium %}
+                <a href="{% url 'game_restart' %}?difficulty=n3_premium" class="difficulty-card premium-gold">
+            {% else %}
+                <a href="{% url premium_url_name %}?next={{ request.path }}" class="difficulty-card premium-locked">
+                <div class="lock-overlay">🔒</div>
+            {% endif %}
+                <span class="emoji">💼</span>
+                <div class="difficulty-info">
+                    <h3>LEVEL N3</h3>
+                    <p>
+                        {% if lang_code == 'ja' %}ビジネス・就職
+                        {% elif lang_code == 'zh-hant' %}商務・求職
+                        {% elif lang_code == 'zh-cn' %}商务・求职
+                        {% elif lang_code == 'de' %}Beruf & Karriere
+                        {% elif lang_code == 'fr' %}Affaires & Carrière
+                        {% elif lang_code == 'ko' %}비즈니스・취업
+                        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Negocios y empleo
+                        {% elif lang_code == 'it' %}Lavoro e carriera
+                        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Negócios e carreira
+                        {% elif lang_code == 'vi' %}Kinh doanh & Tìm việc
+                        {% elif lang_code == 'th' %}ธุรกิจและการหางาน
+                        {% else %}Career Seekers{% endif %}
+                    </p>
+                </div>
+            </a>
+        </div>
+
+        <!-- プレイヤー情報 -->
+        <div class="player-info">
+            {% if lang_code == 'ja' %}プレイヤー
+            {% elif lang_code == 'zh-hant' or lang_code == 'zh-cn' %}玩家
+            {% elif lang_code == 'de' %}Spieler
+            {% elif lang_code == 'fr' %}Joueur
+            {% elif lang_code == 'ko' %}플레이어
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Jugador
+            {% elif lang_code == 'it' %}Giocatore
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Jogador
+            {% elif lang_code == 'vi' %}Người chơi
+            {% elif lang_code == 'th' %}ผู้เล่น
+            {% else %}Player{% endif %}:
+            {% if player %}{{ player.username }}{% else %}Guest{% endif %}
+        </div>
+    </div>
+
+    <!-- フッターボタン -->
+    <div style="text-align:center; margin:50px 0;">
+        <a class="btn-more" href="javascript:void(0);" onclick="goToTopPage()">
+            {% if lang_code == 'ja' %}← ホームに戻る
+            {% elif lang_code == 'zh-hant' %}← 返回首頁
+            {% elif lang_code == 'zh-cn' %}← 返回首页
+            {% elif lang_code == 'ko' %}← 홈으로 돌아가기
+            {% elif lang_code == 'de' %}← Zurück zum Home
+            {% elif lang_code == 'fr' %}← Retour à l'accueil
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}← Volver al inicio
+            {% elif lang_code == 'it' %}← Torna alla home
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}← Voltar ao início
+            {% elif lang_code == 'vi' %}← Quay lại trang chủ
+            {% elif lang_code == 'th' %}← กลับสู่หน้าหลัก
+            {% else %}← Back to Home{% endif %}
+        </a>
+    </div>
+
 <script>
     function goToTopPage() {
         const topUrl = localStorage.getItem('tj_top_url');
