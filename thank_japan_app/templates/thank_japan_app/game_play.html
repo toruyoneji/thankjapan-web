@@ -338,22 +338,71 @@ img:hover { transform: scale(1.02); }
   
   <div class="sound-toggle-container">
     <button id="sound-toggle-btn" class="sound-toggle-btn" title="Toggle Sound">
-        <span id="sound-icon">🔊</span> Sound: <span id="sound-status">ON</span>
+        <span id="sound-icon">🔊</span> 
+        {% if lang_code == 'ja' %}音設定
+        {% elif lang_code == 'zh-hant' %}聲音設定
+        {% elif lang_code == 'zh-cn' %}声音设置
+        {% elif lang_code == 'de' %}Ton
+        {% elif lang_code == 'fr' %}Son
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Sonido
+        {% elif lang_code == 'it' %}Suono
+        {% elif lang_code == 'ko' %}소리
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Som
+        {% elif lang_code == 'vi' %}Âm thanh
+        {% elif lang_code == 'th' %}เสียง
+        {% else %}Sound{% endif %}: <span id="sound-status">ON</span>
     </button>
   </div>
 
-  <h1>Question {{ current_index }} / {{ total_questions }}</h1>
+  <h1>
+    {% if lang_code == 'ja' %}問題
+    {% elif lang_code == 'zh-hant' %}題目
+    {% elif lang_code == 'zh-cn' %}题目
+    {% elif lang_code == 'de' %}Frage
+    {% elif lang_code == 'fr' %}Question
+    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Pregunta
+    {% elif lang_code == 'it' %}Domanda
+    {% elif lang_code == 'ko' %}문제
+    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Pergunta
+    {% elif lang_code == 'vi' %}Câu hỏi
+    {% elif lang_code == 'th' %}คำถาม
+    {% else %}Question{% endif %} 
+    {{ current_index }} / {{ total_questions }}
+  </h1>
 
   <div class="score-box" style="color: #000000; position: relative;">
     {% if not is_guest %}
         <p style="font-size:1.5rem; color: #000000;">
-            Player: {{ player.username }} 
+            {% if lang_code == 'ja' %}プレイヤー
+            {% elif lang_code == 'zh-hant' or lang_code == 'zh-cn' %}玩家
+            {% elif lang_code == 'de' %}Spieler
+            {% elif lang_code == 'fr' %}Joueur
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Jugador
+            {% elif lang_code == 'it' %}Giocatore
+            {% elif lang_code == 'ko' %}플레이어
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Jogador
+            {% elif lang_code == 'vi' %}Người chơi
+            {% elif lang_code == 'th' %}ผู้เล่น
+            {% else %}Player{% endif %}: {{ player.username }} 
             <span style="font-size: 0.8em; color: #555;">({{ player.country|default:"Jp" }})</span>
         </p>
         
         <div style="margin: 10px 0; padding: 10px; background: rgba(0,0,0,0.05); border-radius: 4px;">
-            <span style="font-weight: bold; color: #333;">Rank:</span>
-            
+            <span style="font-weight: bold; color: #333;">
+                {% if lang_code == 'ja' %}ランク
+                {% elif lang_code == 'zh-hant' %}等級
+                {% elif lang_code == 'zh-cn' %}等级
+                {% elif lang_code == 'de' %}Rang
+                {% elif lang_code == 'fr' %}Rang
+                {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Rango
+                {% elif lang_code == 'it' %}Grado
+                {% elif lang_code == 'ko' %}랭크
+                {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Nível
+                {% elif lang_code == 'vi' %}Thứ hạng
+                {% elif lang_code == 'th' %}แรงค์
+                {% else %}Rank{% endif %}:
+            </span>
+
             {% with s=player.total_score %}
                 {% if s >= 2000 %}
                     <span style="color: #ff4d4d; font-weight: 900; font-size: 1.5em; text-shadow: 0 0 15px rgba(255,255,255,0.5);">🗾 伝説 (Legend)</span>
@@ -379,62 +428,186 @@ img:hover { transform: scale(1.02); }
             {% endwith %}    
         </div>
 
-    {% else %}
-         <p style="font-size:1.5rem; color: #000000;">Player: Guest</p>
         
+    {% else %}
+        <p style="font-size:1.5rem; color: #000000;">
+            {% if lang_code == 'ja' %}プレイヤー: ゲスト
+            {% elif lang_code == 'zh-hant' %}玩家：訪客
+            {% elif lang_code == 'zh-cn' %}玩家：访客
+            {% elif lang_code == 'de' %}Spieler: Gast
+            {% elif lang_code == 'fr' %}Joueur : Invité
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Jugador: Invitado
+            {% elif lang_code == 'it' %}Giocatore: Ospite
+            {% elif lang_code == 'ko' %}플레이어: 게스트
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Jogador: Convidado
+            {% elif lang_code == 'vi' %}Người chơi: Khách
+            {% elif lang_code == 'th' %}ผู้เล่น: ผู้เยี่ยมชม
+            {% else %}Player: Guest
+            {% endif %}
+        </p>
+
         <div style="margin: 10px 0; padding: 10px; background: rgba(255, 0, 0, 0.05); border: 1px dashed #b7282e; border-radius: 4px;">
-            <span style="color: #666;">Rank: 🌱 Guest</span><br>
+            <span style="color: #666;">
+                {% if lang_code == 'ja' %}ランク: 🌱 ゲスト
+                {% elif lang_code == 'zh-hant' %}等級：🌱 訪客
+                {% elif lang_code == 'zh-cn' %}等级：🌱 访客
+                {% elif lang_code == 'de' %}Rang: 🌱 Gast
+                {% elif lang_code == 'fr' %}Rang : 🌱 Invité
+                {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Rango: 🌱 Invitado
+                {% elif lang_code == 'it' %}Grado: 🌱 Ospite
+                {% elif lang_code == 'ko' %}랭크: 🌱 게스트
+                {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Nível: 🌱 Convidado
+                {% elif lang_code == 'vi' %}Thứ hạng: 🌱 Khách
+                {% elif lang_code == 'th' %}แรงค์: 🌱 ผู้เยี่ยมชม
+                {% else %}Rank: 🌱 Guest
+                {% endif %}
+            </span><br>
+
             <span style="color: #b7282e; font-size: 0.9rem; font-weight: bold;">
-                ⚠ Data NOT saved (データは保存されません)
+                {% if lang_code == 'ja' %}⚠ データは保存されません
+                {% elif lang_code == 'zh-hant' %}⚠ 資料不會被儲存
+                {% elif lang_code == 'zh-cn' %}⚠ 数据不会被保存
+                {% elif lang_code == 'de' %}⚠ Daten werden nicht gespeichert
+                {% elif lang_code == 'fr' %}⚠ Données non enregistrées
+                {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}⚠ Datos no guardados
+                {% elif lang_code == 'it' %}⚠ Dati non salvati
+                {% elif lang_code == 'ko' %}⚠ 데이터가 저장되지 않습니다
+                {% elif lang_code == 'pt' or lang_code == 'pt-br' %}⚠ Dados não salvos
+                {% elif lang_code == 'vi' %}⚠ Dữ liệu không được lưu
+                {% elif lang_code == 'th' %}⚠ ข้อมูลจะไม่ถูกบันทึก
+                {% else %}⚠ Data NOT saved
+                {% endif %}
             </span>
+
             <div style="margin-top: 5px;">
-                <a href="{% url 'player_register' %}" style="color: #26456e; text-decoration: underline; font-size: 0.9rem;">
-                    Sign up to save rank ↗
+                <a href="{% url 'player_register' %}?next={{ request.path }}" style="color: #26456e; text-decoration: underline; font-size: 0.9rem;">
+                    {% if lang_code == 'ja' %}登録してランクを保存 ↗
+                    {% elif lang_code == 'zh-hant' %}註冊以保存等級 ↗
+                    {% elif lang_code == 'zh-cn' %}注册以保存等级 ↗
+                    {% elif lang_code == 'de' %}Registrieren, um Rang zu speichern ↗
+                    {% elif lang_code == 'fr' %}Inscrivez-vous pour sauvegarder le rang ↗
+                    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Regístrate para guardar el rango ↗
+                    {% elif lang_code == 'it' %}Registrati per salvare il grado ↗
+                    {% elif lang_code == 'ko' %}가입하여 랭크 저장 ↗
+                    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Cadastre-se para salvar o nível ↗
+                    {% elif lang_code == 'vi' %}Đăng ký để lưu thứ hạng ↗
+                    {% elif lang_code == 'th' %}สมัครเพื่อบันทึกแรงค์ ↗
+                    {% else %}Sign up to save rank ↗
+                    {% endif %}
                 </a>
             </div>
         </div>
     {% endif %}
 
     <p style="color: #000000; margin-top: 10px;">
-        Current Score: <span class="score-number" id="score" style="color: #000000;">{{ score }}</span> pts
+        {% if lang_code == 'ja' %}現在のスコア
+        {% elif lang_code == 'zh-hant' %}目前分數
+        {% elif lang_code == 'zh-cn' %}当前分数
+        {% elif lang_code == 'de' %}Aktuelle Punktzahl
+        {% elif lang_code == 'fr' %}Score actuel
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Puntuación actual
+        {% elif lang_code == 'it' %}Punteggio attuale
+        {% elif lang_code == 'ko' %}현재 점수
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Pontuação atual
+        {% elif lang_code == 'vi' %}Điểm hiện tại
+        {% elif lang_code == 'th' %}คะแนนปัจจุบัน
+        {% else %}Current Score
+        {% endif %}:
+        <span class="score-number" id="score" style="color: #000000;">{{ score }}</span> pts
+    </p>
+  </div>
+
+    {% if object.image %}
+        <img src="{{ object.image.url }}" alt="Question image">
+    {% endif %}
+
+    <h2>
+        {% if lang_code == 'ja' %}カテゴリ
+        {% elif lang_code == 'zh-hant' %}分類
+        {% elif lang_code == 'zh-cn' %}分类
+        {% elif lang_code == 'de' %}Kategorie
+        {% elif lang_code == 'fr' %}Catégorie
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Categoría
+        {% elif lang_code == 'it' %}Categoria
+        {% elif lang_code == 'ko' %}카테고리
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Categoria
+        {% elif lang_code == 'vi' %}Danh mục
+        {% elif lang_code == 'th' %}หมวดหมู่
+        {% else %}Category
+        {% endif %}: {{ object.category|title }}
+    </h2>
+
+<div class="hint-area" style="margin: 15px 0;">
+    <button type="button" id="hint-btn" onclick="showHint()" style="
+    background: #d4af37; 
+    color: #000; 
+    border: none; 
+    padding: 8px 20px; 
+    border-radius: 20px; 
+    font-weight: bold; 
+    cursor: pointer;
+    box-shadow: 0 4px 0 #8b7326;
+    transition: 0.2s;">
+    💡
+        {% if lang_code == 'ja' %}ヒント
+        {% elif lang_code == 'zh-hant' or lang_code == 'zh-cn' %}提示
+        {% elif lang_code == 'de' %}Hinweis
+        {% elif lang_code == 'fr' %}Indice
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Pista
+        {% elif lang_code == 'it' %}Suggerimento
+        {% elif lang_code == 'ko' %}힌트
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Dica
+        {% elif lang_code == 'vi' %}Gợi ý
+        {% elif lang_code == 'th' %}คำใบ้
+        {% else %}Hint
+        {% endif %}
+    </button>
+
+    <p id="english-hint-text" style="
+    display: none; 
+    font-size: 1.2rem; 
+    color: #fcd5b5; 
+    margin-top: 10px;
+    font-family: 'Poppins', sans-serif;">
+        {% if lang_code == 'ja' %}意味:
+        {% elif lang_code == 'zh-hant' %}意思:
+        {% elif lang_code == 'zh-cn' %}含义:
+        {% elif lang_code == 'de' %}Bedeutung:
+        {% elif lang_code == 'fr' %}Signification:
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Significado:
+        {% elif lang_code == 'it' %}Significato:
+        {% elif lang_code == 'ko' %}의미:
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Significado:
+        {% elif lang_code == 'vi' %}Nghĩa:
+        {% elif lang_code == 'th' %}ความหมาย:
+        {% else %}Meaning:
+        {% endif %}
+        <strong>{{ object.englishname }}</strong>
     </p>
 </div>
 
-  {% if object.image %}
-    <img src="{{ object.image.url }}" alt="Question image">
-  {% endif %}
-  
-  <h2>Category: {{ object.category|title }}</h2>
 
-    <div class="hint-area" style="margin: 15px 0;">
-    <button type="button" id="hint-btn" onclick="showHint()" style="
-        background: #d4af37; 
-        color: #000; 
-        border: none; 
-        padding: 8px 20px; 
-        border-radius: 20px; 
-        font-weight: bold; 
-        cursor: pointer;
-        box-shadow: 0 4px 0 #8b7326;
-        transition: 0.2s;">
-        💡 Hint
-    </button>
-    <p id="english-hint-text" style="
-        display: none; 
-        font-size: 1.2rem; 
-        color: #fcd5b5; 
-        margin-top: 10px;
-        font-family: 'Poppins', sans-serif;">
-        Meaning: <strong>{{ object.englishname }}</strong>
-    </p>
-    </div>
 
   {% if show_result %}
     <div class="result-section" style="text-align: center; margin-top: 20px;">
         {% if is_correct %}
             <div id="correct-flag" data-word="{{ object.jpname }}"></div>
 
-            <h2 style="color: #4caf50; font-size: 2em; text-shadow: 0 0 10px #4caf50;">✅ Correct!</h2>
+            <h2 style="color: #4caf50; font-size: 2em; text-shadow: 0 0 10px #4caf50;">
+                {% if lang_code == 'ja' %}✅ 正解！
+                {% elif lang_code == 'zh-hant' %}✅ 正確！
+                {% elif lang_code == 'zh-cn' %}✅ 正确！
+                {% elif lang_code == 'de' %}✅ Richtig!
+                {% elif lang_code == 'fr' %}✅ Correct !
+                {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}✅ ¡Correcto!
+                {% elif lang_code == 'it' %}✅ Corretto!
+                {% elif lang_code == 'ko' %}✅ 정답!
+                {% elif lang_code == 'pt' or lang_code == 'pt-br' %}✅ Correto!
+                {% elif lang_code == 'vi' %}✅ Chính xác!
+                {% elif lang_code == 'th' %}✅ ถูกต้อง!
+                {% else %}✅ Correct!
+                {% endif %}
+            </h2>
             <div style="display: flex; align-items: center; justify-content: center; gap: 10px; margin: 10px 0;">
                 <p style="font-size: 2.5em; margin: 0; color: #fff;">{{ object.jpname }}</p>
                 <button type="button" class="voice-btn" onclick="speakJapanese('{{ object.jpname }}')" title="Listen">🔊</button>
@@ -443,11 +616,56 @@ img:hover { transform: scale(1.02); }
         {% else %}
             <div id="incorrect-flag" data-word="{{ object.jpname }}"></div>
 
-            <h2 style="color: #ff4081; font-size: 2em; text-shadow: 0 0 10px #ff4081;">❌ Incorrect...</h2>
-            <p>Your answer: <span style="text-decoration: line-through;">{{ user_input }}</span></p>
+            <h2 style="color: #ff4081; font-size: 2em; text-shadow: 0 0 10px #ff4081;">
+                {% if lang_code == 'ja' %}❌ 不正解...
+                {% elif lang_code == 'zh-hant' %}❌ 錯誤...
+                {% elif lang_code == 'zh-cn' %}❌ 错误...
+                {% elif lang_code == 'de' %}❌ Falsch...
+                {% elif lang_code == 'fr' %}❌ Incorrect...
+                {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}❌ Incorrecto...
+                {% elif lang_code == 'it' %}❌ Sbagliato...
+                {% elif lang_code == 'ko' %}❌ 오답...
+                {% elif lang_code == 'pt' or lang_code == 'pt-br' %}❌ Incorreto...
+                {% elif lang_code == 'vi' %}❌ Sai rồi...
+                {% elif lang_code == 'th' %}❌ ผิด...
+                {% else %}❌ Incorrect...
+                {% endif %}
+            </h2>
+
+            <p>
+                {% if lang_code == 'ja' %}あなたの答え:
+                {% elif lang_code == 'zh-hant' %}你的答案：
+                {% elif lang_code == 'zh-cn' %}你的答案：
+                {% elif lang_code == 'de' %}Deine Antwort:
+                {% elif lang_code == 'fr' %}Votre réponse:
+                {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Tu respuesta:
+                {% elif lang_code == 'it' %}La tua risposta:
+                {% elif lang_code == 'ko' %}당신의 답변:
+                {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Sua resposta:
+                {% elif lang_code == 'vi' %}Câu trả lời của bạn:
+                {% elif lang_code == 'th' %}คำตอบของคุณ:
+                {% else %}Your answer:
+                {% endif %}
+                <span style="text-decoration: line-through;">{{ user_input }}</span>
+            </p>
             
             <div style="display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 15px;">
-                <p style="font-size: 1.5em; margin: 0; color: #fff;">Correct: <strong>{{ object.jpname }}</strong></p>
+                <p style="font-size: 1.5em; margin: 0; color: #fff;">
+                    {% if lang_code == 'ja' %}正解:
+                    {% elif lang_code == 'zh-hant' %}正確:
+                    {% elif lang_code == 'zh-cn' %}正确:
+                    {% elif lang_code == 'de' %}Richtig:
+                    {% elif lang_code == 'fr' %}Correct:
+                    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Correcto:
+                    {% elif lang_code == 'it' %}Corretto:
+                    {% elif lang_code == 'ko' %}정답:
+                    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Correto:
+                    {% elif lang_code == 'vi' %}Đáp án đúng:
+                    {% elif lang_code == 'th' %}คำตอบที่ถูกต้อง:
+                    {% else %}Correct:
+                    {% endif %}
+ 
+                    <strong>{{ object.jpname }}</strong></p>
                 <button type="button" class="voice-btn" onclick="speakJapanese('{{ object.jpname }}')" title="Listen">🔊</button>
             </div>
             <p style="font-size: 1.2em; margin-bottom: 20px; color: #ccc;">{{ object.name }}</p>
@@ -455,20 +673,104 @@ img:hover { transform: scale(1.02); }
             <button type="button" onclick="toggleDetails()" style="
                 background: none; border: 1px solid #00bcd4; color: #00bcd4; 
                 padding: 5px 10px; border-radius: 5px; cursor: pointer; margin-top: 10px;">
-                📖 Study this word
+                {% if lang_code == 'ja' %}📖 この単語を学ぼう
+                {% elif lang_code == 'zh-hant' %}📖 學習這個單字
+                {% elif lang_code == 'zh-cn' %}📖 学习这个单词
+                {% elif lang_code == 'de' %}📖 Lerne dieses Wort
+                {% elif lang_code == 'fr' %}📖 Étudie ce mot
+                {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}📖 Estudia esta palabra
+                {% elif lang_code == 'it' %}📖 Studia questa parola
+                {% elif lang_code == 'ko' %}📖 이 단어를 공부하세요
+                {% elif lang_code == 'pt' or lang_code == 'pt-br' %}📖 Estude esta palavra
+                {% elif lang_code == 'vi' %}📖 Học từ này
+                {% elif lang_code == 'th' %}📖 ศึกษาคำนี้
+                {% else %}📖 Study this word
+                {% endif %}
+
             </button>
             <div id="word-details" style="display: none; margin-top: 15px; text-align: left; background: rgba(255,255,255,0.1); padding: 15px; border-radius: 8px;">
-                <p><strong>Japanese:</strong> {{ object.jpname }} ({{ object.name|title }})</p>
-                <p><strong>Meaning:</strong> {{ object.englishname }}</p>
-                <p><strong>Description:</strong> {{ object.description|linebreaksbr }}</p>
+                <p><strong>
+                    {% if lang_code == 'ja' %}日本語:
+                    {% elif lang_code == 'zh-hant' %}日文:
+                    {% elif lang_code == 'zh-cn' %}日语:
+                    {% elif lang_code == 'de' %}Japanisch:
+                    {% elif lang_code == 'fr' %}Japonais:
+                    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Japonés:
+                    {% elif lang_code == 'it' %}Giapponese:
+                    {% elif lang_code == 'ko' %}일본어:
+                    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Japonês:
+                    {% elif lang_code == 'vi' %}Tiếng Nhật:
+                    {% elif lang_code == 'th' %}ภาษาญี่ปุ่น:
+                    {% else %}Japanese:
+                    {% endif %}
+                </strong> {{ object.jpname }} ({{ object.name|title }})</p>
+
+                <p><strong>
+                    {% if lang_code == 'ja' %}意味:
+                    {% elif lang_code == 'zh-hant' %}意思:
+                    {% elif lang_code == 'zh-cn' %}意思:
+                    {% elif lang_code == 'de' %}Bedeutung:
+                    {% elif lang_code == 'fr' %}Signification:
+                    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Significado:
+                    {% elif lang_code == 'it' %}Significato:
+                    {% elif lang_code == 'ko' %}의미:
+                    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Significado:
+                    {% elif lang_code == 'vi' %}Ý nghĩa:
+                    {% elif lang_code == 'th' %}ความหมาย:
+                    {% else %}Meaning:
+                    {% endif %}
+                </strong> {{ object.englishname }}</p>
+
+                <p><strong>
+                    {% if lang_code == 'ja' %}説明:
+                    {% elif lang_code == 'zh-hant' %}說明:
+                    {% elif lang_code == 'zh-cn' %}说明:
+                    {% elif lang_code == 'de' %}Beschreibung:
+                    {% elif lang_code == 'fr' %}Description:
+                    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Descripción:
+                    {% elif lang_code == 'it' %}Descrizione:
+                    {% elif lang_code == 'ko' %}설명:
+                    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Descrição:
+                    {% elif lang_code == 'vi' %}Mô tả:
+                    {% elif lang_code == 'th' %}คำอธิบาย:
+                    {% else %}Description:
+                    {% endif %}
+                </strong> {{ object.description|linebreaksbr }}</p>
+
                 <div style="text-align: right; margin-top: 10px;">
                     {% if is_premium_mode %}
                         <a href="{% url 'detail_premium' category=object.category slug=object.slug %}" target="_blank">
-                            View full page ↗
+                            {% if lang_code == 'ja' %}全ページを見る ↗
+                            {% elif lang_code == 'zh-hant' %}查看完整頁面 ↗
+                            {% elif lang_code == 'zh-cn' %}查看完整页面 ↗
+                            {% elif lang_code == 'de' %}Ganze Seite anzeigen ↗
+                            {% elif lang_code == 'fr' %}Voir la page complète ↗
+                            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Ver la página completa ↗
+                            {% elif lang_code == 'it' %}Visualizza la pagina completa ↗
+                            {% elif lang_code == 'ko' %}전체 페이지 보기 ↗
+                            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Ver página completa ↗
+                            {% elif lang_code == 'vi' %}Xem toàn bộ trang ↗
+                            {% elif lang_code == 'th' %}ดูหน้าทั้งหมด ↗
+                            {% else %}View full page ↗
+                            {% endif %}
+
                         </a>
                     {% else %}
                         <a href="{% url 'category_detail' category=object.category slug=object.slug %}" target="_blank">
-                            View full page ↗
+                            {% if lang_code == 'ja' %}全ページを見る ↗
+                            {% elif lang_code == 'zh-hant' %}查看完整頁面 ↗
+                            {% elif lang_code == 'zh-cn' %}查看完整页面 ↗
+                            {% elif lang_code == 'de' %}Ganze Seite anzeigen ↗
+                            {% elif lang_code == 'fr' %}Voir la page complète ↗
+                            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Ver la página completa ↗
+                            {% elif lang_code == 'it' %}Visualizza la pagina completa ↗
+                            {% elif lang_code == 'ko' %}전체 페이지 보기 ↗
+                            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Ver página completa ↗
+                            {% elif lang_code == 'vi' %}Xem toàn bộ trang ↗
+                            {% elif lang_code == 'th' %}ดูหน้าทั้งหมด ↗
+                            {% else %}View full page ↗
+                            {% endif %}
+
                         </a>
                     {% endif %}
                 </div>
@@ -481,18 +783,73 @@ img:hover { transform: scale(1.02); }
             {% if difficulty == 'single' %}
                 {% if is_premium_mode %}
                     <a href="{% url 'detail_premium' category=object.category slug=object.slug %}?origin=category" class="next-btn btn-back-premium">
-                        ✅ Finish & Back to Lesson
+                        {% if lang_code == 'ja' %}✅ 完了してレッスンに戻る
+                        {% elif lang_code == 'zh-hant' %}✅ 完成並返回課程
+                        {% elif lang_code == 'zh-cn' %}✅ 完成并返回课程
+                        {% elif lang_code == 'de' %}✅ Abschließen & zur Lektion zurück
+                        {% elif lang_code == 'fr' %}✅ Terminer et revenir à la leçon
+                        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}✅ Finalizar y volver a la lección
+                        {% elif lang_code == 'it' %}✅ Completa e torna alla lezione
+                        {% elif lang_code == 'ko' %}✅ 완료하고 레슨으로 돌아가기
+                        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}✅ Concluir e voltar à lição
+                        {% elif lang_code == 'vi' %}✅ Hoàn thành và quay lại bài học
+                        {% elif lang_code == 'th' %}✅ เสร็จสิ้นและกลับไปที่บทเรียน
+                        {% else %}✅ Finish & Back to Lesson
+                        {% endif %}
+
                     </a>
                 {% else %}
                     <a href="{% url 'category_detail' category=object.category slug=object.slug %}?origin=category" class="next-btn btn-back-free">
-                        ✅ Finish & Back to Lesson
+                        {% if lang_code == 'ja' %}✅ 完了してレッスンに戻る
+                        {% elif lang_code == 'zh-hant' %}✅ 完成並返回課程
+                        {% elif lang_code == 'zh-cn' %}✅ 完成并返回课程
+                        {% elif lang_code == 'de' %}✅ Abschließen & zur Lektion zurück
+                        {% elif lang_code == 'fr' %}✅ Terminer et revenir à la leçon
+                        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}✅ Finalizar y volver a la lección
+                        {% elif lang_code == 'it' %}✅ Completa e torna alla lezione
+                        {% elif lang_code == 'ko' %}✅ 완료하고 레슨으로 돌아가기
+                        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}✅ Concluir e voltar à lição
+                        {% elif lang_code == 'vi' %}✅ Hoàn thành và quay lại bài học
+                        {% elif lang_code == 'th' %}✅ เสร็จสิ้นและกลับไปที่บทเรียน
+                        {% else %}✅ Finish & Back to Lesson
+                        {% endif %}
+
                     </a>
                 {% endif %}
             {% else %}
                 {% if is_last_question %}
-                    <a href="{% url 'game_next_question' %}" class="next-btn btn-game-next">🏁 See Game Results</a>
+                    <a href="{% url 'game_next_question' %}" class="next-btn btn-game-next">
+                        {% if lang_code == 'ja' %}🏁 ゲーム結果を見る
+                        {% elif lang_code == 'zh-hant' %}🏁 查看遊戲結果
+                        {% elif lang_code == 'zh-cn' %}🏁 查看游戏结果
+                        {% elif lang_code == 'de' %}🏁 Spielergebnisse anzeigen
+                        {% elif lang_code == 'fr' %}🏁 Voir les résultats du jeu
+                        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}🏁 Ver resultados del juego
+                        {% elif lang_code == 'it' %}🏁 Vedi i risultati del gioco
+                        {% elif lang_code == 'ko' %}🏁 게임 결과 보기
+                        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}🏁 Ver resultados do jogo
+                        {% elif lang_code == 'vi' %}🏁 Xem kết quả trò chơi
+                        {% elif lang_code == 'th' %}🏁 ดูผลลัพธ์ของเกม
+                        {% else %}🏁 See Game Results
+                        {% endif %}
+
+                    </a>
                 {% else %}
-                    <a href="{% url 'game_next_question' %}" class="next-btn btn-game-next">Next Question ➔</a>
+                    <a href="{% url 'game_next_question' %}" class="next-btn btn-game-next">
+                        {% if lang_code == 'ja' %}次の問題へ ➔
+                        {% elif lang_code == 'zh-hant' %}下一題 ➔
+                        {% elif lang_code == 'zh-cn' %}下一题 ➔
+                        {% elif lang_code == 'de' %}Nächste Frage ➔
+                        {% elif lang_code == 'fr' %}Question suivante ➔
+                        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Siguiente pregunta ➔
+                        {% elif lang_code == 'it' %}Domanda successiva ➔
+                        {% elif lang_code == 'ko' %}다음 문제 ➔
+                        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Próxima pergunta ➔
+                        {% elif lang_code == 'vi' %}Câu hỏi tiếp theo ➔
+                        {% elif lang_code == 'th' %}คำถามถัดไป ➔
+                        {% else %}Next Question ➔
+                        {% endif %}
+                    </a>
                 {% endif %}
             {% endif %}
         </div>
@@ -501,7 +858,22 @@ img:hover { transform: scale(1.02); }
   {% else %}
 
     <div class="hint-section">
-        <p class="hint-label">Type Romaji:</p> 
+        <p class="hint-label">
+            {% if lang_code == 'ja' %}ローマ字を入力:
+            {% elif lang_code == 'zh-hant' %}輸入羅馬字:
+            {% elif lang_code == 'zh-cn' %}输入罗马字:
+            {% elif lang_code == 'de' %}Romaji eingeben:
+            {% elif lang_code == 'fr' %}Entrez le romaji:
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Escribe en romaji:
+            {% elif lang_code == 'it' %}Inserisci il romaji:
+            {% elif lang_code == 'ko' %}로마자 입력:
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Digite em romaji:
+            {% elif lang_code == 'vi' %}Nhập romaji:
+            {% elif lang_code == 'th' %}พิมพ์โรมาจิ:
+            {% else %}Type Romaji:
+            {% endif %}
+
+        </p> 
         <div id="visual-hint-container" class="visual-hint-container" tabindex="0"></div>
     </div>
 
@@ -510,13 +882,86 @@ img:hover { transform: scale(1.02); }
     <form method="post" action="{% url 'game_answer' object.id %}" id="answer-form">
         {% csrf_token %}
         <input type="hidden" name="answer" id="combined-answer-input">
-        <button type="submit" class="neon-button">Submit Answer</button>
+        <button type="submit" class="neon-button">
+            {% if lang_code == 'ja' %}回答を送信
+            {% elif lang_code == 'zh-hant' %}提交答案
+            {% elif lang_code == 'zh-cn' %}提交答案
+            {% elif lang_code == 'de' %}Antwort absenden
+            {% elif lang_code == 'fr' %}Soumettre la réponse
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Enviar respuesta
+            {% elif lang_code == 'it' %}Invia risposta
+            {% elif lang_code == 'ko' %}답변 제출
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Enviar resposta
+            {% elif lang_code == 'vi' %}Gửi câu trả lời
+            {% elif lang_code == 'th' %}ส่งคำตอบ
+            {% else %}Submit Answer
+            {% endif %}
+
+        </button>
     </form>
   {% endif %}
 
   <div class="footer-note">
-    <p>✨ Keep going, {% if player %}{{ player.username }}{% else %}guest{% endif %}!</p>
-    <p><a href="{% url 'game_result' %}">Quit & View Results</a> | <a href="{% url 'player_logout' %}">Log out</a></p>
+    <p>
+        {% if lang_code == 'ja' %}✨ 続けよう
+        {% elif lang_code == 'zh-hant' %}✨ 繼續加油
+        {% elif lang_code == 'zh-cn' %}✨ 继续加油
+        {% elif lang_code == 'de' %}✨ Weiter so
+        {% elif lang_code == 'fr' %}✨ Continue
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}✨ Sigue adelante
+        {% elif lang_code == 'it' %}✨ Continua così
+        {% elif lang_code == 'ko' %}✨ 계속 가자
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}✨ Continue assim
+        {% elif lang_code == 'vi' %}✨ Tiếp tục nhé
+        {% elif lang_code == 'th' %}✨ ไปต่อเลย
+        {% else %}✨ Keep going
+        {% endif %}
+        , {% if player %}{{ player.username }}{% else %}
+        {% if lang_code == 'ja' %}ゲスト
+        {% elif lang_code == 'zh-hant' %}訪客
+        {% elif lang_code == 'zh-cn' %}访客
+        {% elif lang_code == 'de' %}Gast
+        {% elif lang_code == 'fr' %}Invité
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Invitado
+        {% elif lang_code == 'it' %}Ospite
+        {% elif lang_code == 'ko' %}게스트
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Convidado
+        {% elif lang_code == 'vi' %}Khách
+        {% elif lang_code == 'th' %}ผู้เยี่ยมชม
+        {% else %}Guest
+        {% endif %}
+    {% endif %}!</p>
+    <p><a href="{% url 'game_result' %}">
+        {% if lang_code == 'ja' %}終了して結果を見る
+        {% elif lang_code == 'zh-hant' %}退出並查看結果
+        {% elif lang_code == 'zh-cn' %}退出并查看结果
+        {% elif lang_code == 'de' %}Beenden & Ergebnisse anzeigen
+        {% elif lang_code == 'fr' %}Quitter et voir les résultats
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Salir y ver resultados
+        {% elif lang_code == 'it' %}Esci e visualizza i risultati
+        {% elif lang_code == 'ko' %}종료하고 결과 보기
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Sair e ver resultados
+        {% elif lang_code == 'vi' %}Thoát và xem kết quả
+        {% elif lang_code == 'th' %}ออกและดูผลลัพธ์
+        {% else %}Quit & View Results
+        {% endif %}
+
+    </a> | <a href="{% url 'player_logout' %}">
+        {% if lang_code == 'ja' %}ログアウト
+        {% elif lang_code == 'zh-hant' %}登出
+        {% elif lang_code == 'zh-cn' %}退出登录
+        {% elif lang_code == 'de' %}Abmelden
+        {% elif lang_code == 'fr' %}Se déconnecter
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Cerrar sesión
+        {% elif lang_code == 'it' %}Disconnetti
+        {% elif lang_code == 'ko' %}로그아웃
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Sair
+        {% elif lang_code == 'vi' %}Đăng xuất
+        {% elif lang_code == 'th' %}ออกจากระบบ
+        {% else %}Log out
+        {% endif %}
+
+    </a></p>
   </div>
 </div>
 

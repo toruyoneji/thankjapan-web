@@ -863,6 +863,7 @@ def game_start(request):
 
 def game_play(request):
     player, is_guest = get_current_player_info(request)
+    premium_url_name, lang_code = get_lang_info(request)
     ids = request.session.get('game_question_ids', [])
     index = request.session.get('game_current_index', 0)
     is_premium_mode = request.session.get('is_premium_mode', False)
@@ -878,7 +879,8 @@ def game_play(request):
         'total_questions': len(ids), 'score': request.session.get('game_score', 0),
         'player': player, 'is_guest': is_guest, 'hint_length': len(db_answer),
         'difficulty': request.session.get('game_difficulty'),
-        'is_premium_mode': is_premium_mode
+        'is_premium_mode': is_premium_mode,
+        'lang_code': lang_code,
     })
     
     
@@ -888,6 +890,7 @@ def game_answer(request, pk):
 
     player, is_guest = get_current_player_info(request)
     is_premium_mode = request.session.get('is_premium_mode', False)
+    premium_url_name, lang_code = get_lang_info(request)
 
     if is_premium_mode:
         question = get_object_or_404(ThankJapanPremium, id=pk)
@@ -960,6 +963,7 @@ def game_answer(request, pk):
             'difficulty': current_difficulty,
             'show_english': show_english,
             'is_premium_mode': is_premium_mode,
+            'lang_code': lang_code,
         })
 
     else:
