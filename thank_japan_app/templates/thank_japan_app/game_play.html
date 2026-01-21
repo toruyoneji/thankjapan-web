@@ -1095,7 +1095,11 @@ document.addEventListener('DOMContentLoaded', function() {
                            .replace(/uu/g,'ー')
                            .replace(/ee/g,'ー')
                            .replace(/oo/g,'ー');
-                           
+
+        displayInput = displayInput.replace(/kk/g,'っk')
+                           .replace(/tt/g,'っt')
+                           .replace(/pp/g,'っp');
+
         const tokens = wanakana.tokenize(displayInput);
         tokens.forEach(token => {
             let hiragana = wanakana.toHiragana(token);
