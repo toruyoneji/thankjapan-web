@@ -378,7 +378,22 @@ body {
     {% endif %}
 
     <div class="jpname-container">
-        <span class="label-text">Japanese</span>
+        <span class="label-text">
+            {% if lang_code == 'ja' %}日本語名
+            {% elif lang_code == 'zh-hant' %}日文名稱
+            {% elif lang_code == 'zh-cn' %}日文名称
+            {% elif lang_code == 'de' %}Japanischer Name
+            {% elif lang_code == 'fr' %}Nom japonais
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Nombre japonés
+            {% elif lang_code == 'it' %}Nome giapponese
+            {% elif lang_code == 'ko' %}일본어 이름
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Nome japonês
+            {% elif lang_code == 'vi' %}Tên tiếng Nhật
+            {% elif lang_code == 'th' %}ชื่อภาษาญี่ปุ่น
+            {% else %}Japanese Name
+            {% endif %}
+
+        </span>
         <div class="jpname-wrapper">
             <span class="jpname-text">{{ object.jpname }}</span>
             <button type="button" class="voice-btn" onclick="speakJapanese('{{ object.jpname }}')">
@@ -393,7 +408,22 @@ body {
 
     <div class="cards">
         <div class="card">
-            <h2>Lesson & Usage</h2>
+            <h2>
+                {% if lang_code == 'ja' %}レッスンと使い方
+                {% elif lang_code == 'zh-hant' %}課程與用法
+                {% elif lang_code == 'zh-cn' %}课程与用法
+                {% elif lang_code == 'de' %}Lektion & Anwendung
+                {% elif lang_code == 'fr' %}Leçon & utilisation
+                {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Lección y uso
+                {% elif lang_code == 'it' %}Lezione e utilizzo
+                {% elif lang_code == 'ko' %}학습 및 사용법
+                {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Lição e uso
+                {% elif lang_code == 'vi' %}Bài học & cách dùng
+                {% elif lang_code == 'th' %}บทเรียนและการใช้งาน
+                {% else %}Lesson & Usage
+                {% endif %}
+
+            </h2>
             <ul>
                 {% for line in object.description.splitlines %}
                     {% if line %}<li>{{ line }}</li>{% endif %}
@@ -402,7 +432,22 @@ body {
         </div>
 
         <div class="card">
-            <h2>Culture & Etiquette</h2>
+            <h2>
+                {% if lang_code == 'ja' %}文化とマナー
+                {% elif lang_code == 'zh-hant' %}文化與禮儀
+                {% elif lang_code == 'zh-cn' %}文化与礼仪
+                {% elif lang_code == 'de' %}Kultur & Etikette
+                {% elif lang_code == 'fr' %}Culture et étiquette
+                {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Cultura y etiqueta
+                {% elif lang_code == 'it' %}Cultura ed etichetta
+                {% elif lang_code == 'ko' %}문화와 예절
+                {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Cultura e etiqueta
+                {% elif lang_code == 'vi' %}Văn hóa & phép lịch sự
+                {% elif lang_code == 'th' %}วัฒนธรรมและมารยาท
+                {% else %}Culture & Etiquette
+                {% endif %}
+
+            </h2>
             <ul>
                 {% for line in object.history.splitlines %}
                     {% if line %}<li>{{ line }}</li>{% endif %}
@@ -412,17 +457,149 @@ body {
     </div>
 
     <div class="game-invite-box">
-        <h3 class="game-invite-title">Ready to Master this Phrase?</h3>
+        <h3 class="game-invite-title">
+            {% if lang_code == 'ja' %}この単語を練習する準備はいい？
+            {% elif lang_code == 'zh-hant' %}準備好練習這個單字了嗎？
+            {% elif lang_code == 'zh-cn' %}准备好练习这个单词了吗？
+            {% elif lang_code == 'de' %}Bereit, dieses Wort zu üben?
+            {% elif lang_code == 'fr' %}Prêt à pratiquer ce mot ?
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}¿Listo para practicar esta palabra?
+            {% elif lang_code == 'it' %}Pronto a esercitarti con questa parola?
+            {% elif lang_code == 'ko' %}이 단어를 연습할 준비가 되었나요?
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Pronto para praticar esta palavra?
+            {% elif lang_code == 'vi' %}Sẵn sàng luyện tập từ này chưa?
+            {% elif lang_code == 'th' %}พร้อมฝึกคำนี้แล้วหรือยัง?
+            {% else %}Ready to Practice this Word?
+            {% endif %}
+
+        </h3>
 
         <p class="rule-caption">
-                Type Japanese Name in Romaji!<br>
-                Use hyphen <strong>'-'</strong> for long vowels (ー).<br>
-                Use <strong>'nn'</strong> for "ん" (n).<br>
-                <span style="font-size: 0.9em; color: #aaa;">(e.g. <em>suki-</em> for スキー, <em>ra-mennya</em> for らーめんや)</span><br>
-                Fuzzy input allowed: "shi"="si", "tu"="tsu", etc.
+                {% if lang_code == 'ja' %}
+                    ローマ字で日本語名を入力してください！<br>
+                    長音（ー）はハイフン <strong>'-'</strong> を使います。<br>
+                    「ん」は <strong>'nn'</strong> を使ってください。<br>
+                    <span style="font-size: 0.9em; color: #aaa;">
+                    （例：スキー → <em>suki-</em>、らーめんや → <em>ra-mennya</em>）
+                    </span><br>
+                    あいまい入力OK："shi"="si", "tu"="tsu" など
+
+                {% elif lang_code == 'zh-hant' %}
+                    請用羅馬字輸入日文名稱！<br>
+                    長音（ー）請使用連字號 <strong>'-'</strong>。<br>
+                    「ん」請使用 <strong>'nn'</strong>。<br>
+                    <span style="font-size: 0.9em; color: #aaa;">
+                    （例如：スキー → <em>suki-</em>，らーめんや → <em>ra-mennya</em>）
+                    </span><br>
+                    允許模糊輸入："shi"="si", "tu"="tsu" 等
+
+                {% elif lang_code == 'zh-cn' %}
+                    请用罗马字输入日文名称！<br>
+                    长音（ー）请使用连字符 <strong>'-'</strong>。<br>
+                    “ん” 请使用 <strong>'nn'</strong>。<br>
+                    <span style="font-size: 0.9em; color: #aaa;">
+                    （例如：スキー → <em>suki-</em>，らーめんや → <em>ra-mennya</em>）
+                    </span><br>
+                    支持模糊输入："shi"="si", "tu"="tsu" 等
+
+                {% elif lang_code == 'de' %}
+                    Gib den japanischen Namen in Romaji ein!<br>
+                    Verwende <strong>'-'</strong> für lange Vokale (ー).<br>
+                    Verwende <strong>'nn'</strong> für „ん“. <br>
+                    <span style="font-size: 0.9em; color: #aaa;">
+                    (z. B. スキー → <em>suki-</em>, らーめんや → <em>ra-mennya</em>)
+                    </span><br>
+                    Unscharfe Eingaben erlaubt: "shi"="si", "tu"="tsu" usw.
+
+                {% elif lang_code == 'fr' %}
+                    Saisis le nom japonais en romaji !<br>
+                    Utilise <strong>'-'</strong> pour les voyelles longues (ー).<br>
+                    Utilise <strong>'nn'</strong> pour « ん ». <br>
+                    <span style="font-size: 0.9em; color: #aaa;">
+                    (ex. スキー → <em>suki-</em>, らーめんや → <em>ra-mennya</em>)
+                    </span><br>
+                    Entrée approximative acceptée : "shi"="si", "tu"="tsu", etc.
+
+                {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}
+                    Escribe el nombre japonés en romaji.<br>
+                    Usa <strong>'-'</strong> para vocales largas (ー).<br>
+                    Usa <strong>'nn'</strong> para « ん ». <br>
+                    <span style="font-size: 0.9em; color: #aaa;">
+                    (ej. スキー → <em>suki-</em>, らーめんや → <em>ra-mennya</em>)
+                    </span><br>
+                    Entrada flexible permitida: "shi"="si", "tu"="tsu", etc.
+
+                {% elif lang_code == 'it' %}
+                    Inserisci il nome giapponese in romaji!<br>
+                    Usa <strong>'-'</strong> per le vocali lunghe (ー).<br>
+                    Usa <strong>'nn'</strong> per « ん ». <br>
+                    <span style="font-size: 0.9em; color: #aaa;">
+                    (es. スキー → <em>suki-</em>, らーめんや → <em>ra-mennya</em>)
+                    </span><br>
+                    Input flessibile consentito: "shi"="si", "tu"="tsu", ecc.
+
+                {% elif lang_code == 'ko' %}
+                    일본어 이름을 로마자로 입력하세요!<br>
+                    장음(ー)은 <strong>'-'</strong> 를 사용합니다.<br>
+                    「ん」은 <strong>'nn'</strong> 을 사용하세요.<br>
+                    <span style="font-size: 0.9em; color: #aaa;">
+                    (예: スキー → <em>suki-</em>, らーめんや → <em>ra-mennya</em>)
+                    </span><br>
+                    유연한 입력 허용: "shi"="si", "tu"="tsu" 등
+
+                {% elif lang_code == 'pt' or lang_code == 'pt-br' %}
+                    Digite o nome japonês em romaji!<br>
+                    Use <strong>'-'</strong> para vogais longas (ー).<br>
+                    Use <strong>'nn'</strong> para « ん ». <br>
+                    <span style="font-size: 0.9em; color: #aaa;">
+                    (ex.: スキー → <em>suki-</em>, らーめんや → <em>ra-mennya</em>)
+                    </span><br>
+                    Entrada flexível permitida: "shi"="si", "tu"="tsu", etc.
+
+                {% elif lang_code == 'vi' %}
+                    Nhập tên tiếng Nhật bằng romaji!<br>
+                    Dùng <strong>'-'</strong> cho nguyên âm dài (ー).<br>
+                    Dùng <strong>'nn'</strong> cho « ん ». <br>
+                    <span style="font-size: 0.9em; color: #aaa;">
+                    (vd: スキー → <em>suki-</em>, らーめんや → <em>ra-mennya</em>)
+                    </span><br>
+                    Cho phép nhập linh hoạt: "shi"="si", "tu"="tsu", v.v.
+
+                {% elif lang_code == 'th' %}
+                    พิมพ์ชื่อภาษาญี่ปุ่นด้วยโรมาจิ!<br>
+                    ใช้ <strong>'-'</strong> สำหรับเสียงยาว (ー).<br>
+                    ใช้ <strong>'nn'</strong> สำหรับ « ん ». <br>
+                    <span style="font-size: 0.9em; color: #aaa;">
+                    (เช่น スキー → <em>suki-</em>, らーめんや → <em>ra-mennya</em>)
+                    </span><br>
+                    รองรับการพิมพ์แบบยืดหยุ่น: "shi"="si", "tu"="tsu" เป็นต้น
+
+                {% else %}
+                    Type the Japanese name in Romaji!<br>
+                    Use <strong>'-'</strong> for long vowels (ー).<br>
+                    Use <strong>'nn'</strong> for "ん".<br>
+                    <span style="font-size: 0.9em; color: #aaa;">
+                    (e.g. <em>suki-</em> for スキー, <em>ra-mennya</em> for らーめんや)
+                    </span><br>
+                    Fuzzy input allowed: "shi"="si", "tu"="tsu", etc.
+                {% endif %}
         </p>
+        
         <a href="{% url 'game_restart' %}?mode=single&model_type=premium&slug={{ object.slug }}&lang={{ lang_code }}" class="game-invite-btn">
-            ⌨️ Master this Phrase
+            {% if lang_code == 'ja' %}⌨️ このフレーズをマスターしよう
+            {% elif lang_code == 'zh-hant' %}⌨️ 掌握這個短語
+            {% elif lang_code == 'zh-cn' %}⌨️ 掌握这个短语
+            {% elif lang_code == 'de' %}⌨️ Diese Phrase meistern
+            {% elif lang_code == 'fr' %}⌨️ Maîtriser cette expression
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}⌨️ Domina esta frase
+            {% elif lang_code == 'it' %}⌨️ Padroneggia questa frase
+            {% elif lang_code == 'ko' %}⌨️ 이 문구를 마스터하세요
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}⌨️ Domine esta frase
+            {% elif lang_code == 'vi' %}⌨️ Thành thạo cụm từ này
+            {% elif lang_code == 'th' %}⌨️ ฝึกฝนวลีนี้ให้เชี่ยวชาญ
+            {% else %}⌨️ Master this Phrase
+            {% endif %}
+
         </a>
     </div>
 
@@ -435,7 +612,19 @@ body {
                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path>
            </svg>
            
-           Share on X
+           {% if lang_code == 'ja' %}Xでシェア
+            {% elif lang_code == 'zh-hant' %}在 X 分享
+            {% elif lang_code == 'zh-cn' %}在 X 分享
+            {% elif lang_code == 'de' %}Auf X teilen
+            {% elif lang_code == 'fr' %}Partager sur X
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Compartir en X
+            {% elif lang_code == 'it' %}Condividi su X
+            {% elif lang_code == 'ko' %}X에 공유
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Compartilhar no X
+            {% elif lang_code == 'vi' %}Chia sẻ trên X
+            {% elif lang_code == 'th' %}แชร์บน X
+            {% else %}Share on X
+            {% endif %}
         </a>
     </div>
 
@@ -443,7 +632,22 @@ body {
 {% if related_items %}
     <div class="related-section">
         <div class="related-header">
-            <h3>Explore More</h3>
+            <h3>
+                {% if lang_code == 'ja' %}もっと探す
+                {% elif lang_code == 'zh-hant' %}探索更多
+                {% elif lang_code == 'zh-cn' %}探索更多
+                {% elif lang_code == 'de' %}Mehr entdecken
+                {% elif lang_code == 'fr' %}Explorer davantage
+                {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Explorar más
+                {% elif lang_code == 'it' %}Esplora di più
+                {% elif lang_code == 'ko' %}더 둘러보기
+                {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Explorar mais
+                {% elif lang_code == 'vi' %}Khám phá thêm
+                {% elif lang_code == 'th' %}สำรวจเพิ่มเติม
+                {% else %}Explore More
+                {% endif %}
+
+            </h3>
         </div>
         <div class="related-grid">
             {% for item in related_items %}

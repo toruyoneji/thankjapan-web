@@ -2153,8 +2153,8 @@ class ImgPremiumDetailView(DetailView):
                 
                 if self.object.id not in free_sample_ids:
         
-                    url_name, _ = get_lang_info(request)
-                    return redirect(url_name)
+                    url_name, lang_code = get_lang_info(request)
+                    return redirect(f"{reverse(url_name)}?lang={lang_code}")
         
         return super(DetailView, self).dispatch(request, *args, **kwargs)
 
