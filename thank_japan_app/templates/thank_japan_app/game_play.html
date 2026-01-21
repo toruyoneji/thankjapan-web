@@ -1099,10 +1099,7 @@ document.addEventListener('DOMContentLoaded', function() {
                            .replace(/oo/g,'ー');
 
 
-        displayInput = displayInput.replace(/kk([aiueo])/g,'っ$1')
-                           .replace(/tt([aiueo])/g,'っ$1')
-                           .replace(/pp([aiueo])/g,'っ$1')
-                           .replace(/ss([aiueo])/g,'っ$1');
+        displayInput = displayInput.replace(/([kstp])\1([aiueo])/g,'っ$2');
 
 
         const tokens = wanakana.tokenize(displayInput);
