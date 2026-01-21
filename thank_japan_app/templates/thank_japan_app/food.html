@@ -341,8 +341,62 @@ body {
 
 
 <div class="category-header">
-    <h1>Japanese Food & Ingredients: Vocabulary & Romaji Guide</h1>
-    <p>Explore authentic Japanese cuisine, from sushi and ramen to everyday meals enjoyed across Japan.</p>
+    <h1>
+        {% if lang_code == 'ja' %}
+            日本の食べ物と食材：寿司やラーメンから季節の野菜まで、ローマ字付きで紹介。
+        {% elif lang_code == 'zh-hant' %}
+            日本食與食材：從壽司、拉麵到季節性蔬菜，附有羅馬字指南。
+        {% elif lang_code == 'zh-cn' %}
+            日本食物与食材：从寿司、拉面到季节性蔬菜，附有罗马字指南。
+        {% elif lang_code == 'de' %}
+            Japanische Lebensmittel & Zutaten: Von Sushi und Ramen bis zu saisonalem Gemüse, mit Romaji-Guide.
+        {% elif lang_code == 'fr' %}
+            Nourriture et ingrédients japonais : du sushi et ramen aux légumes de saison, avec guide en romaji.
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}
+            Comida e ingredientes japoneses: desde sushi y ramen hasta verduras de temporada, con guía en romaji.
+        {% elif lang_code == 'it' %}
+            Cibi e ingredienti giapponesi: dal sushi e ramen alle verdure di stagione, con guida in romaji.
+        {% elif lang_code == 'ko' %}
+            일본 음식과 재료: 초밥과 라멘부터 계절 채소까지, 로마자 가이드 포함.
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}
+            Comida e ingredientes japoneses: do sushi e ramen a vegetais sazonais, com guia em romaji.
+        {% elif lang_code == 'vi' %}
+            Thức ăn và nguyên liệu Nhật Bản: từ sushi, ramen đến rau theo mùa, kèm hướng dẫn Romaji.
+        {% elif lang_code == 'th' %}
+            อาหารและวัตถุดิบของญี่ปุ่น: ตั้งแต่ซูชิ ราเม็ง ไปจนถึงผักตามฤดูกาล พร้อมคู่มือโรมา字
+        {% else %}
+            Japanese Food & Ingredients: Vocabulary & Romaji Guide, from sushi and ramen to seasonal vegetables.
+        {% endif %}
+
+    </h1>
+    <p>
+        {% if lang_code == 'ja' %}
+            寿司やラーメンから、日本各地で親しまれる日常の食事まで、本格的な日本料理を探検しよう。
+        {% elif lang_code == 'zh-hant' %}
+            探索正宗的日本料理，從壽司、拉麵到遍及日本各地的日常美食。
+        {% elif lang_code == 'zh-cn' %}
+            探索正宗的日本料理，从寿司、拉面到遍布日本的日常美食。
+        {% elif lang_code == 'de' %}
+            Entdecke authentische japanische Küche, von Sushi und Ramen bis zu alltäglichen Gerichten, die in ganz Japan genossen werden.
+        {% elif lang_code == 'fr' %}
+            Découvrez la cuisine japonaise authentique, du sushi et ramen aux repas quotidiens appréciés à travers le Japon.
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}
+            Explora la auténtica cocina japonesa, desde sushi y ramen hasta comidas cotidianas disfrutadas en todo Japón.
+        {% elif lang_code == 'it' %}
+            Esplora la cucina giapponese autentica, dal sushi e ramen ai pasti quotidiani apprezzati in tutto il Giappone.
+        {% elif lang_code == 'ko' %}
+            초밥과 라멘부터 일본 전역에서 즐기는 일상 식사까지, 정통 일본 요리를 탐험해보세요.
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}
+            Explore a autêntica culinária japonesa, desde sushi e ramen até refeições do dia a dia apreciadas em todo o Japão.
+        {% elif lang_code == 'vi' %}
+            Khám phá ẩm thực Nhật Bản đích thực, từ sushi, ramen đến những bữa ăn hàng ngày được yêu thích khắp Nhật Bản.
+        {% elif lang_code == 'th' %}
+            สำรวจอาหารญี่ปุ่นแท้ๆ ตั้งแต่ซูชิ ราเม็ง ไปจนถึงมื้ออาหารประจำวันที่ได้รับความนิยมทั่วญี่ปุ่น
+        {% else %}
+            Explore authentic Japanese cuisine, from sushi and ramen to everyday meals enjoyed across Japan.
+        {% endif %}
+
+    </p>
 
 </div>
 

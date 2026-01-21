@@ -342,8 +342,62 @@ body {
 
 
 <div class="category-header">
-   <h1>Household Items in Japanese: Vocabulary & Romaji Guide</h1>
-    <p>Discover everyday items used in Japanese homes, combining simplicity, function, and design.</p>
+   <h1>
+    {% if lang_code == 'ja' %}
+        家庭用品の名前：掃除道具や家具、日常生活で使うものをローマ字付きで紹介。
+    {% elif lang_code == 'zh-hant' %}
+        日本家居用品：從清潔工具到家具及日常用品，附有羅馬字指南。
+    {% elif lang_code == 'zh-cn' %}
+        日本家居用品：从清洁工具到家具及日常用品，附有罗马字指南。
+    {% elif lang_code == 'de' %}
+        Haushaltsgegenstände in Japan: Von Reinigungsutensilien bis zu Möbeln und Alltagsgegenständen, mit Romaji-Guide.
+    {% elif lang_code == 'fr' %}
+        Objets ménagers japonais : des outils de nettoyage aux meubles et articles du quotidien, avec guide en romaji.
+    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}
+        Artículos del hogar en Japón: desde utensilios de limpieza hasta muebles y objetos de uso diario, con guía en romaji.
+    {% elif lang_code == 'it' %}
+        Oggetti per la casa in Giappone: dagli strumenti per la pulizia ai mobili e agli articoli di uso quotidiano, con guida in romaji.
+    {% elif lang_code == 'ko' %}
+        일본 가정용품: 청소 도구, 가구, 일상 생활 용품 등을 로마자 가이드와 함께 소개.
+    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}
+        Itens domésticos no Japão: de utensílios de limpeza a móveis e objetos do dia a dia, com guia em romaji.
+    {% elif lang_code == 'vi' %}
+        Đồ dùng gia đình ở Nhật Bản: từ dụng cụ dọn dẹp, đồ nội thất đến vật dụng hàng ngày, kèm hướng dẫn Romaji.
+    {% elif lang_code == 'th' %}
+        ของใช้ในบ้านภาษาญี่ปุ่น: ตั้งแต่เครื่องมือทำความสะอาด เฟอร์นิเจอร์ ไปจนถึงของใช้ในชีวิตประจำวัน พร้อมคู่มือโรมา字
+    {% else %}
+        Household Items in Japanese: Vocabulary & Romaji Guide, from cleaning tools and furniture to everyday items.
+    {% endif %}
+
+   </h1>
+    <p>
+        {% if lang_code == 'ja' %}
+            日本の家庭で使われる日用品を紹介。シンプルさ、機能性、デザインを兼ね備えたアイテムを探検しよう。
+        {% elif lang_code == 'zh-hant' %}
+            探索日本家庭中使用的日常用品，結合簡約、實用與設計感。
+        {% elif lang_code == 'zh-cn' %}
+            探索日本家庭中使用的日常用品，结合简约、实用与设计感。
+        {% elif lang_code == 'de' %}
+            Entdecke alltägliche Gegenstände in japanischen Haushalten, die Einfachheit, Funktionalität und Design vereinen.
+        {% elif lang_code == 'fr' %}
+            Découvrez les objets du quotidien utilisés dans les foyers japonais, alliant simplicité, fonctionnalité et design.
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}
+            Descubre los artículos cotidianos que se usan en los hogares japoneses, combinando simplicidad, funcionalidad y diseño.
+        {% elif lang_code == 'it' %}
+            Scopri gli oggetti di uso quotidiano nelle case giapponesi, che combinano semplicità, funzionalità e design.
+        {% elif lang_code == 'ko' %}
+            일본 가정에서 사용되는 일상용품을 소개합니다. 단순함, 기능성, 디자인을 갖춘 아이템을 만나보세요.
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}
+            Descubra itens do dia a dia usados em casas japonesas, combinando simplicidade, funcionalidade e design.
+        {% elif lang_code == 'vi' %}
+            Khám phá các vật dụng hàng ngày được sử dụng trong các gia đình Nhật Bản, kết hợp sự đơn giản, chức năng và thiết kế.
+        {% elif lang_code == 'th' %}
+            ค้นพบของใช้ประจำวันที่ใช้ในบ้านญี่ปุ่น ผสมผสานความเรียบง่าย ฟังก์ชัน และการออกแบบ
+        {% else %}
+            Discover everyday items used in Japanese homes, combining simplicity, function, and design.
+        {% endif %}
+
+    </p>
 
 </div>
 

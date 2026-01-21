@@ -343,8 +343,62 @@ body {
 
 
 <div class="category-header">
-    <h1>Japanese Culture & Traditions: Vocabulary & Romaji Guide</h1>
-    <p>Learn about Japan’s cultural heritage, including tea ceremonies, etiquette, festivals, and more.</p>
+    <h1>
+        {% if lang_code == 'ja' %}
+            日本の文化と伝統：祭りや習慣、伝統行事などをローマ字付きで紹介。
+        {% elif lang_code == 'zh-hant' %}
+            日本文化與傳統：從節慶、習俗到傳統活動，附有羅馬字指南。
+        {% elif lang_code == 'zh-cn' %}
+            日本文化与传统：从节日、习俗到传统活动，附有罗马字指南。
+        {% elif lang_code == 'de' %}
+            Japanische Kultur & Traditionen: Von Festen und Bräuchen bis zu traditionellen Veranstaltungen, mit Romaji-Guide.
+        {% elif lang_code == 'fr' %}
+            Culture et traditions japonaises : festivals, coutumes et événements traditionnels avec guide en romaji.
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}
+            Cultura y tradiciones japonesas: desde festivales y costumbres hasta eventos tradicionales, con guía en romaji.
+        {% elif lang_code == 'it' %}
+            Cultura e tradizioni giapponesi: dai festival e usanze agli eventi tradizionali, con guida in romaji.
+        {% elif lang_code == 'ko' %}
+            일본 문화와 전통: 축제, 관습, 전통 행사 등을 로마자 가이드와 함께 소개.
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}
+            Cultura e tradições japonesas: de festivais e costumes a eventos tradicionais, com guia em romaji.
+        {% elif lang_code == 'vi' %}
+            Văn hóa và truyền thống Nhật Bản: từ lễ hội, phong tục đến các sự kiện truyền thống, kèm hướng dẫn Romaji.
+        {% elif lang_code == 'th' %}
+            วัฒนธรรมและประเพณีญี่ปุ่น: ตั้งแต่เทศกาล ประเพณี จนถึงกิจกรรมดั้งเดิม พร้อมคู่มือโรมา字
+        {% else %}
+            Japanese Culture & Traditions: Vocabulary & Romaji Guide, featuring festivals, customs, and traditional events.
+        {% endif %}
+
+    </h1>
+    <p>
+        {% if lang_code == 'ja' %}
+            茶道や礼儀作法、祭りなど、日本の文化遺産について学ぼう。
+        {% elif lang_code == 'zh-hant' %}
+            了解日本的文化遺產，包括茶道、禮儀、節慶等。
+        {% elif lang_code == 'zh-cn' %}
+            了解日本的文化遗产，包括茶道、礼仪、节日等。
+        {% elif lang_code == 'de' %}
+            Erfahre mehr über Japans Kulturerbe, einschließlich Teezeremonien, Etikette, Festivals und mehr.
+        {% elif lang_code == 'fr' %}
+            Découvrez le patrimoine culturel du Japon, y compris les cérémonies du thé, l'étiquette, les festivals, et plus encore.
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}
+            Aprende sobre el patrimonio cultural de Japón, incluidas las ceremonias del té, la etiqueta, los festivales y más.
+        {% elif lang_code == 'it' %}
+            Scopri il patrimonio culturale del Giappone, comprese le cerimonie del tè, l'etichetta, i festival e altro ancora.
+        {% elif lang_code == 'ko' %}
+            다도, 예절, 축제 등 일본의 문화 유산에 대해 배워보세요.
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}
+            Conheça o patrimônio cultural do Japão, incluindo cerimônias do chá, etiqueta, festivais e mais.
+        {% elif lang_code == 'vi' %}
+            Tìm hiểu về di sản văn hóa của Nhật Bản, bao gồm trà đạo, lễ nghi, lễ hội và nhiều hơn nữa.
+        {% elif lang_code == 'th' %}
+            เรียนรู้เกี่ยวกับมรดกทางวัฒนธรรมของญี่ปุ่น รวมถึงพิธีชงชา มารยาท เทศกาล และอื่น ๆ
+        {% else %}
+            Learn about Japan’s cultural heritage, including tea ceremonies, etiquette, festivals, and more.
+        {% endif %}
+
+    </p>
     
 </div>
 

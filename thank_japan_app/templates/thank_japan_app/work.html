@@ -341,8 +341,62 @@ body {
 
 
 <div class="category-header">
-    <h1>Jobs & Occupations in Japanese: Vocabulary & Romaji Guide</h1>
-    <p>Understand the Japanese work environment, business etiquette, and what it’s like to work in Japan.</p>
+    <h1>
+        {% if lang_code == 'ja' %}
+            日本の職業：語彙とローマ字ガイド
+        {% elif lang_code == 'zh-hant' %}
+            日本職業名稱：詞彙與羅馬字指南
+        {% elif lang_code == 'zh-cn' %}
+            日本职业名称：词汇与罗马字指南
+        {% elif lang_code == 'de' %}
+            Berufe in Japan: Vokabular & Romaji-Leitfaden
+        {% elif lang_code == 'fr' %}
+            Métiers au Japon : Vocabulaire & Guide Romaji
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}
+            Empleos y ocupaciones en Japón: Vocabulario y Guía Romaji
+        {% elif lang_code == 'it' %}
+            Lavori e professioni in Giappone: Vocabolario & Guida Romaji
+        {% elif lang_code == 'ko' %}
+            일본 직업: 어휘 및 로마자 가이드
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}
+            Empregos e ocupações no Japão: Vocabulário & Guia Romaji
+        {% elif lang_code == 'vi' %}
+            Nghề nghiệp ở Nhật Bản: Hướng dẫn từ vựng & Romaji
+        {% elif lang_code == 'th' %}
+            อาชีพในญี่ปุ่น: คำศัพท์และคำอ่านโรมาจิ
+        {% else %}
+            Jobs & Occupations in Japanese: Vocabulary & Romaji Guide
+        {% endif %}
+
+    </h1>
+    <p>
+        {% if lang_code == 'ja' %}
+            日本の職場環境やビジネスマナー、そして日本で働くことがどのようなものかを理解しよう。
+        {% elif lang_code == 'zh-hant' %}
+            了解日本的工作環境、商業禮儀，以及在日本工作的情況。
+        {% elif lang_code == 'zh-cn' %}
+            了解日本的工作环境、商业礼仪，以及在日本工作的情况。
+        {% elif lang_code == 'de' %}
+            Verstehen Sie die japanische Arbeitsumgebung, Geschäftsetikette und wie es ist, in Japan zu arbeiten.
+        {% elif lang_code == 'fr' %}
+            Comprenez l’environnement de travail japonais, l’étiquette professionnelle et ce que signifie travailler au Japon.
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}
+            Comprende el entorno laboral japonés, la etiqueta empresarial y cómo es trabajar en Japón.
+        {% elif lang_code == 'it' %}
+            Comprendi l’ambiente di lavoro giapponese, l’etichetta professionale e com’è lavorare in Giappone.
+        {% elif lang_code == 'ko' %}
+            일본의 근무 환경, 비즈니스 예절, 일본에서 일하는 것이 어떤지 이해하세요.
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}
+            Compreenda o ambiente de trabalho japonês, a etiqueta empresarial e como é trabalhar no Japão.
+        {% elif lang_code == 'vi' %}
+            Hiểu về môi trường làm việc ở Nhật Bản, phép lịch sự trong kinh doanh và cảm giác khi làm việc tại Nhật.
+        {% elif lang_code == 'th' %}
+            เข้าใจสภาพแวดล้อมการทำงานในญี่ปุ่น มารยาททางธุรกิจ และการทำงานในญี่ปุ่นเป็นอย่างไร
+        {% else %}
+            Understand the Japanese work environment, business etiquette, and what it’s like to work in Japan.
+        {% endif %}
+
+    </p>
 
 </div>
 

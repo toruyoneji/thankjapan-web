@@ -445,8 +445,62 @@ body {
 
 
 <div class="category-header">
-    <h1>Medical & Emergency 🏥</h1>
-    <p>Be prepared for health issues and natural disasters. Essential phrases to ensure your safety and well-being in Japan.</p>
+    <h1>
+        {% if lang_code == 'ja' %}
+            医療・緊急 🏥
+        {% elif lang_code == 'zh-hant' %}
+            醫療與緊急情況 🏥
+        {% elif lang_code == 'zh-cn' %}
+            医疗与紧急情况 🏥
+        {% elif lang_code == 'de' %}
+            Medizin & Notfälle 🏥
+        {% elif lang_code == 'fr' %}
+            Médecine & Urgences 🏥
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}
+            Medicina y Emergencias 🏥
+        {% elif lang_code == 'it' %}
+            Medicina & Emergenze 🏥
+        {% elif lang_code == 'ko' %}
+            의료 및 응급 🏥
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}
+            Medicina e Emergências 🏥
+        {% elif lang_code == 'vi' %}
+            Y tế & Cấp cứu 🏥
+        {% elif lang_code == 'th' %}
+            การแพทย์ & กรณีฉุกเฉิน 🏥
+        {% else %}
+            Medical & Emergency 🏥
+        {% endif %}
+
+    </h1>
+    <p>
+        {% if lang_code == 'ja' %}
+            健康問題や自然災害に備えよう。日本での安全と健康を守るために必要なフレーズをマスター。
+        {% elif lang_code == 'zh-hant' %}
+            為健康問題及自然災害做好準備。掌握在日本確保安全與健康所需的基本用語。
+        {% elif lang_code == 'zh-cn' %}
+            为健康问题及自然灾害做好准备。掌握在日本确保安全与健康所需的基本用语。
+        {% elif lang_code == 'de' %}
+            Sei vorbereitet auf gesundheitliche Probleme und Naturkatastrophen. Wesentliche Redewendungen, um deine Sicherheit und Gesundheit in Japan zu gewährleisten.
+        {% elif lang_code == 'fr' %}
+            Soyez prêt pour les problèmes de santé et les catastrophes naturelles. Phrases essentielles pour assurer votre sécurité et votre bien-être au Japon.
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}
+            Prepárate para problemas de salud y desastres naturales. Frases esenciales para garantizar tu seguridad y bienestar en Japón.
+        {% elif lang_code == 'it' %}
+            Preparati per problemi di salute e disastri naturali. Frasi essenziali per garantire sicurezza e benessere in Giappone.
+        {% elif lang_code == 'ko' %}
+            건강 문제와 자연 재해에 대비하세요. 일본에서 안전과 건강을 지키기 위해 필요한 필수 문구를 익히세요.
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}
+            Esteja preparado para problemas de saúde e desastres naturais. Frases essenciais para garantir sua segurança e bem-estar no Japão.
+        {% elif lang_code == 'vi' %}
+            Chuẩn bị cho các vấn đề sức khỏe và thiên tai. Các câu cơ bản giúp đảm bảo an toàn và sức khỏe của bạn ở Nhật Bản.
+        {% elif lang_code == 'th' %}
+            เตรียมตัวให้พร้อมสำหรับปัญหาสุขภาพและภัยพิบัติ วลีสำคัญเพื่อความปลอดภัยและสุขภาพของคุณในญี่ปุ่น
+        {% else %}
+            Be prepared for health issues and natural disasters. Essential phrases to ensure your safety and well-being in Japan.   
+        {% endif %}
+
+    </p>
 </div>
 
 <div class="main2">

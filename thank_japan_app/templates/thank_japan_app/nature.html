@@ -342,8 +342,62 @@ body {
 </style>
 
 <div class="category-header">
-    <h1>Nature in Japan: Vocabulary & Romaji Guide</h1>
-    <p>Experience the natural wonders of Japan — from cherry blossoms in spring to snowy mountains in winter.</p>
+    <h1>
+        {% if lang_code == 'ja' %}
+            日本の自然：語彙とローマ字ガイド
+        {% elif lang_code == 'zh-hant' %}
+            日本自然：詞彙與羅馬字指南
+        {% elif lang_code == 'zh-cn' %}
+            日本自然：词汇与罗马字指南
+        {% elif lang_code == 'de' %}
+            Natur in Japan: Vokabular & Romaji-Leitfaden
+        {% elif lang_code == 'fr' %}
+            Nature au Japon : Vocabulaire & Guide Romaji
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}
+            Naturaleza en Japón: Vocabulario y Guía Romaji
+        {% elif lang_code == 'it' %}
+            Natura in Giappone: Vocabolario & Guida Romaji
+        {% elif lang_code == 'ko' %}
+            일본의 자연: 어휘 및 로마자 가이드
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}
+            Natureza no Japão: Vocabulário & Guia Romaji
+        {% elif lang_code == 'vi' %}
+            Thiên nhiên ở Nhật Bản: Hướng dẫn từ vựng & Romaji
+        {% elif lang_code == 'th' %}
+            ธรรมชาติในญี่ปุ่น: คำศัพท์และคำอ่านโรมาจิ
+        {% else %}
+            Nature in Japan: Vocabulary & Romaji Guide
+        {% endif %}
+
+    </h1>
+    <p>
+        {% if lang_code == 'ja' %}
+            日本の自然の驚異を体験しよう — 春の桜から冬の雪山まで。
+        {% elif lang_code == 'zh-hant' %}
+            體驗日本的自然奇觀——從春天的櫻花到冬天的雪山。
+        {% elif lang_code == 'zh-cn' %}
+            体验日本的自然奇观——从春天的樱花到冬天的雪山。
+        {% elif lang_code == 'de' %}
+            Erlebe die Naturwunder Japans — von den Kirschblüten im Frühling bis zu verschneiten Bergen im Winter.
+        {% elif lang_code == 'fr' %}
+            Découvrez les merveilles naturelles du Japon — des cerisiers en fleurs au printemps aux montagnes enneigées en hiver.
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}
+            Experimenta las maravillas naturales de Japón — desde los cerezos en flor en primavera hasta las montañas nevadas en invierno.
+        {% elif lang_code == 'it' %}
+            Vivi le meraviglie naturali del Giappone — dai ciliegi in fiore in primavera alle montagne innevate in inverno.
+        {% elif lang_code == 'ko' %}
+            일본의 자연 경이로움을 경험하세요 — 봄의 벚꽃부터 겨울의 눈 덮인 산까지.
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}
+            Experimente as maravilhas naturais do Japão — desde as flores de cerejeira na primavera até as montanhas nevadas no inverno.
+        {% elif lang_code == 'vi' %}
+            Trải nghiệm những kỳ quan thiên nhiên của Nhật Bản — từ hoa anh đào vào mùa xuân đến những ngọn núi phủ tuyết vào mùa đông.
+        {% elif lang_code == 'th' %}
+            สัมผัสความงดงามทางธรรมชาติของญี่ปุ่น — ตั้งแต่ดอกซากุระในฤดูใบไม้ผลิจนถึงภูเขาที่ปกคลุมด้วยหิมะในฤดูหนาว
+        {% else %}
+            Experience the natural wonders of Japan — from cherry blossoms in spring to snowy mountains in winter.
+        {% endif %}
+
+    </p>
 
 </div>
 

@@ -444,8 +444,61 @@ body {
 
 
 <div class="category-header">
-    <h1>Business Japanese 💼</h1>
-    <p>Master professional phrases and etiquette for your career in Japan. Navigate the Japanese workplace with confidence.</p>
+    <h1>
+        {% if lang_code == 'ja' %}
+            ビジネス日本語：オフィスで役立つ表現やマナーを学ぼう。
+        {% elif lang_code == 'zh-hant' %}
+            商務日語：學習在辦公室中實用的表達和禮儀。
+        {% elif lang_code == 'zh-cn' %}
+            商务日语：学习在办公室中实用的表达和礼仪。
+        {% elif lang_code == 'de' %}
+            Japanisches Business: Lernen Sie nützliche Ausdrücke und Etikette fürs Büro.
+        {% elif lang_code == 'fr' %}
+            Japonais des affaires : apprenez des expressions et le savoir-vivre utiles au bureau.
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}
+            Japonés de negocios: aprende expresiones y modales útiles en la oficina.
+        {% elif lang_code == 'it' %}
+            Giapponese per affari: impara espressioni e buone maniere utili in ufficio.
+        {% elif lang_code == 'ko' %}
+            비즈니스 일본어: 사무실에서 유용한 표현과 예절을 배우세요.
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}
+            Japonês para negócios: aprenda expressões e etiqueta úteis no escritório.
+        {% elif lang_code == 'vi' %}
+            Tiếng Nhật thương mại: học các biểu đạt và phép lịch sự hữu ích trong văn phòng.
+        {% elif lang_code == 'th' %}
+            ภาษาญี่ปุ่นเพื่อธุรกิจ: เรียนรู้สำนวนและมารยาทที่มีประโยชน์ในสำนักงาน
+        {% else %}
+            Business Japanese: Learn useful expressions and office etiquette.
+        {% endif %}
+    </h1>
+    <p>
+        {% if lang_code == 'ja' %}
+            日本でのキャリアに役立つプロフェッショナルな表現やマナーを習得。自信を持って日本の職場を乗りこなそう。
+        {% elif lang_code == 'zh-hant' %}
+            掌握在日本職場的專業用語與禮儀，自信應對日本的工作環境。
+        {% elif lang_code == 'zh-cn' %} 
+            掌握在日本职场的专业用语与礼仪，自信应对日本的工作环境。
+        {% elif lang_code == 'de' %}
+            Meistere professionelle Ausdrücke und Etikette für deine Karriere in Japan. Navigiere selbstbewusst durch den japanischen Arbeitsplatz.
+        {% elif lang_code == 'fr' %}
+            Maîtrisez les expressions et l'étiquette professionnelles pour votre carrière au Japon. Naviguez avec confiance dans le milieu professionnel japonais.
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}
+            Domina frases y etiqueta profesional para tu carrera en Japón. Navega por el lugar de trabajo japonés con confianza.
+        {% elif lang_code == 'it' %}
+            Padroneggia frasi ed etichetta professionale per la tua carriera in Giappone. Muoviti con sicurezza nel contesto lavorativo giapponese.
+        {% elif lang_code == 'ko' %}
+            일본에서의 경력을 위해 전문 표현과 예절을 습득하세요. 자신 있게 일본 직장을 경험해보세요.
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}
+            Domine frases e etiqueta profissional para sua carreira no Japão. Navegue pelo ambiente de trabalho japonês com confiança.
+        {% elif lang_code == 'vi' %}
+            Làm chủ các câu chuyên nghiệp và phép lịch sự cho sự nghiệp tại Nhật Bản. Tự tin vận hành trong môi trường làm việc Nhật Bản.
+        {% elif lang_code == 'th' %}
+            เรียนรู้สำนวนและมารยาทแบบมืออาชีพสำหรับอาชีพของคุณในญี่ปุ่น นำทางในที่ทำงานญี่ปุ่นด้วยความมั่นใจ
+        {% else %}
+            Master professional phrases and etiquette for your career in Japan. Navigate the Japanese workplace with confidence.
+        {% endif %}
+
+    </p>
 </div>
 
 <div class="main2">

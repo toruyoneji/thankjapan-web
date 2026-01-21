@@ -341,8 +341,62 @@ body {
 </style>
 
 <div class="category-header">
-    <h1>Home Appliances in Japanese: Vocabulary & Romaji Guide</h1>
-    <p>Explore smart and efficient home appliances from Japan, known for their quality and cutting-edge design.</p>
+    <h1>
+        {% if lang_code == 'ja' %}
+            日本で見られる家電：冷蔵庫や洗濯機、電子レンジなどの生活に欠かせないアイテムをローマ字付きで紹介。
+        {% elif lang_code == 'zh-hant' %}
+            了解日本的家電，從冰箱、洗衣機到微波爐，附有羅馬字指南。
+        {% elif lang_code == 'zh-cn' %}
+            了解日本的家电，从冰箱、洗衣机到微波炉，附有罗马字指南。
+        {% elif lang_code == 'de' %}
+            Entdecke japanische Haushaltsgeräte: Von Kühlschränken und Waschmaschinen bis hin zu Mikrowellen, mit Romaji-Guide.
+        {% elif lang_code == 'fr' %}
+            Découvrez les appareils électroménagers au Japon : du réfrigérateur au lave-linge, avec guide en romaji.
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}
+            Conoce los electrodomésticos de Japón: desde frigoríficos y lavadoras hasta microondas, con guía en romaji.
+        {% elif lang_code == 'it' %}
+            Scopri gli elettrodomestici giapponesi: dai frigoriferi alle lavatrici fino al microonde, con guida in romaji.
+        {% elif lang_code == 'ko' %}
+            일본에서 볼 수 있는 가전제품: 냉장고, 세탁기, 전자레인지 등 로마자 가이드와 함께.
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}
+            Conheça os eletrodomésticos do Japão: de geladeiras e máquinas de lavar a micro-ondas, com guia em romaji.
+        {% elif lang_code == 'vi' %}
+            Tìm hiểu các thiết bị gia dụng ở Nhật Bản, từ tủ lạnh, máy giặt đến lò vi sóng, kèm hướng dẫn Romaji.
+        {% elif lang_code == 'th' %}
+            พบกับเครื่องใช้ไฟฟ้าในญี่ปุ่น ตั้งแต่ตู้เย็น เครื่องซักผ้า ไปจนถึงไมโครเวฟ พร้อมคู่มือโรมา字
+        {% else %}
+            Explore Japanese home appliances, from refrigerators and washing machines to microwaves, with a Romaji guide.
+        {% endif %}
+
+    </h1>
+    <p>
+        {% if lang_code == 'ja' %}
+            日本のスマートで効率的な家電を体験：高品質で最先端のデザインが特徴です。
+        {% elif lang_code == 'zh-hant' %}
+            探索來自日本的智能高效家電，以高品質與尖端設計著稱。
+        {% elif lang_code == 'zh-cn' %}
+            探索来自日本的智能高效家电，以高品质和尖端设计著称。
+        {% elif lang_code == 'de' %}
+            Entdecken Sie smarte und effiziente Haushaltsgeräte aus Japan, bekannt für Qualität und modernes Design.
+        {% elif lang_code == 'fr' %}
+            Découvrez des appareils électroménagers intelligents et efficaces du Japon, réputés pour leur qualité et leur design de pointe.
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}
+            Descubre electrodomésticos inteligentes y eficientes de Japón, conocidos por su calidad y diseño innovador.
+        {% elif lang_code == 'it' %}
+            Esplora elettrodomestici intelligenti ed efficienti dal Giappone, noti per la loro qualità e design all’avanguardia.
+        {% elif lang_code == 'ko' %}
+            일본의 스마트하고 효율적인 가전제품을 만나보세요. 품질과 첨단 디자인으로 유명합니다.
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}
+            Explore eletrodomésticos inteligentes e eficientes do Japão, conhecidos por sua qualidade e design inovador.
+        {% elif lang_code == 'vi' %}
+            Khám phá các thiết bị gia dụng thông minh và hiệu quả từ Nhật Bản, nổi tiếng với chất lượng và thiết kế hiện đại.
+        {% elif lang_code == 'th' %}
+            สำรวจเครื่องใช้ไฟฟ้าอัจฉริยะและมีประสิทธิภาพจากญี่ปุ่น ที่มีชื่อเสียงด้านคุณภาพและการออกแบบล้ำสมัย
+        {% else %}
+            Explore smart and efficient home appliances from Japan, known for their quality and cutting-edge design.
+        {% endif %}
+
+    </p>
 </div>
 
 <div class="main2">

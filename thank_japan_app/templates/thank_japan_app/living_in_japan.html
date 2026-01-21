@@ -445,8 +445,62 @@ body {
 
 
 <div class="category-header">
-    <h1>Practical Living 🏠</h1>
-    <p>Master survival phrases and essential rules for your new life in Japan. Navigate daily errands, public services, and local customs with confidence.</p>
+    <h1>
+        {% if lang_code == 'ja' %}
+            実用的な生活 🏠
+        {% elif lang_code == 'zh-hant' %}
+            實用生活 🏠
+        {% elif lang_code == 'zh-cn' %}
+            实用生活 🏠
+        {% elif lang_code == 'de' %}
+            Praktisches Leben 🏠
+        {% elif lang_code == 'fr' %}
+            Vie pratique 🏠
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}
+            Vida práctica 🏠
+        {% elif lang_code == 'it' %}
+            Vita pratica 🏠
+        {% elif lang_code == 'ko' %}
+            실용적인 생활 🏠
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}
+            Vida prática 🏠
+        {% elif lang_code == 'vi' %}
+            Cuộc sống thực tế 🏠
+        {% elif lang_code == 'th' %}
+            ชีวิตใช้งานได้จริง 🏠
+        {% else %}
+            Practical Living 🏠
+        {% endif %}
+
+    </h1>
+    <p>
+        {% if lang_code == 'ja' %}
+            日本での新生活に役立つ生き残りフレーズと基本ルールをマスター。日常の用事、公共サービス、地域の習慣を自信を持ってこなそう。
+        {% elif lang_code == 'zh-hant' %}
+            掌握在日本新生活中生存所需的短語與基本規則，自信應對日常事務、公共服務及當地習俗。
+        {% elif lang_code == 'zh-cn' %}
+            掌握在日本新生活中生存所需的短语与基本规则，自信应对日常事务、公共服务及当地习俗。
+        {% elif lang_code == 'de' %}
+            Meistere überlebenswichtige Redewendungen und essentielle Regeln für dein neues Leben in Japan. Bewältige alltägliche Erledigungen, öffentliche Dienste und lokale Bräuche mit Selbstvertrauen.
+        {% elif lang_code == 'fr' %}
+            Maîtrisez les phrases essentielles et les règles de survie pour votre nouvelle vie au Japon. Gérez les courses quotidiennes, les services publics et les coutumes locales en toute confiance.
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}
+            Domina frases esenciales y reglas básicas para tu nueva vida en Japón. Maneja diligencias diarias, servicios públicos y costumbres locales con confianza.
+        {% elif lang_code == 'it' %}
+            Padroneggia frasi essenziali e regole fondamentali per la tua nuova vita in Giappone. Gestisci commissioni quotidiane, servizi pubblici e usanze locali con sicurezza.
+        {% elif lang_code == 'ko' %}
+            일본에서의 새 생활에 필요한 생존 문구와 기본 규칙을 마스터하세요. 일상 업무, 공공 서비스, 지역 관습을 자신 있게 이용할 수 있습니다.
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}
+            Domine frases essenciais e regras básicas para sua nova vida no Japão. Realize tarefas diárias, serviços públicos e costumes locais com confiança.
+        {% elif lang_code == 'vi' %}
+            Thành thạo các câu giao tiếp sinh tồn và các quy tắc cần thiết cho cuộc sống mới ở Nhật Bản. Thực hiện các việc hàng ngày, dịch vụ công và phong tục địa phương một cách tự tin.
+        {% elif lang_code == 'th' %}
+            ฝึกฝนวลีรอดชีวิตและกฎสำคัญสำหรับชีวิตใหม่ในญี่ปุ่น จัดการงานประจำวัน บริการสาธารณะ และขนบธรรมเนียมท้องถิ่นด้วยความมั่นใจ
+        {% else %}
+            Master survival phrases and essential rules for your new life in Japan. Navigate daily errands, public services, and local customs with confidence.
+        {% endif %}
+
+    </p>
 </div>
 
 <div class="main2">

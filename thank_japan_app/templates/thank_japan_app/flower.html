@@ -342,10 +342,64 @@ body {
 
 
 <div class="category-header">
-    <h1>Japanese Flower Names: Vocabulary & Romaji Guide</h1>
-    <p>Explore Japan’s most iconic flowers, including cherry blossoms, chrysanthemums, and seasonal favorites.</p>
+    <h1>
+        {% if lang_code == 'ja' %}
+            日本の花の名前：桜や梅からあまり知られていない在来種まで、ローマ字付きで紹介。
+        {% elif lang_code == 'zh-hant' %}
+            日本花卉名稱：從櫻花、梅花到鮮為人知的本土花卉，附有羅馬字指南。
+        {% elif lang_code == 'zh-cn' %}
+            日本花卉名称：从樱花、梅花到鲜为人知的本土花卉，附有罗马字指南。
+        {% elif lang_code == 'de' %}
+            Japanische Blumennamen: Von Sakura und Ume bis zu weniger bekannten einheimischen Arten, mit Romaji-Guide.
+        {% elif lang_code == 'fr' %}
+            Noms de fleurs japonaises : du sakura et ume aux espèces moins connues, avec guide en romaji.
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}
+            Nombres de flores japonesas: desde sakura y ume hasta especies menos conocidas, con guía en romaji.
+        {% elif lang_code == 'it' %}
+            Nomi di fiori giapponesi: dal sakura e ume a specie meno conosciute, con guida in romaji.
+        {% elif lang_code == 'ko' %}
+            일본 꽃 이름: 벚꽃과 매화부터 잘 알려지지 않은 토종 꽃까지, 로마자 가이드 포함.
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}
+            Nomes de flores japonesas: do sakura e ume a espécies menos conhecidas, com guia em romaji.
+        {% elif lang_code == 'vi' %}
+            Tên các loài hoa Nhật Bản: từ hoa anh đào, hoa mơ đến các loài bản địa ít được biết đến, kèm hướng dẫn Romaji.
+        {% elif lang_code == 'th' %}
+            ชื่อดอกไม้ของญี่ปุ่น: ตั้งแต่ซากุระและบ๊วยไปจนถึงพันธุ์พื้นเมืองที่ไม่ค่อยมีคนรู้จัก พร้อมคู่มือโรมา字
+        {% else %}
+            Japanese Flower Names: Vocabulary & Romaji Guide, from sakura and ume to lesser-known native species.
+        {% endif %}
 
-</div>]
+    </h1>
+    <p>
+        {% if lang_code == 'ja' %}
+            桜や菊など、日本を代表する花や季節ごとの人気の花々を探検しよう。
+        {% elif lang_code == 'zh-hant' %}
+            探索日本最具代表性的花卉，包括櫻花、菊花以及各季節的熱門花卉。
+        {% elif lang_code == 'zh-cn' %}
+            探索日本最具代表性的花卉，包括樱花、菊花以及各季节的热门花卉。
+        {% elif lang_code == 'de' %}
+            Entdecke Japans ikonischste Blumen, darunter Kirschblüten, Chrysanthemen und saisonale Favoriten.
+        {% elif lang_code == 'fr' %}
+            Découvrez les fleurs les plus emblématiques du Japon, y compris les cerisiers en fleurs, les chrysanthèmes et les favoris saisonniers.
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}
+            Explora las flores más icónicas de Japón, incluyendo los cerezos en flor, los crisantemos y las favoritas de cada temporada.
+        {% elif lang_code == 'it' %}
+            Esplora i fiori più iconici del Giappone, tra cui ciliegi in fiore, crisantemi e fiori stagionali preferiti.
+        {% elif lang_code == 'ko' %}
+            일본을 대표하는 꽃들, 벚꽃, 국화, 계절별 인기 꽃들을 만나보세요.
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}
+            Explore as flores mais icônicas do Japão, incluindo cerejeiras, crisântemos e flores sazonais favoritas.
+        {% elif lang_code == 'vi' %}
+            Khám phá những loài hoa biểu tượng nhất của Nhật Bản, bao gồm hoa anh đào, cúc và các loài hoa theo mùa được yêu thích.
+        {% elif lang_code == 'th' %}
+            สำรวจดอกไม้ที่โดดเด่นที่สุดของญี่ปุ่น รวมถึงดอกซากุระ ดอกเบญจมาศ และดอกไม้ที่เป็นที่นิยมตามฤดูกาล
+        {% else %}
+            Explore Japan’s most iconic flowers, including cherry blossoms, chrysanthemums, and seasonal favorites.
+        {% endif %}
+
+    </p>
+
+</div>
 
 <div class="main2">
     {% for item in object_list %}

@@ -354,8 +354,62 @@ body {
 
 
 <div class="category-header">
-    <h1>Daily Conversation 💬</h1>
-    <p>Master essential phrases for your life and work in Japan. Unlock the culture behind the words.</p>
+    <h1>
+        {% if lang_code == 'ja' %}
+            日常会話 💬
+        {% elif lang_code == 'zh-hant' %}
+            日常會話 💬
+        {% elif lang_code == 'zh-cn' %}
+            日常会话 💬
+        {% elif lang_code == 'de' %}
+            Alltägliche Gespräche 💬
+        {% elif lang_code == 'fr' %}
+            Conversation quotidienne 💬
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}
+            Conversación diaria 💬
+        {% elif lang_code == 'it' %}
+            Conversazione quotidiana 💬
+        {% elif lang_code == 'ko' %}
+            일상 대화 💬
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}
+            Conversa diária 💬
+        {% elif lang_code == 'vi' %}
+            Giao tiếp hàng ngày 💬
+        {% elif lang_code == 'th' %}
+            การสนทนาประจำวัน 💬
+        {% else %}
+            Daily Conversation 💬
+        {% endif %}
+
+    </h1>
+    <p>
+        {% if lang_code == 'ja' %}
+            日本での生活や仕事で役立つ必須フレーズをマスターしよう。言葉の背後にある文化も理解できる。
+        {% elif lang_code == 'zh-hant' %}
+            掌握在日本生活和工作中必備的短語，了解詞語背後的文化。
+        {% elif lang_code == 'zh-cn' %}
+            掌握在日本生活和工作中必备的短语，了解词语背后的文化。
+        {% elif lang_code == 'de' %}
+            Meistere essentielle Ausdrücke für dein Leben und Arbeiten in Japan. Entdecke die Kultur hinter den Worten.
+        {% elif lang_code == 'fr' %}
+            Maîtrisez les phrases essentielles pour votre vie et votre travail au Japon. Découvrez la culture derrière les mots.
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}
+            Domina frases esenciales para tu vida y trabajo en Japón. Descubre la cultura detrás de las palabras.
+        {% elif lang_code == 'it' %}
+            Padroneggia frasi essenziali per la tua vita e il tuo lavoro in Giappone. Scopri la cultura dietro le parole.
+        {% elif lang_code == 'ko' %}
+            일본에서의 생활과 업무에 필요한 필수 문구를 익히고, 그 말 뒤에 숨겨진 문화를 이해하세요.
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}
+            Domine frases essenciais para sua vida e trabalho no Japão. Descubra a cultura por trás das palavras.
+        {% elif lang_code == 'vi' %}
+            Làm chủ các cụm từ thiết yếu cho cuộc sống và công việc tại Nhật Bản. Khám phá văn hóa đằng sau những từ ngữ.
+        {% elif lang_code == 'th' %}
+            ฝึกวลีสำคัญสำหรับชีวิตและการทำงานในญี่ปุ่น พร้อมเข้าใจวัฒนธรรมเบื้องหลังคำเหล่านั้น
+        {% else %}
+            Master essential phrases for your life and work in Japan. Unlock the culture behind the words.
+        {% endif %}
+
+    </p>
 </div>
 
 <div class="main2">

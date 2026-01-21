@@ -341,8 +341,62 @@ body {
 </style>
 
 <div class="category-header">
-    <h1>Daily Life in Japan: Vocabulary & Romaji Guide</h1>
-    <p>Experience daily life in Japan through its reliable public transport, convenient services, and the unique rhythm of life outside the home.</p>
+    <h1>
+        {% if lang_code == 'ja' %}
+            日本の日常生活：通勤・買い物・食事など、日常で使うフレーズや単語をローマ字付きで紹介。
+        {% elif lang_code == 'zh-hant' %}
+            日本日常生活：通勤、購物、用餐等日常用語，附有羅馬字指南。
+        {% elif lang_code == 'zh-cn' %}
+            日本日常生活：通勤、购物、用餐等日常用语，附有罗马字指南。
+        {% elif lang_code == 'de' %}
+            Alltägliches Leben in Japan: Von Pendeln und Einkaufen bis zu Mahlzeiten, mit Vokabeln und Romaji-Guide.
+        {% elif lang_code == 'fr' %}
+            La vie quotidienne au Japon : vocabulaire et phrases pour le travail, les courses et les repas, avec guide en romaji.
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}
+            Vida diaria en Japón: vocabulario y frases para desplazamientos, compras y comidas, con guía en romaji.
+        {% elif lang_code == 'it' %}
+            Vita quotidiana in Giappone: vocabolario e frasi per pendolari, acquisti e pasti, con guida in romaji.
+        {% elif lang_code == 'ko' %}
+            일본의 일상생활: 출퇴근, 쇼핑, 식사 등 일상에서 사용하는 단어와 표현을 로마자 가이드와 함께 소개.
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}
+            Vida diária no Japão: vocabulário e frases para deslocamentos, compras e refeições, com guia em romaji.
+        {% elif lang_code == 'vi' %}
+            Cuộc sống hàng ngày tại Nhật Bản: từ đi làm, mua sắm đến bữa ăn, kèm hướng dẫn Romaji.
+        {% elif lang_code == 'th' %}
+            ชีวิตประจำวันในญี่ปุ่น: คำศัพท์และวลีสำหรับการเดินทางไปทำงาน ช้อปปิ้ง และมื้ออาหาร พร้อมคู่มือโรมา字
+        {% else %}
+            Daily Life in Japan: Vocabulary & Romaji Guide, covering commuting, shopping, meals, and daily expressions.
+        {% endif %}
+
+    </h1>
+    <p>
+        {% if lang_code == 'ja' %}
+            日本の日常生活を体験しよう。信頼できる公共交通機関、便利なサービス、家の外での独特な生活リズムを感じられます。
+        {% elif lang_code == 'zh-hant' %}
+            體驗日本的日常生活：可靠的公共交通、便利的服務，以及家外的獨特生活節奏。
+        {% elif lang_code == 'zh-cn' %}
+            体验日本的日常生活：可靠的公共交通、便利的服务，以及家外的独特生活节奏。
+        {% elif lang_code == 'de' %}
+            Erlebe das tägliche Leben in Japan durch verlässliche öffentliche Verkehrsmittel, praktische Dienstleistungen und den einzigartigen Rhythmus des Lebens außerhalb des Hauses.
+        {% elif lang_code == 'fr' %}
+            Découvrez la vie quotidienne au Japon à travers ses transports publics fiables, ses services pratiques et le rythme unique de la vie en dehors de la maison.
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}
+            Experimenta la vida diaria en Japón mediante su transporte público confiable, servicios convenientes y el ritmo único de la vida fuera del hogar.
+        {% elif lang_code == 'it' %}
+            Vivi la vita quotidiana in Giappone attraverso trasporti pubblici affidabili, servizi comodi e il ritmo unico della vita fuori casa.
+        {% elif lang_code == 'ko' %}
+            일본의 일상생활을 체험해보세요. 믿을 수 있는 대중교통, 편리한 서비스, 집 밖에서의 독특한 생활 리듬을 경험할 수 있습니다.
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}
+            Experimente a vida diária no Japão através de transporte público confiável, serviços convenientes e o ritmo único da vida fora de casa.
+        {% elif lang_code == 'vi' %}
+            Trải nghiệm cuộc sống hàng ngày ở Nhật Bản qua hệ thống giao thông công cộng đáng tin cậy, các dịch vụ tiện lợi và nhịp sống độc đáo bên ngoài nhà.
+        {% elif lang_code == 'th' %}
+            สัมผัสชีวิตประจำวันในญี่ปุ่นผ่านการขนส่งสาธารณะที่เชื่อถือได้ บริการที่สะดวกสบาย และจังหวะชีวิตที่เป็นเอกลักษณ์นอกบ้าน
+        {% else %}
+            Experience daily life in Japan through its reliable public transport, convenient services, and the unique rhythm of life outside the home.
+        {% endif %}
+
+    </p>
 
 </div>
 

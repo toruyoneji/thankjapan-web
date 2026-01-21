@@ -343,8 +343,62 @@ body {
 
 
 <div class="category-header">
-    <h1>Japanese Food & Dishes: Vocabulary & Romaji Guide</h1>
-    <p>Learn how to prepare Japanese dishes at home using traditional ingredients and easy-to-follow steps.</p>   
+    <h1>
+        {% if lang_code == 'ja' %}
+            日本の食べ物と料理：寿司、天ぷら、ラーメンなど、ローマ字付きで紹介。
+        {% elif lang_code == 'zh-hant' %}
+            日本的食物與料理：從壽司、天婦羅到拉麵，附有羅馬字指南。
+        {% elif lang_code == 'zh-cn' %}
+            日本的食物与料理：从寿司、天妇罗到拉面，附有罗马字指南。
+        {% elif lang_code == 'de' %}
+            Japanisches Essen und Gerichte: Von Sushi, Tempura bis Ramen, mit Romaji-Guide.
+        {% elif lang_code == 'fr' %}
+            Cuisine et plats japonais : du sushi, tempura au ramen, avec guide en romaji.
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}
+            Comida y platos japoneses: desde sushi, tempura hasta ramen, con guía en romaji.
+        {% elif lang_code == 'it' %}
+            Cibi e piatti giapponesi: dal sushi, tempura al ramen, con guida in romaji.
+        {% elif lang_code == 'ko' %}
+            일본 음식과 요리: 스시, 덴푸라, 라멘 등, 로마자 가이드 포함.
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}
+            Comida e pratos japoneses: de sushi, tempura a ramen, com guia em romaji.
+        {% elif lang_code == 'vi' %}
+            Thực phẩm và món ăn Nhật Bản: từ sushi, tempura đến ramen, kèm hướng dẫn Romaji.
+        {% elif lang_code == 'th' %}
+            อาหารและจานอาหารญี่ปุ่น: ตั้งแต่ซูชิ เทมปุระ จนถึงราเม็ง พร้อมคู่มือโรมา字
+        {% else %}
+            Japanese Food & Dishes: Vocabulary & Romaji Guide, featuring sushi, tempura, ramen, and more.
+        {% endif %}
+
+    </h1>
+    <p>
+        {% if lang_code == 'ja' %}
+            伝統的な食材を使って、自宅で日本の料理を作る方法を学ぼう。簡単に従えるステップで紹介。
+        {% elif lang_code == 'zh-hant' %}
+            學習如何在家使用傳統食材製作日本料理，並附簡單易懂的步驟。
+        {% elif lang_code == 'zh-cn' %}
+            学习如何在家使用传统食材制作日本料理，并附简单易懂的步骤。
+        {% elif lang_code == 'de' %}
+            Lerne, wie man japanische Gerichte zu Hause mit traditionellen Zutaten und einfachen Schritten zubereitet.
+        {% elif lang_code == 'fr' %}
+            Apprenez à préparer des plats japonais chez vous en utilisant des ingrédients traditionnels et des étapes faciles à suivre.
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}
+            Aprende a preparar platos japoneses en casa utilizando ingredientes tradicionales y pasos fáciles de seguir.
+        {% elif lang_code == 'it' %}
+            Impara a preparare piatti giapponesi a casa utilizzando ingredienti tradizionali e passaggi facili da seguire.
+        {% elif lang_code == 'ko' %}
+            전통 재료를 사용하여 집에서 일본 요리를 만드는 방법을 배우고 따라하기 쉬운 단계별로 안내합니다.
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}
+            Aprenda a preparar pratos japoneses em casa usando ingredientes tradicionais e passos fáceis de seguir.
+        {% elif lang_code == 'vi' %}
+            Học cách nấu món ăn Nhật Bản tại nhà sử dụng nguyên liệu truyền thống và các bước dễ theo dõi.
+        {% elif lang_code == 'th' %}
+            เรียนรู้วิธีทำอาหารญี่ปุ่นที่บ้านโดยใช้วัตถุดิบดั้งเดิมและขั้นตอนที่ทำตามง่าย
+        {% else %}
+            Learn how to prepare Japanese dishes at home using traditional ingredients and easy-to-follow steps.
+        {% endif %}
+
+    </p>   
 </div>
 
 <div class="main2">

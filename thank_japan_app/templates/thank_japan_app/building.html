@@ -341,8 +341,62 @@ body {
 
 
 <div class="category-header">
-    <h1>Buildings & Architecture in Japanese: Vocabulary & Romaji Guide</h1>
-    <p>Discover the beauty of Japanese buildings — from ancient wooden temples to sleek, modern skyscrapers.</p>
+    <h1>
+        {% if lang_code == 'ja' %}
+            日本の建物と建築：家や寺、城、現代のオフィスビルまで、ローマ字付きで紹介。
+        {% elif lang_code == 'zh-hant' %}
+            了解日本的建築和建築物，從住宅、寺廟、城堡到現代辦公大樓，附有羅馬字指南。
+        {% elif lang_code == 'zh-cn' %}
+            了解日本的建筑和建筑物，从住宅、寺庙、城堡到现代办公楼，附有罗马字指南。
+        {% elif lang_code == 'de' %}
+            Entdecke japanische Gebäude und Architektur: Von Häusern, Tempeln und Burgen bis hin zu modernen Bürogebäuden, mit Romaji-Guide.
+        {% elif lang_code == 'fr' %}
+            Découvrez les bâtiments et l'architecture du Japon : des maisons, temples et châteaux aux immeubles de bureaux modernes, avec guide en romaji.
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}
+            Conoce los edificios y la arquitectura de Japón: desde casas, templos y castillos hasta edificios de oficinas modernos, con guía en romaji.
+        {% elif lang_code == 'it' %}
+            Scopri gli edifici e l'architettura giapponese: dalle case, templi e castelli agli uffici moderni, con guida in romaji.
+        {% elif lang_code == 'ko' %}
+            일본의 건물과 건축: 집, 절, 성에서 현대 오피스 빌딩까지 로마자 가이드와 함께.
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}
+            Explore os edifícios e a arquitetura do Japão: de casas, templos e castelos a modernos edifícios de escritórios, com guia em romaji.
+        {% elif lang_code == 'vi' %}
+            Khám phá các tòa nhà và kiến trúc ở Nhật Bản: từ nhà, đền, lâu đài đến các tòa nhà văn phòng hiện đại, kèm hướng dẫn Romaji.
+        {% elif lang_code == 'th' %}
+            สำรวจอาคารและสถาปัตยกรรมในญี่ปุ่น ตั้งแต่บ้าน วัด ปราสาท ไปจนถึงอาคารสำนักงานสมัยใหม่ พร้อมคู่มือโรมา字
+        {% else %}
+            Explore buildings and architecture in Japan, from houses, temples, and castles to modern office buildings, with a Romaji guide.
+        {% endif %}
+
+    </h1>
+    <p>
+        {% if lang_code == 'ja' %}
+            日本の建物の美しさを発見：古い木造の寺院から洗練された近代的な高層ビルまで。
+        {% elif lang_code == 'zh-hant' %}
+            探索日本建築之美：從古老木造寺廟到時尚現代摩天大樓。
+        {% elif lang_code == 'zh-cn' %}
+            探索日本建筑之美：从古老木造寺庙到时尚现代摩天大楼。
+        {% elif lang_code == 'de' %}
+            Entdecke die Schönheit japanischer Gebäude – von alten hölzernen Tempeln bis hin zu modernen Wolkenkratzern.
+        {% elif lang_code == 'fr' %}
+            Découvrez la beauté des bâtiments japonais : des anciens temples en bois aux gratte-ciel modernes et élégants.
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}
+            Descubre la belleza de los edificios japoneses: desde antiguos templos de madera hasta modernos rascacielos elegantes.
+        {% elif lang_code == 'it' %}
+            Scopri la bellezza degli edifici giapponesi: dai templi in legno antichi ai moderni grattacieli eleganti.
+        {% elif lang_code == 'ko' %}
+            일본 건축의 아름다움을 발견하세요: 오래된 목조 사찰부터 세련된 현대 고층 빌딩까지.
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}
+            Descubra a beleza dos edifícios japoneses — desde antigos templos de madeira até modernos arranha-céus elegantes.
+        {% elif lang_code == 'vi' %}
+            Khám phá vẻ đẹp của các tòa nhà Nhật Bản — từ các ngôi đền gỗ cổ kính đến những tòa nhà chọc trời hiện đại, sang trọng.
+        {% elif lang_code == 'th' %}
+            ค้นพบความงามของอาคารญี่ปุ่น ตั้งแต่ศาลเจ้าไม้โบราณจนถึงตึกระฟ้าสมัยใหม่ที่ทันสมัย
+        {% else %}
+            Discover the beauty of Japanese buildings — from ancient wooden temples to sleek, modern skyscrapers.
+        {% endif %}
+
+    </p>
 </div>
 
 <div class="main2">

@@ -342,8 +342,62 @@ body {
 
 
 <div class="category-header">
-    <h1>Sports Names in Japanese: Vocabulary & Romaji Guide</h1>
-    <p>Learn about traditional and modern sports popular in Japan, including martial arts, sumo, and more.</p>
+    <h1>
+        {% if lang_code == 'ja' %}
+            日本のスポーツ：語彙とローマ字ガイド
+        {% elif lang_code == 'zh-hant' %}
+            日本運動名稱：詞彙與羅馬字指南
+        {% elif lang_code == 'zh-cn' %}
+            日本运动名称：词汇与罗马字指南
+        {% elif lang_code == 'de' %}
+            Sportarten in Japan: Vokabular & Romaji-Leitfaden
+        {% elif lang_code == 'fr' %}
+            Sports au Japon : Vocabulaire & Guide Romaji
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}
+            Deportes en Japón: Vocabulario y Guía Romaji
+        {% elif lang_code == 'it' %}
+            Sport in Giappone: Vocabolario & Guida Romaji
+        {% elif lang_code == 'ko' %}
+            일본 스포츠: 어휘 및 로마자 가이드
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}
+            Esportes no Japão: Vocabulário & Guia Romaji
+        {% elif lang_code == 'vi' %}
+            Tên các môn thể thao ở Nhật Bản: Hướng dẫn từ vựng & Romaji
+        {% elif lang_code == 'th' %}
+            ชื่อกีฬาญี่ปุ่น: คำศัพท์และคำอ่านโรมาจิ
+        {% else %}
+            Sports Names in Japanese: Vocabulary & Romaji Guide
+        {% endif %}
+
+    </h1>
+    <p>
+        {% if lang_code == 'ja' %}
+            日本で人気のある伝統的・現代的スポーツについて学ぼう。武道、相撲なども含まれます。
+        {% elif lang_code == 'zh-hant' %}
+            了解日本流行的傳統與現代運動，包括武術、相撲等。
+        {% elif lang_code == 'zh-cn' %}
+            了解日本流行的传统与现代运动，包括武术、相扑等。
+        {% elif lang_code == 'de' %}
+            Lerne traditionelle und moderne in Japan beliebte Sportarten kennen, einschließlich Kampfsport, Sumo und mehr.
+        {% elif lang_code == 'fr' %}
+            Découvrez les sports traditionnels et modernes populaires au Japon, y compris les arts martiaux, le sumo et plus encore.
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}
+            Aprende sobre los deportes tradicionales y modernos populares en Japón, incluyendo artes marciales, sumo y más.
+        {% elif lang_code == 'it' %}
+            Scopri gli sport tradizionali e moderni popolari in Giappone, comprese le arti marziali, il sumo e altro ancora.
+        {% elif lang_code == 'ko' %}
+            일본에서 인기 있는 전통 및 현대 스포츠에 대해 배우세요. 무술, 스모 등도 포함됩니다.
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}
+            Aprenda sobre esportes tradicionais e modernos populares no Japão, incluindo artes marciais, sumô e mais.
+        {% elif lang_code == 'vi' %}
+            Tìm hiểu về các môn thể thao truyền thống và hiện đại phổ biến ở Nhật Bản, bao gồm võ thuật, sumo và nhiều hơn nữa.
+        {% elif lang_code == 'th' %}
+            เรียนรู้เกี่ยวกับกีฬาที่นิยมทั้งแบบดั้งเดิมและสมัยใหม่ในญี่ปุ่น รวมถึงศิลปะการต่อสู้ ซูโม่ และอื่น ๆ
+        {% else %}
+            Learn about traditional and modern sports popular in Japan, including martial arts, sumo, and more.
+        {% endif %}
+
+    </p>
 
 </div>
 

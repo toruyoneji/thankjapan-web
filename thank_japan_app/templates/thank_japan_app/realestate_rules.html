@@ -445,8 +445,62 @@ body {
 
 
 <div class="category-header">
-    <h1>Real Estate & Rules 🏢</h1>
-    <p>Navigate the complex world of Japanese housing. Understand reikin, shikikin, and hidden contract rules to find your perfect home.</p>
+    <h1>
+        {% if lang_code == 'ja' %}
+            不動産とルール：語彙とローマ字ガイド
+        {% elif lang_code == 'zh-hant' %}
+            日本房地產與規則：詞彙與羅馬字指南
+        {% elif lang_code == 'zh-cn' %}
+            日本房地产与规则：词汇与罗马字指南
+        {% elif lang_code == 'de' %}
+            Immobilien & Regeln in Japan: Vokabular & Romaji-Leitfaden
+        {% elif lang_code == 'fr' %}
+            Immobilier et règles au Japon : Vocabulaire & Guide Romaji
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}
+            Bienes raíces y reglas en Japón: Vocabulario y Guía Romaji
+        {% elif lang_code == 'it' %}
+            Immobiliare e regole in Giappone: Vocabolario & Guida Romaji
+        {% elif lang_code == 'ko' %}
+            일본 부동산 및 규칙: 어휘 및 로마자 가이드
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}
+            Imóveis e regras no Japão: Vocabulário & Guia Romaji
+        {% elif lang_code == 'vi' %}
+            Bất động sản & Quy tắc ở Nhật Bản: Hướng dẫn từ vựng & Romaji
+        {% elif lang_code == 'th' %}
+            อสังหาริมทรัพย์และกฎระเบียบในญี่ปุ่น: คำศัพท์และคำอ่านโรมาจิ
+        {% else %}
+            Real Estate & Rules 🏢
+        {% endif %}
+
+    </h1>
+    <p>
+        {% if lang_code == 'ja' %}
+            日本の住宅事情を理解しよう。礼金、敷金、契約上の注意点などを知って理想の住まいを見つけよう。
+        {% elif lang_code == 'zh-hant' %}
+            了解日本的住房複雜情況。理解禮金、押金以及隱藏的合同規則，找到理想的住所。  
+        {% elif lang_code == 'zh-cn' %}
+            了解日本的住房复杂情况。理解礼金、押金以及隐藏的合同规则，找到理想的住所。
+        {% elif lang_code == 'de' %}
+            Navigieren Sie durch die komplexe Welt des japanischen Wohnungswesens. Verstehen Sie Reikin, Shikikin und versteckte Vertragsregeln, um Ihr perfektes Zuhause zu finden.
+        {% elif lang_code == 'fr' %}
+            Naviguez dans le monde complexe du logement au Japon. Comprenez le reikin, le shikikin et les règles contractuelles cachées pour trouver votre maison idéale.
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}
+            Navega por el complejo mundo de la vivienda en Japón. Comprende el reikin, shikikin y las reglas contractuales ocultas para encontrar tu hogar perfecto.
+        {% elif lang_code == 'it' %}
+            Naviga nel complesso mondo delle abitazioni in Giappone. Comprendi reikin, shikikin e le regole contrattuali nascoste per trovare la casa perfetta.
+        {% elif lang_code == 'ko' %}
+            일본 주택의 복잡한 세계를 탐색하세요. 레이킨, 시키킨, 숨겨진 계약 규칙을 이해하고 완벽한 집을 찾으세요.
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}
+            Navegue pelo complexo mundo da habitação no Japão. Entenda reikin, shikikin e regras contratuais ocultas para encontrar sua casa perfeita.
+        {% elif lang_code == 'vi' %}
+            Điều hướng thế giới phức tạp của nhà ở Nhật Bản. Hiểu về reikin, shikikin và các quy tắc hợp đồng ẩn để tìm ngôi nhà lý tưởng.
+        {% elif lang_code == 'th' %}
+            เรียนรู้โลกที่ซับซ้อนของที่อยู่อาศัยในญี่ปุ่น เข้าใจเกี่ยวกับเงินก้อนแรก (Reikin), เงินประกัน (Shikikin) และกฎสัญญาที่ซ่อนอยู่เพื่อหาบ้านที่สมบูรณ์แบบของคุณ
+        {% else %}
+            Navigate the complex world of Japanese housing. Understand reikin, shikikin, and hidden contract rules to find your perfect home.
+        {% endif %}
+
+    </p>
 </div>
 
 <div class="main2">

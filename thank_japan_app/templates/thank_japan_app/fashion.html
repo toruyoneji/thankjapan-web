@@ -342,8 +342,62 @@ body {
 
 
 <div class="category-header">
-    <h1>Clothing & Fashion in Japanese: Vocabulary & Romaji Guide</h1>
-    <p>Discover Japan’s unique fashion culture, blending traditional garments with innovative streetwear trends.</p>
+    <h1>
+        {% if lang_code == 'ja' %}
+            日本の服とファッション：着物や和服から現代のファッションまで、ローマ字付きで紹介。
+        {% elif lang_code == 'zh-hant' %}
+            日本服飾與時尚：從和服到現代時尚，附有羅馬字指南。
+        {% elif lang_code == 'zh-cn' %}
+            日本服饰与时尚：从和服到现代时尚，附有罗马字指南。
+        {% elif lang_code == 'de' %}
+            Kleidung & Mode in Japan: Von Kimono und traditioneller Kleidung bis zur modernen Mode, mit Romaji-Guide.
+        {% elif lang_code == 'fr' %}
+            Vêtements et mode japonais : du kimono à la mode contemporaine, avec guide en romaji.
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}
+            Ropa y moda japonesa: desde el kimono hasta la moda moderna, con guía en romaji.
+        {% elif lang_code == 'it' %}
+            Abbigliamento e moda giapponese: dal kimono alla moda moderna, con guida in romaji.
+        {% elif lang_code == 'ko' %}
+            일본의 의복과 패션: 기모노와 전통 의상부터 현대 패션까지, 로마자 가이드 포함.
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}
+            Roupas e moda japonesas: do kimono à moda moderna, com guia em romaji.
+        {% elif lang_code == 'vi' %}
+            Trang phục và thời trang Nhật Bản: từ kimono đến thời trang hiện đại, kèm hướng dẫn Romaji.
+        {% elif lang_code == 'th' %}
+            เสื้อผ้าและแฟชั่นญี่ปุ่น: ตั้งแต่กิโมโนไปจนถึงแฟชั่นสมัยใหม่ พร้อมคู่มือโรมา字
+        {% else %}
+            Clothing & Fashion in Japanese: Vocabulary & Romaji Guide, from kimono and traditional clothing to modern fashion.
+        {% endif %}
+
+    </h1>
+    <p>
+        {% if lang_code == 'ja' %}
+            伝統的な衣服と革新的なストリートファッションを融合させた、日本独自のファッション文化を発見しよう。
+        {% elif lang_code == 'zh-hant' %}
+            探索日本獨特的時尚文化，融合傳統服飾與創新的街頭潮流。
+        {% elif lang_code == 'zh-cn' %}
+            探索日本独特的时尚文化，融合传统服饰与创新街头潮流。
+        {% elif lang_code == 'de' %}
+            Entdecke Japans einzigartige Modekultur, die traditionelle Kleidung mit innovativen Streetwear-Trends verbindet.
+        {% elif lang_code == 'fr' %}
+            Découvrez la culture de la mode unique du Japon, mêlant vêtements traditionnels et tendances streetwear innovantes.
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}
+            Descubre la cultura de la moda única de Japón, que combina prendas tradicionales con tendencias innovadoras de streetwear.
+        {% elif lang_code == 'it' %}
+            Scopri l'unica cultura della moda giapponese, che fonde abiti tradizionali con tendenze innovative di streetwear.
+        {% elif lang_code == 'ko' %}
+            전통 의상과 혁신적인 스트리트웨어 트렌드를 결합한 일본만의 독특한 패션 문화를 발견하세요.
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}
+            Descubra a cultura de moda única do Japão, que combina roupas tradicionais com tendências inovadoras de streetwear.
+        {% elif lang_code == 'vi' %}
+            Khám phá văn hóa thời trang độc đáo của Nhật Bản, kết hợp trang phục truyền thống với xu hướng streetwear sáng tạo.
+        {% elif lang_code == 'th' %}
+            ค้นพบวัฒนธรรมแฟชั่นเฉพาะของญี่ปุ่น ผสมผสานเครื่องแต่งกายดั้งเดิมกับเทรนด์สตรีทแวร์ที่สร้างสรรค์
+        {% else %}
+            Discover Japan’s unique fashion culture, blending traditional garments with innovative streetwear trends.
+        {% endif %}
+
+    </p>
 
 </div>
 
