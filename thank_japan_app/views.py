@@ -21,7 +21,7 @@ from django.utils import timezone
 from django.utils.http import urlencode
 import logging
 import random
-import re
+import re, itertools
 import json
 import paypalrestsdk
 import requests
@@ -93,23 +93,26 @@ def normalize_consonants(text):
     for old, new in replacements:
         text = text.replace(old, new)
 
-    text = text.replace("nn", "n")
     return text
 
 def normalize_for_judge(text):
-    if not text: return ""
+
+    if not text:
+        return ""
+
     text = text.lower().strip()
+
     text = text.replace('wa', 'ha')
-    
-    text = text.replace('ou', 'oo')
+
     text = re.sub(r'a\-', 'aa', text)
     text = re.sub(r'i\-', 'ii', text)
     text = re.sub(r'u\-', 'uu', text)
     text = re.sub(r'e\-', 'ee', text)
     text = re.sub(r'o\-', 'oo', text)
-    
-    text = re.sub(r'[^a-z0-9]', '', text)
-    
+    text = re.sub(r'ou', 'oo', text)
+
+    text = re.sub(r'[^a-z0-9\-]', '', text)
+
     repls = [
         ('tsu','tu'),('fu','hu'),('shi','si'),('chi','ti'),('ji','zi'),
         ('sha','sya'),('shu','syu'),('sho','syo'),
@@ -120,9 +123,8 @@ def normalize_for_judge(text):
     for old, new in repls:
         text = text.replace(old, new)
 
-    import itertools
     text = ''.join(ch for ch, _ in itertools.groupby(text))
-    
+
     return text
 
 
@@ -884,28 +886,30 @@ def game_answer(request, pk):
         user_input = form.cleaned_data['answer'].strip().lower()
         db_answer = extract_base_name(question.name).lower()
 
-        judge_user = normalize_for_judge(user_input)
-        judge_db = normalize_for_judge(db_answer)
+        def is_correct(user_input, correct_answer):
+            judge_user = normalize_for_judge(user_input)
+            judge_db = normalize_for_judge(correct_answer)
+            return judge_user == judge_db
 
-        is_correct = False
-        
+        correct_flag = False
+
         if current_difficulty == 'super_hard':
             if user_input == question.name.lower():
-                is_correct = True
+                correct_flag = True
         else:
-            if judge_user == judge_db:
-                is_correct = True
+            if is_correct(user_input, db_answer):
+                correct_flag = True
 
         history = request.session.get('game_history', [])
         history.append({
             'question_id': question.id,
-            'is_correct': is_correct,
+            'is_correct': correct_flag,
             'user_input': user_input,
             'correct_answer': question.name,
         })
         request.session['game_history'] = history
 
-        if is_correct:
+        if correct_flag:
             request.session['game_score'] = request.session.get('game_score', 0) + 1
 
         index = request.session.get('game_current_index', 0)
@@ -927,7 +931,7 @@ def game_answer(request, pk):
             'object': question,
             'form': form,
             'user_input': user_input,
-            'is_correct': is_correct,
+            'is_correct': correct_flag,
             'show_result': True,
             'is_last_question': is_last_question,
             'current_index': index + 1,
