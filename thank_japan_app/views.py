@@ -1024,6 +1024,7 @@ def game_restart(request):
     return redirect('game_play')
 
 def game_result(request):
+    _, lang_code = get_lang_info(request)
     score = request.session.get('game_score', 0)
     player, is_guest = get_current_player_info(request)
     is_premium_mode = request.session.get('is_premium_mode', False)
@@ -1052,12 +1053,12 @@ def game_result(request):
         if q: review_data.append({'object': q, 'is_correct': h['is_correct'], 'user_input': h['user_input'], 'correct_answer': h['correct_answer']})
 
     return render(request, 'thank_japan_app/game_result.html', {
+        'lang_code': lang_code,
         'player': player, 'score': score, 'is_guest': is_guest, 
         'review_data': review_data, 'difficulty': difficulty,
         'is_premium_mode': is_premium_mode,
         'ranking': Player.objects.order_by('-total_score')[:20]
-    })
-    
+    })    
                     
 #category select view
 
