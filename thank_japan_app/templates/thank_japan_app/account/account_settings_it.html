@@ -32,13 +32,19 @@
     .status-badge { display: inline-block; padding: 5px 15px; border-radius: 25px; font-weight: bold; margin-top: 10px; font-size: 0.9rem; }
     .status-free { background: #eee; color: #666; }
     .status-premium { background: linear-gradient(135deg, #d4af37, #ffd700); color: #000; border: 1px solid #ffeb99; }
-    .action-group { display: flex; flex-direction: row; justify-content: center; gap: 15px; margin-top: 30px; flex-wrap: wrap; }
-    .btn-manage { display: inline-block; padding: 12px 25px; border-radius: 30px; text-decoration: none; font-weight: bold; transition: 0.3s; border: none; cursor: pointer; font-size: 1rem; text-align: center; }
+
+    .action-group { display: flex; flex-direction: row; justify-content: center; gap: 15px; margin-top: 30px; flex-wrap: wrap; align-items: center; }
+    .action-group form { display: contents; }
+
+    .btn-manage { display: inline-block; padding: 12px 25px; border-radius: 30px; text-decoration: none; font-weight: bold; transition: 0.3s; border: none; cursor: pointer; font-size: 0.95rem; text-align: center; min-width: 220px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
     .btn-upgrade { background: #f1c40f; color: #000; }
     .btn-downgrade { background: white; color: #b22d35; border: 2px solid #b22d35; }
     .btn-delete { background: #b22d35; color: white; }
 
-    @media screen and (max-width: 600px) { .action-group { flex-direction: column; } .btn-manage { width: 100%; } }
+    @media screen and (max-width: 600px) {
+        .action-group { flex-direction: column; width: 100%; }
+        .btn-manage { width: 100%; min-width: unset; }
+    }
 </style>
 
 <div class="settings-page">
@@ -95,7 +101,7 @@
             <form action="{% url 'delete_account' %}" method="POST" onsubmit='return confirm("PERICOLO: Eliminare l&apos;account e tutti i dati in modo permanente?")'>
                 {% csrf_token %}
                 <input type="hidden" name="success_url_name" value="delete_successit">
-                <button type="submit" class="btn-delete">Elimina il mio account in modo permanente</button>
+                <button type="submit" class="btn-manage btn-delete">Elimina il mio account in modo permanente</button>
             </form>
         </div>
         <div style="margin-top: 30px;">
