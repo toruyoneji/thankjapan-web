@@ -1096,10 +1096,10 @@ document.addEventListener('DOMContentLoaded', function() {
                            .replace(/ee/g,'ー')
                            .replace(/oo/g,'ー');
 
-        displayInput = displayInput.replace(/kk([aouei])/g,'っ$1')
-                           .replace(/tt([aouei])/g,'っ$1')
-                           .replace(/pp([aouei])/g,'っ$1')
-                           .replace(/ss([aouei])/g,'っ$1'); 
+        displayInput = displayInput.replace(/kk([aiueo])/g,'っk$1')
+                           .replace(/tt([aiueo])/g,'っt$1')
+                           .replace(/pp([aiueo])/g,'っp$1')
+                           .replace(/ss([aiueo])/g,'っs$1');
 
         const tokens = wanakana.tokenize(displayInput);
         tokens.forEach(token => {
