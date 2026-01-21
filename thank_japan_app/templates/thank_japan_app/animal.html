@@ -341,8 +341,49 @@ body {
 </style>
 
 <div class="category-header">
-    <h1>Animals in Japanese: Vocabulary & Romaji Guide</h1>
-    <p>Meet animals found in Japan, from snow monkeys and cranes to lesser-known native species.</p>
+    <h1>
+        {% if lang_code == 'ja' %}動物の日本語: 語彙とローマ字ガイド
+        {% elif lang_code == 'zh-hant' %}日語動物：詞彙與羅馬字指南
+        {% elif lang_code == 'zh-cn' %}日语动物：词汇与罗马字指南
+        {% elif lang_code == 'de' %}Tiere auf Japanisch: Vokabel- und Romaji-Guide
+        {% elif lang_code == 'fr' %}Animaux en japonais : Vocabulaire et guide Romaji
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Animales en japonés: Vocabulario y guía Romaji
+        {% elif lang_code == 'it' %}Animali in giapponese: Guida vocabolario e Romaji
+        {% elif lang_code == 'ko' %}일본어 동물: 어휘 및 로마자 가이드
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Animais em japonês: Vocabulário e guia Romaji
+        {% elif lang_code == 'vi' %}Động vật bằng tiếng Nhật: Hướng dẫn từ vựng & Romaji
+        {% elif lang_code == 'th' %}สัตว์ภาษาญี่ปุ่น: คำศัพท์ & คู่มือโรมาจิ
+        {% else %}Animals in Japanese: Vocabulary & Romaji Guide
+        {% endif %}
+    </h1>
+    <p>
+    {% if lang_code == 'ja' %}
+        日本で見られる動物たち：ニホンザルやタンチョウから、あまり知られていない在来種まで。
+    {% elif lang_code == 'zh-hant' %}
+        了解日本的動物，從日本獼猴和丹頂鶴到鮮為人知的本土物種。
+    {% elif lang_code == 'zh-cn' %}
+        了解日本的动物，从日本猕猴和丹顶鹤到鲜为人知的本土物种。
+    {% elif lang_code == 'de' %}
+        Entdecke in Japan vorkommende Tiere, von Schneeaffen und Kranichen bis hin zu weniger bekannten einheimischen Arten.
+    {% elif lang_code == 'fr' %}
+        Découvrez les animaux du Japon, des macaques des neiges et des grues aux espèces indigènes moins connues.
+    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}
+        Conoce los animales que se encuentran en Japón, desde monos de nieve y grullas hasta especies nativas menos conocidas.
+    {% elif lang_code == 'it' %}
+        Scopri gli animali presenti in Giappone, dalle scimmie delle nevi e dalle gru alle specie autoctone meno conosciute.
+    {% elif lang_code == 'ko' %}
+        일본에서 볼 수 있는 동물들: 눈원숭이와 두루미에서 덜 알려진 토종 종까지.
+    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}
+        Conheça os animais encontrados no Japão, de macacos-da-neve e guindastes a espécies nativas menos conhecidas.
+    {% elif lang_code == 'vi' %}
+        Tìm hiểu các loài động vật ở Nhật Bản, từ khỉ tuyết và hạc đến những loài bản địa ít được biết đến.
+    {% elif lang_code == 'th' %}
+        พบกับสัตว์ที่พบในญี่ปุ่น ตั้งแต่ลิงหิมะและนกกระเรียน ไปจนถึงสายพันธุ์พื้นเมืองที่ไม่ค่อยมีคนรู้จัก
+    {% else %}
+        Meet animals found in Japan, from snow monkeys and cranes to lesser-known native species.
+    {% endif %}
+    </p>
+
 </div>
 
 <div class="main2">

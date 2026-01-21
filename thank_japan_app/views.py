@@ -1209,6 +1209,9 @@ class AnimalView(ListView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        lang_code = self.request.GET.get('lang', 'en')  
+        context['lang_code'] = lang_code
+        
         context['seo_title'] = "Japanese Animals | Wildlife & Pets | ThankJapan"
         context['seo_description'] = "Learn about animals in Japan, from native wildlife to popular pets and cultural symbolism."
         context['seo_og_title'] = "Japanese Animals - Wildlife & Pets | ThankJapan"
