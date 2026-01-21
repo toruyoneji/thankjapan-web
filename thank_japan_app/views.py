@@ -644,30 +644,6 @@ def account_settings_redirect(request):
     url_name = mapping.get(lang, 'account_settings')
     return redirect(f"{reverse(url_name)}?from=result")
 
-# views.py
-class CategoryDetailView(DetailView):
-    model = ThankJapanModel
-    template_name = "thank_japan_app/thankjapanmodel_detail.html"
-    slug_field = "slug"
-    slug_url_kwarg = "slug"
-
-    def get_queryset(self):
-        category = self.kwargs['category']
-        return ThankJapanModel.objects.filter(category=category)
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        current_item = self.object
-        context['related_items'] = ThankJapanModel.objects.filter(
-            category=current_item.category
-        ).exclude(
-            id=current_item.id
-        ).order_by('?')[:6]
-
-        url_name = CATEGORY_URL_MAP.get(current_item.category, 'category_list')
-        context['category_list_url'] = reverse(url_name)
-        
-        return context     
 
 def contact_view(request):
     if request.method == "POST":
@@ -2125,6 +2101,36 @@ class RealestateRulesView(ListView):
         return context
 
                 
+# free detail view
+class CategoryDetailView(DetailView):
+    model = ThankJapanModel
+    template_name = "thank_japan_app/thankjapanmodel_detail.html"
+    slug_field = "slug"
+    slug_url_kwarg = "slug"
+
+    def get_queryset(self):
+        category = self.kwargs['category']
+        return ThankJapanModel.objects.filter(category=category)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        current_item = self.object
+        
+        _, lang_code = get_lang_info(self.request)
+        context['lang_code'] = lang_code
+
+        context['related_items'] = ThankJapanModel.objects.filter(
+            category=current_item.category
+        ).exclude(
+            id=current_item.id
+        ).order_by('?')[:6]
+
+        url_name = CATEGORY_URL_MAP.get(current_item.category, 'category_list')
+        context['category_list_url'] = reverse(url_name)
+        
+        return context     
+
+
 
 #premium-detail
 
