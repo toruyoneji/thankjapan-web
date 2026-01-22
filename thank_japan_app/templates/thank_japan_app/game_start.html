@@ -552,68 +552,80 @@ body::before, body::after { display: none; }
             </div>
 
             <p class="rule-caption">
-                {% if lang_code == 'ja' %}
-                    ローマ字で日本語名を入力してください！<br>
-                    <br>
-                    <span style="font-size: 0.85rem; opacity: 0.8;">あいまい入力OK："shi"="si", "tu"="tsu" など</span>
+            {% if lang_code == 'ja' %}
+                ローマ字で日本語名を入力してください！<br>
+                ・長音(ー)：母音を重ねて入力（例："sukii"）<br>
+                ・「ん」： "n" 1回で入力<br>
+                <span style="font-size: 0.9em; color: #aaa;">あいまい入力OK："shi"="si", "tu"="tsu" など</span>
 
-                {% elif lang_code == 'zh-hant' %}
-                    請用羅馬字輸入日文名稱！<br>
-                    <br>
-                    <span style="font-size: 0.85rem; opacity: 0.8;">允許模糊輸入："shi"="si", "tu"="tsu" 等</span>
+            {% elif lang_code == 'zh-hant' %}
+                請用羅馬字輸入日文名稱！<br>
+                ・長音(ー)：重複輸入母音（例："sukii"）<br>
+                ・「ん」：只需輸入 "n" 一次<br>
+                <span style="font-size: 0.9em; color: #aaa;">允許模糊輸入："shi"="si", "tu"="tsu" 等</span>
 
-                {% elif lang_code == 'zh-cn' %}
-                    请用罗马字输入日文名称！<br>
-                    <br>
-                    <span style="font-size: 0.85rem; opacity: 0.8;">支持模糊输入："shi"="si", "tu"="tsu" 等</span>
+            {% elif lang_code == 'zh-cn' %}
+                请用罗马字输入日文名称！<br>
+                ・长音(ー)：重复输入母音（例："sukii"）<br>
+                ・「ん」：只需输入 "n" 一次<br>
+                <span style="font-size: 0.9em; color: #aaa;">支持模糊输入："shi"="si", "tu"="tsu" 等</span>
 
-                {% elif lang_code == 'de' %}
-                    Gib den japanischen Namen in Romaji ein!<br>
-                    <br>
-                    <span style="font-size: 0.85rem; opacity: 0.8;">Unscharfe Eingaben erlaubt: "shi"="si", "tu"="tsu" usw.</span>
+            {% elif lang_code == 'de' %}
+                Gib den japanischen Namen in Romaji ein!<br>
+                - Lange Vokale (ー): Vokal verdoppeln (z.B. "sukii")<br>
+                - Das "ん": Nur ein "n" eingeben<br>
+                <span style="font-size: 0.9em; color: #aaa;">Unscharfe Eingaben erlaubt: "shi"="si", "tu"="tsu" usw.</span>
 
-                {% elif lang_code == 'fr' %}
-                    Saisis le nom japonais en romaji !<br>
-                    <br>
-                    <span style="font-size: 0.85rem; opacity: 0.8;">Entrée approximative acceptée : "shi"="si", "tu"="tsu", etc.</span>
+            {% elif lang_code == 'fr' %}
+                Saisis le nom japonais en romaji !<br>
+                - Voyelles longues (ー) : Répète la voyelle (ex: "sukii")<br>
+                - Le son "ん" : Tape "n" une seule fois<br>
+                <span style="font-size: 0.9em; color: #aaa;">Entrée approximative acceptée : "shi"="si", "tu"="tsu", etc.</span>
 
-                {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}
-                    Escribe el nombre japonés en romaji.<br>
-                    <br>
-                    <span style="font-size: 0.85rem; opacity: 0.8;">Entrada flexible permitida: "shi"="si", "tu"="tsu", etc.</span>
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}
+                Escribe el nombre japonés en romaji.<br>
+                - Vocales largas (ー): Repite la vocal (ej: "sukii")<br>
+                - El sonido "ん": Escribe "n" una sola vez<br>
+                <span style="font-size: 0.9em; color: #aaa;">Entrada flexible permitida: "shi"="si", "tu"="tsu", etc.</span>
 
-                {% elif lang_code == 'it' %}
-                    Inserisci il nome giapponese in romaji!<br>
-                    <br>
-                    <span style="font-size: 0.85rem; opacity: 0.8;">Input flessibile consentito: "shi"="si", "tu"="tsu", ecc.</span>
+            {% elif lang_code == 'it' %}
+                Inserisci il nome giapponese in romaji!<br>
+                - Vocali lunghe (ー): Ripeti la vocale (es: "sukii")<br>
+                - Il suono "ん": Digita "n" una sola volta<br>
+                <span style="font-size: 0.9em; color: #aaa;">Input flessibile consentito: "shi"="si", "tu"="tsu", ecc.</span>
 
-                {% elif lang_code == 'ko' %}
-                    일본어 이름을 로마자로 입력하세요!<br>
-                    <br>
-                    <span style="font-size: 0.85rem; opacity: 0.8;">유연한 입력 허용: "shi"="si", "tu"="tsu" 등</span>
+            {% elif lang_code == 'ko' %}
+                일본어 이름을 로마자로 입력하세요!<br>
+                ・장음(ー): 모음을 겹쳐서 입력 (예: "sukii")<br>
+                ・'ん'은 "n"을 1번만 입력<br>
+                <span style="font-size: 0.9em; color: #aaa;">유연한 입력 허용: "shi"="si", "tu"="tsu" 등</span>
 
-                {% elif lang_code == 'pt' or lang_code == 'pt-br' %}
-                    Digite o nome japonês em romaji!<br>
-                    <br>
-                    <span style="font-size: 0.85rem; opacity: 0.8;">Entrada flexível permitida: "shi"="si", "tu"="tsu", etc.</span>
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}
+                Digite o nome japonês em romaji!<br>
+                - Vogais longas (ー): Repita a vogal (ex: "sukii")<br>
+                - O som "ん": Digite "n" apenas uma vez<br>
+                <span style="font-size: 0.9em; color: #aaa;">Entrada flexível permitida: "shi"="si", "tu"="tsu", etc.</span>
 
-                {% elif lang_code == 'vi' %}
-                    Nhập tên tiếng Nhật bằng romaji!<br>
-                    <br>
-                    <span style="font-size: 0.85rem; opacity: 0.8;">Cho phép nhập linh hoạt: "shi"="si", "tu"="tsu", v.v.</span>
+            {% elif lang_code == 'vi' %}
+                Nhập tên tiếng Nhật bằng romaji!<br>
+                - Nguyên âm dài (ー): Gõ nguyên âm 2 lần (VD: "sukii")<br>
+                - Âm "ん": Chỉ cần gõ "n" 1 lần<br>
+                <span style="font-size: 0.9em; color: #aaa;">Cho phép nhập linh hoạt: "shi"="si", "tu"="tsu", v.v.</span>
 
-                {% elif lang_code == 'th' %}
-                    พิมพ์ชื่อภาษาญี่ปุ่นด้วยโรมาจิ!<br>
-                    <br>
-                    <span style="font-size: 0.85rem; opacity: 0.8;">รองรับการพิมพ์แบบยืดหยุ่น: "shi"="si", "tu"="tsu" เป็นต้น</span>
+            {% elif lang_code == 'th' %}
+                พิมพ์ชื่อภาษาญี่ปุ่นด้วยโรมาจิ!<br>
+                - เสียงยาว (ー): พิมพ์สระซ้ำ (เช่น "sukii")<br>
+                - เสียง "ん": พิมพ์ "n" เพียงครั้งเดียว<br>
+                <span style="font-size: 0.9em; color: #aaa;">รองรับการพิมพ์แบบยืดหยุ่น: "shi"="si", "tu"="tsu" เป็นต้น</span>
 
-                {% else %}
-                    Type the Japanese name in Romaji!<br>
-                    <br>
-                    <span style="font-size: 0.85rem; opacity: 0.8;">Fuzzy input allowed: "shi"="si", "tu"="tsu", etc.</span>
-                {% endif %}
-            
+            {% else %}
+                Type the Japanese name in Romaji!<br>
+                - Long vowels (ー): Repeat the vowel (e.g. "sukii")<br>
+                - Nasal "ん": Type "n" once<br>
+                <span style="font-size: 0.9em; color: #aaa;">Fuzzy input allowed: "shi"="si", "tu"="tsu", etc.</span>
+            {% endif %}
             </p>
+
         </div>
 
         <div class="difficulty-options">
