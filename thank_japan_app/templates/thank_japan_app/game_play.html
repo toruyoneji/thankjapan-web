@@ -1127,8 +1127,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 tempInput = tempInput.substr(matchLen);
             } else {
                 let h = wanakana.toHiragana(tempInput);
-                span.classList.remove('filled');
-                span.classList.add('ongoing');
                 span.innerHTML = `<span class="char-main">${h}</span><span class="char-sub">${tempInput}</span>`;
                 tempInput = "";
             }
