@@ -1070,7 +1070,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     if (!visualHintContainer || !answerForm) return;
 
-    const rawTargetName = "{{ object.name|escapejs }}".toLowerCase().replace(/-/g, "");
+    const rawTargetName = "{{ object.name|escapejs }}".toLowerCase();
     const rawTargetJp = "{{ object.jpname|escapejs }}";
 
     function cleanStr(s) { return s.replace(/[ 　、。，．？！?!]/g, ""); }
@@ -1096,14 +1096,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
     let rawInput = "";
 
-    function isMatch(input, target) {
-        if (input === target) return true;
+    function checkMatchStatus(input, target) {
+        if (input === target) return "perfect";
         let inH = wanakana.toHiragana(input);
         let taH = wanakana.toHiragana(target);
-        if (inH === taH) return true;
-        if ((inH === 'n' || inH === 'ん') && (taH === 'n' || taH === 'ん')) return true;
-        if ((input === 'wa' && target === 'ha') || (input === 'ha' && target === 'wa')) return true;
-        return false;
+        if (inH === taH) return "fuzzy";
+        if ((input === 'wa' && target === 'ha') || (input === 'ha' && target === 'wa')) return "fuzzy";
+        const vowels = ['a', 'i', 'u', 'e', 'o'];
+        let cleanT = target.replace(/-/g, "");
+        if ((target === '-' || vowels.includes(target) || cleanT === "") && (input === '-' || vowels.includes(input))) return "fuzzy";
+        return "miss";
     }
 
     function updateDisplay() {
@@ -1112,36 +1114,22 @@ document.addEventListener('DOMContentLoaded', function() {
         for (let item of syncMap) {
             if (tempInput.length === 0) break;
             const span = document.createElement('div');
-            span.className = 'hint-char-display filled';
+            span.className = 'hint-char-display';
 
-            let matched = false;
-            let consumed = 0;
+            let matchLen = item.r.length;
+            let currentInputSlice = tempInput.substr(0, matchLen);
+            let status = checkMatchStatus(currentInputSlice, item.r);
 
-            if (item.k === 'ん' || item.r === 'n') {
-                if (tempInput.startsWith('nn')) {
-                    matched = true; consumed = 2;
-                } else if (tempInput.startsWith('n')) {
-                    matched = true; consumed = 1;
-                }
-            }
-
-            if (!matched) {
-                let matchLen = item.r.length;
-                let currentSlice = tempInput.substr(0, matchLen);
-                if (tempInput.startsWith(item.r) || isMatch(currentSlice, item.r)) {
-                    matched = true; consumed = matchLen;
-                }
-            }
-
-            if (matched) {
+            if (status === "perfect" || status === "fuzzy") {
+                span.classList.add('filled');
                 span.innerHTML = `<span class="char-main">${item.k}</span><span class="char-sub">${item.r}</span>`;
-                tempInput = tempInput.substr(consumed);
             } else {
-                span.classList.remove('filled');
-                span.classList.add('ongoing');
-                span.innerHTML = `<span class="char-main">${tempInput}</span><span class="char-sub">${tempInput}</span>`;
-                tempInput = "";
+                span.classList.add('missed');
+                span.style.backgroundColor = "#fff9c4"; 
+                span.style.borderColor = "#fbc02d";
+                span.innerHTML = `<span class="char-main" style="color:#d4a017;">${item.k}</span><span class="char-sub" style="color:#d4a017;">${item.r}</span>`;
             }
+            tempInput = tempInput.substr(matchLen);
             visualHintContainer.appendChild(span);
         }
         const cursor = document.createElement('div');
@@ -1153,18 +1141,19 @@ document.addEventListener('DOMContentLoaded', function() {
     function handleInput(char) {
         if (char === 'BACKSPACE') rawInput = rawInput.slice(0, -1);
         else if (char === 'ENTER') { answerForm.submit(); return; }
-        else if (char === '-') return;
-        else rawInput += char.toLowerCase();
+        else {
+            let totalTargetLength = 0;
+            syncMap.forEach(m => totalTargetLength += m.r.length);
+            if (rawInput.length < totalTargetLength) {
+                rawInput += char.toLowerCase();
+            }
+        }
         updateDisplay();
     }
 
     const keyboardContainer = document.getElementById('onscreen-keyboard');
     if (keyboardContainer) {
-        const rows = [
-            ['Q','W','E','R','T','Y','U','I','O','P'],
-            ['A','S','D','F','G','H','J','K','L'],
-            ['Z','X','C','V','B','N','M']
-        ];
+        const rows = [['Q','W','E','R','T','Y','U','I','O','P'],['A','S','D','F','G','H','J','K','L'],['Z','X','C','V','B','N','M']];
         rows.forEach(row => {
             const rowDiv = document.createElement('div');
             rowDiv.className = 'keyboard-row';
@@ -1196,8 +1185,7 @@ document.addEventListener('DOMContentLoaded', function() {
     updateDisplay();
     visualHintContainer.focus();
     visualHintContainer.addEventListener('keydown', function(e) {
-        if (e.key === '-') { e.preventDefault(); return; }
-        if (e.key.match(/^[a-zA-Z]$/)) { e.preventDefault(); handleInput(e.key); }
+        if (e.key.match(/^[a-zA-Z\-]$/)) { e.preventDefault(); handleInput(e.key); }
         else if (e.key === 'Backspace') { e.preventDefault(); handleInput('BACKSPACE'); }
         else if (e.key === 'Enter') { e.preventDefault(); handleInput('ENTER'); }
     });
