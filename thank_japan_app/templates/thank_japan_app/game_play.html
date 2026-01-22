@@ -1033,6 +1033,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const savedSetting = localStorage.getItem('thankjapan_sound');
     
     isSoundOn = savedSetting !== 'off';
+    
     if (soundIcon && soundStatus) {
         soundIcon.textContent = isSoundOn ? '🔊' : 'ON';
         soundStatus.textContent = isSoundOn ? 'ON' : 'OFF';
@@ -1043,7 +1044,7 @@ document.addEventListener('DOMContentLoaded', function() {
             isSoundOn = !isSoundOn;
             localStorage.setItem('thankjapan_sound', isSoundOn ? 'on' : 'off');
             if (soundIcon && soundStatus) {
-                soundIcon.textContent = isSoundOn ? '🔊' : 'ON';
+                soundIcon.textContent = isSoundOn ? '🔊' : '🔇';
                 soundStatus.textContent = isSoundOn ? 'ON' : 'OFF';
             }
             if (isSoundOn) playChime();
@@ -1070,7 +1071,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     if (!visualHintContainer || !answerForm) return;
 
-    const rawTargetName = "{{ object.name|escapejs }}".toLowerCase().replace(/-/g, "");
+    const rawTargetName = "{{ object.name|escapejs }}".toLowerCase();
     const rawTargetJp = "{{ object.jpname|escapejs }}";
 
     function cleanStr(s) { return s.replace(/[ 　、。，．？！?!]/g, ""); }
@@ -1079,7 +1080,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function createSyncMap(romaji, kana) {
         let map = [];
-        let rNormalized = romaji.replace(/n(?=[aiueoy])/g, "n'");
+        let rNormalized = romaji.replace(/n(?=[aiueoy])/g, "n'").replace(/n-/g, "n'");
         let rTokens = wanakana.tokenize(rNormalized);
         let kPointer = 0;
         for (let rToken of rTokens) {
@@ -1101,8 +1102,10 @@ document.addEventListener('DOMContentLoaded', function() {
         let inH = wanakana.toHiragana(input);
         let taH = wanakana.toHiragana(target);
         if (inH === taH) return true;
-        if ((inH === 'n' || inH === 'ん') && (taH === 'n' || taH === 'ん')) return true;
         if ((input === 'wa' && target === 'ha') || (input === 'ha' && target === 'wa')) return true;
+        const vowels = ['a', 'i', 'u', 'e', 'o'];
+        if (target === '-' && vowels.includes(input)) return true;
+        if (vowels.includes(target) && input === '-') return true;
         return false;
     }
 
@@ -1114,32 +1117,19 @@ document.addEventListener('DOMContentLoaded', function() {
             const span = document.createElement('div');
             span.className = 'hint-char-display filled';
 
-            let matched = false;
-            let consumed = 0;
-
-            if (item.k === 'ん' || item.r === 'n') {
-                if (tempInput.startsWith('nn')) {
-                    matched = true; consumed = 2;
-                } else if (tempInput.startsWith('n')) {
-                    matched = true; consumed = 1;
-                }
-            }
-
-            if (!matched) {
-                let matchLen = item.r.length;
-                let currentSlice = tempInput.substr(0, matchLen);
-                if (tempInput.startsWith(item.r) || isMatch(currentSlice, item.r)) {
-                    matched = true; consumed = matchLen;
-                }
-            }
-
-            if (matched) {
+            let matchLen = item.r.length;
+            
+            if (item.r === 'n' && tempInput.startsWith('nn')) {
+                span.innerHTML = `<span class="char-main">${item.k}</span><span class="char-sub">nn</span>`;
+                tempInput = tempInput.substr(2);
+            } else if (tempInput.startsWith(item.r) || isMatch(tempInput.substr(0, matchLen), item.r)) {
                 span.innerHTML = `<span class="char-main">${item.k}</span><span class="char-sub">${item.r}</span>`;
-                tempInput = tempInput.substr(consumed);
+                tempInput = tempInput.substr(matchLen);
             } else {
+                let h = wanakana.toHiragana(tempInput);
                 span.classList.remove('filled');
                 span.classList.add('ongoing');
-                span.innerHTML = `<span class="char-main">${tempInput}</span><span class="char-sub">${tempInput}</span>`;
+                span.innerHTML = `<span class="char-main">${h}</span><span class="char-sub">${tempInput}</span>`;
                 tempInput = "";
             }
             visualHintContainer.appendChild(span);
@@ -1153,24 +1143,19 @@ document.addEventListener('DOMContentLoaded', function() {
     function handleInput(char) {
         if (char === 'BACKSPACE') rawInput = rawInput.slice(0, -1);
         else if (char === 'ENTER') { answerForm.submit(); return; }
-        else if (char === '-') return;
         else rawInput += char.toLowerCase();
         updateDisplay();
     }
 
     const keyboardContainer = document.getElementById('onscreen-keyboard');
     if (keyboardContainer) {
-        const rows = [
-            ['Q','W','E','R','T','Y','U','I','O','P'],
-            ['A','S','D','F','G','H','J','K','L'],
-            ['Z','X','C','V','B','N','M']
-        ];
+        const rows = [['Q','W','E','R','T','Y','U','I','O','P'],['A','S','D','F','G','H','J','K','L','-'],['Z','X','C','V','B','N','M']];
         rows.forEach(row => {
             const rowDiv = document.createElement('div');
             rowDiv.className = 'keyboard-row';
             row.forEach(char => {
                 const btn = document.createElement('div');
-                btn.className = 'key-btn';
+                btn.className = char === '-' ? 'key-btn key-hyphen' : 'key-btn';
                 btn.textContent = char;
                 btn.onclick = () => handleInput(char);
                 rowDiv.appendChild(btn);
@@ -1196,8 +1181,7 @@ document.addEventListener('DOMContentLoaded', function() {
     updateDisplay();
     visualHintContainer.focus();
     visualHintContainer.addEventListener('keydown', function(e) {
-        if (e.key === '-') { e.preventDefault(); return; }
-        if (e.key.match(/^[a-zA-Z]$/)) { e.preventDefault(); handleInput(e.key); }
+        if (e.key.match(/^[a-zA-Z\-]$/)) { e.preventDefault(); handleInput(e.key); }
         else if (e.key === 'Backspace') { e.preventDefault(); handleInput('BACKSPACE'); }
         else if (e.key === 'Enter') { e.preventDefault(); handleInput('ENTER'); }
     });
