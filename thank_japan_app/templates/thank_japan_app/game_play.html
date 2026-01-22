@@ -1070,24 +1070,24 @@ document.addEventListener('DOMContentLoaded', function() {
     
     if (!visualHintContainer || !answerForm) return;
 
-    const rawTargetName = "{{ object.name|escapejs }}".toLowerCase().replace(/-/g, "").replace(/nn/g, "n");
+    const rawTargetName = "{{ object.name|escapejs }}".toLowerCase();
     const rawTargetJp = "{{ object.jpname|escapejs }}";
 
     function cleanStr(s) { return s.replace(/[ 　、。，．？！?!]/g, ""); }
-    const targetRomaji = cleanStr(rawTargetName);
+    
+    let processedRomaji = cleanStr(rawTargetName).replace(/([aiueo])-/g, '$1$1').replace(/n-/g, 'n');
+    const targetRomaji = processedRomaji;
     const targetKana = cleanStr(rawTargetJp);
 
     function createSyncMap(romaji, kana) {
         let map = [];
-        let rNormalized = romaji.replace(/n(?=[aiueoy])/g, "n'");
-        let rTokens = wanakana.tokenize(rNormalized);
+        let rTokens = wanakana.tokenize(romaji);
         let kPointer = 0;
-        for (let rToken of rTokens) {
-            if (rToken === "'") continue;
-            let h = wanakana.toHiragana(rToken);
+        for (let r of rTokens) {
+            let h = wanakana.toHiragana(r);
             let kLen = h.length;
-            let kVal = kana.substr(kPointer, kLen);
-            map.push({ r: rToken.replace("'", ""), k: kVal });
+            let k = kana.substr(kPointer, kLen);
+            map.push({ r: r, k: k });
             kPointer += kLen;
         }
         return map;
@@ -1098,18 +1098,18 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function updateDisplay() {
         visualHintContainer.innerHTML = '';
-        let tempInput = rawInput;
+        let currentLength = 0;
+
         for (let item of syncMap) {
-            if (tempInput.length === 0) break;
+            if (rawInput.length <= currentLength) break;
+
             const span = document.createElement('div');
             span.className = 'hint-char-display missed';
             span.style.backgroundColor = "#fff9c4";
             span.style.borderColor = "#fbc02d";
-
-            let matchLen = item.r.length;
             span.innerHTML = `<span class="char-main" style="color:#d4a017;">${item.k}</span><span class="char-sub" style="color:#d4a017;">${item.r}</span>`;
             
-            tempInput = tempInput.substr(matchLen);
+            currentLength += item.r.length;
             visualHintContainer.appendChild(span);
         }
         const cursor = document.createElement('div');
@@ -1119,13 +1119,17 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function handleInput(char) {
-        if (char === 'BACKSPACE') rawInput = rawInput.slice(0, -1);
-        else if (char === 'ENTER') { answerForm.submit(); return; }
-        else if (char === '-') return;
-        else {
-            let totalTargetLength = 0;
-            syncMap.forEach(m => totalTargetLength += m.r.length);
-            if (rawInput.length < totalTargetLength) {
+        if (char === 'BACKSPACE') {
+            rawInput = rawInput.slice(0, -1);
+        } else if (char === 'ENTER') {
+            answerForm.submit();
+            return;
+        } else if (char === '-') {
+            return;
+        } else {
+            let totalNeeded = 0;
+            syncMap.forEach(m => totalNeeded += m.r.length);
+            if (rawInput.length < totalNeeded) {
                 rawInput += char.toLowerCase();
             }
         }
@@ -1134,7 +1138,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const keyboardContainer = document.getElementById('onscreen-keyboard');
     if (keyboardContainer) {
-        const rows = [['Q','W','E','R','T','Y','U','I','O','P'],['A','S','D','F','G','H','J','K','L'],['Z','X','C','V','B','N','M']];
+        const rows = [
+            ['Q','W','E','R','T','Y','U','I','O','P'],
+            ['A','S','D','F','G','H','J','K','L'],
+            ['Z','X','C','V','B','N','M']
+        ];
         rows.forEach(row => {
             const rowDiv = document.createElement('div');
             rowDiv.className = 'keyboard-row';
@@ -1171,6 +1179,7 @@ document.addEventListener('DOMContentLoaded', function() {
         else if (e.key === 'Backspace') { e.preventDefault(); handleInput('BACKSPACE'); }
         else if (e.key === 'Enter') { e.preventDefault(); handleInput('ENTER'); }
     });
+    answerForm.addEventListener('submit', function(e) { combinedAnswerInput.value = rawInput; });
 });
 </script>
 
