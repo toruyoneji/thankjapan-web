@@ -1117,14 +1117,28 @@ document.addEventListener('DOMContentLoaded', function() {
             const span = document.createElement('div');
             span.className = 'hint-char-display filled';
 
-            let matchLen = item.r.length;
-            
-            if (item.r === 'n' && tempInput.startsWith('nn')) {
-                span.innerHTML = `<span class="char-main">${item.k}</span><span class="char-sub">nn</span>`;
-                tempInput = tempInput.substr(2);
-            } else if (tempInput.startsWith(item.r) || isMatch(tempInput.substr(0, matchLen), item.r)) {
+            let matched = false;
+            let consumed = 0;
+
+            if (item.k === 'ん' || item.r === 'n') {
+                if (tempInput.startsWith('nn')) {
+                    matched = true; consumed = 2;
+                } else if (tempInput.startsWith('n')) {
+                    matched = true; consumed = 1;
+                }
+            }
+
+            if (!matched) {
+                let matchLen = item.r.length;
+                let currentSlice = tempInput.substr(0, matchLen);
+                if (tempInput.startsWith(item.r) || isMatch(currentSlice, item.r)) {
+                    matched = true; consumed = matchLen;
+                }
+            }
+
+            if (matched) {
                 span.innerHTML = `<span class="char-main">${item.k}</span><span class="char-sub">${item.r}</span>`;
-                tempInput = tempInput.substr(matchLen);
+                tempInput = tempInput.substr(consumed);
             } else {
                 let h = wanakana.toHiragana(tempInput);
                 span.classList.remove('filled');
