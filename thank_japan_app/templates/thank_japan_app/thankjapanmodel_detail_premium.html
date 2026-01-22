@@ -620,7 +620,7 @@ body {
             
                 <a href="{% url 'detail_premium' category=item.category slug=item.slug %}" class="related-card">
                     {% if item.image %}
-                        <img src="{{ item.image.url }}" alt="{{ item.englishname }}">
+                        <img src="{{ item.image.url }}" alt="{{ item.englishname }}" loading="lazy">
                     {% else %}
                         <div class="no-image-box">No Image</div>
                     {% endif %}

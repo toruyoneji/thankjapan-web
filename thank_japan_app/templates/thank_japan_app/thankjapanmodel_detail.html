@@ -605,7 +605,7 @@ footer {
             {% for item in related_items %}
             <a href="{% url 'category_detail' item.category item.slug %}" class="related-card">
                 {% if item.image %}
-                    <img src="{{ item.image.url }}" alt="{{ item.englishname }}">
+                    <img src="{{ item.image.url }}" alt="{{ item.englishname }}" loading="lazy">
                 {% else %}
                     <div style="height:120px; background:#e0d6ce; display:flex; align-items:center; justify-content:center; color:#888;">
                         No Image
