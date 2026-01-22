@@ -1149,13 +1149,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const keyboardContainer = document.getElementById('onscreen-keyboard');
     if (keyboardContainer) {
-        const rows = [['Q','W','E','R','T','Y','U','I','O','P'],['A','S','D','F','G','H','J','K','L','-'],['Z','X','C','V','B','N','M']];
+        const rows = [['Q','W','E','R','T','Y','U','I','O','P'],['A','S','D','F','G','H','J','K','L'],['Z','X','C','V','B','N','M']];
         rows.forEach(row => {
             const rowDiv = document.createElement('div');
             rowDiv.className = 'keyboard-row';
             row.forEach(char => {
                 const btn = document.createElement('div');
-                btn.className = char === '-' ? 'key-btn key-hyphen' : 'key-btn';
+                btn.className = 'key-btn';
                 btn.textContent = char;
                 btn.onclick = () => handleInput(char);
                 rowDiv.appendChild(btn);
@@ -1181,7 +1181,7 @@ document.addEventListener('DOMContentLoaded', function() {
     updateDisplay();
     visualHintContainer.focus();
     visualHintContainer.addEventListener('keydown', function(e) {
-        if (e.key.match(/^[a-zA-Z\-]$/)) { e.preventDefault(); handleInput(e.key); }
+        if (e.key.match(/^[a-zA-Z]$/)) { e.preventDefault(); handleInput(e.key); }
         else if (e.key === 'Backspace') { e.preventDefault(); handleInput('BACKSPACE'); }
         else if (e.key === 'Enter') { e.preventDefault(); handleInput('ENTER'); }
     });
