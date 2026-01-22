@@ -1035,7 +1035,7 @@ document.addEventListener('DOMContentLoaded', function() {
     isSoundOn = savedSetting !== 'off';
     
     if (soundIcon && soundStatus) {
-        soundIcon.textContent = isSoundOn ? '🔊' : '🔇';
+        soundIcon.textContent = isSoundOn ? '🔊' : 'ON';
         soundStatus.textContent = isSoundOn ? 'ON' : 'OFF';
     }
 
@@ -1053,63 +1053,55 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const correctFlag = document.getElementById('correct-flag');
     const incorrectFlag = document.getElementById('incorrect-flag');
-
     if (correctFlag) {
-        confetti({
-            particleCount: 120,
-            spread: 80,
-            origin: { y: 0.6 },
-            colors: ['#b7282e', '#7b942e', '#e0d5c0', '#ffffff'] 
-        });
-        
-        const wordToSpeak = correctFlag.getAttribute('data-word');
-        if (wordToSpeak && isSoundOn) {
+        confetti({ particleCount: 120, spread: 80, origin: { y: 0.6 }, colors: ['#b7282e', '#7b942e', '#e0d5c0', '#ffffff'] });
+        if (isSoundOn) {
             playChime();
-            setTimeout(() => speakJapanese(wordToSpeak, true), 1000);
+            const wordToSpeak = correctFlag.getAttribute('data-word');
+            if (wordToSpeak) setTimeout(() => speakJapanese(wordToSpeak, true), 1000); 
         }
     } else if (incorrectFlag) {
         const wordToSpeak = incorrectFlag.getAttribute('data-word');
-        if (wordToSpeak && isSoundOn) {
-            setTimeout(() => speakJapanese(wordToSpeak, true), 500);
-        }
+        if (wordToSpeak && isSoundOn) setTimeout(() => speakJapanese(wordToSpeak, true), 500); 
     }
 
     const visualHintContainer = document.getElementById('visual-hint-container');
     const answerForm = document.getElementById('answer-form');
     const combinedAnswerInput = document.getElementById('combined-answer-input');
-    const keyboardContainer = document.getElementById('onscreen-keyboard');
     
     if (!visualHintContainer || !answerForm) return;
 
     const rawTargetName = "{{ object.name|escapejs }}".toLowerCase();
     const rawTargetJp = "{{ object.jpname|escapejs }}";
 
-    function cleanStr(s) {
-        return s.replace(/[ 　、。，．？！?!]/g, "");
-    }
-
+    function cleanStr(s) { return s.replace(/[ 　、。，．？！?!]/g, ""); }
     const targetRomaji = cleanStr(rawTargetName);
     const targetKana = cleanStr(rawTargetJp);
 
     function createSyncMap(romaji, kana) {
         let map = [];
-        let rTokens = wanakana.tokenize(romaji);
+        let rNormalized = romaji.replace(/n(?=[aiueoy])/g, "n'").replace(/n-/g, "n'");
+        let rTokens = wanakana.tokenize(rNormalized);
         let kPointer = 0;
-        for (let r of rTokens) {
-            let kLen = wanakana.toHiragana(r).length;
-            let k = kana.substr(kPointer, kLen);
-            map.push({ r: r, k: k });
+        for (let rToken of rTokens) {
+            if (rToken === "'") continue;
+            let h = wanakana.toHiragana(rToken);
+            let kLen = h.length;
+            let kVal = kana.substr(kPointer, kLen);
+            map.push({ r: rToken.replace("'", ""), k: kVal });
             kPointer += kLen;
         }
         return map;
     }
-
     const syncMap = createSyncMap(targetRomaji, targetKana);
+
     let rawInput = "";
 
     function isMatch(input, target) {
         if (input === target) return true;
-        if (wanakana.toHiragana(input) === wanakana.toHiragana(target)) return true;
+        let inH = wanakana.toHiragana(input);
+        let taH = wanakana.toHiragana(target);
+        if (inH === taH) return true;
         if ((input === 'wa' && target === 'ha') || (input === 'ha' && target === 'wa')) return true;
         const vowels = ['a', 'i', 'u', 'e', 'o'];
         if (target === '-' && vowels.includes(input)) return true;
@@ -1120,17 +1112,17 @@ document.addEventListener('DOMContentLoaded', function() {
     function updateDisplay() {
         visualHintContainer.innerHTML = '';
         let tempInput = rawInput;
-
         for (let item of syncMap) {
             if (tempInput.length === 0) break;
-
             const span = document.createElement('div');
             span.className = 'hint-char-display filled';
 
             let matchLen = item.r.length;
-            let currentSlice = tempInput.substr(0, matchLen);
-
-            if (tempInput.startsWith(item.r) || isMatch(currentSlice, item.r)) {
+            
+            if (item.r === 'n' && tempInput.startsWith('nn')) {
+                span.innerHTML = `<span class="char-main">${item.k}</span><span class="char-sub">nn</span>`;
+                tempInput = tempInput.substr(2);
+            } else if (tempInput.startsWith(item.r) || isMatch(tempInput.substr(0, matchLen), item.r)) {
                 span.innerHTML = `<span class="char-main">${item.k}</span><span class="char-sub">${item.r}</span>`;
                 tempInput = tempInput.substr(matchLen);
             } else {
@@ -1142,7 +1134,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             visualHintContainer.appendChild(span);
         }
-
         const cursor = document.createElement('div');
         cursor.className = 'cursor-bar';
         visualHintContainer.appendChild(cursor);
@@ -1150,17 +1141,13 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function handleInput(char) {
-        if (char === 'BACKSPACE') {
-            rawInput = rawInput.slice(0, -1);
-        } else if (char === 'ENTER') {
-            answerForm.submit();
-            return;
-        } else {
-            rawInput += char.toLowerCase();
-        }
+        if (char === 'BACKSPACE') rawInput = rawInput.slice(0, -1);
+        else if (char === 'ENTER') { answerForm.submit(); return; }
+        else rawInput += char.toLowerCase();
         updateDisplay();
     }
 
+    const keyboardContainer = document.getElementById('onscreen-keyboard');
     if (keyboardContainer) {
         const rows = [['Q','W','E','R','T','Y','U','I','O','P'],['A','S','D','F','G','H','J','K','L','-'],['Z','X','C','V','B','N','M']];
         rows.forEach(row => {
@@ -1194,16 +1181,9 @@ document.addEventListener('DOMContentLoaded', function() {
     updateDisplay();
     visualHintContainer.focus();
     visualHintContainer.addEventListener('keydown', function(e) {
-        if (e.key.match(/^[a-zA-Z\-]$/)) {
-            e.preventDefault();
-            handleInput(e.key);
-        } else if (e.key === 'Backspace') {
-            e.preventDefault();
-            handleInput('BACKSPACE');
-        } else if (e.key === 'Enter') {
-            e.preventDefault();
-            handleInput('ENTER');
-        }
+        if (e.key.match(/^[a-zA-Z\-]$/)) { e.preventDefault(); handleInput(e.key); }
+        else if (e.key === 'Backspace') { e.preventDefault(); handleInput('BACKSPACE'); }
+        else if (e.key === 'Enter') { e.preventDefault(); handleInput('ENTER'); }
     });
 });
 </script>
