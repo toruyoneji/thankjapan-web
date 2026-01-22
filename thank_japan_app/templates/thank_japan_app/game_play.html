@@ -969,7 +969,6 @@ img:hover { transform: scale(1.02); }
 function showHint() {
     const hintBtn = document.getElementById('hint-btn');
     const hintText = document.getElementById('english-hint-text');
-    
     if (hintBtn && hintText) {
         hintText.style.display = 'block';
         hintBtn.style.display = 'none';
@@ -1082,50 +1081,72 @@ document.addEventListener('DOMContentLoaded', function() {
     
     if (!visualHintContainer || !answerForm) return;
 
+    const rawTargetName = "{{ object.name|escapejs }}".toLowerCase();
+    const rawTargetJp = "{{ object.jpname|escapejs }}";
+
+    function cleanStr(s) {
+        return s.replace(/[ 　、。，．？！?!]/g, "");
+    }
+
+    const targetRomaji = cleanStr(rawTargetName);
+    const targetKana = cleanStr(rawTargetJp);
+
+    function createSyncMap(romaji, kana) {
+        let map = [];
+        let rTokens = wanakana.tokenize(romaji);
+        let kPointer = 0;
+        for (let r of rTokens) {
+            let kLen = wanakana.toHiragana(r).length;
+            let k = kana.substr(kPointer, kLen);
+            map.push({ r: r, k: k });
+            kPointer += kLen;
+        }
+        return map;
+    }
+
+    const syncMap = createSyncMap(targetRomaji, targetKana);
     let rawInput = "";
+
+    function isMatch(input, target) {
+        if (input === target) return true;
+        if (wanakana.toHiragana(input) === wanakana.toHiragana(target)) return true;
+        if ((input === 'wa' && target === 'ha') || (input === 'ha' && target === 'wa')) return true;
+        const vowels = ['a', 'i', 'u', 'e', 'o'];
+        if (target === '-' && vowels.includes(input)) return true;
+        if (vowels.includes(target) && input === '-') return true;
+        return false;
+    }
 
     function updateDisplay() {
         visualHintContainer.innerHTML = '';
-        let displayInput = rawInput;
+        let tempInput = rawInput;
 
-        displayInput = displayInput.replace(/n-/g, "n'").replace(/nn/g, "n'");
-
-        if (!isPremiumMode) {
-            displayInput = displayInput.replace(/aa/g, 'a-').replace(/ii/g, 'i-').replace(/uu/g, 'u-').replace(/ee/g, 'e-').replace(/oo/g, 'o-');
-        }
-
-        const tokens = wanakana.tokenize(displayInput);
-        tokens.forEach(token => {
-            let hiragana = wanakana.toHiragana(token);
-        
-            if (hiragana === "'" || token === "'") return;
-            if (hiragana === 'n') hiragana = 'ん';
+        for (let item of syncMap) {
+            if (tempInput.length === 0) break;
 
             const span = document.createElement('div');
             span.className = 'hint-char-display filled';
-            const mainSpan = document.createElement('span');
-            mainSpan.className = 'char-main';
-            mainSpan.textContent = hiragana;
-        
-            const subSpan = document.createElement('span');
-            subSpan.className = 'char-sub';
 
-            let cleanToken = token.replace(/'/g, "");
+            let matchLen = item.r.length;
+            let currentSlice = tempInput.substr(0, matchLen);
 
-            if (wanakana.isHiragana(hiragana) || wanakana.isKatakana(hiragana) || hiragana === 'ー' || cleanToken.length > 1) {
-                subSpan.textContent = cleanToken;
+            if (tempInput.startsWith(item.r) || isMatch(currentSlice, item.r)) {
+                span.innerHTML = `<span class="char-main">${item.k}</span><span class="char-sub">${item.r}</span>`;
+                tempInput = tempInput.substr(matchLen);
             } else {
-                subSpan.innerHTML = '&nbsp;';
+                let h = wanakana.toHiragana(tempInput);
+                span.classList.remove('filled');
+                span.classList.add('ongoing');
+                span.innerHTML = `<span class="char-main">${h}</span><span class="char-sub">${tempInput}</span>`;
+                tempInput = "";
             }
-            span.appendChild(mainSpan);
-            span.appendChild(subSpan);
             visualHintContainer.appendChild(span);
-        });
+        }
+
         const cursor = document.createElement('div');
         cursor.className = 'cursor-bar';
         visualHintContainer.appendChild(cursor);
         combinedAnswerInput.value = rawInput;
-
     }
 
     function handleInput(char) {

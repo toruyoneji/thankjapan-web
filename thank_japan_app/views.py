@@ -96,22 +96,24 @@ def normalize_consonants(text):
     return text
 
 def normalize_for_judge(text):
-
     if not text:
         return ""
 
     text = text.lower().strip()
 
     text = text.replace('wa', 'ha')
-
+    text = text.replace('n-', 'nn') 
+    
+    
     text = re.sub(r'a\-', 'aa', text)
     text = re.sub(r'i\-', 'ii', text)
     text = re.sub(r'u\-', 'uu', text)
     text = re.sub(r'e\-', 'ee', text)
     text = re.sub(r'o\-', 'oo', text)
-    text = re.sub(r'ou', 'oo', text)
+    text = text.replace('ou', 'oo')
 
-    text = re.sub(r'[^a-z0-9\-]', '', text)
+
+    text = re.sub(r'[^a-z0-9]', '', text)
 
     repls = [
         ('tsu','tu'),('fu','hu'),('shi','si'),('chi','ti'),('ji','zi'),
@@ -126,7 +128,6 @@ def normalize_for_judge(text):
     text = ''.join(ch for ch, _ in itertools.groupby(text))
 
     return text
-
 
 CATEGORY_URL_MAP = {
     'culture': 'culturepage',
