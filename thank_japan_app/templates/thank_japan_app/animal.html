@@ -408,8 +408,7 @@ body {
 
                     {% if item.image %}
                         <img src="{{ item.image.url }}" 
-                            alt="{{ item.englishname }}" 
-                            {% if forloop.counter > 7 %}loading="lazy"{% endif %}>
+                            alt="{{ item.englishname }}" {% if forloop.counter > 7 %} loading="lazy" {% endif %}>
                     {% else %}
                         <div class="no-image">No Image</div>
                     {% endif %}
