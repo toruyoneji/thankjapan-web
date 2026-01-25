@@ -2157,6 +2157,43 @@ class RealestateRulesView(ListView):
             context['is_locked'] = False
             
         return context
+    
+
+class TourismEtiquetteView(ListView):
+    template_name = "thank_japan_app/tourism_etiquette.html"
+    paginate_by = 24
+    
+    def dispatch(self, request, *args, **kwargs):
+        is_premium = request.user.is_authenticated and getattr(request.user.profile, 'is_premium', False)
+        if not is_premium and request.GET.get('page', '1') != '1':
+            url_name, _ = get_lang_info(request)
+            return redirect(url_name) 
+        return super().dispatch(request, *args, **kwargs)
+    
+    def get_queryset(self):
+        return ThankJapanPremium.objects.filter(category="TourismEtiquette").order_by('-timestamp')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        
+        is_premium = False
+        if self.request.user.is_authenticated and getattr(self.request.user.profile, 'is_premium', False):
+            is_premium = True
+
+        if not is_premium:
+            total_count = self.get_queryset().count()
+            context['object_list'] = context['object_list'][:6]
+            context['is_locked'] = True
+            context['hidden_count'] = max(0, total_count - 6)
+            
+            url_name, lang_code = get_lang_info(self.request)
+            context['premium_url_name'] = url_name
+            context['lang_code'] = lang_code
+        else:
+            context['is_locked'] = False
+            
+        return context
+
 
                 
 # free detail view

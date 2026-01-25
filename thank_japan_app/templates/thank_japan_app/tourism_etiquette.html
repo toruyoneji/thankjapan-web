@@ -1,15 +1,15 @@
 {% extends 'base/basecategory.html' %}
-{% block title %}Real Estate & Rules | Mastering Housing in Japan | ThankJapan{% endblock %}
-{% block og_title %}Real Estate & Rules - Hidden Tips for Renting | ThankJapan{% endblock %}
-{% block og_description %}Learn the hidden rules of Japanese real estate, from "Key Money" to contract renewals. Save money and avoid trouble when moving in Japan.{% endblock %}
+{% block title %}Tourism & Etiquette | Master Manners & Sightseeing | ThankJapan{% endblock %}
+{% block og_title %}Tourism & Etiquette - Essential Manners for Traveling Japan | ThankJapan{% endblock %}
+{% block og_description %}Explore Japan like a local! Master essential sightseeing vocabulary and important Japanese etiquette, from shrine visits to public transport manners.{% endblock %}
 {% block og_url %}{{ request.build_absolute_uri }}{% endblock %}
-{% block description %}Learn the hidden rules of Japanese real estate, from "Key Money" to contract renewals. Save money and avoid trouble when moving in Japan.{% endblock %}
+{% block description %}Explore Japan like a local! Master essential sightseeing vocabulary and important Japanese etiquette, from shrine visits to public transport manners.{% endblock %}
 
 {% block content %}
 {% load static %}
 
 <script>
-    window.shareText = "I'm learning the hidden rules of Japanese real estate on ThankJapan!";
+    window.shareText = "Getting prepared for emergencies and learning how to describe symptoms in Japanese on ThankJapan!";
 </script>
 
 <style>
@@ -454,60 +454,60 @@ body {
 <div class="category-header">
     <h1>
         {% if lang_code == 'ja' %}
-            不動産とルール：語彙とローマ字ガイド
+            観光とマナー 🚩
         {% elif lang_code == 'zh-hant' %}
-            日本房地產與規則：詞彙與羅馬字指南
+            觀光與禮儀 🚩
         {% elif lang_code == 'zh-cn' %}
-            日本房地产与规则：词汇与罗马字指南
+            观光与礼仪 🚩
         {% elif lang_code == 'de' %}
-            Immobilien & Regeln in Japan: Vokabular & Romaji-Leitfaden
+            Tourismus & Etikette 🚩
         {% elif lang_code == 'fr' %}
-            Immobilier et règles au Japon : Vocabulaire & Guide Romaji
+            Tourisme & Étiquette 🚩
         {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}
-            Bienes raíces y reglas en Japón: Vocabulario y Guía Romaji
+            Turismo y Etiqueta 🚩
         {% elif lang_code == 'it' %}
-            Immobiliare e regole in Giappone: Vocabolario & Guida Romaji
+            Turismo ed Etichetta 🚩
         {% elif lang_code == 'ko' %}
-            일본 부동산 및 규칙: 어휘 및 로마자 가이드
+            관광 및 매너 🚩
         {% elif lang_code == 'pt' or lang_code == 'pt-br' %}
-            Imóveis e regras no Japão: Vocabulário & Guia Romaji
+            Turismo e Etiqueta 🚩
         {% elif lang_code == 'vi' %}
-            Bất động sản & Quy tắc ở Nhật Bản: Hướng dẫn từ vựng & Romaji
+            Du lịch & Phép lịch sự 🚩
         {% elif lang_code == 'th' %}
-            อสังหาริมทรัพย์และกฎระเบียบในญี่ปุ่น: คำศัพท์และคำอ่านโรมาจิ
+            การท่องเที่ยว & มารยาท 🚩
         {% else %}
-            Real Estate & Rules 🏢
+            Tourism & Etiquette 🚩
         {% endif %}
-
     </h1>
+
     <p>
         {% if lang_code == 'ja' %}
-            日本の住宅事情を理解しよう。礼金、敷金、契約上の注意点などを知って理想の住まいを見つけよう。
+            日本の魅力を発見しよう。観光名所から大切なマナーまで、旅行をより楽しくするためのフレーズをマスター。
         {% elif lang_code == 'zh-hant' %}
-            了解日本的住房複雜情況。理解禮金、押金以及隱藏的合同規則，找到理想的住所。  
+            探索日本的魅力。從熱門景點到重要的旅行禮儀，掌握讓旅程更順心愉快的基本用語。
         {% elif lang_code == 'zh-cn' %}
-            了解日本的住房复杂情况。理解礼金、押金以及隐藏的合同规则，找到理想的住所。
+            探索日本的魅力。从热门景点到重要的旅行礼仪，掌握让旅程更顺心愉快的基本用语。
         {% elif lang_code == 'de' %}
-            Navigieren Sie durch die komplexe Welt des japanischen Wohnungswesens. Verstehen Sie Reikin, Shikikin und versteckte Vertragsregeln, um Ihr perfektes Zuhause zu finden.
+            Entdecke den Charme Japans. Meistere die wichtigsten Ausdrücke für Sehenswürdigkeiten und Etikette, um deine Reise noch unvergesslicher zu machen.
         {% elif lang_code == 'fr' %}
-            Naviguez dans le monde complexe du logement au Japon. Comprenez le reikin, le shikikin et les règles contractuelles cachées pour trouver votre maison idéale.
+            Découvrez le charme du Japon. Maîtrisez les expressions essentielles pour les visites et l'étiquette afin de rendre votre voyage encore plus agréable.
         {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}
-            Navega por el complejo mundo de la vivienda en Japón. Comprende el reikin, shikikin y las reglas contractuales ocultas para encontrar tu hogar perfecto.
+            Descubre el encanto de Japón. Domina las frases esenciales para el turismo y la etiqueta para que tu viaje sea aún más placentero.
         {% elif lang_code == 'it' %}
-            Naviga nel complesso mondo delle abitazioni in Giappone. Comprendi reikin, shikikin e le regole contrattuali nascoste per trovare la casa perfetta.
+            Scopri il fascino del Giappone. Impara le frasi essenziali per le visite e l'etichetta per rendere il tuo viaggio ancora più piacevole.
         {% elif lang_code == 'ko' %}
-            일본 주택의 복잡한 세계를 탐색하세요. 레이킨, 시키킨, 숨겨진 계약 규칙을 이해하고 완벽한 집을 찾으세요.
+            일본의 매력을 발견하세요. 관광 명소부터 꼭 지켜야 할 매너까지, 여행을 더욱 즐겁게 만들어줄 필수 표현을 익히세요.
         {% elif lang_code == 'pt' or lang_code == 'pt-br' %}
-            Navegue pelo complexo mundo da habitação no Japão. Entenda reikin, shikikin e regras contratuais ocultas para encontrar sua casa perfeita.
+            Descubra o charme do Japão. Domine as frases essenciais para o turismo e a etiqueta para tornar sua viagem ainda mais agradável.
         {% elif lang_code == 'vi' %}
-            Điều hướng thế giới phức tạp của nhà ở Nhật Bản. Hiểu về reikin, shikikin và các quy tắc hợp đồng ẩn để tìm ngôi nhà lý tưởng.
+            Khám phá nét quyến rũ của Nhật Bản. Thành thạo các câu giao tiếp cơ bản khi đi tham quan và các quy tắc lịch sự để chuyến đi thêm trọn vẹn.
         {% elif lang_code == 'th' %}
-            เรียนรู้โลกที่ซับซ้อนของที่อยู่อาศัยในญี่ปุ่น เข้าใจเกี่ยวกับเงินก้อนแรก (Reikin), เงินประกัน (Shikikin) และกฎสัญญาที่ซ่อนอยู่เพื่อหาบ้านที่สมบูรณ์แบบของคุณ
+            ค้นพบเสน่ห์ของญี่ปุ่น มาสเตอร์วลีสำคัญสำหรับการท่องเที่ยวและมารยาทต่างๆ เพื่อให้ทริปของคุณสนุกและราบรื่นยิ่งขึ้น
         {% else %}
-            Navigate the complex world of Japanese housing. Understand reikin, shikikin, and hidden contract rules to find your perfect home.
+            Discover the charm of Japan. Master essential phrases for sightseeing and etiquette to make your journey more enjoyable and respectful.   
         {% endif %}
-
     </p>
+
 </div>
 
 <div class="main2">
@@ -560,7 +560,6 @@ body {
             <div class="locked-content">
                 <div class="lock-icon">🔒</div>
                 <h3>
-                    
                     {% if lang_code == 'ja' %}
                         プレミアムコンテンツをアンロック
                     {% elif lang_code == 'zh-hant' %}
@@ -586,7 +585,6 @@ body {
                     {% else %}
                         Unlock Premium Content
                     {% endif %}
-                
                 </h3>
                 <p>
                     {% if lang_code == 'ja' %}
@@ -710,6 +708,5 @@ function speakJapanese(text) {
 
 
 </script>
-
 
 {% endblock %}

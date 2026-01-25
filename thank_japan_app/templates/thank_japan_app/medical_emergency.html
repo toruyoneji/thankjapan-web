@@ -559,13 +559,100 @@ body {
         <div class="locked-card">
             <div class="locked-content">
                 <div class="lock-icon">🔒</div>
-                <h3>Unlock Premium Content</h3>
+                <h3>
+                
+                    {% if lang_code == 'ja' %}
+                        プレミアムコンテンツをアンロック
+                    {% elif lang_code == 'zh-hant' %}
+                        解鎖高級內容
+                    {% elif lang_code == 'zh-cn' %}
+                        解锁高级内容
+                    {% elif lang_code == 'de' %}
+                        Premium-Inhalte freischalten
+                    {% elif lang_code == 'fr' %}
+                        Débloquer le contenu Premium
+                    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}
+                        Desbloquear contenido Premium
+                    {% elif lang_code == 'it' %}
+                        Sblocca i contenuti Premium
+                    {% elif lang_code == 'ko' %}
+                        프리미엄 콘텐츠 잠금 해제
+                    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}
+                        Desbloquear conteúdo Premium
+                    {% elif lang_code == 'vi' %}
+                        Mở khóa nội dung Cao cấp
+                    {% elif lang_code == 'th' %}
+                        ปลดล็อกเนื้อหาพรีเมียม
+                    {% else %}
+                        Unlock Premium Content
+                    {% endif %}
+            
+                </h3>
                 <p>
-                    You've viewed the free samples.<br>
-                    Upgrade to access <b>{{ hidden_count }}+</b> more phrases and master Business Japanese!
+                    {% if lang_code == 'ja' %}
+                        無料サンプルをすべて表示しました。<br>
+                        アップグレードして <b>{{ hidden_count }}+</b> 以上のフレーズにアクセスし、このカテゴリーをマスターしましょう！
+                    {% elif lang_code == 'zh-hant' %}
+                        您已查看免費樣本。<br>
+                        升級以解鎖 <b>{{ hidden_count }}+</b> 個更多詞彙，精通此進階主題！
+                    {% elif lang_code == 'zh-cn' %}
+                        您已查看免费样本。<br>
+                        升级以解锁 <b>{{ hidden_count }}+</b> 个更多词汇，精通此进阶主题！
+                    {% elif lang_code == 'de' %}
+                        Du hast die kostenlosen Proben gesehen.<br>
+                        Upgrade jetzt, um auf über <b>{{ hidden_count }}</b> weitere Sätze zuzugreifen und dieses Spezialthema zu meistern!
+                    {% elif lang_code == 'fr' %}
+                        Vous avez consulté les échantillons gratuits.<br>
+                        Passez à la version supérieure pour accéder à plus de <b>{{ hidden_count }}</b> phrases supplémentaires et maîtriser ce sujet premium !
+                    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}
+                        Has visto las muestras gratuitas.<br>
+                        ¡Actualiza para acceder a más de <b>{{ hidden_count }}</b> frases y dominar este tema especial!
+                    {% elif lang_code == 'it' %}
+                        Hai visualizzato i campioni gratuiti.<br>
+                        Effettua l'upgrade per accedere a oltre <b>{{ hidden_count }}</b> frasi e padroneggiare questo argomento speciale!
+                    {% elif lang_code == 'ko' %}
+                        무료 샘플을 모두 확인하셨습니다.<br>
+                        업그레이드하여 <b>{{ hidden_count }}</b>개 이상의 필수 표현을 배우고 이 스페셜 카테고리를 마스터하세요!
+                    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}
+                        Você visualizou as amostras grátis.<br>
+                        Atualize para acessar mais de <b>{{ hidden_count }}</b> frases e dominar este tema premium!
+                    {% elif lang_code == 'vi' %}
+                        Bạn đã xem hết các mẫu miễn phí.<br>
+                        Hãy nâng cấp để truy cập hơn <b>{{ hidden_count }}</b> cụm từ khác và thành thạo chủ đề cao cấp này!
+                    {% elif lang_code == 'th' %}
+                        คุณดูตัวอย่างฟรีครบแล้ว<br>
+                        อัปเกรดเพื่อเข้าถึงวลีเพิ่มเติมอีกกว่า <b>{{ hidden_count }}+</b> วลี และมาสเตอร์เนื้อหาพิเศษนี้!
+                    {% else %}
+                        You've viewed the free samples.<br>
+                        Upgrade to access <b>{{ hidden_count }}+</b> more phrases and master this special category!
+                    {% endif %}
                 </p>
                 <a href="{% url premium_url_name %}" class="unlock-btn">
-                    💎 Unlock Now
+                    {% if lang_code == 'ja' %}
+                        💎 今すぐアンロック
+                    {% elif lang_code == 'zh-hant' %}
+                        💎 立即解鎖
+                    {% elif lang_code == 'zh-cn' %}
+                        💎 立即解锁
+                    {% elif lang_code == 'de' %}
+                        💎 Jetzt freischalten
+                    {% elif lang_code == 'fr' %}
+                        💎 Débloquer maintenant
+                    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}
+                        💎 Desbloquear ahora
+                    {% elif lang_code == 'it' %}
+                        💎 Sblocca ora
+                    {% elif lang_code == 'ko' %}
+                        💎 지금 잠금 해제
+                    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}
+                        💎 Desbloquear agora
+                    {% elif lang_code == 'vi' %}
+                        💎 Mở khóa ngay
+                    {% elif lang_code == 'th' %}
+                        💎 ปลดล็อกเลย
+                    {% else %}
+                        💎 Unlock Now
+                    {% endif %}
                 </a>
             </div>
         </div>
