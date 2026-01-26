@@ -154,6 +154,20 @@
         opacity: 0.8;
     }
 
+    .user-name a {
+    color: white;            
+    text-decoration: none;   
+    -webkit-tap-highlight-color: transparent;
+    }
+
+    .user-name a:hover {
+    color: red; 
+    }
+
+    .user-name a:active {
+    color: red; 
+    }
+
     @media screen and (max-width: 1024px) {
         body { padding-top: 140px !important; }
         header.nav-bar { flex-direction: column; padding: 10px; gap: 8px; }
@@ -229,7 +243,9 @@
                         <span class="score-text">💎 {{ user.profile.total_score }}<small>pt</small></span>
                     </a>
             
-                    <span class="user-name">👤 {{ user.username }}</span>
+                    <span class="user-name">
+                        <a href="{% url 'account_settingszhHANT' %}">👤 {{ user.username }}</a></span>
+                    
                     {% if user.profile.is_premium %}
                         <span class="premium-badge">💎 Premium</span>
                     {% else %}

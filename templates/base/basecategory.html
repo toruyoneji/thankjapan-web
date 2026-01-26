@@ -235,7 +235,13 @@
                         <span class="score-text">💎 {{ user.profile.total_score }}<small>pt</small></span>
                     </a>
             
-                    <span class="user-name">👤 {{ user.username }}</span>
+                    <span class="user-name">
+                        <a href="{% if lang_code == 'ja' %}{% url 'account_settingsja' %}{% elif lang_code == 'fr' %}{% url 'account_settingsfr' %}{% elif lang_code == 'de' %}{% url 'account_settingsde' %}{% elif lang_code == 'it' %}{% url 'account_settingsit' %}{% elif lang_code == 'ko' %}{% url 'account_settingsko' %}{% elif lang_code == 'es-es' %}{% url 'account_settingsesES' %}{% elif lang_code == 'es-mx' %}{% url 'account_settingsesMX' %}{% elif lang_code == 'pt' %}{% url 'account_settingspt' %}{% elif lang_code == 'pt-br' %}{% url 'account_settingsptBR' %}{% elif lang_code == 'vi' %}{% url 'account_settingsvi' %}{% elif lang_code == 'th' %}{% url 'account_settingsth' %}{% elif lang_code == 'zh-hant' %}{% url 'account_settingszhHANT' %}{% elif lang_code == 'zh-cn' %}{% url 'account_settingszhCN' %}{% else %}{% url 'account_settings' %}{% endif %}" 
+                        style="color: white; text-decoration: none;" 
+                        onmouseover="this.style.color='red'" 
+                        onmouseout="this.style.color='white'">
+                        👤 {{ user.username }}</a></span>
+                        
                     {% if user.profile.is_premium %}
                         <span class="premium-badge">💎 Premium</span>
                     {% else %}
