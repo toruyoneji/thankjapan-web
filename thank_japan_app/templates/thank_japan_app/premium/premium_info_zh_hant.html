@@ -276,6 +276,8 @@
                 管理個人資料 / 帳戶設定 ⚙️
             </a>
         {% endif %}
+        <a href="{{ request.GET.next|default:'/' }}">← 返回上一頁</a>
+        
         <a href="{% url 'toppagezhHANT' %}" class="btn-back-home">
             ← 返回首頁
         </a>

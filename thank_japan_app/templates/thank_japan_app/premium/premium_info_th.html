@@ -275,6 +275,8 @@
                 จัดการโปรไฟล์ / ตั้งค่าบัญชี ⚙️
             </a>
         {% endif %}
+        <a href="{{ request.GET.next|default:'/' }}">← กลับไปหน้าก่อนหน้า</a>
+        
         <a href="{% url 'toppageth' %}" class="btn-back-home">
             ← กลับหน้าแรก
         </a>

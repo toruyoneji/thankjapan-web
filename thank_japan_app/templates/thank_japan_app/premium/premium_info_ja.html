@@ -275,6 +275,8 @@
                 プロフィール管理 / アカウント設定 ⚙️
             </a>
         {% endif %}
+        <a href="{{ request.GET.next|default:'/' }}">← 前のページに戻る</a>
+        
         <a href="{% url 'toppageja' %}" class="btn-back-home">
             ← ホームに戻る
         </a>

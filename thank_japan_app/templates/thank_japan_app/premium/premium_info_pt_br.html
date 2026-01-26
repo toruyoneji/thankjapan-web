@@ -275,6 +275,8 @@
                 Gerenciar Perfil / Configurações da Conta ⚙️
             </a>
         {% endif %}
+        <a href="{{ request.GET.next|default:'/' }}">← Voltar para a página anterior</a>
+        
         <a href="{% url 'toppageptBR' %}" class="btn-back-home">
             ← Voltar para Home
         </a>

@@ -278,6 +278,8 @@
                 管理个人资料 / 账户设置 ⚙️
             </a>
         {% endif %}
+        <a href="{{ request.GET.next|default:'/' }}">← 返回上一页</a>
+        
         <a href="{% url 'toppagezhCN' %}" class="btn-back-home">
             ← 返回首页
         </a>

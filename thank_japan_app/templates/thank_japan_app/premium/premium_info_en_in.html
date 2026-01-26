@@ -276,6 +276,8 @@
                 Manage Profile / Account Settings ⚙️
             </a>
         {% endif %}
+        <a href="{{ request.GET.next|default:'/' }}">← Back to Previous Page</a>
+        
         <a href="{% url 'toppageenIN' %}" class="btn-back-home">
             ← Back To Home
         </a>

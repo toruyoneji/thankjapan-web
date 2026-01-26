@@ -276,6 +276,8 @@
                 프로필 관리 / 계정 설정 ⚙️
             </a>
         {% endif %}
+        <a href="{{ request.GET.next|default:'/' }}">← 이전 페이지로 돌아가기</a>
+        
         <a href="{% url 'toppageko' %}" class="btn-back-home">
             ← 홈으로 돌아가기
         </a>

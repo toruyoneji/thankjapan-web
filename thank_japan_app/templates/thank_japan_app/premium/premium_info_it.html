@@ -276,6 +276,8 @@
                 Gestisci profilo / Impostazioni account ⚙️
             </a>
         {% endif %}
+        <a href="{{ request.GET.next|default:'/' }}">← Torna alla pagina precedente</a>
+        
         <a href="{% url 'toppageit' %}" class="btn-back-home">
             ← Torna alla Home
         </a>

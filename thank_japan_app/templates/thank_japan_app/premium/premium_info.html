@@ -183,7 +183,7 @@
     }
     .btn-back-home {
         display: inline-block;
-        background: #7a7a7a;
+        background: #ffb347;
         color: white;
         padding: 10px 40px;
         border-radius: 25px;
@@ -278,6 +278,9 @@
                 Manage Profile / Account Settings ⚙️
             </a>
         {% endif %}
+
+        <a href="{{ request.GET.next|default:'/' }}" class="btn-back-home">← Back to Previous Page</a>
+
         <a href="{% url 'toppage' %}" class="btn-back-home">
             ← Back To Home
         </a>

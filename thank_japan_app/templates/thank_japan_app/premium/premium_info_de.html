@@ -276,6 +276,8 @@
                 Profil verwalten / Kontoeinstellungen ⚙️
             </a>
         {% endif %}
+        <a href="{{ request.GET.next|default:'/' }}">← Zurück zur vorherigen Seite</a>
+        
         <a href="{% url 'toppagede' %}" class="btn-back-home">
             ← Zurück zur Startseite
         </a>

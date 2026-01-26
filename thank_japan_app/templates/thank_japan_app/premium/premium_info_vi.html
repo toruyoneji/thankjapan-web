@@ -276,6 +276,8 @@
                 Quản lý hồ sơ / Cài đặt tài khoản ⚙️
             </a>
         {% endif %}
+        <a href="{{ request.GET.next|default:'/' }}">← Quay lại trang trước</a>
+        
         <a href="{% url 'toppagevi' %}" class="btn-back-home">
             ← Quay lại Trang chủ
         </a>
