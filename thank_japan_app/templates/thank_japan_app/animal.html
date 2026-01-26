@@ -424,7 +424,7 @@ body {
                         🔊 Listen
                     </button>
 
-                    <a href="{% url 'category_detail' item.category item.slug %}" class="more-detail-link" onclick="event.stopPropagation();">
+                    <a href="{% url 'category_detail' item.category item.slug %}{% if lang_code %}?lang={{ lang_code }}{% endif %}" class="more-detail-link" onclick="event.stopPropagation();">
                         More Details &gt;
                     </a>
                 </div>
@@ -442,11 +442,11 @@ body {
     {% endif %}
 
     {% for num in page_obj.paginator.page_range %}
-      {% if page_obj.number == num %}
-        <span class="page-btn current">{{ num }}</span>
-      {% elif num > page_obj.number|add:-3 and num < page_obj.number|add:3 %}
-        <a href="?page={{ num }}" class="page-btn">{{ num }}</a>
-      {% endif %}
+        {% if page_obj.number == num %}
+            <span class="page-btn current">{{ num }}</span>
+        {% elif num > page_obj.number|add:-3 and num < page_obj.number|add:3 %}
+            <a href="?page={{ num }}{% if lang_code %}&lang={{ lang_code }}{% endif %}" class="page-btn">{{ num }}</a>
+        {% endif %}
     {% endfor %}
 
     {% if page_obj.has_next %}
