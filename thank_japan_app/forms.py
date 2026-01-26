@@ -2,6 +2,9 @@ from django import forms
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
 from .models import Player
+from django_recaptcha.fields import ReCaptchaField
+from django_recaptcha.widgets import ReCaptchaV2Checkbox
+from django.utils.translation import gettext_lazy as _
 import re
 
 User = get_user_model()
@@ -79,6 +82,14 @@ class UsernameForm(forms.Form):
         max_length=50,
         required=True,
         widget=forms.TextInput(attrs={'placeholder': 'e.g. Japan, USA'})
+    )
+    
+    captcha = ReCaptchaField(
+        label="",
+        widget=ReCaptchaV2Checkbox(),
+        error_messages={
+            'required': _("Please complete the reCAPTCHA.")
+        }
     )
 
 
