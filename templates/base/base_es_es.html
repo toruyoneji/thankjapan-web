@@ -220,37 +220,37 @@
         <a class="logo-link" href="{% url 'toppageesES' %}">Thank Japan</a>
     </div>
 
-    <!-- SNSボタン -->
   <div class="sns-buttons">
     <a href="https://x.com/thankjapan0514" target="_blank"><i class="fab fa-x twitter"></i></a>
     <a href="https://www.instagram.com/thankjapan/" target="_blank"><i class="fab fa-instagram"></i></a>
     <a href="https://www.facebook.com/ToruYone" target="_blank"><i class="fab fa-facebook"></i></a>
     <a href="https://www.tiktok.com/@thankjapan" target="_blank"><i class="fab fa-tiktok"></i></a>
     <a href="https://www.pinterest.com/yonetoru/" target="_blank"><i class="fab fa-pinterest"></i></a>
-    <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://www.thankjapan.com" target="_blank" title="Share on LinkedIn"><i class="fab fa-linkedin"></i></a>
+    <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://www.thankjapan.com" target="_blank" title="Compartir en LinkedIn"><i class="fab fa-linkedin"></i></a>
   </div>
-
-
 
     <nav>
         <div class="auth-section">
             {% if user.is_authenticated %}
                 <div class="user-info">
     
-                    <a href="{% url 'toppageesES' %}" class="header-score-badge" title="Rank: {{ user.profile.rank_info.name }}">
+                    <a href="{% url 'toppageesES' %}" class="header-score-badge" title="Nivel: {{ user.profile.rank_info.name }}">
                         <span class="rank-emoji">{{ user.profile.rank_info.emoji }}</span>
                         <span class="score-text">💎 {{ user.profile.total_score }}<small>pt</small></span>
                     </a>
             
                     <span class="user-name">
-                        <a href="{% url 'account_settingsesES' %}">👤 {{ user.username }}</a></span>
+                        <a href="{% url 'account_settingsesES' %}" 
+                           style="color: white; text-decoration: none;" 
+                           onmouseover="this.style.color='red'" 
+                           onmouseout="this.style.color='white'">👤 {{ user.username }}</a></span>
                     
                     {% if user.profile.is_premium %}
                         <span class="premium-badge">💎 Premium</span>
                     {% else %}
-                        <a href="{% url 'premium_infoesES' %}" class="upgrade-link">💎 Get Premium</a>
+                        <a href="{% url 'premium_infoesES' %}" class="upgrade-link">💎 Obtén Premium</a>
                     {% endif %}
-                    <a href="{% url 'player_logout' %}" class="auth-btn logout">Logout</a>
+                    <a href="{% url 'player_logout' %}" class="auth-btn logout">Cerrar sesión</a>
                 </div>
             {% else %}
                 <div class="guest-info">
@@ -260,13 +260,14 @@
                         <span class="score-text">💎 0<small>pt</small></span>
                     </a>
 
-                    <span class="user-name">👤 Guest</span> 
-                    <a href="{% url 'player_login' %}?next={{ request.path }}" class="auth-btn login">Login</a>
-                    <a href="{% url 'player_register' %}" class="auth-btn signup">Sign Up Free 🚀</a>
+                    <span class="user-name">👤 Invitado</span> 
+                    <a href="{% url 'player_login' %}?next={{ request.path }}" class="auth-btn login">Iniciar sesión</a>
+                    <a href="{% url 'player_register' %}" class="auth-btn signup">Regístrate gratis</a>
                 </div>
             {% endif %}
         </div>
-
+    
+        
         <div class="dropdown">
             <button class="dropbtn">Aprender japonés ▾</button>
             <div class="dropdown-content">

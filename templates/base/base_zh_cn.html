@@ -221,7 +221,6 @@
         <a class="logo-link" href="{% url 'toppagezhCN' %}">Thank Japan</a>
     </div>
 
-    <!-- SNSボタン -->
   <div class="sns-buttons">
     <a href="https://x.com/thankjapan0514" target="_blank"><i class="fab fa-x twitter"></i></a>
     <a href="https://www.instagram.com/thankjapan/" target="_blank"><i class="fab fa-instagram"></i></a>
@@ -231,27 +230,28 @@
     <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://www.thankjapan.com" target="_blank" title="Share on LinkedIn"><i class="fab fa-linkedin"></i></a>
   </div>
 
-
-
     <nav>
         <div class="auth-section">
             {% if user.is_authenticated %}
                 <div class="user-info">
     
-                    <a href="{% url 'toppagezhCN' %}" class="header-score-badge" title="Rank: {{ user.profile.rank_info.name }}">
+                    <a href="{% url 'toppagezhCN' %}" class="header-score-badge" title="等级: {{ user.profile.rank_info.name }}">
                         <span class="rank-emoji">{{ user.profile.rank_info.emoji }}</span>
                         <span class="score-text">💎 {{ user.profile.total_score }}<small>pt</small></span>
                     </a>
             
                     <span class="user-name">
-                        <a href="{% url 'account_settingszhCN' %}">👤 {{ user.username }}</a></span>
+                        <a href="{% url 'account_settingszhCN' %}" 
+                           style="color: white; text-decoration: none;" 
+                           onmouseover="this.style.color='red'" 
+                           onmouseout="this.style.color='white'">👤 {{ user.username }}</a></span>
                     
                     {% if user.profile.is_premium %}
-                        <span class="premium-badge">💎 Premium</span>
+                        <span class="premium-badge">💎 高级版</span>
                     {% else %}
-                        <a href="{% url 'premium_infozhCN' %}" class="upgrade-link">💎 Get Premium</a>
+                        <a href="{% url 'premium_infozhCN' %}" class="upgrade-link">💎 获取高级版</a>
                     {% endif %}
-                    <a href="{% url 'player_logout' %}" class="auth-btn logout">Logout</a>
+                    <a href="{% url 'player_logout' %}" class="auth-btn logout">登出</a>
                 </div>
             {% else %}
                 <div class="guest-info">
@@ -261,13 +261,14 @@
                         <span class="score-text">💎 0<small>pt</small></span>
                     </a>
 
-                    <span class="user-name">👤 Guest</span> 
-                    <a href="{% url 'player_login' %}?next={{ request.path }}" class="auth-btn login">Login</a>
-                    <a href="{% url 'player_register' %}" class="auth-btn signup">Sign Up Free 🚀</a>
+                    <span class="user-name">👤 访客</span> 
+                    <a href="{% url 'player_login' %}?next={{ request.path }}" class="auth-btn login">登录</a>
+                    <a href="{% url 'player_register' %}" class="auth-btn signup">免费注册</a>
                 </div>
             {% endif %}
         </div>
-
+    
+        
         <div class="dropdown">
             <button class="dropbtn">学习日语 ▾</button>
             <div class="dropdown-content">
