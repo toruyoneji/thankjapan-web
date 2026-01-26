@@ -180,9 +180,20 @@
         font-weight: bold;
         font-size: 0.9rem;
     }
+    
     .btn-back-home {
         display: inline-block;
-        background: #7a7a7a;
+        background: #ffb347;
+        color: white;
+        padding: 10px 40px;
+        border-radius: 25px;
+        text-decoration: none;
+        font-weight: 600;
+    }
+
+    .btn-back-prev {
+        display: inline-block;
+        background: #2188e9;
         color: white;
         padding: 10px 40px;
         border-radius: 25px;
@@ -276,8 +287,8 @@
                 管理個人資料 / 帳戶設定 ⚙️
             </a>
         {% endif %}
-        <a href="{{ request.GET.next|default:'/' }}">← 返回上一頁</a>
-        
+        <a href="{{ request.GET.next|default:'/' }}" class="btn-back-prev">← 返回上一頁</a>
+
         <a href="{% url 'toppagezhHANT' %}" class="btn-back-home">
             ← 返回首頁
         </a>

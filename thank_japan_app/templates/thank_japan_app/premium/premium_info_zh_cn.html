@@ -182,9 +182,20 @@
         font-weight: bold;
         font-size: 0.9rem;
     }
+    
     .btn-back-home {
         display: inline-block;
-        background: #7a7a7a;
+        background: #ffb347;
+        color: white;
+        padding: 10px 40px;
+        border-radius: 25px;
+        text-decoration: none;
+        font-weight: 600;
+    }
+
+    .btn-back-prev {
+        display: inline-block;
+        background: #2188e9;
         color: white;
         padding: 10px 40px;
         border-radius: 25px;
@@ -278,8 +289,8 @@
                 管理个人资料 / 账户设置 ⚙️
             </a>
         {% endif %}
-        <a href="{{ request.GET.next|default:'/' }}">← 返回上一页</a>
-        
+        <a href="{{ request.GET.next|default:'/' }}" class="btn-back-prev">← 返回上一页</a>
+
         <a href="{% url 'toppagezhCN' %}" class="btn-back-home">
             ← 返回首页
         </a>

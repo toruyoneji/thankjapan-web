@@ -181,9 +181,20 @@
         font-weight: bold;
         font-size: 0.9rem;
     }
+
     .btn-back-home {
         display: inline-block;
         background: #ffb347;
+        color: white;
+        padding: 10px 40px;
+        border-radius: 25px;
+        text-decoration: none;
+        font-weight: 600;
+    }
+
+    .btn-back-prev {
+        display: inline-block;
+        background: #2188e9;
         color: white;
         padding: 10px 40px;
         border-radius: 25px;
@@ -279,7 +290,7 @@
             </a>
         {% endif %}
 
-        <a href="{{ request.GET.next|default:'/' }}" class="btn-back-home">← Back to Previous Page</a>
+        <a href="{{ request.GET.next|default:'/' }}" class="btn-back-prev">← Back to Previous Page</a>
 
         <a href="{% url 'toppage' %}" class="btn-back-home">
             ← Back To Home
