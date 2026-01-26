@@ -437,8 +437,8 @@ body {
 <div class="pagination-container">
   <div class="pagination">
     {% if page_obj.has_previous %}
-      <a href="?page=1" class="page-btn">&laquo;</a>
-      <a href="?page={{ page_obj.previous_page_number }}" class="page-btn">Prev</a>
+      <a href="?page=1{% if lang_code %}&lang={{ lang_code }}{% endif %}" class="page-btn">&laquo;</a>
+      <a href="?page={{ page_obj.previous_page_number }}{% if lang_code %}&lang={{ lang_code }}{% endif %}" class="page-btn">Prev</a>
     {% endif %}
 
     {% for num in page_obj.paginator.page_range %}
@@ -450,8 +450,8 @@ body {
     {% endfor %}
 
     {% if page_obj.has_next %}
-      <a href="?page={{ page_obj.next_page_number }}" class="page-btn">Next</a>
-      <a href="?page={{ page_obj.paginator.num_pages }}" class="page-btn">&raquo;</a>
+      <a href="?page={{ page_obj.next_page_number }}{% if lang_code %}&lang={{ lang_code }}{% endif %}" class="page-btn">Next</a>
+      <a href="?page={{ page_obj.paginator.num_pages }}{% if lang_code %}&lang={{ lang_code }}{% endif %}" class="page-btn">&raquo;</a>
     {% endif %}
   </div>
 </div>

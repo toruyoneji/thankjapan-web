@@ -625,7 +625,7 @@ body {
                         Upgrade to access <b>{{ hidden_count }}+</b> more phrases and master this special category!
                     {% endif %}
                 </p>
-                <a href="{% url premium_url_name %}" class="unlock-btn">
+                <a href="{% url premium_url_name %}?lang={{ lang_code }}" class="unlock-btn">
                     {% if lang_code == 'ja' %}
                         💎 今すぐアンロック
                     {% elif lang_code == 'zh-hant' %}
@@ -663,21 +663,21 @@ body {
 <div class="pagination-container">
   <div class="pagination">
     {% if page_obj.has_previous %}
-      <a href="?page=1" class="page-btn">&laquo;</a>
-      <a href="?page={{ page_obj.previous_page_number }}" class="page-btn">Prev</a>
+      <a href="?page=1&lang={{ lang_code }}" class="page-btn">&laquo;</a>
+      <a href="?page={{ page_obj.previous_page_number }}&lang={{ lang_code }}" class="page-btn">Prev</a>
     {% endif %}
 
     {% for num in page_obj.paginator.page_range %}
       {% if page_obj.number == num %}
         <span class="page-btn current">{{ num }}</span>
       {% elif num > page_obj.number|add:-3 and num < page_obj.number|add:3 %}
-        <a href="?page={{ num }}" class="page-btn">{{ num }}</a>
+        <a href="?page={{ num }}&lang={{ lang_code }}" class="page-btn">{{ num }}</a>
       {% endif %}
     {% endfor %}
 
     {% if page_obj.has_next %}
-      <a href="?page={{ page_obj.next_page_number }}" class="page-btn">Next</a>
-      <a href="?page={{ page_obj.paginator.num_pages }}" class="page-btn">&raquo;</a>
+      <a href="?page={{ page_obj.next_page_number }}&lang={{ lang_code }}" class="page-btn">Next</a>
+      <a href="?page={{ page_obj.paginator.num_pages }}&lang={{ lang_code }}" class="page-btn">&raquo;</a>
     {% endif %}
   </div>
 </div>

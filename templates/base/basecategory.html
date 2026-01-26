@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" translate="no">
+<html lang="{{ lang_code|default:'en' }}" translate="no">
 {% load static %}
 <head>
     {% include 'css.html' %}
@@ -14,16 +14,23 @@
     <meta name="robots" content="index,follow">
     <meta name="keywords" content="Japanese, japan">
     
-    {% if page_obj %} 
-        {% if page_obj.number == 1 %}
-            <link rel="canonical" href="{{ request.scheme }}://{{ request.get_host }}{{ request.path }}" />
-        {% else %}
-            <link rel="canonical" href="{{ request.scheme }}://{{ request.get_host }}{{ request.get_full_path }}" />
-        {% endif %}
-    {% else %} 
-        <link rel="canonical" href="{{ request.scheme }}://{{ request.get_host }}{{ request.get_full_path }}" />
-    {% endif %}
+    <link rel="canonical" href="{{ request.scheme }}://{{ request.get_host }}{{ request.path }}{% if lang_code %}?lang={{ lang_code }}{% endif %}{% if page_obj and page_obj.number > 1 %}&page={{ page_obj.number }}{% endif %}" />
 
+    <link rel="alternate" hreflang="x-default" href="{{ request.scheme }}://{{ request.get_host }}{{ request.path }}{% if page_obj and page_obj.number > 1 %}?page={{ page_obj.number }}{% endif %}" />
+    <link rel="alternate" hreflang="en" href="{{ request.scheme }}://{{ request.get_host }}{{ request.path }}?lang=en{% if page_obj and page_obj.number > 1 %}&page={{ page_obj.number }}{% endif %}" />
+    <link rel="alternate" hreflang="ja" href="{{ request.scheme }}://{{ request.get_host }}{{ request.path }}?lang=ja{% if page_obj and page_obj.number > 1 %}&page={{ page_obj.number }}{% endif %}" />
+    <link rel="alternate" hreflang="de" href="{{ request.scheme }}://{{ request.get_host }}{{ request.path }}?lang=de{% if page_obj and page_obj.number > 1 %}&page={{ page_obj.number }}{% endif %}" />
+    <link rel="alternate" hreflang="fr" href="{{ request.scheme }}://{{ request.get_host }}{{ request.path }}?lang=fr{% if page_obj and page_obj.number > 1 %}&page={{ page_obj.number }}{% endif %}" />
+    <link rel="alternate" hreflang="it" href="{{ request.scheme }}://{{ request.get_host }}{{ request.path }}?lang=it{% if page_obj and page_obj.number > 1 %}&page={{ page_obj.number }}{% endif %}" />
+    <link rel="alternate" hreflang="es-ES" href="{{ request.scheme }}://{{ request.get_host }}{{ request.path }}?lang=es-es{% if page_obj and page_obj.number > 1 %}&page={{ page_obj.number }}{% endif %}" />
+    <link rel="alternate" hreflang="es-MX" href="{{ request.scheme }}://{{ request.get_host }}{{ request.path }}?lang=es-mx{% if page_obj and page_obj.number > 1 %}&page={{ page_obj.number }}{% endif %}" />
+    <link rel="alternate" hreflang="ko" href="{{ request.scheme }}://{{ request.get_host }}{{ request.path }}?lang=ko{% if page_obj and page_obj.number > 1 %}&page={{ page_obj.number }}{% endif %}" />
+    <link rel="alternate" hreflang="pt-PT" href="{{ request.scheme }}://{{ request.get_host }}{{ request.path }}?lang=pt{% if page_obj and page_obj.number > 1 %}&page={{ page_obj.number }}{% endif %}" />
+    <link rel="alternate" hreflang="pt-BR" href="{{ request.scheme }}://{{ request.get_host }}{{ request.path }}?lang=pt-br{% if page_obj and page_obj.number > 1 %}&page={{ page_obj.number }}{% endif %}" />
+    <link rel="alternate" hreflang="vi" href="{{ request.scheme }}://{{ request.get_host }}{{ request.path }}?lang=vi{% if page_obj and page_obj.number > 1 %}&page={{ page_obj.number }}{% endif %}" />
+    <link rel="alternate" hreflang="th" href="{{ request.scheme }}://{{ request.get_host }}{{ request.path }}?lang=th{% if page_obj and page_obj.number > 1 %}&page={{ page_obj.number }}{% endif %}" />
+    <link rel="alternate" hreflang="zh-Hant" href="{{ request.scheme }}://{{ request.get_host }}{{ request.path }}?lang=zh-hant{% if page_obj and page_obj.number > 1 %}&page={{ page_obj.number }}{% endif %}" />
+    <link rel="alternate" hreflang="zh-Hans" href="{{ request.scheme }}://{{ request.get_host }}{{ request.path }}?lang=zh-cn{% if page_obj and page_obj.number > 1 %}&page={{ page_obj.number }}{% endif %}" />
 
 
     <meta property="og:title" content="{% block og_title %}Discover Japan: Culture, Food & Fun Games{% endblock %}" />
@@ -241,7 +248,7 @@
                         onmouseover="this.style.color='red'" 
                         onmouseout="this.style.color='white'">
                         👤 {{ user.username }}</a></span>
-                        
+
                     {% if user.profile.is_premium %}
                         <span class="premium-badge">💎 Premium</span>
                     {% else %}
