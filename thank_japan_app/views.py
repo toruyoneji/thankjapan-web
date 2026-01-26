@@ -129,6 +129,7 @@ def normalize_for_judge(text):
 
     return text
 
+#category: urls:
 CATEGORY_URL_MAP = {
     'culture': 'culturepage',
     'food': 'foodpage',
@@ -147,7 +148,8 @@ CATEGORY_URL_MAP = {
     'BusinessJapanese': 'businessjapanese',
     'LivingInJapan': 'living_in_japan_page',
     'MedicalEmergency': 'medical_emergency',
-    'RealEstateRules': 'real_estate_rules'
+    'RealEstateRules': 'real_estate_rules',
+    'TourismEtiquette': 'tourism_etiquette'
 }
 
 
