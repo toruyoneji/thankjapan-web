@@ -206,6 +206,14 @@
         <div style="color: #d93025;">{{ error }}</div>
       {% endfor %}
     </p>
+
+    <div class="captcha-container" style="margin: 20px 0;">
+      {{ form.captcha }}
+      {% for error in form.captcha.errors %}
+        <div style="color: #d93025;">{{ error }}</div>
+      {% endfor %}
+    </div>
+    
     <button type="submit">Register</button>
   </form>
 
