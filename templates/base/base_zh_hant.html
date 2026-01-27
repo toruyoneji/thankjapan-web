@@ -260,13 +260,13 @@
                 </div>
             {% else %}
                 <div class="guest-info">
-                    <a href="{% url 'player_login' %}?next={{ request.path }}" class="header-score-badge guest">
+                    <a href="{% url 'player_login' %}?next={{ request.get_full_path|urlencode }}&lang={{ lang_code }}" class="header-score-badge guest">
                         <span class="rank-emoji">🌾</span>
                         <span class="score-text">💎 0<small>pt</small></span>
                     </a>
 
                     <span class="user-name">👤 訪客</span> 
-                    <a href="{% url 'player_login' %}?next={{ request.path }}" class="auth-btn login">登入</a>
+                    <a href="{% url 'player_login' %}?next={{ request.get_full_path|urlencode }}&lang={{ lang_code }}" class="auth-btn login">登入</a>
                     <a href="{% url 'player_register' %}?lang=zh-hant" class="auth-btn signup">免費註冊</a>
                 </div>
             {% endif %}

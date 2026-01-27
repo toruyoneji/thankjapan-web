@@ -255,13 +255,13 @@
             {% else %}
                 <div class="guest-info">
             
-                    <a href="{% url 'player_login' %}?next={{ request.path }}" class="header-score-badge guest">
+                    <a href="{% url 'player_login' %}?next={{ request.get_full_path|urlencode }}&lang={{ lang_code }}" class="header-score-badge guest">
                         <span class="rank-emoji">🌾</span>
                         <span class="score-text">💎 0<small>pt</small></span>
                     </a>
 
                     <span class="user-name">👤 Invitado</span> 
-                    <a href="{% url 'player_login' %}?next={{ request.path }}" class="auth-btn login">Iniciar sesión</a>
+                    <a href="{% url 'player_login' %}?next={{ request.get_full_path|urlencode }}&lang={{ lang_code }}" class="auth-btn login">Iniciar sesión</a>
                     <a href="{% url 'player_register' %}?lang=es-es" class="auth-btn signup">Regístrate gratis</a>
                 </div>
             {% endif %}

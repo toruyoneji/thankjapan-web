@@ -239,7 +239,7 @@
             {% if user.is_authenticated %}
                 <div class="user-info">
     
-                    <a href="{% url 'toppage' %}" class="header-score-badge" title="Rank: {{ user.profile.rank_info.name }}">
+                    <a href="#" class="header-score-badge" title="Rank: {{ user.profile.rank_info.name }}">
                         <span class="rank-emoji">{{ user.profile.rank_info.emoji }}</span>
                         <span class="score-text">💎 {{ user.profile.total_score }}<small>pt</small></span>
                     </a>
@@ -339,7 +339,7 @@
             {% else %}
                 <div class="guest-info">
             
-                    <a href="{% url 'player_login' %}?next={{ request.path }}" class="header-score-badge guest">
+                    <a href="{% url 'player_login' %}?next={{ request.get_full_path|urlencode }}&lang={{ lang_code }}" class="header-score-badge guest">
                         <span class="rank-emoji">🌾</span>
                         <span class="score-text">💎 0<small>pt</small></span>
                     </a>
@@ -371,7 +371,7 @@
                             👤 Guest
                         {% endif %}
                     </span> 
-                    <a href="{% url 'player_login' %}?next={{ request.path }}" class="auth-btn login">
+                    <a href="{% url 'player_login' %}?next={{ request.get_full_path|urlencode }}&lang={{ lang_code }}" class="auth-btn login">
                         {% if lang_code == 'ja' %}
                             ログイン
                         {% elif lang_code == 'zh-hant' %}
