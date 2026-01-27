@@ -257,7 +257,13 @@
                 <li>Accesso limitato ai giochi</li>
                 <li>Classifica della comunità</li>
             </ul>
-            <a href="{% url 'player_register' %}?lang=it" class="plan-btn free-btn">Piano attuale</a>
+            {% if user.is_authenticated %}
+                {% if not user.profile.is_premium %}
+                    <p class="plan-btn free-btn current" style="background: #7a7a7a; cursor: default;">Piano attuale</p>
+                {% endif %}
+            {% else %}
+                <a href="{% url 'player_register' %}?lang=it" class="plan-btn free-btn">Registrati gratis</a>
+            {% endif %}
         </div>
 
         <div class="plan-card featured">
