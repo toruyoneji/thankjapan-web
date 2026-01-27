@@ -203,112 +203,97 @@
       </label>
       {{ form.username }}
       {% for error in form.username.errors %}
-        <div style="color: #d93025; font-size: 0.85em;">
+				<div style="color: #d93025; font-size: 0.85em;">
 
-          {% if lang_code == 'ja' %}
-            {% if "already taken" in error %}
-                このユーザー名は既に使用されています。
-            {% elif "letters and underscores" in error %}
-                ユーザー名は英字とアンダースコア（_）のみ使用できます。
-            {% else %}
-              {{ error }}
-            {% endif %}
+					{% if "required" in error %}
 
-          {% elif lang_code == 'zh-hant' %}
-            {% if "already taken" in error %}
-                此用戶名稱已被使用。
-            {% elif "letters and underscores" in error %}
-                用戶名稱只能包含英文字母和底線（_）。
-            {% else %}
-                {{ error }}
-            {% endif %}
+						{% if lang_code == 'ja' %}
+							ユーザー名は必須です。
+						{% elif lang_code == 'zh-hant' %}
+							使用者名稱為必填。
+						{% elif lang_code == 'zh-cn' %}
+							用户名为必填。
+						{% elif lang_code == 'ko' %}
+							사용자 이름은 필수입니다.
+						{% elif lang_code == 'de' %}
+							Benutzername ist erforderlich.
+						{% elif lang_code == 'fr' %}
+							Le nom d'utilisateur est obligatoire.
+						{% elif lang_code == 'es-es' or lang_code == 'es-mx' %}
+							El nombre de usuario es obligatorio.
+						{% elif lang_code == 'it' %}
+							Il nome utente è obbligatorio.
+						{% elif lang_code == 'pt' or lang_code == 'pt-br' %}
+							O nome de usuário é obrigatório.
+						{% elif lang_code == 'vi' %}
+							Tên người dùng là bắt buộc.
+						{% elif lang_code == 'th' %}
+							จำเป็นต้องกรอกชื่อผู้ใช้
+						{% else %}
+							This field is required.
+						{% endif %}
 
-          {% elif lang_code == 'zh-cn' %}
-            {% if "already taken" in error %}
-                此用户名已被使用。
-            {% elif "letters and underscores" in error %}
-                用户名只能包含英文字母和下划线（_）。
-            {% else %}
-                {{ error }}
-            {% endif %}
+					{% elif "already taken" in error %}
 
-          {% elif lang_code == 'de' %}
-            {% if "already taken" in error %}
-                Dieser Benutzername ist bereits vergeben.
-            {% elif "letters and underscores" in error %}
-                Der Benutzername darf nur Buchstaben und Unterstriche (_) enthalten.
-            {% else %}
-                {{ error }}
-            {% endif %}
+						{% if lang_code == 'ja' %}
+							このユーザー名は既に使用されています。
+						{% elif lang_code == 'zh-hant' %}
+							此用戶名稱已被使用。
+						{% elif lang_code == 'zh-cn' %}
+							此用户名已被使用。
+						{% elif lang_code == 'ko' %}
+							이미 사용 중인 사용자 이름입니다.
+						{% elif lang_code == 'de' %}
+							Dieser Benutzername ist bereits vergeben.
+						{% elif lang_code == 'fr' %}
+							Ce nom d’utilisateur est déjà utilisé.
+						{% elif lang_code == 'es-es' or lang_code == 'es-mx' %}
+							Este nombre de usuario ya está en uso.
+						{% elif lang_code == 'it' %}
+							Questo nome utente è già in uso.
+						{% elif lang_code == 'pt' or lang_code == 'pt-br' %}
+							Este nome de usuário já está em uso.
+						{% elif lang_code == 'vi' %}
+							Tên người dùng này đã được sử dụng.
+						{% elif lang_code == 'th' %}
+							ชื่อผู้ใช้นี้ถูกใช้งานแล้ว
+						{% else %}
+							This username is already taken.
+						{% endif %}
 
-          {% elif lang_code == 'fr' %}
-            {% if "already taken" in error %}
-                Ce nom d’utilisateur est déjà utilisé.
-            {% elif "letters and underscores" in error %}
-                Le nom d’utilisateur ne peut contenir que des lettres et des underscores (_).
-            {% else %}
-                {{ error }}
-            {% endif %}
+					{% elif "letters and underscores" in error %}
 
-          {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}
-            {% if "already taken" in error %}
-                Este nombre de usuario ya está en uso.
-            {% elif "letters and underscores" in error %}
-                El nombre de usuario solo puede contener letras y guiones bajos (_).
-            {% else %}
-                {{ error }}
-            {% endif %}
+						{% if lang_code == 'ja' %}
+							ユーザー名は英字とアンダースコア（_）のみ使用できます。
+						{% elif lang_code == 'zh-hant' %}
+							用戶名稱只能包含英文字母和底線（_）。
+						{% elif lang_code == 'zh-cn' %}
+							用户名只能包含英文字母和下划线（_）。
+						{% elif lang_code == 'ko' %}
+							사용자 이름은 영문자와 언더스코어(_)만 사용할 수 있습니다.
+						{% elif lang_code == 'de' %}
+							Der Benutzername darf nur Buchstaben und Unterstriche (_) enthalten.
+						{% elif lang_code == 'fr' %}
+							Le nom d’utilisateur ne peut contenir que des lettres et des underscores (_).
+						{% elif lang_code == 'es-es' or lang_code == 'es-mx' %}
+							El nombre de usuario solo puede contener letras y guiones bajos (_).
+						{% elif lang_code == 'it' %}
+							Il nome utente può contenere solo lettere e underscore (_).
+						{% elif lang_code == 'pt' or lang_code == 'pt-br' %}
+							O nome de usuário só pode conter letras e sublinhado (_).
+						{% elif lang_code == 'vi' %}
+							Tên người dùng chỉ được chứa chữ cái và dấu gạch dưới (_).
+						{% elif lang_code == 'th' %}
+							ชื่อผู้ใช้สามารถใช้ได้เฉพาะตัวอักษรและขีดล่าง (_)
+						{% else %}
+							Only letters and underscores are allowed.
+						{% endif %}
 
-          {% elif lang_code == 'it' %}
-            {% if "already taken" in error %}
-                Questo nome utente è già in uso.
-            {% elif "letters and underscores" in error %}
-                Il nome utente può contenere solo lettere e underscore (_).
-            {% else %}
-                {{ error }}
-            {% endif %}
+					{% else %}
+						{{ error }}
+					{% endif %}
 
-          {% elif lang_code == 'ko' %}
-            {% if "already taken" in error %}
-                이미 사용 중인 사용자 이름입니다.
-            {% elif "letters and underscores" in error %}
-                사용자 이름은 영문자와 언더스코어(_)만 사용할 수 있습니다.
-            {% else %}
-                {{ error }}
-            {% endif %}
-
-          {% elif lang_code == 'pt' or lang_code == 'pt-br' %}
-            {% if "already taken" in error %}
-                Este nome de usuário já está em uso.
-            {% elif "letters and underscores" in error %}
-                O nome de usuário só pode conter letras e sublinhado (_).
-            {% else %}
-                {{ error }}
-            {% endif %}
-
-          {% elif lang_code == 'vi' %}
-            {% if "already taken" in error %}
-                Tên người dùng này đã được sử dụng.
-            {% elif "letters and underscores" in error %}
-                Tên người dùng chỉ được chứa chữ cái và dấu gạch dưới (_).
-            {% else %}
-                {{ error }}
-            {% endif %}
-
-          {% elif lang_code == 'th' %}
-            {% if "already taken" in error %}
-                ชื่อผู้ใช้นี้ถูกใช้งานแล้ว
-            {% elif "letters and underscores" in error %}
-                ชื่อผู้ใช้สามารถใช้ได้เฉพาะตัวอักษรและขีดล่าง (_)
-            {% else %}
-                {{ error }}
-            {% endif %}
-
-          {% else %}
-            {{ error }}
-          {% endif %}
-
-        </div>
+				</div>
       {% endfor %}
 
     </p>
@@ -474,147 +459,144 @@
       {% for error in form.password.errors %}
 				<div style="color: #d93025; font-size: 0.85em;">
 
-					{% if lang_code == 'ja' %}
-						{% if "too short" in error %}
+					{% if "required" in error %}
+
+						{% if lang_code == 'ja' %}
+							パスワードは必須です。
+						{% elif lang_code == 'zh-hant' %}
+							密碼為必填。
+						{% elif lang_code == 'zh-cn' %}
+							密码为必填。
+						{% elif lang_code == 'ko' %}
+							비밀번호는 필수입니다.
+						{% elif lang_code == 'de' %}
+							Passwort ist erforderlich.
+						{% elif lang_code == 'fr' %}
+							Le mot de passe est obligatoire.
+						{% elif lang_code == 'es-es' or lang_code == 'es-mx' %}
+							La contraseña es obligatoria.
+						{% elif lang_code == 'it' %}
+							La password è obbligatoria.
+						{% elif lang_code == 'pt' or lang_code == 'pt-br' %}
+							A senha é obrigatória.
+						{% elif lang_code == 'vi' %}
+							Mật khẩu là bắt buộc.
+						{% elif lang_code == 'th' %}
+							จำเป็นต้องกรอกรหัสผ่าน
+						{% else %}
+							This field is required.
+						{% endif %}
+
+					{% elif "too short" in error %}
+
+						{% if lang_code == 'ja' %}
 							パスワードが短すぎます。
-						{% elif "too common" in error %}
-							パスワードが簡単すぎます。
-						{% elif "entirely numeric" in error %}
-							パスワードは数字のみにはできません。
-						{% elif "too similar" in error %}
-							ユーザー名と似すぎています。
-						{% else %}
-							{{ error }}
-						{% endif %}
-
-					{% elif lang_code == 'zh-hant' %}
-						{% if "too short" in error %}
+						{% elif lang_code == 'zh-hant' %}
 							密碼太短。
-						{% elif "too common" in error %}
-							密碼過於簡單。
-						{% elif "entirely numeric" in error %}
-							密碼不能只包含數字。
-						{% elif "too similar" in error %}
-							密碼與使用者名稱太相似。
-						{% else %}
-							{{ error }}
-						{% endif %}
-
-					{% elif lang_code == 'zh-cn' %}
-						{% if "too short" in error %}
+						{% elif lang_code == 'zh-cn' %}
 							密码太短。
-						{% elif "too common" in error %}
-							密码过于简单。
-						{% elif "entirely numeric" in error %}
-							密码不能只包含数字。
-						{% elif "too similar" in error %}
-							密码与用户名过于相似。
-						{% else %}
-							{{ error }}
-						{% endif %}
-
-					{% elif lang_code == 'de' %}
-						{% if "too short" in error %}
-							Das Passwort ist zu kurz.
-						{% elif "too common" in error %}
-							Das Passwort ist zu einfach.
-						{% elif "entirely numeric" in error %}
-							Das Passwort darf nicht nur aus Zahlen bestehen.
-						{% elif "too similar" in error %}
-							Das Passwort ist dem Benutzernamen zu ähnlich.
-						{% else %}
-							{{ error }}
-						{% endif %}
-
-					{% elif lang_code == 'fr' %}
-						{% if "too short" in error %}
-							Le mot de passe est trop court.
-						{% elif "too common" in error %}
-							Le mot de passe est trop simple.
-						{% elif "entirely numeric" in error %}
-							Le mot de passe ne peut pas être uniquement numérique.
-						{% elif "too similar" in error %}
-							Le mot de passe est trop similaire au nom d’utilisateur.
-						{% else %}
-							{{ error }}
-						{% endif %}
-
-					{% elif lang_code == 'es-es' or lang_code == 'es-mx' %}
-						{% if "too short" in error %}
-							La contraseña es demasiado corta.
-						{% elif "too common" in error %}
-							La contraseña es demasiado simple.
-						{% elif "entirely numeric" in error %}
-							La contraseña no puede ser solo numérica.
-						{% elif "too similar" in error %}
-							La contraseña es demasiado similar al nombre de usuario.
-						{% else %}
-							{{ error }}
-						{% endif %}
-
-					{% elif lang_code == 'it' %}
-						{% if "too short" in error %}
-							La password è troppo corta.
-						{% elif "too common" in error %}
-							La password è troppo semplice.
-						{% elif "entirely numeric" in error %}
-							La password non può essere solo numerica.
-						{% elif "too similar" in error %}
-							La password è troppo simile al nome utente.
-						{% else %}
-							{{ error }}
-						{% endif %}
-
-					{% elif lang_code == 'ko' %}
-						{% if "too short" in error %}
+						{% elif lang_code == 'ko' %}
 							비밀번호가 너무 짧습니다.
-						{% elif "too common" in error %}
-							비밀번호가 너무 쉽습니다.
-						{% elif "entirely numeric" in error %}
-							비밀번호는 숫자만 사용할 수 없습니다.
-						{% elif "too similar" in error %}
-							사용자 이름과 너무 비슷합니다.
-						{% else %}
-							{{ error }}
-						{% endif %}
-
-					{% elif lang_code == 'pt' or lang_code == 'pt-br' %}
-						{% if "too short" in error %}
+						{% elif lang_code == 'de' %}
+							Das Passwort ist zu kurz.
+						{% elif lang_code == 'fr' %}
+							Le mot de passe est trop court.
+						{% elif lang_code == 'es-es' or lang_code == 'es-mx' %}
+							La contraseña es demasiado corta.
+						{% elif lang_code == 'it' %}
+							La password è troppo corta.
+						{% elif lang_code == 'pt' or lang_code == 'pt-br' %}
 							A senha é muito curta.
-						{% elif "too common" in error %}
-							A senha é muito simples.
-						{% elif "entirely numeric" in error %}
-							A senha não pode conter apenas números.
-						{% elif "too similar" in error %}
-							A senha é muito parecida com o nome de usuário.
-						{% else %}
-							{{ error }}
-						{% endif %}
-
-					{% elif lang_code == 'vi' %}
-						{% if "too short" in error %}
+						{% elif lang_code == 'vi' %}
 							Mật khẩu quá ngắn.
-						{% elif "too common" in error %}
-							Mật khẩu quá đơn giản.
-						{% elif "entirely numeric" in error %}
-							Mật khẩu không được chỉ chứa số.
-						{% elif "too similar" in error %}
-							Mật khẩu quá giống tên người dùng.
+						{% elif lang_code == 'th' %}
+							รหัสผ่านสั้นเกินไป
 						{% else %}
-							{{ error }}
+							Password is too short.
 						{% endif %}
 
-					{% elif lang_code == 'th' %}
-						{% if "too short" in error %}
-							รหัสผ่านสั้นเกินไป
-						{% elif "too common" in error %}
+					{% elif "too common" in error %}
+
+						{% if lang_code == 'ja' %}
+							パスワードが簡単すぎます。
+						{% elif lang_code == 'zh-hant' %}
+							密碼過於簡單。
+						{% elif lang_code == 'zh-cn' %}
+							密码过于简单。
+						{% elif lang_code == 'ko' %}
+							비밀번호가 너무 쉽습니다.
+						{% elif lang_code == 'de' %}
+							Das Passwort ist zu einfach.
+						{% elif lang_code == 'fr' %}
+							Le mot de passe est trop simple.
+						{% elif lang_code == 'es-es' or lang_code == 'es-mx' %}
+							La contraseña es demasiado simple.
+						{% elif lang_code == 'it' %}
+							La password è troppo semplice.
+						{% elif lang_code == 'pt' or lang_code == 'pt-br' %}
+							A senha é muito simples.
+						{% elif lang_code == 'vi' %}
+							Mật khẩu quá đơn giản.
+						{% elif lang_code == 'th' %}
 							รหัสผ่านง่ายเกินไป
-						{% elif "entirely numeric" in error %}
+						{% else %}
+							Password is too common.
+						{% endif %}
+
+					{% elif "entirely numeric" in error %}
+
+						{% if lang_code == 'ja' %}
+							パスワードは数字のみにはできません。
+						{% elif lang_code == 'zh-hant' %}
+							密碼不能只包含數字。
+						{% elif lang_code == 'zh-cn' %}
+							密码不能只包含数字。
+						{% elif lang_code == 'ko' %}
+							비밀번호는 숫자만 사용할 수 없습니다.
+						{% elif lang_code == 'de' %}
+							Das Passwort darf nicht nur aus Zahlen bestehen.
+						{% elif lang_code == 'fr' %}
+							Le mot de passe ne peut pas être uniquement numérique.
+						{% elif lang_code == 'es-es' or lang_code == 'es-mx' %}
+							La contraseña no puede ser solo numérica.
+						{% elif lang_code == 'it' %}
+							La password non può essere solo numerica.
+						{% elif lang_code == 'pt' or lang_code == 'pt-br' %}
+							A senha não pode conter apenas números.
+						{% elif lang_code == 'vi' %}
+							Mật khẩu không được chỉ chứa số.
+						{% elif lang_code == 'th' %}
 							รหัสผ่านไม่สามารถเป็นตัวเลขล้วนได้
-						{% elif "too similar" in error %}
+						{% else %}
+							Password cannot be entirely numeric.
+						{% endif %}
+
+					{% elif "too similar" in error %}
+
+						{% if lang_code == 'ja' %}
+							ユーザー名と似すぎています。
+						{% elif lang_code == 'zh-hant' %}
+							密碼與使用者名稱太相似。
+						{% elif lang_code == 'zh-cn' %}
+							密码与用户名过于相似。
+						{% elif lang_code == 'ko' %}
+							사용자 이름과 너무 비슷합니다.
+						{% elif lang_code == 'de' %}
+							Das Passwort ist dem Benutzernamen zu ähnlich.
+						{% elif lang_code == 'fr' %}
+							Le mot de passe est trop similaire au nom d’utilisateur.
+						{% elif lang_code == 'es-es' or lang_code == 'es-mx' %}
+							La contraseña es demasiado similar al nombre de usuario.
+						{% elif lang_code == 'it' %}
+							La password è troppo simile al nome utente.
+						{% elif lang_code == 'pt' or lang_code == 'pt-br' %}
+							A senha é muito parecida com o nome de usuário.
+						{% elif lang_code == 'vi' %}
+							Mật khẩu quá giống tên người dùng.
+						{% elif lang_code == 'th' %}
 							รหัสผ่านคล้ายกับชื่อผู้ใช้มากเกินไป
 						{% else %}
-							{{ error }}
+							Password is too similar to the username.
 						{% endif %}
 
 					{% else %}
@@ -622,7 +604,7 @@
 					{% endif %}
 
 				</div>
-			{% endfor %}
+      {% endfor %}
 
     </p>
 
