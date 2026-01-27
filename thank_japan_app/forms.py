@@ -58,8 +58,8 @@ class UsernameForm(forms.Form):
         label="Username",
         max_length=50,
         validators=[uservalidform],
-        widget=forms.TextInput(attrs={'placeholder': 'Enter your username'}),
-        help_text='Please connect your names with underscores (e.g., john_doe).',
+        widget=forms.TextInput(attrs={'placeholder': _('Enter your username')}),
+        help_text=_('Please connect your names with underscores (e.g., john_doe).'),
     )
     
     email = forms.EmailField(
