@@ -398,7 +398,7 @@
                             Login
                         {% endif %}
                     </a>
-                    <a href="{% url 'player_register' %}" class="auth-btn signup">
+                    <a href="{% url 'player_register' %}&lang={{ lang_code }}" class="auth-btn signup">
                         {% if lang_code == 'ja' %}
                             無料で新規登録
                         {% elif lang_code == 'zh-hant' %}
