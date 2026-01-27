@@ -263,7 +263,7 @@
 
                     <span class="user-name">👤 Visitante</span> 
                     <a href="{% url 'player_login' %}?next={{ request.path }}" class="auth-btn login">Entrar</a>
-                    <a href="{% url 'player_register' %}" class="auth-btn signup">Registar Grátis</a>
+                    <a href="{% url 'player_register' %}?lang={{ lang_code }}" class="auth-btn signup">Registar Grátis</a>
                 </div>
             {% endif %}
         </div>

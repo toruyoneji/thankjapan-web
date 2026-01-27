@@ -682,14 +682,16 @@ def contact_thanks(request):
 
 #Game and login register
 
+
+
 def player_register(request):
-    
     next_url = request.GET.get('next') or request.POST.get('next') or 'toppage'
+    lang_code = request.GET.get('lang') or request.POST.get('lang') or 'en'
+    guest_score = request.GET.get('guest_score') or request.POST.get('guest_score') or '0'
 
     if request.method == "POST":
         form = UsernameForm(request.POST)
         if form.is_valid():
-            
             username = form.cleaned_data['username']
             email = form.cleaned_data['email']
             raw_password = form.cleaned_data['password']
@@ -697,11 +699,21 @@ def player_register(request):
 
             if User.objects.filter(username=username).exists() or Player.objects.filter(username=username).exists():
                 messages.error(request, "This username is already taken.")
-                return render(request, 'thank_japan_app/player_register.html', {'form': form, 'next': next_url})
+                return render(request, 'thank_japan_app/player_register.html', {
+                    'form': form, 
+                    'next': next_url, 
+                    'lang_code': lang_code, 
+                    'guest_score': guest_score
+                })
 
             if User.objects.filter(email=email).exists() or Player.objects.filter(email=email).exists():
                 messages.error(request, "This email address is already registered.")
-                return render(request, 'thank_japan_app/player_register.html', {'form': form, 'next': next_url})
+                return render(request, 'thank_japan_app/player_register.html', {
+                    'form': form, 
+                    'next': next_url, 
+                    'lang_code': lang_code, 
+                    'guest_score': guest_score
+                })
 
             user = User.objects.create_user(username=username, email=email, password=raw_password)
             player = Player(username=username, email=email, country=country)
@@ -714,21 +726,23 @@ def player_register(request):
             
             messages.success(request, "Account created! Please log in to start playing.")
             
-        
             keys_to_clear = ['is_guest', 'game_score', 'game_question_ids', 'game_current_index', 'game_message', 'last_question_info', 'game_difficulty', 'player_id']
             for key in keys_to_clear:
                 request.session.pop(key, None)
             
-            
             login_url = reverse('player_login')
-            return redirect(f"{login_url}?{urlencode({'next': next_url})}")
+            query_params = urlencode({'next': next_url, 'lang': lang_code})
+            return redirect(f"{login_url}?{query_params}")
 
     else:
         form = UsernameForm()
 
-    
-    return render(request, 'thank_japan_app/player_register.html', {'form': form, 'next': next_url})
-
+    return render(request, 'thank_japan_app/player_register.html', {
+        'form': form, 
+        'next': next_url, 
+        'lang_code': lang_code, 
+        'guest_score': guest_score
+    })
 
 
 def player_login(request):

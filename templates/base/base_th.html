@@ -263,7 +263,7 @@
 
                     <span class="user-name">👤 ผู้เยี่ยมชม</span> 
                     <a href="{% url 'player_login' %}?next={{ request.path }}" class="auth-btn login">เข้าสู่ระบบ</a>
-                    <a href="{% url 'player_register' %}" class="auth-btn signup">ลงทะเบียนฟรี</a>
+                    <a href="{% url 'player_register' %}?lang={{ lang_code }}" class="auth-btn signup">ลงทะเบียนฟรี</a>
                 </div>
             {% endif %}
         </div>

@@ -754,7 +754,7 @@ tbody td {
                 {% endif %}
 
             </p>
-            <a href="{% url 'player_register' %}?guest_score={{ score }}" class="neon-button">
+            <a href="{% url 'player_register' %}?guest_score={{ score }}&lang={{ lang_code }}" class="neon-button">
                 {% if lang_code == 'ja' %}今すぐ登録
                 {% elif lang_code == 'zh-hant' %}立即註冊
                 {% elif lang_code == 'zh-cn' %}立即注册
