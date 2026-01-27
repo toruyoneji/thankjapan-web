@@ -289,39 +289,14 @@
             {% else %}Forgot your password?{% endif %}
         </a>
     </div>
+    
 
-    <div style="margin-top: 15px;">
-        {% if lang_code == 'ja' %}
-          {% url 'account_settingsja' as settings_url %}
-        {% elif lang_code == 'zh-hant' %}
-          {% url 'account_settingszhHANT' as settings_url %}
-        {% elif lang_code == 'zh-cn' %}
-          {% url 'account_settingszhCN' as settings_url %}
-        {% elif lang_code == 'ko' %}
-          {% url 'account_settingsko' as settings_url %}
-        {% elif lang_code == 'de' %}
-          {% url 'account_settingsde' as settings_url %}
-        {% elif lang_code == 'fr' %}
-          {% url 'account_settingsfr' as settings_url %}
-        {% elif lang_code == 'it' %}
-          {% url 'account_settingsit' as settings_url %}
-        {% elif lang_code == 'es-es' %}
-          {% url 'account_settingsesES' as settings_url %}
-        {% elif lang_code == 'es-mx' %}
-          {% url 'account_settingsesMX' as settings_url %}
-        {% elif lang_code == 'pt' %}
-          {% url 'account_settingspt' as settings_url %}
-        {% elif lang_code == 'pt-br' %}
-          {% url 'account_settingsptBR' as settings_url %}
-        {% elif lang_code == 'vi' %}
-          {% url 'account_settingsvi' as settings_url %}
-        {% elif lang_code == 'th' %}
-          {% url 'account_settingsth' as settings_url %}
-        {% else %}
-          {% url 'account_settings' as settings_url %}
-        {% endif %}
+  </form>
 
-        <a href="{{ settings_url }}" style="font-size: 0.85rem; color: rgba(228, 13, 5, 0.911); text-decoration: underline;">
+  <div style="margin-top: 15px;">
+        
+        <a href="{% if lang_code == 'ja' %}{% url 'account_settingsja' %}{% elif lang_code == 'zh-hant' %}{% url 'account_settingszhHANT' %}{% elif lang_code == 'zh-cn' %}{% url 'account_settingszhCN' %}{% elif lang_code == 'ko' %}{% url 'account_settingsko' %}{% elif lang_code == 'de' %}{% url 'account_settingsde' %}{% elif lang_code == 'fr' %}{% url 'account_settingsfr' %}{% elif lang_code == 'it' %}{% url 'account_settingsit' %}{% elif lang_code == 'es-es' %}{% url 'account_settingsesES' %}{% elif lang_code == 'es-mx' %}{% url 'account_settingsesMX' %}{% elif lang_code == 'pt' %}{% url 'account_settingspt' %}{% elif lang_code == 'pt-br' %}{% url 'account_settingsptBR' %}{% elif lang_code == 'vi' %}{% url 'account_settingsvi' %}{% elif lang_code == 'th' %}{% url 'account_settingsth' %}{% else %}{% url 'account_settings' %}{% endif %}" style="font-size: 0.85rem; color: rgba(228,13,5,0.911); text-decoration: underline;">
+
           {% if lang_code == 'ja' %}
             アカウントを削除しますか？
           {% elif lang_code == 'zh-hant' %}
@@ -348,9 +323,7 @@
             Delete your account?
           {% endif %}
         </a>
-    </div>    
-
-  </form>
+    </div>
 
   <div class="legal-consent" style="margin-top: 15px; font-size: 0.75em; color: #555; line-height: 1.4;">
     {% if lang_code == 'ja' %}
