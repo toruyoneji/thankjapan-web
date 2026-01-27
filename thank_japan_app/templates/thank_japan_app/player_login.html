@@ -177,7 +177,40 @@
   {% if messages %}
     <ul class="messages" style="padding: 0;">
       {% for message in messages %}
-        <li style="color: #d93025; list-style: none; margin-bottom: 10px; font-size: 0.9em;">{{ message }}</li>
+        <li style="color: #d93025; list-style: none; margin-bottom: 10px; font-size: 0.9em;">
+    
+          {% if "Invalid username or password" in message %}
+            {% if lang_code == 'ja' %}
+              ユーザー名またはパスワードが正しくありません。
+            {% elif lang_code == 'zh-hant' %}
+              使用者名稱或密碼不正確。
+            {% elif lang_code == 'zh-cn' %}
+              用户名或密码不正确。
+            {% elif lang_code == 'ko' %}
+              사용자 이름 또는 비밀번호가 올바르지 않습니다.
+            {% elif lang_code == 'de' %}
+              Benutzername oder Passwort ist falsch.
+            {% elif lang_code == 'fr' %}
+              Nom d’utilisateur ou mot de passe incorrect.
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}
+              Nombre de usuario o contraseña incorrectos.
+            {% elif lang_code == 'it' %}
+              Nome utente o password non corretti.
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}
+              Nome de usuário ou senha incorretos.
+            {% elif lang_code == 'vi' %}
+              Tên người dùng hoặc mật khẩu không đúng.
+            {% elif lang_code == 'th' %}
+              ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง
+            {% else %}
+              Invalid username or password.
+            {% endif %}
+          {% else %}
+            {{ message }}
+          {% endif %}
+
+
+        </li>
       {% endfor %}
     </ul>
   {% endif %}
