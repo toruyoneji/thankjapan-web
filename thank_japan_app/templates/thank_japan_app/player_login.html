@@ -321,7 +321,7 @@
           {% url 'account_settings' as settings_url %}
         {% endif %}
 
-        <a href="{% url '{{ settings_url }}' %}" style="font-size: 0.85rem; color: rgba(228, 13, 5, 0.911); text-decoration: underline;">
+        <a href="{{ settings_url }}" style="font-size: 0.85rem; color: rgba(228, 13, 5, 0.911); text-decoration: underline;">
           {% if lang_code == 'ja' %}
             アカウントを削除しますか？
           {% elif lang_code == 'zh-hant' %}
