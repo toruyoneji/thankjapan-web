@@ -652,21 +652,29 @@ function smartBack(categoryListUrl) {
 
     if (params.get('from') === 'game') {
         window.close();
+        setTimeout(() => {
+            window.location.href = "/game/result/";
+        }, 100);
         return;
     }
 
-    if (referrer.includes('/game/') || params.get('mode') === 'single' || params.get('origin') === 'category') {
+    if (params.get('mode') === 'single' || params.get('origin') === 'category') {
         window.location.href = categoryListUrl;
         return;
     }
 
-    window.history.back();
-    
+    if (window.history.length > 1) {
+        window.history.back();
+    } else {
+        window.location.href = categoryListUrl;
+    }
+
     setTimeout(() => {
-        window.location.href = categoryListUrl;
+        if (window.location.href.includes(window.location.pathname)) {
+            window.location.href = categoryListUrl;
+        }
     }, 300);
 }
-
 
 document.addEventListener('DOMContentLoaded', function() {
     const params = new URLSearchParams(window.location.search);
