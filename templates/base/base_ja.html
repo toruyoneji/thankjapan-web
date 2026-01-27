@@ -262,7 +262,7 @@
 
                     <span class="user-name">👤 ゲスト</span> 
                     <a href="{% url 'player_login' %}?next={{ request.path }}" class="auth-btn login">ログイン</a>
-                    <a href="{% url 'player_register' %}?lang={{ lang_code }}" class="auth-btn signup">無料で新規登録</a>
+                    <a href="{% url 'player_register' %}?lang={{ request.GET.lang|default:'en' }}"" class="auth-btn signup">無料で新規登録</a>
                 </div>
             {% endif %}
         </div>
