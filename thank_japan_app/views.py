@@ -746,8 +746,24 @@ def player_register(request):
 
 
 def player_login(request):
-    
     next_url = request.GET.get('next') or request.POST.get('next') or 'toppage'
+    lang_code = request.GET.get('lang')
+
+    if not lang_code:
+        if '/ja/' in next_url: lang_code = 'ja'
+        elif '/zh-hant/' in next_url: lang_code = 'zh-hant'
+        elif '/zh-cn/' in next_url: lang_code = 'zh-cn'
+        elif '/ko/' in next_url: lang_code = 'ko'
+        elif '/de/' in next_url: lang_code = 'de'
+        elif '/fr/' in next_url: lang_code = 'fr'
+        elif '/it/' in next_url: lang_code = 'it'
+        elif '/es-es/' in next_url: lang_code = 'es-es'
+        elif '/es-mx/' in next_url: lang_code = 'es-mx'
+        elif '/pt/' in next_url: lang_code = 'pt'
+        elif '/pt-br/' in next_url: lang_code = 'pt-br'
+        elif '/vi/' in next_url: lang_code = 'vi'
+        elif '/th/' in next_url: lang_code = 'th'
+        else: lang_code = 'en'
 
     if request.method == "POST":
         username = request.POST.get('username')
@@ -769,16 +785,15 @@ def player_login(request):
                 pass
 
             request.session['is_guest'] = False 
-
             messages.success(request, f"Welcome back, {user.username}!")
-            
-            # 固定の 'toppage' ではなく取得した next_url へリダイレクト
             return redirect(next_url)
         else:
             messages.error(request, "Invalid username or password.")
             
-    return render(request, 'thank_japan_app/player_login.html', {'next': next_url})
-
+    return render(request, 'thank_japan_app/player_login.html', {
+        'next': next_url,
+        'lang_code': lang_code
+    })
 
 def player_logout(request):
     auth_logout(request)
