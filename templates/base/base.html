@@ -258,7 +258,7 @@
                     {% else %}
                         <a href="{% url 'premium_info' %}" class="upgrade-link">💎 Get Premium</a>
                     {% endif %}
-                    <a href="{% url 'player_logout' %}" class="auth-btn logout">Logout</a>
+                    <a href="{% url 'player_logout' %}?lang=en" class="auth-btn logout">Logout</a>
                 </div>
             {% else %}
                 <div class="guest-info">

@@ -308,7 +308,7 @@
                             {% endif %}
                         </a>
                     {% endif %}
-                    <a href="{% url 'player_logout' %}" class="auth-btn logout">
+                    <a href="{% if lang_code == 'ja' %}{% url 'player_logout' %}?lang=ja{% elif lang_code == 'zh-hant' %}{% url 'player_logout' %}?lang=zh-hant{% elif lang_code == 'zh-cn' %}{% url 'player_logout' %}?lang=zh-cn{% elif lang_code == 'ko' %}{% url 'player_logout' %}?lang=ko{% elif lang_code == 'de' %}{% url 'player_logout' %}?lang=de{% elif lang_code == 'fr' %}{% url 'player_logout' %}?lang=fr{% elif lang_code == 'es-es' %}{% url 'player_logout' %}?lang=es-es{% elif lang_code == 'es-mx' %}{% url 'player_logout' %}?lang=es-mx{% elif lang_code == 'it' %}{% url 'player_logout' %}?lang=it{% elif lang_code == 'pt' %}{% url 'player_logout' %}?lang=pt{% elif lang_code == 'pt-br' %}{% url 'player_logout' %}?lang=pt-br{% elif lang_code == 'vi' %}{% url 'player_logout' %}?lang=vi{% elif lang_code == 'th' %}{% url 'player_logout' %}?lang=th{% elif lang_code == 'en-in' %}{% url 'player_logout' %}?lang=en-in{% else %}{% url 'player_logout' %}{% endif %}" class="auth-btn logout">
                         {% if lang_code == 'ja' %}
                             ログアウト
                         {% elif lang_code == 'zh-hant' %}

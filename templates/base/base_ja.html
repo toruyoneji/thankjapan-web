@@ -250,7 +250,7 @@
                     {% else %}
                         <a href="{% url 'premium_infoja' %}" class="upgrade-link">💎 プレミアム版を入手</a>
                     {% endif %}
-                    <a href="{% url 'player_logout' %}" class="auth-btn logout">ログアウト</a>
+                    <a href="{% url 'player_logout' %}?lang=ja" class="auth-btn logout">ログアウト</a>
                 </div>
             {% else %}
                 <div class="guest-info">

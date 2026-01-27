@@ -252,7 +252,7 @@
                     {% else %}
                         <a href="{% url 'premium_infofr' %}" class="upgrade-link">💎 Obtenir le mode Premium</a>
                     {% endif %}
-                    <a href="{% url 'player_logout' %}" class="auth-btn logout">Déconnexion</a>
+                    <a href="{% url 'player_logout' %}?lang=fr" class="auth-btn logout">Déconnexion</a>
                 </div>
             {% else %}
                 <div class="guest-info">

@@ -251,7 +251,7 @@
                     {% else %}
                         <a href="{% url 'premium_infozhCN' %}" class="upgrade-link">💎 获取高级版</a>
                     {% endif %}
-                    <a href="{% url 'player_logout' %}" class="auth-btn logout">登出</a>
+                    <a href="{% url 'player_logout' %}?lang=zh-cn" class="auth-btn logout">登出</a>
                 </div>
             {% else %}
                 <div class="guest-info">
