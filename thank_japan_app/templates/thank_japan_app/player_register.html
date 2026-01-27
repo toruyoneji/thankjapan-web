@@ -217,6 +217,40 @@
     <button type="submit">Register</button>
   </form>
 
+  <div class="legal-consent" style="margin-top: 15px; font-size: 0.85em; color: #555; line-height: 1.4;">
+    {% if lang_code == 'ja' %}
+        登録（またはログイン）することにより、Thank Japanの<a href="{% url 'riyoukiyakuja' %}">利用規約</a>および<a href="{% url 'privacy_policyja' %}">プライバシー規約</a>に同意したものとみなされます。
+    {% elif lang_code == 'zh-hant' %}
+        建立帳戶即表示您同意 Thank Japan 的<a href="{% url 'riyoukiyakuzhHANT' %}">使用條件</a>和<a href="{% url 'privacy_policyzhHANT' %}">隱私聲明</a>。
+    {% elif lang_code == 'zh-cn' %}
+        创建账户即表示您同意 Thank Japan 的<a href="{% url 'riyoukiyakuzhCN' %}">使用条件</a>和<a href="{% url 'privacy_policyzhCN' %}">隐私声明</a>。
+    {% elif lang_code == 'ko' %}
+        계정을 생성함으로써 귀하는 Thank Japan의 <a href="{% url 'riyoukiyakuko' %}">이용 약관</a> 및 <a href="{% url 'privacy_policyko' %}">개인정보 처리방침</a>에 동의하게 됩니다.
+    {% elif lang_code == 'de' %}
+        Durch die Erstellung eines Kontos stimmen Sie den <a href="{% url 'riyoukiyakude' %}">Nutzungsbedingungen</a> und der <a href="{% url 'privacy_policyde' %}">Datenschutzerklärung</a> von Thank Japan zu.
+    {% elif lang_code == 'fr' %}
+        En créant un compte, vous acceptez les <a href="{% url 'riyoukiyakufr' %}">Conditions d'utilisation</a> et la <a href="{% url 'privacy_policyfr' %}">Politique de confidentialité</a> de Thank Japan.
+    {% elif lang_code == 'es-es' %}
+        Al crear una cuenta, aceptas las <a href="{% url 'riyoukiyakuesES' %}">Condiciones de Uso</a> y el <a href="{% url 'privacy_policyesES' %}">Aviso de Privacidad</a> de Thank Japan.
+    {% elif lang_code == 'es-mx' %}
+        Al crear una cuenta, aceptas las <a href="{% url 'riyoukiyakuesMX' %}">Condiciones de Uso</a> y el <a href="{% url 'privacy_policyesMX' %}">Aviso de Privacidad</a> de Thank Japan.
+    {% elif lang_code == 'it' %}
+        Creando un account, accetti le <a href="{% url 'riyoukiyakuit' %}">Condizioni d'uso</a> e l' <a href="{% url 'privacy_policyit' %}">Informativa sulla privacy</a> di Thank Japan.
+    {% elif lang_code == 'pt' %}
+        Ao criar uma conta, você concorda com as <a href="{% url 'riyoukiyakupt' %}">Condições de Uso</a> e a <a href="{% url 'privacy_policypt' %}">Notificação de Privacidade</a> do Thank Japan.
+    {% elif lang_code == 'pt-br' %}
+        Ao criar uma conta, você concorda com as <a href="{% url 'riyoukiyakuptBR' %}">Condições de Uso</a> e a <a href="{% url 'privacy_policyptBR' %}">Notificação de Privacidade</a> do Thank Japan.
+    {% elif lang_code == 'vi' %}
+        Bằng cách tạo tài khoản, bạn đồng ý với <a href="{% url 'riyoukiyakuvi' %}">Điều khoản sử dụng</a> và <a href="{% url 'privacy_policyvi' %}">Chính sách bảo mật</a> của Thank Japan.
+    {% elif lang_code == 'th' %}
+        การสร้างบัญชีแสดงว่าคุณยอมรับ<a href="{% url 'riyoukiyakuth' %}">เงื่อนไขการใช้งาน</a>และ<a href="{% url 'privacy_policyth' %}">ประกาศความเป็นส่วนตัว</a>ของ Thank Japan
+    {% elif lang_code == 'en-in' %}
+        By creating an account, you agree to Thank Japan's <a href="{% url 'riyoukiyakuenIN' %}">Conditions of Use</a> and <a href="{% url 'privacy_policyenIN' %}">Privacy Notice</a>.
+    {% else %}
+        By creating an account, you agree to Thank Japan's <a href="{% url 'riyoukiyaku' %}">Conditions of Use</a> and <a href="{% url 'privacy_policy' %}">Privacy Notice</a>.
+    {% endif %}
+  </div>
+
   <p>Already have an account? <a href="{% url 'player_login' %}">Login here</a>.</p>
 
   <div style="text-align:center; margin:50px 0;">
