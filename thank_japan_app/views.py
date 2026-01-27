@@ -788,7 +788,9 @@ def player_login(request):
             messages.success(request, f"Welcome back, {user.username}!")
             return redirect(next_url)
         else:
-            messages.error(request, "Invalid username or password.")
+            messages.error(request,
+                           "Invalid username or password.",
+                           extra_tags="login_invalid")
             
     return render(request, 'thank_japan_app/player_login.html', {
         'next': next_url,

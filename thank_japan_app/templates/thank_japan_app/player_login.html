@@ -179,7 +179,7 @@
       {% for message in messages %}
         <li style="color: #d93025; list-style: none; margin-bottom: 10px; font-size: 0.9em;">
     
-          {% if "Invalid username or password." in message %}
+          {% if "login_invalid" in message.tags %}
             {% if lang_code == 'ja' %}
               ユーザー名またはパスワードが正しくありません。
             {% elif lang_code == 'zh-hant' %}
