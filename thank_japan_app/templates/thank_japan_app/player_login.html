@@ -359,7 +359,32 @@
   <!-- 折りたたみボタン -->
 
   <p style="text-align:center; font-size:1rem; color:#333; font-weight:600; margin-top:30px; letter-spacing: 0.5px;">
-    👇 Master the Game & Rise Your Rank!
+    {% if lang_code == 'ja' %}
+      👇 ゲームを極めてランクアップしよう！
+    {% elif lang_code == 'zh-hant' %}
+      👇 精通遊戲，提升你的排名！
+    {% elif lang_code == 'zh-cn' %}
+      👇 精通游戏，提升你的排名！
+    {% elif lang_code == 'de' %}
+      👇 Meistere das Spiel und steigere deinen Rang!
+    {% elif lang_code == 'fr' %}
+      👇 Maîtrisez le jeu et améliorez votre rang !
+    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}
+      👇 Domina el juego y sube de rango
+    {% elif lang_code == 'it' %}
+      👇 Padroneggia il gioco e sali di livello!
+    {% elif lang_code == 'ko' %}
+      👇 게임을 마스터하고 랭크를 올려보세요!
+    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}
+      👇 Domine o jogo e suba de ranking!
+    {% elif lang_code == 'vi' %}
+      👇 Làm chủ trò chơi và tăng thứ hạng của bạn!
+    {% elif lang_code == 'th' %}
+      👇 เชี่ยวชาญเกมและไต่อันดับของคุณ!
+    {% else %}
+      👇 Master the Game & Rise Your Rank!
+    {% endif %}
+
   </p>
 
   <button id="toggle-instruction" style="
@@ -376,7 +401,32 @@
       transition:0.3s;
       box-shadow: 0 4px 15px rgba(0,0,0,0.2);
     " onmouseover="this.style.background='#d4af37'; this.style.color='#1a1a1a';" onmouseout="this.style.background='#1a1a1a'; this.style.color='#d4af37';">
-    How to Play ⚔️
+    {% if lang_code == 'ja' %}
+      遊び方 ⚔️
+    {% elif lang_code == 'zh-hant' %}
+      遊戲玩法 ⚔️
+    {% elif lang_code == 'zh-cn' %}
+      游戏玩法 ⚔️
+    {% elif lang_code == 'de' %}
+      Spielanleitung ⚔️
+    {% elif lang_code == 'fr' %}
+      Comment jouer ⚔️
+    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}
+      Cómo jugar ⚔️
+    {% elif lang_code == 'it' %}
+      Come giocare ⚔️
+    {% elif lang_code == 'ko' %}
+      플레이 방법 ⚔️
+    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}
+      Como jogar ⚔️
+    {% elif lang_code == 'vi' %}
+      Cách chơi ⚔️
+    {% elif lang_code == 'th' %}
+      วิธีเล่น ⚔️
+    {% else %}
+      How to Play ⚔️
+    {% endif %}
+
   </button>
 
 
@@ -388,7 +438,32 @@
         
       
         <div style="background: #1a1a1a; color: #d4af37; padding: 10px 5px; font-weight: bold; font-size: 1.1rem; border-bottom: 2px solid #d4af37;">
-            🏆 Rank System
+            {% if lang_code == 'ja' %}
+              🏆 ランクシステム
+            {% elif lang_code == 'zh-hant' %}
+              🏆 等級系統
+            {% elif lang_code == 'zh-cn' %}
+              🏆 等级系统
+            {% elif lang_code == 'de' %}
+              🏆 Rangsystem
+            {% elif lang_code == 'fr' %}
+              🏆 Système de classement
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}
+              🏆 Sistema de rangos
+            {% elif lang_code == 'it' %}
+              🏆 Sistema di livelli
+            {% elif lang_code == 'ko' %}
+              🏆 랭크 시스템
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}
+              🏆 Sistema de ranking
+            {% elif lang_code == 'vi' %}
+              🏆 Hệ thống xếp hạng
+            {% elif lang_code == 'th' %}
+              🏆 ระบบอันดับ
+            {% else %}
+              🏆 Rank System
+            {% endif %}
+
         </div>
 
         <div style="padding: 10px 8px; font-size: 0.8rem; text-align: left; background: #ffffff;">
@@ -437,7 +512,32 @@
         </div>
 
         <div style="padding:8px 5px; font-size:0.8rem; color:#d46a00; font-weight:bold; background:#fff7e6; border-top:1px solid #f0f0f0;">
-            🎁 Daily Login: +1 pt
+            {% if lang_code == 'ja' %}
+              🎁 デイリーログイン：+1ポイント
+            {% elif lang_code == 'zh-hant' %}
+              🎁 每日登入：+1 分
+            {% elif lang_code == 'zh-cn' %}
+              🎁 每日登录：+1 分
+            {% elif lang_code == 'de' %}
+              🎁 Täglicher Login: +1 Punkt
+            {% elif lang_code == 'fr' %}
+              🎁 Connexion quotidienne : +1 point
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}
+              🎁 Inicio de sesión diario: +1 punto
+            {% elif lang_code == 'it' %}
+              🎁 Accesso giornaliero: +1 punto
+            {% elif lang_code == 'ko' %}
+              🎁 일일 로그인: +1 포인트
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}
+              🎁 Login diário: +1 ponto
+            {% elif lang_code == 'vi' %}
+              🎁 Đăng nhập hằng ngày: +1 điểm
+            {% elif lang_code == 'th' %}
+              🎁 ล็อกอินรายวัน: +1 คะแนน
+            {% else %}
+              🎁 Daily Login: +1 pt
+            {% endif %}
+
         </div>
       </div>
 
