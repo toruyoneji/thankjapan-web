@@ -156,13 +156,28 @@
 
 </style>
 
+
 <div class="main2">
-  <h2>Login</h2>
+  <h2>
+    {% if lang_code == 'ja' %}ログイン
+    {% elif lang_code == 'zh-hant' %}登入
+    {% elif lang_code == 'zh-cn' %}登录
+    {% elif lang_code == 'ko' %}로그인
+    {% elif lang_code == 'de' %}Anmelden
+    {% elif lang_code == 'fr' %}Connexion
+    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Iniciar sesión
+    {% elif lang_code == 'it' %}Accedi
+    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Entrar
+    {% elif lang_code == 'vi' %}Đăng nhập
+    {% elif lang_code == 'th' %}เข้าสู่ระบบ
+    {% else %}Login
+    {% endif %}
+  </h2>
 
   {% if messages %}
-    <ul>
+    <ul class="messages" style="padding: 0;">
       {% for message in messages %}
-        <li>{{ message }}</li>
+        <li style="color: #d93025; list-style: none; margin-bottom: 10px; font-size: 0.9em;">{{ message }}</li>
       {% endfor %}
     </ul>
   {% endif %}
@@ -171,26 +186,175 @@
     {% csrf_token %}
     <input type="hidden" name="next" value="{{ next }}">
     
-    <label for="id_username">Username:</label>
-    <input type="text" name="username" id="id_username" required autocomplete="username" autofocus>
+    <p>
+      <label for="id_username">
+        {% if lang_code == 'ja' %}ユーザー名
+        {% elif lang_code == 'zh-hant' %}用戶名稱
+        {% elif lang_code == 'zh-cn' %}用户名
+        {% elif lang_code == 'ko' %}사용자 이름
+        {% elif lang_code == 'de' %}Benutzername
+        {% elif lang_code == 'fr' %}Nom d'utilisateur
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Nombre de usuario
+        {% elif lang_code == 'it' %}Nome utente
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Nome de usuário
+        {% elif lang_code == 'vi' %}Tên người dùng
+        {% elif lang_code == 'th' %}ชื่อผู้ใช้
+        {% else %}Username
+        {% endif %}
+      </label>
+      <input type="text" name="username" id="id_username" required autocomplete="username" autofocus style="width: 100%; padding: 8px; border: 1px solid #a6a6a6; border-radius: 3px;">
+    </p>
 
-    <label for="id_password">Password:</label>
-    <input type="password" name="password" id="id_password" required autocomplete="current-password">
+    <p>
+      <label for="id_password">
+        {% if lang_code == 'ja' %}パスワード
+        {% elif lang_code == 'zh-hant' %}密碼
+        {% elif lang_code == 'zh-cn' %}密码
+        {% elif lang_code == 'ko' %}비밀번호
+        {% elif lang_code == 'de' %}Passwort
+        {% elif lang_code == 'fr' %}Mot de passe
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Contraseña
+        {% elif lang_code == 'it' %}Password
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Senha
+        {% elif lang_code == 'vi' %}Mật khẩu
+        {% elif lang_code == 'th' %}รหัสผ่าน
+        {% else %}Password
+        {% endif %}
+      </label>
+      <input type="password" name="password" id="id_password" required autocomplete="current-password" style="width: 100%; padding: 8px; border: 1px solid #a6a6a6; border-radius: 3px;">
+    </p>
 
-    <button type="submit">Login</button>
+
+    <button type="submit" style="width: 100%; padding: 10px; background: linear-gradient(to bottom, #f7dfa5, #f0c14b); border: 1px solid #a88734; border-radius: 3px; color: #111; font-size: 1em; cursor: pointer; margin-top: 10px;">
+      {% if lang_code == 'ja' %}ログイン
+      {% elif lang_code == 'zh-hant' %}登入
+      {% elif lang_code == 'zh-cn' %}登录
+      {% elif lang_code == 'ko' %}로그인
+      {% elif lang_code == 'de' %}Anmelden
+      {% elif lang_code == 'fr' %}Connexion
+      {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Iniciar sesión
+      {% elif lang_code == 'it' %}Accedi
+      {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Entrar
+      {% elif lang_code == 'vi' %}Đăng nhập
+      {% elif lang_code == 'th' %}เข้าสู่ระบบ
+      {% else %}Sign In
+      {% endif %}
+    </button>
 
     <div style="margin-top: 15px;">
-        <a href="{% url 'password_reset' %}" style="font-size: 0.85rem; color: #7a7a7a; text-decoration: underline;">
-            Forgot your password?
+        <a href="{% url 'password_reset' %}" style="font-size: 0.85rem; color: #0066c0; text-decoration: underline;">
+            {% if lang_code == 'ja' %}パスワードをお忘れですか？
+            {% elif lang_code == 'zh-hant' or lang_code == 'zh-cn' %}忘記密碼？
+            {% elif lang_code == 'ko' %}비밀번호를 잊으셨나요?
+            {% elif lang_code == 'de' %}Passwort vergessen?
+            {% elif lang_code == 'fr' %}Mot de passe oublié ?
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}¿Olvidaste tu contraseña?
+            {% elif lang_code == 'it' %}Password dimenticata?
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Esqueceu sua senha?
+            {% elif lang_code == 'vi' %}Quên mật khẩu?
+            {% elif lang_code == 'th' %}ลืมรหัสผ่านใช่ไหม?
+            {% else %}Forgot your password?{% endif %}
         </a>
     </div>
   </form>
 
-  <p>Don't have an account? <a href="{% url 'player_register' %}&lang={{ lang_code }}">Register here</a>.</p>
+  <div class="legal-consent" style="margin-top: 15px; font-size: 0.75em; color: #555; line-height: 1.4;">
+    {% if lang_code == 'ja' %}
+        ログインすることにより、Thank Japanの<a href="{% url 'riyoukiyakuja' %}">利用規約</a>および<a href="{% url 'privacy_policyja' %}">プライバシー規約</a>に同意したものとみなされます。
+    {% elif lang_code == 'zh-hant' %}
+        登入即表示您同意 Thank Japan 的<a href="{% url 'riyoukiyakuzhHANT' %}">使用條件</a>和<a href="{% url 'privacy_policyzhHANT' %}">隱私聲明</a>。
+    {% elif lang_code == 'zh-cn' %}
+        登录即表示您同意 Thank Japan 的<a href="{% url 'riyoukiyakuzhCN' %}">使用条件</a>和<a href="{% url 'privacy_policyzhCN' %}">隐私声明</a>。
+    {% elif lang_code == 'ko' %}
+        로그인함으로써 귀하는 Thank Japan의 <a href="{% url 'riyoukiyakuko' %}">이용 약관</a> 및 <a href="{% url 'privacy_policyko' %}">개인정보 처리방침</a>에 동의하게 됩니다.
+    {% elif lang_code == 'de' %}
+        Durch die Anmeldung stimmen Sie den <a href="{% url 'riyoukiyakude' %}">Nutzungsbedingungen</a> und der <a href="{% url 'privacy_policyde' %}">Datenschutzerklärung</a> von Thank Japan zu.
+    {% elif lang_code == 'fr' %}
+        En vous connectant, vous acceptez les <a href="{% url 'riyoukiyakufr' %}">Conditions d'utilisation</a> et la <a href="{% url 'privacy_policyfr' %}">Politique de confidentialité</a> de Thank Japan.
+    {% elif lang_code == 'es-es' %}
+        Al iniciar sesión, aceptas las <a href="{% url 'riyoukiyakuesES' %}">Condiciones de Uso</a> y el <a href="{% url 'privacy_policyesES' %}">Aviso de Privacidad</a> de Thank Japan.
+    {% elif lang_code == 'es-mx' %}
+        Al iniciar sesión, aceptas las <a href="{% url 'riyoukiyakuesMX' %}">Condiciones de Uso</a> y el <a href="{% url 'privacy_policyesMX' %}">Aviso de Privacidad</a> de Thank Japan.
+    {% elif lang_code == 'it' %}
+        Effettuando l'accesso, accetti le <a href="{% url 'riyoukiyakuit' %}">Condizioni d'uso</a> e l' <a href="{% url 'privacy_policyit' %}">Informativa sulla privacy</a> di Thank Japan.
+    {% elif lang_code == 'pt' %}
+        Ao fazer login, você concorda com as <a href="{% url 'riyoukiyakupt' %}">Condições de Uso</a> e a <a href="{% url 'privacy_policypt' %}">Notificação de Privacidade</a> do Thank Japan.
+    {% elif lang_code == 'pt-br' %}
+        Ao fazer login, você concorda com as <a href="{% url 'riyoukiyakuptBR' %}">Condições de Uso</a> e a <a href="{% url 'privacy_policyptBR' %}">Notificação de Privacidade</a> do Thank Japan.
+    {% elif lang_code == 'vi' %}
+        Bằng cách đăng nhập, bạn đồng ý với <a href="{% url 'riyoukiyakuvi' %}">Điều khoản sử dụng</a> và <a href="{% url 'privacy_policyvi' %}">Chính sách bảo mật</a> của Thank Japan.
+    {% elif lang_code == 'th' %}
+        การเข้าสู่ระบบแสดงว่าคุณยอมรับ<a href="{% url 'riyoukiyakuth' %}">เงื่อนไขการใช้งาน</a>และ<a href="{% url 'privacy_policyth' %}">ประกาศความเป็นส่วนตัว</a>ของ Thank Japan
+    {% elif lang_code == 'en-in' %}
+        By signing in, you agree to Thank Japan's <a href="{% url 'riyoukiyakuenIN' %}">Conditions of Use</a> and <a href="{% url 'privacy_policyenIN' %}">Privacy Notice</a>.
+    {% else %}
+        By signing in, you agree to Thank Japan's <a href="{% url 'riyoukiyaku' %}">Conditions of Use</a> and <a href="{% url 'privacy_policy' %}">Privacy Notice</a>.
+    {% endif %}
+  </div>
+
+  <div style="background: #fff9e6; padding: 20px; border-radius: 8px; border: 1px solid #fce8b2; text-align: center; margin-top: 30px; color: #111;">
+    <p style="margin-bottom: 5px; font-weight: bold; font-size: 0.95em;">
+        {% if lang_code == 'ja' %}Thank Japanは初めてですか？
+        {% elif lang_code == 'zh-hant' %}第一次使用 Thank Japan 嗎？
+        {% elif lang_code == 'zh-cn' %}第一次使用 Thank Japan 吗？
+        {% elif lang_code == 'ko' %}Thank Japan이 처음이신가요?
+        {% elif lang_code == 'de' %}Neu bei Thank Japan?
+        {% elif lang_code == 'fr' %}Nouveau sur Thank Japan ?
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}¿Eres nuevo en Thank Japan?
+        {% elif lang_code == 'it' %}Nuovo su Thank Japan?
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Novo no Thank Japan?
+        {% elif lang_code == 'vi' %}Bạn mới sử dụng Thank Japan?
+        {% elif lang_code == 'th' %}เพิ่งเคยใช้ Thank Japan ใช่ไหม?
+        {% else %}New to Thank Japan?{% endif %}
+    </p>
+    <p style="margin-bottom: 15px; font-size: 0.85em; color: #555;">
+        {% if lang_code == 'ja' %}アカウントを作成して、スコアを保存しよう！
+        {% elif lang_code == 'zh-hant' or lang_code == 'zh-cn' %}建立帳號並儲存您的分數！
+        {% elif lang_code == 'ko' %}계정을 만들고 점수를 저장하세요!
+        {% elif lang_code == 'de' %}Erstelle ein Konto, um deine Punkte zu speichern!
+        {% elif lang_code == 'fr' %}Créez un compte pour enregistrer vos scores !
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}¡Crea una cuenta para guardar tus puntos!
+        {% elif lang_code == 'it' %}Crea un account per salvare i tuoi punteggi!
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Crie uma conta para salvar seus recordes!
+        {% elif lang_code == 'vi' %}Tạo tài khoản để lưu điểm của bạn!
+        {% elif lang_code == 'th' %}สร้างบัญชีเพื่อบันทึกคะแนนของคุณ!
+        {% else %}Create an account to save your scores!{% endif %}
+    </p>
+    
+    <a href="{% if lang_code == 'ja' %}{% url 'player_register' %}?lang=ja{% elif lang_code == 'zh-hant' %}{% url 'player_register' %}?lang=zh-hant{% elif lang_code == 'zh-cn' %}{% url 'player_register' %}?lang=zh-cn{% elif lang_code == 'ko' %}{% url 'player_register' %}?lang=ko{% elif lang_code == 'de' %}{% url 'player_register' %}?lang=de{% elif lang_code == 'fr' %}{% url 'player_register' %}?lang=fr{% elif lang_code == 'es-es' %}{% url 'player_register' %}?lang=es-es{% elif lang_code == 'es-mx' %}{% url 'player_register' %}?lang=es-mx{% elif lang_code == 'it' %}{% url 'player_register' %}?lang=it{% elif lang_code == 'pt' %}{% url 'player_register' %}?lang=pt{% elif lang_code == 'pt-br' %}{% url 'player_register' %}?lang=pt-br{% elif lang_code == 'vi' %}{% url 'player_register' %}?lang=vi{% elif lang_code == 'th' %}{% url 'player_register' %}?lang=th{% elif lang_code == 'en-in' %}{% url 'player_register' %}?lang=en-in{% else %}{% url 'player_register' %}{% endif %}" 
+       style="display: block; padding: 10px; background: #e7e9ec; border: 1px solid #adb1b8; border-radius: 3px; color: #111; text-decoration: none; font-size: 0.9em; font-weight: bold; box-shadow: 0 1px 0 rgba(255,255,255,.4) inset;">
+        {% if lang_code == 'ja' %}無料で新規登録
+        {% elif lang_code == 'zh-hant' %}免費註冊
+        {% elif lang_code == 'zh-cn' %}免费注册
+        {% elif lang_code == 'ko' %}무료 회원가입
+        {% elif lang_code == 'de' %}Kostenlos registrieren
+        {% elif lang_code == 'fr' %}S'inscrire gratuitement
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Regístrate gratis
+        {% elif lang_code == 'it' %}Registrati gratis
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Cadastre-se grátis
+        {% elif lang_code == 'vi' %}Đăng ký miễn phí
+        {% elif lang_code == 'th' %}ลงทะเบียนฟรี
+        {% else %}Sign Up for Free{% endif %}
+    </a>
+  </div>
 
   <div style="text-align:center; margin:50px 0;">
-    <a class="btn-more" href="javascript:void(0);" onclick="goToTopPage()">← Back to Home</a>
+    <a class="btn-more" href="javascript:void(0);" onclick="goToTopPage()">
+        {% if lang_code == 'ja' %}← ホームに戻る
+        {% elif lang_code == 'zh-hant' %}← 返回首頁
+        {% elif lang_code == 'zh-cn' %}← 返回首页
+        {% elif lang_code == 'ko' %}← 홈으로 돌아가기
+        {% elif lang_code == 'de' %}← Zurück zur Startseite
+        {% elif lang_code == 'fr' %}← Retour à l'accueil
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}← Volver al inicio
+        {% elif lang_code == 'it' %}← Torna alla home
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}← Voltar para o início
+        {% elif lang_code == 'vi' %}← Quay lại trang chủ
+        {% elif lang_code == 'th' %}← กลับหน้าหลัก
+        {% else %}← Back to Home{% endif %}
+    </a>
   </div>
+
 
   <!-- 折りたたみボタン -->
 
