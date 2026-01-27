@@ -157,7 +157,21 @@
 </style>
 
 <div class="main2">
-  <h2>Create an Account</h2>
+  <h2>
+    {% if lang_code == 'ja' %}アカウント作成
+    {% elif lang_code == 'zh-hant' %}建立帳號
+    {% elif lang_code == 'zh-cn' %}创建账户
+    {% elif lang_code == 'ko' %}계정 생성
+    {% elif lang_code == 'de' %}Konto erstellen
+    {% elif lang_code == 'fr' %}Créer un compte
+    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Crear una cuenta
+    {% elif lang_code == 'it' %}Crea un account
+    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Criar uma conta
+    {% elif lang_code == 'vi' %}Tạo tài khoản
+    {% elif lang_code == 'th' %}สร้างบัญชี
+    {% else %}Create an Account
+    {% endif %}
+  </h2>
 
   {% if messages %}
     <ul>
@@ -170,37 +184,102 @@
   <form method="post" novalidate>
     {% csrf_token %}
     <input type="hidden" name="next" value="{{ next }}">
+    
     <p>
-      {{ form.username.label_tag }}
+      <label for="id_username">
+        {% if lang_code == 'ja' %}ユーザー名:
+        {% elif lang_code == 'zh-hant' %}用戶名稱:
+        {% elif lang_code == 'zh-cn' %}用户名:
+        {% elif lang_code == 'ko' %}사용자 이름:
+        {% elif lang_code == 'de' %}Benutzername:
+        {% elif lang_code == 'fr' %}Nom d'utilisateur :
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Nombre de usuario:
+        {% elif lang_code == 'it' %}Nome utente:
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Nome de usuário:
+        {% elif lang_code == 'vi' %}Tên người dùng:
+        {% elif lang_code == 'th' %}ชื่อผู้ใช้:
+        {% else %}Username:
+        {% endif %}
+      </label>
       {{ form.username }}
-      {% if form.username.help_text %}
-        <small style="color: #555;">{{ form.username.help_text }}</small>
-      {% endif %}
       {% for error in form.username.errors %}
         <div style="color: #d93025;">{{ error }}</div>
       {% endfor %}
     </p>
 
     <p>
-      <label for="id_email">Email Address:</label>
+      <label for="id_email">
+        {% if lang_code == 'ja' %}メールアドレス:
+        {% elif lang_code == 'zh-hant' %}電子郵件地址:
+        {% elif lang_code == 'zh-cn' %}电子邮件地址:
+        {% elif lang_code == 'ko' %}이메일 주소:
+        {% elif lang_code == 'de' %}E-Mail-Adresse:
+        {% elif lang_code == 'fr' %}Adresse e-mail :
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Correo electrónico:
+        {% elif lang_code == 'it' %}Indirizzo e-mail:
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Endereço de e-mail:
+        {% elif lang_code == 'vi' %}Địa chỉ email:
+        {% elif lang_code == 'th' %}ที่อยู่อีเมล:
+        {% else %}Email Address:
+        {% endif %}
+      </label>
       <input type="email" name="email" id="id_email" required placeholder="example@gmail.com">
       {% for error in form.email.errors %}<div style="color: #d93025;">{{ error }}</div>{% endfor %}
-      <small style="color: #555;">Required for password reset and PayPal receipts.</small>
+      <small style="color: #555;">
+        {% if lang_code == 'ja' %}パスワードの再設定や領収書に必要です。
+        {% elif lang_code == 'zh-hant' %}密碼重置和收據所需。
+        {% elif lang_code == 'zh-cn' %}密码重置和收据所需。
+        {% elif lang_code == 'ko' %}비밀번호 재설정 및 영수증에 필요합니다.
+        {% elif lang_code == 'de' %}Erforderlich für Passwort-Reset und Belege.
+        {% elif lang_code == 'fr' %}Requis pour la réinitialisation du mot de passe et les reçus.
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Necesario para restablecer la contraseña y recibos.
+        {% elif lang_code == 'it' %}Necessario per il recupero password e le ricevute.
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Necessário para redefinição de senha e recibos.
+        {% elif lang_code == 'vi' %}Cần thiết để đặt lại mật khẩu và biên lai.
+        {% elif lang_code == 'th' %}จำเป็นสำหรับการรีเซ็ตรหัสผ่านและใบเสร็จ
+        {% else %}Required for password reset and receipts.
+        {% endif %}
+      </small>
     </p>
 
     <p>
-      {{ form.password.label_tag }}
+      <label for="id_password">
+        {% if lang_code == 'ja' %}パスワード:
+        {% elif lang_code == 'zh-hant' %}密碼:
+        {% elif lang_code == 'zh-cn' %}密码:
+        {% elif lang_code == 'ko' %}비밀번호:
+        {% elif lang_code == 'de' %}Passwort:
+        {% elif lang_code == 'fr' %}Mot de passe :
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Contraseña:
+        {% elif lang_code == 'it' %}Password:
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Senha:
+        {% elif lang_code == 'vi' %}Mật khẩu:
+        {% elif lang_code == 'th' %}รหัสผ่าน:
+        {% else %}Password:
+        {% endif %}
+      </label>
       {{ form.password }}
-      {% if form.password.help_text %}
-        <small style="color: #555;">{{ form.password.help_text }}</small>
-      {% endif %}
       {% for error in form.password.errors %}
         <div style="color: #d93025;">{{ error }}</div>
       {% endfor %}
     </p>
 
     <p>
-      {{ form.country.label_tag }}
+      <label for="id_country">
+        {% if lang_code == 'ja' %}国:
+        {% elif lang_code == 'zh-hant' %}國家/地區:
+        {% elif lang_code == 'zh-cn' %}国家/地区:
+        {% elif lang_code == 'ko' %}국가:
+        {% elif lang_code == 'de' %}Land:
+        {% elif lang_code == 'fr' %}Pays :
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}País:
+        {% elif lang_code == 'it' %}Paese:
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}País:
+        {% elif lang_code == 'vi' %}Quốc gia:
+        {% elif lang_code == 'th' %}ประเทศ:
+        {% else %}Country:
+        {% endif %}
+      </label>
       {{ form.country }}
       {% for error in form.country.errors %}
         <div style="color: #d93025;">{{ error }}</div>
@@ -214,7 +293,21 @@
       {% endfor %}
     </div>
     
-    <button type="submit">Register</button>
+    <button type="submit">
+      {% if lang_code == 'ja' %}登録する
+      {% elif lang_code == 'zh-hant' %}註冊
+      {% elif lang_code == 'zh-cn' %}注册
+      {% elif lang_code == 'ko' %}가입하기
+      {% elif lang_code == 'de' %}Registrieren
+      {% elif lang_code == 'fr' %}S'inscrire
+      {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Registrarse
+      {% elif lang_code == 'it' %}Registrati
+      {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Cadastrar
+      {% elif lang_code == 'vi' %}Đăng ký
+      {% elif lang_code == 'th' %}ลงทะเบียน
+      {% else %}Register
+      {% endif %}
+    </button>
   </form>
 
   <div class="legal-consent" style="margin-top: 15px; font-size: 0.85em; color: #555; line-height: 1.4;">
@@ -251,10 +344,38 @@
     {% endif %}
   </div>
 
-  <p>Already have an account? <a href="{% url 'player_login' %}">Login here</a>.</p>
+  <p>
+    {% if lang_code == 'ja' %}すでにアカウントをお持ちですか？ <a href="{% url 'player_login' %}?lang={{ lang_code }}">ログインはこちら</a>
+    {% elif lang_code == 'zh-hant' %}已經有帳號了？ <a href="{% url 'player_login' %}?lang={{ lang_code }}">在此登入</a>
+    {% elif lang_code == 'zh-cn' %}已经有账号了？ <a href="{% url 'player_login' %}?lang={{ lang_code }}">在此登录</a>
+    {% elif lang_code == 'ko' %}이미 계정이 있으신가요? <a href="{% url 'player_login' %}?lang={{ lang_code }}">여기서 로그인</a>
+    {% elif lang_code == 'de' %}Hast du schon ein Konto? <a href="{% url 'player_login' %}?lang={{ lang_code }}">Hier anmelden</a>
+    {% elif lang_code == 'fr' %}Vous avez déjà un compte ? <a href="{% url 'player_login' %}?lang={{ lang_code }}">Connectez-vous ici</a>
+    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}¿Ya tienes una cuenta? <a href="{% url 'player_login' %}?lang={{ lang_code }}">Inicia sesión aquí</a>
+    {% elif lang_code == 'it' %}Hai già un account? <a href="{% url 'player_login' %}?lang={{ lang_code }}">Accedi qui</a>
+    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Já tem uma conta? <a href="{% url 'player_login' %}?lang={{ lang_code }}">Faça login aqui</a>
+    {% elif lang_code == 'vi' %}Bạn đã có tài khoản? <a href="{% url 'player_login' %}?lang={{ lang_code }}">Đăng nhập tại đây</a>
+    {% elif lang_code == 'th' %}มีบัญชีอยู่แล้ว? <a href="{% url 'player_login' %}?lang={{ lang_code }}">เข้าสู่ระบบที่นี่</a>
+    {% else %}Already have an account? <a href="{% url 'player_login' %}?lang={{ lang_code }}">Login here</a>
+    {% endif %}
+  </p>
 
   <div style="text-align:center; margin:50px 0;">
-    <a class="btn-more" href="javascript:void(0);" onclick="goToTopPage()">← Back to Home</a>
+    <a class="btn-more" href="javascript:void(0);" onclick="goToTopPage()">
+        {% if lang_code == 'ja' %}← ホームに戻る
+        {% elif lang_code == 'zh-hant' %}← 返回首頁
+        {% elif lang_code == 'zh-cn' %}← 返回首页
+        {% elif lang_code == 'ko' %}← 홈으로 돌아가기
+        {% elif lang_code == 'de' %}← Zurück zur Startseite
+        {% elif lang_code == 'fr' %}← Retour à l'accueil
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}← Volver al inicio
+        {% elif lang_code == 'it' %}← Torna alla home
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}← Voltar para o início
+        {% elif lang_code == 'vi' %}← Quay lại trang chủ
+        {% elif lang_code == 'th' %}← กลับหน้าหลัก
+        {% else %}← Back to Home
+        {% endif %}
+    </a>
   </div>
   
 </div>
@@ -265,10 +386,12 @@
         if (topUrl) {
             window.location.href = topUrl;
         } else {
-            window.location.href = "{% url 'toppage' %}";
+            let fallbackUrl = "{% if lang_code == 'ja' %}{% url 'toppageja' %}{% elif lang_code == 'zh-hant' %}{% url 'toppagezhHANT' %}{% elif lang_code == 'zh-cn' %}{% url 'toppagezhCN' %}{% elif lang_code == 'ko' %}{% url 'toppageko' %}{% elif lang_code == 'it' %}{% url 'toppageit' %}{% elif lang_code == 'fr' %}{% url 'toppagefr' %}{% elif lang_code == 'de' %}{% url 'toppagede' %}{% elif lang_code == 'es-mx' %}{% url 'toppageesMX' %}{% elif lang_code == 'es-es' %}{% url 'toppageesES' %}{% elif lang_code == 'pt' %}{% url 'toppagept' %}{% elif lang_code == 'pt-br' %}{% url 'toppageptBR' %}{% elif lang_code == 'vi' %}{% url 'toppagevi' %}{% elif lang_code == 'th' %}{% url 'toppageth' %}{% elif lang_code == 'en-in' %}{% url 'toppageenIN' %}{% else %}{% url 'toppage' %}{% endif %}";
+            window.location.href = fallbackUrl;
         }
     }
 </script>
+
 {% endblock %}
 
   
