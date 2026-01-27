@@ -796,6 +796,26 @@ def player_login(request):
     })
 
 def player_logout(request):
+    lang_code = request.GET.get('lang')
+    
+    if not lang_code:
+        referer = request.META.get('HTTP_REFERER', '')
+        if '/ja/' in referer: lang_code = 'ja'
+        elif '/vi/' in referer: lang_code = 'vi'
+        elif '/fr/' in referer: lang_code = 'fr'
+        elif '/it/' in referer: lang_code = 'it'
+        elif '/pt/' in referer: lang_code = 'pt'
+        elif '/zh-hant/' in referer: lang_code = 'zh-hant'
+        elif '/zh-cn/' in referer: lang_code = 'zh-cn'
+        elif '/ko/' in referer: lang_code = 'ko'
+        elif '/es-es/' in referer: lang_code = 'es-es'
+        elif '/de/' in referer: lang_code = 'de'
+        elif '/th/' in referer: lang_code = 'th'
+        elif '/pt-br/' in referer: lang_code = 'pt-br'
+        elif '/es-mx/' in referer: lang_code = 'es-mx'
+        elif '/en-in/' in referer: lang_code = 'en-in'
+        else: lang_code = 'en'
+
     auth_logout(request)
     
     keys_to_clear = ['player_id', 'game_question_ids', 'game_current_index', 'game_score', 'game_message', 'last_question_info', 'game_difficulty']
@@ -803,8 +823,25 @@ def player_logout(request):
         request.session.pop(key, None)
     
     request.session['is_guest'] = True 
-    messages.info(request, "You have been logged out.")
-    return redirect('player_login')
+    messages.info(request, "Logged out successfully.")
+
+    if lang_code == 'ja': return redirect('toppageja')
+    elif lang_code == 'vi': return redirect('toppagevi')
+    elif lang_code == 'fr': return redirect('toppagefr')
+    elif lang_code == 'it': return redirect('toppageit')
+    elif lang_code == 'pt': return redirect('toppagept')
+    elif lang_code == 'zh-hant': return redirect('toppagezhHANT')
+    elif lang_code == 'zh-cn': return redirect('toppagezhCN')
+    elif lang_code == 'ko': return redirect('toppageko')
+    elif lang_code == 'es-es': return redirect('toppageesES')
+    elif lang_code == 'de': return redirect('toppagede')
+    elif lang_code == 'th': return redirect('toppageth')
+    elif lang_code == 'pt-br': return redirect('toppageptBR')
+    elif lang_code == 'es-mx': return redirect('toppageesMX')
+    elif lang_code == 'en-in': return redirect('toppageenIN')
+    
+    return redirect('toppage')
+
 
 def delete_player_confirm(request):
     if not request.user.is_authenticated:
