@@ -289,6 +289,67 @@
             {% else %}Forgot your password?{% endif %}
         </a>
     </div>
+
+    <div style="margin-top: 15px;">
+        {% if lang_code == 'ja' %}
+          {% url 'account_settingsja' as settings_url %}
+        {% elif lang_code == 'zh-hant' %}
+          {% url 'account_settingszhHANT' as settings_url %}
+        {% elif lang_code == 'zh-cn' %}
+          {% url 'account_settingszhCN' as settings_url %}
+        {% elif lang_code == 'ko' %}
+          {% url 'account_settingsko' as settings_url %}
+        {% elif lang_code == 'de' %}
+          {% url 'account_settingsde' as settings_url %}
+        {% elif lang_code == 'fr' %}
+          {% url 'account_settingsfr' as settings_url %}
+        {% elif lang_code == 'it' %}
+          {% url 'account_settingsit' as settings_url %}
+        {% elif lang_code == 'es-es' %}
+          {% url 'account_settingsesES' as settings_url %}
+        {% elif lang_code == 'es-mx' %}
+          {% url 'account_settingsesMX' as settings_url %}
+        {% elif lang_code == 'pt' %}
+          {% url 'account_settingspt' as settings_url %}
+        {% elif lang_code == 'pt-br' %}
+          {% url 'account_settingsptBR' as settings_url %}
+        {% elif lang_code == 'vi' %}
+          {% url 'account_settingsvi' as settings_url %}
+        {% elif lang_code == 'th' %}
+          {% url 'account_settingsth' as settings_url %}
+        {% else %}
+          {% url 'account_settings' as settings_url %}
+        {% endif %}
+
+        <a href="{% url '{{ settings_url }}' %}" style="font-size: 0.85rem; color: rgba(228, 13, 5, 0.911); text-decoration: underline;">
+          {% if lang_code == 'ja' %}
+            アカウントを削除しますか？
+          {% elif lang_code == 'zh-hant' %}
+            要刪除帳戶嗎？
+          {% elif lang_code == 'zh-cn' %}
+            要删除账户吗？
+          {% elif lang_code == 'ko' %}
+            계정을 삭제하시겠습니까?
+          {% elif lang_code == 'de' %}
+            Möchten Sie Ihr Konto löschen?
+          {% elif lang_code == 'fr' %}
+            Supprimer votre compte ?
+          {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}
+            ¿Desea eliminar su cuenta?
+          {% elif lang_code == 'it' %}
+            Eliminare il tuo account?
+          {% elif lang_code == 'pt' or lang_code == 'pt-br' %}
+            Deseja excluir sua conta?
+          {% elif lang_code == 'vi' %}
+            Bạn có muốn xóa tài khoản không?
+          {% elif lang_code == 'th' %}
+            ต้องการลบบัญชีหรือไม่?
+          {% else %}
+            Delete your account?
+          {% endif %}
+        </a>
+    </div>    
+
   </form>
 
   <div class="legal-consent" style="margin-top: 15px; font-size: 0.75em; color: #555; line-height: 1.4;">

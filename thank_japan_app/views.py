@@ -845,6 +845,7 @@ def player_logout(request):
     return redirect('toppage')
 
 
+
 def delete_player_confirm(request):
     if not request.user.is_authenticated:
         return redirect('player_login')
@@ -867,6 +868,8 @@ def delete_player(request):
     else:
         messages.error(request, "Incorrect password. Account not deleted.")
         return redirect('delete_player_confirm')
+    
+    
 
 DIFFICULTY_SETTINGS = {
     'single': {'num_questions': 1, 'model_type': 'free'},
