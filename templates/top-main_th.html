@@ -366,7 +366,7 @@ footer {
     </div>
     
     <p class="login-prompt">
-      เป็นสมาชิกอยู่แล้วใช่ไหม? <a href="{% url 'player_login' %}?next={{ request.path }}">เข้าสู่ระบบที่นี่</a>
+      เป็นสมาชิกอยู่แล้วใช่ไหม? <a href="{% url 'player_login' %}?next={{ request.get_full_path|urlencode }}&lang={{ lang_code }}">เข้าสู่ระบบที่นี่</a>
     </p>
     
     
