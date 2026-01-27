@@ -293,7 +293,7 @@
                 Administrar Perfil / Ajustes de cuenta ⚙️
             </a>
         {% endif %}
-        <a href="{{ request.GET.next|default:'/' }}" class="btn-back-prev">← Volver a la página anterior</a>
+        <a href="{{ request.GET.next|default:'/es-mx/' }}" class="btn-back-prev">← Volver a la página anterior</a>
 
         <a href="{% url 'toppageesMX' %}" class="btn-back-home">
             ← Volver al Inicio

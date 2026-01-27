@@ -293,7 +293,7 @@
                 Gérer le profil / Paramètres du compte ⚙️
             </a>
         {% endif %}
-        <a href="{{ request.GET.next|default:'/' }}" class="btn-back-prev">← Retour à la page précédente</a>
+        <a href="{{ request.GET.next|default:'/fr/' }}" class="btn-back-prev">← Retour à la page précédente</a>
 
         <a href="{% url 'toppagefr' %}" class="btn-back-home">
             ← Retour à l'accueil

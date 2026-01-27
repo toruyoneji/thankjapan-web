@@ -293,7 +293,7 @@
                 Manage Profile / Account Settings ⚙️
             </a>
         {% endif %}
-        <a href="{{ request.GET.next|default:'/' }}" class="btn-back-prev">← Back to Previous Page</a>
+        <a href="{{ request.GET.next|default:'/en-in/' }}" class="btn-back-prev">← Back to Previous Page</a>
 
         <a href="{% url 'toppageenIN' %}" class="btn-back-home">
             ← Back To Home

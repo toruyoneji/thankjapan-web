@@ -293,7 +293,7 @@
                 Gestisci profilo / Impostazioni account ⚙️
             </a>
         {% endif %}
-        <a href="{{ request.GET.next|default:'/' }}" class="btn-back-prev">← Torna alla pagina precedente</a>
+        <a href="{{ request.GET.next|default:'/it/' }}" class="btn-back-prev">← Torna alla pagina precedente</a>
 
         <a href="{% url 'toppageit' %}" class="btn-back-home">
             ← Torna alla Home

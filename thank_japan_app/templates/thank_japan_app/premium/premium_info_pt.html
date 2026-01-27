@@ -293,7 +293,7 @@
                 Gerir Perfil / Definições da Conta ⚙️
             </a>
         {% endif %}
-        <a href="{{ request.GET.next|default:'/' }}" class="btn-back-prev">← Voltar para a página anterior</a>
+        <a href="{{ request.GET.next|default:'/pt/' }}" class="btn-back-prev">← Voltar para a página anterior</a>
 
         <a href="{% url 'toppagept' %}" class="btn-back-home">
             ← Voltar à Home
