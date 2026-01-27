@@ -398,7 +398,7 @@
                             Login
                         {% endif %}
                     </a>
-                    <a href="{% url 'player_register' %}&lang={{ lang_code }}" class="auth-btn signup">
+                    <a href="{% if lang_code == 'ja' %}{% url 'player_register' %}?lang=ja{% elif lang_code == 'zh-hant' %}{% url 'player_register' %}?lang=zh-hant{% elif lang_code == 'zh-cn' %}{% url 'player_register' %}?lang=zh-cn{% elif lang_code == 'ko' %}{% url 'player_register' %}?lang=ko{% elif lang_code == 'de' %}{% url 'player_register' %}?lang=de{% elif lang_code == 'fr' %}{% url 'player_register' %}?lang=fr{% elif lang_code == 'es-es' %}{% url 'player_register' %}?lang=es-es{% elif lang_code == 'es-mx' %}{% url 'player_register' %}?lang=es-mx{% elif lang_code == 'it' %}{% url 'player_register' %}?lang=it{% elif lang_code == 'pt' %}{% url 'player_register' %}?lang=pt{% elif lang_code == 'pt-br' %}{% url 'player_register' %}?lang=pt-br{% elif lang_code == 'vi' %}{% url 'player_register' %}?lang=vi{% elif lang_code == 'th' %}{% url 'player_register' %}?lang=th{% elif lang_code == 'en-in' %}{% url 'player_register' %}?lang=en-in{% else %}{% url 'player_register' %}{% endif %}" class="auth-btn signup">
                         {% if lang_code == 'ja' %}
                             無料で新規登録
                         {% elif lang_code == 'zh-hant' %}
