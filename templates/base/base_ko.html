@@ -263,7 +263,7 @@
 
                     <span class="user-name">👤 게스트</span> 
                     <a href="{% url 'player_login' %}?next={{ request.path }}" class="auth-btn login">로그인</a>
-                    <a href="{% url 'player_register' %}?lang={{ request.GET.lang|default:'en' }}"" class="auth-btn signup">무료 회원가입</a>
+                    <a href="{% url 'player_register' %}?lang={{ request.GET.lang|default:'en' }}" class="auth-btn signup">무료 회원가입</a>
                 </div>
             {% endif %}
         </div>
