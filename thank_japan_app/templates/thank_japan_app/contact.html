@@ -165,6 +165,7 @@
                 {% elif lang_code == 'th' %}หัวข้อ
                 {% else %}Subject / Title{% endif %}
             </label>
+            {{ form.title }}
             {% if form.title.errors %}
                 <div class="error" style="color: #d93025; font-size: 0.85em;">
                     {% with error=form.title.errors.0 %}
