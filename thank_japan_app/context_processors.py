@@ -29,8 +29,15 @@ def language_context(request):
         elif '/vi/' in path: lang = 'vi'
         elif '/th/' in path: lang = 'th'
         elif '/en-in/' in path: lang = 'en-in'
-        else:
-            lang = 'en' 
+
+    if not lang:
+        lang = request.session.get('tj_lang_code')
+
+    if lang:
+        request.session['tj_lang_code'] = lang
+    else:
+        
+        lang = 'en'
             
     return {
         'lang_code': lang 
