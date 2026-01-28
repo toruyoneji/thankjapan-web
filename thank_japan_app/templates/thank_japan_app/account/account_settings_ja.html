@@ -78,6 +78,14 @@
                 {% endwith %})
             </span>
         </p>
+
+        <p style="font-size: 0.9rem; color: #666; margin-top: -10px; margin-left: 10px;">
+            {% if pts_to_next > 0 %}
+                次のランクまであと <strong>{{ pts_to_next }}</strong> pt
+            {% else %}
+                最高ランクに到達しました！ 🎉
+            {% endif %}
+        </p>
         
         {% if user.profile.is_premium %}
             <span class="status-badge status-premium">プレミアム会員 💎</span>
