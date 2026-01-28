@@ -332,7 +332,7 @@
     </button>
 
     <div style="margin-top: 15px;">
-        <a href="{% url 'password_reset' %}" style="font-size: 0.85rem; color: #0066c0; text-decoration: underline;">
+        <a href="{% url 'password_reset' %}?lang={{ lang_code }}" style="font-size: 0.85rem; color: #0066c0; text-decoration: underline;">
             {% if lang_code == 'ja' %}パスワードをお忘れですか？
             {% elif lang_code == 'zh-hant' or lang_code == 'zh-cn' %}忘記密碼？
             {% elif lang_code == 'ko' %}비밀번호를 잊으셨나요?
