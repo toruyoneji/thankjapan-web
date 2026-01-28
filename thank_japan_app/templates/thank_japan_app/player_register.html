@@ -174,11 +174,118 @@
   </h2>
 
   {% if messages %}
-    <ul>
-      {% for message in messages %}
-        <li>{{ message }}</li>
-      {% endfor %}
-    </ul>
+  <ul style="padding: 0; list-style: none;">
+    {% for message in messages %}
+      <li style="color: #d93025; font-size: 0.9em; margin-bottom: 10px;">
+        {% if lang_code == 'ja' %}
+            {% if "already taken" in message %}このユーザー名は既に使用されています。
+            {% elif "already registered" in message %}このメールアドレスは既に登録されています。
+            {% elif "Invalid username" in message %}ユーザー名またはパスワードが正しくありません。
+            {% elif "Account created" in message %}アカウントが作成されました！ログインしてください。
+            {% elif "Logged out" in message %}ログアウトしました。
+            {% else %}{{ message }}{% endif %}
+
+        {% elif lang_code == 'zh-hant' %}
+            {% if "already taken" in message %}此用戶名稱已被使用。
+            {% elif "already registered" in message %}此電子郵件地址已註冊。
+            {% elif "Invalid username" in message %}用戶名或密碼無效。
+            {% elif "Account created" in message %}帳號已建立！請登入。
+            {% elif "Logged out" in message %}您已登出。
+            {% else %}{{ message }}{% endif %}
+
+        {% elif lang_code == 'zh-cn' %}
+            {% if "already taken" in message %}此用户名已被使用。
+            {% elif "already registered" in message %}此电子邮件地址已注册。
+            {% elif "Invalid username" in message %}用户名或密码无效。
+            {% elif "Account created" in message %}账号已建立！请登录。
+            {% elif "Logged out" in message %}您已登出。
+            {% else %}{{ message }}{% endif %}
+
+        {% elif lang_code == 'ko' %}
+            {% if "already taken" in message %}이미 사용 중인 사용자 이름입니다.
+            {% elif "already registered" in message %}이미 등록된 이메일 주소입니다.
+            {% elif "Invalid username" in message %}사용자 이름 또는 비밀번호가 잘못되었습니다.
+            {% elif "Account created" in message %}계정이 생성되었습니다! 로그인해 주세요.
+            {% elif "Logged out" in message %}로그아웃되었습니다.
+            {% else %}{{ message }}{% endif %}
+
+        {% elif lang_code == 'de' %}
+            {% if "already taken" in message %}Dieser Benutzername ist bereits vergeben.
+            {% elif "already registered" in message %}Diese E-Mail-Adresse ist bereits registriert.
+            {% elif "Invalid username" in message %}Benutzername oder Passwort ist ungültig.
+            {% elif "Account created" in message %}Konto erstellt! Bitte melden Sie sich an.
+            {% elif "Logged out" in message %}Abmeldung erfolgreich.
+            {% else %}{{ message }}{% endif %}
+
+        {% elif lang_code == 'fr' %}
+            {% if "already taken" in message %}Ce nom d'utilisateur est déjà utilisé.
+            {% elif "already registered" in message %}Cette adresse e-mail est déjà enregistrée.
+            {% elif "Invalid username" in message %}Nom d'utilisateur ou mot de passe invalide.
+            {% elif "Account created" in message %}Compte créé ! Veuillez vous connecter.
+            {% elif "Logged out" in message %}Vous avez été déconnecté.
+            {% else %}{{ message }}{% endif %}
+
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}
+            {% if "already taken" in message %}Este nombre de usuario ya está en uso.
+            {% elif "already registered" in message %}Esta dirección de correo electrónico ya está registrada.
+            {% elif "Invalid username" in message %}Usuario o contraseña no válidos.
+            {% elif "Account created" in message %}¡Cuenta creada! Por favor, inicia sesión.
+            {% elif "Logged out" in message %}Has cerrado sesión.
+            {% else %}{{ message }}{% endif %}
+
+        {% elif lang_code == 'it' %}
+            {% if "already taken" in message %}Questo nome utente è già in uso.
+            {% elif "already registered" in message %}Questo indirizzo email è già registrato.
+            {% elif "Invalid username" in message %}Nome utente o password non validi.
+            {% elif "Account created" in message %}Account creato! Effettua l'accesso.
+            {% elif "Logged out" in message %}Sei stato disconnesso.
+            {% else %}{{ message }}{% endif %}
+
+        {% elif lang_code == 'pt' %}
+            {% if "already taken" in message %}Este nome de utilizador já está em uso.
+            {% elif "already registered" in message %}Este endereço de e-mail já está registado.
+            {% elif "Invalid username" in message %}Nome de utilizador ou palavra-passe inválidos.
+            {% elif "Account created" in message %}Conta criada! Por favor, inicie sessão.
+            {% elif "Logged out" in message %}Sessão encerrada.
+            {% else %}{{ message }}{% endif %}
+
+        {% elif lang_code == 'pt-br' %}
+            {% if "already taken" in message %}Este nome de usuário já está em uso.
+            {% elif "already registered" in message %}Este endereço de e-mail já está cadastrado.
+            {% elif "Invalid username" in message %}Nome de usuário ou senha inválidos.
+            {% elif "Account created" in message %}Conta criada! Por favor, faça login.
+            {% elif "Logged out" in message %}Você saiu com sucesso.
+            {% else %}{{ message }}{% endif %}
+
+        {% elif lang_code == 'vi' %}
+            {% if "already taken" in message %}Tên người dùng này đã được sử dụng.
+            {% elif "already registered" in message %}Địa chỉ email này đã được đăng ký.
+            {% elif "Invalid username" in message %}Tên người dùng hoặc mật khẩu không hợp lệ.
+            {% elif "Account created" in message %}Tài khoản đã được tạo! Vui lòng đăng nhập.
+            {% elif "Logged out" in message %}Bạn đã đăng xuất.
+            {% else %}{{ message }}{% endif %}
+
+        {% elif lang_code == 'th' %}
+            {% if "already taken" in message %}ชื่อผู้ใช้นี้ถูกใช้งานแล้ว
+            {% elif "already registered" in message %}อีเมลนี้ถูกลงทะเบียนแล้ว
+            {% elif "Invalid username" in message %}ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง
+            {% elif "Account created" in message %}สร้างบัญชีเรียบร้อยแล้ว! กรุณาเข้าสู่ระบบ
+            {% elif "Logged out" in message %}คุณออกจากระบบแล้ว
+            {% else %}{{ message }}{% endif %}
+
+        {% elif lang_code == 'en-in' %}
+            {% if "already taken" in message %}This username is already taken.
+            {% elif "already registered" in message %}This email address is already registered.
+            {% elif "Invalid username" in message %}Invalid username or password.
+            {% elif "Account created" in message %}Account created! Please log in.
+            {% else %}{{ message }}{% endif %}
+
+        {% else %}
+            {{ message }}
+        {% endif %}
+      </li>
+    {% endfor %}
+  </ul>
   {% endif %}
 
   <form method="post" novalidate>
@@ -288,6 +395,23 @@
 						{% else %}
 							Only letters and underscores are allowed.
 						{% endif %}
+
+					{% elif "Invalid characters" in error or "Only letters" in error %}
+    					{% if lang_code == 'ja' %}使用できない文字が含まれています（英字とアンダースコアのみ使用可能です）。
+    					{% elif lang_code == 'zh-hant' %}包含無效字元（僅限英文字母和底線）。
+    					{% elif lang_code == 'zh-cn' %}包含无效字符（仅限英文字母和下划线）。
+    					{% elif lang_code == 'ko' %}잘못된 문자가 포함되어 있습니다 (영문자와 밑줄만 사용 가능합니다).
+    					{% elif lang_code == 'de' %}Enthält ungültige Zeichen (nur Buchstaben und Unterstriche erlaubt).
+    					{% elif lang_code == 'fr' %}Contient des caractères non valides (seules les lettres et les underscores sont autorisés).
+    					{% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Contiene caracteres no válidos (solo se permiten letras y guiones bajos).
+    					{% elif lang_code == 'it' %}Contiene caratteri non validi (sono ammessi solo lettere e underscore).
+    					{% elif lang_code == 'pt' %}Contém caracteres inválidos (apenas letras e sublinhados são permitidos).
+    					{% elif lang_code == 'pt-br' %}Contém caracteres inválidos (apenas letras e sublinhados são permitidos).
+    					{% elif lang_code == 'vi' %}Chứa các ký tự không hợp lệ (chỉ cho phép chữ cái và dấu gạch dưới).
+    					{% elif lang_code == 'th' %}มีตัวอักษรที่ไม่ถูกต้อง (อนุญาตให้ใช้เฉพาะตัวอักษรและขีดล่างเท่านั้น)
+    					{% elif lang_code == 'en-in' %}Invalid characters included (only letters and underscores are allowed).
+    					{% else %}Invalid characters included (only letters and underscores are allowed).
+    					{% endif %}
 
 					{% else %}
 						{{ error }}
