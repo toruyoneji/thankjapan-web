@@ -1838,16 +1838,69 @@ def thank_youDE(request):
 @login_required
 def account_settings(request):
     profile = request.user.profile
+    s = profile.total_score
+    
+    
+    thresholds = [0, 50, 100, 200, 300, 450, 650, 900, 1200, 2000]
+    
+    current_min = 0
+    next_max = 2000
+    for i in range(len(thresholds) - 1):
+        if s < thresholds[i+1]:
+            current_min = thresholds[i]
+            next_max = thresholds[i+1]
+            break
+    else:
+        current_min = 2000
+        next_max = 2000
+
+    
+    pts_to_next = next_max - s if s < 2000 else 0
+    
+    if next_max > current_min:
+        progress_percent = ((s - current_min) / (next_max - current_min)) * 100
+    else:
+        progress_percent = 100
+
     context = {
-        'total_score': profile.total_score,
+        'total_score': s,
+        'pts_to_next': pts_to_next,
+        'progress_percent': progress_percent, 
     }
     return render(request, 'thank_japan_app/account/account_settings.html', context)
+
 
 @login_required
 def account_settingsZHCN(request):
     profile = request.user.profile
+    s = profile.total_score
+    
+    
+    thresholds = [0, 50, 100, 200, 300, 450, 650, 900, 1200, 2000]
+    
+    current_min = 0
+    next_max = 2000
+    for i in range(len(thresholds) - 1):
+        if s < thresholds[i+1]:
+            current_min = thresholds[i]
+            next_max = thresholds[i+1]
+            break
+    else:
+        current_min = 2000
+        next_max = 2000
+
+    
+    pts_to_next = next_max - s if s < 2000 else 0
+    
+    if next_max > current_min:
+        progress_percent = ((s - current_min) / (next_max - current_min)) * 100
+    else:
+        progress_percent = 100
+
     context = {
-        'total_score': profile.total_score,
+        'total_score': s,
+        'pts_to_next': pts_to_next,
+        'progress_percent': progress_percent, 
     }
     return render(request, 'thank_japan_app/account/account_settings_zh_cn.html', context)
 
@@ -1855,57 +1908,218 @@ def account_settingsZHCN(request):
 @login_required
 def account_settingsZHHANT(request):
     profile = request.user.profile
+    s = profile.total_score
+    
+    
+    thresholds = [0, 50, 100, 200, 300, 450, 650, 900, 1200, 2000]
+    
+    current_min = 0
+    next_max = 2000
+    for i in range(len(thresholds) - 1):
+        if s < thresholds[i+1]:
+            current_min = thresholds[i]
+            next_max = thresholds[i+1]
+            break
+    else:
+        current_min = 2000
+        next_max = 2000
+
+    
+    pts_to_next = next_max - s if s < 2000 else 0
+    
+    if next_max > current_min:
+        progress_percent = ((s - current_min) / (next_max - current_min)) * 100
+    else:
+        progress_percent = 100
+
     context = {
-        'total_score': profile.total_score,
+        'total_score': s,
+        'pts_to_next': pts_to_next,
+        'progress_percent': progress_percent, 
     }
     return render(request, 'thank_japan_app/account/account_settings_zh_hant.html', context)
+
 
 @login_required
 def account_settingsVI(request):
     profile = request.user.profile
+    s = profile.total_score
+    
+    
+    thresholds = [0, 50, 100, 200, 300, 450, 650, 900, 1200, 2000]
+    
+    current_min = 0
+    next_max = 2000
+    for i in range(len(thresholds) - 1):
+        if s < thresholds[i+1]:
+            current_min = thresholds[i]
+            next_max = thresholds[i+1]
+            break
+    else:
+        current_min = 2000
+        next_max = 2000
+
+    
+    pts_to_next = next_max - s if s < 2000 else 0
+    
+    if next_max > current_min:
+        progress_percent = ((s - current_min) / (next_max - current_min)) * 100
+    else:
+        progress_percent = 100
+
     context = {
-        'total_score': profile.total_score,
+        'total_score': s,
+        'pts_to_next': pts_to_next,
+        'progress_percent': progress_percent, 
     }
     return render(request, 'thank_japan_app/account/account_settings_vi.html', context)
+
 
 @login_required
 def account_settingsTH(request):
     profile = request.user.profile
+    s = profile.total_score
+    
+    
+    thresholds = [0, 50, 100, 200, 300, 450, 650, 900, 1200, 2000]
+    
+    current_min = 0
+    next_max = 2000
+    for i in range(len(thresholds) - 1):
+        if s < thresholds[i+1]:
+            current_min = thresholds[i]
+            next_max = thresholds[i+1]
+            break
+    else:
+        current_min = 2000
+        next_max = 2000
+
+    
+    pts_to_next = next_max - s if s < 2000 else 0
+    
+    if next_max > current_min:
+        progress_percent = ((s - current_min) / (next_max - current_min)) * 100
+    else:
+        progress_percent = 100
+
     context = {
-        'total_score': profile.total_score,
+        'total_score': s,
+        'pts_to_next': pts_to_next,
+        'progress_percent': progress_percent, 
     }
     return render(request, 'thank_japan_app/account/account_settings_th.html', context)
+
 
 @login_required
 def account_settingsPT(request):
     profile = request.user.profile
+    s = profile.total_score
+    
+    
+    thresholds = [0, 50, 100, 200, 300, 450, 650, 900, 1200, 2000]
+    
+    current_min = 0
+    next_max = 2000
+    for i in range(len(thresholds) - 1):
+        if s < thresholds[i+1]:
+            current_min = thresholds[i]
+            next_max = thresholds[i+1]
+            break
+    else:
+        current_min = 2000
+        next_max = 2000
+
+    
+    pts_to_next = next_max - s if s < 2000 else 0
+    
+    if next_max > current_min:
+        progress_percent = ((s - current_min) / (next_max - current_min)) * 100
+    else:
+        progress_percent = 100
+
     context = {
-        'total_score': profile.total_score,
+        'total_score': s,
+        'pts_to_next': pts_to_next,
+        'progress_percent': progress_percent, 
     }
     return render(request, 'thank_japan_app/account/account_settings_pt.html', context)
+
 
 @login_required
 def account_settingsPTBR(request):
     profile = request.user.profile
+    s = profile.total_score
+    
+    
+    thresholds = [0, 50, 100, 200, 300, 450, 650, 900, 1200, 2000]
+    
+    current_min = 0
+    next_max = 2000
+    for i in range(len(thresholds) - 1):
+        if s < thresholds[i+1]:
+            current_min = thresholds[i]
+            next_max = thresholds[i+1]
+            break
+    else:
+        current_min = 2000
+        next_max = 2000
+
+    
+    pts_to_next = next_max - s if s < 2000 else 0
+    
+    if next_max > current_min:
+        progress_percent = ((s - current_min) / (next_max - current_min)) * 100
+    else:
+        progress_percent = 100
+
     context = {
-        'total_score': profile.total_score,
+        'total_score': s,
+        'pts_to_next': pts_to_next,
+        'progress_percent': progress_percent, 
     }
     return render(request, 'thank_japan_app/account/account_settings_pt_br.html', context)
+
 
 @login_required
 def account_settingsKO(request):
     profile = request.user.profile
+    s = profile.total_score
+    
+    
+    thresholds = [0, 50, 100, 200, 300, 450, 650, 900, 1200, 2000]
+    
+    current_min = 0
+    next_max = 2000
+    for i in range(len(thresholds) - 1):
+        if s < thresholds[i+1]:
+            current_min = thresholds[i]
+            next_max = thresholds[i+1]
+            break
+    else:
+        current_min = 2000
+        next_max = 2000
+
+    
+    pts_to_next = next_max - s if s < 2000 else 0
+    
+    if next_max > current_min:
+        progress_percent = ((s - current_min) / (next_max - current_min)) * 100
+    else:
+        progress_percent = 100
+
     context = {
-        'total_score': profile.total_score,
+        'total_score': s,
+        'pts_to_next': pts_to_next,
+        'progress_percent': progress_percent, 
     }
     return render(request, 'thank_japan_app/account/account_settings_ko.html', context)
+
 
 @login_required
 def account_settingsJA(request):
     profile = request.user.profile
     s = profile.total_score
-    
-    
+     
     thresholds = [0, 50, 100, 200, 300, 450, 650, 900, 1200, 2000]
     
     current_min = 0
@@ -1938,54 +2152,214 @@ def account_settingsJA(request):
 @login_required
 def account_settingsIT(request):
     profile = request.user.profile
+    s = profile.total_score
+    
+    
+    thresholds = [0, 50, 100, 200, 300, 450, 650, 900, 1200, 2000]
+    
+    current_min = 0
+    next_max = 2000
+    for i in range(len(thresholds) - 1):
+        if s < thresholds[i+1]:
+            current_min = thresholds[i]
+            next_max = thresholds[i+1]
+            break
+    else:
+        current_min = 2000
+        next_max = 2000
+
+    
+    pts_to_next = next_max - s if s < 2000 else 0
+    
+    if next_max > current_min:
+        progress_percent = ((s - current_min) / (next_max - current_min)) * 100
+    else:
+        progress_percent = 100
+
     context = {
-        'total_score': profile.total_score,
+        'total_score': s,
+        'pts_to_next': pts_to_next,
+        'progress_percent': progress_percent, 
     }
     return render(request, 'thank_japan_app/account/account_settings_it.html', context)
+
 
 @login_required
 def account_settingsFR(request):
     profile = request.user.profile
+    s = profile.total_score
+    
+    
+    thresholds = [0, 50, 100, 200, 300, 450, 650, 900, 1200, 2000]
+    
+    current_min = 0
+    next_max = 2000
+    for i in range(len(thresholds) - 1):
+        if s < thresholds[i+1]:
+            current_min = thresholds[i]
+            next_max = thresholds[i+1]
+            break
+    else:
+        current_min = 2000
+        next_max = 2000
+
+    
+    pts_to_next = next_max - s if s < 2000 else 0
+    
+    if next_max > current_min:
+        progress_percent = ((s - current_min) / (next_max - current_min)) * 100
+    else:
+        progress_percent = 100
+
     context = {
-        'total_score': profile.total_score,
+        'total_score': s,
+        'pts_to_next': pts_to_next,
+        'progress_percent': progress_percent, 
     }
     return render(request, 'thank_japan_app/account/account_settings_fr.html', context)
+
 
 @login_required
 def account_settingsESMX(request):
     profile = request.user.profile
+    s = profile.total_score
+    
+    
+    thresholds = [0, 50, 100, 200, 300, 450, 650, 900, 1200, 2000]
+    
+    current_min = 0
+    next_max = 2000
+    for i in range(len(thresholds) - 1):
+        if s < thresholds[i+1]:
+            current_min = thresholds[i]
+            next_max = thresholds[i+1]
+            break
+    else:
+        current_min = 2000
+        next_max = 2000
+
+    
+    pts_to_next = next_max - s if s < 2000 else 0
+    
+    if next_max > current_min:
+        progress_percent = ((s - current_min) / (next_max - current_min)) * 100
+    else:
+        progress_percent = 100
+
     context = {
-        'total_score': profile.total_score,
+        'total_score': s,
+        'pts_to_next': pts_to_next,
+        'progress_percent': progress_percent, 
     }
     return render(request, 'thank_japan_app/account/account_settings_es_mx.html', context)
+
 
 @login_required
 def account_settingsESES(request):
     profile = request.user.profile
+    s = profile.total_score
+    
+    
+    thresholds = [0, 50, 100, 200, 300, 450, 650, 900, 1200, 2000]
+    
+    current_min = 0
+    next_max = 2000
+    for i in range(len(thresholds) - 1):
+        if s < thresholds[i+1]:
+            current_min = thresholds[i]
+            next_max = thresholds[i+1]
+            break
+    else:
+        current_min = 2000
+        next_max = 2000
+
+    
+    pts_to_next = next_max - s if s < 2000 else 0
+    
+    if next_max > current_min:
+        progress_percent = ((s - current_min) / (next_max - current_min)) * 100
+    else:
+        progress_percent = 100
+
     context = {
-        'total_score': profile.total_score,
+        'total_score': s,
+        'pts_to_next': pts_to_next,
+        'progress_percent': progress_percent, 
     }
     return render(request, 'thank_japan_app/account/account_settings_es_es.html', context)
+
 
 @login_required
 def account_settingsENIN(request):
     profile = request.user.profile
+    s = profile.total_score
+    
+    
+    thresholds = [0, 50, 100, 200, 300, 450, 650, 900, 1200, 2000]
+    
+    current_min = 0
+    next_max = 2000
+    for i in range(len(thresholds) - 1):
+        if s < thresholds[i+1]:
+            current_min = thresholds[i]
+            next_max = thresholds[i+1]
+            break
+    else:
+        current_min = 2000
+        next_max = 2000
+
+    
+    pts_to_next = next_max - s if s < 2000 else 0
+    
+    if next_max > current_min:
+        progress_percent = ((s - current_min) / (next_max - current_min)) * 100
+    else:
+        progress_percent = 100
+
     context = {
-        'total_score': profile.total_score,
+        'total_score': s,
+        'pts_to_next': pts_to_next,
+        'progress_percent': progress_percent, 
     }
     return render(request, 'thank_japan_app/account/account_settings_en_in.html', context)
+
 
 @login_required
 def account_settingsDE(request):
     profile = request.user.profile
+    s = profile.total_score
+    
+    
+    thresholds = [0, 50, 100, 200, 300, 450, 650, 900, 1200, 2000]
+    
+    current_min = 0
+    next_max = 2000
+    for i in range(len(thresholds) - 1):
+        if s < thresholds[i+1]:
+            current_min = thresholds[i]
+            next_max = thresholds[i+1]
+            break
+    else:
+        current_min = 2000
+        next_max = 2000
+
+    
+    pts_to_next = next_max - s if s < 2000 else 0
+    
+    if next_max > current_min:
+        progress_percent = ((s - current_min) / (next_max - current_min)) * 100
+    else:
+        progress_percent = 100
+
     context = {
-        'total_score': profile.total_score,
+        'total_score': s,
+        'pts_to_next': pts_to_next,
+        'progress_percent': progress_percent, 
     }
     return render(request, 'thank_japan_app/account/account_settings_de.html', context)
 
 
 #subscription
-
 
 def get_paypal_access_token():
     auth_url = "https://api-m.paypal.com/v1/oauth2/token"

@@ -41,6 +41,25 @@
     .btn-downgrade { background: white; color: #b22d35; border: 2px solid #b22d35; }
     .btn-delete { background: #b22d35; color: white; }
 
+    .rank-progress-container {
+    background: #1a1a1a;
+    border: 1px solid #d4af37; 
+    padding: 20px;
+    border-radius: 15px;
+    margin: 20px 0;
+    box-shadow: 0 0 15px rgba(212, 175, 55, 0.2);
+    text-align: center;
+    }
+
+
+    .pts-highlight {
+    font-size: 1.2rem;
+    color: #00e5ff;
+    font-weight: bold;
+    text-shadow: 0 0 5px rgba(0, 229, 255, 0.5);
+    }
+
+
     @media screen and (max-width: 600px) {
         .action-group { flex-direction: column; width: 100%; }
         .btn-manage { width: 100%; min-width: unset; }
@@ -78,6 +97,21 @@
                 {% endwith %})
             </span>
         </p>
+
+        <div class="rank-progress-container">
+        {% if pts_to_next > 0 %}
+            <div style="margin-bottom: 8px; color: #fff; font-size: 1rem;">
+                <span class="pts-highlight">{{ pts_to_next }}</span> pt until next rank
+            </div>
+            <div style="font-size: 0.8rem; color: #aaa; margin-top: 5px;">
+                Current progress: {{ progress_percent|floatformat:0 }}%
+            </div>
+        {% else %}
+            <div style="color: #d4af37; font-size: 1.2rem; font-weight: bold;">
+                👑 You have reached the top rank "Legend"! 🎉
+            </div>
+        {% endif %}
+        </div>
         
         {% if user.profile.is_premium %}
             <span class="status-badge status-premium">Premium Member 💎</span>
