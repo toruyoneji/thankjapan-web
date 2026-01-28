@@ -115,6 +115,13 @@ h2, h3 {
     border: 1px solid #ffeb99;
 }
 
+.btn-green {
+    background: #05d632 !important;
+    color: #ffffff !important;
+    border: 2px solid #4a4a4a;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
 .btn-white {
     background: #ffffff !important;
     color: #4a4a4a !important;
@@ -362,7 +369,7 @@ footer {
   {% if not user.is_authenticated %}
     <h1>THANK JAPAN</h1>
     <div class="hero-buttons">
-      <a href="{% url 'category_list_th' %}" class="explore-btn btn-white">เรียนภาษาญี่ปุ่น</a>
+      <a href="{% url 'category_list_th' %}" class="explore-btn btn-green">เรียนภาษาญี่ปุ่น 📖</a>
     </div>
     
     <p class="login-prompt">
@@ -373,17 +380,18 @@ footer {
   {% elif not user.profile.is_premium %}
     <h1>ยินดีต้อนรับกลับมา {{ user.username }}!</h1>
     <div class="hero-buttons">
-      <a href="{% url 'category_list_th' %}" class="explore-btn btn-white">เริ่มเรียนรู้ 📖</a>
+      <a href="{% url 'category_list_th' %}" class="explore-btn btn-green">เริ่มเรียนรู้ 📖</a>
     </div>
     <div class="hero-buttons">
-      <a href="{% url 'premium_infoth' %}" class="explore-btn btn-gold">อัปเกรดเป็นพรีเมียม 💎</a>
+      <a href="{% url 'account_settingsth' %}" class="explore-btn btn-white">จัดการบัญชี ⚙️</a>
     </div>
+    
 
   {% else %}
     <h1>ยินดีต้อนรับกลับมา {{ user.username }}! 💎</h1>
     <p>เพลิดเพลินกับการเข้าถึงบทเรียนทั้งหมดได้อย่างไม่จำกัด</p>
     <div class="hero-buttons">
-      <a href="{% url 'category_list_th' %}" class="explore-btn btn-accent">ไปที่บทเรียน 📖</a>
+      <a href="{% url 'category_list_th' %}" class="explore-btn btn-gold">ไปที่บทเรียน 📖</a>
       <a href="{% url 'account_settingsth' %}" class="explore-btn btn-white">จัดการบัญชี ⚙️</a>
     </div>
   {% endif %}

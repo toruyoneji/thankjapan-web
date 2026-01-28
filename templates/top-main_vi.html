@@ -115,6 +115,13 @@ h2, h3 {
     border: 1px solid #ffeb99;
 }
 
+.btn-green {
+    background: #05d632 !important;
+    color: #ffffff !important;
+    border: 2px solid #4a4a4a;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
 .btn-white {
     background: #ffffff !important;
     color: #4a4a4a !important;
@@ -362,7 +369,7 @@ footer {
   {% if not user.is_authenticated %}
     <h1>THANK JAPAN</h1>
     <div class="hero-buttons">
-      <a href="{% url 'category_list_vi' %}" class="explore-btn btn-white">Học tiếng Nhật</a>
+      <a href="{% url 'category_list_vi' %}" class="explore-btn btn-green">Học tiếng Nhật 📖</a>
     </div>
     
     <p class="login-prompt">
@@ -373,17 +380,18 @@ footer {
   {% elif not user.profile.is_premium %}
     <h1>Chào mừng trở lại, {{ user.username }}!</h1>
     <div class="hero-buttons">
-      <a href="{% url 'category_list_vi' %}" class="explore-btn btn-white">Bắt đầu học 📖</a>
+      <a href="{% url 'category_list_vi' %}" class="explore-btn btn-green">Bắt đầu học 📖</a>
     </div>
     <div class="hero-buttons">
-      <a href="{% url 'premium_infovi' %}" class="explore-btn btn-gold">Nâng cấp lên Premium 💎</a>
+      <a href="{% url 'account_settingsvi' %}" class="explore-btn btn-white">Quản lý tài khoản ⚙️</a>
     </div>
+    
 
   {% else %}
     <h1>Chào mừng trở lại, {{ user.username }}! 💎</h1>
     <p>Tận hưởng quyền truy cập không giới hạn vào tất cả bài học.</p>
     <div class="hero-buttons">
-      <a href="{% url 'category_list_vi' %}" class="explore-btn btn-accent">Đi đến bài học 📖</a>
+      <a href="{% url 'category_list_vi' %}" class="explore-btn btn-gold">Đi đến bài học 📖</a>
       <a href="{% url 'account_settingsvi' %}" class="explore-btn btn-white">Quản lý tài khoản ⚙️</a>
     </div>
   {% endif %}

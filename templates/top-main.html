@@ -377,7 +377,7 @@ footer {
   {% if not user.is_authenticated %}
     <h1>THANK JAPAN</h1>
     <div class="hero-buttons">
-      <a href="{% url 'category_list' %}" class="explore-btn btn-green">Learn Japanese</a>
+      <a href="{% url 'category_list' %}" class="explore-btn btn-green">Learn Japanese 📖</a>
     </div>
     
     <p class="login-prompt">
@@ -393,10 +393,7 @@ footer {
     <div class="hero-buttons">
       <a href="{% url 'account_settings' %}" class="explore-btn btn-white">Manage Account ⚙️</a>
     </div>
-    <div class="hero-buttons">
-      <a href="{% url 'premium_info' %}" class="explore-btn btn-gold">Upgrade to Premium 💎</a>
-    </div>
-
+    
   {% else %}
     <h1>Welcome back, {{ user.username }}! 💎</h1>
     <p>Enjoy your unlimited access to all lessons.</p>

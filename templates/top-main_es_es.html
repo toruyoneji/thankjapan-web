@@ -115,6 +115,13 @@ h2, h3 {
     border: 1px solid #ffeb99;
 }
 
+.btn-green {
+    background: #05d632 !important;
+    color: #ffffff !important;
+    border: 2px solid #4a4a4a;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
 .btn-white {
     background: #ffffff !important;
     color: #4a4a4a !important;
@@ -362,7 +369,7 @@ footer {
   {% if not user.is_authenticated %}
     <h1>THANK JAPAN</h1>
     <div class="hero-buttons">
-      <a href="{% url 'category_list_esES' %}" class="explore-btn btn-white">Aprender japonés</a>
+      <a href="{% url 'category_list_esES' %}" class="explore-btn btn-green">Aprender japonés 📖</a>
     </div>
     
     <p class="login-prompt">
@@ -373,17 +380,18 @@ footer {
   {% elif not user.profile.is_premium %}
     <h1>¡Bienvenido de nuevo, {{ user.username }}!</h1>
     <div class="hero-buttons">
-      <a href="{% url 'category_list_esES' %}" class="explore-btn btn-white">Empezar a Aprender 📖</a>
+      <a href="{% url 'category_list_esES' %}" class="explore-btn btn-green">Empezar a Aprender 📖</a>
     </div>
     <div class="hero-buttons">
-      <a href="{% url 'premium_infoesES' %}" class="explore-btn btn-gold">Mejorar a Premium 💎</a>
+      <a href="{% url 'account_settingsesES' %}" class="explore-btn btn-white">Gestionar Cuenta ⚙️</a>
     </div>
+    
 
   {% else %}
     <h1>¡Bienvenido de nuevo, {{ user.username }}! 💎</h1>
     <p>Disfruta de tu acceso ilimitado a todas las lecciones.</p>
     <div class="hero-buttons">
-      <a href="{% url 'category_list_esES' %}" class="explore-btn btn-accent">Ir a Lecciones 📖</a>
+      <a href="{% url 'category_list_esES' %}" class="explore-btn btn-gold">Ir a Lecciones 📖</a>
       <a href="{% url 'account_settingsesES' %}" class="explore-btn btn-white">Gestionar Cuenta ⚙️</a>
     </div>
   {% endif %}

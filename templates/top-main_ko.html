@@ -115,6 +115,13 @@ h2, h3 {
     border: 1px solid #ffeb99;
 }
 
+.btn-green {
+    background: #05d632 !important;
+    color: #ffffff !important;
+    border: 2px solid #4a4a4a;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
 .btn-white {
     background: #ffffff !important;
     color: #4a4a4a !important;
@@ -362,7 +369,7 @@ footer {
   {% if not user.is_authenticated %}
     <h1>THANK JAPAN</h1>
     <div class="hero-buttons">
-      <a href="{% url 'category_list_ko' %}" class="explore-btn btn-white">일본어 학습하기</a>
+      <a href="{% url 'category_list_ko' %}" class="explore-btn btn-green">일본어 학습하기 📖</a>
     </div>
     
     <p class="login-prompt">
@@ -373,17 +380,18 @@ footer {
   {% elif not user.profile.is_premium %}
     <h1>환영합니다, {{ user.username }}님!</h1>
     <div class="hero-buttons">
-      <a href="{% url 'category_list_ko' %}" class="explore-btn btn-white">학습 시작하기 📖</a>
+      <a href="{% url 'category_list_ko' %}" class="explore-btn btn-green">학습 시작하기 📖</a>
     </div>
     <div class="hero-buttons">
-      <a href="{% url 'premium_infoko' %}" class="explore-btn btn-gold">프리미엄으로 업그레이드 💎</a>
+      <a href="{% url 'account_settingsko' %}" class="explore-btn btn-white">계정 관리 ⚙️</a>
     </div>
+    
 
   {% else %}
     <h1>환영합니다, {{ user.username }}님! 💎</h1>
     <p>모든 강의를 무제한으로 이용해 보세요.</p>
     <div class="hero-buttons">
-      <a href="{% url 'category_list_ko' %}" class="explore-btn btn-accent">강의 바로가기 📖</a>
+      <a href="{% url 'category_list_ko' %}" class="explore-btn btn-gold">강의 바로가기 📖</a>
       <a href="{% url 'account_settingsko' %}" class="explore-btn btn-white">계정 관리 ⚙️</a>
     </div>
   {% endif %}
