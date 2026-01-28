@@ -106,6 +106,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'thank_japan_app.context_processors.google_analytics',
+                'thank_japan_app.context_processors.language_context',
             ],
         },
     },
