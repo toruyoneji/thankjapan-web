@@ -167,6 +167,7 @@ def update_policy_agreement(request):
 
 
 #password send
+
 class CustomPasswordResetView(PasswordResetView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -175,7 +176,9 @@ class CustomPasswordResetView(PasswordResetView):
         return context
 
     def form_valid(self, form):
+    
         lang = language_context(self.request)['lang_code']
+            
         opts = {
             'use_https': self.request.is_secure(),
             'token_generator': self.token_generator,
@@ -184,11 +187,13 @@ class CustomPasswordResetView(PasswordResetView):
             'subject_template_name': self.subject_template_name,
             'request': self.request,
             'html_email_template_name': self.html_email_template_name,
-            'extra_email_context': {'lang_code': lang},
+            'extra_email_context': {'lang_code': lang}, 
         }
-        form.save(**opts)
-        return super().form_valid(form)        
         
+
+        form.save(**opts)
+        
+        return redirect(self.get_success_url())        
     
 #company infomation
 class CompanyFormView(TemplateView):
