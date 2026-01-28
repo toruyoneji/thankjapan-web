@@ -35,8 +35,7 @@ def language_context(request):
 
     if lang:
         request.session['tj_lang_code'] = lang
-    else:
-        
+    else: 
         lang = 'en'
             
     return {

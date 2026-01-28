@@ -20,6 +20,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.utils import timezone
 from django.utils.http import urlencode
 from django.contrib.auth.views import PasswordResetView
+from .context_processors import language_context
 import logging
 import random
 import re, itertools
@@ -165,25 +166,28 @@ def update_policy_agreement(request):
     return JsonResponse({'status': 'success'})
 
 
-# views.py
-
-
+#password send
 class CustomPasswordResetView(PasswordResetView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        
-        from .context_processors import language_context
         lang_info = language_context(self.request)
         context['lang_code'] = lang_info['lang_code']
         return context
 
-    def send_mail(self, subject_template_name, email_template_name, context, *args, **kwargs):
-
-        from .context_processors import language_context
-        lang_info = language_context(self.request)
-        context['lang_code'] = lang_info['lang_code']
-        super().send_mail(subject_template_name, email_template_name, context, *args, **kwargs)
-        
+    def form_valid(self, form):
+        lang = language_context(self.request)['lang_code']
+        opts = {
+            'use_https': self.request.is_secure(),
+            'token_generator': self.token_generator,
+            'from_email': self.from_email,
+            'email_template_name': self.email_template_name,
+            'subject_template_name': self.subject_template_name,
+            'request': self.request,
+            'html_email_template_name': self.html_email_template_name,
+            'extra_email_context': {'lang_code': lang},
+        }
+        form.save(**opts)
+        return super().form_valid(form)        
         
     
 #company infomation
