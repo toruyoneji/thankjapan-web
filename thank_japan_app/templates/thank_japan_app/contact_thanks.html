@@ -27,11 +27,53 @@
 </head>
 <body>
     <div class="container">
-        <h2>Thank you, {{ name }}!</h2>
-        <p>Your message has been successfully sent. We will reply as soon as possible.</p>
+        <h2>
+            {% if lang_code == 'ja' %}ありがとうございます、{{ name }}さん！
+            {% elif lang_code == 'zh-hant' %}謝謝您，{{ name }}！
+            {% elif lang_code == 'zh-cn' %}谢谢您，{{ name }}！
+            {% elif lang_code == 'ko' %}감사합니다, {{ name }}님!
+            {% elif lang_code == 'de' %}Vielen Dank, {{ name }}!
+            {% elif lang_code == 'fr' %}Merci, {{ name }} !
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}¡Gracias, {{ name }}!
+            {% elif lang_code == 'it' %}Grazie, {{ name }}!
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Obrigado, {{ name }}!
+            {% elif lang_code == 'vi' %}Cảm ơn bạn, {{ name }}!
+            {% elif lang_code == 'th' %}ขอบคุณ {{ name }}!
+            {% else %}Thank you, {{ name }}!
+            {% endif %}
+        </h2>
+
+        <p>
+            {% if lang_code == 'ja' %}メッセージを送信しました。できるだけ早く返信いたします。
+            {% elif lang_code == 'zh-hant' %}您的訊息已成功發送。我們將盡快回覆。
+            {% elif lang_code == 'zh-cn' %}您的消息已成功发送。我们将尽快回复。
+            {% elif lang_code == 'ko' %}메시지가 성공적으로 전송되었습니다. 가능한 한 빨리 답변해 드리겠습니다.
+            {% elif lang_code == 'de' %}Ihre Nachricht wurde erfolgreich gesendet. Wir werden so schnell wie möglich antworten.
+            {% elif lang_code == 'fr' %}Votre message a été envoyé avec succès. Nous vous répondrons dès que possible.
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Tu mensaje ha sido enviado con éxito. Te responderemos lo antes posible.
+            {% elif lang_code == 'it' %}Il tuo messaggio è stato inviato con successo. Ti risponderemo il prima possibile.
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}A sua mensagem foi enviada com sucesso. Responderemos o mais breve possível.
+            {% elif lang_code == 'vi' %}Tin nhắn của bạn đã được gửi thành công. Chúng tôi sẽ phản hồi sớm nhất có thể.
+            {% elif lang_code == 'th' %}ส่งข้อความของคุณเรียบร้อยแล้ว เราจะตอบกลับโดยเร็วที่สุด
+            {% else %}Your message has been successfully sent. We will reply as soon as possible.
+            {% endif %}
+        </p>
         
         <div style="text-align:center; margin:50px 0;">
-            <a class="btn-more" href="{% url 'toppage' %}">Back to Home</a>
+            <a class="btn-more" href="{% if lang_code == 'ja' %}{% url 'toppageja' %}{% elif lang_code == 'zh-hant' %}{% url 'toppagezhHANT' %}{% elif lang_code == 'zh-cn' %}{% url 'toppagezhCN' %}{% elif lang_code == 'ko' %}{% url 'toppageko' %}{% elif lang_code == 'fr' %}{% url 'toppagefr' %}{% elif lang_code == 'de' %}{% url 'toppagede' %}{% elif lang_code == 'it' %}{% url 'toppageit' %}{% elif lang_code == 'es-mx' %}{% url 'toppageesMX' %}{% elif lang_code == 'es-es' %}{% url 'toppageesES' %}{% elif lang_code == 'pt' %}{% url 'toppagept' %}{% elif lang_code == 'pt-br' %}{% url 'toppageptBR' %}{% elif lang_code == 'vi' %}{% url 'toppagevi' %}{% elif lang_code == 'th' %}{% url 'toppageth' %}{% elif lang_code == 'en-in' %}{% url 'toppageenIN' %}{% else %}{% url 'toppage' %}{% endif %}">
+                {% if lang_code == 'ja' %}ホームに戻る
+                {% elif lang_code == 'ko' %}홈으로 돌아가기
+                {% elif lang_code == 'zh-hant' or lang_code == 'zh-cn' %}返回首頁
+                {% elif lang_code == 'de' %}Zurück zur Startseite
+                {% elif lang_code == 'fr' %}Retour à l'accueil
+                {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Volver al inicio
+                {% elif lang_code == 'it' %}Torna alla home
+                {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Voltar para o início
+                {% elif lang_code == 'vi' %}Quay lại trang chủ
+                {% elif lang_code == 'th' %}กลับหน้าหลัก
+                {% else %}Back to Home
+                {% endif %}
+            </a>
         </div>
     </div>
 </body>

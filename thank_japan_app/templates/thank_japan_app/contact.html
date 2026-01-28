@@ -5,7 +5,7 @@
     <title>Contact Support</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        /* ベースリセット */
+        
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
             font-family: 'Helvetica Neue', Arial, sans-serif;
@@ -100,51 +100,227 @@
         }
     </style>
 </head>
-<body>
-    <div class="container">
-        <h2>Contact Support</h2>
-        <form method="post">
-            {% csrf_token %}
-            {{ form.non_field_errors }}
-            
-            <div>
-                {{ form.name.label_tag }}
-                {{ form.name }}
-                {% if form.name.errors %}
-                    <div class="error">{{ form.name.errors.0 }}</div>
-                {% endif %}
-            </div>
+<div class="container">
+    <h2>
+        {% if lang_code == 'ja' %}お問い合わせ
+        {% elif lang_code == 'zh-hant' %}聯絡支援
+        {% elif lang_code == 'zh-cn' %}联系支持
+        {% elif lang_code == 'ko' %}고객 지원
+        {% elif lang_code == 'de' %}Support kontaktieren
+        {% elif lang_code == 'fr' %}Contactez le support
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Contactar con soporte
+        {% elif lang_code == 'it' %}Contatta il supporto
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Contactar o suporte
+        {% elif lang_code == 'vi' %}Liên hệ hỗ trợ
+        {% elif lang_code == 'th' %}ติดต่อฝ่ายสนับสนุน
+        {% else %}Contact Support
+        {% endif %}
+    </h2>
 
-            <div>
-                {{ form.title.label_tag }}
-                {{ form.title }}
-                {% if form.title.errors %}
-                    <div class="error">{{ form.title.errors.0 }}</div>
-                {% endif %}
-            </div>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+        
+        <div>
+            <label>
+                {% if lang_code == 'ja' %}お名前
+                {% elif lang_code == 'zh-hant' or lang_code == 'zh-cn' %}姓名
+                {% elif lang_code == 'ko' %}이름
+                {% elif lang_code == 'de' %}Name
+                {% elif lang_code == 'fr' %}Nom
+                {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Nombre
+                {% elif lang_code == 'it' %}Nome
+                {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Nome
+                {% elif lang_code == 'vi' %}Họ và tên
+                {% elif lang_code == 'th' %}ชื่อ
+                {% else %}Name{% endif %}
+            </label>
 
-            <div>
-                {{ form.email.label_tag }}
-                {{ form.email }}
-                {% if form.email.errors %}
-                    <div class="error">{{ form.email.errors.0 }}</div>
-                {% endif %}
-            </div>
-
-            <div>
-                {{ form.message.label_tag }}
-                {{ form.message }}
-                {% if form.message.errors %}
-                    <div class="error">{{ form.message.errors.0 }}</div>
-                {% endif %}
-            </div>
-
-            <button type="submit">Send Message</button>
-        </form>
-
-        <div style="text-align: center;">
-            <a href="{% url 'toppage' %}" class="btn-more">Back to Home</a>
+            {{ form.name }}
+            {% if form.name.errors %}
+                <div class="error" style="color: #d93025; font-size: 0.85em;">
+                    {% with error=form.name.errors.0 %}
+                        {% if "required" in error %}
+                            {% if lang_code == 'ja' %}お名前を入力してください。
+                            {% elif lang_code == 'ko' %}이름을 입력해 주세요.
+                            {% else %}Name is required.{% endif %}
+                        {% else %}{{ error }}{% endif %}
+                    {% endwith %}
+                </div>
+            {% endif %}
         </div>
+
+        <div>
+            <label>
+                {% if lang_code == 'ja' %}件名
+                {% elif lang_code == 'zh-hant' %}主題
+                {% elif lang_code == 'zh-cn' %}主题
+                {% elif lang_code == 'ko' %}제목
+                {% elif lang_code == 'de' %}Betreff
+                {% elif lang_code == 'fr' %}Sujet
+                {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Asunto
+                {% elif lang_code == 'it' %}Oggetto
+                {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Assunto
+                {% elif lang_code == 'vi' %}Tiêu đề
+                {% elif lang_code == 'th' %}หัวข้อ
+                {% else %}Subject / Title{% endif %}
+            </label>
+            {% if form.title.errors %}
+                <div class="error" style="color: #d93025; font-size: 0.85em;">
+                    {% with error=form.title.errors.0 %}
+                        {% if "required" in error %}
+                            {% if lang_code == 'ja' %}件名を入力してください。
+                            {% elif lang_code == 'zh-hant' %}請輸入主題。
+                            {% elif lang_code == 'zh-cn' %}请输入主题。
+                            {% elif lang_code == 'ko' %}제목을 입력해 주세요.
+                            {% elif lang_code == 'de' %}Bitte geben Sie einen Betreff ein.
+                            {% elif lang_code == 'fr' %}Veuillez saisir un sujet.
+                            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Por favor, introduce un asunto.
+                            {% elif lang_code == 'it' %}Per favore, inserisci un oggetto.
+                            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Por favor, insira um assunto.
+                            {% elif lang_code == 'vi' %}Vui lòng nhập tiêu đề.
+                            {% elif lang_code == 'th' %}กรุณากรอกหัวข้อ
+                            {% elif lang_code == 'en-in' %}Please enter a subject.
+                            {% else %}Subject is required.
+                            {% endif %}
+                        {% else %}
+                            {{ error }}
+                        {% endif %}
+                    {% endwith %}
+                </div>
+            {% endif %}
+
+            
+        <div>
+            <label>
+                {% if lang_code == 'ja' %}メールアドレス
+                {% elif lang_code == 'zh-hant' %}電子郵件
+                {% elif lang_code == 'zh-cn' %}电子邮件
+                {% elif lang_code == 'ko' %}이메일 주소
+                {% elif lang_code == 'de' %}E-Mail-Adresse
+                {% elif lang_code == 'fr' %}Adresse e-mail
+                {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Correo electrónico
+                {% elif lang_code == 'it' %}Indirizzo e-mail
+                {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Endereço de e-mail
+                {% elif lang_code == 'vi' %}Địa chỉ email
+                {% elif lang_code == 'th' %}ที่อยู่อีเมล
+                {% else %}Email Address{% endif %}
+            </label>
+            {{ form.email }}
+            {% if form.email.errors %}
+                <div class="error" style="color: #d93025; font-size: 0.85em;">
+                    {% with error=form.email.errors.0 %}
+                        {% if "required" in error %}
+                            {% if lang_code == 'ja' %}メールアドレスを入力してください。
+                            {% elif lang_code == 'zh-hant' %}請輸入電子郵件。
+                            {% elif lang_code == 'zh-cn' %}请输入电子邮件。
+                            {% elif lang_code == 'ko' %}이메일 주소를 입력해 주세요.
+                            {% elif lang_code == 'de' %}E-Mail-Adresse ist erforderlich.
+                            {% elif lang_code == 'fr' %}L'adresse e-mail est obligatoire.
+                            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}El correo electrónico es obligatorio.
+                            {% elif lang_code == 'it' %}L'e-mail è obbligatoria.
+                            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}O e-mail é obrigatório.
+                            {% elif lang_code == 'vi' %}Email là bắt buộc.
+                            {% elif lang_code == 'th' %}จำเป็นต้องกรอกอีเมล
+                            {% else %}Email is required.{% endif %}
+                        {% elif "valid" in error %}
+                            {% if lang_code == 'ja' %}有効なメールアドレスを入力してください。
+                            {% elif lang_code == 'zh-hant' %}請輸入有效的電子郵件地址。
+                            {% elif lang_code == 'zh-cn' %}请输入有效的电子邮箱地址。
+                            {% elif lang_code == 'ko' %}유효한 이메일 주소를 입력해 주세요.
+                            {% elif lang_code == 'de' %}Bitte geben Sie eine gültige E-Mail-Adresse ein.
+                            {% elif lang_code == 'fr' %}Veuillez saisir une adresse e-mail valide.
+                            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Por favor, introduce una dirección de correo electrónico válida.
+                            {% elif lang_code == 'it' %}Inserisci un indirizzo email valido.
+                            {% elif lang_code == 'pt' %}Por favor, introduza um endereço de e-mail válido.
+                            {% elif lang_code == 'pt-br' %}Por favor, insira um endereço de e-mail válido.
+                            {% elif lang_code == 'vi' %}Vui lòng nhập địa chỉ email hợp lệ.
+                            {% elif lang_code == 'th' %}กรุณากรอกที่อยู่อีเมลที่ถูกต้อง
+                            {% elif lang_code == 'en-in' %}Please enter a valid email address.
+                            {% else %}Enter a valid email address.{% endif %}
+                        {% else %}
+                            {{ error }}
+                        {% endif %}
+                    {% endwith %}
+                </div>
+            {% endif %}
+        </div>
+
+        
+        <div>
+            <label>
+                {% if lang_code == 'ja' %}お問い合わせ内容
+                {% elif lang_code == 'zh-hant' %}訊息内容
+                {% elif lang_code == 'zh-cn' %}消息内容
+                {% elif lang_code == 'ko' %}문의 내용
+                {% elif lang_code == 'de' %}Nachricht
+                {% elif lang_code == 'fr' %}Message
+                {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Mensaje
+                {% elif lang_code == 'it' %}Messaggio
+                {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Mensagem
+                {% elif lang_code == 'vi' %}Nội dung tin nhắn
+                {% elif lang_code == 'th' %}ข้อความ
+                {% else %}Message{% endif %}
+            </label>
+            {{ form.message }}
+            {% if form.message.errors %}
+                <div class="error" style="color: #d93025; font-size: 0.85em;">
+                    {% with error=form.message.errors.0 %}
+                        {% if "required" in error %}
+                            {% if lang_code == 'ja' %}内容を入力してください。
+                            {% elif lang_code == 'zh-hant' %}請輸入訊息内容。
+                            {% elif lang_code == 'zh-cn' %}请输入消息内容。
+                            {% elif lang_code == 'ko' %}문의 내용을 입력해 주세요.
+                            {% elif lang_code == 'de' %}Bitte geben Sie eine Nachricht ein.
+                            {% elif lang_code == 'fr' %}Veuillez saisir un message.
+                            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Por favor, introduce un mensaje.
+                            {% elif lang_code == 'it' %}Per favore, inserisci un messaggio.
+                            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Por favor, insira uma mensagem.
+                            {% elif lang_code == 'vi' %}Vui lòng nhập nội dung.
+                            {% elif lang_code == 'th' %}กรุณากรอกข้อความ
+                            {% else %}Message is required.{% endif %}
+                        {% else %}
+                            {{ error }}
+                        {% endif %}
+                    {% endwith %}
+                </div>
+            {% endif %}
+        </div>
+
+        
+        <button type="submit">
+            {% if lang_code == 'ja' %}メッセージを送信
+            {% elif lang_code == 'zh-hant' or lang_code == 'zh-cn' %}發送訊息
+            {% elif lang_code == 'ko' %}메시지 보내기
+            {% elif lang_code == 'de' %}Nachricht senden
+            {% elif lang_code == 'fr' %}Envoyer le message
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Enviar mensaje
+            {% elif lang_code == 'it' %}Invia messaggio
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Enviar mensagem
+            {% elif lang_code == 'vi' %}Gửi tin nhắn
+            {% elif lang_code == 'th' %}ส่งข้อความ
+            {% else %}Send Message
+            {% endif %}
+        </button>
+    </form>
+
+    
+    <div style="text-align: center; margin-top: 30px;">
+        <a href="{% if lang_code == 'ja' %}{% url 'toppageja' %}{% elif lang_code == 'zh-hant' %}{% url 'toppagezhHANT' %}{% elif lang_code == 'zh-cn' %}{% url 'toppagezhCN' %}{% elif lang_code == 'ko' %}{% url 'toppageko' %}{% elif lang_code == 'fr' %}{% url 'toppagefr' %}{% elif lang_code == 'de' %}{% url 'toppagede' %}{% elif lang_code == 'it' %}{% url 'toppageit' %}{% elif lang_code == 'es-mx' %}{% url 'toppageesMX' %}{% elif lang_code == 'es-es' %}{% url 'toppageesES' %}{% elif lang_code == 'pt' %}{% url 'toppagept' %}{% elif lang_code == 'pt-br' %}{% url 'toppageptBR' %}{% elif lang_code == 'vi' %}{% url 'toppagevi' %}{% elif lang_code == 'th' %}{% url 'toppageth' %}{% elif lang_code == 'en-in' %}{% url 'toppageenIN' %}{% else %}{% url 'toppage' %}{% endif %}" class="btn-more">
+            {% if lang_code == 'ja' %}← ホームに戻る
+            {% elif lang_code == 'ko' %}← 홈으로 돌아가기
+            {% elif lang_code == 'zh-hant' %}← 返回首頁
+            {% elif lang_code == 'zh-cn' %}← 返回首页
+            {% elif lang_code == 'de' %}← Zurück zur Startseite
+            {% elif lang_code == 'fr' %}← Retour à l'accueil
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}← Volver al inicio
+            {% elif lang_code == 'it' %}← Torna alla home
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}← Voltar para o início
+            {% elif lang_code == 'vi' %}← Quay lại trang chủ
+            {% elif lang_code == 'th' %}← กลับหน้าหลัก
+            {% else %}← Back to Home
+            {% endif %}
+        </a>
     </div>
 </body>
 </html>
