@@ -1904,13 +1904,33 @@ def account_settingsKO(request):
 def account_settingsJA(request):
     profile = request.user.profile
     s = profile.total_score
-    thresholds = [50, 100, 200, 300, 450, 650, 900, 1200, 2000]
-    next_threshold = next((t for t in thresholds if s < t), None)
-    pts_to_next = next_threshold - s if next_threshold else 0
     
+    
+    thresholds = [0, 50, 100, 200, 300, 450, 650, 900, 1200, 2000]
+    
+    current_min = 0
+    next_max = 2000
+    for i in range(len(thresholds) - 1):
+        if s < thresholds[i+1]:
+            current_min = thresholds[i]
+            next_max = thresholds[i+1]
+            break
+    else:
+        current_min = 2000
+        next_max = 2000
+
+    
+    pts_to_next = next_max - s if s < 2000 else 0
+    
+    if next_max > current_min:
+        progress_percent = ((s - current_min) / (next_max - current_min)) * 100
+    else:
+        progress_percent = 100
+
     context = {
         'total_score': s,
         'pts_to_next': pts_to_next,
+        'progress_percent': progress_percent, 
     }
     return render(request, 'thank_japan_app/account/account_settings_ja.html', context)
 
