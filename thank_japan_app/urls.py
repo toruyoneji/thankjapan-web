@@ -48,7 +48,7 @@ from .views import (TopView, TopViewFR, TopViewIT, TopViewPT, TopViewZHHANT,TopV
                     downgrade_successESMX, downgrade_successFR, downgrade_successIT, downgrade_successJA, downgrade_successZHCN,
                     downgrade_successKO, downgrade_successPT, downgrade_successPTBR, downgrade_successTH,
                     downgrade_successVI, downgrade_successZHHANT, update_policy_agreement, paypal_webhook,
-                    PasswordResetView) 
+                    CustomPasswordResetView) 
 
 
 urlpatterns = [
@@ -334,7 +334,7 @@ urlpatterns = [
     
     #password-reset
     path('password-reset/', 
-         PasswordResetView.as_view(template_name='thank_japan_app/registration/password_reset_form.html',
+         CustomPasswordResetView.as_view(template_name='thank_japan_app/registration/password_reset_form.html',
                 email_template_name='thank_japan_app/registration/password_reset_email.html',
          extra_email_context={'site_name': 'Thank Japan'}),                              
          name='password_reset'),
