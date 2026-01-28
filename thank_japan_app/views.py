@@ -19,6 +19,7 @@ from django.contrib.auth import authenticate, logout, login as auth_login, logou
 from django.views.decorators.csrf import csrf_exempt
 from django.utils import timezone
 from django.utils.http import urlencode
+from django.contrib.auth.views import PasswordResetView
 import logging
 import random
 import re, itertools
@@ -163,6 +164,27 @@ def update_policy_agreement(request):
     profile.save()
     return JsonResponse({'status': 'success'})
 
+
+# views.py
+
+
+class CustomPasswordResetView(PasswordResetView):
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        
+        from .context_processors import language_context
+        lang_info = language_context(self.request)
+        context['lang_code'] = lang_info['lang_code']
+        return context
+
+    def send_mail(self, subject_template_name, email_template_name, context, *args, **kwargs):
+
+        from .context_processors import language_context
+        lang_info = language_context(self.request)
+        context['lang_code'] = lang_info['lang_code']
+        super().send_mail(subject_template_name, email_template_name, context, *args, **kwargs)
+        
+        
     
 #company infomation
 class CompanyFormView(TemplateView):
