@@ -115,21 +115,21 @@ h2, h3 {
     border: 1px solid #ffeb99;
 }
 
-.btn-green {
-    background: linear-gradient(135deg, #5d7033 0%, #808F30 100%) !important;
+.btn-red {
+
+    background: linear-gradient(135deg, #d32f2f 0%, #b22d35 100%) !important;
     color: #ffffff !important;
-    border: 1px solid #3a4d24 !important;
-    box-shadow: 0 4px 12px rgba(49, 73, 44, 0.3);
+    border: 1px solid #8b1d24 !important;
+    box-shadow: 0 4px 15px rgba(178, 45, 53, 0.4);
     border-radius: 50px;
     font-weight: bold;
     transition: all 0.3s ease;
 }
 
-.btn-green:hover {
-    background: linear-gradient(135deg, #6b823d 0%, #5d7033 100%) !important;
+.btn-red:hover {
+    background: linear-gradient(135deg, #e53935 0%, #d32f2f 100%) !important;
     transform: translateY(-2px);
-    box-shadow: 0 6px 18px rgba(49, 73, 44, 0.4);
-    color: #ffffff !important;
+    box-shadow: 0 8px 20px rgba(178, 45, 53, 0.6);
 }
 
 .btn-yellow {
@@ -395,7 +395,7 @@ footer {
   {% if not user.is_authenticated %}
     <h1>THANK JAPAN</h1>
     <div class="hero-buttons">
-      <a href="{% url 'category_list_ko' %}" class="explore-btn btn-green">일본어 학습하기 📖</a>
+      <a href="{% url 'category_list_ko' %}" class="explore-btn btn-red">일본어 학습하기 📖</a>
 
       <a href="{% url 'player_register' %}?lang=ko" class="explore-btn btn-yellow">
         회원가입하고 포인트 적립하기 💎
@@ -410,7 +410,7 @@ footer {
   {% elif not user.profile.is_premium %}
     <h1>환영합니다, {{ user.username }}님!</h1>
     <div class="hero-buttons">
-      <a href="{% url 'category_list_ko' %}" class="explore-btn btn-green">학습 시작하기 📖</a>
+      <a href="{% url 'category_list_ko' %}" class="explore-btn btn-red">학습 시작하기 📖</a>
     </div>
     <div class="hero-buttons">
       <a href="{% url 'account_settingsko' %}" class="explore-btn btn-white">계정 관리 ⚙️</a>
