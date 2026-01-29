@@ -419,8 +419,7 @@ footer {
     
 
   {% else %}
-    <h1>Bentornato, {{ user.username }}! 💎</h1>
-    <p>Goditi l'accesso illimitato a tutte le lezioni.</p>
+    <h1>Bentornato, {{ user.username }}! <br>💎Membro Premium💎</h1>
     <div class="hero-buttons">
       <a href="{% url 'category_list_it' %}" class="explore-btn btn-gold">Vai alle lezioni 📖</a>
       <a href="{% url 'account_settingsit' %}" class="explore-btn btn-white">Gestisci Account ⚙️</a>

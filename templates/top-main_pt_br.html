@@ -419,8 +419,7 @@ footer {
     
 
   {% else %}
-    <h1>Bem-vindo de volta, {{ user.username }}! 💎</h1>
-    <p>Aproveite seu acesso ilimitado a todas as lições.</p>
+    <h1>Bem-vindo de volta, {{ user.username }}! <br>💎Membro Premium💎</h1>
     <div class="hero-buttons">
       <a href="{% url 'category_list_ptBR' %}" class="explore-btn btn-gold">Ir para as Lições 📖</a>
       <a href="{% url 'account_settingsptBR' %}" class="explore-btn btn-white">Gerenciar Conta ⚙️</a>

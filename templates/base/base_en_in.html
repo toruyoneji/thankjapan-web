@@ -244,11 +244,6 @@
                            onmouseover="this.style.color='red'" 
                            onmouseout="this.style.color='white'">👤 {{ user.username }}</a></span>
                     
-                    {% if user.profile.is_premium %}
-                        <span class="premium-badge">💎 Premium</span>
-                    {% else %}
-                        <a href="{% url 'premium_infoenIN' %}" class="upgrade-link">💎 Get Premium</a>
-                    {% endif %}
                     <a href="{% url 'player_logout' %}?lang=en-in" class="auth-btn logout">Logout</a>
                 </div>
             {% else %}
@@ -261,7 +256,7 @@
 
                     <span class="user-name">👤 Guest</span> 
                     <a href="{% url 'player_login' %}?next={{ request.get_full_path|urlencode }}&lang={{ lang_code }}" class="auth-btn login">Login</a>
-                    <a href="{% url 'player_register' %}?lang=en-in" class="auth-btn signup">Sign Up Free</a>
+                
                 </div>
             {% endif %}
         </div>

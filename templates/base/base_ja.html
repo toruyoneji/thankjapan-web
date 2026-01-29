@@ -245,11 +245,6 @@
                            onmouseover="this.style.color='red'" 
                            onmouseout="this.style.color='white'">👤 {{ user.username }}</a></span>
                     
-                    {% if user.profile.is_premium %}
-                        <span class="premium-badge">💎 プレミアム</span>
-                    {% else %}
-                        <a href="{% url 'premium_infoja' %}" class="upgrade-link">💎 プレミアム版を入手</a>
-                    {% endif %}
                     <a href="{% url 'player_logout' %}?lang=ja" class="auth-btn logout">ログアウト</a>
                 </div>
             {% else %}
@@ -262,7 +257,7 @@
 
                     <span class="user-name">👤 ゲスト</span> 
                     <a href="{% url 'player_login' %}?next={{ request.get_full_path|urlencode }}&lang={{ lang_code }}" class="auth-btn login">ログイン</a>
-                    <a href="{% url 'player_register' %}?lang=ja" class="auth-btn signup">無料で新規登録</a>
+    
                 </div>
             {% endif %}
         </div>

@@ -419,8 +419,7 @@ footer {
     
 
   {% else %}
-    <h1>欢迎回来，{{ user.username }}！ 💎</h1>
-    <p>尽情享受所有课程的无限访问权限。</p>
+    <h1>欢迎回来，{{ user.username }}！ <br>💎高级会员💎</h1>
     <div class="hero-buttons">
       <a href="{% url 'category_list_zhCN' %}" class="explore-btn btn-gold">进入课程 📖</a>
       <a href="{% url 'account_settingszhCN' %}" class="explore-btn btn-white">管理账户 ⚙️</a>

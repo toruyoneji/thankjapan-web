@@ -419,8 +419,7 @@ footer {
     
 
   {% else %}
-    <h1>お帰りなさい、{{ user.username }}さん！ 💎</h1>
-    <p>すべてのレッスンを無制限にお楽しみください。</p>
+    <h1>お帰りなさい、{{ user.username }}さん！ <br>💎プレミアム会員💎</h1>
     <div class="hero-buttons">
       <a href="{% url 'category_list_ja' %}" class="explore-btn btn-gold">レッスンへ行く 📖</a>
       <a href="{% url 'account_settingsja' %}" class="explore-btn btn-white">アカウント管理 ⚙️</a>

@@ -246,11 +246,6 @@
                            onmouseover="this.style.color='red'" 
                            onmouseout="this.style.color='white'">👤 {{ user.username }}</a></span>
                     
-                    {% if user.profile.is_premium %}
-                        <span class="premium-badge">💎 Cao cấp</span>
-                    {% else %}
-                        <a href="{% url 'premium_infovi' %}" class="upgrade-link">💎 Nhận bản Cao cấp</a>
-                    {% endif %}
                     <a href="{% url 'player_logout' %}?lang=vi" class="auth-btn logout">Đăng xuất</a>
                 </div>
             {% else %}
@@ -263,7 +258,7 @@
 
                     <span class="user-name">👤 Khách</span> 
                     <a href="{% url 'player_login' %}?next={{ request.get_full_path|urlencode }}&lang={{ lang_code }}" class="auth-btn login">Đăng nhập</a>
-                    <a href="{% url 'player_register' %}?lang=vi" class="auth-btn signup">Đăng ký miễn phí</a>
+            
                 </div>
             {% endif %}
         </div>

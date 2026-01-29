@@ -419,8 +419,7 @@ footer {
     
 
   {% else %}
-    <h1>Welcome back, {{ user.username }}! 💎</h1>
-    <p>Enjoy your unlimited access to all lessons.</p>
+    <h1>Welcome back, {{ user.username }}! <br>💎Premium Member💎</h1>
     <div class="hero-buttons">
       <a href="{% url 'category_list_enIN' %}" class="explore-btn btn-gold">Go to Lessons 📖</a>
       <a href="{% url 'account_settingsenIN' %}" class="explore-btn btn-white">Manage Account ⚙️</a>

@@ -244,12 +244,7 @@
                            style="color: white; text-decoration: none;" 
                            onmouseover="this.style.color='red'" 
                            onmouseout="this.style.color='white'">👤 {{ user.username }}</a></span>
-                    
-                    {% if user.profile.is_premium %}
-                        <span class="premium-badge">💎 Premium</span>
-                    {% else %}
-                        <a href="{% url 'premium_infoesES' %}" class="upgrade-link">💎 Obtén Premium</a>
-                    {% endif %}
+                
                     <a href="{% url 'player_logout' %}?lang=es-es" class="auth-btn logout">Cerrar sesión</a>
                 </div>
             {% else %}
@@ -262,7 +257,7 @@
 
                     <span class="user-name">👤 Invitado</span> 
                     <a href="{% url 'player_login' %}?next={{ request.get_full_path|urlencode }}&lang={{ lang_code }}" class="auth-btn login">Iniciar sesión</a>
-                    <a href="{% url 'player_register' %}?lang=es-es" class="auth-btn signup">Regístrate gratis</a>
+                    
                 </div>
             {% endif %}
         </div>

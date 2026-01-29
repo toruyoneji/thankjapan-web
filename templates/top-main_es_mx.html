@@ -419,8 +419,7 @@ footer {
     
 
   {% else %}
-    <h1>¡Bienvenido, {{ user.username }}! 💎</h1>
-    <p>Disfruta de tu acceso ilimitado a todas las lecciones.</p>
+    <h1>¡Bienvenido de nuevo, {{ user.username }}! <br>💎Miembro Premium💎</h1>
     <div class="hero-buttons">
       <a href="{% url 'category_list_esMX' %}" class="explore-btn btn-gold">Ir a Lecciones 📖</a>
       <a href="{% url 'account_settingsesMX' %}" class="explore-btn btn-white">Administrar Cuenta ⚙️</a>

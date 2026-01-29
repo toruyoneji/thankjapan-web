@@ -420,8 +420,7 @@ footer {
     
 
   {% else %}
-    <h1>Bon retour, {{ user.username }} ! 💎</h1>
-    <p>Profitez d'un accès illimité à toutes les leçons.</p>
+    <h1>Bon retour, {{ user.username }} ! <br>💎Membre Premium💎</h1>
     <div class="hero-buttons">
       <a href="{% url 'category_list_fr' %}" class="explore-btn btn-gold">Aller aux leçons 📖</a>
       <a href="{% url 'account_settingsfr' %}" class="explore-btn btn-white">Gérer le compte ⚙️</a>

@@ -418,8 +418,7 @@ footer {
     
 
   {% else %}
-    <h1>환영합니다, {{ user.username }}님! 💎</h1>
-    <p>모든 강의를 무제한으로 이용해 보세요.</p>
+    <h1>환영합니다, {{ user.username }}님! <br>💎프리미엄 회원💎</h1>
     <div class="hero-buttons">
       <a href="{% url 'category_list_ko' %}" class="explore-btn btn-gold">강의 바로가기 📖</a>
       <a href="{% url 'account_settingsko' %}" class="explore-btn btn-white">계정 관리 ⚙️</a>
