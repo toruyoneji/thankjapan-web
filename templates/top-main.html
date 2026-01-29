@@ -425,7 +425,7 @@ footer {
     </div>
     
   {% else %}
-    <h1>Welcome back, {{ user.username }}! Premium member💎</h1>
+    <h1>Welcome back, {{ user.username }}! <br>💎Premium Member💎</h1>
     <div class="hero-buttons">
       <a href="{% url 'category_list' %}" class="explore-btn btn-gold">Go to Lessons 📖</a>
       <a href="{% url 'account_settings' %}" class="explore-btn btn-white">Manage Account ⚙️</a>
