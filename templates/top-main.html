@@ -123,6 +123,37 @@ h2, h3 {
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
 
+.btn-green:hover {
+    background-color: #2ecc71;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(46, 204, 113, 0.4);
+}
+
+.btn-yellow {
+    background: linear-gradient(to bottom, #f7dfa5, #f0c14b); /* Amazon-like gold gradient */
+    color: #111;
+    border: 1px solid #a88734;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.btn-yellow:hover {
+    background: linear-gradient(to bottom, #f5d78e, #eeb933);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(240, 193, 75, 0.5);
+}
+
+.login-prompt {
+    margin-top: 30px;
+    font-size: 1rem;
+    color: #ccc;
+}
+
+.login-prompt a {
+    color: #f0c14b; 
+    text-decoration: underline;
+    font-weight: bold;
+}
+
 .btn-white {
     background: #ffffff !important;
     color: #4a4a4a !important;
@@ -378,6 +409,10 @@ footer {
     <h1>THANK JAPAN</h1>
     <div class="hero-buttons">
       <a href="{% url 'category_list' %}" class="explore-btn btn-green">Learn Japanese 📖</a>
+
+      <a href="{% url 'player_register' %}?lang=en" class="explore-btn btn-yellow">
+          Register & Earn Points 💎
+      </a>
     </div>
     
     <p class="login-prompt">
