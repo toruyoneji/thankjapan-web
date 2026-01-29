@@ -182,7 +182,7 @@
             {% elif "already registered" in message %}このメールアドレスは既に登録されています。
             {% elif "Invalid username" in message %}ユーザー名またはパスワードが正しくありません。
             {% elif "Account created" in message %}アカウントが作成されました！ログインしてください。
-            {% elif "Logged out" in message %}ログアウトしました。
+            {% elif "Logged out" in message.message %}ログアウトしました。
             {% else %}{{ message }}{% endif %}
 
         {% elif lang_code == 'zh-hant' %}
