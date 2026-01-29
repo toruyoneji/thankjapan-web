@@ -178,106 +178,106 @@
     {% for message in messages %}
       <li style="color: #d93025; font-size: 0.9em; margin-bottom: 10px;">
         {% if lang_code == 'ja' %}
-            {% if "already taken" in message %}このユーザー名は既に使用されています。
-            {% elif "already registered" in message %}このメールアドレスは既に登録されています。
-            {% elif "Invalid username" in message %}ユーザー名またはパスワードが正しくありません。
-            {% elif "Account created" in message %}アカウントが作成されました！ログインしてください。
-            {% elif "Logged out" in message.message %}ログアウトしました。
+            {% if "already taken" in message.message %}このユーザー名は既に使用されています。
+            {% elif "already registered" in message.message %}このメールアドレスは既に登録されています。
+            {% elif "Invalid username" in message.message %}ユーザー名またはパスワードが正しくありません。
+            {% elif "Account created" in message.message %}アカウントが作成されました！ログインしてください。
+            {% elif "Logged out" in message.message.message %}ログアウトしました。
             {% else %}{{ message }}{% endif %}
 
         {% elif lang_code == 'zh-hant' %}
-            {% if "already taken" in message %}此用戶名稱已被使用。
-            {% elif "already registered" in message %}此電子郵件地址已註冊。
-            {% elif "Invalid username" in message %}用戶名或密碼無效。
-            {% elif "Account created" in message %}帳號已建立！請登入。
-            {% elif "Logged out" in message %}您已登出。
+            {% if "already taken" in message.message %}此用戶名稱已被使用。
+            {% elif "already registered" in message.message %}此電子郵件地址已註冊。
+            {% elif "Invalid username" in message.message %}用戶名或密碼無效。
+            {% elif "Account created" in message.message %}帳號已建立！請登入。
+            {% elif "Logged out" in message.message %}您已登出。
             {% else %}{{ message }}{% endif %}
 
         {% elif lang_code == 'zh-cn' %}
-            {% if "already taken" in message %}此用户名已被使用。
-            {% elif "already registered" in message %}此电子邮件地址已注册。
-            {% elif "Invalid username" in message %}用户名或密码无效。
-            {% elif "Account created" in message %}账号已建立！请登录。
-            {% elif "Logged out" in message %}您已登出。
+            {% if "already taken" in message.message %}此用户名已被使用。
+            {% elif "already registered" in message.message %}此电子邮件地址已注册。
+            {% elif "Invalid username" in message.message %}用户名或密码无效。
+            {% elif "Account created" in message.message %}账号已建立！请登录。
+            {% elif "Logged out" in message.message %}您已登出。
             {% else %}{{ message }}{% endif %}
 
         {% elif lang_code == 'ko' %}
-            {% if "already taken" in message %}이미 사용 중인 사용자 이름입니다.
-            {% elif "already registered" in message %}이미 등록된 이메일 주소입니다.
-            {% elif "Invalid username" in message %}사용자 이름 또는 비밀번호가 잘못되었습니다.
-            {% elif "Account created" in message %}계정이 생성되었습니다! 로그인해 주세요.
-            {% elif "Logged out" in message %}로그아웃되었습니다.
+            {% if "already taken" in message.message %}이미 사용 중인 사용자 이름입니다.
+            {% elif "already registered" in message.message %}이미 등록된 이메일 주소입니다.
+            {% elif "Invalid username" in message.message %}사용자 이름 또는 비밀번호가 잘못되었습니다.
+            {% elif "Account created" in message.message %}계정이 생성되었습니다! 로그인해 주세요.
+            {% elif "Logged out" in message.message %}로그아웃되었습니다.
             {% else %}{{ message }}{% endif %}
 
         {% elif lang_code == 'de' %}
-            {% if "already taken" in message %}Dieser Benutzername ist bereits vergeben.
-            {% elif "already registered" in message %}Diese E-Mail-Adresse ist bereits registriert.
-            {% elif "Invalid username" in message %}Benutzername oder Passwort ist ungültig.
-            {% elif "Account created" in message %}Konto erstellt! Bitte melden Sie sich an.
-            {% elif "Logged out" in message %}Abmeldung erfolgreich.
+            {% if "already taken" in message.message %}Dieser Benutzername ist bereits vergeben.
+            {% elif "already registered" in message.message %}Diese E-Mail-Adresse ist bereits registriert.
+            {% elif "Invalid username" in message.message %}Benutzername oder Passwort ist ungültig.
+            {% elif "Account created" in message.message %}Konto erstellt! Bitte melden Sie sich an.
+            {% elif "Logged out" in message.message %}Abmeldung erfolgreich.
             {% else %}{{ message }}{% endif %}
 
         {% elif lang_code == 'fr' %}
-            {% if "already taken" in message %}Ce nom d'utilisateur est déjà utilisé.
-            {% elif "already registered" in message %}Cette adresse e-mail est déjà enregistrée.
-            {% elif "Invalid username" in message %}Nom d'utilisateur ou mot de passe invalide.
-            {% elif "Account created" in message %}Compte créé ! Veuillez vous connecter.
-            {% elif "Logged out" in message %}Vous avez été déconnecté.
+            {% if "already taken" in message.message %}Ce nom d'utilisateur est déjà utilisé.
+            {% elif "already registered" in message.message %}Cette adresse e-mail est déjà enregistrée.
+            {% elif "Invalid username" in message.message %}Nom d'utilisateur ou mot de passe invalide.
+            {% elif "Account created" in message.message %}Compte créé ! Veuillez vous connecter.
+            {% elif "Logged out" in message.message %}Vous avez été déconnecté.
             {% else %}{{ message }}{% endif %}
 
         {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}
-            {% if "already taken" in message %}Este nombre de usuario ya está en uso.
-            {% elif "already registered" in message %}Esta dirección de correo electrónico ya está registrada.
-            {% elif "Invalid username" in message %}Usuario o contraseña no válidos.
-            {% elif "Account created" in message %}¡Cuenta creada! Por favor, inicia sesión.
-            {% elif "Logged out" in message %}Has cerrado sesión.
+            {% if "already taken" in message.message %}Este nombre de usuario ya está en uso.
+            {% elif "already registered" in message.message %}Esta dirección de correo electrónico ya está registrada.
+            {% elif "Invalid username" in message.message %}Usuario o contraseña no válidos.
+            {% elif "Account created" in message.message %}¡Cuenta creada! Por favor, inicia sesión.
+            {% elif "Logged out" in message.message %}Has cerrado sesión.
             {% else %}{{ message }}{% endif %}
 
         {% elif lang_code == 'it' %}
-            {% if "already taken" in message %}Questo nome utente è già in uso.
-            {% elif "already registered" in message %}Questo indirizzo email è già registrato.
-            {% elif "Invalid username" in message %}Nome utente o password non validi.
-            {% elif "Account created" in message %}Account creato! Effettua l'accesso.
-            {% elif "Logged out" in message %}Sei stato disconnesso.
+            {% if "already taken" in message.message %}Questo nome utente è già in uso.
+            {% elif "already registered" in message.message %}Questo indirizzo email è già registrato.
+            {% elif "Invalid username" in message.message %}Nome utente o password non validi.
+            {% elif "Account created" in message.message %}Account creato! Effettua l'accesso.
+            {% elif "Logged out" in message.message %}Sei stato disconnesso.
             {% else %}{{ message }}{% endif %}
 
         {% elif lang_code == 'pt' %}
-            {% if "already taken" in message %}Este nome de utilizador já está em uso.
-            {% elif "already registered" in message %}Este endereço de e-mail já está registado.
-            {% elif "Invalid username" in message %}Nome de utilizador ou palavra-passe inválidos.
-            {% elif "Account created" in message %}Conta criada! Por favor, inicie sessão.
-            {% elif "Logged out" in message %}Sessão encerrada.
+            {% if "already taken" in message.message %}Este nome de utilizador já está em uso.
+            {% elif "already registered" in message.message %}Este endereço de e-mail já está registado.
+            {% elif "Invalid username" in message.message %}Nome de utilizador ou palavra-passe inválidos.
+            {% elif "Account created" in message.message %}Conta criada! Por favor, inicie sessão.
+            {% elif "Logged out" in message.message %}Sessão encerrada.
             {% else %}{{ message }}{% endif %}
 
         {% elif lang_code == 'pt-br' %}
-            {% if "already taken" in message %}Este nome de usuário já está em uso.
-            {% elif "already registered" in message %}Este endereço de e-mail já está cadastrado.
-            {% elif "Invalid username" in message %}Nome de usuário ou senha inválidos.
-            {% elif "Account created" in message %}Conta criada! Por favor, faça login.
-            {% elif "Logged out" in message %}Você saiu com sucesso.
+            {% if "already taken" in message.message %}Este nome de usuário já está em uso.
+            {% elif "already registered" in message.message %}Este endereço de e-mail já está cadastrado.
+            {% elif "Invalid username" in message.message %}Nome de usuário ou senha inválidos.
+            {% elif "Account created" in message.message %}Conta criada! Por favor, faça login.
+            {% elif "Logged out" in message.message %}Você saiu com sucesso.
             {% else %}{{ message }}{% endif %}
 
         {% elif lang_code == 'vi' %}
-            {% if "already taken" in message %}Tên người dùng này đã được sử dụng.
-            {% elif "already registered" in message %}Địa chỉ email này đã được đăng ký.
-            {% elif "Invalid username" in message %}Tên người dùng hoặc mật khẩu không hợp lệ.
-            {% elif "Account created" in message %}Tài khoản đã được tạo! Vui lòng đăng nhập.
-            {% elif "Logged out" in message %}Bạn đã đăng xuất.
+            {% if "already taken" in message.message %}Tên người dùng này đã được sử dụng.
+            {% elif "already registered" in message.message %}Địa chỉ email này đã được đăng ký.
+            {% elif "Invalid username" in message.message %}Tên người dùng hoặc mật khẩu không hợp lệ.
+            {% elif "Account created" in message.message %}Tài khoản đã được tạo! Vui lòng đăng nhập.
+            {% elif "Logged out" in message.message %}Bạn đã đăng xuất.
             {% else %}{{ message }}{% endif %}
 
         {% elif lang_code == 'th' %}
-            {% if "already taken" in message %}ชื่อผู้ใช้นี้ถูกใช้งานแล้ว
-            {% elif "already registered" in message %}อีเมลนี้ถูกลงทะเบียนแล้ว
-            {% elif "Invalid username" in message %}ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง
-            {% elif "Account created" in message %}สร้างบัญชีเรียบร้อยแล้ว! กรุณาเข้าสู่ระบบ
-            {% elif "Logged out" in message %}คุณออกจากระบบแล้ว
+            {% if "already taken" in message.message %}ชื่อผู้ใช้นี้ถูกใช้งานแล้ว
+            {% elif "already registered" in message.message %}อีเมลนี้ถูกลงทะเบียนแล้ว
+            {% elif "Invalid username" in message.message %}ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง
+            {% elif "Account created" in message.message %}สร้างบัญชีเรียบร้อยแล้ว! กรุณาเข้าสู่ระบบ
+            {% elif "Logged out" in message.message %}คุณออกจากระบบแล้ว
             {% else %}{{ message }}{% endif %}
 
         {% elif lang_code == 'en-in' %}
-            {% if "already taken" in message %}This username is already taken.
-            {% elif "already registered" in message %}This email address is already registered.
-            {% elif "Invalid username" in message %}Invalid username or password.
-            {% elif "Account created" in message %}Account created! Please log in.
+            {% if "already taken" in message.message %}This username is already taken.
+            {% elif "already registered" in message.message %}This email address is already registered.
+            {% elif "Invalid username" in message.message %}Invalid username or password.
+            {% elif "Account created" in message.message %}Account created! Please log in.
             {% else %}{{ message }}{% endif %}
 
         {% else %}
@@ -308,7 +308,11 @@
         {% else %}Username:
         {% endif %}
       </label>
-      {{ form.username }}
+
+      <input type="text" name="username" id="id_username" required 
+       placeholder="{% if lang_code == 'ja' %}ユーザー名を入力{% elif lang_code == 'zh-hant' %}輸入用戶名稱{% elif lang_code == 'zh-cn' %}输入用户名{% elif lang_code == 'ko' %}사용자 이름 입력{% elif lang_code == 'de' %}Benutzername eingeben{% elif lang_code == 'fr' %}Entrez votre nom d'utilisateur{% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Introduce tu nombre de usuario{% elif lang_code == 'it' %}Inserisci il tuo nome utente{% elif lang_code == 'pt' or lang_code == 'pt-br' %}Digite seu nome de usuário{% elif lang_code == 'vi' %}Nhập tên người dùng{% elif lang_code == 'th' %}ป้อนชื่อผู้ใช้ของคุณ{% else %}Enter your username{% endif %}" 
+       value="{{ form.username.value|default:'' }}"
+       style="width: 100%; padding: 8px; border: 1px solid #a6a6a6; border-radius: 3px;">
       {% for error in form.username.errors %}
 				<div style="color: #d93025; font-size: 0.85em;">
 
@@ -438,7 +442,12 @@
         {% else %}Email Address:
         {% endif %}
       </label>
-      <input type="email" name="email" id="id_email" required placeholder="example@gmail.com">
+      
+      <input type="email" name="email" id="id_email" required 
+       placeholder="{% if lang_code == 'ja' %}メールアドレスを入力 (email@example.com){% elif lang_code == 'zh-hant' %}請輸入電子郵件地址 (email@example.com){% elif lang_code == 'zh-cn' %}请输入电子邮件地址 (email@example.com){% elif lang_code == 'ko' %}이메일 주소를 입력하세요 (email@example.com){% elif lang_code == 'de' %}E-Mail-Adresse eingeben (email@example.com){% elif lang_code == 'fr' %}Entrez votre adresse e-mail (email@example.com){% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Introduce tu correo electrónico (email@example.com){% elif lang_code == 'it' %}Inserisci l'indirizzo e-mail (email@example.com){% elif lang_code == 'pt' %}Introduza o seu endereço de e-mail (email@example.com){% elif lang_code == 'pt-br' %}Digite seu endereço de e-mail (email@example.com){% elif lang_code == 'vi' %}Nhập địa chỉ email của bạn (email@example.com){% elif lang_code == 'th' %}ป้อนที่อยู่อีเมลของคุณ (email@example.com){% else %}Enter email address (email@example.com){% endif %}" 
+       value="{{ form.email.value|default:'' }}"
+       style="width: 100%; padding: 8px; border: 1px solid #a6a6a6; border-radius: 3px;">
+       
       {% for error in form.email.errors %}
 				<div style="color: #d93025;">
 					{% if lang_code == 'ja' %}
@@ -579,7 +588,10 @@
         {% else %}Password:
         {% endif %}
       </label>
-      {{ form.password }}
+      
+      <input type="password" name="password" id="id_password" required 
+       placeholder="{% if lang_code == 'ja' %}パスワードを入力{% elif lang_code == 'zh-hant' %}輸入密碼{% elif lang_code == 'zh-cn' %}输入密码{% elif lang_code == 'ko' %}비밀번호 입력{% elif lang_code == 'de' %}Passwort eingeben{% elif lang_code == 'fr' %}Entrez votre mot de passe{% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Introduce tu contraseña{% elif lang_code == 'it' %}Inserisci la password{% elif lang_code == 'pt' or lang_code == 'pt-br' %}Digite sua senha{% elif lang_code == 'vi' %}Nhập mật khẩu{% elif lang_code == 'th' %}ป้อนรหัสผ่านของคุณ{% else %}Enter your password{% endif %}"
+       style="width: 100%; padding: 8px; border: 1px solid #a6a6a6; border-radius: 3px;">
       {% for error in form.password.errors %}
 				<div style="color: #d93025; font-size: 0.85em;">
 
@@ -748,7 +760,11 @@
         {% else %}Country:
         {% endif %}
       </label>
-      {{ form.country }}
+      
+      <input type="text" name="country" id="id_country" required 
+       placeholder="{% if lang_code == 'ja' %}例：日本、アメリカ{% elif lang_code == 'zh-hant' %}例如：台灣、日本{% elif lang_code == 'zh-cn' %}例如：中国、日本{% elif lang_code == 'ko' %}예: 한국, 일본{% elif lang_code == 'de' %}z.B. Deutschland, Österreich{% elif lang_code == 'fr' %}ex. France, Canada{% elif lang_code == 'es-es' or lang_code == 'es-mx' %}ej. España, México{% elif lang_code == 'it' %}es. Italia{% elif lang_code == 'pt' or lang_code == 'pt-br' %}ex. Portugal, Brasil{% elif lang_code == 'vi' %}VD: Việt Nam{% elif lang_code == 'th' %}เช่น ไทย, ญี่ปุ่น{% else %}e.g. Japan, USA{% endif %}"
+       value="{{ form.country.value|default:'' }}"
+       style="width: 100%; padding: 8px; border: 1px solid #a6a6a6; border-radius: 3px;">
       {% for error in form.country.errors %}
 				<div style="color: #d93025;">
 					{% if lang_code == 'ja' %}

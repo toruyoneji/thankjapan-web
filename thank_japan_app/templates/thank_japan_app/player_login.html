@@ -292,7 +292,12 @@
         {% else %}Username
         {% endif %}
       </label>
-      <input type="text" name="username" id="id_username" required autocomplete="username" autofocus style="width: 100%; padding: 8px; border: 1px solid #a6a6a6; border-radius: 3px;">
+
+      <input type="text" name="username" id="id_username" required 
+       placeholder="{% if lang_code == 'ja' %}ユーザー名を入力{% elif lang_code == 'zh-hant' %}輸入用戶名稱{% elif lang_code == 'zh-cn' %}输入用户名{% elif lang_code == 'ko' %}사용자 이름 입력{% elif lang_code == 'de' %}Benutzername eingeben{% elif lang_code == 'fr' %}Entrez votre nom d'utilisateur{% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Introduce tu nombre de usuario{% elif lang_code == 'it' %}Inserisci il tuo nome utente{% elif lang_code == 'pt' or lang_code == 'pt-br' %}Digite seu nome de usuário{% elif lang_code == 'vi' %}Nhập tên người dùng{% elif lang_code == 'th' %}ป้อนชื่อผู้ใช้ของคุณ{% else %}Enter your username{% endif %}" 
+       value="{{ form.username.value|default:'' }}"
+       style="width: 100%; padding: 8px; border: 1px solid #a6a6a6; border-radius: 3px;">
+
     </p>
 
     <p>
@@ -311,7 +316,11 @@
         {% else %}Password
         {% endif %}
       </label>
-      <input type="password" name="password" id="id_password" required autocomplete="current-password" style="width: 100%; padding: 8px; border: 1px solid #a6a6a6; border-radius: 3px;">
+      
+      <input type="password" name="password" id="id_password" required 
+       placeholder="{% if lang_code == 'ja' %}パスワードを入力{% elif lang_code == 'zh-hant' %}輸入密碼{% elif lang_code == 'zh-cn' %}输入密码{% elif lang_code == 'ko' %}비밀번호 입력{% elif lang_code == 'de' %}Passwort eingeben{% elif lang_code == 'fr' %}Entrez votre mot de passe{% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Introduce tu contraseña{% elif lang_code == 'it' %}Inserisci la password{% elif lang_code == 'pt' or lang_code == 'pt-br' %}Digite sua senha{% elif lang_code == 'vi' %}Nhập mật khẩu{% elif lang_code == 'th' %}ป้อนรหัสผ่านของคุณ{% else %}Enter your password{% endif %}"
+       style="width: 100%; padding: 8px; border: 1px solid #a6a6a6; border-radius: 3px;">
+       
     </p>
 
 
