@@ -116,11 +116,49 @@ h2, h3 {
 }
 
 .btn-green {
-    background: #05d632 !important;
+    background: linear-gradient(135deg, #5d7033 0%, #808F30 100%) !important;
     color: #ffffff !important;
-    border: 2px solid #4a4a4a;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    border: 1px solid #3a4d24 !important;
+    box-shadow: 0 4px 12px rgba(49, 73, 44, 0.3);
+    border-radius: 50px;
+    font-weight: bold;
+    transition: all 0.3s ease;
 }
+
+.btn-green:hover {
+    background: linear-gradient(135deg, #6b823d 0%, #5d7033 100%) !important;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(49, 73, 44, 0.4);
+    color: #ffffff !important;
+}
+
+.btn-yellow {
+    background: linear-gradient(to bottom, #f18e04, #ff8c00); 
+    color: #fff; 
+    border: 1px solid #e67e22;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.2); 
+    box-shadow: 0 4px 15px rgba(255, 140, 0, 0.3); 
+}
+
+.btn-yellow:hover {
+    background: linear-gradient(to bottom, #ffcc80, #f39c12); 
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 140, 0, 0.5);
+    color: #fff;
+}
+
+.login-prompt {
+    margin-top: 30px;
+    font-size: 1rem;
+    color: #ccc;
+}
+
+.login-prompt a {
+    color: #f0c14b; 
+    text-decoration: underline;
+    font-weight: bold;
+}
+
 
 .btn-white {
     background: #ffffff !important;
@@ -139,18 +177,6 @@ h2, h3 {
     transform: translateY(-3px);
     filter: brightness(1.1);
     box-shadow: 0 8px 25px rgba(0,0,0,0.2);
-}
-
-.login-prompt {
-    margin-top: 20px;
-    font-size: 0.95rem;
-    color: #fff;
-    text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
-}
-
-.login-prompt a {
-    color: #ffd700;
-    font-weight: bold;
 }
 
 
@@ -370,6 +396,10 @@ footer {
     <h1>THANK JAPAN</h1>
     <div class="hero-buttons">
       <a href="{% url 'category_list_ptBR' %}" class="explore-btn btn-green">Aprender japonês 📖</a>
+
+      <a href="{% url 'player_register' %}?lang=pt-br" class="explore-btn btn-yellow">
+        Registrar e ganhar pontos 💎
+      </a>
     </div>
     
     <p class="login-prompt">
