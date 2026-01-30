@@ -2777,19 +2777,28 @@ class ImgPremiumDetailView(DetailView):
 
     def get_queryset(self):
         category = self.kwargs.get('category')
-        qs = ThankJapanPremium.objects.filter(category__iexact=category).order_by('-timestamp')
+        return ThankJapanPremium.objects.filter(category__iexact=category).order_by('-timestamp')
+
+    def get_object(self, queryset=None):
+        obj = super().get_object(queryset)
         is_premium = self.request.user.is_authenticated and getattr(self.request.user.profile, 'is_premium', False)
         
-        if category != "DailyConversation" and not is_premium:
-            return qs[:6]
-        return qs
+        if obj.category != "DailyConversation" and not is_premium:
+            free_sample_ids = ThankJapanPremium.objects.filter(
+                category__iexact=obj.category
+            ).order_by('-timestamp').values_list('id', flat=True)[:6]
+            
+            if obj.id not in free_sample_ids:
+                raise Http404
+        return obj
 
     def dispatch(self, request, *args, **kwargs):
+        category = self.kwargs.get('category')
+        slug = self.kwargs.get('slug')
+        
         try:
-            self.object = self.get_object()
+            return super().dispatch(request, *args, **kwargs)
         except Http404:
-            category = self.kwargs.get('category')
-            slug = self.kwargs.get('slug')
             moved_item = ThankJapanPremium.objects.filter(
                 category__iexact=category,
                 slug__istartswith=slug
@@ -2810,8 +2819,6 @@ class ImgPremiumDetailView(DetailView):
                 _, lang_code = get_lang_info(request)
                 return redirect(f"{reverse('premium_info')}?lang={lang_code}")
             raise Http404
-        
-        return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -2843,8 +2850,9 @@ class ImgPremiumDetailView(DetailView):
             category=current_item.category
         ).exclude(id=current_item.id).order_by('?')[:6]
         
-        return context    
-            
+        return context
+    
+                
 def sitemap_view(request):
     free_items = ThankJapanModel.objects.all()
     
