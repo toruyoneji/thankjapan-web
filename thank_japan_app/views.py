@@ -2858,7 +2858,7 @@ def sitemap_view(request):
     
     public_premium_items = []
     
-    daily_conv = ThankJapanPremium.objects.filter(category="DailyConversation")
+    daily_conv = ThankJapanPremium.objects.filter(category="DailyConversation").order_by('timestamp')
     public_premium_items.extend(list(daily_conv))
     
     other_categories = ThankJapanPremium.objects.exclude(category="DailyConversation").values_list('category', flat=True).distinct()
