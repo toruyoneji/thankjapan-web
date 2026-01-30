@@ -2511,7 +2511,7 @@ class DailyConversationView(ListView):
     paginate_by = 24
     
     def get_queryset(self):
-        return ThankJapanPremium.objects.filter(category="DailyConversation").order_by('-timestamp')
+        return ThankJapanPremium.objects.filter(category="DailyConversation").order_by('timestamp')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -2535,7 +2535,7 @@ class BusinessJapaneseView(ListView):
         return super().dispatch(request, *args, **kwargs)
     
     def get_queryset(self):
-        qs = ThankJapanPremium.objects.filter(category="BusinessJapanese").order_by('-timestamp')
+        qs = ThankJapanPremium.objects.filter(category="BusinessJapanese").order_by('timestamp')
         is_premium = self.request.user.is_authenticated and getattr(self.request.user.profile, 'is_premium', False)
         if not is_premium:
             return qs[:6]
@@ -2573,7 +2573,7 @@ class LivingInJapanView(ListView):
         return super().dispatch(request, *args, **kwargs)
     
     def get_queryset(self):
-        qs = ThankJapanPremium.objects.filter(category="LivingInJapan").order_by('-timestamp')
+        qs = ThankJapanPremium.objects.filter(category="LivingInJapan").order_by('timestamp')
         is_premium = self.request.user.is_authenticated and getattr(self.request.user.profile, 'is_premium', False)
         if not is_premium:
             return qs[:6]
@@ -2611,7 +2611,7 @@ class MedicalEmergencyView(ListView):
         return super().dispatch(request, *args, **kwargs)
     
     def get_queryset(self):
-        qs = ThankJapanPremium.objects.filter(category="MedicalEmergency").order_by('-timestamp')
+        qs = ThankJapanPremium.objects.filter(category="MedicalEmergency").order_by('timestamp')
         is_premium = self.request.user.is_authenticated and getattr(self.request.user.profile, 'is_premium', False)
         if not is_premium:
             return qs[:6]
@@ -2649,7 +2649,7 @@ class RealestateRulesView(ListView):
         return super().dispatch(request, *args, **kwargs)
     
     def get_queryset(self):
-        qs = ThankJapanPremium.objects.filter(category="RealEstateRules").order_by('-timestamp')
+        qs = ThankJapanPremium.objects.filter(category="RealEstateRules").order_by('timestamp')
         is_premium = self.request.user.is_authenticated and getattr(self.request.user.profile, 'is_premium', False)
         if not is_premium:
             return qs[:6]
@@ -2686,7 +2686,7 @@ class TourismEtiquetteView(ListView):
         return super().dispatch(request, *args, **kwargs)
     
     def get_queryset(self):
-        qs = ThankJapanPremium.objects.filter(category="TourismEtiquette").order_by('-timestamp')
+        qs = ThankJapanPremium.objects.filter(category="TourismEtiquette").order_by('timestamp')
         is_premium = self.request.user.is_authenticated and getattr(self.request.user.profile, 'is_premium', False)
         if not is_premium:
             return qs[:6]
@@ -2777,7 +2777,7 @@ class ImgPremiumDetailView(DetailView):
 
     def get_queryset(self):
         category = self.kwargs.get('category')
-        return ThankJapanPremium.objects.filter(category__iexact=category).order_by('-timestamp')
+        return ThankJapanPremium.objects.filter(category__iexact=category).order_by('timestamp')
 
     def get_object(self, queryset=None):
         obj = super().get_object(queryset)
@@ -2786,7 +2786,7 @@ class ImgPremiumDetailView(DetailView):
         if obj.category != "DailyConversation" and not is_premium:
             free_sample_ids = ThankJapanPremium.objects.filter(
                 category__iexact=obj.category
-            ).order_by('-timestamp').values_list('id', flat=True)[:6]
+            ).order_by('timestamp').values_list('id', flat=True)[:6]
             
             if obj.id not in free_sample_ids:
                 raise Http404
@@ -2844,7 +2844,7 @@ class ImgPremiumDetailView(DetailView):
         else:
             context['free_sample_ids'] = ThankJapanPremium.objects.filter(
                 category=current_item.category
-            ).order_by('-timestamp').values_list('id', flat=True)[:6]
+            ).order_by('timestamp').values_list('id', flat=True)[:6]
 
         context['related_items'] = ThankJapanPremium.objects.filter(
             category=current_item.category
@@ -2864,7 +2864,7 @@ def sitemap_view(request):
     other_categories = ThankJapanPremium.objects.exclude(category="DailyConversation").values_list('category', flat=True).distinct()
     
     for cat in other_categories:
-        samples = ThankJapanPremium.objects.filter(category=cat).order_by('-timestamp')[:6]
+        samples = ThankJapanPremium.objects.filter(category=cat).order_by('timestamp')[:6]
         public_premium_items.extend(list(samples))
 
     context = {
