@@ -2686,17 +2686,30 @@
 
   {% for item in free_items %}
   <url>
-    <loc>https://www.thankjapan.com/{{ item.category }}/{{ item.slug }}/</loc>
+    {# カテゴリー名を小文字にして、新しいスラッグ(item.slug)を反映 #}
+    <loc>https://www.thankjapan.com/{{ item.category|lower }}/{{ item.slug }}/</loc>
+    <lastmod>{{ item.timestamp|date:"Y-m-d" }}</lastmod>
+    <priority>0.8</priority>
+    <changefreq>weekly</changefreq>
   </url>
   {% endfor %}
 
   {% for item in premium_items %}
     {% if item.category == "DailyConversation" %}
       <url>
-        <loc>https://www.thankjapan.com/premium-content/{{ item.category }}/{{ item.slug }}/</loc>
+        <loc>https://www.thankjapan.com/premium-content/dailyconversation/{{ item.slug }}/</loc>
+        <lastmod>{{ item.timestamp|date:"Y-m-d" }}</lastmod>
+        <priority>0.7</priority>
       </url>
+    {% else %}
+        <url>
+          <loc>https://www.thankjapan.com/premium-content/{{ item.category|lower }}/{{ item.slug }}/</loc>
+          <lastmod>{{ item.timestamp|date:"Y-m-d" }}</lastmod>
+          <priority>0.7</priority>
+        </url>
     {% endif %}
   {% endfor %}
+  
 </urlset>
 
 

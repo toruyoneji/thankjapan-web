@@ -2530,34 +2530,37 @@ class BusinessJapaneseView(ListView):
     def dispatch(self, request, *args, **kwargs):
         is_premium = request.user.is_authenticated and getattr(request.user.profile, 'is_premium', False)
         if not is_premium and request.GET.get('page', '1') != '1':
-            url_name, _ = get_lang_info(request)
-            return redirect(url_name) 
+            url_name, lang_code = get_lang_info(request)
+            return redirect(f"{reverse(url_name)}?lang={lang_code}") 
         return super().dispatch(request, *args, **kwargs)
     
     def get_queryset(self):
-        return ThankJapanPremium.objects.filter(category="BusinessJapanese").order_by('-timestamp')
+        qs = ThankJapanPremium.objects.filter(category="BusinessJapanese").order_by('-timestamp')
+        is_premium = self.request.user.is_authenticated and getattr(self.request.user.profile, 'is_premium', False)
+        if not is_premium:
+            return qs[:6]
+        return qs
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        all_premium_qs = ThankJapanPremium.objects.filter(category="BusinessJapanese")
+        total_count = all_premium_qs.count()
         
-        is_premium = False
-        if self.request.user.is_authenticated and getattr(self.request.user.profile, 'is_premium', False):
-            is_premium = True
+        is_premium = self.request.user.is_authenticated and getattr(self.request.user.profile, 'is_premium', False)
+        url_name, lang_code = get_lang_info(self.request)
+        
+        context['lang_code'] = lang_code
+        context['premium_url_name'] = url_name
 
         if not is_premium:
-            total_count = self.get_queryset().count()
-            context['object_list'] = context['object_list'][:6]
             context['is_locked'] = True
             context['hidden_count'] = max(0, total_count - 6)
-            
-            url_name, lang_code = get_lang_info(self.request)
-            context['premium_url_name'] = url_name
-            context['lang_code'] = lang_code
         else:
             context['is_locked'] = False
             
         return context
     
+        
 class LivingInJapanView(ListView):
     template_name = "thank_japan_app/living_in_japan.html"
     paginate_by = 24
@@ -2565,34 +2568,37 @@ class LivingInJapanView(ListView):
     def dispatch(self, request, *args, **kwargs):
         is_premium = request.user.is_authenticated and getattr(request.user.profile, 'is_premium', False)
         if not is_premium and request.GET.get('page', '1') != '1':
-            url_name, _ = get_lang_info(request)
-            return redirect(url_name) 
+            url_name, lang_code = get_lang_info(request)
+            return redirect(f"{reverse(url_name)}?lang={lang_code}") 
         return super().dispatch(request, *args, **kwargs)
     
     def get_queryset(self):
-        return ThankJapanPremium.objects.filter(category="LivingInJapan").order_by('-timestamp')
+        qs = ThankJapanPremium.objects.filter(category="LivingInJapan").order_by('-timestamp')
+        is_premium = self.request.user.is_authenticated and getattr(self.request.user.profile, 'is_premium', False)
+        if not is_premium:
+            return qs[:6]
+        return qs
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        all_premium_qs = ThankJapanPremium.objects.filter(category="LivingInJapan")
+        total_count = all_premium_qs.count()
         
-        is_premium = False
-        if self.request.user.is_authenticated and getattr(self.request.user.profile, 'is_premium', False):
-            is_premium = True
+        is_premium = self.request.user.is_authenticated and getattr(self.request.user.profile, 'is_premium', False)
+        url_name, lang_code = get_lang_info(self.request)
+        
+        context['lang_code'] = lang_code
+        context['premium_url_name'] = url_name
 
         if not is_premium:
-            total_count = self.get_queryset().count()
-            context['object_list'] = context['object_list'][:6]
             context['is_locked'] = True
             context['hidden_count'] = max(0, total_count - 6)
-            
-            url_name, lang_code = get_lang_info(self.request)
-            context['premium_url_name'] = url_name
-            context['lang_code'] = lang_code
         else:
             context['is_locked'] = False
             
         return context
-
+    
+    
 class MedicalEmergencyView(ListView):
     template_name = "thank_japan_app/medical_emergency.html"
     paginate_by = 24
@@ -2600,34 +2606,37 @@ class MedicalEmergencyView(ListView):
     def dispatch(self, request, *args, **kwargs):
         is_premium = request.user.is_authenticated and getattr(request.user.profile, 'is_premium', False)
         if not is_premium and request.GET.get('page', '1') != '1':
-            url_name, _ = get_lang_info(request)
-            return redirect(url_name) 
+            url_name, lang_code = get_lang_info(request)
+            return redirect(f"{reverse(url_name)}?lang={lang_code}") 
         return super().dispatch(request, *args, **kwargs)
     
     def get_queryset(self):
-        return ThankJapanPremium.objects.filter(category="MedicalEmergency").order_by('-timestamp')
+        qs = ThankJapanPremium.objects.filter(category="MedicalEmergency").order_by('-timestamp')
+        is_premium = self.request.user.is_authenticated and getattr(self.request.user.profile, 'is_premium', False)
+        if not is_premium:
+            return qs[:6]
+        return qs
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        all_premium_qs = ThankJapanPremium.objects.filter(category="MedicalEmergency")
+        total_count = all_premium_qs.count()
         
-        is_premium = False
-        if self.request.user.is_authenticated and getattr(self.request.user.profile, 'is_premium', False):
-            is_premium = True
+        is_premium = self.request.user.is_authenticated and getattr(self.request.user.profile, 'is_premium', False)
+        url_name, lang_code = get_lang_info(self.request)
+        
+        context['lang_code'] = lang_code
+        context['premium_url_name'] = url_name
 
         if not is_premium:
-            total_count = self.get_queryset().count()
-            context['object_list'] = context['object_list'][:6]
             context['is_locked'] = True
             context['hidden_count'] = max(0, total_count - 6)
-            
-            url_name, lang_code = get_lang_info(self.request)
-            context['premium_url_name'] = url_name
-            context['lang_code'] = lang_code
         else:
             context['is_locked'] = False
             
         return context
-
+    
+    
 class RealestateRulesView(ListView):
     template_name = "thank_japan_app/realestate_rules.html"
     paginate_by = 24
@@ -2635,34 +2644,35 @@ class RealestateRulesView(ListView):
     def dispatch(self, request, *args, **kwargs):
         is_premium = request.user.is_authenticated and getattr(request.user.profile, 'is_premium', False)
         if not is_premium and request.GET.get('page', '1') != '1':
-            url_name, _ = get_lang_info(request)
-            return redirect(url_name) 
+            url_name, lang_code = get_lang_info(request)
+            return redirect(f"{reverse(url_name)}?lang={lang_code}") 
         return super().dispatch(request, *args, **kwargs)
     
     def get_queryset(self):
-        return ThankJapanPremium.objects.filter(category="RealEstateRules").order_by('-timestamp')
+        qs = ThankJapanPremium.objects.filter(category="RealEstateRules").order_by('-timestamp')
+        is_premium = self.request.user.is_authenticated and getattr(self.request.user.profile, 'is_premium', False)
+        if not is_premium:
+            return qs[:6]
+        return qs
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        all_premium_qs = ThankJapanPremium.objects.filter(category="RealEstateRules")
+        total_count = all_premium_qs.count()
         
-        is_premium = False
-        if self.request.user.is_authenticated and getattr(self.request.user.profile, 'is_premium', False):
-            is_premium = True
+        is_premium = self.request.user.is_authenticated and getattr(self.request.user.profile, 'is_premium', False)
+        url_name, lang_code = get_lang_info(self.request)
+        
+        context['lang_code'] = lang_code
+        context['premium_url_name'] = url_name
 
         if not is_premium:
-            total_count = self.get_queryset().count()
-            context['object_list'] = context['object_list'][:6]
             context['is_locked'] = True
             context['hidden_count'] = max(0, total_count - 6)
-            
-            url_name, lang_code = get_lang_info(self.request)
-            context['premium_url_name'] = url_name
-            context['lang_code'] = lang_code
         else:
             context['is_locked'] = False
             
-        return context
-    
+        return context    
 
 class TourismEtiquetteView(ListView):
     template_name = "thank_japan_app/tourism_etiquette.html"
@@ -2671,35 +2681,36 @@ class TourismEtiquetteView(ListView):
     def dispatch(self, request, *args, **kwargs):
         is_premium = request.user.is_authenticated and getattr(request.user.profile, 'is_premium', False)
         if not is_premium and request.GET.get('page', '1') != '1':
-            url_name, _ = get_lang_info(request)
-            return redirect(url_name) 
+            url_name, lang_code = get_lang_info(request)
+            return redirect(f"{reverse(url_name)}?lang={lang_code}") 
         return super().dispatch(request, *args, **kwargs)
     
     def get_queryset(self):
-        return ThankJapanPremium.objects.filter(category="TourismEtiquette").order_by('-timestamp')
+        qs = ThankJapanPremium.objects.filter(category="TourismEtiquette").order_by('-timestamp')
+        is_premium = self.request.user.is_authenticated and getattr(self.request.user.profile, 'is_premium', False)
+        if not is_premium:
+            return qs[:6]
+        return qs
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        all_premium_qs = ThankJapanPremium.objects.filter(category="TourismEtiquette")
+        total_count = all_premium_qs.count()
         
-        is_premium = False
-        if self.request.user.is_authenticated and getattr(self.request.user.profile, 'is_premium', False):
-            is_premium = True
+        is_premium = self.request.user.is_authenticated and getattr(self.request.user.profile, 'is_premium', False)
+        url_name, lang_code = get_lang_info(self.request)
+        
+        context['lang_code'] = lang_code
+        context['premium_url_name'] = url_name
 
         if not is_premium:
-            total_count = self.get_queryset().count()
-            context['object_list'] = context['object_list'][:6]
             context['is_locked'] = True
             context['hidden_count'] = max(0, total_count - 6)
-            
-            url_name, lang_code = get_lang_info(self.request)
-            context['premium_url_name'] = url_name
-            context['lang_code'] = lang_code
         else:
             context['is_locked'] = False
             
         return context
-
-
+    
                 
 # free detail view
 class CategoryDetailView(DetailView):
@@ -2764,23 +2775,43 @@ class ImgPremiumDetailView(DetailView):
     slug_field = 'slug'
     slug_url_kwarg = 'slug'
 
+    def get_queryset(self):
+        category = self.kwargs.get('category')
+        qs = ThankJapanPremium.objects.filter(category__iexact=category).order_by('-timestamp')
+        is_premium = self.request.user.is_authenticated and getattr(self.request.user.profile, 'is_premium', False)
+        
+        if category != "DailyConversation" and not is_premium:
+            return qs[:6]
+        return qs
+
     def dispatch(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        
-        if self.object.category != "DailyConversation":
-            is_premium = request.user.is_authenticated and getattr(request.user.profile, 'is_premium', False)
-            
-            if not is_premium:
-                free_sample_ids = ThankJapanPremium.objects.filter(
-                    category=self.object.category
-                ).order_by('-timestamp').values_list('id', flat=True)[:6]
+        try:
+            self.object = self.get_object()
+        except Http404:
+            category = self.kwargs.get('category')
+            slug = self.kwargs.get('slug')
+            moved_item = ThankJapanPremium.objects.filter(
+                category__iexact=category,
+                slug__istartswith=slug
+            ).first()
+
+            if moved_item:
+                is_premium = request.user.is_authenticated and getattr(request.user.profile, 'is_premium', False)
+                if moved_item.category == "DailyConversation" or is_premium:
+                    lang_param = request.GET.get('lang')
+                    new_url = reverse('detail_premium', kwargs={
+                        'category': moved_item.category,
+                        'slug': moved_item.slug
+                    })
+                    if lang_param:
+                        new_url += f"?lang={lang_param}"
+                    return redirect(new_url, permanent=True)
                 
-                if self.object.id not in free_sample_ids:
+                _, lang_code = get_lang_info(request)
+                return redirect(f"{reverse('premium_info')}?lang={lang_code}")
+            raise Http404
         
-                    url_name, lang_code = get_lang_info(request)
-                    return redirect(f"{reverse(url_name)}?lang={lang_code}")
-        
-        return super(DetailView, self).dispatch(request, *args, **kwargs)
+        return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -2790,7 +2821,7 @@ class ImgPremiumDetailView(DetailView):
         context['premium_url_name'] = url_name
         context['lang_code'] = lang_code
 
-        url_target_name = CATEGORY_URL_MAP.get(current_item.category, 'top_page')
+        url_target_name = CATEGORY_URL_MAP.get(current_item.category, 'toppage')
         try:
             base_category_url = reverse(url_target_name)
         except:
@@ -2798,37 +2829,39 @@ class ImgPremiumDetailView(DetailView):
         context['category_list_url'] = f"{base_category_url}?lang={lang_code}"
 
         is_premium = self.request.user.is_authenticated and getattr(self.request.user.profile, 'is_premium', False)
-        if current_item.category == "DailyConversation":
         
+        if current_item.category == "DailyConversation":
             context['free_sample_ids'] = ThankJapanPremium.objects.filter(
                 category=current_item.category
             ).values_list('id', flat=True)
-        
         else:
-        
-            if not is_premium:
-                context['free_sample_ids'] = ThankJapanPremium.objects.filter(
-                    category=current_item.category
-                ).order_by('-timestamp').values_list('id', flat=True)[:6]
+            context['free_sample_ids'] = ThankJapanPremium.objects.filter(
+                category=current_item.category
+            ).order_by('-timestamp').values_list('id', flat=True)[:6]
 
         context['related_items'] = ThankJapanPremium.objects.filter(
             category=current_item.category
         ).exclude(id=current_item.id).order_by('?')[:6]
         
-        return context
-    
-    
+        return context    
             
 def sitemap_view(request):
-    
-    premium_items = ThankJapanPremium.objects.all()
-    
     free_items = ThankJapanModel.objects.all()
+    
+    public_premium_items = []
+    
+    daily_conv = ThankJapanPremium.objects.filter(category="DailyConversation")
+    public_premium_items.extend(list(daily_conv))
+    
+    other_categories = ThankJapanPremium.objects.exclude(category="DailyConversation").values_list('category', flat=True).distinct()
+    
+    for cat in other_categories:
+        samples = ThankJapanPremium.objects.filter(category=cat).order_by('-timestamp')[:6]
+        public_premium_items.extend(list(samples))
 
     context = {
-        'premium_items': premium_items,
         'free_items': free_items,
+        'premium_items': public_premium_items,
     }
     
-    return render(request, 'sitemap.xml', context, content_type='application/xml')
-    
+    return render(request, 'sitemap.xml', context, content_type='application/xml')    
