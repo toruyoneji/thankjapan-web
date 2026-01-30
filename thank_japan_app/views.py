@@ -2708,9 +2708,34 @@ class CategoryDetailView(DetailView):
     slug_field = "slug"
     slug_url_kwarg = "slug"
 
+    def get(self, request, *args, **kwargs):
+        category = self.kwargs.get('category')
+        slug = self.kwargs.get('slug')
+
+        try:
+            self.object = ThankJapanModel.objects.get(category__iexact=category, slug=slug)
+            return super().get(request, *args, **kwargs)
+        except ThankJapanModel.DoesNotExist:
+            moved_item = ThankJapanModel.objects.filter(
+                category__iexact=category, 
+                slug__istartswith=slug
+            ).first()
+
+            if moved_item:
+                lang_param = request.GET.get('lang')
+                new_url = reverse('category_detail', kwargs={
+                    'category': moved_item.category.lower(),
+                    'slug': moved_item.slug
+                })
+                if lang_param:
+                    new_url += f"?lang={lang_param}"
+                return redirect(new_url, permanent=True)
+            
+            raise Http404
+
     def get_queryset(self):
         category = self.kwargs['category']
-        return ThankJapanModel.objects.filter(category=category)
+        return ThankJapanModel.objects.filter(category__iexact=category)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -2728,8 +2753,7 @@ class CategoryDetailView(DetailView):
         url_name = CATEGORY_URL_MAP.get(current_item.category, 'category_list')
         context['category_list_url'] = reverse(url_name)
         
-        return context     
-
+        return context
 
 
 #premium-detail
