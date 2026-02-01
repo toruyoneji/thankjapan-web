@@ -151,7 +151,8 @@ CATEGORY_URL_MAP = {
     'LivingInJapan': 'living_in_japan_page',
     'MedicalEmergency': 'medical_emergency',
     'RealEstateRules': 'real_estate_rules',
-    'TourismEtiquette': 'tourism_etiquette'
+    'TourismEtiquette': 'tourism_etiquette',
+    'Prefectures': 'prefectures'
 }
 
 
@@ -2710,8 +2711,83 @@ class TourismEtiquetteView(ListView):
             context['is_locked'] = False
             
         return context
+ 
+ 
+class TourismEtiquetteView(ListView):
+    template_name = "thank_japan_app/tourism_etiquette.html"
+    paginate_by = 24
     
-                
+    def dispatch(self, request, *args, **kwargs):
+        is_premium = request.user.is_authenticated and getattr(request.user.profile, 'is_premium', False)
+        if not is_premium and request.GET.get('page', '1') != '1':
+            url_name, lang_code = get_lang_info(request)
+            return redirect(f"{reverse(url_name)}?lang={lang_code}") 
+        return super().dispatch(request, *args, **kwargs)
+    
+    def get_queryset(self):
+        qs = ThankJapanPremium.objects.filter(category="TourismEtiquette").order_by('timestamp')
+        is_premium = self.request.user.is_authenticated and getattr(self.request.user.profile, 'is_premium', False)
+        if not is_premium:
+            return qs[:6]
+        return qs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        all_premium_qs = ThankJapanPremium.objects.filter(category="TourismEtiquette")
+        total_count = all_premium_qs.count()
+        
+        is_premium = self.request.user.is_authenticated and getattr(self.request.user.profile, 'is_premium', False)
+        url_name, lang_code = get_lang_info(self.request)
+        
+        context['lang_code'] = lang_code
+        context['premium_url_name'] = url_name
+
+        if not is_premium:
+            context['is_locked'] = True
+            context['hidden_count'] = max(0, total_count - 6)
+        else:
+            context['is_locked'] = False
+            
+        return context
+   
+class PrefectureView(ListView):
+    template_name = "thank_japan_app/prefecture.html"
+    paginate_by = 24
+    
+    def dispatch(self, request, *args, **kwargs):
+        is_premium = request.user.is_authenticated and getattr(request.user.profile, 'is_premium', False)
+        if not is_premium and request.GET.get('page', '1') != '1':
+            url_name, lang_code = get_lang_info(request)
+            return redirect(f"{reverse(url_name)}?lang={lang_code}") 
+        return super().dispatch(request, *args, **kwargs)
+    
+    def get_queryset(self):
+        qs = ThankJapanPremium.objects.filter(category="Prefectures").order_by('timestamp')
+        is_premium = self.request.user.is_authenticated and getattr(self.request.user.profile, 'is_premium', False)
+        if not is_premium:
+            return qs[:6]
+        return qs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        all_premium_qs = ThankJapanPremium.objects.filter(category="Prefectures")
+        total_count = all_premium_qs.count()
+        
+        is_premium = self.request.user.is_authenticated and getattr(self.request.user.profile, 'is_premium', False)
+        url_name, lang_code = get_lang_info(self.request)
+        
+        context['lang_code'] = lang_code
+        context['premium_url_name'] = url_name
+
+        if not is_premium:
+            context['is_locked'] = True
+            context['hidden_count'] = max(0, total_count - 6)
+        else:
+            context['is_locked'] = False
+            
+        return context
+
+               
 # free detail view
 class CategoryDetailView(DetailView):
     model = ThankJapanModel

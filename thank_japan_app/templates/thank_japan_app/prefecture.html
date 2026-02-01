@@ -1,15 +1,15 @@
 {% extends 'base/basecategory.html' %}
-{% block title %}Tourism & Etiquette | Master Manners & Sightseeing | ThankJapan{% endblock %}
-{% block og_title %}Tourism & Etiquette - Essential Manners for Traveling Japan | ThankJapan{% endblock %}
-{% block og_description %}Explore Japan like a local! Master essential sightseeing vocabulary and important Japanese etiquette, from shrine visits to public transport manners.{% endblock %}
+{% block title %}Japanese Prefectures | Explore all 47 regions of Japan | ThankJapan{% endblock %}
+{% block og_title %}Japanese Prefectures - Discover Local Culture, Food, and History | ThankJapan{% endblock %}
+{% block og_description %}Embark on a journey through Japan's 47 prefectures. From Hokkaido's snowy landscapes to Okinawa's tropical beaches, learn about local landmarks, regional gourmet, and the unique history of every region.{% endblock %}
 {% block og_url %}{{ request.build_absolute_uri }}{% endblock %}
-{% block description %}Explore Japan like a local! Master essential sightseeing vocabulary and important Japanese etiquette, from shrine visits to public transport manners.{% endblock %}
+{% block description %}Embark on a journey through Japan's 47 prefectures. From Hokkaido's snowy landscapes to Okinawa's tropical beaches, learn about local landmarks, regional gourmet, and the unique history of every region.{% endblock %}
 
 {% block content %}
 {% load static %}
 
 <script>
-    window.shareText = "I'm mastering Japanese travel etiquette and discovering essential sightseeing tips on ThankJapan!";
+    window.shareText = "I just unlocked the hidden gems of Japan's 47 prefectures on ThankJapan! 🗾✨";
 </script>
 
 <style>
@@ -349,8 +349,6 @@ body {
     display: none;
 }
 
-
-
 @media (max-width: 1200px) {
     .main2 { grid-template-columns: repeat(3, 1fr); }
 }
@@ -448,66 +446,65 @@ body {
     }
 }
 
+
 </style>
 
 
 <div class="category-header">
     <h1>
         {% if lang_code == 'ja' %}
-            観光とマナー 🚩
+            都道府県：47都道府県の魅力を発見しよう。
         {% elif lang_code == 'zh-hant' %}
-            觀光與禮儀 🚩
+            都道府縣：探索 47 個地區的魅力。
         {% elif lang_code == 'zh-cn' %}
-            观光与礼仪 🚩
+            都道府县：探索 47 个地区的魅力。
         {% elif lang_code == 'de' %}
-            Tourismus & Etikette 🚩
+            Japanische Präfekturen: Entdecke den Charme aller 47 Regionen.
         {% elif lang_code == 'fr' %}
-            Tourisme & Étiquette 🚩
+            Préfectures du Japon : découvrez le charme des 47 régions.
         {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}
-            Turismo y Etiqueta 🚩
+            Prefecturas de Japón: descubre el encanto de las 47 regiones.
         {% elif lang_code == 'it' %}
-            Turismo ed Etichetta 🚩
+            Prefetture del Giappone: scopri il fascino di tutte le 47 regioni.
         {% elif lang_code == 'ko' %}
-            관광 및 매너 🚩
+            도도부현: 47개 지역의 매력을 발견하세요.
         {% elif lang_code == 'pt' or lang_code == 'pt-br' %}
-            Turismo e Etiqueta 🚩
+            Prefeituras do Japão: descubra o charme de todas as 47 regiões.
         {% elif lang_code == 'vi' %}
-            Du lịch & Phép lịch sự 🚩
+            Các tỉnh thành Nhật Bản: Khám phá sức hút của 47 khu vực.
         {% elif lang_code == 'th' %}
-            การท่องเที่ยว & มารยาท 🚩
+            จังหวัดของญี่ปุ่น: ค้นพบเสน่ห์ของทั้ง 47 ภูมิภาค
         {% else %}
-            Tourism & Etiquette 🚩
+            Japanese Prefectures: Discover the charm of all 47 regions.
         {% endif %}
     </h1>
-
     <p>
         {% if lang_code == 'ja' %}
-            日本の魅力を発見しよう。観光名所から大切なマナーまで、旅行をより楽しくするためのフレーズをマスター。
+            北海道から沖縄まで、各地の観光名所やご当地グルメ、歴史を学ぼう。日本全国を旅する気分で探索。
         {% elif lang_code == 'zh-hant' %}
-            探索日本的魅力。從熱門景點到重要的旅行禮儀，掌握讓旅程更順心愉快的基本用語。
-        {% elif lang_code == 'zh-cn' %}
-            探索日本的魅力。从热门景点到重要的旅行礼仪，掌握让旅程更顺心愉快的基本用语。
+            從北海道到沖繩，學習各地的觀光名勝、當地美食和歷史。像是在日本全國旅行一樣探索。
+        {% elif lang_code == 'zh-cn' %} 
+            从北海道到冲绳，学习各地的观光名胜、当地美食和历史。像是在日本全国旅行一样探索。
         {% elif lang_code == 'de' %}
-            Entdecke den Charme Japans. Meistere die wichtigsten Ausdrücke für Sehenswürdigkeiten und Etikette, um deine Reise noch unvergesslicher zu machen.
+            Reise von Hokkaido nach Okinawa und lerne lokale Sehenswürdigkeiten, Spezialitäten und Geschichte kennen. Erkunde Japan wie auf einer Rundreise.
         {% elif lang_code == 'fr' %}
-            Découvrez le charme du Japon. Maîtrisez les expressions essentielles pour les visites et l'étiquette afin de rendre votre voyage encore plus agréable.
+            Voyagez d'Hokkaido à Okinawa et découvrez les sites touristiques, la gastronomie locale et l'histoire. Explorez le Japon comme si vous y étiez.
         {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}
-            Descubre el encanto de Japón. Domina las frases esenciales para el turismo y la etiqueta para que tu viaje sea aún más placentero.
+            Viaja de Hokkaido a Okinawa y aprende sobre lugares turísticos, gastronomía local e historia. Explora como si estuvieras viajando por todo Japón.
         {% elif lang_code == 'it' %}
-            Scopri il fascino del Giappone. Impara le frasi essenziali per le visite e l'etichetta per rendere il tuo viaggio ancora più piacevole.
+            Viaggia da Hokkaido a Okinawa e scopri luoghi turistici, gastronomia locale e storia. Esplora il Giappone come se fossi in viaggio.
         {% elif lang_code == 'ko' %}
-            일본의 매력을 발견하세요. 관광 명소부터 꼭 지켜야 할 매너까지, 여행을 더욱 즐겁게 만들어줄 필수 표현을 익히세요.
+            홋카이도부터 오키나와까지 각 지역의 관광 명소, 특산물, 역사를 배워보세요. 일본 전국을 여행하는 기분으로 탐색해보세요.
         {% elif lang_code == 'pt' or lang_code == 'pt-br' %}
-            Descubra o charme do Japão. Domine as frases essenciais para o turismo e a etiqueta para tornar sua viagem ainda mais agradável.
+            Viaje de Hokkaido a Okinawa e aprenda sobre pontos turísticos, gastronomia local e história. Explore como se estivesse viajando por todo o Japão.
         {% elif lang_code == 'vi' %}
-            Khám phá nét quyến rũ của Nhật Bản. Thành thạo các câu giao tiếp cơ bản khi đi tham quan và các quy tắc lịch sự để chuyến đi thêm trọn vẹn.
+            Hành trình từ Hokkaido đến Okinawa, tìm hiểu về danh lam thắng cảnh, đặc sản và lịch sử. Khám phá với cảm giác như đang du lịch khắp Nhật Bản.
         {% elif lang_code == 'th' %}
-            ค้นพบเสน่ห์ของญี่ปุ่น มาสเตอร์วลีสำคัญสำหรับการท่องเที่ยวและมารยาทต่างๆ เพื่อให้ทริปของคุณสนุกและราบรื่นยิ่งขึ้น
+            เดินทางจากฮอกไกโดไปยังโอกินาว่า เรียนรู้เกี่ยวกับสถานที่ท่องเที่ยว อาหารท้องถิ่น และประวัติศาสตร์ สำรวจญี่ปุ่นราวกับว่าคุณกำลังเดินทางไปทั่วประเทศ
         {% else %}
-            Discover the charm of Japan. Master essential phrases for sightseeing and etiquette to make your journey more enjoyable and respectful.   
+            Journey from Hokkaido to Okinawa and learn about local landmarks, regional gourmet, and history. Explore with the feeling of traveling all over Japan.
         {% endif %}
     </p>
-
 </div>
 
 <div class="main2">
@@ -526,7 +523,7 @@ body {
                     {% if item.jlpt_level %}
                         <div class="jlpt-badge">{{ item.jlpt_level }}</div>
                     {% endif %}
-                    
+
                     {% if item.image %}
                         <img src="{{ item.image.url }}" 
                             alt="{{ item.englishname }}" {% if forloop.counter > 7 %} loading="lazy" {% endif %}>
@@ -656,7 +653,6 @@ body {
         </div>
     </div>
     {% endif %}
-
 </div>
 
 {% if not is_locked %}

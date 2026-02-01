@@ -2686,7 +2686,7 @@
 
   {% for item in free_items %}
   <url>
-    {# カテゴリー名を小文字にして、新しいスラッグ(item.slug)を反映 #}
+    
     <loc>https://www.thankjapan.com/{{ item.category|lower }}/{{ item.slug }}/</loc>
     <lastmod>{{ item.timestamp|date:"Y-m-d" }}</lastmod>
     <priority>0.8</priority>
