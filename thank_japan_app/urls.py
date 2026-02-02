@@ -1,5 +1,6 @@
 from django.urls import path
 from django.contrib.auth import views as auth_views
+from django.views.generic import RedirectView
 from .views import (TopView, TopViewFR, TopViewIT, TopViewPT, TopViewZHHANT,TopViewKO, TopViewESES, TopViewZHCN,
                     TopViewDE, TopViewTH, TopViewPTBR, TopViewESMX, TopViewENIN, TopViewJA, TopViewVI, account_settings_redirect,
                     FoodView, NatureView, FashionView, 
@@ -88,6 +89,24 @@ urlpatterns = [
     path('premium/vi/', premium_infoVI, name='premium_infovi'),
     path('premium/zh-hant/', premium_infoZHHANT, name='premium_infozhHANT'),
     path('premium/zh-cn/', premium_infoZHCN, name='premium_infozhCN'),
+    
+    
+    #support->premiuminfo
+    path('support/', RedirectView.as_view(pattern_name='premium_info', permanent=True)),
+    path('support/ja/', RedirectView.as_view(pattern_name='premium_infoja', permanent=True)),
+    path('support/de/', RedirectView.as_view(pattern_name='premium_infode', permanent=True)),
+    path('support/en-in/', RedirectView.as_view(pattern_name='premium_infoenIN', permanent=True)),
+    path('support/es-es/', RedirectView.as_view(pattern_name='premium_infoesES', permanent=True)),
+    path('support/es-mx/', RedirectView.as_view(pattern_name='premium_infoesMX', permanent=True)),
+    path('support/fr/', RedirectView.as_view(pattern_name='premium_infofr', permanent=True)),
+    path('support/it/', RedirectView.as_view(pattern_name='premium_infoit', permanent=True)),
+    path('support/ko/', RedirectView.as_view(pattern_name='premium_infoko', permanent=True)),
+    path('support/pt-br/', RedirectView.as_view(pattern_name='premium_infoptBR', permanent=True)),
+    path('support/pt/', RedirectView.as_view(pattern_name='premium_infopt', permanent=True)),
+    path('support/th/', RedirectView.as_view(pattern_name='premium_infoth', permanent=True)),
+    path('support/vi/', RedirectView.as_view(pattern_name='premium_infovi', permanent=True)),
+    path('support/zh-hant/', RedirectView.as_view(pattern_name='premium_infozhHANT', permanent=True)),
+    
     
     #thankyou
     path('thank-you/', thank_you, name='thank_you'),
