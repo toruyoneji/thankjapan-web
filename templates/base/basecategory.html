@@ -283,7 +283,7 @@
             {% else %}
                 <div class="guest-info">
             
-                    <a href="{% url 'player_login' %}?next={{ request.get_full_path|urlencode }}&lang={{ lang_code }}" class="header-score-badge guest">
+                    <a href="{% url 'player_register' %}?next={{ request.get_full_path|urlencode }}&lang={{ lang_code }}&from=header_badge" class="header-score-badge guest">
                         <span class="rank-emoji">🌾</span>
                         <span class="score-text">💎 0<small>pt</small></span>
                     </a>
@@ -315,31 +315,21 @@
                             👤 Guest
                         {% endif %}
                     </span> 
-                    <a href="{% url 'player_login' %}?next={{ request.get_full_path|urlencode }}&lang={{ lang_code }}" class="auth-btn login">
-                        {% if lang_code == 'ja' %}
-                            ログイン
-                        {% elif lang_code == 'zh-hant' %}
-                            登入
-                        {% elif lang_code == 'zh-cn' %}
-                            登录
-                        {% elif lang_code == 'ko' %}
-                            로그인
-                        {% elif lang_code == 'de' %}
-                            Anmelden
-                        {% elif lang_code == 'fr' %}
-                            Connexion
-                        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}
-                            Iniciar sesión
-                        {% elif lang_code == 'it' %}
-                            Accedi
-                        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}
-                            Entrar
-                        {% elif lang_code == 'vi' %}
-                            Đăng nhập
-                        {% elif lang_code == 'th' %}
-                            เข้าสู่ระบบ
-                        {% else %}
-                            Login
+                    <a href="{% url 'player_register' %}?next={{ request.get_full_path|urlencode }}&lang={{ lang_code }}&from=header_btn" class="auth-btn login">
+                        {% if lang_code == 'ja' %}新規登録
+                        {% elif lang_code == 'zh-hant' %}註冊
+                        {% elif lang_code == 'zh-cn' %}注册
+                        {% elif lang_code == 'ko' %}회원가입
+                        {% elif lang_code == 'de' %}Registrieren
+                        {% elif lang_code == 'fr' %}S'inscrire
+                        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Registrarse
+                        {% elif lang_code == 'it' %}Iscriviti
+                        {% elif lang_code == 'pt' %}Registar-se
+                        {% elif lang_code == 'pt-br' %}Cadastrar-se
+                        {% elif lang_code == 'vi' %}Đăng ký
+                        {% elif lang_code == 'th' %}ลงทะเบียน
+                        {% elif lang_code == 'en-in' %}Sign Up
+                        {% else %}Sign Up
                         {% endif %}
                     </a>
                     
