@@ -1,0 +1,709 @@
+{% extends 'base/basecategory.html' %}
+{% block title %}Japanese Entertainment & Subculture | Anime, Manga, Games | ThankJapan{% endblock %}
+{% block og_title %}Japanese Entertainment - Explore Anime, Manga, and Pop Culture | ThankJapan{% endblock %}
+{% block og_description %}Dive deep into the world of Japanese anime, manga, and games. Learn essential terms for otaku culture, cosplay, and modern entertainment through interactive lessons.{% endblock %}
+{% block og_url %}{{ request.build_absolute_uri }}{% endblock %}
+{% block description %}Dive deep into the world of Japanese anime, manga, and games. Learn essential terms for otaku culture, cosplay, and modern entertainment through interactive lessons.{% endblock %}
+
+{% block content %}
+{% load static %}
+
+<script>
+    window.shareText = "I'm diving into the world of Japanese anime, manga, and subculture on ThankJapan!";
+</script>
+
+<style>
+body {
+    background-color: #fffaf5;
+    font-family: 'Noto Sans JP', 'Poppins', sans-serif;
+    color: #333;
+}
+
+.category-header {
+    text-align: center;
+    padding: 60px 20px 40px;
+    background: linear-gradient(135deg, #ffe8d6 0%, #fffaf5 100%);
+    border-radius: 0 0 40px 40px;
+    margin-top: 10px;
+}
+.category-header h1 {
+    font-size: 3.0rem;
+    font-family: 'Sawarabi Mincho', serif;
+    color: #d46a00;
+    letter-spacing: 1px;
+}
+.category-header p {
+    color: #666;
+    font-size: 1.1rem;
+    margin-top: 10px;
+}
+
+.main2 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    padding: 50px 6%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.flashcard {
+    background-color: transparent;
+    width: 100%;
+    height: 280px;
+    perspective: 1000px;
+    cursor: pointer;
+}
+
+.flashcard-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.flashcard.flipped .flashcard-inner {
+    transform: rotateY(180deg);
+}
+
+.flashcard-front, .flashcard-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 2px solid #ffe0b2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #fff;
+}
+
+.flashcard-front img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.tap-hint {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    background: rgba(212, 106, 0, 0.8);
+    color: white;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    pointer-events: none;
+}
+
+.no-image {
+    width: 100%;
+    height: 100%;
+    background-color: #ffe8d6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #d46a00;
+    font-weight: 600;
+}
+
+.flashcard-back {
+    background-color: #fff8e1;
+    transform: rotateY(180deg);
+    padding: 10px;
+}
+
+.flashcard-back h3 {
+    font-size: 1.2rem;
+    color: #d46a00;
+    margin-bottom: 5px;
+}
+
+.jp-text {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #333;
+    margin: 5px 0;
+}
+
+.romaji {
+    font-size: 1rem;
+    color: #888;
+    margin-bottom: 15px;
+}
+
+.audio-btn {
+    background: #ffb347;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 50px;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-bottom: 10px;
+    transition: 0.3s;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+.audio-btn:hover { background: #ff9642; }
+
+.more-detail-link {
+    font-size: 0.9rem;
+    color: #d46a00;
+    text-decoration: underline;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.pagination-container {
+  overflow-x: auto;
+  padding: 15px 0;
+  -webkit-overflow-scrolling: touch;
+}
+.pagination {
+  display: flex;
+  gap: 10px;
+  min-width: max-content;
+  justify-content: center;
+}
+.page-btn {
+  flex: 0 0 auto;
+  padding: 8px 14px;
+  border-radius: 12px;
+  border: 1px solid #ccc;
+  background-color: #f8f8f8;
+  color: #333;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+.page-btn:hover, .page-btn.current {
+  background-color: #e63946;
+  color: #fff;
+  border-color: #e63946;
+}
+
+.btn-more {
+    display: inline-block;
+    background: #ffb347;
+    color: white;
+    padding: 10px 24px;
+    border-radius: 25px;
+    text-decoration: none;
+    font-weight: 600;
+    margin-top: 20px;
+    transition: background 0.3s;
+}
+.btn-more:hover { background: #ff9642; }
+
+.locked-card-container {
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+    margin-bottom: 20px;
+    padding: 0 20px;
+}
+
+.locked-card {
+    background: linear-gradient(135deg, #1a1a1a, #2c3e50);
+    color: #fff;
+    padding: 40px;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    max-width: 600px;
+    width: 100%;
+    border: 2px solid #d4af37;
+    position: relative;
+    overflow: hidden;
+}
+
+.locked-card::before {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 60%);
+    animation: shine 6s infinite linear;
+}
+
+@keyframes shine {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.locked-content {
+    position: relative;
+    z-index: 1;
+}
+
+.lock-icon {
+    font-size: 3.5rem;
+    margin-bottom: 15px;
+    text-shadow: 0 0 15px rgba(212, 175, 55, 0.6);
+}
+
+.locked-card h3 {
+    font-size: 1.8rem;
+    margin-bottom: 15px;
+    color: #d4af37;
+    font-family: serif;
+}
+
+.locked-card p {
+    color: #e0e0e0;
+    margin-bottom: 30px;
+    font-size: 1.1rem;
+    line-height: 1.6;
+}
+
+.unlock-btn {
+    display: inline-block;
+    background: linear-gradient(45deg, #d4af37, #f3e5ab, #d4af37);
+    background-size: 200% auto;
+    color: #000;
+    font-weight: bold;
+    font-size: 1.2rem;
+    padding: 15px 50px;
+    border-radius: 50px;
+    text-decoration: none;
+    box-shadow: 0 5px 15px rgba(212, 175, 55, 0.4);
+    transition: all 0.3s ease;
+    animation: pulse-gold 2s infinite;
+}
+
+.unlock-btn:hover {
+    background-position: right center;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(212, 175, 55, 0.6);
+}
+
+@keyframes pulse-gold {
+    0% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.7); }
+    70% { box-shadow: 0 0 0 10px rgba(212, 175, 55, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); }
+}
+
+.jlpt-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: #d4af37;
+    color: #000;
+    font-weight: bold;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    z-index: 10;
+}
+
+.tap-guide {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 100;
+    pointer-events: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.finger-icon {
+    font-size: 3rem;
+    filter: drop-shadow(0 2px 5px rgba(0,0,0,0.3));
+    animation: tap-animation 0.8s infinite;
+}
+
+.tap-text {
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 2px 10px;
+    border-radius: 10px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    margin-top: -5px;
+}
+
+@keyframes tap-animation {
+    0% { transform: scale(1) translateY(0); }
+    50% { transform: scale(1.2) translateY(-10px); }
+    100% { transform: scale(1) translateY(0); }
+}
+
+
+.flashcard.flipped .tap-guide {
+    display: none;
+}
+
+@media (max-width: 1200px) {
+    .main2 { grid-template-columns: repeat(3, 1fr); }
+}
+
+@media (max-width: 900px) {
+    .main2 { grid-template-columns: repeat(2, 1fr); gap: 16px; padding: 20px 4%; }
+    .category-header { padding-top: 100px !important; }
+    .category-header h1 { font-size: 2.0rem;}
+    .flashcard { height: 240px; }
+}
+
+@media (max-width: 600px) {
+    .main2 {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+        padding: 20px 4%;
+    }
+    .category-header {
+        padding-top: 100px !important;
+    }
+    .category-header h1 {
+        font-size: 2.0rem;
+    }
+    
+    .flashcard {
+        height: 200px;
+    }
+    
+    .flashcard-front img {
+        object-fit: cover;
+        padding: 0;
+    }
+
+    .flashcard-back {
+        padding: 8px 5px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        overflow: hidden;
+    }
+    
+    .flashcard-back h3, 
+    .jp-text, 
+    .romaji {
+        width: 100%;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        margin: 2px 0;
+        flex-shrink: 1;
+    }
+
+    .flashcard-back h3 {
+        font-size: 0.9rem;
+        line-height: 1.1;
+        max-height: 2.2em;
+        overflow: hidden;
+    }
+
+    .jp-text {
+        font-size: 1.1rem;
+        font-weight: bold;
+        line-height: 1.2;
+    }
+
+    .romaji {
+        font-size: 0.75rem;
+        color: #666;
+        line-height: 1.1;
+        max-height: 3.3em;
+        overflow-y: auto;
+    }
+
+    .audio-btn, 
+    .more-detail-link {
+        flex-shrink: 0;
+    }
+
+    .audio-btn {
+        padding: 4px 12px;
+        font-size: 0.8rem;
+        margin-bottom: 4px;
+    }
+    
+    .more-detail-link {
+        font-size: 0.75rem;
+        padding: 2px 0;
+    }
+}
+
+@media (max-width: 400px) {
+
+    .category-header {
+        padding-top: 150px !important;
+    }
+}
+
+
+</style>
+
+
+<div class="category-header">
+    <h1>
+        {% if lang_code == 'ja' %}
+            エンタメ・サブカル：アニメ、ゲーム、ポップカルチャーの世界へ。
+        {% elif lang_code == 'zh-hant' %}
+            娛樂・亞文化：進入動漫、遊戲和流行文化的領域。
+        {% elif lang_code == 'zh-cn' %}
+             entertainment・亚文化：进入动漫、游戏和流行文化的领域。
+        {% elif lang_code == 'de' %}
+            Entertainment & Subkultur: Tauche ein in die Welt von Anime, Games und Popkultur.
+        {% elif lang_code == 'fr' %}
+            Divertissement et sous-culture : plongez dans l'univers de l'animation, des jeux et de la pop culture.
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}
+            Entretenimiento y subcultura: sumérgete en el mundo del anime, los videojuegos y la cultura pop.
+        {% elif lang_code == 'it' %}
+            Intrattenimento e sottocultura: tuffati nel mondo di anime, videogiochi e cultura pop.
+        {% elif lang_code == 'ko' %}
+            엔터테인먼트・서브컬처: 애니메이션, 게임, 팝 컬처의 세계로.
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}
+            Entretenimento e subcultura: mergulhe no mundo dos animes, games e cultura pop.
+        {% elif lang_code == 'vi' %}
+            Giải trí và Tiểu văn hóa: Đắm chìm trong thế giới Anime, Game và Văn hóa đại chúng.
+        {% elif lang_code == 'th' %}
+            ความบันเทิงและซับคัลเจอร์: เข้าสู่โลกของอนิเมะ เกม และป๊อปคัลเจอร์
+        {% else %}
+            Entertainment & Subculture: Dive into the world of Anime, Games, and Pop Culture.
+        {% endif %}
+    </h1>
+    <p>
+        {% if lang_code == 'ja' %}
+            アニメやマンガ、ゲームを楽しむための必須用語をマスター。日本の最新トレンドやオタク文化を深く理解しよう。
+        {% elif lang_code == 'zh-hant' %}
+            學習動漫、遊戲和御宅族文化的必備術語。深入了解日本流行文化與最新趨勢。
+        {% elif lang_code == 'zh-cn' %} 
+            学习动漫、游戏和御宅族文化的必备术语。深入了解日本流行文化与最新趋势。
+        {% elif lang_code == 'de' %}
+            Lerne wichtige Begriffe aus den Bereichen Anime, Manga und Videospiele. Entdecke die faszinierende Welt der japanischen Otaku-Kultur und Trends.
+        {% elif lang_code == 'fr' %}
+            Apprenez les termes essentiels de l'anime, du manga et de la culture otaku. Explorez les dernières tendances de la pop culture japonaise.
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}
+            Aprende términos esenciales sobre anime, manga y cultura otaku. Explora las últimas tendencias de la cultura pop japonesa.
+        {% elif lang_code == 'it' %}
+            Impara i termini essenziali di anime, manga e cultura otaku. Esplora le ultime tendenze della cultura pop giapponese.
+        {% elif lang_code == 'ko' %}
+            애니메이션, 만화, 게임을 즐기기 위한 필수 용어를 마스터하세요. 일본의 최신 트렌드와 오타쿠 문화를 깊이 이해해 보세요.
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}
+            Aprenda termos essenciais sobre animes, mangás e cultura otaku. Explore as últimas tendências da cultura pop japonesa.
+        {% elif lang_code == 'vi' %}
+            Học các thuật ngữ thiết yếu về anime, manga và văn hóa otaku. Khám phá thế giới sôi động và các xu hướng mới nhất của văn hóa đại chúng Nhật Bản.
+        {% elif lang_code == 'th' %}
+            เรียนรู้คำศัพท์ที่จำเป็นเกี่ยวกับอนิเมะ มังงะ และวัฒนธรรมโอตาคุ สำรวจเทรนด์ล่าสุดของป๊อปคัลเจอร์ญี่ปุ่น
+        {% else %}
+            Learn essential terms for anime, manga, and otaku culture. Explore the vibrant world and latest trends of Japanese pop culture.
+        {% endif %}
+    </p>
+</div>
+
+
+<div class="main2">
+    {% for item in object_list %}
+        <div class="flashcard" onclick="this.classList.toggle('flipped')">
+            <div class="flashcard-inner">
+                
+                <div class="flashcard-front">
+                    {% if forloop.first %}
+                    <div class="tap-guide" id="first-card-guide">
+                        <div class="finger-icon">👆</div>
+                        <div class="tap-text">Tap!</div>
+                    </div>
+                    {% endif %}
+
+                    {% if item.jlpt_level %}
+                        <div class="jlpt-badge">{{ item.jlpt_level }}</div>
+                    {% endif %}
+
+                    {% if item.image %}
+                        <img src="{{ item.image.url }}" 
+                            alt="{{ item.englishname }}" {% if forloop.counter > 7 %} loading="lazy" {% endif %}>
+                    {% else %}
+                        <div class="no-image">No Image</div>
+                    {% endif %}
+                    <div class="tap-hint">Tap to Flip</div>
+                </div>
+
+                <div class="flashcard-back">
+                    <h3>{{ item.englishname }}</h3>
+                    <p class="jp-text">{{ item.jpname }}</p>
+                    <p class="romaji">{{ item.name }}</p>
+
+                    <button class="audio-btn" onclick="speakJapanese('{{ item.jpname }}'); event.stopPropagation();">
+                        🔊 Listen
+                    </button>
+
+                    <a href="{% url 'detail_premium' category=item.category slug=item.slug %}?lang={{ lang_code }}" class="more-detail-link" onclick="event.stopPropagation();">
+                        More Details &gt;
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    {% endfor %}
+
+    {% if is_locked %}
+    <div class="locked-card-container">
+        <div class="locked-card">
+            <div class="locked-content">
+                <div class="lock-icon">🔒</div>
+                <h3>
+                    {% if lang_code == 'ja' %}
+                        プレミアムコンテンツをアンロック
+                    {% elif lang_code == 'zh-hant' %}
+                        解鎖高級內容
+                    {% elif lang_code == 'zh-cn' %}
+                        解锁高级内容
+                    {% elif lang_code == 'de' %}
+                        Premium-Inhalte freischalten
+                    {% elif lang_code == 'fr' %}
+                        Débloquer le contenu Premium
+                    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}
+                        Desbloquear contenido Premium
+                    {% elif lang_code == 'it' %}
+                        Sblocca i contenuti Premium
+                    {% elif lang_code == 'ko' %}
+                        프리미엄 콘텐츠 잠금 해제
+                    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}
+                        Desbloquear conteúdo Premium
+                    {% elif lang_code == 'vi' %}
+                        Mở khóa nội dung Cao cấp
+                    {% elif lang_code == 'th' %}
+                        ปลดล็อกเนื้อหาพรีเมียม
+                    {% else %}
+                        Unlock Premium Content
+                    {% endif %}
+                </h3>
+                <p>
+                    {% if lang_code == 'ja' %}
+                        無料サンプルをすべて表示しました。<br>
+                        アップグレードして <b>{{ hidden_count }}+</b> 以上のフレーズにアクセスし、このカテゴリーをマスターしましょう！
+                    {% elif lang_code == 'zh-hant' %}
+                        您已查看免費樣本。<br>
+                        升級以解鎖 <b>{{ hidden_count }}+</b> 個更多詞彙，精通此進階主題！
+                    {% elif lang_code == 'zh-cn' %}
+                        您已查看免费样本。<br>
+                        升级以解锁 <b>{{ hidden_count }}+</b> 个更多词汇，精通此进阶主题！
+                    {% elif lang_code == 'de' %}
+                        Du hast die kostenlosen Proben gesehen.<br>
+                        Upgrade jetzt, um auf über <b>{{ hidden_count }}</b> weitere Sätze zuzugreifen und dieses Spezialthema zu meistern!
+                    {% elif lang_code == 'fr' %}
+                        Vous avez consulté les échantillons gratuits.<br>
+                        Passez à la version supérieure pour accéder à plus de <b>{{ hidden_count }}</b> phrases supplémentaires et maîtriser ce sujet premium !
+                    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}
+                        Has visto las muestras gratuitas.<br>
+                        ¡Actualiza para acceder a más de <b>{{ hidden_count }}</b> frases y dominar este tema especial!
+                    {% elif lang_code == 'it' %}
+                        Hai visualizzato i campioni gratuiti.<br>
+                        Effettua l'upgrade per accedere a oltre <b>{{ hidden_count }}</b> frasi e padroneggiare questo argomento speciale!
+                    {% elif lang_code == 'ko' %}
+                        무료 샘플을 모두 확인하셨습니다.<br>
+                        업그레이드하여 <b>{{ hidden_count }}</b>개 이상의 필수 표현을 배우고 이 스페셜 카테고리를 마스터하세요!
+                    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}
+                        Você visualizou as amostras grátis.<br>
+                        Atualize para acessar mais de <b>{{ hidden_count }}</b> frases e dominar este tema premium!
+                    {% elif lang_code == 'vi' %}
+                        Bạn đã xem hết các mẫu miễn phí.<br>
+                        Hãy nâng cấp để truy cập hơn <b>{{ hidden_count }}</b> cụm từ khác và thành thạo chủ đề cao cấp này!
+                    {% elif lang_code == 'th' %}
+                        คุณดูตัวอย่างฟรีครบแล้ว<br>
+                        อัปเกรดเพื่อเข้าถึงวลีเพิ่มเติมอีกกว่า <b>{{ hidden_count }}+</b> วลี และมาสเตอร์เนื้อหาพิเศษนี้!
+                    {% else %}
+                        You've viewed the free samples.<br>
+                        Upgrade to access <b>{{ hidden_count }}+</b> more phrases and master this special category!
+                    {% endif %}
+                </p>
+                <a href="{% url premium_url_name %}?lang={{ lang_code }}" class="unlock-btn">
+                    {% if lang_code == 'ja' %}
+                        💎 今すぐアンロック
+                    {% elif lang_code == 'zh-hant' %}
+                        💎 立即解鎖
+                    {% elif lang_code == 'zh-cn' %}
+                        💎 立即解锁
+                    {% elif lang_code == 'de' %}
+                        💎 Jetzt freischalten
+                    {% elif lang_code == 'fr' %}
+                        💎 Débloquer maintenant
+                    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}
+                        💎 Desbloquear ahora
+                    {% elif lang_code == 'it' %}
+                        💎 Sblocca ora
+                    {% elif lang_code == 'ko' %}
+                        💎 지금 잠금 해제
+                    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}
+                        💎 Desbloquear agora
+                    {% elif lang_code == 'vi' %}
+                        💎 Mở khóa ngay
+                    {% elif lang_code == 'th' %}
+                        💎 ปลดล็อกเลย
+                    {% else %}
+                        💎 Unlock Now
+                    {% endif %}
+                </a>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+{% if not is_locked %}
+<div class="pagination-container">
+  <div class="pagination">
+    {% if page_obj.has_previous %}
+      <a href="?page=1&lang={{ lang_code }}" class="page-btn">&laquo;</a>
+      <a href="?page={{ page_obj.previous_page_number }}&lang={{ lang_code }}" class="page-btn">Prev</a>
+    {% endif %}
+
+    {% for num in page_obj.paginator.page_range %}
+      {% if page_obj.number == num %}
+        <span class="page-btn current">{{ num }}</span>
+      {% elif num > page_obj.number|add:-3 and num < page_obj.number|add:3 %}
+        <a href="?page={{ num }}&lang={{ lang_code }}" class="page-btn">{{ num }}</a>
+      {% endif %}
+    {% endfor %}
+
+    {% if page_obj.has_next %}
+      <a href="?page={{ page_obj.next_page_number }}&lang={{ lang_code }}" class="page-btn">Next</a>
+      <a href="?page={{ page_obj.paginator.num_pages }}&lang={{ lang_code }}" class="page-btn">&raquo;</a>
+    {% endif %}
+  </div>
+</div>
+{% endif %}
+
+<div style="text-align:center; margin:50px 0;">
+   <a class="btn-more" href="javascript:void(0);" onclick="goToCategoryList()">← Back</a>
+</div>
+
+<script>
+function hideGuide(card) {
+    const guide = card.querySelector('.tap-guide');
+    if (guide) {
+        guide.style.display = 'none';
+    }
+}
+
+function speakJapanese(text) {
+    if (!window.speechSynthesis) {
+        alert("Audio not supported.");
+        return;
+    }
+    const uttr = new SpeechSynthesisUtterance(text);
+    uttr.lang = 'ja-JP';
+    uttr.rate = 0.9;
+    speechSynthesis.speak(uttr);
+}
+
+
+</script>
+
+{% endblock %}

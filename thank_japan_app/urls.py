@@ -12,7 +12,7 @@ from .views import (TopView, TopViewFR, TopViewIT, TopViewPT, TopViewZHHANT,TopV
                     category_list_ja, category_list_it, category_list_fr, category_list_es_mx, category_list_es_es,
                     category_list_en_in, category_list_de, DailyConversationView, BusinessJapaneseView, 
                     LivingInJapanView, MedicalEmergencyView, RealestateRulesView, TourismEtiquetteView, 
-                    PrefectureView, ImgPremiumDetailView,
+                    PrefectureView, EntertainmentView, ImgPremiumDetailView,
                     JapanFoodView,JapanFoodDEView, JapanFoodENINView, JapanFoodESESView,
                     JapanFoodESMXView, JapanFoodFRView, JapanFoodITView, JapanFoodJAView ,JapanFoodKOView,
                     JapanFoodPTBRView, JapanFoodPTView, JapanFoodTHView, JapanFoodVIView, JapanFoodZHHANTView, JapanFoodZHCNView,
@@ -175,6 +175,7 @@ urlpatterns = [
     path('realestaterules/', RealestateRulesView.as_view(), name='real_estate_rules'),
     path('tourismetiquette/', TourismEtiquetteView.as_view(), name='tourism_etiquette'),
     path('prefectures/', PrefectureView.as_view(), name='prefectures'),
+    path('entertainment/', EntertainmentView.as_view(), name='entertainment'),
     
     
     #japanfood
