@@ -780,35 +780,21 @@ def player_register(request):
         'next': next_url, 
         'lang_code': lang_code, 
         'guest_score': guest_score
-    })    
+    })
+        
     
 def player_login(request):
     next_url = request.GET.get('next') or request.POST.get('next') or 'toppage'
-    lang_code = request.GET.get('lang')
-
-    if not lang_code:
-        if '/ja/' in next_url: lang_code = 'ja'
-        elif '/zh-hant/' in next_url: lang_code = 'zh-hant'
-        elif '/zh-cn/' in next_url: lang_code = 'zh-cn'
-        elif '/ko/' in next_url: lang_code = 'ko'
-        elif '/de/' in next_url: lang_code = 'de'
-        elif '/fr/' in next_url: lang_code = 'fr'
-        elif '/it/' in next_url: lang_code = 'it'
-        elif '/es-es/' in next_url: lang_code = 'es-es'
-        elif '/es-mx/' in next_url: lang_code = 'es-mx'
-        elif '/pt/' in next_url: lang_code = 'pt'
-        elif '/pt-br/' in next_url: lang_code = 'pt-br'
-        elif '/vi/' in next_url: lang_code = 'vi'
-        elif '/th/' in next_url: lang_code = 'th'
-        else: lang_code = 'en'
+    lang_code = request.GET.get('lang') or 'en'
 
     if request.method == "POST":
         username = request.POST.get('username')
         password = request.POST.get('password')
-
         user = authenticate(request, username=username, password=password)
 
         if user is not None:
+            temp_guest_score = request.session.get('game_score', 0)
+
             keys_to_clear = ['is_guest', 'game_score', 'game_question_ids', 'game_current_index', 'game_message', 'last_question_info', 'game_difficulty']
             for key in keys_to_clear:
                 request.session.pop(key, None)
@@ -818,22 +804,25 @@ def player_login(request):
             try:
                 player = Player.objects.get(username=username)
                 request.session['player_id'] = player.id
-            except Player.DoesNotExist:
+                
+                if hasattr(user, 'profile'):
+                    user.profile.total_score += int(temp_guest_score)
+                    user.profile.save()
+            except (Player.DoesNotExist, ValueError, TypeError):
                 pass
 
             request.session['is_guest'] = False 
             messages.success(request, f"Welcome back, {user.username}!")
             return redirect(next_url)
         else:
-            messages.error(request,
-                           "Invalid username or password.",
-                           extra_tags="login_invalid")
+            messages.error(request, "Invalid username or password.", extra_tags="login_invalid")
             
     return render(request, 'thank_japan_app/player_login.html', {
         'next': next_url,
         'lang_code': lang_code
     })
-
+    
+    
 def player_logout(request):
     lang_code = request.GET.get('lang')
     
