@@ -722,7 +722,11 @@ def player_register(request):
     next_url = request.GET.get('next') or request.POST.get('next') or 'toppage'
     lang_code = request.GET.get('lang') or request.POST.get('lang') or 'en'
     
-    guest_score = request.POST.get('guest_score') or request.GET.get('guest_score') or '0'
+    
+    score_from_url = request.POST.get('guest_score') or request.GET.get('guest_score')
+    score_from_session = request.session.get('game_score')
+    
+    guest_score = score_from_url or score_from_session or '0'
 
     if request.method == "POST":
         form = UsernameForm(request.POST)
@@ -744,6 +748,7 @@ def player_register(request):
                     'form': form, 'next': next_url, 'lang_code': lang_code, 'guest_score': guest_score
                 })
 
+    
             user = User.objects.create_user(username=username, email=email, password=raw_password)
             player = Player(username=username, email=email, country=country)
             player.set_password(raw_password)
@@ -752,7 +757,6 @@ def player_register(request):
             if hasattr(user, 'profile'):
                 user.profile.country = country
                 try:
-                    
                     user.profile.total_score = int(guest_score)
                 except (ValueError, TypeError):
                     user.profile.total_score = 0
@@ -777,7 +781,6 @@ def player_register(request):
         'lang_code': lang_code, 
         'guest_score': guest_score
     })    
-    
     
 def player_login(request):
     next_url = request.GET.get('next') or request.POST.get('next') or 'toppage'
