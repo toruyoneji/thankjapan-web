@@ -2845,8 +2845,15 @@ class CategoryDetailView(DetailView):
         except ThankJapanModel.DoesNotExist:
             moved_item = ThankJapanModel.objects.filter(
                 category__iexact=category, 
-                slug__istartswith=slug
+                slug__icontains=slug
             ).first()
+
+            if not moved_item:
+                search_key = slug.replace('-', '')[:4]
+                moved_item = ThankJapanModel.objects.filter(
+                    category__iexact=category,
+                    slug__icontains=search_key
+                ).first()
 
             if moved_item:
                 lang_param = request.GET.get('lang')
@@ -2881,7 +2888,7 @@ class CategoryDetailView(DetailView):
         context['category_list_url'] = reverse(url_name)
         
         return context
-
+    
 
 #premium-detail
 
@@ -2917,8 +2924,15 @@ class ImgPremiumDetailView(DetailView):
         except Http404:
             moved_item = ThankJapanPremium.objects.filter(
                 category__iexact=category,
-                slug__istartswith=slug
+                slug__icontains=slug
             ).first()
+
+            if not moved_item:
+                search_key = slug.replace('-', '')[:4]
+                moved_item = ThankJapanPremium.objects.filter(
+                    category__iexact=category,
+                    slug__icontains=search_key
+                ).first()
 
             if moved_item:
                 is_premium = request.user.is_authenticated and getattr(request.user.profile, 'is_premium', False)
@@ -2931,9 +2945,9 @@ class ImgPremiumDetailView(DetailView):
                     if lang_param:
                         new_url += f"?lang={lang_param}"
                     return redirect(new_url, permanent=True)
-                
-                _, lang_code = get_lang_info(request)
-                return redirect(f"{reverse('premium_info')}?lang={lang_code}")
+                else:
+                    _, lang_code = get_lang_info(request)
+                    return redirect(f"{reverse('premium_info')}?lang={lang_code}")
             raise Http404
 
     def get_context_data(self, **kwargs):
@@ -2967,7 +2981,7 @@ class ImgPremiumDetailView(DetailView):
         ).exclude(id=current_item.id).order_by('?')[:6]
         
         return context
-    
+        
                 
 def sitemap_view(request):
     free_items = ThankJapanModel.objects.all()
