@@ -902,20 +902,15 @@ DIFFICULTY_SETTINGS = {
 }
 
 def get_current_player_info(request):
-    player = None
-    is_guest = True
     if request.user.is_authenticated:
-        is_guest = False
         player, _ = Player.objects.get_or_create(username=request.user.username)
-    elif 'player_id' in request.session:
-        try:
-            player = Player.objects.get(id=request.session['player_id'])
-            is_guest = False
-        except Player.DoesNotExist:
-            is_guest = True
-    if is_guest:
-        player = Player(username='guest', country='Guestland')
-    return player, is_guest
+        return player, False
+    
+    temp_score = request.session.get('game_score', 0)
+    player = Player(username='Guest', country='Guestland', total_score=temp_score)
+    
+    return player, True
+
 
 #game_start_play
 
@@ -1135,9 +1130,7 @@ def game_result(request):
             player.last_score = score
             player.save()
         else:
-            player.total_score += score
-            player.last_score = score
-            player.save()
+            request.session['game_score'] = score
 
         request.session['score_saved'] = True
 
@@ -1164,10 +1157,11 @@ def game_result(request):
         'review_data': review_data, 
         'difficulty': difficulty,
         'is_premium_mode': is_premium_mode,
-        'ranking': Player.objects.all().order_by('-total_score')[:20]
+        'ranking': Player.objects.exclude(username__icontains="Guest").order_by('-total_score')[:20]
     })
     
-                        
+    
+                            
 #category select view
 
 def category_list(request):
