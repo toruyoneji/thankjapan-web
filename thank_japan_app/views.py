@@ -713,21 +713,16 @@ def contact_thanks(request):
     template = 'thank_japan_app/contact_thanks.html'
     return render(request, template)
 
+
+
+
 #Game and login register
-
-
-
-from django.shortcuts import render, redirect
-from django.urls import reverse
-from django.utils.http import urlencode
-from django.contrib import messages
-from django.contrib.auth.models import User
-from .models import Player
 
 def player_register(request):
     next_url = request.GET.get('next') or request.POST.get('next') or 'toppage'
     lang_code = request.GET.get('lang') or request.POST.get('lang') or 'en'
-    guest_score = request.GET.get('guest_score') or request.POST.get('guest_score') or '0'
+    
+    guest_score = request.POST.get('guest_score') or request.GET.get('guest_score') or '0'
 
     if request.method == "POST":
         form = UsernameForm(request.POST)
@@ -740,19 +735,13 @@ def player_register(request):
             if User.objects.filter(username=username).exists() or Player.objects.filter(username=username).exists():
                 messages.error(request, "This username is already taken.")
                 return render(request, 'thank_japan_app/player_register.html', {
-                    'form': form, 
-                    'next': next_url, 
-                    'lang_code': lang_code, 
-                    'guest_score': guest_score
+                    'form': form, 'next': next_url, 'lang_code': lang_code, 'guest_score': guest_score
                 })
 
             if User.objects.filter(email=email).exists() or Player.objects.filter(email=email).exists():
                 messages.error(request, "This email address is already registered.")
                 return render(request, 'thank_japan_app/player_register.html', {
-                    'form': form, 
-                    'next': next_url, 
-                    'lang_code': lang_code, 
-                    'guest_score': guest_score
+                    'form': form, 'next': next_url, 'lang_code': lang_code, 'guest_score': guest_score
                 })
 
             user = User.objects.create_user(username=username, email=email, password=raw_password)
@@ -763,13 +752,13 @@ def player_register(request):
             if hasattr(user, 'profile'):
                 user.profile.country = country
                 try:
-                    # guest_scoreを引き継ぐ
+                    
                     user.profile.total_score = int(guest_score)
                 except (ValueError, TypeError):
                     user.profile.total_score = 0
                 user.profile.save()
             
-            messages.success(request, "Account created! Please log in to start playing.")
+            messages.success(request, "Account created! Please log in.")
             
             keys_to_clear = ['is_guest', 'game_score', 'game_question_ids', 'game_current_index', 'game_message', 'last_question_info', 'game_difficulty', 'player_id']
             for key in keys_to_clear:
@@ -787,8 +776,7 @@ def player_register(request):
         'next': next_url, 
         'lang_code': lang_code, 
         'guest_score': guest_score
-    })
-    
+    })    
     
     
 def player_login(request):
