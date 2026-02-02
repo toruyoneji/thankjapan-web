@@ -721,12 +721,7 @@ def contact_thanks(request):
 def player_register(request):
     next_url = request.GET.get('next') or request.POST.get('next') or 'toppage'
     lang_code = request.GET.get('lang') or request.POST.get('lang') or 'en'
-    
-    
-    score_from_url = request.POST.get('guest_score') or request.GET.get('guest_score')
-    score_from_session = request.session.get('game_score')
-    
-    guest_score = score_from_url or score_from_session or '0'
+    guest_score = request.POST.get('guest_score') or request.GET.get('guest_score') or '0'
 
     if request.method == "POST":
         form = UsernameForm(request.POST)
@@ -748,7 +743,6 @@ def player_register(request):
                     'form': form, 'next': next_url, 'lang_code': lang_code, 'guest_score': guest_score
                 })
 
-    
             user = User.objects.create_user(username=username, email=email, password=raw_password)
             player = Player(username=username, email=email, country=country)
             player.set_password(raw_password)
@@ -756,15 +750,11 @@ def player_register(request):
 
             if hasattr(user, 'profile'):
                 user.profile.country = country
-                try:
-                    user.profile.total_score = int(guest_score)
-                except (ValueError, TypeError):
-                    user.profile.total_score = 0
                 user.profile.save()
             
             messages.success(request, "Account created! Please log in.")
             
-            keys_to_clear = ['is_guest', 'game_score', 'game_question_ids', 'game_current_index', 'game_message', 'last_question_info', 'game_difficulty', 'player_id']
+            keys_to_clear = ['is_guest', 'game_question_ids', 'game_current_index', 'game_message', 'last_question_info', 'game_difficulty', 'player_id']
             for key in keys_to_clear:
                 request.session.pop(key, None)
             
@@ -780,9 +770,9 @@ def player_register(request):
         'next': next_url, 
         'lang_code': lang_code, 
         'guest_score': guest_score
-    })
-        
+    })        
     
+
 def player_login(request):
     next_url = request.GET.get('next') or request.POST.get('next') or 'toppage'
     lang_code = request.GET.get('lang') or 'en'
@@ -793,7 +783,7 @@ def player_login(request):
         user = authenticate(request, username=username, password=password)
 
         if user is not None:
-            temp_guest_score = request.session.get('game_score', 0)
+            temp_guest_score = int(request.session.get('game_score', 0))
 
             keys_to_clear = ['is_guest', 'game_score', 'game_question_ids', 'game_current_index', 'game_message', 'last_question_info', 'game_difficulty']
             for key in keys_to_clear:
@@ -802,17 +792,19 @@ def player_login(request):
             auth_login(request, user)
             
             try:
-                player = Player.objects.get(username=username)
-                request.session['player_id'] = player.id
+                profile = user.profile
+                profile.total_score += temp_guest_score
+                profile.save()
+
+                player_obj, created = Player.objects.get_or_create(username=user.username)
+                player_obj.total_score = profile.total_score
+                player_obj.save()
                 
-                if hasattr(user, 'profile'):
-                    user.profile.total_score += int(temp_guest_score)
-                    user.profile.save()
-            except (Player.DoesNotExist, ValueError, TypeError):
+                request.session['player_id'] = player_obj.id
+            except:
                 pass
 
             request.session['is_guest'] = False 
-            messages.success(request, f"Welcome back, {user.username}!")
             return redirect(next_url)
         else:
             messages.error(request, "Invalid username or password.", extra_tags="login_invalid")
@@ -821,7 +813,7 @@ def player_login(request):
         'next': next_url,
         'lang_code': lang_code
     })
-    
+        
     
 def player_logout(request):
     lang_code = request.GET.get('lang')
@@ -1123,23 +1115,29 @@ def game_restart(request):
     
     return redirect('game_play')
 
+
+
 def game_result(request):
     _, lang_code = get_lang_info(request)
-    score = request.session.get('game_score', 0)
+    score = int(request.session.get('game_score', 0))
     player, is_guest = get_current_player_info(request)
     is_premium_mode = request.session.get('is_premium_mode', False)
     difficulty = request.session.get('game_difficulty')
 
-    if not request.session.get('score_saved', False) and not is_guest:
-        player.total_score += score
-        player.last_score = score
-        player.save()
-
-        if request.user.is_authenticated:
+    if not request.session.get('score_saved', False) and score > 0:
+        if not is_guest and request.user.is_authenticated:
             profile = request.user.profile
             profile.total_score += score
             profile.last_score = score
             profile.save()
+
+            player.total_score = profile.total_score
+            player.last_score = score
+            player.save()
+        else:
+            player.total_score += score
+            player.last_score = score
+            player.save()
 
         request.session['score_saved'] = True
 
@@ -1150,16 +1148,26 @@ def game_result(request):
     review_data = []
     for h in history:
         q = played_questions.get(h['question_id'])
-        if q: review_data.append({'object': q, 'is_correct': h['is_correct'], 'user_input': h['user_input'], 'correct_answer': h['correct_answer']})
+        if q: 
+            review_data.append({
+                'object': q, 
+                'is_correct': h['is_correct'], 
+                'user_input': h['user_input'], 
+                'correct_answer': h['correct_answer']
+            })
 
     return render(request, 'thank_japan_app/game_result.html', {
         'lang_code': lang_code,
-        'player': player, 'score': score, 'is_guest': is_guest, 
-        'review_data': review_data, 'difficulty': difficulty,
+        'player': player, 
+        'score': score, 
+        'is_guest': is_guest, 
+        'review_data': review_data, 
+        'difficulty': difficulty,
         'is_premium_mode': is_premium_mode,
-        'ranking': Player.objects.order_by('-total_score')[:20]
-    })    
-                    
+        'ranking': Player.objects.all().order_by('-total_score')[:20]
+    })
+    
+                        
 #category select view
 
 def category_list(request):
