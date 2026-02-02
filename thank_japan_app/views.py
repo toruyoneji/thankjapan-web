@@ -717,6 +717,13 @@ def contact_thanks(request):
 
 
 
+from django.shortcuts import render, redirect
+from django.urls import reverse
+from django.utils.http import urlencode
+from django.contrib import messages
+from django.contrib.auth.models import User
+from .models import Player
+
 def player_register(request):
     next_url = request.GET.get('next') or request.POST.get('next') or 'toppage'
     lang_code = request.GET.get('lang') or request.POST.get('lang') or 'en'
@@ -755,6 +762,11 @@ def player_register(request):
 
             if hasattr(user, 'profile'):
                 user.profile.country = country
+                try:
+                    # guest_scoreを引き継ぐ
+                    user.profile.total_score = int(guest_score)
+                except (ValueError, TypeError):
+                    user.profile.total_score = 0
                 user.profile.save()
             
             messages.success(request, "Account created! Please log in to start playing.")
@@ -776,8 +788,9 @@ def player_register(request):
         'lang_code': lang_code, 
         'guest_score': guest_score
     })
-
-
+    
+    
+    
 def player_login(request):
     next_url = request.GET.get('next') or request.POST.get('next') or 'toppage'
     lang_code = request.GET.get('lang')

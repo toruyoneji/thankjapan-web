@@ -291,6 +291,7 @@
   <form method="post" novalidate>
     {% csrf_token %}
     <input type="hidden" name="next" value="{{ next }}">
+    <input type="hidden" name="guest_score" value="{{ guest_score }}">
     
     <p>
       <label for="id_username">
