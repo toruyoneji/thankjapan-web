@@ -214,6 +214,10 @@
         gtag('js', new Date());
 
         gtag('config', '{{ GA_TRACKING_ID }}');
+
+        gtag('event', 'page_view', {
+        traffic_type: 'internal'
+        });
     </script>
 
     {% block jsonld %}{% endblock %}
