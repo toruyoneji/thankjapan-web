@@ -432,6 +432,17 @@ footer {
 <section class="hero">
   {% if not user.is_authenticated %}
     <h1>THANK JAPAN</h1>
+
+    <div class="game-call-to-action">
+    <a href="{% url 'game_start' %}" class="play-game-button">
+        PLAY GAME NOW!
+        <span class="game-icon">🎮</span> 
+    </a>
+    <p class="game-description">
+        Test Your Japanese Knowledge? <br>Learn Japanese words and culture!
+    </p>
+    </div>
+
     <div class="hero-buttons">
       <a href="{% url 'category_list' %}" class="explore-btn btn-red">Learn Japanese 📖</a>
 
@@ -464,16 +475,7 @@ footer {
 </section>
 
 
-  <div class="game-call-to-action">
-    <a href="{% url 'game_start' %}" class="play-game-button">
-        PLAY GAME NOW!
-        <span class="game-icon">🎮</span> 
-    </a>
-    <p class="game-description">
-        Test Your Japanese Knowledge? <br>Learn Japanese words and culture!
-    </p>
-  </div>
-
+  
   <section class="categories">
     <h2>Discover Japan</h2>
     <div class="category-grid">
