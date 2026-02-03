@@ -353,6 +353,23 @@ footer {
   margin: 0 10px;
 }
 
+
+.guest-guide-pointer {
+    color: #00e5ff; 
+    font-weight: bold;
+    font-size: 1rem;
+    margin-bottom: 10px;
+    display: block;
+    animation: bounce-pointer 1.2s infinite;
+    text-shadow: 0 0 8px rgba(0, 229, 255, 0.4);
+}
+
+
+@keyframes bounce-pointer {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+}
+
 @media screen and (max-width: 768px) {
   .main { margin: 0 auto; }
   .hero { 
@@ -413,6 +430,7 @@ footer {
   {% if not user.is_authenticated %}
     <h1>THANK JAPAN</h1>
     <div class="hero-buttons">
+    <span class="guest-guide-pointer">👇 First, let's select a category!</span>
       <a href="{% url 'category_list' %}" class="explore-btn btn-red">Learn Japanese 📖</a>
 
       <a href="{% url 'player_register' %}?lang=en" class="explore-btn btn-yellow">
