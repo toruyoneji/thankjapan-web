@@ -403,30 +403,30 @@ class KiyakuDEView(ListView):
     
 #login_bonus
 
+
+
 def apply_login_bonus(request):
-    
     if request.user.is_authenticated:
         profile = request.user.profile
         today = timezone.now().date()
 
         
         if profile.last_bonus_date != today:
+            
             profile.total_score += 1
             profile.last_bonus_date = today
             profile.save()
 
             
-            player = Player.objects.filter(username=request.user.username).first()
-            if player:
-                player.total_score += 1
-                player.save()
+            player, created = Player.objects.get_or_create(username=request.user.username)
+            player.total_score = profile.total_score 
+            player.save()
             
-        
+            
             request.session['show_bonus_toast'] = True
     else:
-    
         request.session['show_guest_bonus_alert'] = True
-    
+            
 
 #country page
 class TopView(ListView): 
