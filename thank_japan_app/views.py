@@ -163,7 +163,7 @@ CATEGORY_URL_MAP = {
 @require_POST
 def update_policy_agreement(request):
     profile = request.user.profile
-    profile.privacy_policy_version = "2026-01"
+    profile.privacy_policy_version = "2026-02"
     profile.save()
     return JsonResponse({'status': 'success'})
 

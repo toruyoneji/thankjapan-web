@@ -467,10 +467,10 @@
 
 {% block content %}{% endblock %}
 
-{% if user.is_authenticated and user.profile.privacy_policy_version != "2026-01" %}
+{% if user.is_authenticated and user.profile.privacy_policy_version != "2026-02" %}
 <div id="policyUpdateBanner" style="position: fixed; bottom: 0; left: 0; width: 100%; background: #b22d35; color: white; padding: 20px; z-index: 10002; text-align: center; box-shadow: 0 -5px 15px rgba(0,0,0,0.3);">
     <p style="margin: 0 0 10px 0; font-size: 0.95rem; line-height: 1.5;">
-        <strong>Privacy Policy Updated (January 2026)</strong><br>
+        <strong>Privacy Policy Updated (February 2026)</strong><br>
         We have updated our policy regarding Premium subscriptions and AI usage. 
         Please confirm that you agree to the new terms.
     </p>
@@ -570,7 +570,7 @@ function agreeToPolicy() {
             'X-CSRFToken': '{{ csrf_token }}',
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ version: "2026-01" })
+        body: JSON.stringify({ version: "2026-02" })
     }).then(response => {
         if (response.ok) {
             const banner = document.getElementById('policyUpdateBanner');

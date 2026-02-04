@@ -313,10 +313,10 @@
     </div>
 </div>
 
-{% if user.is_authenticated and user.profile.privacy_policy_version != "2026-01" %}
+{% if user.is_authenticated and user.profile.privacy_policy_version != "2026-02" %}
 <div id="policyUpdateBanner" style="position: fixed; bottom: 0; left: 0; width: 100%; background: #b22d35; color: white; padding: 20px; z-index: 10002; text-align: center; box-shadow: 0 -5px 15px rgba(0,0,0,0.3);">
     <p style="margin: 0 0 10px 0; font-size: 0.95rem; line-height: 1.5;">
-        <strong>개인정보 처리방침 업데이트 안내 (2026년 1월)</strong><br>
+        <strong>개인정보 처리방침 업데이트 안내 (2026년 2월)</strong><br>
         프리미엄 구독 및 AI 활용에 관한 정책이 업데이트되었습니다. 새로운 약관에 동의해 주시기 바랍니다.
     </p>
     <div style="display: flex; justify-content: center; gap: 15px;">
@@ -405,7 +405,7 @@ function agreeToPolicy() {
             'X-CSRFToken': '{{ csrf_token }}',
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ version: "2026-01" })
+        body: JSON.stringify({ version: "2026-02" })
     }).then(response => {
         if (response.ok) {
             const banner = document.getElementById('policyUpdateBanner');
