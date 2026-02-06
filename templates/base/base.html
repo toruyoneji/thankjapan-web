@@ -215,11 +215,7 @@
 
         gtag('config', '{{ GA_TRACKING_ID }}');
 
-        if (window.location.hostname.includes('herokuapp.com')) {
-        gtag('event', 'page_view', {
-            traffic_type: 'internal'
-        });
-    }
+
     </script>
 
     {% block jsonld %}{% endblock %}
