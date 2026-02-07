@@ -381,11 +381,11 @@ body {
         <div class="jlpt-tag">JLPT {{ object.jlpt_level }}</div>
     {% endif %}
 
-    <h1 class="detaildt">{{ object.englishname }}</h1>
-
     {% if object.image %}
         <img class="detailgazou" src="{{ object.image.url }}" alt="{{ object.englishname }}">
     {% endif %}
+
+    <h1 class="detaildt">{{ object.englishname }}</h1>
 
     <div class="jpname-container">
         <span class="label-text">
