@@ -94,14 +94,24 @@ body {
     align-items: center;
     justify-content: center;
     gap: 20px;
+    margin-top: 25px;
 }
 
 .jpname-text {
     font-size: 3.2rem;
     color: #fff;
     font-weight: 700;
-    line-height: 1.1;
+    line-height: 1.7;
     text-shadow: 0 4px 15px rgba(0,0,0,0.5);
+}
+
+
+.jpname-text rt {
+    font-size: 1.1rem; 
+    font-weight: 400;
+    color: #f0f0f0;
+    text-shadow: 0 2px 5px rgba(0,0,0,0.5);
+    letter-spacing: 0.05em;
 }
 
 .voice-btn {
@@ -356,7 +366,7 @@ body {
 
 @media screen and (max-width: 768px) {
     .detailgazou { height: 280px; }
-    .jpname-text { font-size: 2.5rem; }
+    .jpname-text { font-size: 2.2rem; }
     .romaji-text { font-size: 1.4rem; }
     .game-invite-btn { width: 80%; }
     
@@ -394,8 +404,19 @@ body {
             {% endif %}
 
         </span>
+
         <div class="jpname-wrapper">
-            <span class="jpname-text">{{ object.jpname }}</span>
+            <span class="jpname-text">
+                {% if object.kanji_name %}
+                    <ruby>
+                        {{ object.kanji_name }}
+                        <rt>{{ object.jpname }}</rt>
+                    </ruby>
+                {% else %}
+                    {{ object.jpname }}
+                {% endif %}
+            </span>
+
             <button type="button" class="voice-btn" onclick="speakJapanese('{{ object.jpname }}')">
                 🔊
             </button>
