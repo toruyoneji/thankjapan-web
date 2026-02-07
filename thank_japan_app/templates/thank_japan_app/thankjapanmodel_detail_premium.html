@@ -366,10 +366,26 @@ body {
 
 @media screen and (max-width: 768px) {
     .detailgazou { height: 280px; }
-    .jpname-text { font-size: 2rem; }
-    .romaji-text { font-size: 1.4rem; }
-    .game-invite-btn { width: 80%; }
+
+    .jpname-text {
+        
+        font-size: clamp(1.2rem, 5vw, 1.6rem); 
+        display: block;
+        width: 100%;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        line-height: 2.2; 
+        padding: 0 10px; 
+    }
+
     
+    .jpname-text rt {
+        font-size: 0.8rem;
+    }
+
+    .romaji-text { font-size: 1.2rem; } 
+    .game-invite-btn { width: 80%; }
+
     .related-grid {
         grid-template-columns: repeat(2, 1fr);
     }
