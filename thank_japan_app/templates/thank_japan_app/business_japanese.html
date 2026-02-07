@@ -127,18 +127,19 @@ body {
 }
 
 .flashcard-back h3 {
-    font-size: 1.2rem;
-    color: #d46a00;
-    margin-bottom: 2px;
+    font-size: 1rem; 
+    line-height: 1.2;
+    max-height: 2.4em; 
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; 
+    -webkit-box-orient: vertical;
 }
 
 .jp-text {
-    font-size: 1.8rem;
-    font-weight: bold;
-    color: #333;
-    line-height: 1.8;
-    margin: 5px 0;
-    text-align: center;
+    font-size: clamp(1.2rem, 4vw, 1.8rem); 
+    width: 100%;
+    word-wrap: break-word; 
 }
 
 .jp-text ruby {
