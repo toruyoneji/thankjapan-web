@@ -380,12 +380,32 @@ footer {
             {% endif %}
 
         </span>
+
         <div class="jpname-wrapper">
-            <span class="jpname-text">{{ object.jpname }}</span>
+            <span class="jpname-text">
+                {% if object.kanji_name %}
+            
+                    <ruby class="kanji-ruby">
+                        {{ object.kanji_name }}
+                        <rt class="furigana">{{ object.jpname }}</rt>
+                    </ruby>
+                {% else %}
+                    {{ object.jpname }}
+                {% endif %}
+            </span>
+
+    
             <button type="button" class="voice-btn" onclick="speakJapanese('{{ object.jpname }}')" title="Listen">
                 🔊
             </button>
         </div>
+
+
+        {% if object.katakana_name and object.katakana_name != object.kanji_name %}
+            <div class="katakana-container">
+                <span class="katakana-text">{{ object.katakana_name }}</span>
+            </div>
+        {% endif %}
     </div>
 
     <div class="romaji-container">
