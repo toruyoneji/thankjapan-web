@@ -120,26 +120,45 @@ body {
     background-color: #fff8e1;
     transform: rotateY(180deg);
     padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .flashcard-back h3 {
     font-size: 1.2rem;
     color: #d46a00;
-    margin-bottom: 5px;
+    margin-bottom: 2px;
 }
 
 .jp-text {
     font-size: 1.8rem;
     font-weight: bold;
     color: #333;
+    line-height: 1.8;
     margin: 5px 0;
+    text-align: center;
+}
+
+.jp-text ruby {
+    ruby-align: center;
+}
+
+.jp-text rt {
+    font-size: 0.8rem;
+    font-weight: 400;
+    color: #666;
+    line-height: 1;
 }
 
 .romaji {
     font-size: 1rem;
     color: #888;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
+    margin-top: 0;
 }
+
 
 .audio-btn {
     background: #ffb347;
@@ -536,7 +555,18 @@ body {
 
                 <div class="flashcard-back">
                     <h3>{{ item.englishname }}</h3>
-                    <p class="jp-text">{{ item.jpname }}</p>
+                    
+                    <p class="jp-text">
+                    {% if item.kanji_name %}
+                        <ruby>
+                            {{ item.kanji_name }}
+                            <rt>{{ item.jpname }}</rt>
+                        </ruby>
+                    {% else %}
+                        {{ item.jpname }}
+                    {% endif %}
+                    </p>
+
                     <p class="romaji">{{ item.name }}</p>
 
                     <button class="audio-btn" onclick="speakJapanese('{{ item.jpname }}'); event.stopPropagation();">
