@@ -77,14 +77,28 @@ body {
     align-items: center;
     justify-content: center;
     gap: 15px;
+    margin-top: 20px; 
 }
 
 .jpname-text {
     font-size: 3.5rem;
     color: #fff;
     font-weight: 700;
-    line-height: 1.2;
+    line-height: 1.8;
     text-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+
+.jpname-text ruby {
+    ruby-align: center;
+}
+
+.jpname-text rt {
+    font-size: 1.2rem; 
+    margin-bottom: 0.2em;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+    font-weight: 400;
+    color: #eee; /
 }
 
 .voice-btn {
@@ -400,12 +414,6 @@ footer {
             </button>
         </div>
 
-
-        {% if object.katakana_name and object.katakana_name != object.kanji_name %}
-            <div class="katakana-container">
-                <span class="katakana-text">{{ object.katakana_name }}</span>
-            </div>
-        {% endif %}
     </div>
 
     <div class="romaji-container">
