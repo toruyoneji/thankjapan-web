@@ -38,6 +38,8 @@ class ThankJapanPremium(models.Model):
     englishname = models.CharField(max_length=200)
     jpname = models.CharField(max_length=200)
     romaji = models.CharField(max_length=200)
+    kanji_name = models.CharField(max_length=100, blank=True, null=True) 
+    katakana_name = models.CharField(max_length=100, blank=True, null=True)
     slug = models.SlugField(unique=True, max_length=255, blank=True)
     image = CloudinaryField('image', folder='thankjapan/premium')
     category = models.CharField(max_length=100)
