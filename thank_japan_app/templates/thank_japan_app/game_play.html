@@ -608,10 +608,18 @@ img:hover { transform: scale(1.02); }
                 {% else %}✅ Correct!
                 {% endif %}
             </h2>
+
             <div style="display: flex; align-items: center; justify-content: center; gap: 10px; margin: 10px 0;">
-                <p style="font-size: 2.5em; margin: 0; color: #fff;">{{ object.jpname }}</p>
+                <p style="font-size: 2.5em; margin: 0; color: #fff; line-height: 1.8;">
+                    {% if object.kanji_name %}
+                        <ruby>{{ object.kanji_name }}<rt style="font-size: 0.4em; color: #ccc;">{{ object.jpname }}</rt></ruby>
+                    {% else %}
+                        {{ object.jpname }}
+                    {% endif %}
+                </p>
                 <button type="button" class="voice-btn" onclick="speakJapanese('{{ object.jpname }}')" title="Listen">🔊</button>
             </div>
+
             <p style="font-size: 1.5em; margin-bottom: 20px; color: #ccc;">{{ object.name }}</p>
         {% else %}
             <div id="incorrect-flag" data-word="{{ object.jpname }}"></div>
@@ -665,7 +673,13 @@ img:hover { transform: scale(1.02); }
                     {% else %}Correct:
                     {% endif %}
  
-                    <strong>{{ object.jpname }}</strong></p>
+                    <strong>
+                        {% if object.kanji_name %}
+                            <ruby>{{ object.kanji_name }}<rt style="font-size: 0.5em; color: #ccc;">{{ object.jpname }}</rt></ruby>
+                        {% else %}
+                            {{ object.jpname }}
+                        {% endif %}
+                    </strong></p>
                 <button type="button" class="voice-btn" onclick="speakJapanese('{{ object.jpname }}')" title="Listen">🔊</button>
             </div>
             <p style="font-size: 1.2em; margin-bottom: 20px; color: #ccc;">{{ object.name }}</p>
@@ -703,7 +717,14 @@ img:hover { transform: scale(1.02); }
                     {% elif lang_code == 'th' %}ภาษาญี่ปุ่น:
                     {% else %}Japanese:
                     {% endif %}
-                </strong> {{ object.jpname }} ({{ object.name|title }})</p>
+                </strong> 
+                </strong> 
+                {% if object.kanji_name %}  
+                    <ruby>{{ object.kanji_name }}<rt>{{ object.jpname }}</rt></ruby>
+                {% else %}
+                    {{ object.jpname }}
+                {% endif %} 
+                    ({{ object.name|title }})</p>
 
                 <p><strong>
                     {% if lang_code == 'ja' %}意味:
