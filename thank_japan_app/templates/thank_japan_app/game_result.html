@@ -843,7 +843,19 @@ tbody td {
                             <span class="category-badge">{{ item.object.category|title }}</span>
                         </div>
 
-                        <h3 class="answer-title">{{ item.object.jpname }} ({{ item.object.name|title }})</h3>
+                        <h3 class="answer-title" style="line-height: 1.8;">
+                            {% if item.object.kanji_name %}
+                                <ruby>
+                                    {{ item.object.kanji_name }}
+                                    <rt style="font-size: 0.5em; color: #666;">{{ item.object.jpname }}</rt>
+                                </ruby>
+                            {% else %}
+                                {{ item.object.jpname }}
+                            {% endif %}
+                            <span style="font-size: 0.8em; color: #888; font-weight: normal; margin-left: 5px;">
+                                ({{ item.object.name|title }})
+                            </span>
+                        </h3>
 
                         {% if item.is_correct %}
                             <p class="status-text correct">
