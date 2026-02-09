@@ -689,21 +689,30 @@ tbody td {
 
         </p>
     {% endif %}
-    <p style="color: #000000;">
-        {% if lang_code == 'ja' %}スコア:
-        {% elif lang_code == 'zh-hant' %}分數:
-        {% elif lang_code == 'zh-cn' %}分数:
-        {% elif lang_code == 'de' %}Punktestand:
-        {% elif lang_code == 'fr' %}Score:
-        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Puntuación:
-        {% elif lang_code == 'it' %}Punteggio:
-        {% elif lang_code == 'ko' %}점수:
-        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Pontuação:
-        {% elif lang_code == 'vi' %}Điểm số:
-        {% elif lang_code == 'th' %}คะแนน:
-        {% else %}Your Score:
-        {% endif %}
- <span class="score-number" id="score" style="color: #000000;">{{ score }}</span> pts</p>
+    <div style="margin: 15px 0; border-top: 1px solid #eee; padding-top: 15px;">
+        <p style="font-size: 1.1rem; color: #666; margin-bottom: 5px; font-weight: bold;">
+            ⏱ 60s Challenge
+        </p>
+        <p style="font-size: 2.2rem; font-weight: bold; color: #333; margin: 0;">
+            <span class="score-number" id="score" style="color: #4caf50;">{{ score }}</span>
+            <span style="font-size: 1.2rem; color: #999;"> / {{ total_played }}</span>
+            <span style="font-size: 1.2rem; margin-left: 5px;">
+                {% if lang_code == 'ja' %}正解!
+                {% elif lang_code == 'zh-hant' %}正確!
+                {% elif lang_code == 'zh-cn' %}正确!
+                {% elif lang_code == 'de' %}Richtig!
+                {% elif lang_code == 'fr' %}Correct !
+                {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}¡Correcto!
+                {% elif lang_code == 'it' %}Corretto!
+                {% elif lang_code == 'ko' %}정답!
+                {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Correto!
+                {% elif lang_code == 'vi' %}Chính xác!
+                {% elif lang_code == 'th' %}ถูกต้อง!
+                {% else %}Correct!{% endif %}
+            </span>
+        </p>
+        <p style="font-size: 1rem; color: #888;">+{{ score }} pts added to your Total Exp</p>
+    </div>
   </div>
 
   

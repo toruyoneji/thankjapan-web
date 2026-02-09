@@ -522,111 +522,99 @@ body::before, body::after { display: none; }
                 <span class="step-arrow">➡</span>
                 <span class="step-emoji">🇯🇵</span>
                 <span class="step-arrow">➡</span>
-                <span class="step-emoji">⌨️</span>
+                <span class="step-emoji">👆</span>
             </div>
-            
+    
             <div class="rule-example-box">
                 <div class="example-item correct">
-                    <span class="example-icon">🍣</span>
-                    <span class="example-text">SUSHI</span>
-                    <span class="example-mark">✅</span>
-                </div>
-                <div class="example-divider">vs</div>
-                <div class="example-item wrong">
-                    <span class="example-icon">🍣</span>
-                    <span class="example-text">
-                        {% if lang_code == 'ja' %}さかな
-                        {% elif lang_code == 'zh-hant' or lang_code == 'zh-cn' %}魚
-                        {% elif lang_code == 'de' %}Fisch
-                        {% elif lang_code == 'fr' %}Poisson
-                        {% elif lang_code == 'it' %}Pesce
-                        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Pescado
-                        {% elif lang_code == 'ko' %}물고기
-                        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Peixe
-                        {% elif lang_code == 'vi' %}Cá
-                        {% elif lang_code == 'th' %}ปลา
-                        {% else %}Fish{% endif %}
-                    </span>
-                    <span class="example-mark">❌</span>
-                </div>
+                <span class="example-icon">🍣</span>
+                <span class="example-text">SUSHI</span>
+                <span class="example-mark">✅</span>
             </div>
 
-            <p class="rule-caption">
-            {% if lang_code == 'ja' %}
-                ローマ字で日本語名を入力してください！<br>
-                ・長音(ー)：母音を重ねて入力（例："sukii"）<br>
-                ・「ん」： "n" 1回で入力<br>
-                <span style="font-size: 0.9em; color: #aaa;">あいまい入力OK："shi"="si", "tu"="tsu" など</span>
-
-            {% elif lang_code == 'zh-hant' %}
-                請用羅馬字輸入日文名稱！<br>
-                ・長音(ー)：重複輸入母音（例："sukii"）<br>
-                ・「ん」：只需輸入 "n" 一次<br>
-                <span style="font-size: 0.9em; color: #aaa;">允許模糊輸入："shi"="si", "tu"="tsu" 等</span>
-
-            {% elif lang_code == 'zh-cn' %}
-                请用罗马字输入日文名称！<br>
-                ・长音(ー)：重复输入母音（例："sukii"）<br>
-                ・「ん」：只需输入 "n" 一次<br>
-                <span style="font-size: 0.9em; color: #aaa;">支持模糊输入："shi"="si", "tu"="tsu" 等</span>
-
-            {% elif lang_code == 'de' %}
-                Gib den japanischen Namen in Romaji ein!<br>
-                - Lange Vokale (ー): Vokal verdoppeln (z.B. "sukii")<br>
-                - Das "ん": Nur ein "n" eingeben<br>
-                <span style="font-size: 0.9em; color: #aaa;">Unscharfe Eingaben erlaubt: "shi"="si", "tu"="tsu" usw.</span>
-
-            {% elif lang_code == 'fr' %}
-                Saisis le nom japonais en romaji !<br>
-                - Voyelles longues (ー) : Répète la voyelle (ex: "sukii")<br>
-                - Le son "ん" : Tape "n" une seule fois<br>
-                <span style="font-size: 0.9em; color: #aaa;">Entrée approximative acceptée : "shi"="si", "tu"="tsu", etc.</span>
-
-            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}
-                Escribe el nombre japonés en romaji.<br>
-                - Vocales largas (ー): Repite la vocal (ej: "sukii")<br>
-                - El sonido "ん": Escribe "n" una sola vez<br>
-                <span style="font-size: 0.9em; color: #aaa;">Entrada flexible permitida: "shi"="si", "tu"="tsu", etc.</span>
-
-            {% elif lang_code == 'it' %}
-                Inserisci il nome giapponese in romaji!<br>
-                - Vocali lunghe (ー): Ripeti la vocale (es: "sukii")<br>
-                - Il suono "ん": Digita "n" una sola volta<br>
-                <span style="font-size: 0.9em; color: #aaa;">Input flessibile consentito: "shi"="si", "tu"="tsu", ecc.</span>
-
-            {% elif lang_code == 'ko' %}
-                일본어 이름을 로마자로 입력하세요!<br>
-                ・장음(ー): 모음을 겹쳐서 입력 (예: "sukii")<br>
-                ・'ん'은 "n"을 1번만 입력<br>
-                <span style="font-size: 0.9em; color: #aaa;">유연한 입력 허용: "shi"="si", "tu"="tsu" 등</span>
-
-            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}
-                Digite o nome japonês em romaji!<br>
-                - Vogais longas (ー): Repita a vogal (ex: "sukii")<br>
-                - O som "ん": Digite "n" apenas uma vez<br>
-                <span style="font-size: 0.9em; color: #aaa;">Entrada flexível permitida: "shi"="si", "tu"="tsu", etc.</span>
-
-            {% elif lang_code == 'vi' %}
-                Nhập tên tiếng Nhật bằng romaji!<br>
-                - Nguyên âm dài (ー): Gõ nguyên âm 2 lần (VD: "sukii")<br>
-                - Âm "ん": Chỉ cần gõ "n" 1 lần<br>
-                <span style="font-size: 0.9em; color: #aaa;">Cho phép nhập linh hoạt: "shi"="si", "tu"="tsu", v.v.</span>
-
-            {% elif lang_code == 'th' %}
-                พิมพ์ชื่อภาษาญี่ปุ่นด้วยโรมาจิ!<br>
-                - เสียงยาว (ー): พิมพ์สระซ้ำ (เช่น "sukii")<br>
-                - เสียง "ん": พิมพ์ "n" เพียงครั้งเดียว<br>
-                <span style="font-size: 0.9em; color: #aaa;">รองรับการพิมพ์แบบยืดหยุ่น: "shi"="si", "tu"="tsu" เป็นต้น</span>
-
-            {% else %}
-                Type the Japanese name in Romaji!<br>
-                - Long vowels (ー): Repeat the vowel (e.g. "sukii")<br>
-                - Nasal "ん": Type "n" once<br>
-                <span style="font-size: 0.9em; color: #aaa;">Fuzzy input allowed: "shi"="si", "tu"="tsu", etc.</span>
-            {% endif %}
-            </p>
-
+            <div class="example-divider">vs</div>
+            <div class="example-item wrong">
+                <span class="example-icon">🍣</span>
+                <span class="example-text">
+                    {% if lang_code == 'ja' %}さかな
+                    {% elif lang_code == 'zh-hant' or lang_code == 'zh-cn' %}魚
+                    {% elif lang_code == 'de' %}Fisch
+                    {% elif lang_code == 'fr' %}Poisson
+                    {% elif lang_code == 'it' %}Pesce
+                    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Pescado
+                    {% elif lang_code == 'ko' %}물고기
+                    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Peixe
+                    {% elif lang_code == 'vi' %}Cá
+                    {% elif lang_code == 'th' %}ปลา
+                    {% else %}Fish{% endif %}
+                </span>
+                <span class="example-mark">❌</span>
+            </div>
         </div>
+
+        <p class="rule-caption">
+        {% if lang_code == 'ja' %}
+            60秒以内に正しい日本語を選んでください！<br>
+            ・3つの選択肢から1つをタップ<br>
+            <span style="font-size: 0.9em; color: #00bcd4; font-weight: bold;">⏱ タイムアタック：何問解けるか挑戦！</span>
+
+        {% elif lang_code == 'zh-hant' %}
+            請在 60 秒内選擇正確的日文！<br>
+            ・從 3 個選項中點擊一個<br>
+            <span style="font-size: 0.9em; color: #00bcd4; font-weight: bold;">⏱ 限時挑戰：看看你能答對多少題！</span>
+
+        {% elif lang_code == 'zh-cn' %}
+            请在 60 秒内选择正確的日文！<br>
+            ・从 3 个选项中点击一个<br>
+            <span style="font-size: 0.9em; color: #00bcd4; font-weight: bold;">⏱ 限时挑战：看看你能答对多少题！</span>
+
+        {% elif lang_code == 'de' %}
+            Wähle den richtigen japanischen Namen innerhalb von 60 Sek.!<br>
+            - Tippe auf eine der 3 Optionen<br>
+            <span style="font-size: 0.9em; color: #00bcd4; font-weight: bold;">⏱ Time Attack: Wie viele schaffst du?</span>
+
+        {% elif lang_code == 'fr' %}
+            Choisis le bon nom japonais en moins de 60 secondes !<br>
+            - Appuie sur l'une des 3 options<br>
+            <span style="font-size: 0.9em; color: #00bcd4; font-weight: bold;">⏱ Time Attack : Combien peux-tu en résoudre ?</span>
+
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}
+            ¡Elige el nombre japonés correcto en menos de 60 segundos!<br>
+            - Toca una de las 3 opciones<br>
+            <span style="font-size: 0.9em; color: #00bcd4; font-weight: bold;">⏱ Contrarreloj: ¿Cuántas puedes resolver?</span>
+
+        {% elif lang_code == 'it' %}
+            Scegli il nome giapponese corretto entro 60 secondi!<br>
+            - Tocca una delle 3 opzioni<br>
+            <span style="font-size: 0.9em; color: #00bcd4; font-weight: bold;">⏱ Time Attack: Quante ne puoi indovinare?</span>
+
+        {% elif lang_code == 'ko' %}
+            60초 안에 올바른 일본어 이름을 선택하세요!<br>
+            ・3가지 선택지 중 하나를 터치<br>
+            <span style="font-size: 0.9em; color: #00bcd4; font-weight: bold;">⏱ 타임어택: 몇 문제나 맞힐 수 있을까요?</span>
+
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}
+            Escolha o nome japonês correto em até 60 segundos!<br>
+            - Toque em uma das 3 opções<br>
+            <span style="font-size: 0.9em; color: #00bcd4; font-weight: bold;">⏱ Time Attack: Quantas você consegue resolver?</span>
+
+        {% elif lang_code == 'vi' %}
+            Chọn tên tiếng Nhật đúng trong vòng 60 giây!<br>
+            - Chạm vào 1 trong 3 lựa chọn<br>
+            <span style="font-size: 0.9em; color: #00bcd4; font-weight: bold;">⏱ Thử thách thời gian: Bạn giải được bao nhiêu câu?</span>
+
+        {% elif lang_code == 'th' %}
+            เลือกชื่อภาษาญี่ปุ่นที่ถูกต้องภายใน 60 วินาที!<br>
+            - แตะหนึ่งใน 3 ตัวเลือก<br>
+            <span style="font-size: 0.9em; color: #00bcd4; font-weight: bold;">⏱ Time Attack: มาดูกันว่าคุณจะทำได้กี่ข้อ!</span>
+
+        {% else %}
+            Pick the correct Japanese name within 60 seconds!<br>
+            - Tap one of the 3 choices<br>
+            <span style="font-size: 0.9em; color: #00bcd4; font-weight: bold;">⏱ Time Attack: How many can you solve?</span>
+        {% endif %}
+        </p>
+    </div>
 
         <div class="difficulty-options">
             <a href="{% url 'game_restart' %}?difficulty=easy" class="difficulty-card easy">
