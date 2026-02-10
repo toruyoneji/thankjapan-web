@@ -381,6 +381,40 @@ img:hover { transform: scale(1.02); }
 }
 
 
+.kanji-question-box {
+    width: 100%;
+    max-width: 400px;
+    height: 250px; 
+    background-color: rgba(255, 255, 255, 0.05); 
+    border: 2px solid #d4af37; 
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
+}
+
+
+.kanji-text {
+    font-size: 6rem; 
+    color: #fff;
+    margin: 0;
+    font-family: 'Zen Antique', 'Shippori Mincho', serif;
+    letter-spacing: 10px;
+    text-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+}
+
+
+.question-image {
+    width: 100%;
+    max-width: 400px;
+    height: 250px;
+    object-fit: cover;
+    border-radius: 15px;
+}
+
+
 
 @media (max-width: 1024px) {
   .main2 {
@@ -409,6 +443,14 @@ img:hover { transform: scale(1.02); }
         padding: 15px;
     }
     h1 { font-size: 1.5rem; }
+
+    .kanji-text {
+        font-size: 4rem; 
+        letter-spacing: 5px;
+    }
+    .kanji-question-box {
+        height: 200px;
+    }
 }
 
 
@@ -618,9 +660,20 @@ img:hover { transform: scale(1.02); }
     </div>
   {% endif %}
 
-    {% if object.image %}
-        <img src="{{ object.image.url }}" alt="Question image">
-    {% endif %}
+    
+    <div class="question-visual-area" style="min-height: 250px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
+        {% if is_kanji_mode %}
+            <div class="kanji-question-box">
+                <h1 class="kanji-text">
+                    {{ object.kanji_name|default:object.jpname }}
+                </h1>
+            </div>
+        {% else %}
+            {% if object.image %}
+                <img src="{{ object.image.url }}" alt="Question image" class="question-image">
+            {% endif %}
+        {% endif %}
+    </div>
 
     <h2>
         {% if lang_code == 'ja' %}カテゴリ
@@ -873,7 +926,15 @@ img:hover { transform: scale(1.02); }
             <div class="choices-container" style="display: flex; flex-direction: column; gap: 15px; align-items: center;">
                 {% for choice in choices %}
                     <button type="button" class="choice-btn" onclick="submitChoice('{{ choice.name }}')">
-                        {% if choice.kanji_name %}<ruby>{{ choice.kanji_name }}<rt>{{ choice.jpname }}</rt></ruby>{% else %}{{ choice.jpname }}{% endif %}
+                        {% if is_kanji_mode %}
+                            {{ choice.jpname }}
+                        {% else %}
+                            {% if choice.kanji_name %}
+                                <ruby>{{ choice.kanji_name }}<rt>{{ choice.jpname }}</rt></ruby>
+                            {% else %}
+                                {{ choice.jpname }}
+                            {% endif %}
+                        {% endif %}
                     </button>
                 {% endfor %}
             </div>
