@@ -715,48 +715,50 @@ body::before, body::after { display: none; }
             {% endif %}
         </div>
 
-        <a href="{% url 'game_restart' %}?difficulty=kanji1" class="difficulty-card easy">
-            <span class="emoji">🉐</span>
-            <div class="difficulty-info">
-                <h3>KANJI: LEVEL 1</h3>
-                <p>
-                    {% if lang_code == 'ja' %}生活と自然：必須の基礎漢字
-                    {% elif lang_code == 'zh-hant' %}生活與自然：必修基礎漢字
-                    {% elif lang_code == 'zh-cn' %}生活与自然：必修基礎漢字
-                    {% elif lang_code == 'ko' %}생활과 자연: 필수 기초 한자
-                    {% elif lang_code == 'de' %}Alltag & Natur: Basis-Kanji
-                    {% elif lang_code == 'fr' %}Vie & Nature : Kanji essentiels
-                    {% elif lang_code == 'it' %}Vita e Natura: Kanji essenziali
-                    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Vida y Naturaleza: Kanji esenciales
-                    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Vida e Natureza: Kanji essenciais
-                    {% elif lang_code == 'vi' %}Cuộc sống & Tự nhiên: Kanji cơ bản
-                    {% elif lang_code == 'th' %}ชีวิตและธรรมชาติ: คันจิพื้นฐานที่ต้องรู้
-                    {% else %}Life & Nature: Essential Kanji{% endif %}
-                </p>
-            </div>
-        </a>
+        <div class="difficulty-options">
+            <a href="{% url 'game_restart' %}?difficulty=kanji1" class="difficulty-card easy">
+                <span class="emoji">🉐</span>
+                <div class="difficulty-info">
+                    <h3>KANJI: LEVEL 1</h3>
+                    <p>
+                        {% if lang_code == 'ja' %}生活と自然：必須の基礎漢字
+                        {% elif lang_code == 'zh-hant' %}生活與自然：必修基礎漢字
+                        {% elif lang_code == 'zh-cn' %}生活与自然：必修基礎漢字
+                        {% elif lang_code == 'ko' %}생활과 자연: 필수 기초 한자
+                        {% elif lang_code == 'de' %}Alltag & Natur: Basis-Kanji
+                        {% elif lang_code == 'fr' %}Vie & Nature : Kanji essentiels
+                        {% elif lang_code == 'it' %}Vita e Natura: Kanji essenziali
+                        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Vida y Naturaleza: Kanji esenciales
+                        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Vida e Natureza: Kanji essenciais
+                        {% elif lang_code == 'vi' %}Cuộc sống & Tự nhiên: Kanji cơ bản
+                        {% elif lang_code == 'th' %}ชีวิตและธรรมชาติ: คันจิพื้นฐานที่ต้องรู้
+                        {% else %}Life & Nature: Essential Kanji{% endif %}
+                    </p>
+                </div>
+            </a>
 
 
-        <a href="{% url 'game_restart' %}?difficulty=kanji2" class="difficulty-card normal">
-            <span class="emoji">🈴</span>
-            <div class="difficulty-info">
-                <h3>KANJI: LEVEL 2</h3>
-                <p>
-                    {% if lang_code == 'ja' %}文化と社会：一歩進んだ漢字
-                    {% elif lang_code == 'zh-hant' %}文化與社會：進階漢字
-                    {% elif lang_code == 'zh-cn' %}文化与社会：进阶汉字
-                    {% elif lang_code == 'ko' %}문화와 사회: 한걸음 더 나아간 한자
-                    {% elif lang_code == 'de' %}Kultur & Gesellschaft: Fortgeschrittene Kanji
-                    {% elif lang_code == 'fr' %}Culture & Société : Kanji avancés
-                    {% elif lang_code == 'it' %}Cultura e Società: Kanji avanzati
-                    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Cultura y Sociedad: Kanji avanzados
-                    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Cultura e Sociedade: Kanji avançados
-                    {% elif lang_code == 'vi' %}Văn hóa & Xã hội: Kanji nâng cao
-                    {% elif lang_code == 'th' %}วัฒนธรรมและสังคม: คันจิระดับสูง
-                    {% else %}Culture & Society: Intermediate Kanji{% endif %}
-                </p>
-            </div>
-        </a>
+            <a href="{% url 'game_restart' %}?difficulty=kanji2" class="difficulty-card normal">
+                <span class="emoji">🈴</span>
+                <div class="difficulty-info">
+                    <h3>KANJI: LEVEL 2</h3>
+                    <p>
+                        {% if lang_code == 'ja' %}文化と社会：一歩進んだ漢字
+                        {% elif lang_code == 'zh-hant' %}文化與社會：進階漢字
+                        {% elif lang_code == 'zh-cn' %}文化与社会：进阶汉字
+                        {% elif lang_code == 'ko' %}문화와 사회: 한걸음 더 나아간 한자
+                        {% elif lang_code == 'de' %}Kultur & Gesellschaft: Fortgeschrittene Kanji
+                        {% elif lang_code == 'fr' %}Culture & Société : Kanji avancés
+                        {% elif lang_code == 'it' %}Cultura e Società: Kanji avanzati
+                        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Cultura y Sociedad: Kanji avanzados
+                        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Cultura e Sociedade: Kanji avançados
+                        {% elif lang_code == 'vi' %}Văn hóa & Xã hội: Kanji nâng cao
+                        {% elif lang_code == 'th' %}วัฒนธรรมและสังคม: คันจิระดับสูง
+                        {% else %}Culture & Society: Intermediate Kanji{% endif %}
+                    </p>
+                </div>
+            </a>
+        </div>
 
         <div class="difficulty-options">
             <a href="{% url 'game_restart' %}?difficulty=sample_premium" class="difficulty-card sample-card">
