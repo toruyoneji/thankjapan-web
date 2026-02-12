@@ -1193,7 +1193,17 @@ def game_result(request):
             player.save()
         
         request.session['score_saved'] = True
-
+        
+    current_rank = None
+    total_registered = 0
+    if not is_guest:
+        
+        registered_players = Player.objects.exclude(username__icontains="Guest")
+        total_registered = registered_players.count()
+        
+        higher_scores_count = registered_players.filter(total_score__gt=player.total_score).count()
+        current_rank = higher_scores_count + 1
+    
     history = request.session.get('game_history', [])
     model = ThankJapanPremium if is_premium_mode else ThankJapanModel
     played_ids = [h['question_id'] for h in history]
@@ -1221,9 +1231,10 @@ def game_result(request):
         'review_data': review_data, 
         'difficulty': difficulty,
         'is_premium_mode': is_premium_mode,
-        'ranking': ranking
+        'ranking': ranking,
+        'current_rank': current_rank,         
+        'total_registered': total_registered  
     })    
-    
                             
 #category select view
 

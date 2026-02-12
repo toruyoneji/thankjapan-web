@@ -715,6 +715,44 @@ tbody td {
     </div>
   </div>
 
+  {% if not is_guest and current_rank %}
+    <div style="margin-top: 10px; border-top: 1px dashed #ddd; padding-top: 10px;">
+        <p style="font-size: 1.2rem; color: #333; margin: 0;">
+            <span style="font-weight: bold; color: #b7282e; font-size: 1.8rem;">{{ current_rank }}</span>
+            <span style="font-size: 1rem;">
+                {% if lang_code == 'ja' %}位
+                {% elif lang_code == 'zh-hant' or lang_code == 'zh-cn' %}名
+                {% elif lang_code == 'ko' %}위
+                {% elif lang_code == 'th' %}อันดับ
+                {% elif lang_code == 'de' %}.
+                {% elif lang_code == 'fr' %}e
+                {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}º
+                {% elif lang_code == 'it' %}º
+                {% elif lang_code == 'pt' or lang_code == 'pt-br' %}º
+                {% elif lang_code == 'vi' %}
+                {% else %}th{% endif %}
+            </span>
+            
+            <span style="color: #999; margin: 0 8px;">/</span>
+            
+            <span style="font-size: 1.1rem;">{{ total_registered }}</span>
+            <span style="font-size: 0.9rem; color: #666;">
+                {% if lang_code == 'ja' %}人中
+                {% elif lang_code == 'zh-hant' or lang_code == 'zh-cn' %}人中
+                {% elif lang_code == 'ko' %}명 중
+                {% elif lang_code == 'fr' %}joueurs
+                {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}jugadores
+                {% elif lang_code == 'de' %}Spieler
+                {% elif lang_code == 'it' %}giocatori
+                {% elif lang_code == 'pt' or lang_code == 'pt-br' %}jogadores
+                {% elif lang_code == 'vi' %}người
+                {% elif lang_code == 'th' %}คน
+                {% else %}players{% endif %}
+            </span>
+        </p>
+    </div>
+  {% endif %}
+
   
     <div style="margin-top: 20px; text-align: center;">
     
