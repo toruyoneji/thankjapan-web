@@ -717,6 +717,20 @@ tbody td {
 
   {% if not is_guest and current_rank %}
     <div style="margin-top: 10px; border-top: 1px dashed #ddd; padding-top: 10px;">
+        <p style="font-size: 0.9rem; color: #666; margin-bottom: 5px; font-weight: bold;">
+            {% if lang_code == 'ja' %}現在の順位:
+            {% elif lang_code == 'zh-hant' or lang_code == 'zh-cn' %}目前排名:
+            {% elif lang_code == 'ko' %}현재 순위:
+            {% elif lang_code == 'de' %}Aktueller Rang:
+            {% elif lang_code == 'fr' %}Classement actuel :
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Clasificación actual:
+            {% elif lang_code == 'it' %}Classifica attuale:
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Classificação atual:
+            {% elif lang_code == 'vi' %}Xếp hạng hiện tại:
+            {% elif lang_code == 'th' %}อันดับปัจจุบัน:
+            {% else %}Current World Rank:{% endif %}
+        </p>
+
         <p style="font-size: 1.2rem; color: #333; margin: 0;">
             <span style="font-weight: bold; color: #b7282e; font-size: 1.8rem;">{{ current_rank }}</span>
             <span style="font-size: 1rem;">
@@ -756,7 +770,7 @@ tbody td {
   
     <div style="margin-top: 20px; text-align: center;">
     
-        <a href="https://twitter.com/intent/tweet?text=I%20solved%20{{ score|default:0 }}%20words%20in%20the%2060-Second%20Challenge%20on%20ThankJapan!%20🇯🇵%20Rank:%20{{ player.rank|default:'Villager' }}.%20Can%20you%20beat%20me?%20🎮&url=https://www.thankjapan.com&hashtags=LearnJapanese,JapanQuiz,ThankJapan" 
+        <a href="https://twitter.com/intent/tweet?text=I%20solved%20{{ score|default:0 }}%20words%20in%20the%2060-Second%20Challenge%20on%20ThankJapan!%20🇯🇵%20{% if current_rank %}World%20Rank:%20%23{{ current_rank }}%2F{{ total_registered }}{% else %}Rank:%20{{ player.rank|default:'Villager' }}{% endif %}.%20Can%20you%20beat%20me?%20🎮&url=https://www.thankjapan.com&hashtags=LearnJapanese,JapanQuiz,ThankJapan" 
             target="_blank" 
             class="twitter-share-btn">
        
