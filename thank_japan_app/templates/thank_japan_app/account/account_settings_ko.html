@@ -122,6 +122,15 @@
             <span class="stat-label">총점</span>
             <span class="stat-value">{{ total_score }}</span>
         </div>
+
+        <div class="stats-container" style="margin-top: 15px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 15px;">
+            <span class="stat-label">현재 세계 순위</span>
+            <span class="stat-value" style="color: #00bcd4;">
+                #{{ current_rank }} <span style="font-size: 0.8em; color: #888; font-weight: normal;">/ {{ total_registered }}</span>
+                <span style="font-size: 0.7em; margin-left: 3px; font-weight: normal; color: #888;">위</span>
+            </span>
+        </div>
+        
         <div class="action-group">
             {% if not user.profile.is_premium %}
                 <a href="{% url 'premium_infoko' %}" class="btn-manage btn-upgrade">프리미엄으로 업그레이드 💎</a>
