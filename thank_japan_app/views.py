@@ -1911,6 +1911,9 @@ def account_settings(request):
     profile = request.user.profile
     s = profile.total_score
     
+    registered_players = Player.objects.exclude(username__icontains="Guest")
+    total_registered = registered_players.count()
+    current_rank = registered_players.filter(total_score__gt=s).count() + 1
     
     thresholds = [0, 50, 100, 200, 300, 450, 650, 900, 1200, 2000]
     
@@ -1937,6 +1940,8 @@ def account_settings(request):
         'total_score': s,
         'pts_to_next': pts_to_next,
         'progress_percent': progress_percent, 
+        'current_rank': current_rank,         
+        'total_registered': total_registered  
     }
     return render(request, 'thank_japan_app/account/account_settings.html', context)
 
@@ -1946,6 +1951,10 @@ def account_settingsZHCN(request):
     profile = request.user.profile
     s = profile.total_score
     
+    registered_players = Player.objects.exclude(username__icontains="Guest")
+    total_registered = registered_players.count()
+    current_rank = registered_players.filter(total_score__gt=s).count() + 1
+    
     
     thresholds = [0, 50, 100, 200, 300, 450, 650, 900, 1200, 2000]
     
@@ -1972,6 +1981,8 @@ def account_settingsZHCN(request):
         'total_score': s,
         'pts_to_next': pts_to_next,
         'progress_percent': progress_percent, 
+        'current_rank': current_rank,         
+        'total_registered': total_registered  
     }
     return render(request, 'thank_japan_app/account/account_settings_zh_cn.html', context)
 
@@ -1981,6 +1992,10 @@ def account_settingsZHHANT(request):
     profile = request.user.profile
     s = profile.total_score
     
+    registered_players = Player.objects.exclude(username__icontains="Guest")
+    total_registered = registered_players.count()
+    current_rank = registered_players.filter(total_score__gt=s).count() + 1
+    
     
     thresholds = [0, 50, 100, 200, 300, 450, 650, 900, 1200, 2000]
     
@@ -2007,6 +2022,8 @@ def account_settingsZHHANT(request):
         'total_score': s,
         'pts_to_next': pts_to_next,
         'progress_percent': progress_percent, 
+        'current_rank': current_rank,         
+        'total_registered': total_registered  
     }
     return render(request, 'thank_japan_app/account/account_settings_zh_hant.html', context)
 
@@ -2016,6 +2033,10 @@ def account_settingsVI(request):
     profile = request.user.profile
     s = profile.total_score
     
+    registered_players = Player.objects.exclude(username__icontains="Guest")
+    total_registered = registered_players.count()
+    current_rank = registered_players.filter(total_score__gt=s).count() + 1
+    
     
     thresholds = [0, 50, 100, 200, 300, 450, 650, 900, 1200, 2000]
     
@@ -2042,6 +2063,8 @@ def account_settingsVI(request):
         'total_score': s,
         'pts_to_next': pts_to_next,
         'progress_percent': progress_percent, 
+        'current_rank': current_rank,         
+        'total_registered': total_registered  
     }
     return render(request, 'thank_japan_app/account/account_settings_vi.html', context)
 
@@ -2051,6 +2074,10 @@ def account_settingsTH(request):
     profile = request.user.profile
     s = profile.total_score
     
+    registered_players = Player.objects.exclude(username__icontains="Guest")
+    total_registered = registered_players.count()
+    current_rank = registered_players.filter(total_score__gt=s).count() + 1
+    
     
     thresholds = [0, 50, 100, 200, 300, 450, 650, 900, 1200, 2000]
     
@@ -2077,6 +2104,8 @@ def account_settingsTH(request):
         'total_score': s,
         'pts_to_next': pts_to_next,
         'progress_percent': progress_percent, 
+        'current_rank': current_rank,         
+        'total_registered': total_registered  
     }
     return render(request, 'thank_japan_app/account/account_settings_th.html', context)
 
@@ -2086,6 +2115,10 @@ def account_settingsPT(request):
     profile = request.user.profile
     s = profile.total_score
     
+    registered_players = Player.objects.exclude(username__icontains="Guest")
+    total_registered = registered_players.count()
+    current_rank = registered_players.filter(total_score__gt=s).count() + 1
+    
     
     thresholds = [0, 50, 100, 200, 300, 450, 650, 900, 1200, 2000]
     
@@ -2112,6 +2145,8 @@ def account_settingsPT(request):
         'total_score': s,
         'pts_to_next': pts_to_next,
         'progress_percent': progress_percent, 
+        'current_rank': current_rank,         
+        'total_registered': total_registered  
     }
     return render(request, 'thank_japan_app/account/account_settings_pt.html', context)
 
@@ -2121,6 +2156,10 @@ def account_settingsPTBR(request):
     profile = request.user.profile
     s = profile.total_score
     
+    registered_players = Player.objects.exclude(username__icontains="Guest")
+    total_registered = registered_players.count()
+    current_rank = registered_players.filter(total_score__gt=s).count() + 1
+    
     
     thresholds = [0, 50, 100, 200, 300, 450, 650, 900, 1200, 2000]
     
@@ -2147,6 +2186,8 @@ def account_settingsPTBR(request):
         'total_score': s,
         'pts_to_next': pts_to_next,
         'progress_percent': progress_percent, 
+        'current_rank': current_rank,         
+        'total_registered': total_registered  
     }
     return render(request, 'thank_japan_app/account/account_settings_pt_br.html', context)
 
@@ -2156,6 +2197,10 @@ def account_settingsKO(request):
     profile = request.user.profile
     s = profile.total_score
     
+    registered_players = Player.objects.exclude(username__icontains="Guest")
+    total_registered = registered_players.count()
+    current_rank = registered_players.filter(total_score__gt=s).count() + 1
+    
     
     thresholds = [0, 50, 100, 200, 300, 450, 650, 900, 1200, 2000]
     
@@ -2182,6 +2227,8 @@ def account_settingsKO(request):
         'total_score': s,
         'pts_to_next': pts_to_next,
         'progress_percent': progress_percent, 
+        'current_rank': current_rank,         
+        'total_registered': total_registered  
     }
     return render(request, 'thank_japan_app/account/account_settings_ko.html', context)
 
@@ -2190,6 +2237,10 @@ def account_settingsKO(request):
 def account_settingsJA(request):
     profile = request.user.profile
     s = profile.total_score
+    
+    registered_players = Player.objects.exclude(username__icontains="Guest")
+    total_registered = registered_players.count()
+    current_rank = registered_players.filter(total_score__gt=s).count() + 1
      
     thresholds = [0, 50, 100, 200, 300, 450, 650, 900, 1200, 2000]
     
@@ -2216,6 +2267,8 @@ def account_settingsJA(request):
         'total_score': s,
         'pts_to_next': pts_to_next,
         'progress_percent': progress_percent, 
+        'current_rank': current_rank,         
+        'total_registered': total_registered  
     }
     return render(request, 'thank_japan_app/account/account_settings_ja.html', context)
 
@@ -2225,6 +2278,10 @@ def account_settingsIT(request):
     profile = request.user.profile
     s = profile.total_score
     
+    registered_players = Player.objects.exclude(username__icontains="Guest")
+    total_registered = registered_players.count()
+    current_rank = registered_players.filter(total_score__gt=s).count() + 1
+    
     
     thresholds = [0, 50, 100, 200, 300, 450, 650, 900, 1200, 2000]
     
@@ -2251,6 +2308,8 @@ def account_settingsIT(request):
         'total_score': s,
         'pts_to_next': pts_to_next,
         'progress_percent': progress_percent, 
+        'current_rank': current_rank,         
+        'total_registered': total_registered  
     }
     return render(request, 'thank_japan_app/account/account_settings_it.html', context)
 
@@ -2260,6 +2319,10 @@ def account_settingsFR(request):
     profile = request.user.profile
     s = profile.total_score
     
+    registered_players = Player.objects.exclude(username__icontains="Guest")
+    total_registered = registered_players.count()
+    current_rank = registered_players.filter(total_score__gt=s).count() + 1
+    
     
     thresholds = [0, 50, 100, 200, 300, 450, 650, 900, 1200, 2000]
     
@@ -2286,6 +2349,8 @@ def account_settingsFR(request):
         'total_score': s,
         'pts_to_next': pts_to_next,
         'progress_percent': progress_percent, 
+        'current_rank': current_rank,         
+        'total_registered': total_registered  
     }
     return render(request, 'thank_japan_app/account/account_settings_fr.html', context)
 
@@ -2295,6 +2360,10 @@ def account_settingsESMX(request):
     profile = request.user.profile
     s = profile.total_score
     
+    registered_players = Player.objects.exclude(username__icontains="Guest")
+    total_registered = registered_players.count()
+    current_rank = registered_players.filter(total_score__gt=s).count() + 1
+    
     
     thresholds = [0, 50, 100, 200, 300, 450, 650, 900, 1200, 2000]
     
@@ -2321,6 +2390,8 @@ def account_settingsESMX(request):
         'total_score': s,
         'pts_to_next': pts_to_next,
         'progress_percent': progress_percent, 
+        'current_rank': current_rank,         
+        'total_registered': total_registered  
     }
     return render(request, 'thank_japan_app/account/account_settings_es_mx.html', context)
 
@@ -2330,6 +2401,10 @@ def account_settingsESES(request):
     profile = request.user.profile
     s = profile.total_score
     
+    registered_players = Player.objects.exclude(username__icontains="Guest")
+    total_registered = registered_players.count()
+    current_rank = registered_players.filter(total_score__gt=s).count() + 1
+    
     
     thresholds = [0, 50, 100, 200, 300, 450, 650, 900, 1200, 2000]
     
@@ -2356,6 +2431,8 @@ def account_settingsESES(request):
         'total_score': s,
         'pts_to_next': pts_to_next,
         'progress_percent': progress_percent, 
+        'current_rank': current_rank,         
+        'total_registered': total_registered  
     }
     return render(request, 'thank_japan_app/account/account_settings_es_es.html', context)
 
@@ -2365,6 +2442,10 @@ def account_settingsENIN(request):
     profile = request.user.profile
     s = profile.total_score
     
+    registered_players = Player.objects.exclude(username__icontains="Guest")
+    total_registered = registered_players.count()
+    current_rank = registered_players.filter(total_score__gt=s).count() + 1
+    
     
     thresholds = [0, 50, 100, 200, 300, 450, 650, 900, 1200, 2000]
     
@@ -2391,6 +2472,8 @@ def account_settingsENIN(request):
         'total_score': s,
         'pts_to_next': pts_to_next,
         'progress_percent': progress_percent, 
+        'current_rank': current_rank,         
+        'total_registered': total_registered  
     }
     return render(request, 'thank_japan_app/account/account_settings_en_in.html', context)
 
@@ -2400,6 +2483,10 @@ def account_settingsDE(request):
     profile = request.user.profile
     s = profile.total_score
     
+    registered_players = Player.objects.exclude(username__icontains="Guest")
+    total_registered = registered_players.count()
+    current_rank = registered_players.filter(total_score__gt=s).count() + 1
+    
     
     thresholds = [0, 50, 100, 200, 300, 450, 650, 900, 1200, 2000]
     
@@ -2426,6 +2513,8 @@ def account_settingsDE(request):
         'total_score': s,
         'pts_to_next': pts_to_next,
         'progress_percent': progress_percent, 
+        'current_rank': current_rank,         
+        'total_registered': total_registered  
     }
     return render(request, 'thank_japan_app/account/account_settings_de.html', context)
 
