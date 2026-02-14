@@ -145,6 +145,7 @@ CATEGORY_URL_MAP = {
     'flower': 'flowerpage',
     'work': 'workpage',
     'live': 'livepage',
+    'body': 'bodypage',
     'DailyConversation': 'dailyconversation',
     'BusinessJapanese': 'businessjapanese',
     'LivingInJapan': 'living_in_japan_page',
@@ -890,8 +891,8 @@ def delete_player(request):
 
 DIFFICULTY_SETTINGS = {
     'single': {'num_questions': 1, 'model_type': 'free'},
-    'easy': {'category_filter': ['sports', 'food'], 'length_regex': r'^.{1,20}$', 'num_questions': 50, 'model_type': 'free'},
-    'normal': {'category_filter': ['cook', 'food', 'culture'], 'length_regex': r'^.{1,9}$', 'num_questions': 50, 'model_type': 'free'},
+    'easy': {'category_filter': ['sports', 'food', 'animal'], 'length_regex': r'^.{1,20}$', 'num_questions': 50, 'model_type': 'free'},
+    'normal': {'category_filter': ['cook', 'food', 'culture', 'body', 'live', 'work'], 'length_regex': r'^.{1,9}$', 'num_questions': 50, 'model_type': 'free'},
     'hard': {'category_filter': None, 'length_regex': r'^.{1,9}$', 'num_questions': 50, 'model_type': 'free'},
     'super_hard': {'category_filter': None, 'length_regex': None, 'num_questions': 50, 'model_type': 'free'},
     
@@ -904,7 +905,7 @@ DIFFICULTY_SETTINGS = {
     },
     
         'kanji2': {
-        'category_filter': ['culture', 'work', 'fashion', 'flower', 'householditems', 'sports'],
+        'category_filter': ['culture', 'work', 'fashion', 'flower', 'householditems', 'sports', 'body'],
         'length_regex': r'^.{1,3}$',  
         'num_questions': 50,
         'model_type': 'free',
@@ -1533,6 +1534,28 @@ class LiveView(ListView):
         context['seo_og_title'] = "Living in Japan - Lifestyle & Daily Life | ThankJapan"
         context['seo_og_description'] = context['seo_description']
         return context
+    
+
+class BodyView(ListView):
+    template_name = "thank_japan_app/body.html"
+    paginate_by = 24
+    
+    def get_queryset(self):
+        return ThankJapanModel.objects.filter(category="body").order_by('-timestamp')
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        
+        _, lang_code = get_lang_info(self.request)
+        context['lang_code'] = lang_code
+        
+        context['seo_title'] = "Japanese Body Parts List | Learn Vocabulary & Kanji | ThankJapan"
+        context['seo_description'] = "Master essential Japanese vocabulary for body parts. Learn kanji and pronunciation for head, hands, feet, and more to help in daily life and health."
+        context['seo_og_title'] = "Learn Japanese Body Parts - Essential Vocabulary | ThankJapan"
+        context['seo_og_description'] = context['seo_description']
+        return context
+
+
     
 #japan food
 class JapanFoodView(TemplateView):
