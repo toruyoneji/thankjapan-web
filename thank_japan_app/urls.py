@@ -278,6 +278,10 @@ urlpatterns = [
     path("work/", WorkView.as_view(), name="workpage"),
     path("live/", LiveView.as_view(), name="livepage"),
     path("body/", BodyView.as_view(), name="bodypage"),
+    
+    #redirect
+    path('appliances/dvd-player-dvd-dekki/', 
+         RedirectView.as_view(url='/appliances/dvd-player-diibuibiidekki/', permanent=True)),
 
     #riyoukiyaku page
     path("riyoukiyaku/", KiyakuView.as_view(), name="riyoukiyaku"),
