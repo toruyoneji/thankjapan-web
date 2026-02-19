@@ -153,7 +153,8 @@ CATEGORY_URL_MAP = {
     'RealEstateRules': 'real_estate_rules',
     'TourismEtiquette': 'tourism_etiquette',
     'Prefectures': 'prefectures',
-    'Entertainment': 'entertainment'
+    'Entertainment': 'entertainment',
+    'slang': 'slang',
 }
 
 
@@ -913,7 +914,7 @@ DIFFICULTY_SETTINGS = {
     },
 
     
-    'sample_premium': {'category_filter': ['DailyConversation'], 'jlpt_level': 'N5', 'num_questions': 550, 'model_type': 'premium'},
+    'sample_premium': {'category_filter': ['DailyConversation', 'slang'], 'jlpt_level': ['N5', 'N4', 'N3'], 'num_questions': 550, 'model_type': 'premium'},
     'n5_premium': {'jlpt_level': 'N5', 'num_questions': 50, 'model_type': 'premium'},
     'n4_premium': {'jlpt_level': 'N4', 'num_questions': 50, 'model_type': 'premium'},
     'n3_premium': {'jlpt_level': 'N3', 'num_questions': 50, 'model_type': 'premium'},
@@ -1108,7 +1109,7 @@ def game_restart(request):
         if model_type == 'premium':
             question = get_object_or_404(ThankJapanPremium, slug=val)
             
-            if question.category != "DailyConversation":
+            if question.category != "DailyConversation" and question.category != "slang":
                 is_premium = request.user.is_authenticated and getattr(request.user.profile, 'is_premium', False)
                 
                 if not is_premium:
@@ -1131,7 +1132,7 @@ def game_restart(request):
         selected_question_ids = [question.id]
         difficulty = 'single'
     else:
-        premium_only = ['n4_premium', 'n3_premium']
+        premium_only = ['n5_premium', 'n4_premium', 'n3_premium']
         if difficulty in premium_only:
             if is_guest or not getattr(request.user.profile, 'is_premium', False):
                 url_name, _ = get_lang_info(request)
@@ -2701,8 +2702,23 @@ class DailyConversationView(ListView):
         context = super().get_context_data(**kwargs)
         _, lang_code = get_lang_info(self.request)
         context['lang_code'] = lang_code
-        return context    
+        return context  
+      
 
+class SlangView(ListView):
+    template_name = "thank_japan_app/slang.html"
+    paginate_by = 24
+    
+    def get_queryset(self):
+        return ThankJapanPremium.objects.filter(category="slang").order_by('-timestamp')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        _, lang_code = get_lang_info(self.request)
+        context['lang_code'] = lang_code
+        return context    
+    
+    
 
 #premium-category
    

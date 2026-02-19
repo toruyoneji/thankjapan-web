@@ -1,0 +1,557 @@
+{% extends 'base/basecategory.html' %}
+
+{% block title %}Japanese Slang & SNS Terms | Learn Modern Lingo | ThankJapan{% endblock %}
+{% block og_title %}Japanese Slang & SNS - Master Internet Culture | ThankJapan{% endblock %}
+{% block og_description %}Master the latest Japanese slang and internet terms used in anime and SNS. Learn cool vocabulary from 'Kusa' to 'Oshi' and sound like a native with ThankJapan.{% endblock %}
+{% block og_url %}{{ request.build_absolute_uri }}{% endblock %}
+{% block description %}Master the latest Japanese slang and internet terms used in anime and SNS. Learn cool vocabulary from 'Kusa' to 'Oshi' and sound like a native with ThankJapan.{% endblock %}
+
+{% block content %}
+{% load static %}
+
+<script>
+    window.shareText = "Master modern Japanese Slang & SNS terms with ThankJapan! Learn cool lingo like a native.";
+</script>
+
+<style>
+body {
+    background-color: #fffaf5;
+    font-family: 'Noto Sans JP', 'Poppins', sans-serif;
+    color: #333;
+}
+
+.category-header {
+    text-align: center;
+    padding: 60px 20px 40px;
+    background: linear-gradient(135deg, #ffe8d6 0%, #fffaf5 100%);
+    border-radius: 0 0 40px 40px;
+    margin-top: 10px;
+}
+.category-header h1 {
+    font-size: 3.0rem;
+    font-family: 'Sawarabi Mincho', serif;
+    color: #d46a00;
+    letter-spacing: 1px;
+}
+.category-header p {
+    color: #666;
+    font-size: 1.1rem;
+    margin-top: 10px;
+}
+
+.main2 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    padding: 50px 6%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.flashcard {
+    background-color: transparent;
+    width: 100%;
+    height: 280px;
+    perspective: 1000px;
+    cursor: pointer;
+}
+
+.flashcard-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.flashcard.flipped .flashcard-inner {
+    transform: rotateY(180deg);
+}
+
+.flashcard-front, .flashcard-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 2px solid #ffe0b2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #fff;
+}
+
+.flashcard-front img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.tap-hint {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    background: rgba(212, 106, 0, 0.8);
+    color: white;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    pointer-events: none;
+}
+
+.no-image {
+    width: 100%;
+    height: 100%;
+    background-color: #ffe8d6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #d46a00;
+    font-weight: 600;
+}
+
+.flashcard-back {
+    background-color: #fff8e1;
+    transform: rotateY(180deg);
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.flashcard-back h3 {
+    color: #d46a00;
+    font-size: 1rem;
+    line-height: 1.2;
+    max-height: 2.4em;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    text-align: center;
+}
+
+.jp-text {
+    color: #333;
+    font-size: clamp(1.2rem, 4vw, 1.8rem);
+    font-weight: bold;
+    line-height: 1.7;
+    width: 100%;
+    text-align: center;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    margin: 5px 0;
+}
+
+.jp-text rt {
+    font-size: 0.75rem;
+    font-weight: 400;
+    color: #666;
+    line-height: 1;
+}
+
+.romaji {
+    color: #888;
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+    margin-top: 0;
+}
+
+.jp-text ruby {
+    ruby-align: center;
+}
+
+
+
+.audio-btn {
+    background: #ffb347;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 50px;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-bottom: 10px;
+    transition: 0.3s;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+.audio-btn:hover { background: #ff9642; }
+
+.more-detail-link {
+    font-size: 0.9rem;
+    color: #d46a00;
+    text-decoration: underline;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.pagination-container {
+  overflow-x: auto;
+  padding: 15px 0;
+  -webkit-overflow-scrolling: touch;
+}
+.pagination {
+  display: flex;
+  gap: 10px;
+  min-width: max-content;
+  justify-content: center;
+}
+.page-btn {
+  flex: 0 0 auto;
+  padding: 8px 14px;
+  border-radius: 12px;
+  border: 1px solid #ccc;
+  background-color: #f8f8f8;
+  color: #333;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+.page-btn:hover, .page-btn.current {
+  background-color: #e63946;
+  color: #fff;
+  border-color: #e63946;
+}
+
+.btn-more {
+    display: inline-block;
+    background: #ffb347;
+    color: white;
+    padding: 10px 24px;
+    border-radius: 25px;
+    text-decoration: none;
+    font-weight: 600;
+    margin-top: 20px;
+    transition: background 0.3s;
+}
+.btn-more:hover { background: #ff9642; }
+
+.jlpt-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: #d4af37;
+    color: #000;
+    font-weight: bold;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    z-index: 10;
+}
+
+.tap-guide {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 100;
+    pointer-events: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.finger-icon {
+    font-size: 3rem;
+    filter: drop-shadow(0 2px 5px rgba(0,0,0,0.3));
+    animation: tap-animation 0.8s infinite;
+}
+
+.tap-text {
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 2px 10px;
+    border-radius: 10px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    margin-top: -5px;
+}
+
+@keyframes tap-animation {
+    0% { transform: scale(1) translateY(0); }
+    50% { transform: scale(1.2) translateY(-10px); }
+    100% { transform: scale(1) translateY(0); }
+}
+
+
+.flashcard.flipped .tap-guide {
+    display: none;
+}
+
+
+
+@media (max-width: 1200px) {
+    .main2 { grid-template-columns: repeat(3, 1fr); }
+}
+
+@media (max-width: 900px) {
+    .main2 { grid-template-columns: repeat(2, 1fr); gap: 16px; padding: 20px 4%; }
+    .category-header { padding-top: 100px !important; }
+    .category-header h1 { font-size: 2.0rem;}
+    .flashcard { height: 240px; }
+}
+
+@media (max-width: 600px) {
+    .main2 {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+        padding: 20px 4%;
+    }
+    .category-header {
+        padding-top: 100px !important;
+    }
+    .category-header h1 {
+        font-size: 2.0rem;
+    }
+    
+    .flashcard {
+        height: 200px;
+    }
+    
+    .flashcard-front img {
+        object-fit: cover;
+        padding: 0;
+    }
+
+    .flashcard-back {
+        padding: 8px 5px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        overflow: hidden;
+    }
+    
+    .flashcard-back h3, 
+    .jp-text, 
+    .romaji {
+        width: 100%;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        margin: 2px 0;
+        flex-shrink: 1;
+    }
+
+    .flashcard-back h3 {
+        font-size: 0.9rem;
+        line-height: 1.1;
+        max-height: 2.2em;
+        overflow: hidden;
+    }
+
+    .jp-text {
+        font-size: 1rem;
+        font-weight: bold;
+        line-height: 1.2;
+    }
+
+    .romaji {
+        font-size: 0.75rem;
+        color: #666;
+        line-height: 1.1;
+        max-height: 3.3em;
+        overflow-y: auto;
+    }
+
+    .audio-btn, 
+    .more-detail-link {
+        flex-shrink: 0;
+    }
+
+    .audio-btn {
+        padding: 4px 12px;
+        font-size: 0.8rem;
+        margin-bottom: 4px;
+    }
+    
+    .more-detail-link {
+        font-size: 0.75rem;
+        padding: 2px 0;
+    }
+}
+
+@media (max-width: 400px) {
+
+    .category-header {
+        padding-top: 150px !important;
+    }
+}
+
+</style>
+
+
+<div class="category-header">
+    <h1>
+        {% if lang_code == 'ja' %}
+            スラングとSNS 🔥
+        {% elif lang_code == 'zh-hant' %}
+            網路俚語與SNS 🔥
+        {% elif lang_code == 'zh-cn' %}
+            网络俚语与SNS 🔥
+        {% elif lang_code == 'de' %}
+            Slang & Soziale Medien 🔥
+        {% elif lang_code == 'fr' %}
+            Argot & Réseaux sociaux 🔥
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}
+            Jerga y Redes Sociales 🔥
+        {% elif lang_code == 'it' %}
+            Slang e Social Media 🔥
+        {% elif lang_code == 'ko' %}
+            슬랭 & SNS 🔥
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}
+            Gíria e Redes Sociais 🔥
+        {% elif lang_code == 'vi' %}
+            Tiếng lóng & Mạng xã hội 🔥
+        {% elif lang_code == 'th' %}
+            สแลงและโซเชียลมีเดีย 🔥
+        {% else %}
+            Slang & SNS 🔥
+        {% endif %}
+    </h1>
+
+    <p>
+        {% if lang_code == 'ja' %}
+            SNSやネットで使われる現代の日本語をマスターしよう。教科書には載っていない、アニメや日常会話で使われるリアルな表現を学べる。
+        {% elif lang_code == 'zh-hant' %}
+            掌握SNS和網路上的現代日語。學習教科書中沒有、在動漫和日常對話中使用的真實表達。
+        {% elif lang_code == 'zh-cn' %}
+            掌握SNS和网络上的现代日语。学习教科书中没有、在动漫和日常对话中使用的真实表达。
+        {% elif lang_code == 'de' %}
+            Meistere modernes Japanisch aus dem Internet und sozialen Medien. Lerne coole Ausdrücke aus Animes und dem Alltag, die in keinem Lehrbuch stehen.
+        {% elif lang_code == 'fr' %}
+            Maîtrisez le japonais moderne utilisé sur Internet et les réseaux sociaux. Apprenez des expressions cool d'anime et de la vie quotidienne qu'on ne trouve pas dans les manuels.
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}
+            Domina el japonés moderno de internet y las redes sociales. Aprende expresiones geniales de anime y la vida diaria que no aparecen en los libros de texto.
+        {% elif lang_code == 'it' %}
+            Padroneggia il giapponese moderno usato su Internet e sui social media. Impara espressioni cool dagli anime e dalla vita quotidiana che non si trovano nei libri di testo.
+        {% elif lang_code == 'ko' %}
+            SNS와 인터넷에서 사용되는 현대 일본어를 마스터하세요. 교과서에는 없는, 애니메이션이나 일상 대화에서 쓰이는 생생한 표현을 배울 수 있습니다.
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}
+            Domine o japonês moderno usado na internet e nas redes sociais. Aprenda expressões legais de anime e do dia a dia que não estão nos livros didáticos.
+        {% elif lang_code == 'vi' %}
+            Làm chủ tiếng Nhật hiện đại dùng trên Internet và mạng xã hội. Học các biểu đạt cực chất từ anime và đời sống thường ngày mà sách giáo khoa không hề có.
+        {% elif lang_code == 'th' %}
+            ฝึกภาษาญี่ปุ่นสมัยใหม่ที่ใช้ในโซチェルมีเดียและอินเทอร์เน็ต เรียนรู้สำนวนสุดคูลจากอนิเมะและชีวิตประจำวันซึ่งไม่มีในตำราเรียน
+        {% else %}
+            Master modern Japanese used on the internet and SNS. Learn cool phrases from anime and daily life that you won't find in textbooks.
+        {% endif %}
+    </p>
+    
+</div>
+
+<div class="main2">
+    {% for item in object_list %}
+        <div class="flashcard" onclick="this.classList.toggle('flipped')">
+            <div class="flashcard-inner">
+                
+                <div class="flashcard-front">
+                    {% if forloop.first %}
+                    <div class="tap-guide" id="first-card-guide">
+                        <div class="finger-icon">👆</div>
+                        <div class="tap-text">Tap!</div>
+                    </div>
+                    {% endif %}
+
+                    {% if item.jlpt_level %}
+                        <div class="jlpt-badge">{{ item.jlpt_level }}</div>
+                    {% endif %}
+
+                    {% if item.image %}
+                        <img src="{{ item.image.url }}" 
+                            alt="{{ item.englishname }}" {% if forloop.counter > 7 %} loading="lazy" {% endif %}>
+                    {% else %}
+                        <div class="no-image">No Image</div>
+                    {% endif %}
+                    <div class="tap-hint">Tap to Flip</div>
+                </div>
+
+                <div class="flashcard-back">
+                    <h3>{{ item.englishname }}</h3>
+                    
+                    <p class="jp-text">
+                    {% if item.kanji_name %}
+                        <ruby>
+                            {{ item.kanji_name }}
+                            <rt>{{ item.jpname }}</rt>
+                        </ruby>
+                    {% else %}
+                        {{ item.jpname }}
+                    {% endif %}
+                    </p>
+
+
+                    <button class="audio-btn" onclick="speakJapanese('{{ item.jpname }}'); event.stopPropagation();">
+                        🔊 Listen
+                    </button>
+
+                    <a href="{% url 'detail_premium' category=item.category slug=item.slug %}?lang={{ lang_code }}" class="more-detail-link" onclick="event.stopPropagation();">
+                        More Details &gt;
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+<div class="pagination-container">
+  <div class="pagination">
+    {% if page_obj.has_previous %}
+      <a href="?page=1&lang={{ lang_code }}" class="page-btn">&laquo;</a>
+      <a href="?page={{ page_obj.previous_page_number }}&lang={{ lang_code }}" class="page-btn">Prev</a>
+    {% endif %}
+
+    {% for num in page_obj.paginator.page_range %}
+      {% if page_obj.number == num %}
+        <span class="page-btn current">{{ num }}</span>
+      {% elif num > page_obj.number|add:-3 and num < page_obj.number|add:3 %}
+        <a href="?page={{ num }}&lang={{ lang_code }}" class="page-btn">{{ num }}</a>
+      {% endif %}
+    {% endfor %}
+
+    {% if page_obj.has_next %}
+      <a href="?page={{ page_obj.next_page_number }}&lang={{ lang_code }}" class="page-btn">Next</a>
+      <a href="?page={{ page_obj.paginator.num_pages }}&lang={{ lang_code }}" class="page-btn">&raquo;</a>
+    {% endif %}
+  </div>
+</div>
+
+<div style="text-align:center; margin:50px 0;">
+   <a class="btn-more" href="javascript:void(0);" onclick="goToCategoryList()">← Back</a>
+</div>
+
+<script>
+function hideGuide(card) {
+    const guide = card.querySelector('.tap-guide');
+    if (guide) {
+        guide.style.display = 'none';
+    }
+}
+
+function speakJapanese(text) {
+    if (!window.speechSynthesis) {
+        alert("Audio not supported.");
+        return;
+    }
+    const uttr = new SpeechSynthesisUtterance(text);
+    uttr.lang = 'ja-JP';
+    uttr.rate = 0.9;
+    speechSynthesis.speak(uttr);
+}
+
+
+</script>
+
+
+
+{% endblock %}
