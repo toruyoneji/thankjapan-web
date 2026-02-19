@@ -2695,12 +2695,12 @@
   {% endfor %}
 
   {% for item in premium_items %}
-    {% if item.category == "DailyConversation" %}
-      <url>
-        <loc>https://www.thankjapan.com/premium-content/dailyconversation/{{ item.slug }}/</loc>
-        <lastmod>{{ item.timestamp|date:"Y-m-d" }}</lastmod>
-        <priority>0.7</priority>
-      </url>
+    {% if item.category == "DailyConversation" or item.category == "slang" %}
+        <url>
+          <loc>https://www.thankjapan.com/premium-content/{{ item.category|lower }}/{{ item.slug }}/</loc>
+          <lastmod>{{ item.timestamp|date:"Y-m-d" }}</lastmod>
+          <priority>0.7</priority>
+        </url>
     {% else %}
         <url>
           <loc>https://www.thankjapan.com/premium-content/{{ item.category|lower }}/{{ item.slug }}/</loc>

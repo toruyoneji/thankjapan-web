@@ -3104,7 +3104,7 @@ class ImgPremiumDetailView(DetailView):
         obj = super().get_object(queryset)
         is_premium = self.request.user.is_authenticated and getattr(self.request.user.profile, 'is_premium', False)
         
-        if obj.category != "DailyConversation" and not is_premium:
+        if obj.category not in ["DailyConversation", "slang"] and not is_premium:
             free_sample_ids = ThankJapanPremium.objects.filter(
                 category__iexact=obj.category
             ).order_by('timestamp').values_list('id', flat=True)[:6]
@@ -3134,7 +3134,7 @@ class ImgPremiumDetailView(DetailView):
 
             if moved_item:
                 is_premium = request.user.is_authenticated and getattr(request.user.profile, 'is_premium', False)
-                if moved_item.category == "DailyConversation" or is_premium:
+                if moved_item.category in ["DailyConversation", "slang"] or is_premium:
                     lang_param = request.GET.get('lang')
                     new_url = reverse('detail_premium', kwargs={
                         'category': moved_item.category,
@@ -3165,7 +3165,7 @@ class ImgPremiumDetailView(DetailView):
 
         is_premium = self.request.user.is_authenticated and getattr(self.request.user.profile, 'is_premium', False)
         
-        if current_item.category == "DailyConversation":
+        if current_item.category in ["DailyConversation", "slang"]:
             context['free_sample_ids'] = ThankJapanPremium.objects.filter(
                 category=current_item.category
             ).values_list('id', flat=True)
@@ -3186,10 +3186,10 @@ def sitemap_view(request):
     
     public_premium_items = []
     
-    daily_conv = ThankJapanPremium.objects.filter(category="DailyConversation").order_by('timestamp')
-    public_premium_items.extend(list(daily_conv))
+    free_samples = ThankJapanPremium.objects.filter(category__in=["DailyConversation", "slang"]).order_by('timestamp')
+    public_premium_items.extend(list(free_samples))
     
-    other_categories = ThankJapanPremium.objects.exclude(category="DailyConversation").values_list('category', flat=True).distinct()
+    other_categories = ThankJapanPremium.objects.exclude(category__in=["DailyConversation", "slang"]).values_list('category', flat=True).distinct()
     
     for cat in other_categories:
         samples = ThankJapanPremium.objects.filter(category=cat).order_by('timestamp')[:6]
@@ -3200,4 +3200,4 @@ def sitemap_view(request):
         'premium_items': public_premium_items,
     }
     
-    return render(request, 'sitemap.xml', context, content_type='application/xml')    
+    return render(request, 'sitemap.xml', context, content_type='application/xml')
