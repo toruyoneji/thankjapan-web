@@ -1145,8 +1145,12 @@ def game_restart(request):
 
         if settings.get('category_filter'): 
             qs = qs.filter(category__in=settings['category_filter'])
-        if settings.get('jlpt_level'): 
-            qs = qs.filter(jlpt_level=settings['jlpt_level'])
+        if settings.get('jlpt_level'):
+            jlpt_val = settings['jlpt_level']
+            if isinstance(jlpt_val, list):
+                qs = qs.filter(jlpt_level__in=jlpt_val)
+            else:
+                qs = qs.filter(jlpt_level=jlpt_val)
 
         if settings.get('is_kanji_mode'):
             qs = qs.filter(kanji_name__isnull=False).exclude(kanji_name="")
