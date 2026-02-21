@@ -6,7 +6,7 @@ from .views import (TopView, TopViewFR, TopViewIT, TopViewPT, TopViewZHHANT,TopV
                     FoodView, NatureView, FashionView, 
                     CultureView, CookView, AppliancesView, AnimalView,
                     CategoryDetailView, BuildingView, FlowerView, HouseholdItemsView,LiveView,
-                    SportsView, WorkView, BodyView, game_start, game_play, game_next_question,
+                    SportsView, WorkView, BodyView, DailyactionsView, game_start, game_play, game_next_question,
                     game_answer, game_result, game_restart, player_login, player_logout, delete_player_confirm,
                     player_register, delete_player,  contact_view, contact_thanks, category_list, category_list_zhhant, category_list_zhcn,
                     category_list_vi, category_list_th, category_list_pt, category_list_pt_br, category_list_ko, 
@@ -279,6 +279,7 @@ urlpatterns = [
     path("work/", WorkView.as_view(), name="workpage"),
     path("live/", LiveView.as_view(), name="livepage"),
     path("body/", BodyView.as_view(), name="bodypage"),
+    path("dailyactions/", DailyactionsView.as_view(), name="dailyactionspage"),
     
     #redirect
     path('appliances/dvd-player-dvd-dekki/', 

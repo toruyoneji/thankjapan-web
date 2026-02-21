@@ -1,0 +1,515 @@
+{% extends 'base/basecategory.html' %}
+
+{% block title %}Japanese Daily Actions & Verbs | Master Essential Vocabulary | ThankJapan{% endblock %}
+{% block og_title %}Learn Japanese Daily Actions - Master Basic Verbs | ThankJapan{% endblock %}
+{% block og_description %}Master essential Japanese verbs for daily life. Learn how to say eat, drink, sleep, and more with kanji and pronunciation guides on ThankJapan.{% endblock %}
+{% block og_url %}{{ request.build_absolute_uri }}{% endblock %}
+{% block description %}Master essential Japanese verbs for daily life. Learn how to say eat, drink, sleep, and more with kanji and pronunciation guides on ThankJapan.{% endblock %}
+
+{% block content %}
+
+{% load static %}
+
+
+<script>
+    window.shareText = "Master essential Japanese Daily Actions and verbs with ThankJapan! 🏃";
+</script>
+
+<style>
+body {
+    background-color: #fffaf5;
+    font-family: 'Noto Sans JP', 'Poppins', sans-serif;
+    color: #333;
+}
+
+.category-header {
+    text-align: center;
+    padding: 60px 20px 40px;
+    background: linear-gradient(135deg, #ffe8d6 0%, #fffaf5 100%);
+    border-radius: 0 0 40px 40px;
+    margin-top: 10px;
+}
+.category-header h1 {
+    font-size: 3.0rem;
+    font-family: 'Sawarabi Mincho', serif;
+    color: #d46a00;
+    letter-spacing: 1px;
+}
+.category-header p {
+    color: #666;
+    font-size: 1.1rem;
+    margin-top: 10px;
+}
+
+.main2 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    padding: 50px 6%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.flashcard {
+    background-color: transparent;
+    width: 100%;
+    height: 280px;
+    perspective: 1000px;
+    cursor: pointer;
+}
+
+.flashcard-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.flashcard.flipped .flashcard-inner {
+    transform: rotateY(180deg);
+}
+
+.flashcard-front, .flashcard-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 2px solid #ffe0b2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #fff;
+}
+
+.flashcard-front img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.tap-hint {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    background: rgba(212, 106, 0, 0.8);
+    color: white;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    pointer-events: none;
+}
+
+.no-image {
+    width: 100%;
+    height: 100%;
+    background-color: #ffe8d6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #d46a00;
+    font-weight: 600;
+}
+
+.flashcard-back {
+    background-color: #fff8e1;
+    transform: rotateY(180deg);
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.flashcard-back h3 {
+    font-size: 1.2rem;
+    color: #d46a00;
+    margin-bottom: 2px;
+}
+
+.jp-text {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #333;
+    line-height: 1.8;
+    margin: 5px 0;
+    text-align: center;
+}
+
+.jp-text ruby {
+    ruby-align: center;
+}
+
+.jp-text rt {
+    font-size: 0.8rem;
+    font-weight: 400;
+    color: #666;
+    line-height: 1;
+}
+
+.romaji {
+    font-size: 1rem;
+    color: #888;
+    margin-bottom: 10px;
+    margin-top: 0;
+}
+
+.audio-btn {
+    background: #ffb347;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 50px;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-bottom: 10px;
+    transition: 0.3s;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+.audio-btn:hover { background: #ff9642; }
+
+.more-detail-link {
+    font-size: 0.9rem;
+    color: #d46a00;
+    text-decoration: underline;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.pagination-container {
+  overflow-x: auto;
+  padding: 15px 0;
+  -webkit-overflow-scrolling: touch;
+}
+.pagination {
+  display: flex;
+  gap: 10px;
+  min-width: max-content;
+  justify-content: center;
+}
+.page-btn {
+  flex: 0 0 auto;
+  padding: 8px 14px;
+  border-radius: 12px;
+  border: 1px solid #ccc;
+  background-color: #f8f8f8;
+  color: #333;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+.page-btn:hover, .page-btn.current {
+  background-color: #e63946;
+  color: #fff;
+  border-color: #e63946;
+}
+
+.btn-more {
+    display: inline-block;
+    background: #ffb347;
+    color: white;
+    padding: 10px 24px;
+    border-radius: 25px;
+    text-decoration: none;
+    font-weight: 600;
+    margin-top: 20px;
+    transition: background 0.3s;
+}
+.btn-more:hover { background: #ff9642; }
+
+.tap-guide {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 100;
+    pointer-events: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.finger-icon {
+    font-size: 3rem;
+    filter: drop-shadow(0 2px 5px rgba(0,0,0,0.3));
+    animation: tap-animation 0.8s infinite;
+}
+
+.tap-text {
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 2px 10px;
+    border-radius: 10px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    margin-top: -5px;
+}
+
+@keyframes tap-animation {
+    0% { transform: scale(1) translateY(0); }
+    50% { transform: scale(1.2) translateY(-10px); }
+    100% { transform: scale(1) translateY(0); }
+}
+
+
+.flashcard.flipped .tap-guide {
+    display: none;
+}
+
+@media (max-width: 1200px) {
+    .main2 { grid-template-columns: repeat(3, 1fr); }
+}
+
+@media (max-width: 900px) {
+    .main2 { grid-template-columns: repeat(2, 1fr); gap: 16px; padding: 20px 4%; }
+    .category-header { padding-top: 100px !important; }
+    .category-header h1 { font-size: 2.0rem;}
+    .flashcard { height: 240px; }
+}
+
+@media (max-width: 600px) {
+    .main2 {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+        padding: 20px 4%;
+    }
+    .category-header {
+        padding-top: 100px !important;
+    }
+    .category-header h1 {
+        font-size: 2.0rem;
+    }
+    
+    .flashcard {
+        height: 200px;
+    }
+    
+    .flashcard-front img {
+        object-fit: cover;
+        padding: 0;
+    }
+
+    .flashcard-back {
+        padding: 8px 5px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        overflow: hidden;
+    }
+    
+    .flashcard-back h3, 
+    .jp-text, 
+    .romaji {
+        width: 100%;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        margin: 2px 0;
+        flex-shrink: 1;
+    }
+
+    .flashcard-back h3 {
+        font-size: 0.9rem;
+        line-height: 1.1;
+        max-height: 2.2em;
+        overflow: hidden;
+    }
+
+    .jp-text {
+        font-size: 1.1rem;
+        font-weight: bold;
+        line-height: 1.2;
+    }
+
+    .romaji {
+        font-size: 0.75rem;
+        color: #666;
+        line-height: 1.1;
+        max-height: 3.3em;
+        overflow-y: auto;
+    }
+
+    .audio-btn, 
+    .more-detail-link {
+        flex-shrink: 0;
+    }
+
+    .audio-btn {
+        padding: 4px 12px;
+        font-size: 0.8rem;
+        margin-bottom: 4px;
+    }
+    
+    .more-detail-link {
+        font-size: 0.75rem;
+        padding: 2px 0;
+    }
+}
+
+@media (max-width: 400px) {
+
+    .category-header {
+        padding-top: 150px !important;
+    }
+}
+
+</style>
+
+<div class="category-header">
+    <h1>
+        {% if lang_code == 'ja' %}日常の動作の日本語: 語彙とローマ字ガイド
+        {% elif lang_code == 'zh-hant' %}日語日常動作：詞彙與羅馬字指南
+        {% elif lang_code == 'zh-cn' %}日语日常动作：词汇与罗马字指南
+        {% elif lang_code == 'de' %}Alltägliche Handlungen auf Japanisch: Vokabel- und Romaji-Guide
+        {% elif lang_code == 'fr' %}Actions quotidiennes en japonais : Vocabulaire et guide Romaji
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Acciones diarias en japonés: Vocabulario y guía Romaji
+        {% elif lang_code == 'it' %}Azioni quotidiane in giapponese: Guida vocabolario e Romaji
+        {% elif lang_code == 'ko' %}일본어 일상 동작: 어휘 및 로마자 가이드
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Ações diárias em japonês: Vocabulário e guia Romaji
+        {% elif lang_code == 'vi' %}Hành động hằng ngày bằng tiếng Nhật: Hướng dẫn từ vựng & Romaji
+        {% elif lang_code == 'th' %}การกระทำในชีวิตประจำวันภาษาญี่ปุ่น: คำศัพท์ & คู่มือโรมาจิ
+        {% else %}Japanese Daily Actions: Vocabulary & Romaji Guide
+        {% endif %}
+    </h1>
+
+    <p>
+        {% if lang_code == 'ja' %}
+            日本語の基本動詞：食べる、飲む、寝るなど、日常生活で毎日使う重要な動作をマスターしよう。
+        {% elif lang_code == 'zh-hant' %}
+            日語基本動詞：掌握吃、喝、睡等日常生活中每天都會使用的重要動作。
+        {% elif lang_code == 'zh-cn' %}
+            日语基本动词：掌握吃、喝、睡等日常生活中每天都会使用的重要动作。
+        {% elif lang_code == 'de' %}
+            Japanische Basisverben: Meistere wichtige alltägliche Handlungen wie Essen, Trinken und Schlafen für dein Leben in Japan.
+        {% elif lang_code == 'fr' %}
+            Verbes de base japonais : Maîtrisez les actions quotidiennes essentielles comme manger, boire et dormir pour mieux vivre au Japon.
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}
+            Verbos básicos en japonés: Domina acciones diarias esenciales como comer, beber y dormir para desenvolverte en el día a día en Japón.
+        {% elif lang_code == 'it' %}
+            Verbi base in giapponese: Padroneggia le azioni quotidiane essenziali come mangiare, bere e dormire per la vita di tutti i giorni in Giappone.
+        {% elif lang_code == 'ko' %}
+            일본어 기본 동사: 먹고, 마시고, 자는 등 일상생활에서 매일 사용하는 중요한 동작들을 마스터하세요.
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}
+            Verbos básicos em japonês: Domine ações diárias essenciais, como comer, beber e dormir, para o seu dia a dia no Japão.
+        {% elif lang_code == 'vi' %}
+            Các động từ tiếng Nhật cơ bản: Làm chủ các hành động thiết yếu hằng ngày như ăn, uống và ngủ để thuận tiện hơn trong đời sống tại Nhật.
+        {% elif lang_code == 'th' %}
+            คำกริยาพื้นฐานภาษาญี่ปุ่น: ฝึกฝนการกระทำในชีวิตประจำวันที่สำคัญ เช่น การกิน การดื่ม และการนอน เพื่อใช้ในชีวิตประจำวันในญี่ปุ่น
+        {% else %}
+            Basic Japanese verbs: Master essential daily actions like eating, drinking, and sleeping to navigate everyday life in Japan.
+        {% endif %}
+    </p>
+
+</div>
+
+<div class="main2">
+    {% for item in object_list %}
+        <div class="flashcard" onclick="this.classList.toggle('flipped')">
+            <div class="flashcard-inner">
+                
+                    <div class="flashcard-front">
+                    {% if forloop.first %}
+                    <div class="tap-guide" id="first-card-guide">
+                        <div class="finger-icon">👆</div>
+                        <div class="tap-text">Tap!</div>
+                    </div>
+                    {% endif %}
+
+                    {% if item.image %}
+                        <img src="{{ item.image.url }}" 
+                            alt="{{ item.englishname }}" {% if forloop.counter > 7 %} loading="lazy" {% endif %}>
+                    {% else %}
+                        <div class="no-image">No Image</div>
+                    {% endif %}
+                    <div class="tap-hint">Tap to Flip</div>
+                </div>
+
+                <div class="flashcard-back">
+                    <h3>{{ item.englishname }}</h3>
+
+                    <p class="jp-text">
+                    {% if item.kanji_name %}
+                        <ruby>
+                            {{ item.kanji_name }}
+                            <rt>{{ item.jpname }}</rt>
+                        </ruby>
+                    {% else %}
+                        {{ item.jpname }}
+                    {% endif %}
+                    </p>
+
+                    <p class="romaji">{{ item.name }}</p>
+
+                    <button class="audio-btn" onclick="speakJapanese('{{ item.jpname }}'); event.stopPropagation();">
+                        🔊 Listen
+                    </button>
+
+                    <a href="{% url 'category_detail' item.category item.slug %}{% if lang_code %}?lang={{ lang_code }}{% endif %}" class="more-detail-link" onclick="event.stopPropagation();">
+                        More Details &gt;
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+<div class="pagination-container">
+  <div class="pagination">
+    {% if page_obj.has_previous %}
+      <a href="?page=1{% if lang_code %}&lang={{ lang_code }}{% endif %}" class="page-btn">&laquo;</a>
+      <a href="?page={{ page_obj.previous_page_number }}{% if lang_code %}&lang={{ lang_code }}{% endif %}" class="page-btn">Prev</a>
+    {% endif %}
+
+    {% for num in page_obj.paginator.page_range %}
+        {% if page_obj.number == num %}
+            <span class="page-btn current">{{ num }}</span>
+        {% elif num > page_obj.number|add:-3 and num < page_obj.number|add:3 %}
+            <a href="?page={{ num }}{% if lang_code %}&lang={{ lang_code }}{% endif %}" class="page-btn">{{ num }}</a>
+        {% endif %}
+    {% endfor %}
+
+    {% if page_obj.has_next %}
+      <a href="?page={{ page_obj.next_page_number }}{% if lang_code %}&lang={{ lang_code }}{% endif %}" class="page-btn">Next</a>
+      <a href="?page={{ page_obj.paginator.num_pages }}{% if lang_code %}&lang={{ lang_code }}{% endif %}" class="page-btn">&raquo;</a>
+    {% endif %}
+  </div>
+</div>
+
+<div style="text-align:center; margin:50px 0;">
+   <a class="btn-more" href="javascript:void(0);" onclick="goToCategoryList()">← Back</a>
+</div>
+
+<script>
+function hideGuide(card) {
+    const guide = card.querySelector('.tap-guide');
+    if (guide) {
+        guide.style.display = 'none';
+    }
+}
+
+function speakJapanese(text) {
+    if (!window.speechSynthesis) {
+        alert("Audio not supported.");
+        return;
+    }
+    const uttr = new SpeechSynthesisUtterance(text);
+    uttr.lang = 'ja-JP';
+    uttr.rate = 0.9;
+    speechSynthesis.speak(uttr);
+}
+
+
+</script>
+
+{% endblock %}
