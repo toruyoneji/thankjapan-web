@@ -435,7 +435,21 @@ body {
                     {% if forloop.first %}
                     <div class="tap-guide" id="first-card-guide">
                         <div class="finger-icon">👆</div>
-                        <div class="tap-text">Tap!</div>
+                        <div class="tap-text">
+                            {% if lang_code == 'ja' %}タップ！
+                            {% elif lang_code == 'zh-hant' %}點擊！
+                            {% elif lang_code == 'zh-cn' %}点击！
+                            {% elif lang_code == 'ko' %}탭!
+                            {% elif lang_code == 'fr' %}Appuyez !
+                            {% elif lang_code == 'de' %}Tippen!
+                            {% elif lang_code == 'it' %}Tocca!
+                            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}¡Toca!
+                            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Toque!
+                            {% elif lang_code == 'vi' %}Chạm!
+                            {% elif lang_code == 'th' %}แตะ!
+                            {% else %}Tap!
+                            {% endif %}
+                        </div>
                     </div>
                     {% endif %}
 
