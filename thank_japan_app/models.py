@@ -81,10 +81,48 @@ class ThankJapanPremium(models.Model):
     image = CloudinaryField('image', folder='thankjapan/premium')
     category = models.CharField(max_length=100)
     jlpt_level = models.CharField(max_length=10, blank=True, null=True)
+    timestamp = models.DateTimeField(auto_now_add=True)
+    
+
     description = models.TextField(max_length=2000)
     history = models.TextField(max_length=2000)
-    timestamp = models.DateTimeField(auto_now_add=True)
 
+    description_en_in = models.TextField(max_length=2000, blank=True, null=True)
+    history_en_in = models.TextField(max_length=2000, blank=True, null=True)
+
+    description_ja = models.TextField(max_length=2000, blank=True, null=True)
+    history_ja = models.TextField(max_length=2000, blank=True, null=True)
+
+    description_zh_cn = models.TextField(max_length=2000, blank=True, null=True)
+    history_zh_cn = models.TextField(max_length=2000, blank=True, null=True)
+    description_zh_hant = models.TextField(max_length=2000, blank=True, null=True)
+    history_zh_hant = models.TextField(max_length=2000, blank=True, null=True)
+
+    description_ko = models.TextField(max_length=2000, blank=True, null=True)
+    history_ko = models.TextField(max_length=2000, blank=True, null=True)
+
+    description_fr = models.TextField(max_length=2000, blank=True, null=True)
+    history_fr = models.TextField(max_length=2000, blank=True, null=True)
+    description_de = models.TextField(max_length=2000, blank=True, null=True)
+    history_de = models.TextField(max_length=2000, blank=True, null=True)
+    description_it = models.TextField(max_length=2000, blank=True, null=True)
+    history_it = models.TextField(max_length=2000, blank=True, null=True)
+
+    description_es_es = models.TextField(max_length=2000, blank=True, null=True)
+    history_es_es = models.TextField(max_length=2000, blank=True, null=True)
+    description_es_mx = models.TextField(max_length=2000, blank=True, null=True)
+    history_es_mx = models.TextField(max_length=2000, blank=True, null=True)
+
+    description_pt = models.TextField(max_length=2000, blank=True, null=True)
+    history_pt = models.TextField(max_length=2000, blank=True, null=True)
+    description_pt_br = models.TextField(max_length=2000, blank=True, null=True)
+    history_pt_br = models.TextField(max_length=2000, blank=True, null=True)
+
+    description_th = models.TextField(max_length=2000, blank=True, null=True)
+    history_th = models.TextField(max_length=2000, blank=True, null=True)
+    description_vi = models.TextField(max_length=2000, blank=True, null=True)
+    history_vi = models.TextField(max_length=2000, blank=True, null=True)
+    
     def save(self, *args, **kwargs):
         if not self.slug:
             self.slug = slugify(self.englishname)
