@@ -545,7 +545,21 @@ body {
                     {% if forloop.first %}
                     <div class="tap-guide" id="first-card-guide">
                         <div class="finger-icon">👆</div>
-                        <div class="tap-text">Tap!</div>
+                        <div class="tap-text">
+                            {% if lang_code == 'ja' %}タップ！
+                            {% elif lang_code == 'zh-hant' %}點擊！
+                            {% elif lang_code == 'zh-cn' %}点击！
+                            {% elif lang_code == 'ko' %}탭!
+                            {% elif lang_code == 'fr' %}Appuyez !
+                            {% elif lang_code == 'de' %}Tippen!
+                            {% elif lang_code == 'it' %}Tocca!
+                            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}¡Toca!
+                            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Toque!
+                            {% elif lang_code == 'vi' %}Chạm!
+                            {% elif lang_code == 'th' %}แตะ!
+                            {% else %}Tap!
+                            {% endif %}
+                        </div>
                     </div>
                     {% endif %}
 
@@ -559,7 +573,21 @@ body {
                     {% else %}
                         <div class="no-image">No Image</div>
                     {% endif %}
-                    <div class="tap-hint">Tap to Flip</div>
+                    <div class="tap-hint">
+                        {% if lang_code == 'ja' %}タップしてめくる
+                        {% elif lang_code == 'zh-hant' %}點擊翻轉
+                        {% elif lang_code == 'zh-cn' %}点击翻转
+                        {% elif lang_code == 'ko' %}탭하여 뒤집기
+                        {% elif lang_code == 'fr' %}Appuyez pour retourner
+                        {% elif lang_code == 'de' %}Zum Umdrehen tippen
+                        {% elif lang_code == 'it' %}Tocca per girare
+                        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Toca para voltear
+                        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Toque para virar
+                        {% elif lang_code == 'vi' %}Chạm để lật
+                        {% elif lang_code == 'th' %}แตะเพื่อพลิก
+                        {% else %}Tap to Flip
+                        {% endif %}
+                    </div>
                 </div>
 
                 <div class="flashcard-back">
@@ -578,11 +606,36 @@ body {
 
 
                     <button class="audio-btn" onclick="speakJapanese('{{ item.jpname }}'); event.stopPropagation();">
-                        🔊 Listen
+                        🔊 
+                        {% if lang_code == 'ja' %}聴く
+                        {% elif lang_code == 'zh-hant' %}聆聽
+                        {% elif lang_code == 'zh-cn' %}聆听
+                        {% elif lang_code == 'ko' %}듣기
+                        {% elif lang_code == 'fr' %}Écouter
+                        {% elif lang_code == 'de' %}Anhören
+                        {% elif lang_code == 'it' %}Ascolta
+                        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Escuchar
+                        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Ouvir
+                        {% elif lang_code == 'vi' %}Nghe
+                        {% elif lang_code == 'th' %}ฟัง
+                        {% else %}Listen
+                        {% endif %}
                     </button>
 
                     <a href="{% url 'detail_premium' category=item.category slug=item.slug %}?lang={{ lang_code }}" class="more-detail-link" onclick="event.stopPropagation();">
-                        More Details &gt;
+                        {% if lang_code == 'ja' %}詳細を見る
+                        {% elif lang_code == 'zh-hant' %}更多詳情
+                        {% elif lang_code == 'zh-cn' %}更多详情
+                        {% elif lang_code == 'ko' %}자세히 보기
+                        {% elif lang_code == 'fr' %}Plus de détails
+                        {% elif lang_code == 'de' %}Mehr Details
+                        {% elif lang_code == 'it' %}Più dettagli
+                        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Más detalles
+                        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Mais detalhes
+                        {% elif lang_code == 'vi' %}Xem thêm chi tiết
+                        {% elif lang_code == 'th' %}รายละเอียดเพิ่มเติม
+                        {% else %}More Details
+                        {% endif %} &gt;
                     </a>
                 </div>
 
