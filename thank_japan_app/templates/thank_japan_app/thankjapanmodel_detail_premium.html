@@ -473,9 +473,37 @@ body {
 
             </h2>
             <ul>
-                {% for line in object.description.splitlines %}
-                    {% if line %}<li>{{ line }}</li>{% endif %}
-                {% endfor %}
+                {% if lang_code == 'ja' and object.description_ja %}
+                    {% for line in object.description_ja.splitlines %}<li>{{ line }}</li>{% endfor %}
+                {% elif lang_code == 'en-in' and object.description_en_in %}
+                    {% for line in object.description_en_in.splitlines %}<li>{{ line }}</li>{% endfor %}
+                {% elif lang_code == 'zh-cn' and object.description_zh_cn %}
+                    {% for line in object.description_zh_cn.splitlines %}<li>{{ line }}</li>{% endfor %}
+                {% elif lang_code == 'zh-hant' and object.description_zh_hant %}
+                    {% for line in object.description_zh_hant.splitlines %}<li>{{ line }}</li>{% endfor %}
+                {% elif lang_code == 'ko' and object.description_ko %}
+                    {% for line in object.description_ko.splitlines %}<li>{{ line }}</li>{% endfor %}
+                {% elif lang_code == 'fr' and object.description_fr %}
+                    {% for line in object.description_fr.splitlines %}<li>{{ line }}</li>{% endfor %}
+                {% elif lang_code == 'de' and object.description_de %}
+                    {% for line in object.description_de.splitlines %}<li>{{ line }}</li>{% endfor %}
+                {% elif lang_code == 'it' and object.description_it %}
+                    {% for line in object.description_it.splitlines %}<li>{{ line }}</li>{% endfor %}
+                {% elif lang_code == 'es-es' and object.description_es_es %}
+                    {% for line in object.description_es_es.splitlines %}<li>{{ line }}</li>{% endfor %}
+                {% elif lang_code == 'es-mx' and object.description_es_mx %}
+                    {% for line in object.description_es_mx.splitlines %}<li>{{ line }}</li>{% endfor %}
+                {% elif lang_code == 'pt' and object.description_pt %}
+                    {% for line in object.description_pt.splitlines %}<li>{{ line }}</li>{% endfor %}
+                {% elif lang_code == 'pt-br' and object.description_pt_br %}
+                    {% for line in object.description_pt_br.splitlines %}<li>{{ line }}</li>{% endfor %}
+                {% elif lang_code == 'th' and object.description_th %}
+                    {% for line in object.description_th.splitlines %}<li>{{ line }}</li>{% endfor %}
+                {% elif lang_code == 'vi' and object.description_vi %}
+                    {% for line in object.description_vi.splitlines %}<li>{{ line }}</li>{% endfor %}
+                {% else %}
+                    {% for line in object.description.splitlines %}<li>{{ line }}</li>{% endfor %}
+                {% endif %}
             </ul>
         </div>
 
@@ -497,9 +525,37 @@ body {
 
             </h2>
             <ul>
-                {% for line in object.history.splitlines %}
-                    {% if line %}<li>{{ line }}</li>{% endif %}
-                {% endfor %}
+                {% if lang_code == 'ja' and object.history_ja %}
+                    {% for line in object.history_ja.splitlines %}<li>{{ line }}</li>{% endfor %}
+                {% elif lang_code == 'en-in' and object.history_en_in %}
+                    {% for line in object.history_en_in.splitlines %}<li>{{ line }}</li>{% endfor %}
+                {% elif lang_code == 'zh-cn' and object.history_zh_cn %}
+                    {% for line in object.history_zh_cn.splitlines %}<li>{{ line }}</li>{% endfor %}
+                {% elif lang_code == 'zh-hant' and object.history_zh_hant %}
+                    {% for line in object.history_zh_hant.splitlines %}<li>{{ line }}</li>{% endfor %}
+                {% elif lang_code == 'ko' and object.history_ko %}
+                    {% for line in object.history_ko.splitlines %}<li>{{ line }}</li>{% endfor %}
+                {% elif lang_code == 'fr' and object.history_fr %}
+                    {% for line in object.history_fr.splitlines %}<li>{{ line }}</li>{% endfor %}
+                {% elif lang_code == 'de' and object.history_de %}
+                    {% for line in object.history_de.splitlines %}<li>{{ line }}</li>{% endfor %}
+                {% elif lang_code == 'it' and object.history_it %}
+                    {% for line in object.history_it.splitlines %}<li>{{ line }}</li>{% endfor %}
+                {% elif lang_code == 'es-es' and object.history_es_es %}
+                    {% for line in object.history_es_es.splitlines %}<li>{{ line }}</li>{% endfor %}
+                {% elif lang_code == 'es-mx' and object.history_es_mx %}
+                    {% for line in object.history_es_mx.splitlines %}<li>{{ line }}</li>{% endfor %}
+                {% elif lang_code == 'pt' and object.history_pt %}
+                    {% for line in object.history_pt.splitlines %}<li>{{ line }}</li>{% endfor %}
+                {% elif lang_code == 'pt-br' and object.history_pt_br %}
+                    {% for line in object.history_pt_br.splitlines %}<li>{{ line }}</li>{% endfor %}
+                {% elif lang_code == 'th' and object.history_th %}
+                    {% for line in object.history_th.splitlines %}<li>{{ line }}</li>{% endfor %}
+                {% elif lang_code == 'vi' and object.history_vi %}
+                    {% for line in object.history_vi.splitlines %}<li>{{ line }}</li>{% endfor %}
+                {% else %}
+                    {% for line in object.history.splitlines %}<li>{{ line }}</li>{% endfor %}
+                {% endif %}
             </ul>
         </div>
     </div>
