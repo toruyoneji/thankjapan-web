@@ -376,8 +376,7 @@ footer {
     {% endif %}
 
     <h1 class="detaildt">
-        {% if lang_code == 'ja' %}{{ object.englishname_ja }}
-        {% elif lang_code == 'en-in' %}{{ object.englishname_en_in }}
+        {% if lang_code == 'en-in' %}{{ object.englishname_en_in }}
         {% elif lang_code == 'zh-hant' %}{{ object.englishname_zh_hant }}
         {% elif lang_code == 'zh-cn' %}{{ object.englishname_zh_cn }}
         {% elif lang_code == 'ko' %}{{ object.englishname_ko }}
@@ -390,7 +389,7 @@ footer {
         {% elif lang_code == 'pt-br' %}{{ object.englishname_pt_br }}
         {% elif lang_code == 'th' %}{{ object.englishname_th }}
         {% elif lang_code == 'vi' %}{{ object.englishname_vi }}
-        {% else %}{{ object.englishname }}{# デフォルトの英語名 #}
+        {% else %}{{ object.englishname }}
         {% endif %}
     </h1>
 
