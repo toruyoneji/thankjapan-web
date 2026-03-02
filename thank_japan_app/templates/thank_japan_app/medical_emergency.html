@@ -593,7 +593,23 @@ body {
                 </div>
 
                 <div class="flashcard-back">
-                    <h3>{{ item.englishname }}</h3>
+                    <h3>
+                        {% if lang_code == 'en-in' %}{{ item.englishname_en_in }}
+                        {% elif lang_code == 'zh-hant' %}{{ item.englishname_zh_hant }}
+                        {% elif lang_code == 'zh-cn' %}{{ item.englishname_zh_cn }}
+                        {% elif lang_code == 'ko' %}{{ item.englishname_ko }}
+                        {% elif lang_code == 'fr' %}{{ item.englishname_fr }}
+                        {% elif lang_code == 'de' %}{{ item.englishname_de }}
+                        {% elif lang_code == 'it' %}{{ item.englishname_it }}
+                        {% elif lang_code == 'es-es' %}{{ item.englishname_es_es }}
+                        {% elif lang_code == 'es-mx' %}{{ item.englishname_es_mx }}
+                        {% elif lang_code == 'pt' %}{{ item.englishname_pt }}
+                        {% elif lang_code == 'pt-br' %}{{ item.englishname_pt_br }}
+                        {% elif lang_code == 'th' %}{{ item.englishname_th }}
+                        {% elif lang_code == 'vi' %}{{ item.englishname_vi }}
+                        {% else %}{{ item.englishname }}
+                        {% endif %}
+                    </h3>
                     
                     <p class="jp-text">
                     {% if item.kanji_name %}
