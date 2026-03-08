@@ -284,6 +284,10 @@ urlpatterns = [
     #redirect
     path('appliances/dvd-player-dvd-dekki/', 
          RedirectView.as_view(url='/appliances/dvd-player-diibuibiidekki/', permanent=True)),
+    
+    path('sports/ice-hockey-aisuhokkei/', 
+         RedirectView.as_view(url='/sports/ice-hockey-aisuhokkee/', permanent=True)),
+
 
     #riyoukiyaku page
     path("riyoukiyaku/", KiyakuView.as_view(), name="riyoukiyaku"),
