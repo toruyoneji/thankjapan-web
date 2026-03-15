@@ -688,7 +688,7 @@ img:hover { transform: scale(1.02); }
         {% elif lang_code == 'vi' %}Danh mục
         {% elif lang_code == 'th' %}หมวดหมู่
         {% else %}Category
-        {% endif %}: {{ object.category|title }}
+        {% endif %}: {{ object.category|format_category }}
     </h2>
 
 <div class="hint-area" style="margin: 15px 0;">
@@ -736,7 +736,24 @@ img:hover { transform: scale(1.02); }
         {% elif lang_code == 'th' %}ความหมาย:
         {% else %}Meaning:
         {% endif %}
-        <strong>{{ object.englishname }}</strong>
+        
+        <strong>
+            {% if lang_code == 'en-in' %}{{ object.englishname_en_in }}
+            {% elif lang_code == 'zh-hant' %}{{ object.englishname_zh_hant }}
+            {% elif lang_code == 'zh-cn' %}{{ object.englishname_zh_cn }}
+            {% elif lang_code == 'ko' %}{{ object.englishname_ko }}
+            {% elif lang_code == 'fr' %}{{ object.englishname_fr }}
+            {% elif lang_code == 'de' %}{{ object.englishname_de }}
+            {% elif lang_code == 'it' %}{{ object.englishname_it }}
+            {% elif lang_code == 'es-es' %}{{ object.englishname_es_es }}
+            {% elif lang_code == 'es-mx' %}{{ object.englishname_es_mx }}
+            {% elif lang_code == 'pt' %}{{ object.englishname_pt }}
+            {% elif lang_code == 'pt-br' %}{{ object.englishname_pt_br }}
+            {% elif lang_code == 'th' %}{{ object.englishname_th }}
+            {% elif lang_code == 'vi' %}{{ object.englishname_vi }}
+            {% else %}{{ object.englishname }}
+            {% endif %}
+        </strong>
     </p>
 </div>
 
