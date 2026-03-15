@@ -959,10 +959,17 @@ def game_play(request):
         return redirect('game_start')
 
     current_time = time.time()
-    game_end_time = request.session.get('game_end_time')
-    if not game_end_time:
-        game_end_time = current_time + 61
+    
+    frozen = request.session.get('frozen_seconds_left')
+    if frozen is not None:
+        game_end_time = current_time + int(frozen)
         request.session['game_end_time'] = game_end_time
+        del request.session['frozen_seconds_left']
+    else:
+        game_end_time = request.session.get('game_end_time')
+        if not game_end_time:
+            game_end_time = current_time + 61
+            request.session['game_end_time'] = game_end_time
     
     seconds_left = int(game_end_time - current_time)
     difficulty = request.session.get('game_difficulty', 'normal')
@@ -981,23 +988,18 @@ def game_play(request):
         choice_ids = request.session.get('current_choices')
         choices = [get_object_or_404(model, id=cid) for cid in choice_ids]
     else:
-        
         dummy_pool = model.objects.filter(category=question.category).exclude(id=question.id).exclude(jpname=question.jpname)
-        
         if is_kanji_mode:
             dummy_pool = dummy_pool.filter(kanji_name__regex=r'[一-龠]')
-
         if dummy_pool.count() < 2:
             dummy_pool = model.objects.exclude(id=question.id).exclude(jpname=question.jpname)
             if is_kanji_mode:
                 dummy_pool = dummy_pool.filter(kanji_name__regex=r'[一-龠]')
         
-        
         num_to_sample = min(dummy_pool.count(), 2)
         dummies = random.sample(list(dummy_pool), num_to_sample)
         choice_objects = [question] + dummies
         random.shuffle(choice_objects)
-        
         choices = choice_objects
         request.session['current_choices'] = [c.id for c in choice_objects]
         request.session['choice_index_check'] = index
@@ -1019,8 +1021,8 @@ def game_play(request):
         'is_premium_mode': is_premium_mode,
         'is_kanji_mode': is_kanji_mode,
         'lang_code': lang_code,
-    })    
-     
+    })
+         
 
 def game_answer(request, pk):
     if request.method != 'POST':
@@ -1037,13 +1039,14 @@ def game_answer(request, pk):
     settings = DIFFICULTY_SETTINGS.get(difficulty, {})
     is_kanji_mode = settings.get('is_kanji_mode', False)
 
-    
     user_input = request.POST.get('answer', '').strip().lower()
     
+    client_seconds_left = request.POST.get('seconds_left')
+    if client_seconds_left:
+        request.session['frozen_seconds_left'] = int(client_seconds_left)
+
     user_answer_cleaned = extract_base_name(user_input).lower()
     db_answer_cleaned = extract_base_name(question.name).lower()
-    
-    
     correct_flag = (user_answer_cleaned == db_answer_cleaned)
 
     history = request.session.get('game_history', [])
@@ -1062,7 +1065,6 @@ def game_answer(request, pk):
     ids = request.session.get('game_question_ids', [])
     is_last_question = (index + 1) >= len(ids)
 
-    
     choice_ids = request.session.get('current_choices', [])
     choices = [get_object_or_404(model, id=cid) for cid in choice_ids]
 
@@ -1087,8 +1089,7 @@ def game_answer(request, pk):
         'is_premium_mode': is_premium_mode,
         'is_kanji_mode': is_kanji_mode,  
         'lang_code': lang_code,
-    })
-    
+    })    
     
                 
 def game_next_question(request):

@@ -1024,6 +1024,8 @@ img:hover { transform: scale(1.02); }
 </div>
 
 <script>
+let timerInterval;
+let timeLeft;
 
 function showHint() {
     const hintBtn = document.getElementById('hint-btn');
@@ -1042,16 +1044,25 @@ function toggleDetails() {
 }
 
 function submitChoice(value) {
+    if (timerInterval) clearInterval(timerInterval);
     const input = document.getElementById('answer-input');
     const form = document.getElementById('answer-form');
     if (input && form) {
+        let timeInput = document.getElementById('time-left-input');
+        if (!timeInput) {
+            timeInput = document.createElement('input');
+            timeInput.type = 'hidden';
+            timeInput.name = 'seconds_left';
+            timeInput.id = 'time-left-input';
+            form.appendChild(timeInput);
+        }
+        timeInput.value = timeLeft;
         input.value = value;
         form.submit();
     }
 }
 
-
-let isSoundOn = true; 
+let isSoundOn = true;
 
 function playChime() {
     if (!isSoundOn) return;
@@ -1063,18 +1074,18 @@ function playChime() {
     const osc1 = ctx.createOscillator();
     const gain1 = ctx.createGain();
     osc1.connect(gain1); gain1.connect(ctx.destination);
-    osc1.type = 'sine'; osc1.frequency.setValueAtTime(1046.5, t); 
+    osc1.type = 'sine'; osc1.frequency.setValueAtTime(1046.5, t);
     gain1.gain.setValueAtTime(0, t);
     gain1.gain.linearRampToValueAtTime(0.1, t + 0.05);
-    gain1.gain.exponentialRampToValueAtTime(0.001, t + 0.5); 
+    gain1.gain.exponentialRampToValueAtTime(0.001, t + 0.5);
     osc1.start(t); osc1.stop(t + 0.5);
     const osc2 = ctx.createOscillator();
     const gain2 = ctx.createGain();
     osc2.connect(gain2); gain2.connect(ctx.destination);
-    osc2.type = 'sine'; osc2.frequency.setValueAtTime(880, t + 0.4); 
+    osc2.type = 'sine'; osc2.frequency.setValueAtTime(880, t + 0.4);
     gain2.gain.setValueAtTime(0, t + 0.4);
     gain2.gain.linearRampToValueAtTime(0.1, t + 0.45);
-    gain2.gain.exponentialRampToValueAtTime(0.001, t + 1.2); 
+    gain2.gain.exponentialRampToValueAtTime(0.001, t + 1.2);
     osc2.start(t + 0.4); osc2.stop(t + 1.2);
 }
 
@@ -1089,25 +1100,22 @@ function speakJapanese(text, isAuto = false) {
     }
 }
 
-
 document.addEventListener('DOMContentLoaded', function() {
     const config = document.getElementById('game-config');
     if (!config) return;
 
-    
     const showResult = config.getAttribute('data-show-result') === 'true';
     const isCorrect = config.getAttribute('data-is-correct') === 'true';
     const difficulty = config.getAttribute('data-difficulty');
     const nextUrl = config.getAttribute('data-next-url');
     const resultUrl = config.getAttribute('data-result-url');
 
-    
     const soundBtn = document.getElementById('sound-toggle-btn');
     const soundIcon = document.getElementById('sound-icon');
     const soundStatus = document.getElementById('sound-status');
     const savedSetting = localStorage.getItem('thankjapan_sound');
     isSoundOn = savedSetting !== 'off';
-    
+
     if (soundIcon && soundStatus) {
         soundIcon.textContent = isSoundOn ? '🔊' : '🔇';
         soundStatus.textContent = isSoundOn ? 'ON' : 'OFF';
@@ -1125,26 +1133,20 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    
     if (showResult) {
         const correctFlag = document.getElementById('correct-flag');
         const incorrectFlag = document.getElementById('incorrect-flag');
-
         if (isCorrect && correctFlag) {
-            
             confetti({ particleCount: 120, spread: 80, origin: { y: 0.6 }, colors: ['#b7282e', '#7b942e', '#e0d5c0', '#ffffff'] });
             if (isSoundOn) {
                 playChime();
                 const word = correctFlag.getAttribute('data-word');
-                if (word) setTimeout(() => speakJapanese(word, true), 1000); 
+                if (word) setTimeout(() => speakJapanese(word, true), 1000);
             }
         } else if (incorrectFlag) {
-            
             const word = incorrectFlag.getAttribute('data-word');
-            if (word && isSoundOn) setTimeout(() => speakJapanese(word, true), 500); 
+            if (word && isSoundOn) setTimeout(() => speakJapanese(word, true), 500);
         }
-
-        
         if (difficulty !== 'single' && nextUrl) {
             setTimeout(() => {
                 window.location.href = nextUrl;
@@ -1153,8 +1155,7 @@ document.addEventListener('DOMContentLoaded', function() {
         return;
     }
 
-    
-    let timeLeft = parseInt(config.getAttribute('data-seconds-left') || "60");
+    timeLeft = parseInt(config.getAttribute('data-seconds-left') || "60");
     const timerDisplay = document.getElementById('time-left');
     const timerBar = document.getElementById('timer-bar-fill');
     const startSeconds = 60;
@@ -1167,7 +1168,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     if (timerDisplay) timerDisplay.textContent = formatTime(timeLeft);
 
-    const timerInterval = setInterval(() => {
+    timerInterval = setInterval(() => {
         timeLeft--;
         if (timeLeft >= 0) {
             if (timerDisplay) timerDisplay.textContent = formatTime(timeLeft);
@@ -1175,7 +1176,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 let widthPercent = (timeLeft / startSeconds) * 100;
                 timerBar.style.width = Math.max(0, widthPercent) + "%";
             }
-            
             if (timeLeft <= 10 && timerDisplay) {
                 timerDisplay.style.color = "#ff4081";
             }
