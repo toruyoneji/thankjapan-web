@@ -327,20 +327,21 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    const dropdowns = document.querySelectorAll('.dropdown');
+    if (localStorage.getItem('policy_agreed_2026_03') === 'true') {
+        const banner = document.getElementById('policyUpdateBanner');
+        if (banner) banner.style.display = 'none';
+    }
 
+    const dropdowns = document.querySelectorAll('.dropdown');
     dropdowns.forEach(dropdown => {
         const btn = dropdown.querySelector('.dropbtn');
         const content = dropdown.querySelector('.dropdown-content');
-
         if (btn && content) {
             btn.addEventListener('click', function(e) {
                 e.stopPropagation();
-                
                 document.querySelectorAll('.dropdown-content').forEach(dc => {
                     if (dc !== content) dc.classList.remove('show');
                 });
-
                 content.classList.toggle('show');
             });
         }
@@ -396,6 +397,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function agreeToPolicy() {
+    localStorage.setItem('policy_agreed_2026_03', 'true');
     fetch("{% url 'update_policy_agreement' %}", {
         method: 'POST',
         headers: {
