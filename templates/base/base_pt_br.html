@@ -258,7 +258,7 @@
                     </a>
 
                     <span class="user-name">👤 Visitante</span> 
-                    <a href="{% url 'player_register' %}?next={{ request.get_full_path|urlencode }}&lang={{ lang_code }}&from=header_btn" class="auth-btn login">Cadastrar-se</a>
+                    <a href="{% url 'player_register' %}?next={{ request.get_full_path|urlencode }}&lang={{ lang_code }}&from=header_btn" class="auth-btn login">Criar conta</a>
     
                 </div>
             {% endif %}
@@ -273,7 +273,7 @@
             </div>
         </div>
 
-        <a href="{% url 'game_start' %}" class="game-link">Jogo</a>
+        <a href="{% url 'game_start' %}" class="game-link">Jogos</a>
 
 
         <div class="lang-switch dropdown">
