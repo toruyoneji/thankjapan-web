@@ -689,7 +689,7 @@ img:hover { transform: scale(1.02); }
         {% elif lang_code == 'vi' %}Danh mục
         {% elif lang_code == 'th' %}หมวดหมู่
         {% else %}Category
-        {% endif %}: {{ object.category|format_category }}
+        {% endif %}: {{ object.category|format_category:lang_code }}
     </h2>
 
 <div class="hint-area" style="margin: 15px 0;">
