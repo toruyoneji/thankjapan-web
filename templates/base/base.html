@@ -188,15 +188,86 @@
         }
     }
 
+   
     @media screen and (max-width: 480px) {
-        body { padding-top: 160px !important; }
-        .hero { height: auto; min-height: 400px; padding: 40px 15px; }
-        .hero h1 { font-size: 1.8rem; letter-spacing: 3px; }
-        .explore-btn { width: 85%; padding: 15px 20px; font-size: 1.1rem; }
-        .dropdown-content {
-        left: auto;
-        right: 0;
+    
+        body { 
+            padding-top: 90px !important; 
         }
+
+        header.nav-bar {
+            min-height: auto !important;
+            padding: 5px 10px !important;
+            flex-direction: column !important; 
+            gap: 2px !important;
+        }
+
+    
+        .sns-buttons { 
+            display: none !important; 
+        }
+
+    
+        .auth-section {
+            order: 1 !important; 
+            width: 100% !important;
+            display: flex !important;
+            justify-content: space-between !important; 
+            align-items: center !important;
+            padding-bottom: 2px !important;
+            border-bottom: 1px solid #333 !important;
+        }
+
+    
+        .logo {
+            width: auto !important;
+            margin: 0 !important;
+            text-align: left !important;
+        }
+
+        .logo-link {
+            font-size: 1.1rem !important;
+        }
+
+    
+        .user-info, .guest-info {
+            justify-content: flex-end !important;
+            gap: 5px !important;
+        }
+
+        .user-name {
+            display: none !important; 
+        }
+
+        .header-score-badge {
+            padding: 2px 8px !important;
+            margin: 0 !important;
+            transform: scale(0.9); 
+        }
+
+        .auth-btn {
+            padding: 4px 10px !important;
+            font-size: 0.7rem !important;
+        }
+
+    
+        nav {
+            order: 2 !important;
+            width: 100% !important;
+            justify-content: space-around !important;
+            gap: 0 !important;
+            padding: 2px 0 !important;
+        }
+
+        .dropbtn, .game-link {
+            font-size: 0.8rem !important;
+            padding: 5px !important;
+            white-space: nowrap;
+        }
+
+   
+        .hero { height: auto; min-height: 300px; padding: 20px 15px; }
+        .hero h1 { font-size: 1.5rem !important; letter-spacing: 2px !important; }
     }
 
     .cookie-consent-banner {
