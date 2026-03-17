@@ -190,29 +190,29 @@
 
    
     @media screen and (max-width: 480px) {
-    /* 1. ヘッダーの高さに合わせて、コンテンツをしっかり押し下げる（重なり防止） */
+    
     body { 
         padding-top: 100px !important; 
     }
 
-    /* 2. ヘッダー：無理に高さを固定せず、中身に合わせて広がるようにする */
+    
     header.nav-bar {
         height: auto !important;
         min-height: 100px !important;
         max-height: none !important;
-        padding: 10px !important;
+        padding: 0px !important;
         display: flex !important;
         flex-direction: column !important;
         gap: 8px !important;
         overflow: visible !important;
     }
 
-    /* 3. SNSボタンは場所を取るのでスマホでは非表示 */
+    
     .sns-buttons { 
         display: none !important; 
     }
 
-    /* 4. ロゴ部分：中央に配置 */
+    
     .logo {
         text-align: center !important;
         width: 100% !important;
@@ -223,7 +223,7 @@
         font-size: 1.4rem !important;
     }
 
-    /* 5. ユーザー情報とナビゲーションを整理 */
+    
     .auth-section, nav {
         width: 100% !important;
         display: flex !important;
@@ -234,7 +234,7 @@
         margin: 0 !important;
     }
 
-    /* 6. ユーザー名をしっかり表示 */
+    
     .user-name {
         display: inline !important;
         font-size: 0.9rem !important;
@@ -247,7 +247,7 @@
         transform: none !important;
     }
 
-    /* 7. コンテンツ（お城の画像など）との隙間をピタッと埋める */
+    
     .hero, .main2, .container, .category-container {
         margin-top: 0 !important;
         padding-top: 0 !important;
