@@ -54,20 +54,7 @@ h2 {
     font-size: 1.4rem; 
 }
 
-.score-box {
-    color: #000000;
-    background: rgba(255, 255, 255, 0.9);
-    padding: 15px;
-    border-radius: 4px;
-    margin-bottom: 20px;
-}
 
-.player-info { 
-    font-size: 1.3rem; 
-    color: #aaa; 
-    margin-bottom: 25px; 
-    font-family: sans-serif;
-}
 
 img {
   max-width: 400px; width: 100%;
@@ -433,8 +420,41 @@ img:hover { transform: scale(1.02); }
   .onscreen-keyboard { display: flex; }
 }
 
-@media screen and (max-width: 768px) {
-    .next-btn { width: 90%; font-size: 1rem; }
+@media (max-width: 768px) {
+   
+    .main2 {
+        margin: 5px auto !important; 
+        padding: 10px !important;
+        width: 98% !important;
+    }
+
+    
+    h1 { font-size: 1.1rem !important; margin: 0 !important; padding: 0 !important; border: none !important; }
+    h2 { font-size: 0.9rem !important; margin: 5px 0 !important; }
+
+    
+    .question-visual-area {
+        min-height: auto !important;
+        margin-bottom: 5px !important;
+    }
+    .question-image, .kanji-question-box {
+        height: 25vh !important; 
+        width: auto !important;
+        margin: 5px auto !important;
+    }
+    .kanji-text { font-size: 3.5rem !important; }
+
+    
+    .choice-btn {
+        padding: 10px !important;
+        font-size: 1.1rem !important;
+        margin-bottom: 0 !important;
+    }
+    .choices-container { gap: 8px !important; }
+
+    
+    .sound-toggle-container { margin-bottom: 0 !important; }
+    .footer-note { margin-top: 10px !important; font-size: 0.7rem !important; }
 }
 
 
@@ -503,164 +523,19 @@ img:hover { transform: scale(1.02); }
     {{ current_index }} 
   </h1>
 
-  <div class="score-box" style="color: #000000; position: relative;">
-    {% if not is_guest %}
-        <p style="font-size:1.5rem; color: #000000;">
-            {% if lang_code == 'ja' %}プレイヤー
-            {% elif lang_code == 'zh-hant' or lang_code == 'zh-cn' %}玩家
-            {% elif lang_code == 'de' %}Spieler
-            {% elif lang_code == 'fr' %}Joueur
-            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Jugador
-            {% elif lang_code == 'it' %}Giocatore
-            {% elif lang_code == 'ko' %}플레이어
-            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Jogador
-            {% elif lang_code == 'vi' %}Người chơi
-            {% elif lang_code == 'th' %}ผู้เล่น
-            {% else %}Player{% endif %}: {{ player.username }} 
-            <span style="font-size: 0.8em; color: #555;">({{ player.country|default:"Jp" }})</span>
-        </p>
-        
-        <div style="margin: 10px 0; padding: 10px; background: rgba(0,0,0,0.05); border-radius: 4px;">
-            <span style="font-weight: bold; color: #333;">
-                {% if lang_code == 'ja' %}ランク
-                {% elif lang_code == 'zh-hant' %}等級
-                {% elif lang_code == 'zh-cn' %}等级
-                {% elif lang_code == 'de' %}Rang
-                {% elif lang_code == 'fr' %}Rang
-                {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Rango
-                {% elif lang_code == 'it' %}Grado
-                {% elif lang_code == 'ko' %}랭크
-                {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Nível
-                {% elif lang_code == 'vi' %}Thứ hạng
-                {% elif lang_code == 'th' %}แรงค์
-                {% else %}Rank{% endif %}:
-            </span>
-
-            {% with s=player.total_score %}
-                {% if s >= 2000 %}
-                    <span style="color: #ff4d4d; font-weight: 900; font-size: 1.5em; text-shadow: 0 0 15px rgba(255,255,255,0.5);">🗾 伝説 (Legend)</span>
-                {% elif s >= 1200 %}
-                    <span style="color: #f1c40f; font-weight: bold; font-size: 1.3em; text-shadow: 0 0 10px rgba(0,0,0,0.5);">👑 大将軍 (General)</span>
-                {% elif s >= 900 %}
-                    <span style="color: #ffd700; font-weight: bold; font-size: 1.3em;">🐎 将軍 (Shogun)</span>
-                {% elif s >= 650 %}
-                    <span style="color: #e67e22; font-weight: bold; font-size: 1.3em;">🏯 大名 (Daimyo)</span>
-                {% elif s >= 450 %}
-                    <span style="color: #ff6b6b; font-weight: bold; font-size: 1.2em;">🚩 旗本 (Hatamoto)</span>
-                {% elif s >= 300 %}
-                    <span style="color: #3498db; font-weight: bold; font-size: 1.2em;">⚔️ 侍 (Samurai)</span>
-                {% elif s >= 200 %}
-                    <span style="color: #9b59b6; font-weight: bold; font-size: 1.2em;">🥷 忍者 (Ninja)</span>
-                {% elif s >= 100 %}
-                    <span style="color: #2ecc71; font-weight: bold; font-size: 1.2em;">🚣 浪人 (Ronin)</span>
-                {% elif s >= 50 %}
-                    <span style="color: #f39c12; font-weight: bold; font-size: 1.2em;">🎒 旅人 (Traveler)</span>
-                {% else %}
-                    <span style="color: #bdc3c7; font-weight: bold; font-size: 1.2em;">🌾 村人 (Villager)</span>
-                {% endif %}
-            {% endwith %}    
-        </div>
-
-        
-    {% else %}
-        <p style="font-size:1.5rem; color: #000000;">
-            {% if lang_code == 'ja' %}プレイヤー: ゲスト
-            {% elif lang_code == 'zh-hant' %}玩家：訪客
-            {% elif lang_code == 'zh-cn' %}玩家：访客
-            {% elif lang_code == 'de' %}Spieler: Gast
-            {% elif lang_code == 'fr' %}Joueur : Invité
-            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Jugador: Invitado
-            {% elif lang_code == 'it' %}Giocatore: Ospite
-            {% elif lang_code == 'ko' %}플레이어: 게스트
-            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Jogador: Convidado
-            {% elif lang_code == 'vi' %}Người chơi: Khách
-            {% elif lang_code == 'th' %}ผู้เล่น: ผู้เยี่ยมชม
-            {% else %}Player: Guest
-            {% endif %}
-        </p>
-
-        <div style="margin: 10px 0; padding: 10px; background: rgba(255, 0, 0, 0.05); border: 1px dashed #b7282e; border-radius: 4px;">
-            <span style="color: #666;">
-                {% if lang_code == 'ja' %}ランク: 🌱 ゲスト
-                {% elif lang_code == 'zh-hant' %}等級：🌱 訪客
-                {% elif lang_code == 'zh-cn' %}等级：🌱 访客
-                {% elif lang_code == 'de' %}Rang: 🌱 Gast
-                {% elif lang_code == 'fr' %}Rang : 🌱 Invité
-                {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Rango: 🌱 Invitado
-                {% elif lang_code == 'it' %}Grado: 🌱 Ospite
-                {% elif lang_code == 'ko' %}랭크: 🌱 게스트
-                {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Nível: 🌱 Convidado
-                {% elif lang_code == 'vi' %}Thứ hạng: 🌱 Khách
-                {% elif lang_code == 'th' %}แรงค์: 🌱 ผู้เยี่ยมชม
-                {% else %}Rank: 🌱 Guest
-                {% endif %}
-            </span><br>
-
-            <span style="color: #b7282e; font-size: 0.9rem; font-weight: bold;">
-                {% if lang_code == 'ja' %}⚠ データは保存されません
-                {% elif lang_code == 'zh-hant' %}⚠ 資料不會被儲存
-                {% elif lang_code == 'zh-cn' %}⚠ 数据不会被保存
-                {% elif lang_code == 'de' %}⚠ Daten werden nicht gespeichert
-                {% elif lang_code == 'fr' %}⚠ Données non enregistrées
-                {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}⚠ Datos no guardados
-                {% elif lang_code == 'it' %}⚠ Dati non salvati
-                {% elif lang_code == 'ko' %}⚠ 데이터가 저장되지 않습니다
-                {% elif lang_code == 'pt' or lang_code == 'pt-br' %}⚠ Dados não salvos
-                {% elif lang_code == 'vi' %}⚠ Dữ liệu không được lưu
-                {% elif lang_code == 'th' %}⚠ ข้อมูลจะไม่ถูกบันทึก
-                {% else %}⚠ Data NOT saved
-                {% endif %}
-            </span>
-
-            <div style="margin-top: 5px;">
-                <a href="{% url 'player_register' %}?next={{ request.path }}" style="color: #26456e; text-decoration: underline; font-size: 0.9rem;">
-                    {% if lang_code == 'ja' %}登録してランクを保存 ↗
-                    {% elif lang_code == 'zh-hant' %}註冊以保存等級 ↗
-                    {% elif lang_code == 'zh-cn' %}注册以保存等级 ↗
-                    {% elif lang_code == 'de' %}Registrieren, um Rang zu speichern ↗
-                    {% elif lang_code == 'fr' %}Inscrivez-vous pour sauvegarder le rang ↗
-                    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Regístrate para guardar el rango ↗
-                    {% elif lang_code == 'it' %}Registrati per salvare il grado ↗
-                    {% elif lang_code == 'ko' %}가입하여 랭크 저장 ↗
-                    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Cadastre-se para salvar o nível ↗
-                    {% elif lang_code == 'vi' %}Đăng ký để lưu thứ hạng ↗
-                    {% elif lang_code == 'th' %}สมัครเพื่อบันทึกแรงค์ ↗
-                    {% else %}Sign up to save rank ↗
-                    {% endif %}
-                </a>
-            </div>
-        </div>
-    {% endif %}
-
-    <p style="color: #000000; margin-top: 10px;">
-        {% if lang_code == 'ja' %}現在のスコア
-        {% elif lang_code == 'zh-hant' %}目前分數
-        {% elif lang_code == 'zh-cn' %}当前分数
-        {% elif lang_code == 'de' %}Aktuelle Punktzahl
-        {% elif lang_code == 'fr' %}Score actuel
-        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Puntuación actual
-        {% elif lang_code == 'it' %}Punteggio attuale
-        {% elif lang_code == 'ko' %}현재 점수
-        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Pontuação atual
-        {% elif lang_code == 'vi' %}Điểm hiện tại
-        {% elif lang_code == 'th' %}คะแนนปัจจุบัน
-        {% else %}Current Score
-        {% endif %}:
-        <span class="score-number" id="score" style="color: #000000;">{{ score }}</span> pts
-    </p>
-  </div>
+  
 
   {% if not show_result %}
-    <div id="timer-container" style="text-align: center; margin: 15px 0;">
-        <div style="width: 80%; height: 12px; background: #333; border-radius: 6px; margin: 0 auto 5px; overflow: hidden; border: 1px solid #444;">
-            <div id="timer-bar-fill" style="width: 100%; height: 100%; background: #00e5ff; transition: width 1s linear;"></div>
+    <div id="timer-container" style="text-align: center; margin: 10px 0;">
+        <div style="width: 80%; height: 8px; background: #333; border-radius: 4px; margin: 0 auto 5px; overflow: hidden; border: 1px solid #444;">
+            <div id="timer-bar-fill" style="width: 100%; height: 100%; background: #00e5ff;"></div>
         </div>
-        <div style="font-size: 1.8rem; font-weight: bold; color: #ffeb3b;">
-            <span id="time-left">01:00</span>
+        <div style="display: flex; justify-content: center; align-items: center; gap: 20px;">
+            <span id="time-left" style="font-size: 1.5rem; font-weight: bold; color: #ffeb3b;">01:00</span>
+            <span style="font-size: 1.1rem; color: #fff; font-weight: bold;">Score: {{ score }}</span>
         </div>
     </div>
   {% endif %}
-
     
     <div class="question-visual-area" style="min-height: 250px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
         {% if is_kanji_mode %}
