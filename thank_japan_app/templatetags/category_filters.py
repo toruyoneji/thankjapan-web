@@ -1,5 +1,8 @@
 from django import template
 
+from django.utils.safestring import mark_safe
+import re
+
 register = template.Library()
 
 @register.filter
@@ -55,3 +58,38 @@ def format_category(value, lang_code='en'):
 
     
     return str(value).title()
+
+
+
+
+@register.filter
+def ruby_smart(kanji_text, kana_text):
+    if not kanji_text or not kana_text:
+        return kanji_text
+
+    kanji_parts = re.findall(r'[一-龠]+|[^-一-龠]+', kanji_text)
+    
+    
+    result = ""
+    current_kana = kana_text
+    
+    for part in kanji_parts:
+        if re.match(r'[一-龠]+', part):
+            if part == kanji_text: 
+                result += f'<ruby>{part}<rt>{kana_text}</rt></ruby>'
+                result += f'<ruby>{part}<rt>{kana_text}</rt></ruby>'
+            else:
+                
+                if part in current_kana:
+                    result += part
+                else:
+                    
+                    result += f'<ruby>{part}<rt>　</rt></ruby>' 
+        else:
+            
+            result += part
+            
+    if kanji_text == kana_text:
+        return kanji_text
+
+    return mark_safe(f'<ruby style="ruby-align: center;">{kanji_text}<rt style="font-size: 0.45em; text-align: center;">{kana_text}</rt></ruby>')
