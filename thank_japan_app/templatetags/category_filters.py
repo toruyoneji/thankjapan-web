@@ -61,30 +61,40 @@ def format_category(value, lang_code='en'):
 
 
 
+
 @register.filter
 def ruby_smart(kanji_text, kana_text):
     if not kanji_text or not kana_text or kanji_text == kana_text:
         return kanji_text
 
     prefix_len = 0
-    while (prefix_len < len(kanji_text) and 
-           prefix_len < len(kana_text) and 
+    while (prefix_len < len(kanji_text) and prefix_len < len(kana_text) and 
            kanji_text[prefix_len] == kana_text[prefix_len]):
         prefix_len += 1
-
+    
     suffix_len = 0
     while (suffix_len < (len(kanji_text) - prefix_len) and 
            suffix_len < (len(kana_text) - prefix_len) and 
            kanji_text[-(suffix_len + 1)] == kana_text[-(suffix_len + 1)]):
         suffix_len += 1
-
+        
     prefix = kanji_text[:prefix_len]
     suffix = kanji_text[len(kanji_text)-suffix_len:] if suffix_len > 0 else ""
-    
     mid_kanji = kanji_text[prefix_len:len(kanji_text)-suffix_len]
     mid_kana = kana_text[prefix_len:len(kana_text)-suffix_len]
 
-    if mid_kanji:
-        return mark_safe(f'{prefix}<ruby>{mid_kanji}<rt style="font-size: 0.5em;">{mid_kana}</rt></ruby>{suffix}')
-    
-    return kanji_text
+    if not mid_kanji:
+        return kanji_text
+
+    match = re.search(r'[^一-龠]+', mid_kanji)
+    if match:
+        anchor = match.group()
+        idx_k = mid_kanji.find(anchor)
+        idx_kana = mid_kana.find(anchor)
+        
+        if idx_kana != -1:
+            left = ruby_smart(mid_kanji[:idx_k], mid_kana[:idx_kana])
+            right = ruby_smart(mid_kanji[idx_k + len(anchor):], mid_kana[idx_kana + len(anchor):])
+            return mark_safe(f"{prefix}{left}{anchor}{right}{suffix}")
+
+    return mark_safe(f'{prefix}<ruby>{mid_kanji}<rt style="font-size: 0.5em;">{mid_kana}</rt></ruby>{suffix}')
