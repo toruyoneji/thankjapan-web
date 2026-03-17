@@ -192,12 +192,16 @@
     @media screen and (max-width: 480px) {
     
         body { 
-            padding-top: 55px !important; 
+            padding-top: 100px !important; 
         }
 
         header.nav-bar {
-            min-height: 55px !important;
-            height: 55px !important;
+            height: auto !important; 
+            min-height: 90px !important;
+            padding: 8px 10px !important;
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 5px !important;
         }
 
     
@@ -207,15 +211,14 @@
 
     
         .auth-section {
-            order: 1 !important; 
+            order: 1 !important;
             width: 100% !important;
             display: flex !important;
-            justify-content: space-between !important; 
+            justify-content: space-between !important;
             align-items: center !important;
-            padding-bottom: 2px !important;
             border-bottom: 1px solid #333 !important;
+            padding-bottom: 5px !important;
         }
-
     
         .logo {
             width: auto !important;
@@ -224,7 +227,7 @@
         }
 
         .logo-link {
-            font-size: 1.1rem !important;
+            font-size: 1.0rem !important;
         }
 
     
@@ -234,7 +237,13 @@
         }
 
         .user-name {
-            display: none !important; 
+            display: inline-block !important;
+            font-size: 0.7rem !important;
+            max-width: 60px; 
+            overflow: hidden;
+            text-overflow: ellipsis; 
+            white-space: nowrap;
+            margin: 0 4px !important;
         }
 
         .header-score-badge {
@@ -253,8 +262,7 @@
             order: 2 !important;
             width: 100% !important;
             justify-content: space-around !important;
-            gap: 0 !important;
-            padding: 2px 0 !important;
+            padding: 5px 0 !important;
         }
 
         .dropbtn, .game-link {
