@@ -1,4 +1,5 @@
 {% extends 'base/basecategory.html' %}
+{% load category_filters %}
 
 {% block title %}Japanese Body Parts List | Learn Human Anatomy in Japanese | ThankJapan{% endblock %}
 {% block og_title %}Japanese Body Parts - Learn Kanji & Pronunciation | ThankJapan{% endblock %}
@@ -483,14 +484,11 @@ body {
                     </h3>
 
                     <p class="jp-text">
-                    {% if item.kanji_name %}
-                        <ruby>
-                            {{ item.kanji_name }}
-                            <rt>{{ item.jpname }}</rt>
-                        </ruby>
-                    {% else %}
-                        {{ item.jpname }}
-                    {% endif %}
+                        {% if item.kanji_name %}
+                            {{ item.kanji_name|ruby_smart:item.jpname }}
+                        {% else %}
+                            {{ item.jpname }}
+                        {% endif %}
                     </p>
 
                     <p class="romaji">{{ item.name }}</p>

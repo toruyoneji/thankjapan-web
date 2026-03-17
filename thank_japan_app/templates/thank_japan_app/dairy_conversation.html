@@ -1,4 +1,6 @@
 {% extends 'base/basecategory.html' %}
+{% load category_filters %}
+
 {% block title %}Daily Conversation | Master Essential Japanese | ThankJapan{% endblock %}
 {% block og_title %}Daily Conversation - Master Real-Life Japanese | ThankJapan{% endblock %}
 {% block og_description %}Learn essential Japanese phrases for work and daily life. Master etiquette and culture through interactive lessons.{% endblock %}
@@ -522,14 +524,11 @@ body {
                     </h3>
                     
                     <p class="jp-text">
-                    {% if item.kanji_name %}
-                        <ruby>
-                            {{ item.kanji_name }}
-                            <rt>{{ item.jpname }}</rt>
-                        </ruby>
-                    {% else %}
-                        {{ item.jpname }}
-                    {% endif %}
+                        {% if item.kanji_name %}
+                            {{ item.kanji_name|ruby_smart:item.jpname }}
+                        {% else %}
+                            {{ item.jpname }}
+                        {% endif %}
                     </p>
 
 

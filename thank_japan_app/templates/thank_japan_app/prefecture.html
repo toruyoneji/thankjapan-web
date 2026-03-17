@@ -1,4 +1,6 @@
 {% extends 'base/basecategory.html' %}
+{% load category_filters %}
+
 {% block title %}Japanese Prefectures | Explore all 47 regions of Japan | ThankJapan{% endblock %}
 {% block og_title %}Japanese Prefectures - Discover Local Culture, Food, and History | ThankJapan{% endblock %}
 {% block og_description %}Embark on a journey through Japan's 47 prefectures. From Hokkaido's snowy landscapes to Okinawa's tropical beaches, learn about local landmarks, regional gourmet, and the unique history of every region.{% endblock %}
@@ -609,14 +611,11 @@ body {
                     </h3>
                     
                     <p class="jp-text">
-                    {% if item.kanji_name %}
-                        <ruby>
-                            {{ item.kanji_name }}
-                            <rt>{{ item.jpname }}</rt>
-                        </ruby>
-                    {% else %}
-                        {{ item.jpname }}
-                    {% endif %}
+                        {% if item.kanji_name %}
+                            {{ item.kanji_name|ruby_smart:item.jpname }}
+                        {% else %}
+                            {{ item.jpname }}
+                        {% endif %}
                     </p>
 
 

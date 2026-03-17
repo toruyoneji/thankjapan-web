@@ -1,4 +1,6 @@
 {% extends 'base/basecategory.html' %}
+{% load category_filters %}
+
 {% block title %}Medical & Emergency | Vital Phrases for Safety | ThankJapan{% endblock %}
 {% block og_title %}Medical & Emergency - Essential Japanese for Your Safety | ThankJapan{% endblock %}
 {% block og_description %}Master essential Japanese for health emergencies and natural disasters. Learn how to describe symptoms, call for help, and stay safe in Japan.{% endblock %}
@@ -612,14 +614,11 @@ body {
                     </h3>
                     
                     <p class="jp-text">
-                    {% if item.kanji_name %}
-                        <ruby>
-                            {{ item.kanji_name }}
-                            <rt>{{ item.jpname }}</rt>
-                        </ruby>
-                    {% else %}
-                        {{ item.jpname }}
-                    {% endif %}
+                        {% if item.kanji_name %}
+                            {{ item.kanji_name|ruby_smart:item.jpname }}
+                        {% else %}
+                            {{ item.jpname }}
+                        {% endif %}
                     </p>
 
 

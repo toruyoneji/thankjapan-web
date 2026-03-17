@@ -1,4 +1,6 @@
 {% extends 'base/basecategory.html' %}
+{% load category_filters %}
+
 {% block title %}Japanese Entertainment & Subculture | Anime, Manga, Games | ThankJapan{% endblock %}
 {% block og_title %}Japanese Entertainment - Explore Anime, Manga, and Pop Culture | ThankJapan{% endblock %}
 {% block og_description %}Dive deep into the world of Japanese anime, manga, and games. Learn essential terms for otaku culture, cosplay, and modern entertainment through interactive lessons.{% endblock %}
@@ -611,14 +613,11 @@ body {
                     </h3>
                     
                     <p class="jp-text">
-                    {% if item.kanji_name %}
-                        <ruby>
-                            {{ item.kanji_name }}
-                            <rt>{{ item.jpname }}</rt>
-                        </ruby>
-                    {% else %}
-                        {{ item.jpname }}
-                    {% endif %}
+                        {% if item.kanji_name %}
+                            {{ item.kanji_name|ruby_smart:item.jpname }}
+                        {% else %}
+                            {{ item.jpname }}
+                        {% endif %}
                     </p>
 
 
