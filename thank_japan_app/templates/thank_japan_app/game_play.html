@@ -857,11 +857,8 @@ img:hover { transform: scale(1.02); }
                             {{ choice.jpname }}
                         {% else %}
     
-                            {% if choice.kanji_name and choice.kanji_name != choice.jpname %}
-                                <ruby style="ruby-align: center;">
-                                    {{ choice.kanji_name }}
-                                    <rt style="text-align: center;">{{ choice.jpname }}</rt>
-                                </ruby>
+                            {% if choice.kanji_name %}
+                                {{ choice.kanji_name|ruby_smart:choice.jpname }}
                             {% else %}
                                 {{ choice.jpname }}
                             {% endif %}
