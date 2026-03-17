@@ -459,6 +459,29 @@ img:hover { transform: scale(1.02); }
 
 
 @media (max-width: 480px) {
+     header.nav-bar, .sns-buttons, nav, .auth-section {
+        display: none !important;
+    }
+
+    body {
+        padding-top: 0 !important;
+    }
+
+    .main2 {
+        margin-top: 0 !important;
+        margin-bottom: 0 !important;
+        width: 100% !important;
+        border-top: none !important; 
+        border-radius: 0 !important;
+        padding: 5px 10px !important;
+    }
+
+    
+    .question-image, .kanji-question-box {
+        height: 25vh !important; 
+        margin: 5px auto !important;
+    }
+
     .choice-btn {
         font-size: 1.3rem;
         padding: 15px;
@@ -472,6 +495,7 @@ img:hover { transform: scale(1.02); }
     .kanji-question-box {
         height: 200px;
     }
+    .mobile-mini-nav { display: flex !important; }
 }
 
 
@@ -488,24 +512,31 @@ img:hover { transform: scale(1.02); }
 </div>
 
 <div class="main2" data-hint-length="{{ hint_length }}" data-total-questions="{{ total_questions }}">
+
+    <div class="mobile-mini-nav" style="display: none; justify-content: space-between; align-items: center; padding: 10px 5px; width: 100%;">
+        <a href="{% if lang_code == 'ja' %}{% url 'toppageja' %}{% elif lang_code == 'zh-hant' %}{% url 'toppagezhHANT' %}{% elif lang_code == 'zh-cn' %}{% url 'toppagezhCN' %}{% elif lang_code == 'ko' %}{% url 'toppageko' %}{% elif lang_code == 'it' %}{% url 'toppageit' %}{% elif lang_code == 'fr' %}{% url 'toppagefr' %}{% elif lang_code == 'de' %}{% url 'toppagede' %}{% elif lang_code == 'es-mx' %}{% url 'toppageesMX' %}{% elif lang_code == 'es-es' %}{% url 'toppageesES' %}{% elif lang_code == 'pt' %}{% url 'toppagept' %}{% elif lang_code == 'pt-br' %}{% url 'toppageptBR' %}{% elif lang_code == 'vi' %}{% url 'toppagevi' %}{% elif lang_code == 'th' %}{% url 'toppageth' %}{% elif lang_code == 'en-in' %}{% url 'toppageenIN' %}{% else %}{% url 'toppage' %}{% endif %}" 
+        style="color: #8c7042; text-decoration: none; font-size: 0.8rem; font-weight: bold;">Thank Japan</a>
+    
   
-  <div class="sound-toggle-container">
-    <button id="sound-toggle-btn" class="sound-toggle-btn" title="Toggle Sound">
-        <span id="sound-icon">🔊</span> 
-        {% if lang_code == 'ja' %}音設定
-        {% elif lang_code == 'zh-hant' %}聲音設定
-        {% elif lang_code == 'zh-cn' %}声音设置
-        {% elif lang_code == 'de' %}Ton
-        {% elif lang_code == 'fr' %}Son
-        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Sonido
-        {% elif lang_code == 'it' %}Suono
-        {% elif lang_code == 'ko' %}소리
-        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Som
-        {% elif lang_code == 'vi' %}Âm thanh
-        {% elif lang_code == 'th' %}เสียง
-        {% else %}Sound{% endif %}: <span id="sound-status">ON</span>
-    </button>
-  </div>
+        <div class="sound-toggle-container">
+            <button id="sound-toggle-btn" class="sound-toggle-btn" title="Toggle Sound">
+                <span id="sound-icon">🔊</span> 
+                    {% if lang_code == 'ja' %}音設定
+                    {% elif lang_code == 'zh-hant' %}聲音設定
+                    {% elif lang_code == 'zh-cn' %}声音设置
+                    {% elif lang_code == 'de' %}Ton
+                    {% elif lang_code == 'fr' %}Son
+                    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Sonido
+                    {% elif lang_code == 'it' %}Suono
+                    {% elif lang_code == 'ko' %}소리
+                    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Som
+                    {% elif lang_code == 'vi' %}Âm thanh
+                    {% elif lang_code == 'th' %}เสียง
+                    {% else %}Sound{% endif %}: <span id="sound-status">ON</span>
+            </button>
+        </div>
+
+    </div>
 
   <h1>
     {% if lang_code == 'ja' %}問題
