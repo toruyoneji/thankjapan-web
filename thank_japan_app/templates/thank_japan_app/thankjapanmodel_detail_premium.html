@@ -1,5 +1,5 @@
 {% extends 'base/basecategory.html' %}
-
+{% load category_filters %}
 {% block title %}{{ object.englishname }} - Premium Lesson | ThankJapan{% endblock %}
 
 {% block meta %}
@@ -451,15 +451,13 @@ body {
         <div class="jpname-wrapper">
             <span class="jpname-text">
                 {% if object.kanji_name %}
-                    <ruby>
-                        {{ object.kanji_name }}
-                        <rt>{{ object.jpname }}</rt>
-                    </ruby>
+                    {{ object.kanji_name|ruby_smart:object.jpname }}
                 {% else %}
                     {{ object.jpname }}
                 {% endif %}
             </span>
 
+            
             <button type="button" class="voice-btn" onclick="speakJapanese('{{ object.jpname }}')">
                 🔊
             </button>

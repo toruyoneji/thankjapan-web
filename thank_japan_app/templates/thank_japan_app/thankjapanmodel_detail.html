@@ -1,5 +1,5 @@
 {% extends 'base/basecategory.html' %}
-
+{% load category_filters %}
 {% block title %}{{ object.englishname }} | ThankJapan{% endblock %}
 
 {% block meta %}
@@ -414,11 +414,7 @@ footer {
         <div class="jpname-wrapper">
             <span class="jpname-text">
                 {% if object.kanji_name %}
-            
-                    <ruby class="kanji-ruby">
-                        {{ object.kanji_name }}
-                        <rt class="furigana">{{ object.jpname }}</rt>
-                    </ruby>
+                    {{ object.kanji_name|ruby_smart:object.jpname }}
                 {% else %}
                     {{ object.jpname }}
                 {% endif %}

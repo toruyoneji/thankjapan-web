@@ -907,10 +907,8 @@ tbody td {
 
                         <h3 class="answer-title" style="line-height: 1.8;">
                             {% if item.object.kanji_name %}
-                                <ruby>
-                                    {{ item.object.kanji_name }}
-                                    <rt style="font-size: 0.5em; color: #666;">{{ item.object.jpname }}</rt>
-                                </ruby>
+        
+                                {{ item.object.kanji_name|ruby_smart:item.object.jpname }}
                             {% else %}
                                 {{ item.object.jpname }}
                             {% endif %}
