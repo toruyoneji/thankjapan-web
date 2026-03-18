@@ -64,7 +64,13 @@ def format_category(value, lang_code='en'):
 
 @register.filter
 def ruby_smart(kanji_text, kana_text):
-    if not kanji_text or not kana_text or kanji_text == kana_text:
+    if not kanji_text or not kana_text:
+        return kanji_text
+
+    if re.fullmatch(r'[ぁ-んァ-ヶー\s、。！？（）]+', kanji_text):
+        return kanji_text
+
+    if kanji_text == kana_text:
         return kanji_text
 
     prefix_len = 0
