@@ -674,7 +674,7 @@ img:hover { transform: scale(1.02); }
     {% if is_correct %}
         
         <div id="correct-flag" data-word="{{ object.jpname }}"></div>
-        <div style="font-size: 8rem; line-height: 1;">⭕</div>
+        <div style="font-size: 8rem; line-height: 1;">✅</div>
 
         <h2 style="color: #4caf50; font-size: 2em; text-shadow: 0 0 10px #4caf50;">
             {% if lang_code == 'ja' %}✅ 正解！
@@ -782,7 +782,7 @@ img:hover { transform: scale(1.02); }
                 </strong>
             </p>
             
-            <p style="font-size: 1.5em; color: #fcd5b5; font-family: 'Poppins', sans-serif;">
+            <p style="font-size: 1.7em; color: #fcd5b5; font-family: 'Poppins', sans-serif;">
                 {% if lang_code == 'ja' %}意味:
                 {% elif lang_code == 'zh-hant' %}意思:
                 {% elif lang_code == 'zh-cn' %}含义:
@@ -1131,7 +1131,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 window.location.href = nextUrl;
             }, delay);
         }
-        
+
         return;
     }
 
