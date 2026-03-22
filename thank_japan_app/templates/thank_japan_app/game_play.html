@@ -702,38 +702,22 @@ img:hover { transform: scale(1.02); }
             </p>
             
 
-            <p style="font-size: 1.5em; color: #fcd5b5; font-family: 'Poppins', sans-serif;">
-                {% if lang_code == 'ja' %}意味:
-                {% elif lang_code == 'zh-hant' %}意思:
-                {% elif lang_code == 'zh-cn' %}含义:
-                {% elif lang_code == 'de' %}Bedeutung:
-                {% elif lang_code == 'fr' %}Signification:
-                {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Significado:
-                {% elif lang_code == 'it' %}Significato:
-                {% elif lang_code == 'ko' %}의미:
-                {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Significado:
-                {% elif lang_code == 'vi' %}Nghĩa:
-                {% elif lang_code == 'th' %}ความหมาย:
-                {% else %}Meaning:
+            <p style="font-size: 2em; color: #fff; font-weight: bold; text-shadow: 0 0 10px rgba(76,175,80,0.3);">
+                {% if lang_code == 'ja' %}お見事！🌟
+                {% elif lang_code == 'ko' %}잘했어요! ✨
+                {% elif lang_code == 'zh-hant' %}做得好！👏
+                {% elif lang_code == 'zh-cn' %}做得好！👏
+                {% elif lang_code == 'vi' %}Làm tốt lắm! 🎉
+                {% elif lang_code == 'th' %}เก่งมาก! 🏆
+                {% elif lang_code == 'fr' %}Beau travail ! 🇫🇷
+                {% elif lang_code == 'de' %}Gute Arbeit! 🇩🇪
+                {% elif lang_code == 'it' %}Ottimo lavoro! 🇮🇹
+                {% elif lang_code == 'es-es' %}¡Buen trabajo! 🇪🇸
+                {% elif lang_code == 'es-mx' %}¡Excelente! 🇲🇽
+                {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Bom trabalho! 💪
+                {% elif lang_code == 'en-in' %}Good Job! 🇮🇳
+                {% else %}Good Job! 🚀
                 {% endif %}
-
-                <strong>
-                    {% if lang_code == 'en-in' %}{{ object.englishname_en_in }}
-                    {% elif lang_code == 'zh-hant' %}{{ object.englishname_zh_hant }}
-                    {% elif lang_code == 'zh-cn' %}{{ object.englishname_zh_cn }}
-                    {% elif lang_code == 'ko' %}{{ object.englishname_ko }}
-                    {% elif lang_code == 'fr' %}{{ object.englishname_fr }}
-                    {% elif lang_code == 'de' %}{{ object.englishname_de }}
-                    {% elif lang_code == 'it' %}{{ object.englishname_it }}
-                    {% elif lang_code == 'es-es' %}{{ object.englishname_es_es }}
-                    {% elif lang_code == 'es-mx' %}{{ object.englishname_es_mx }}
-                    {% elif lang_code == 'pt' %}{{ object.englishname_pt }}
-                    {% elif lang_code == 'pt-br' %}{{ object.englishname_pt_br }}
-                    {% elif lang_code == 'th' %}{{ object.englishname_th }}
-                    {% elif lang_code == 'vi' %}{{ object.englishname_vi }}
-                    {% else %}{{ object.englishname }}
-                    {% endif %}
-                </strong>
             </p>
         </div>
 
@@ -782,7 +766,7 @@ img:hover { transform: scale(1.02); }
                 </strong>
             </p>
             
-            <p style="font-size: 1.7em; color: #fcd5b5; font-family: 'Poppins', sans-serif;">
+            <p style="font-size: 1.7em; color: #fff; font-family: 'Poppins', sans-serif;">
                 {% if lang_code == 'ja' %}意味:
                 {% elif lang_code == 'zh-hant' %}意思:
                 {% elif lang_code == 'zh-cn' %}含义:
