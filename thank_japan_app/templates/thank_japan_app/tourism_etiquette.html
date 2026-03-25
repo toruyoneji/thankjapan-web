@@ -29,15 +29,9 @@ body {
     margin-top: 10px;
 }
 .category-header h1 {
-    font-size: 3.0rem;
+    font-size: 2.2rem;
     font-family: 'Sawarabi Mincho', serif;
     color: #d46a00;
-    letter-spacing: 1px;
-}
-.category-header p {
-    color: #666;
-    font-size: 1.1rem;
-    margin-top: 10px;
 }
 
 .main2 {
@@ -49,150 +43,98 @@ body {
     margin: 0 auto;
 }
 
-.flashcard {
-    background-color: transparent;
-    width: 100%;
-    height: 280px;
-    perspective: 1000px;
-    cursor: pointer;
-}
 
-.flashcard-inner {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    text-align: center;
-    transition: transform 0.6s;
-    transform-style: preserve-3d;
+.flashcard {
+    background: #fff;
     border-radius: 16px;
+    overflow: hidden;
+    cursor: pointer;
+    border: 2px solid #ffe0b2;
+    position: relative;
+    transition: transform 0.2s;
     box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 }
 
-.flashcard.flipped .flashcard-inner {
-    transform: rotateY(180deg);
-}
+.flashcard:active { transform: scale(0.98); }
 
-.flashcard-front, .flashcard-back {
-    position: absolute;
+.card-image img {
     width: 100%;
-    height: 100%;
-    -webkit-backface-visibility: hidden;
-    backface-visibility: hidden;
-    border-radius: 16px;
-    overflow: hidden;
-    border: 2px solid #ffe0b2;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background-color: #fff;
-}
-
-.flashcard-front img {
-    width: 100%;
-    height: 100%;
+    height: 180px;
     object-fit: cover;
+    display: block;
 }
 
-.tap-hint {
+
+.card-info {
+    padding: 10px 5px !important;
+    text-align: center;
+}
+
+.card-english {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #d46a00;
+    margin-bottom: 0 !important;
+}
+
+.jlpt-badge {
     position: absolute;
-    bottom: 10px;
-    right: 10px;
-    background: rgba(212, 106, 0, 0.8);
-    color: white;
-    padding: 4px 12px;
-    border-radius: 20px;
+    top: 10px;
+    left: 10px;
+    background: #d4af37;
+    color: #000;
+    font-weight: bold;
+    padding: 4px 8px;
+    border-radius: 4px;
     font-size: 0.8rem;
-    font-weight: bold;
-    pointer-events: none;
+    z-index: 10;
 }
 
-.no-image {
-    width: 100%;
-    height: 100%;
-    background-color: #ffe8d6;
+
+.locked-card-container {
+    grid-column: 1 / -1; 
     display: flex;
-    align-items: center;
     justify-content: center;
-    color: #d46a00;
-    font-weight: 600;
+    margin: 20px 0 !important;
+    padding: 0 20px;
 }
 
-.flashcard-back {
-    background-color: #fff8e1;
-    transform: rotateY(180deg);
-    padding: 10px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-.flashcard-back h3 {
-    color: #d46a00;
-    font-size: 1rem;
-    line-height: 1.2;
-    max-height: 2.4em;
-    overflow: hidden;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
+.locked-card {
+    background: linear-gradient(135deg, #1a1a1a, #2c3e50) !important;
+    color: #fff;
+    padding: 30px !important;
+    border-radius: 20px;
     text-align: center;
-}
-
-.jp-text {
-    color: #333;
-    font-size: clamp(1.2rem, 4vw, 1.8rem);
-    font-weight: bold;
-    line-height: 1.7;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    max-width: 600px;
     width: 100%;
-    text-align: center;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
-    margin: 5px 0;
+    border: 2px solid #d4af37;
 }
 
-.jp-text rt {
-    font-size: 0.75rem;
-    font-weight: 400;
-    color: #666;
-    line-height: 1;
+.unlock-btn {
+    display: inline-block;
+    background: linear-gradient(45deg, #d4af37, #f3e5ab, #d4af37);
+    color: #000;
+    font-weight: bold;
+    font-size: 1.1rem;
+    padding: 12px 40px;
+    border-radius: 50px;
+    text-decoration: none;
 }
 
-.romaji {
-    color: #888;
-    font-size: 0.9rem;
-    margin-bottom: 10px;
-    margin-top: 0;
-}
-
-.jp-text ruby {
-    ruby-align: center;
-}
-
-
-
-.audio-btn {
+.btn-more {
+    display: inline-block;
     background: #ffb347;
     color: white;
-    border: none;
-    padding: 8px 16px;
-    border-radius: 50px;
-    font-size: 1rem;
-    cursor: pointer;
-    margin-bottom: 10px;
-    transition: 0.3s;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-}
-.audio-btn:hover { background: #ff9642; }
-
-.more-detail-link {
-    font-size: 0.9rem;
-    color: #d46a00;
-    text-decoration: underline;
+    padding: 10px 24px;
+    border-radius: 25px;
+    text-decoration: none;
     font-weight: 600;
-    cursor: pointer;
+    margin-top: 20px;
+    transition: background 0.3s;
 }
+
+.btn-more:hover { background: #ff9642; }
 
 .pagination-container {
   overflow-x: auto;
@@ -223,122 +165,193 @@ body {
   border-color: #e63946;
 }
 
-.btn-more {
-    display: inline-block;
-    background: #ffb347;
-    color: white;
-    padding: 10px 24px;
-    border-radius: 25px;
-    text-decoration: none;
-    font-weight: 600;
-    margin-top: 20px;
-    transition: background 0.3s;
-}
-.btn-more:hover { background: #ff9642; }
 
-.locked-card-container {
-    grid-column: 1 / -1;
-    display: flex;
-    justify-content: center;
-    margin-top: 30px;
-    margin-bottom: 20px;
-    padding: 0 20px;
-}
 
-.locked-card {
-    background: linear-gradient(135deg, #1a1a1a, #2c3e50);
-    color: #fff;
-    padding: 40px;
-    border-radius: 20px;
-    text-align: center;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
-    max-width: 600px;
+#detailModal {
+    display: none;
+    position: fixed;
+    z-index: 10000;
+    left: 0;
+    top: 0;
     width: 100%;
-    border: 2px solid #d4af37;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    overflow-y: auto;
+}
+
+#detailModal.active { display: block; }
+
+.modal-body-content {
+    background-color: #2f2a26;
+    width: 94%;
+    max-width: 850px;
+    margin: 40px auto;
+    border-radius: 20px;
     position: relative;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.8);
     overflow: hidden;
+    color: #f6efe8;
 }
 
-.locked-card::before {
-    content: "";
+.modal-nav {
     position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 60%);
-    animation: shine 6s infinite linear;
+    top: 15px;
+    right: 15px;
+    z-index: 10015;
 }
 
-@keyframes shine {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
+.modal-close-btn {
+    background: #7b942e !important;
+    border: 3px solid #ffffff !important;
+    color: white !important;
+    font-size: 26px;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.locked-content {
-    position: relative;
-    z-index: 1;
+
+.modal-detail-wrapper {
+    display: block !important;
+    padding: 30px 20px 60px !important;
+    text-align: center !important;
 }
 
-.lock-icon {
-    font-size: 3.5rem;
-    margin-bottom: 15px;
-    text-shadow: 0 0 15px rgba(212, 175, 55, 0.6);
+.modal-detail-wrapper .detailgazou {
+    width: 100% !important;
+    height: auto !important;
+    border-radius: 12px;
+    margin-bottom: 25px !important;
+    display: block !important;
 }
 
-.locked-card h3 {
-    font-size: 1.8rem;
-    margin-bottom: 15px;
-    color: #d4af37;
-    font-family: serif;
+.modal-detail-wrapper .jpname-text {
+    font-size: 3.5rem !important;
+    color: #fff !important;
 }
 
-.locked-card p {
-    color: #e0e0e0;
-    margin-bottom: 30px;
-    font-size: 1.1rem;
-    line-height: 1.6;
+
+.modal-detail-wrapper .voice-btn {
+    background: transparent !important;
+    border: 2px solid #fcd5b5 !important;
+    color: #fcd5b5 !important;
+    width: 40px !important;
+    height: 40px !important;
+    border-radius: 50% !important;
+    font-size: 1.2rem !important;
+    cursor: pointer !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 0 !important;
+    margin-left: 10px !important;
+    vertical-align: middle !important;
 }
 
-.unlock-btn {
-    display: inline-block;
-    background: linear-gradient(45deg, #d4af37, #f3e5ab, #d4af37);
-    background-size: 200% auto;
-    color: #000;
-    font-weight: bold;
-    font-size: 1.2rem;
-    padding: 15px 50px;
-    border-radius: 50px;
-    text-decoration: none;
-    box-shadow: 0 5px 15px rgba(212, 175, 55, 0.4);
-    transition: all 0.3s ease;
-    animation: pulse-gold 2s infinite;
+.modal-detail-wrapper .cards {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 15px !important;
+    margin-top: 30px !important;
+    align-items: stretch !important; /
 }
 
-.unlock-btn:hover {
-    background-position: right center;
-    transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(212, 175, 55, 0.6);
+
+.modal-detail-wrapper .card {
+    background-color: #f6efe8 !important;
+    color: #3b2f2f !important;
+    border-radius: 16px !important;
+    padding: 15px 20px !important; 
+    text-align: left !important;
+    margin: 0 !important;
 }
 
-@keyframes pulse-gold {
-    0% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.7); }
-    70% { box-shadow: 0 0 0 10px rgba(212, 175, 55, 0); }
-    100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); }
+.modal-detail-wrapper .card h2 { color: #a35c00 !important; font-size: 1.1rem !important; }
+.modal-detail-wrapper .card li { list-style: "✿ " !important; margin-bottom: 4px !important; }
+
+
+
+.modal-detail-wrapper .game-invite-box {
+    margin: 40px auto 20px !important;
+    padding: 30px 20px !important;
+    background: linear-gradient(135deg, #2f2a26, #1e1b19) !important;
+    border: 2px solid #d4af37 !important;
+    border-radius: 16px !important;
+    text-align: center !important;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.4) !important;
 }
 
-.jlpt-badge {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background: #d4af37;
-    color: #000;
-    font-weight: bold;
-    padding: 4px 8px;
-    border-radius: 4px;
-    font-size: 0.8rem;
-    z-index: 10;
+
+.modal-detail-wrapper .game-invite-title {
+    color: #fcd5b5 !important;
+    font-size: 1.4rem !important;
 }
+
+
+.modal-detail-wrapper .rule-caption {
+    color: #c6b6a9 !important;
+}
+
+
+.modal-detail-wrapper .game-invite-btn {
+    display: inline-block !important;
+    background: linear-gradient(135deg, #d4af37, #ffd700) !important;
+    color: #000 !important;
+    padding: 15px 45px !important;
+    border-radius: 50px !important;
+    text-decoration: none !important;
+    font-weight: bold !important;
+    font-size: 1.2rem !important;
+    box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3) !important;
+    border: none !important;
+}
+
+.modal-detail-wrapper .game-invite-btn:hover {
+    background: linear-gradient(135deg, #ffd700, #f3e5ab) !important;
+    transform: translateY(-2px) !important;
+}
+
+
+.modal-detail-wrapper .twitter-share-btn-white {
+    display: inline-flex !important;
+    align-items: center !important;
+    background-color: #ffffff !important;
+    color: #000000 !important;
+    padding: 8px 20px !important;
+    border-radius: 30px !important;
+    border: 2px solid #000 !important;
+}
+
+
+.modal-detail-wrapper .related-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 12px !important;
+}
+
+.modal-detail-wrapper .related-card { background-color: #f6efe8 !important; border-radius: 12px !important; text-decoration: none !important; color: inherit !important;}
+.modal-detail-wrapper .related-card img { width: 100% !important; height: 100px !important; object-fit: cover !important; }
+
+.modal-detail-wrapper .related-card h4 {
+    color: #a35c00 !important; 
+    text-decoration: none !important;
+    margin: 0 !important;
+    font-size: 0.9rem !important;
+    font-weight: 700 !important;
+}
+
+.modal-detail-wrapper .related-card:hover h4 {
+    color: #d46a00 !important; 
+    text-decoration: none !important;
+}
+
+.modal-detail-wrapper footer, .modal-detail-wrapper .btn-back { display: none !important; }
+body.modal-open { overflow: hidden !important; }
+
 
 .tap-guide {
     position: absolute;
@@ -354,7 +367,7 @@ body {
 }
 
 .finger-icon {
-    font-size: 3rem;
+    font-size: 3.5rem;
     filter: drop-shadow(0 2px 5px rgba(0,0,0,0.3));
     animation: tap-animation 0.8s infinite;
 }
@@ -362,12 +375,14 @@ body {
 .tap-text {
     background: rgba(0, 0, 0, 0.7);
     color: white;
-    padding: 2px 10px;
-    border-radius: 10px;
-    font-size: 0.8rem;
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 0.9rem;
     font-weight: bold;
     margin-top: -5px;
+    white-space: nowrap;
 }
+
 
 @keyframes tap-animation {
     0% { transform: scale(1) translateY(0); }
@@ -376,109 +391,12 @@ body {
 }
 
 
-.flashcard.flipped .tap-guide {
-    display: none;
+.flashcard {
+    position: relative; 
 }
 
-
-
-@media (max-width: 1200px) {
-    .main2 { grid-template-columns: repeat(3, 1fr); }
-}
-
-@media (max-width: 900px) {
-    .main2 { grid-template-columns: repeat(2, 1fr); gap: 16px; padding: 20px 4%; }
-    .category-header { padding-top: 100px !important; }
-    .category-header h1 { font-size: 2.0rem;}
-    .flashcard { height: 240px; }
-}
-
-@media (max-width: 600px) {
-    .main2 {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 12px;
-        padding: 20px 4%;
-    }
-    .category-header {
-        padding-top: 100px !important;
-    }
-    .category-header h1 {
-        font-size: 2.0rem;
-    }
-    
-    .flashcard {
-        height: 200px;
-    }
-    
-    .flashcard-front img {
-        object-fit: cover;
-        padding: 0;
-    }
-
-    .flashcard-back {
-        padding: 8px 5px;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        align-items: center;
-        overflow: hidden;
-    }
-    
-    .flashcard-back h3, 
-    .jp-text, 
-    .romaji {
-        width: 100%;
-        word-wrap: break-word;
-        overflow-wrap: break-word;
-        margin: 2px 0;
-        flex-shrink: 1;
-    }
-
-    .flashcard-back h3 {
-        font-size: 0.9rem;
-        line-height: 1.1;
-        max-height: 2.2em;
-        overflow: hidden;
-    }
-
-    .jp-text {
-        font-size: 1rem;
-        font-weight: bold;
-        line-height: 1.2;
-    }
-
-    .romaji {
-        font-size: 0.75rem;
-        color: #666;
-        line-height: 1.1;
-        max-height: 3.3em;
-        overflow-y: auto;
-    }
-
-    .audio-btn, 
-    .more-detail-link {
-        flex-shrink: 0;
-    }
-
-    .audio-btn {
-        padding: 4px 12px;
-        font-size: 0.8rem;
-        margin-bottom: 4px;
-    }
-    
-    .more-detail-link {
-        font-size: 0.75rem;
-        padding: 2px 0;
-    }
-}
-
-@media (max-width: 400px) {
-
-    .category-header {
-        padding-top: 150px !important;
-    }
-}
-
+@media (max-width: 900px) { .main2 { grid-template-columns: repeat(2, 1fr); gap: 16px; } }
+@media (max-width: 600px) { .flashcard { height: auto; } .card-image img { height: 140px; } }
 </style>
 
 
@@ -543,120 +461,57 @@ body {
 
 <div class="main2">
     {% for item in object_list %}
-        <div class="flashcard" onclick="this.classList.toggle('flipped')">
-            <div class="flashcard-inner">
-                
-                <div class="flashcard-front">
-                    {% if forloop.first %}
-                    <div class="tap-guide" id="first-card-guide">
-                        <div class="finger-icon">👆</div>
-                        <div class="tap-text">
-                            {% if lang_code == 'ja' %}タップ！
-                            {% elif lang_code == 'zh-hant' %}點擊！
-                            {% elif lang_code == 'zh-cn' %}点击！
-                            {% elif lang_code == 'ko' %}탭!
-                            {% elif lang_code == 'fr' %}Appuyez !
-                            {% elif lang_code == 'de' %}Tippen!
-                            {% elif lang_code == 'it' %}Tocca!
-                            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}¡Toca!
-                            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Toque!
-                            {% elif lang_code == 'vi' %}Chạm!
-                            {% elif lang_code == 'th' %}แตะ!
-                            {% else %}Tap!
-                            {% endif %}
-                        </div>
-                    </div>
+        {% url 'detail_premium' category=item.category slug=item.slug as detail_url %}
+        <div class="flashcard" onclick="hideGuide(this); openDetailModal('{{ detail_url }}?lang={% if lang_code %}{{ lang_code }}{% else %}en{% endif %}')">  
+            {% if forloop.first %}
+            <div class="tap-guide" id="first-card-guide">
+                <div class="finger-icon">👆</div>
+                <div class="tap-text">
+                    {% if lang_code == 'ja' %}タップ！
+                    {% elif lang_code == 'zh-hant' %}點擊！
+                    {% elif lang_code == 'zh-cn' %}点击！
+                    {% elif lang_code == 'ko' %}탭!
+                    {% elif lang_code == 'fr' %}Appuyez !
+                    {% elif lang_code == 'de' %}Tippen!
+                    {% elif lang_code == 'it' %}Tocca!
+                    {% elif lang_code == 'es' or lang_code == 'es-es' %}¡Toca!
+                    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Toque!
+                    {% elif lang_code == 'vi' %}Chạm!
+                    {% elif lang_code == 'th' %}แตะ!
+                    {% else %}Tap!
                     {% endif %}
-
-                    {% if item.jlpt_level %}
-                        <div class="jlpt-badge">{{ item.jlpt_level }}</div>
-                    {% endif %}
-                    
-                    {% if item.image %}
-                        <img src="{{ item.image.url }}" 
-                            alt="{{ item.englishname }}" {% if forloop.counter > 7 %} loading="lazy" {% endif %}>
-                    {% else %}
-                        <div class="no-image">No Image</div>
-                    {% endif %}
-                    <div class="tap-hint">
-                        {% if lang_code == 'ja' %}タップしてめくる
-                        {% elif lang_code == 'zh-hant' %}點擊翻轉
-                        {% elif lang_code == 'zh-cn' %}点击翻转
-                        {% elif lang_code == 'ko' %}탭하여 뒤집기
-                        {% elif lang_code == 'fr' %}Appuyez pour retourner
-                        {% elif lang_code == 'de' %}Zum Umdrehen tippen
-                        {% elif lang_code == 'it' %}Tocca per girare
-                        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Toca para voltear
-                        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Toque para virar
-                        {% elif lang_code == 'vi' %}Chạm để lật
-                        {% elif lang_code == 'th' %}แตะเพื่อพลิก
-                        {% else %}Tap to Flip
-                        {% endif %}
-                    </div>
                 </div>
+            </div>
+            {% endif %}
 
-                <div class="flashcard-back">
-                    <h3>
-                        {% if lang_code == 'en-in' %}{{ item.englishname_en_in }}
-                        {% elif lang_code == 'zh-hant' %}{{ item.englishname_zh_hant }}
-                        {% elif lang_code == 'zh-cn' %}{{ item.englishname_zh_cn }}
-                        {% elif lang_code == 'ko' %}{{ item.englishname_ko }}
-                        {% elif lang_code == 'fr' %}{{ item.englishname_fr }}
-                        {% elif lang_code == 'de' %}{{ item.englishname_de }}
-                        {% elif lang_code == 'it' %}{{ item.englishname_it }}
-                        {% elif lang_code == 'es-es' %}{{ item.englishname_es_es }}
-                        {% elif lang_code == 'es-mx' %}{{ item.englishname_es_mx }}
-                        {% elif lang_code == 'pt' %}{{ item.englishname_pt }}
-                        {% elif lang_code == 'pt-br' %}{{ item.englishname_pt_br }}
-                        {% elif lang_code == 'th' %}{{ item.englishname_th }}
-                        {% elif lang_code == 'vi' %}{{ item.englishname_vi }}
-                        {% else %}{{ item.englishname }}
-                        {% endif %}
-                    </h3>
-                    
-                    <p class="jp-text">
-                        {% if item.kanji_name %}
-                            {{ item.kanji_name|ruby_smart:item.jpname }}
-                        {% else %}
-                            {{ item.jpname }}
-                        {% endif %}
-                    </p>
+            {% if item.jlpt_level %}
+                <div class="jlpt-badge">{{ item.jlpt_level }}</div>
+            {% endif %}
 
+            <div class="card-image">
+                {% if item.image %}
+                    <img src="{{ item.image.url }}" alt="{{ item.englishname }}" {% if forloop.counter > 7 %} loading="lazy" {% endif %}>
+                {% else %}
+                    <div class="no-image">No Image</div>
+                {% endif %}
+            </div>
 
-                    <button class="audio-btn" onclick="speakJapanese('{{ item.jpname }}'); event.stopPropagation();">
-                        🔊 
-                        {% if lang_code == 'ja' %}聴く
-                        {% elif lang_code == 'zh-hant' %}聆聽
-                        {% elif lang_code == 'zh-cn' %}聆听
-                        {% elif lang_code == 'ko' %}듣기
-                        {% elif lang_code == 'fr' %}Écouter
-                        {% elif lang_code == 'de' %}Anhören
-                        {% elif lang_code == 'it' %}Ascolta
-                        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Escuchar
-                        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Ouvir
-                        {% elif lang_code == 'vi' %}Nghe
-                        {% elif lang_code == 'th' %}ฟัง
-                        {% else %}Listen
-                        {% endif %}
-                    </button>
-
-                    <a href="{% url 'detail_premium' category=item.category slug=item.slug %}?lang={{ lang_code }}" class="more-detail-link" onclick="event.stopPropagation();">
-                        {% if lang_code == 'ja' %}詳細を見る
-                        {% elif lang_code == 'zh-hant' %}更多詳情
-                        {% elif lang_code == 'zh-cn' %}更多详情
-                        {% elif lang_code == 'ko' %}자세히 보기
-                        {% elif lang_code == 'fr' %}Plus de détails
-                        {% elif lang_code == 'de' %}Mehr Details
-                        {% elif lang_code == 'it' %}Più dettagli
-                        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Más detalles
-                        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Mais detalhes
-                        {% elif lang_code == 'vi' %}Xem thêm chi tiết
-                        {% elif lang_code == 'th' %}รายละเอียดเพิ่มเติม
-                        {% else %}More Details
-                        {% endif %} &gt;
-                    </a>
+            <div class="card-info">
+                <div class="card-english">
+                    {% if lang_code == 'ja' %}{{ item.englishname }}
+                    {% elif lang_code == 'zh-hant' %}{{ item.englishname_zh_hant }}
+                    {% elif lang_code == 'zh-cn' %}{{ item.englishname_zh_cn }}
+                    {% elif lang_code == 'ko' %}{{ item.englishname_ko }}
+                    {% elif lang_code == 'fr' %}{{ item.englishname_fr }}
+                    {% elif lang_code == 'de' %}{{ item.englishname_de }}
+                    {% elif lang_code == 'it' %}{{ item.englishname_it }}
+                    {% elif lang_code == 'es' or lang_code == 'es-es' %}{{ item.englishname_es_es }}
+                    {% elif lang_code == 'es-mx' %}{{ item.englishname_es_mx }}
+                    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}{{ item.englishname_pt }}
+                    {% elif lang_code == 'th' %}{{ item.englishname_th }}
+                    {% elif lang_code == 'vi' %}{{ item.englishname_vi }}
+                    {% else %}{{ item.englishname }}{% endif %}
                 </div>
-
             </div>
         </div>
     {% endfor %}
@@ -790,6 +645,16 @@ body {
 </div>
 {% endif %}
 
+<div id="detailModal">
+    <div class="modal-body-content">
+        <div class="modal-nav">
+            <button onclick="closeDetailModal()" class="modal-close-btn">✕</button>
+        </div>
+        <div id="modalBody"></div>
+    </div>
+</div>
+
+
 <div style="text-align:center; margin:50px 0;">
    <a class="btn-more" href="javascript:void(0);" onclick="goToCategoryList()">← Back</a>
 </div>
@@ -813,7 +678,52 @@ function speakJapanese(text) {
     speechSynthesis.speak(uttr);
 }
 
+function openDetailModal(url) {
+    const modal = document.getElementById('detailModal');
+    const modalBody = document.getElementById('modalBody');
+    
+    modal.classList.add('active');
+    document.body.classList.add('modal-open');
+    modalBody.innerHTML = '<div style="text-align:center;padding:100px;color:white;">Loading...</div>';
 
+    fetch(url)
+        .then(response => response.text())
+        .then(html => {
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, 'text/html');
+            const detailContent = doc.querySelector('.main2');
+            
+            if (detailContent) {
+                detailContent.classList.remove('main2');
+                detailContent.classList.add('modal-detail-wrapper');
+                
+                modalBody.innerHTML = '';
+                modalBody.appendChild(detailContent);
+                modal.scrollTop = 0;
+                history.pushState({modal: true}, "");
+            }
+        });
+}
+
+function closeDetailModal() {
+    const modal = document.getElementById('detailModal');
+    if (modal) {
+        modal.classList.remove('active');
+        document.body.classList.remove('modal-open');
+        document.getElementById('modalBody').innerHTML = '';
+    }
+}
+
+window.onpopstate = function() {
+    closeDetailModal();
+};
+
+window.onclick = function(event) {
+    const modal = document.getElementById('detailModal');
+    if (event.target == modal) {
+        closeDetailModal();
+    }
+}
 </script>
 
 {% endblock %}
