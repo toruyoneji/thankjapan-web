@@ -226,6 +226,130 @@ body {
     text-decoration: none;
 }
 
+.full-screen-modal {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.85);
+    overflow-y: auto;
+}
+
+.modal-body-content {
+    background-color: #fffaf5;
+    width: 95%;
+    max-width: 900px;
+    margin: 40px auto;
+    border-radius: 20px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.modal-nav {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    z-index: 10002;
+}
+
+.modal-close-btn {
+    background: rgba(0, 0, 0, 0.4);
+    border: none;
+    color: white;
+    font-size: 24px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.modal-detail-wrapper {
+    display: block !important;
+    padding: 30px 20px;
+    text-align: center;
+}
+
+.modal-detail-wrapper .detailgazou {
+    width: 100% !important;
+    max-width: 600px;
+    height: auto !important;
+    border-radius: 15px;
+    margin: 0 auto 20px !important;
+    display: block !important;
+}
+
+.modal-detail-wrapper .detaildt {
+    font-size: 2.2rem;
+    color: #d46a00;
+    margin-bottom: 10px;
+}
+
+.modal-detail-wrapper .cards {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 20px !important;
+    margin: 20px 0 !important;
+}
+
+.modal-detail-wrapper .card {
+    background: #fff !important;
+    color: #333 !important;
+    width: 100% !important;
+    padding: 20px !important;
+    border-radius: 15px !important;
+    text-align: left !important;
+    box-sizing: border-box !important;
+    border: 1px solid #ffe8d6 !important;
+}
+
+.modal-detail-wrapper .jpname-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.modal-detail-wrapper .jpname-text {
+    font-size: 1.8rem;
+    font-weight: bold;
+}
+
+.modal-detail-wrapper .romaji-text {
+    font-size: 1.1rem;
+    color: #666;
+}
+
+.modal-detail-wrapper .game-invite-box {
+    background: #ffe8d6;
+    padding: 20px;
+    border-radius: 15px;
+    margin: 30px 0;
+}
+
+.modal-detail-wrapper .game-invite-btn {
+    display: inline-block;
+    background: #d46a00;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.modal-detail-wrapper footer, 
+.modal-detail-wrapper .btn-back {
+    display: none !important;
+}
+
+body.modal-open {
+    overflow: hidden !important;
+}
+
 @media (max-width: 900px) {
     .main2 { grid-template-columns: repeat(2, 1fr); gap: 16px; }
     .category-header h1 { font-size: 2.0rem; }
@@ -358,10 +482,12 @@ body {
 </div>
 
 <div id="detailModal" class="full-screen-modal">
-    <div class="modal-nav">
-        <button onclick="closeDetailModal()" class="modal-close-btn">✕</button>
+    <div class="modal-body-content">
+        <div class="modal-nav">
+            <button onclick="closeDetailModal()" class="modal-close-btn">✕</button>
+        </div>
+        <div id="modalBody"></div>
     </div>
-    <div id="modalBody" class="modal-body-content"></div>
 </div>
 
 
@@ -412,8 +538,8 @@ function openDetailModal(url) {
     const modalBody = document.getElementById('modalBody');
     
     modal.style.display = 'block';
-    document.body.style.overflow = 'hidden';
-    modalBody.innerHTML = '<div style="color:white;text-align:center;padding-top:100px;">Loading...</div>';
+    document.body.classList.add('modal-open');
+    modalBody.innerHTML = '<div style="text-align:center;padding:100px;">Loading...</div>';
 
     fetch(url)
         .then(response => response.text())
@@ -425,14 +551,6 @@ function openDetailModal(url) {
             if (detailContent) {
                 detailContent.classList.remove('main2');
                 detailContent.classList.add('modal-detail-wrapper');
-
-                const backBtn = detailContent.querySelector('#back-btn');
-                if (backBtn) {
-                    backBtn.onclick = (e) => {
-                        e.preventDefault();
-                        closeDetailModal();
-                    };
-                }
 
                 modalBody.innerHTML = '';
                 modalBody.appendChild(detailContent);
@@ -446,7 +564,7 @@ function closeDetailModal() {
     const modal = document.getElementById('detailModal');
     if (modal) {
         modal.style.display = 'none';
-        document.body.style.overflow = '';
+        document.body.classList.remove('modal-open');
         document.getElementById('modalBody').innerHTML = '';
     }
 }
@@ -455,8 +573,11 @@ window.onpopstate = function() {
     closeDetailModal();
 };
 
-function goToCategoryList() {
-    window.location.href = "{% url 'category_list' %}";
+window.onclick = function(event) {
+    const modal = document.getElementById('detailModal');
+    if (event.target == modal) {
+        closeDetailModal();
+    }
 }
 </script>
 
