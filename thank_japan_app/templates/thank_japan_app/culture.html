@@ -336,6 +336,62 @@ body {
     border-radius: 50%;
 }
 
+/* モーダルの中身専用のスタイル */
+.modal-detail-wrapper {
+    display: block !important; /* グリッドを解除 */
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+    color: white; /* 背景が黒なので文字を白に */
+    text-align: left;
+}
+
+/* 画像が細長くならないように修正 */
+.modal-detail-wrapper .detailgazou {
+    width: 100%;
+    height: auto;
+    max-height: 500px;
+    object-fit: cover;
+    border-radius: 15px;
+    display: block;
+    margin: 0 auto 20px;
+}
+
+/* 説明(cards)部分が横に飛び出さないように修正 */
+.modal-detail-wrapper .cards {
+    display: flex;
+    flex-direction: column; /* スマホ・PC共通でまずは縦並びに */
+    gap: 20px;
+}
+
+/* PCサイズで見るときだけ横並びにしたい場合はこちら（お好みで） */
+
+/* 詳細内のカードの背景などを調整 */
+.modal-detail-wrapper .card {
+    background: #fff; /* 説明文の背景を白に（元のデザインに合わせる） */
+    color: #333;
+    padding: 20px;
+    border-radius: 15px;
+    width: 100%;
+}
+
+/* 練習ボタン(game-invite-box)の調整 */
+.modal-detail-wrapper .game-invite-box {
+    background: #fdf5e6;
+    padding: 20px;
+    border-radius: 15px;
+    margin-top: 30px;
+    text-align: center;
+    color: #333;
+}
+
+/* リンクの色が青で見えにくい場合の対策 */
+.modal-detail-wrapper a {
+    color: #ffcc00; /* 目立つ色に */
+    text-decoration: none;
+}
+
 
 @media (max-width: 1200px) {
     .main2 { grid-template-columns: repeat(3, 1fr); }
@@ -347,6 +403,14 @@ body {
     .category-header h1 { font-size: 2.0rem;}
     .flashcard { height: 240px; }
 }
+
+@media (min-width: 768px) {
+    .modal-detail-wrapper .cards {
+        flex-direction: row;
+        align-items: flex-start;
+    }
+}
+
 
 @media (max-width: 600px) {
     .main2 {
@@ -619,8 +683,13 @@ function openDetailModal(url) {
         .then(html => {
             const parser = new DOMParser();
             const doc = parser.parseFromString(html, 'text/html');
-            const detailContent = doc.querySelector('.main2');
+            const detailContent = doc.querySelector('.main2'); // 詳細ページから取得
+            
             if (detailContent) {
+                // ここが重要：クラス名を変更して一覧ページのスタイルが適用されないようにする
+                detailContent.classList.remove('main2'); 
+                detailContent.classList.add('modal-detail-wrapper'); 
+
                 const backBtn = detailContent.querySelector('#back-btn');
                 if (backBtn) {
                     backBtn.onclick = (e) => { e.preventDefault(); closeDetailModal(); };
