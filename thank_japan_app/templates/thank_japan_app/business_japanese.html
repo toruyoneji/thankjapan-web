@@ -275,6 +275,49 @@ body {
 .modal-detail-wrapper footer, .modal-detail-wrapper .btn-back { display: none !important; }
 body.modal-open { overflow: hidden !important; }
 
+/* 指のアイコンとガイドのスタイル */
+.tap-guide {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 100;
+    pointer-events: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.finger-icon {
+    font-size: 3.5rem;
+    filter: drop-shadow(0 2px 5px rgba(0,0,0,0.3));
+    animation: tap-animation 0.8s infinite;
+}
+
+.tap-text {
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    margin-top: -5px;
+    white-space: nowrap;
+}
+
+/* 指が動くアニメーション */
+@keyframes tap-animation {
+    0% { transform: scale(1) translateY(0); }
+    50% { transform: scale(1.2) translateY(-10px); }
+    100% { transform: scale(1) translateY(0); }
+}
+
+
+.flashcard {
+    position: relative; 
+}
+
 @media (max-width: 900px) { .main2 { grid-template-columns: repeat(2, 1fr); gap: 16px; } }
 @media (max-width: 600px) { .flashcard { height: auto; } .card-image img { height: 140px; } }
 </style>
