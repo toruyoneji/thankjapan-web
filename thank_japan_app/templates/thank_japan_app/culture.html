@@ -30,12 +30,14 @@ body {
     border-radius: 0 0 40px 40px;
     margin-top: 10px;
 }
+
 .category-header h1 {
     font-size: 3.0rem;
     font-family: 'Sawarabi Mincho', serif;
     color: #d46a00;
     letter-spacing: 1px;
 }
+
 .category-header p {
     color: #666;
     font-size: 1.1rem;
@@ -52,198 +54,51 @@ body {
 }
 
 .flashcard {
-    background-color: transparent;
-    width: 100%;
-    height: 280px;
-    perspective: 1000px;
-    cursor: pointer;
-}
-
-.flashcard-inner {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    text-align: center;
-    transition: transform 0.6s;
-    transform-style: preserve-3d;
-    border-radius: 16px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-}
-
-.flashcard.flipped .flashcard-inner {
-    transform: rotateY(180deg);
-}
-
-.flashcard-front, .flashcard-back {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    -webkit-backface-visibility: hidden;
-    backface-visibility: hidden;
+    background: #fff;
     border-radius: 16px;
     overflow: hidden;
+    cursor: pointer;
     border: 2px solid #ffe0b2;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background-color: #fff;
+    transition: transform 0.2s, box-shadow 0.2s;
+    position: relative;
 }
 
-.flashcard-front img {
+.flashcard:active {
+    transform: scale(0.98);
+}
+
+.card-image img {
     width: 100%;
-    height: 100%;
+    height: 180px;
     object-fit: cover;
+    display: block;
 }
 
-.tap-hint {
-    position: absolute;
-    bottom: 10px;
-    right: 10px;
-    background: rgba(212, 106, 0, 0.8);
-    color: white;
-    padding: 4px 12px;
-    border-radius: 20px;
-    font-size: 0.8rem;
-    font-weight: bold;
-    pointer-events: none;
-}
-
-.no-image {
-    width: 100%;
-    height: 100%;
-    background-color: #ffe8d6;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #d46a00;
-    font-weight: 600;
-}
-
-.flashcard-back {
-    background-color: #fff8e1;
-    transform: rotateY(180deg);
-    padding: 10px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-.flashcard-back h3 {
-    font-size: 1.2rem;
-    color: #d46a00;
-    margin-bottom: 2px;
-}
-
-.jp-text {
-    font-size: 1.8rem;
-    font-weight: bold;
-    color: #333;
-    line-height: 1.8;
-    margin: 5px 0;
+.card-info {
+    padding: 15px;
     text-align: center;
 }
 
-.jp-text ruby {
-    ruby-align: center;
-}
-
-.jp-text rt {
-    font-size: 0.8rem;
-    font-weight: 400;
-    color: #666;
-    line-height: 1;
-}
-
-.romaji {
-    font-size: 1rem;
-    color: #888;
-    margin-bottom: 10px;
-    margin-top: 0;
-}
-
-
-.audio-btn {
-    background: #ffb347;
-    color: white;
-    border: none;
-    padding: 8px 16px;
-    border-radius: 50px;
-    font-size: 1rem;
-    cursor: pointer;
-    margin-bottom: 10px;
-    transition: 0.3s;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-}
-.audio-btn:hover { background: #ff9642; }
-
-.more-detail-link {
-    font-size: 0.9rem;
+.card-english {
+    font-size: 1.2rem;
+    font-weight: bold;
     color: #d46a00;
-    text-decoration: underline;
-    font-weight: 600;
-    cursor: pointer;
 }
-
-.pagination-container {
-  overflow-x: auto;
-  padding: 15px 0;
-  -webkit-overflow-scrolling: touch;
-}
-.pagination {
-  display: flex;
-  gap: 10px;
-  min-width: max-content;
-  justify-content: center;
-}
-.page-btn {
-  flex: 0 0 auto;
-  padding: 8px 14px;
-  border-radius: 12px;
-  border: 1px solid #ccc;
-  background-color: #f8f8f8;
-  color: #333;
-  text-decoration: none;
-  font-weight: 500;
-  transition: all 0.2s ease;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-}
-.page-btn:hover, .page-btn.current {
-  background-color: #e63946;
-  color: #fff;
-  border-color: #e63946;
-}
-
-.btn-more {
-    display: inline-block;
-    background: #ffb347;
-    color: white;
-    padding: 10px 24px;
-    border-radius: 25px;
-    text-decoration: none;
-    font-weight: 600;
-    margin-top: 20px;
-    transition: background 0.3s;
-}
-.btn-more:hover { background: #ff9642; }
 
 .tap-guide {
     position: absolute;
-    top: 50%;
+    top: 40%;
     left: 50%;
     transform: translate(-50%, -50%);
-    z-index: 100;
+    z-index: 10;
     pointer-events: none;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
 }
 
 .finger-icon {
     font-size: 3rem;
-    filter: drop-shadow(0 2px 5px rgba(0,0,0,0.3));
     animation: tap-animation 0.8s infinite;
 }
 
@@ -253,59 +108,13 @@ body {
     padding: 2px 10px;
     border-radius: 10px;
     font-size: 0.8rem;
-    font-weight: bold;
-    margin-top: -5px;
 }
 
 @keyframes tap-animation {
-    0% { transform: scale(1) translateY(0); }
-    50% { transform: scale(1.2) translateY(-10px); }
-    100% { transform: scale(1) translateY(0); }
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
 }
-
-
-.flashcard.flipped .tap-guide {
-    display: none;
-}
-
-
-.flashcard {
-    background: #fff8f0; 
-    border-radius: 12px;
-    overflow: hidden;
-    margin-bottom: 20px;
-    cursor: pointer;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    transition: transform 0.2s;
-    position: relative;
-    text-align: center;
-}
-
-.flashcard:active {
-    transform: scale(0.98);
-}
-
-
-.card-image img {
-    width: 100%;
-    height: auto;
-    display: block;
-}
-
-
-.card-info {
-    padding: 12px 8px;
-}
-
-
-.card-english {
-    font-size: 1.1rem;
-    font-weight: bold;
-    color: #333;
-    margin-bottom: 4px;
-}
-
-
 
 .full-screen-modal {
     display: none;
@@ -315,191 +124,118 @@ body {
     top: 0;
     width: 100%;
     height: 100%;
-    background-color: #000;
+    background-color: #0d0d0d;
     overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
 }
+
 .modal-nav {
     position: sticky;
     top: 0;
     padding: 15px;
     display: flex;
     justify-content: flex-end;
-    z-index: 10000;
+    z-index: 10001;
 }
+
 .modal-close-btn {
-    background: rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.2);
     border: none;
     color: white;
-    font-size: 24px;
-    width: 40px;
-    height: 40px;
+    font-size: 28px;
+    width: 44px;
+    height: 44px;
     border-radius: 50%;
+    cursor: pointer;
 }
 
-/* モーダルの中身専用のスタイル */
+.modal-body-content {
+    width: 100%;
+}
+
 .modal-detail-wrapper {
-    display: block !important; /* グリッドを解除 */
-    width: 100%;
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 20px;
-    color: white; /* 背景が黒なので文字を白に */
-    text-align: left;
+    display: block !important;
+    width: 100% !important;
+    max-width: 800px !important;
+    margin: 0 auto !important;
+    padding: 0 20px 80px !important;
+    text-align: center !important;
 }
 
-/* 画像が細長くならないように修正 */
 .modal-detail-wrapper .detailgazou {
-    width: 100%;
-    height: auto;
-    max-height: 500px;
-    object-fit: cover;
+    width: 100% !important;
+    height: auto !important;
     border-radius: 15px;
-    display: block;
-    margin: 0 auto 20px;
+    margin-bottom: 20px !important;
 }
 
-/* 説明(cards)部分が横に飛び出さないように修正 */
 .modal-detail-wrapper .cards {
-    display: flex;
-    flex-direction: column; /* スマホ・PC共通でまずは縦並びに */
-    gap: 20px;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 20px !important;
 }
 
-/* PCサイズで見るときだけ横並びにしたい場合はこちら（お好みで） */
-
-/* 詳細内のカードの背景などを調整 */
 .modal-detail-wrapper .card {
-    background: #fff; /* 説明文の背景を白に（元のデザインに合わせる） */
-    color: #333;
-    padding: 20px;
-    border-radius: 15px;
-    width: 100%;
+    background: #fff8f0 !important;
+    color: #333 !important;
+    width: 100% !important;
+    padding: 20px !important;
+    border-radius: 15px !important;
+    text-align: left !important;
+    box-sizing: border-box !important;
 }
 
-/* 練習ボタン(game-invite-box)の調整 */
-.modal-detail-wrapper .game-invite-box {
-    background: #fdf5e6;
-    padding: 20px;
-    border-radius: 15px;
-    margin-top: 30px;
-    text-align: center;
-    color: #333;
+.modal-detail-wrapper .detaildt,
+.modal-detail-wrapper .jpname-text,
+.modal-detail-wrapper .romaji-text,
+.modal-detail-wrapper .label-text {
+    color: #fff !important;
 }
 
-/* リンクの色が青で見えにくい場合の対策 */
-.modal-detail-wrapper a {
-    color: #ffcc00; /* 目立つ色に */
+.pagination-container {
+  overflow-x: auto;
+  padding: 15px 0;
+}
+
+.pagination {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+.page-btn {
+  padding: 8px 14px;
+  border-radius: 12px;
+  border: 1px solid #ccc;
+  background-color: #f8f8f8;
+  color: #333;
+  text-decoration: none;
+}
+
+.page-btn.current {
+  background-color: #e63946;
+  color: #fff;
+}
+
+.btn-more {
+    display: inline-block;
+    background: #ffb347;
+    color: white;
+    padding: 10px 24px;
+    border-radius: 25px;
     text-decoration: none;
 }
 
-
-@media (max-width: 1200px) {
-    .main2 { grid-template-columns: repeat(3, 1fr); }
-}
-
 @media (max-width: 900px) {
-    .main2 { grid-template-columns: repeat(2, 1fr); gap: 16px; padding: 20px 4%; }
-    .category-header { padding-top: 100px !important; }
-    .category-header h1 { font-size: 2.0rem;}
-    .flashcard { height: 240px; }
+    .main2 { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+    .category-header h1 { font-size: 2.0rem; }
 }
-
-@media (min-width: 768px) {
-    .modal-detail-wrapper .cards {
-        flex-direction: row;
-        align-items: flex-start;
-    }
-}
-
 
 @media (max-width: 600px) {
-    .main2 {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 12px;
-        padding: 20px 4%;
-    }
-    .category-header {
-        padding-top: 100px !important;
-    }
-    .category-header h1 {
-        font-size: 2.0rem;
-    }
-    
-    .flashcard {
-        height: 200px;
-    }
-    
-    .flashcard-front img {
-        object-fit: cover;
-        padding: 0;
-    }
-
-    .flashcard-back {
-        padding: 8px 5px;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        align-items: center;
-        overflow: hidden;
-    }
-    
-    .flashcard-back h3, 
-    .jp-text, 
-    .romaji {
-        width: 100%;
-        word-wrap: break-word;
-        overflow-wrap: break-word;
-        margin: 2px 0;
-        flex-shrink: 1;
-    }
-
-    .flashcard-back h3 {
-        font-size: 0.9rem;
-        line-height: 1.1;
-        max-height: 2.2em;
-        overflow: hidden;
-    }
-
-    .jp-text {
-        font-size: 1.1rem;
-        font-weight: bold;
-        line-height: 1.2;
-    }
-
-    .romaji {
-        font-size: 0.75rem;
-        color: #666;
-        line-height: 1.1;
-        max-height: 3.3em;
-        overflow-y: auto;
-    }
-
-    .audio-btn, 
-    .more-detail-link {
-        flex-shrink: 0;
-    }
-
-    .audio-btn {
-        padding: 4px 12px;
-        font-size: 0.8rem;
-        margin-bottom: 4px;
-    }
-    
-    .more-detail-link {
-        font-size: 0.75rem;
-        padding: 2px 0;
-    }
+    .main2 { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    .category-header { padding-top: 100px !important; }
 }
-
-@media (max-width: 400px) {
-
-    .category-header {
-        padding-top: 150px !important;
-    }
-}
-
 </style>
-
 
 
 <div class="category-header">
@@ -674,6 +410,7 @@ function speakJapanese(text) {
 function openDetailModal(url) {
     const modal = document.getElementById('detailModal');
     const modalBody = document.getElementById('modalBody');
+    
     modal.style.display = 'block';
     document.body.style.overflow = 'hidden';
     modalBody.innerHTML = '<div style="color:white;text-align:center;padding-top:100px;">Loading...</div>';
@@ -683,28 +420,44 @@ function openDetailModal(url) {
         .then(html => {
             const parser = new DOMParser();
             const doc = parser.parseFromString(html, 'text/html');
-            const detailContent = doc.querySelector('.main2'); // 詳細ページから取得
-            
+            const detailContent = doc.querySelector('.main2');
+
             if (detailContent) {
-                // ここが重要：クラス名を変更して一覧ページのスタイルが適用されないようにする
-                detailContent.classList.remove('main2'); 
-                detailContent.classList.add('modal-detail-wrapper'); 
+                detailContent.classList.remove('main2');
+                detailContent.classList.add('modal-detail-wrapper');
 
                 const backBtn = detailContent.querySelector('#back-btn');
                 if (backBtn) {
-                    backBtn.onclick = (e) => { e.preventDefault(); closeDetailModal(); };
+                    backBtn.onclick = (e) => {
+                        e.preventDefault();
+                        closeDetailModal();
+                    };
                 }
+
                 modalBody.innerHTML = '';
                 modalBody.appendChild(detailContent);
+                modal.scrollTop = 0;
+                history.pushState({modal: true}, "");
             }
         });
 }
 
 function closeDetailModal() {
-    document.getElementById('detailModal').style.display = 'none';
-    document.body.style.overflow = '';
+    const modal = document.getElementById('detailModal');
+    if (modal) {
+        modal.style.display = 'none';
+        document.body.style.overflow = '';
+        document.getElementById('modalBody').innerHTML = '';
+    }
+}
+
+window.onpopstate = function() {
+    closeDetailModal();
+};
+
+function goToCategoryList() {
+    window.location.href = "{% url 'category_list' %}";
 }
 </script>
-
 
 {% endblock %}
