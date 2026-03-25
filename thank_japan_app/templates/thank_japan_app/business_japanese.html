@@ -90,7 +90,7 @@ body {
     z-index: 10;
 }
 
-/* プレミアムロックボックスの配置修正 */
+
 .locked-card-container {
     grid-column: 1 / -1; 
     display: flex;
@@ -122,7 +122,21 @@ body {
     text-decoration: none;
 }
 
-/* モーダル基本設定 */
+.btn-more {
+    display: inline-block;
+    background: #ffb347;
+    color: white;
+    padding: 10px 24px;
+    border-radius: 25px;
+    text-decoration: none;
+    font-weight: 600;
+    margin-top: 20px;
+    transition: background 0.3s;
+}
+
+.btn-more:hover { background: #ff9642; }
+
+
 #detailModal {
     display: none;
     position: fixed;
@@ -170,7 +184,7 @@ body {
     justify-content: center;
 }
 
-/* モーダル内コンテンツのリセット */
+
 .modal-detail-wrapper {
     display: block !important;
     padding: 30px 20px 60px !important;
@@ -190,7 +204,7 @@ body {
     color: #fff !important;
 }
 
-/* スピーカーボタンの装飾を詳細通りに再現 */
+
 .modal-detail-wrapper .voice-btn {
     background: transparent !important;
     border: 2px solid #fcd5b5 !important;
@@ -213,15 +227,15 @@ body {
     flex-direction: column !important;
     gap: 15px !important;
     margin-top: 30px !important;
-    align-items: stretch !important; /* カードの高さを揃えて余白のズレを防止 */
+    align-items: stretch !important; /
 }
 
-/* 説明カードの余白削減 */
+
 .modal-detail-wrapper .card {
     background-color: #f6efe8 !important;
     color: #3b2f2f !important;
     border-radius: 16px !important;
-    padding: 15px 20px !important; /* 下の余白を詰めました */
+    padding: 15px 20px !important; 
     text-align: left !important;
     margin: 0 !important;
 }
@@ -229,7 +243,7 @@ body {
 .modal-detail-wrapper .card h2 { color: #a35c00 !important; font-size: 1.1rem !important; }
 .modal-detail-wrapper .card li { list-style: "✿ " !important; margin-bottom: 4px !important; }
 
-/* 練習ボタン */
+
 .modal-detail-wrapper .game-invite-box {
     margin: 30px auto 15px !important;
     padding: 20px !important;
@@ -250,7 +264,7 @@ body {
     box-shadow: 0 4px 0 #556b2f !important;
 }
 
-/* Xシェア */
+
 .modal-detail-wrapper .twitter-share-btn-white {
     display: inline-flex !important;
     align-items: center !important;
@@ -261,7 +275,7 @@ body {
     border: 2px solid #000 !important;
 }
 
-/* 関連単語 */
+
 .modal-detail-wrapper .related-grid {
     display: grid !important;
     grid-template-columns: repeat(2, 1fr) !important;
@@ -271,11 +285,11 @@ body {
 .modal-detail-wrapper .related-card { background-color: #f6efe8 !important; border-radius: 12px !important; text-decoration: none !important; }
 .modal-detail-wrapper .related-card img { width: 100% !important; height: 100px !important; object-fit: cover !important; }
 
-/* 非表示設定 */
+
 .modal-detail-wrapper footer, .modal-detail-wrapper .btn-back { display: none !important; }
 body.modal-open { overflow: hidden !important; }
 
-/* 指のアイコンとガイドのスタイル */
+
 .tap-guide {
     position: absolute;
     top: 50%;
@@ -306,7 +320,7 @@ body.modal-open { overflow: hidden !important; }
     white-space: nowrap;
 }
 
-/* 指が動くアニメーション */
+
 @keyframes tap-animation {
     0% { transform: scale(1) translateY(0); }
     50% { transform: scale(1.2) translateY(-10px); }
