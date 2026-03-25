@@ -117,6 +117,50 @@ body {
 }
 
 
+.pagination-container {
+  overflow-x: auto;
+  padding: 15px 0;
+  -webkit-overflow-scrolling: touch;
+}
+.pagination {
+  display: flex;
+  gap: 10px;
+  min-width: max-content;
+  justify-content: center;
+}
+.page-btn {
+  flex: 0 0 auto;
+  padding: 8px 14px;
+  border-radius: 12px;
+  border: 1px solid #ccc;
+  background-color: #f8f8f8;
+  color: #333;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+.page-btn:hover, .page-btn.current {
+  background-color: #e63946;
+  color: #fff;
+  border-color: #e63946;
+}
+
+.btn-more {
+    display: inline-block;
+    background: #ffb347;
+    color: white;
+    padding: 10px 24px;
+    border-radius: 25px;
+    text-decoration: none;
+    font-weight: 600;
+    margin-top: 20px;
+    transition: background 0.3s;
+}
+.btn-more:hover { background: #ff9642; }
+
+
+
 
 #detailModal {
     display: none;
