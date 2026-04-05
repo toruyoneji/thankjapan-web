@@ -123,6 +123,19 @@
         box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
     }
 
+    .premium-free-label {
+        position: absolute;
+        top: 5px;
+        right: -20px;
+        background: #72f083;
+        color: white;
+        font-size: 0.6rem;
+        font-weight: bold;
+        padding: 2px 25px;
+        transform: rotate(45deg);
+        box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+
     .premium-label {
         position: absolute;
         top: 5px;
@@ -320,13 +333,28 @@
         </a>
 
         <a href="{% url 'dailyconversation' %}?lang={{ lang_code }}" class="cat-premium-card">
-            <div class="premium-label">FREE</div>
+            <div class="premium-free-label">FREE</div>
             <span class="cat-icon">💬</span>
             <span class="cat-name">Conversation</span>
         </a>
 
+        <!-- Tourism & Etiquette (Premium) -->
+        <a href="{% url 'tourism_etiquette' %}?lang={{ lang_code }}" class="cat-premium-card">
+            <div class="premium-free-label">Special</div>
+            <span class="cat-icon">🚩</span>
+            <span class="cat-name">Tourism & Etiquette</span>
+        </a>
+
+
+        <!-- Entertainment (Premium) -->
+        <a href="{% url 'entertainment' %}?lang={{ lang_code }}" class="cat-premium-card">
+            <div class="premium-free-label">Special</div>
+            <span class="cat-icon">🎬</span>
+            <span class="cat-name">Entertainment</span>
+        </a>
+
         <a href="{% url 'slang' %}?lang={{ lang_code }}" class="cat-premium-card">
-            <div class="premium-label">FREE</div>
+            <div class="premium-free-label">FREE</div>
             <span class="cat-icon">🔥</span>
             <span class="cat-name">Slang & SNS</span>
         </a>
@@ -359,12 +387,7 @@
             <span class="cat-name">Real Estate & Rules</span>
         </a>
 
-        <!-- Tourism & Etiquette (Premium) -->
-        <a href="{% url 'tourism_etiquette' %}?lang={{ lang_code }}" class="cat-premium-card">
-            <div class="premium-label">Special</div>
-            <span class="cat-icon">🚩</span>
-            <span class="cat-name">Tourism & Etiquette</span>
-        </a>
+        
 
         <!-- Prefectures (Premium) -->
         <a href="{% url 'prefectures' %}?lang={{ lang_code }}" class="cat-premium-card">
@@ -373,12 +396,7 @@
             <span class="cat-name">Prefectures</span>
         </a>
         
-        <!-- Entertainment (Premium) -->
-        <a href="{% url 'entertainment' %}?lang={{ lang_code }}" class="cat-premium-card">
-            <div class="premium-label">Special</div>
-            <span class="cat-icon">🎬</span>
-            <span class="cat-name">Entertainment</span>
-        </a>
+        
     </div>
 
     <div style="text-align:center; margin:50px 0;">
