@@ -2929,46 +2929,9 @@ class RealestateRulesView(ListView):
             context['is_locked'] = False
             
         return context    
-
     
     
  
-class TourismEtiquetteView(ListView):
-    template_name = "thank_japan_app/tourism_etiquette.html"
-    paginate_by = 24
-    
-    def dispatch(self, request, *args, **kwargs):
-        is_premium = request.user.is_authenticated and getattr(request.user.profile, 'is_premium', False)
-        if not is_premium and request.GET.get('page', '1') != '1':
-            url_name, lang_code = get_lang_info(request)
-            return redirect(f"{reverse(url_name)}?lang={lang_code}") 
-        return super().dispatch(request, *args, **kwargs)
-    
-    def get_queryset(self):
-        qs = ThankJapanPremium.objects.filter(category="TourismEtiquette").order_by('timestamp')
-        is_premium = self.request.user.is_authenticated and getattr(self.request.user.profile, 'is_premium', False)
-        if not is_premium:
-            return qs[:6]
-        return qs
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        all_premium_qs = ThankJapanPremium.objects.filter(category="TourismEtiquette")
-        total_count = all_premium_qs.count()
-        
-        is_premium = self.request.user.is_authenticated and getattr(self.request.user.profile, 'is_premium', False)
-        url_name, lang_code = get_lang_info(self.request)
-        
-        context['lang_code'] = lang_code
-        context['premium_url_name'] = url_name
-
-        if not is_premium:
-            context['is_locked'] = True
-            context['hidden_count'] = max(0, total_count - 6)
-        else:
-            context['is_locked'] = False
-            
-        return context
    
 class PrefectureView(ListView):
     template_name = "thank_japan_app/prefecture.html"
@@ -3089,7 +3052,7 @@ class ImgPremiumDetailView(DetailView):
         obj = super().get_object(queryset)
         is_premium = self.request.user.is_authenticated and getattr(self.request.user.profile, 'is_premium', False)
         
-        if obj.category not in ["DailyConversation", "slang"] and not is_premium:
+        if obj.category not in ["DailyConversation", "slang", "TourismEtiquette" ,"Entertainment"] and not is_premium:
             free_sample_ids = ThankJapanPremium.objects.filter(
                 category__iexact=obj.category
             ).order_by('timestamp').values_list('id', flat=True)[:6]
@@ -3119,7 +3082,7 @@ class ImgPremiumDetailView(DetailView):
 
             if moved_item:
                 is_premium = request.user.is_authenticated and getattr(request.user.profile, 'is_premium', False)
-                if moved_item.category in ["DailyConversation", "slang"] or is_premium:
+                if moved_item.category in ["DailyConversation", "slang", "TourismEtiquette" ,"Entertainment"] or is_premium:
                     lang_param = request.GET.get('lang')
                     new_url = reverse('detail_premium', kwargs={
                         'category': moved_item.category,
@@ -3150,7 +3113,7 @@ class ImgPremiumDetailView(DetailView):
 
         is_premium = self.request.user.is_authenticated and getattr(self.request.user.profile, 'is_premium', False)
         
-        if current_item.category in ["DailyConversation", "slang"]:
+        if current_item.category in ["DailyConversation", "slang", "TourismEtiquette" ,"Entertainment"]:
             context['free_sample_ids'] = ThankJapanPremium.objects.filter(
                 category=current_item.category
             ).values_list('id', flat=True)
@@ -3171,10 +3134,10 @@ def sitemap_view(request):
     
     public_premium_items = []
     
-    free_samples = ThankJapanPremium.objects.filter(category__in=["DailyConversation", "slang"]).order_by('timestamp')
+    free_samples = ThankJapanPremium.objects.filter(category__in=["DailyConversation", "slang", "TourismEtiquette" ,"Entertainment"]).order_by('timestamp')
     public_premium_items.extend(list(free_samples))
     
-    other_categories = ThankJapanPremium.objects.exclude(category__in=["DailyConversation", "slang"]).values_list('category', flat=True).distinct()
+    other_categories = ThankJapanPremium.objects.exclude(category__in=["DailyConversation", "slang", "TourismEtiquette" ,"Entertainment"]).values_list('category', flat=True).distinct()
     
     for cat in other_categories:
         samples = ThankJapanPremium.objects.filter(category=cat).order_by('timestamp')[:6]
