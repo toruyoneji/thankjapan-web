@@ -915,7 +915,7 @@ DIFFICULTY_SETTINGS = {
     },
 
     
-    'sample_premium': {'category_filter': ['DailyConversation', 'slang'], 'jlpt_level': ['N5', 'N4', 'N3'], 'num_questions': 550, 'model_type': 'premium'},
+    'sample_premium': {'category_filter': ['DailyConversation', 'slang', 'TourismEtiquette' ,'Entertainment'], 'jlpt_level': ['N5', 'N4', 'N3'], 'num_questions': 550, 'model_type': 'premium'},
     'n5_premium': {'jlpt_level': 'N5', 'num_questions': 50, 'model_type': 'premium'},
     'n4_premium': {'jlpt_level': 'N4', 'num_questions': 50, 'model_type': 'premium'},
     'n3_premium': {'jlpt_level': 'N3', 'num_questions': 50, 'model_type': 'premium'},
@@ -1110,8 +1110,8 @@ def game_restart(request):
         
         if model_type == 'premium':
             question = get_object_or_404(ThankJapanPremium, slug=val)
-            
-            if question.category != "DailyConversation" and question.category != "slang":
+             
+            if question.category != "DailyConversation" and question.category != "slang" and question.category != "TourismEtiquette" and question.category != "Entertainment":
                 is_premium = request.user.is_authenticated and getattr(request.user.profile, 'is_premium', False)
                 
                 if not is_premium:
