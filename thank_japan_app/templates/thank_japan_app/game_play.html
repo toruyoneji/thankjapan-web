@@ -601,38 +601,73 @@ img:hover { transform: scale(1.02); }
         {% endif %}: {{ object.category|format_category:lang_code }}
     </h2>
 
-<div class="hint-area" style="margin: 15px 0;">
-    <button type="button" id="hint-btn" onclick="showHint()" style="
-    background: #d4af37; 
-    color: #000; 
-    border: none; 
-    padding: 8px 20px; 
-    border-radius: 20px; 
-    font-weight: bold; 
-    cursor: pointer;
-    box-shadow: 0 4px 0 #8b7326;
-    transition: 0.2s;">
-    💡
-        {% if lang_code == 'ja' %}ヒント
-        {% elif lang_code == 'zh-hant' or lang_code == 'zh-cn' %}提示
-        {% elif lang_code == 'de' %}Hinweis
-        {% elif lang_code == 'fr' %}Indice
-        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Pista
-        {% elif lang_code == 'it' %}Suggerimento
-        {% elif lang_code == 'ko' %}힌트
-        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Dica
-        {% elif lang_code == 'vi' %}Gợi ý
-        {% elif lang_code == 'th' %}คำใบ้
-        {% else %}Hint
-        {% endif %}
-    </button>
+<div class="hint-area" style="margin: 15px 0; text-align: center;">
+    {% if not show_result %}
+        
+        <button type="button" id="hint-btn" onclick="showHint()" style="
+            background: #d4af37; 
+            color: #000; 
+            border: none; 
+            padding: 8px 20px; 
+            border-radius: 20px; 
+            font-weight: bold; 
+            cursor: pointer;
+            box-shadow: 0 4px 0 #8b7326;
+            transition: 0.2s;">
+            💡
+            {% if lang_code == 'ja' %}ヒント
+            {% elif lang_code == 'zh-hant' or lang_code == 'zh-cn' %}提示
+            {% elif lang_code == 'de' %}Hinweis
+            {% elif lang_code == 'fr' %}Indice
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Pista
+            {% elif lang_code == 'it' %}Suggerimento
+            {% elif lang_code == 'ko' %}힌트
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Dica
+            {% elif lang_code == 'vi' %}Gợi ý
+            {% elif lang_code == 'th' %}คำใบ้
+            {% else %}Hint
+            {% endif %}
+        </button>
+    {% else %}
+        
+        <div style="display: flex; flex-direction: column; align-items: center; gap: 5px;">
+            <button type="button" id="voice-play-btn" onclick="manualPlay()" style="
+                background: #fff; 
+                border: 3px solid #7b942e; 
+                color: #7b942e; 
+                width: 65px; 
+                height: 65px; 
+                border-radius: 50%; 
+                font-size: 2rem; 
+                cursor: pointer; 
+                display: flex; 
+                align-items: center; 
+                justify-content: center; 
+                transition: all 0.2s ease; 
+                box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+                padding: 0;">
+                🔊
+            </button>
+            <span style="font-size: 0.9rem; font-weight: bold; color: #7b942e; font-family: sans-serif;">
+                {% if lang_code == 'ja' %}音声を聞く
+                {% elif lang_code == 'zh-hant' %}聆聽語音
+                {% elif lang_code == 'zh-cn' %}聆听语音
+                {% elif lang_code == 'de' %}Hören
+                {% elif lang_code == 'fr' %}Écouter
+                {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Escuchar
+                {% elif lang_code == 'it' %}Ascolta
+                {% elif lang_code == 'ko' %}듣기
+                {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Ouvir
+                {% elif lang_code == 'vi' %}Nghe
+                {% elif lang_code == 'th' %}ฟังเสียง
+                {% else %}Listen{% endif %}
+            </span>
+        </div>
+    {% endif %}
 
-    <p id="english-hint-text" style="
-    display: none; 
-    font-size: 1.2rem; 
-    color: #fcd5b5; 
-    margin-top: 10px;
-    font-family: 'Poppins', sans-serif;">
+    
+    <p id="english-hint-text" style="display: none; font-size: 1.2rem; color: #fcd5b5; margin-top: 10px; font-family: 'Poppins', sans-serif;">
+        <!-- （既存の Meaning 表記ロジックをそのまま使用） -->
         {% if lang_code == 'ja' %}意味:
         {% elif lang_code == 'zh-hant' %}意思:
         {% elif lang_code == 'zh-cn' %}含义:
@@ -666,7 +701,6 @@ img:hover { transform: scale(1.02); }
         </strong>
     </p>
 </div>
-
 
 
   {% if show_result %}
@@ -1003,6 +1037,28 @@ function initSound() {
     }
 }
 initSound();
+
+function manualPlay() {
+    // ユーザーがボタンを叩いたので、ここで音声をアンロックする
+    unlockAudio();
+    
+    const config = document.getElementById('game-config');
+    const isCorrect = config.getAttribute('data-is-correct') === 'true';
+    
+    // correct-flag または incorrect-flag から単語を取得
+    const flagId = isCorrect ? 'correct-flag' : 'incorrect-flag';
+    const word = document.getElementById(flagId)?.getAttribute('data-word');
+
+    if (isCorrect) {
+        
+        playChime();
+
+        if (word) setTimeout(() => { speakJapanese(word); }, 600);
+    } else {
+        
+        if (word) speakJapanese(word);
+    }
+}
 
 function speakJapanese(text, isAuto = false) {
     if (isAuto && !isSoundOn) return;
