@@ -988,41 +988,18 @@ img:hover { transform: scale(1.02); }
 let timerInterval;
 let timeLeft;
 let isSoundOn = true;
-
 const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
-function showHint() {
-    const hintBtn = document.getElementById('hint-btn');
-    const hintText = document.getElementById('english-hint-text');
-    if (hintBtn && hintText) {
-        hintText.style.display = 'block';
-        hintBtn.style.display = 'none';
+function unlockAudio() {
+    if (!isSoundOn) return;
+    if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+        window.speechSynthesis.speak(new SpeechSynthesisUtterance(''));
     }
-}
-
-function toggleDetails() {
-    var details = document.getElementById("word-details");
-    if (details) {
-        details.style.display = (details.style.display === "none") ? "block" : "none";
-    }
-}
-
-function submitChoice(value) {
-    if (timerInterval) clearInterval(timerInterval);
-    const input = document.getElementById('answer-input');
-    const form = document.getElementById('answer-form');
-    if (input && form) {
-        let timeInput = document.getElementById('time-left-input');
-        if (!timeInput) {
-            timeInput = document.createElement('input');
-            timeInput.type = 'hidden';
-            timeInput.name = 'seconds_left';
-            timeInput.id = 'time-left-input';
-            form.appendChild(timeInput);
-        }
-        timeInput.value = timeLeft;
-        input.value = value;
-        form.submit();
+    const AudioContext = window.AudioContext || window.webkitAudioContext;
+    if (AudioContext) {
+        const ctx = new AudioContext();
+        if (ctx.state === 'suspended') ctx.resume();
     }
 }
 
@@ -1062,25 +1039,57 @@ function speakJapanese(text, isAuto = false) {
     }
 }
 
+function submitChoice(value) {
+    unlockAudio(); // 送信のクリックを利用して音の許可を更新
+    if (timerInterval) clearInterval(timerInterval);
+    const input = document.getElementById('answer-input');
+    const form = document.getElementById('answer-form');
+    if (input && form) {
+        let timeInput = document.getElementById('time-left-input');
+        if (!timeInput) {
+            timeInput = document.createElement('input');
+            timeInput.type = 'hidden';
+            timeInput.name = 'seconds_left';
+            timeInput.id = 'time-left-input';
+            form.appendChild(timeInput);
+        }
+        timeInput.value = timeLeft;
+        input.value = value;
+        form.submit();
+    }
+}
+
+function showHint() {
+    unlockAudio();
+    const hintBtn = document.getElementById('hint-btn');
+    const hintText = document.getElementById('english-hint-text');
+    if (hintBtn && hintText) {
+        hintText.style.display = 'block';
+        hintBtn.style.display = 'none';
+    }
+}
+
+function toggleDetails() {
+    unlockAudio();
+    var details = document.getElementById("word-details");
+    if (details) {
+        details.style.display = (details.style.display === "none") ? "block" : "none";
+    }
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     const config = document.getElementById('game-config');
     if (!config) return;
-
-    const showResult = config.getAttribute('data-show-result') === 'true';
-    const isCorrect = config.getAttribute('data-is-correct') === 'true';
-    const difficulty = config.getAttribute('data-difficulty');
-    const nextUrl = config.getAttribute('data-next-url');
-    const resultUrl = config.getAttribute('data-result-url');
 
     const soundBtn = document.getElementById('sound-toggle-btn');
     const soundIcon = document.getElementById('sound-icon');
     const soundStatus = document.getElementById('sound-status');
     const savedSetting = localStorage.getItem('thankjapan_sound');
 
-    if (savedSetting) {
-        isSoundOn = savedSetting === 'on';
+    if (isMobile) {
+        isSoundOn = (savedSetting === 'on');
     } else {
-        isSoundOn = !isMobile;
+        isSoundOn = (savedSetting !== 'off');
     }
 
     if (soundIcon && soundStatus) {
@@ -1097,32 +1106,34 @@ document.addEventListener('DOMContentLoaded', function() {
                 soundStatus.textContent = isSoundOn ? 'ON' : 'OFF';
             }
             if (isSoundOn) {
-                const dummy = new SpeechSynthesisUtterance('');
-                window.speechSynthesis.speak(dummy);
+                unlockAudio();
                 playChime();
             }
         });
     }
 
+    const showResult = config.getAttribute('data-show-result') === 'true';
+    const isCorrect = config.getAttribute('data-is-correct') === 'true';
+
     if (showResult) {
-        const correctFlag = document.getElementById('correct-flag');
-        const incorrectFlag = document.getElementById('incorrect-flag');
-        if (isCorrect && correctFlag) {
+        if (isCorrect) {
             confetti({ particleCount: 120, spread: 80, origin: { y: 0.6 }, colors: ['#b7282e', '#7b942e', '#e0d5c0', '#ffffff'] });
-            if (isSoundOn) {
-                playChime();
-                const word = correctFlag.getAttribute('data-word');
-                if (word) setTimeout(() => speakJapanese(word, true), 1000);
-            }
-        } else if (incorrectFlag) {
-            const word = incorrectFlag.getAttribute('data-word');
-            if (word && isSoundOn) setTimeout(() => speakJapanese(word, true), 500);
         }
+        if (isSoundOn) {
+            if (isCorrect) {
+                playChime();
+                const word = document.getElementById('correct-flag')?.getAttribute('data-word');
+                if (word) setTimeout(() => speakJapanese(word, true), 1000);
+            } else {
+                const word = document.getElementById('incorrect-flag')?.getAttribute('data-word');
+                if (word) setTimeout(() => speakJapanese(word, true), 500);
+            }
+        }
+        const difficulty = config.getAttribute('data-difficulty');
+        const nextUrl = config.getAttribute('data-next-url');
         if (difficulty !== 'single' && nextUrl) {
-            const delay = config.getAttribute('data-is-correct') === 'true' ? 4000 : 8000;
-            setTimeout(() => {
-                window.location.href = nextUrl;
-            }, delay);
+            const delay = isCorrect ? 4000 : 8000;
+            setTimeout(() => { window.location.href = nextUrl; }, delay);
         }
         return;
     }
@@ -1130,29 +1141,19 @@ document.addEventListener('DOMContentLoaded', function() {
     timeLeft = parseInt(config.getAttribute('data-seconds-left') || "60");
     const timerDisplay = document.getElementById('time-left');
     const timerBar = document.getElementById('timer-bar-fill');
-    const startSeconds = 60;
-
-    function formatTime(seconds) {
-        const m = Math.floor(seconds / 60);
-        const s = seconds % 60;
-        return String(m).padStart(2, '0') + ":" + String(s).padStart(2, '0');
-    }
-
-    if (timerDisplay) timerDisplay.textContent = formatTime(timeLeft);
+    const resultUrl = config.getAttribute('data-result-url');
 
     timerInterval = setInterval(() => {
         timeLeft--;
         if (timeLeft >= 0) {
-            if (timerDisplay) timerDisplay.textContent = formatTime(timeLeft);
-            if (timerBar) {
-                let widthPercent = (timeLeft / startSeconds) * 100;
-                timerBar.style.width = Math.max(0, widthPercent) + "%";
+            if (timerDisplay) {
+                const m = Math.floor(timeLeft / 60);
+                const s = timeLeft % 60;
+                timerDisplay.textContent = String(m).padStart(2, '0') + ":" + String(s).padStart(2, '0');
+                if (timeLeft <= 10) timerDisplay.style.color = "#ff4081";
             }
-            if (timeLeft <= 10 && timerDisplay) {
-                timerDisplay.style.color = "#ff4081";
-            }
-        }
-        if (timeLeft <= 0) {
+            if (timerBar) timerBar.style.width = (timeLeft / 60 * 100) + "%";
+        } else {
             clearInterval(timerInterval);
             window.location.href = resultUrl;
         }
