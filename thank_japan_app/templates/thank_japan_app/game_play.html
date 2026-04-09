@@ -1066,26 +1066,28 @@ document.addEventListener('DOMContentLoaded', function() {
     const sIcon = document.getElementById('sound-icon');
     const sStatus = document.getElementById('sound-status');
 
-    if (isMobile) {
+    const saved = localStorage.getItem('thankjapan_sound');
+    if (saved === 'on') {
+        isSoundOn = true;
+    } else if (saved === 'off') {
         isSoundOn = false;
     } else {
-        const saved = localStorage.getItem('thankjapan_sound');
-        isSoundOn = (saved !== 'off');
+        isSoundOn = !isMobile;
     }
 
-    if (sIcon && sStatus) {
-        sIcon.textContent = isSoundOn ? '🔊' : '🔇';
-        sStatus.textContent = isSoundOn ? 'ON' : 'OFF';
-    }
+    const updateUI = () => {
+        if (sIcon && sStatus) {
+            sIcon.textContent = isSoundOn ? '🔊' : '🔇';
+            sStatus.textContent = isSoundOn ? 'ON' : 'OFF';
+        }
+    };
+    updateUI();
 
     if (sBtn) {
         sBtn.addEventListener('click', function() {
             isSoundOn = !isSoundOn;
             localStorage.setItem('thankjapan_sound', isSoundOn ? 'on' : 'off');
-            if (sIcon && sStatus) {
-                sIcon.textContent = isSoundOn ? '🔊' : '🔇';
-                sStatus.textContent = isSoundOn ? 'ON' : 'OFF';
-            }
+            updateUI();
             if (isSoundOn) {
                 window.speechSynthesis.speak(new SpeechSynthesisUtterance(""));
                 playChime();
@@ -1101,14 +1103,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
         const triggerSound = () => {
             if (!isSoundOn) return;
-            if (isCorrect) {
-                playChime();
-                const w = document.getElementById('correct-flag')?.getAttribute('data-word');
-                if (w) speakJapanese(w, true);
-            } else {
-                const w = document.getElementById('incorrect-flag')?.getAttribute('data-word');
-                if (w) speakJapanese(w, true);
-            }
+            const w = document.getElementById(isCorrect ? 'correct-flag' : 'incorrect-flag')?.getAttribute('data-word');
+            if (isCorrect) playChime();
+            if (w) speakJapanese(w, true);
             document.removeEventListener('touchstart', triggerSound);
             document.removeEventListener('mousedown', triggerSound);
         };
