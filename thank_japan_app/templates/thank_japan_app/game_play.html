@@ -987,19 +987,18 @@ img:hover { transform: scale(1.02); }
 <script>
 let timerInterval;
 let timeLeft;
-let isSoundOn = true;
+let isSoundOn;
+let navDone = false;
 const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
-function unlockAudio() {
-    if (!isSoundOn) return;
+function speakJapanese(text, isAuto = false) {
+    if (isAuto && !isSoundOn) return;
     if ('speechSynthesis' in window) {
         window.speechSynthesis.cancel();
-        window.speechSynthesis.speak(new SpeechSynthesisUtterance(''));
-    }
-    const AudioContext = window.AudioContext || window.webkitAudioContext;
-    if (AudioContext) {
-        const ctx = new AudioContext();
-        if (ctx.state === 'suspended') ctx.resume();
+        const u = new SpeechSynthesisUtterance(text);
+        u.lang = 'ja-JP';
+        u.rate = 0.85;
+        window.speechSynthesis.speak(u);
     }
 }
 
@@ -1010,37 +1009,26 @@ function playChime() {
     const ctx = new AudioContext();
     if (ctx.state === 'suspended') ctx.resume();
     const t = ctx.currentTime;
-    const osc1 = ctx.createOscillator();
-    const gain1 = ctx.createGain();
-    osc1.connect(gain1); gain1.connect(ctx.destination);
-    osc1.type = 'sine'; osc1.frequency.setValueAtTime(1046.5, t);
-    gain1.gain.setValueAtTime(0, t);
-    gain1.gain.linearRampToValueAtTime(0.1, t + 0.05);
-    gain1.gain.exponentialRampToValueAtTime(0.001, t + 0.5);
-    osc1.start(t); osc1.stop(t + 0.5);
-    const osc2 = ctx.createOscillator();
-    const gain2 = ctx.createGain();
-    osc2.connect(gain2); gain2.connect(ctx.destination);
-    osc2.type = 'sine'; osc2.frequency.setValueAtTime(880, t + 0.4);
-    gain2.gain.setValueAtTime(0, t + 0.4);
-    gain2.gain.linearRampToValueAtTime(0.1, t + 0.45);
-    gain2.gain.exponentialRampToValueAtTime(0.001, t + 1.2);
-    osc2.start(t + 0.4); osc2.stop(t + 1.2);
-}
-
-function speakJapanese(text, isAuto = false) {
-    if (isAuto && !isSoundOn) return;
-    if ('speechSynthesis' in window) {
-        window.speechSynthesis.cancel();
-        const utterance = new SpeechSynthesisUtterance(text);
-        utterance.lang = 'ja-JP';
-        utterance.rate = 0.85;
-        window.speechSynthesis.speak(utterance);
-    }
+    const o1 = ctx.createOscillator();
+    const g1 = ctx.createGain();
+    o1.connect(g1); g1.connect(ctx.destination);
+    o1.type = 'sine'; o1.frequency.setValueAtTime(1046.5, t);
+    g1.gain.setValueAtTime(0, t);
+    g1.gain.linearRampToValueAtTime(0.1, t + 0.05);
+    g1.gain.exponentialRampToValueAtTime(0.001, t + 0.5);
+    o1.start(t); o1.stop(t + 0.5);
+    const o2 = ctx.createOscillator();
+    const g2 = ctx.createGain();
+    o2.connect(g2); g2.connect(ctx.destination);
+    o2.type = 'sine'; o2.frequency.setValueAtTime(880, t + 0.4);
+    g2.gain.setValueAtTime(0, t + 0.4);
+    g2.gain.linearRampToValueAtTime(0.1, t + 0.45);
+    g2.gain.exponentialRampToValueAtTime(0.001, t + 1.2);
+    o2.start(t + 0.4); o2.stop(t + 1.2);
 }
 
 function submitChoice(value) {
-    unlockAudio(); // 送信のクリックを利用して音の許可を更新
+    if (navDone) return;
     if (timerInterval) clearInterval(timerInterval);
     const input = document.getElementById('answer-input');
     const form = document.getElementById('answer-form');
@@ -1060,53 +1048,46 @@ function submitChoice(value) {
 }
 
 function showHint() {
-    unlockAudio();
-    const hintBtn = document.getElementById('hint-btn');
-    const hintText = document.getElementById('english-hint-text');
-    if (hintBtn && hintText) {
-        hintText.style.display = 'block';
-        hintBtn.style.display = 'none';
-    }
+    const b = document.getElementById('hint-btn');
+    const t = document.getElementById('english-hint-text');
+    if (b && t) { t.style.display = 'block'; b.style.display = 'none'; }
 }
 
 function toggleDetails() {
-    unlockAudio();
-    var details = document.getElementById("word-details");
-    if (details) {
-        details.style.display = (details.style.display === "none") ? "block" : "none";
-    }
+    const d = document.getElementById("word-details");
+    if (d) d.style.display = (d.style.display === "none") ? "block" : "none";
 }
 
 document.addEventListener('DOMContentLoaded', function() {
     const config = document.getElementById('game-config');
     if (!config) return;
 
-    const soundBtn = document.getElementById('sound-toggle-btn');
-    const soundIcon = document.getElementById('sound-icon');
-    const soundStatus = document.getElementById('sound-status');
-    const savedSetting = localStorage.getItem('thankjapan_sound');
+    const sBtn = document.getElementById('sound-toggle-btn');
+    const sIcon = document.getElementById('sound-icon');
+    const sStatus = document.getElementById('sound-status');
 
     if (isMobile) {
-        isSoundOn = (savedSetting === 'on');
+        isSoundOn = false;
     } else {
-        isSoundOn = (savedSetting !== 'off');
+        const saved = localStorage.getItem('thankjapan_sound');
+        isSoundOn = (saved !== 'off');
     }
 
-    if (soundIcon && soundStatus) {
-        soundIcon.textContent = isSoundOn ? '🔊' : '🔇';
-        soundStatus.textContent = isSoundOn ? 'ON' : 'OFF';
+    if (sIcon && sStatus) {
+        sIcon.textContent = isSoundOn ? '🔊' : '🔇';
+        sStatus.textContent = isSoundOn ? 'ON' : 'OFF';
     }
 
-    if (soundBtn) {
-        soundBtn.addEventListener('click', function() {
+    if (sBtn) {
+        sBtn.addEventListener('click', function() {
             isSoundOn = !isSoundOn;
             localStorage.setItem('thankjapan_sound', isSoundOn ? 'on' : 'off');
-            if (soundIcon && soundStatus) {
-                soundIcon.textContent = isSoundOn ? '🔊' : '🔇';
-                soundStatus.textContent = isSoundOn ? 'ON' : 'OFF';
+            if (sIcon && sStatus) {
+                sIcon.textContent = isSoundOn ? '🔊' : '🔇';
+                sStatus.textContent = isSoundOn ? 'ON' : 'OFF';
             }
             if (isSoundOn) {
-                unlockAudio();
+                window.speechSynthesis.speak(new SpeechSynthesisUtterance(""));
                 playChime();
             }
         });
@@ -1116,46 +1097,57 @@ document.addEventListener('DOMContentLoaded', function() {
     const isCorrect = config.getAttribute('data-is-correct') === 'true';
 
     if (showResult) {
-        if (isCorrect) {
-            confetti({ particleCount: 120, spread: 80, origin: { y: 0.6 }, colors: ['#b7282e', '#7b942e', '#e0d5c0', '#ffffff'] });
-        }
-        if (isSoundOn) {
+        if (isCorrect) confetti({ particleCount: 120, spread: 80, origin: { y: 0.6 }, colors: ['#b7282e', '#7b942e', '#e0d5c0', '#ffffff'] });
+
+        const triggerSound = () => {
+            if (!isSoundOn) return;
             if (isCorrect) {
                 playChime();
-                const word = document.getElementById('correct-flag')?.getAttribute('data-word');
-                if (word) setTimeout(() => speakJapanese(word, true), 1000);
+                const w = document.getElementById('correct-flag')?.getAttribute('data-word');
+                if (w) speakJapanese(w, true);
             } else {
-                const word = document.getElementById('incorrect-flag')?.getAttribute('data-word');
-                if (word) setTimeout(() => speakJapanese(word, true), 500);
+                const w = document.getElementById('incorrect-flag')?.getAttribute('data-word');
+                if (w) speakJapanese(w, true);
             }
+            document.removeEventListener('touchstart', triggerSound);
+            document.removeEventListener('mousedown', triggerSound);
+        };
+
+        if (isMobile) {
+            document.addEventListener('touchstart', triggerSound);
+            document.addEventListener('mousedown', triggerSound);
+        } else {
+            triggerSound();
         }
-        const difficulty = config.getAttribute('data-difficulty');
+
         const nextUrl = config.getAttribute('data-next-url');
-        if (difficulty !== 'single' && nextUrl) {
-            const delay = isCorrect ? 4000 : 8000;
-            setTimeout(() => { window.location.href = nextUrl; }, delay);
+        if (config.getAttribute('data-difficulty') !== 'single' && nextUrl) {
+            setTimeout(() => {
+                if (!navDone) {
+                    navDone = true;
+                    window.location.href = nextUrl;
+                }
+            }, isCorrect ? 4000 : 8000);
         }
         return;
     }
 
     timeLeft = parseInt(config.getAttribute('data-seconds-left') || "60");
-    const timerDisplay = document.getElementById('time-left');
-    const timerBar = document.getElementById('timer-bar-fill');
-    const resultUrl = config.getAttribute('data-result-url');
+    const tDisp = document.getElementById('time-left');
+    const tBar = document.getElementById('timer-bar-fill');
+    const rUrl = config.getAttribute('data-result-url');
 
     timerInterval = setInterval(() => {
         timeLeft--;
         if (timeLeft >= 0) {
-            if (timerDisplay) {
-                const m = Math.floor(timeLeft / 60);
-                const s = timeLeft % 60;
-                timerDisplay.textContent = String(m).padStart(2, '0') + ":" + String(s).padStart(2, '0');
-                if (timeLeft <= 10) timerDisplay.style.color = "#ff4081";
+            if (tDisp) {
+                tDisp.textContent = String(Math.floor(timeLeft / 60)).padStart(2, '0') + ":" + String(timeLeft % 60).padStart(2, '0');
+                if (timeLeft <= 10) tDisp.style.color = "#ff4081";
             }
-            if (timerBar) timerBar.style.width = (timeLeft / 60 * 100) + "%";
+            if (tBar) tBar.style.width = (timeLeft / 60 * 100) + "%";
         } else {
             clearInterval(timerInterval);
-            window.location.href = resultUrl;
+            if (!navDone) { navDone = true; window.location.href = rUrl; }
         }
     }, 1000);
 });
