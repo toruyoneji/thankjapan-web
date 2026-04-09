@@ -992,7 +992,6 @@ let navDone = false;
 let audioCtx = null;
 const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
-// 1. サウンドの初期化ロジック
 function initSound() {
     const saved = localStorage.getItem('thankjapan_sound');
     if (saved === 'on') {
@@ -1000,13 +999,11 @@ function initSound() {
     } else if (saved === 'off') {
         isSoundOn = false;
     } else {
-        // 初回訪問時：スマホはOFF、PCはON
         isSoundOn = !isMobile;
     }
 }
 initSound();
 
-// 2. 日本語の読み上げ
 function speakJapanese(text, isAuto = false) {
     if (isAuto && !isSoundOn) return;
     if ('speechSynthesis' in window) {
@@ -1014,12 +1011,10 @@ function speakJapanese(text, isAuto = false) {
         const u = new SpeechSynthesisUtterance(text);
         u.lang = 'ja-JP';
         u.rate = 0.85;
-        // スマホは少し待機してから再生
         setTimeout(() => { window.speechSynthesis.speak(u); }, 100);
     }
 }
 
-// 3. チャイム音（AudioContextの管理を強化）
 function playChime() {
     if (!isSoundOn) return;
     try {
@@ -1045,10 +1040,9 @@ function playChime() {
         g2.gain.linearRampToValueAtTime(0.1, t + 0.45);
         g2.gain.exponentialRampToValueAtTime(0.001, t + 1.2);
         o2.start(t + 0.4); o2.stop(t + 1.2);
-    } catch (e) { console.log("Audio Error:", e); }
+    } catch (e) {}
 }
 
-// スマホのロック解除
 function unlockAudio() {
     if ('speechSynthesis' in window) {
         window.speechSynthesis.speak(new SpeechSynthesisUtterance(""));
@@ -1060,7 +1054,15 @@ function unlockAudio() {
 
 function submitChoice(value) {
     if (navDone) return;
-    if (isSoundOn) unlockAudio(); // 送信前に音のロックを外しておく
+    if (isSoundOn) {
+        unlockAudio(); 
+        setTimeout(() => { proceedSubmit(value); }, 100);
+    } else {
+        proceedSubmit(value);
+    }
+}
+
+function proceedSubmit(value) {
     if (timerInterval) clearInterval(timerInterval);
     const input = document.getElementById('answer-input');
     const form = document.getElementById('answer-form');
@@ -1068,8 +1070,10 @@ function submitChoice(value) {
         let timeInput = document.getElementById('time-left-input');
         if (!timeInput) {
             timeInput = document.createElement('input');
-            timeInput.type = 'hidden'; timeInput.name = 'seconds_left';
-            timeInput.id = 'time-left-input'; form.appendChild(timeInput);
+            timeInput.type = 'hidden';
+            timeInput.name = 'seconds_left';
+            timeInput.id = 'time-left-input';
+            form.appendChild(timeInput);
         }
         timeInput.value = timeLeft;
         input.value = value;
@@ -1126,7 +1130,6 @@ document.addEventListener('DOMContentLoaded', function() {
             if (w) setTimeout(() => speakJapanese(w, true), 300);
         };
 
-        // 結果画面で一度どこかを触れば音が復活するようにする
         const onceInteraction = () => {
             if (isSoundOn) {
                 unlockAudio();
@@ -1139,7 +1142,6 @@ document.addEventListener('DOMContentLoaded', function() {
         document.addEventListener('touchstart', onceInteraction);
         document.addEventListener('mousedown', onceInteraction);
         
-        // PCや一部スマホならこれだけで鳴る
         setTimeout(triggerSound, 200);
 
         const nextUrl = config.getAttribute('data-next-url');
