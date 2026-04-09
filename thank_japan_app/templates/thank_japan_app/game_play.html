@@ -987,6 +987,9 @@ img:hover { transform: scale(1.02); }
 <script>
 let timerInterval;
 let timeLeft;
+let isSoundOn = true;
+
+const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
 function showHint() {
     const hintBtn = document.getElementById('hint-btn');
@@ -1022,8 +1025,6 @@ function submitChoice(value) {
         form.submit();
     }
 }
-
-let isSoundOn = true;
 
 function playChime() {
     if (!isSoundOn) return;
@@ -1075,7 +1076,12 @@ document.addEventListener('DOMContentLoaded', function() {
     const soundIcon = document.getElementById('sound-icon');
     const soundStatus = document.getElementById('sound-status');
     const savedSetting = localStorage.getItem('thankjapan_sound');
-    isSoundOn = savedSetting !== 'off';
+
+    if (savedSetting) {
+        isSoundOn = savedSetting === 'on';
+    } else {
+        isSoundOn = !isMobile;
+    }
 
     if (soundIcon && soundStatus) {
         soundIcon.textContent = isSoundOn ? '🔊' : '🔇';
@@ -1090,7 +1096,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 soundIcon.textContent = isSoundOn ? '🔊' : '🔇';
                 soundStatus.textContent = isSoundOn ? 'ON' : 'OFF';
             }
-            if (isSoundOn) playChime();
+            if (isSoundOn) {
+                const dummy = new SpeechSynthesisUtterance('');
+                window.speechSynthesis.speak(dummy);
+                playChime();
+            }
         });
     }
 
@@ -1109,13 +1119,11 @@ document.addEventListener('DOMContentLoaded', function() {
             if (word && isSoundOn) setTimeout(() => speakJapanese(word, true), 500);
         }
         if (difficulty !== 'single' && nextUrl) {
-            const delay = "{{ is_correct|yesno:'true,false' }}" === "true" ? 4000 : 8000;
-
+            const delay = config.getAttribute('data-is-correct') === 'true' ? 4000 : 8000;
             setTimeout(() => {
                 window.location.href = nextUrl;
             }, delay);
         }
-
         return;
     }
 
