@@ -992,7 +992,21 @@ let navDone = false;
 let audioCtx = null;
 const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
-// 日本語の読み上げ
+// 1. サウンドの初期化ロジック
+function initSound() {
+    const saved = localStorage.getItem('thankjapan_sound');
+    if (saved === 'on') {
+        isSoundOn = true;
+    } else if (saved === 'off') {
+        isSoundOn = false;
+    } else {
+        // 初回訪問時：スマホはOFF、PCはON
+        isSoundOn = !isMobile;
+    }
+}
+initSound();
+
+// 2. 日本語の読み上げ
 function speakJapanese(text, isAuto = false) {
     if (isAuto && !isSoundOn) return;
     if ('speechSynthesis' in window) {
@@ -1000,14 +1014,12 @@ function speakJapanese(text, isAuto = false) {
         const u = new SpeechSynthesisUtterance(text);
         u.lang = 'ja-JP';
         u.rate = 0.85;
-        // iPhone対策：少しだけ遅延させる
-        setTimeout(() => {
-            window.speechSynthesis.speak(u);
-        }, 50);
+        // スマホは少し待機してから再生
+        setTimeout(() => { window.speechSynthesis.speak(u); }, 100);
     }
 }
 
-// チャイム音
+// 3. チャイム音（AudioContextの管理を強化）
 function playChime() {
     if (!isSoundOn) return;
     try {
@@ -1033,12 +1045,11 @@ function playChime() {
         g2.gain.linearRampToValueAtTime(0.1, t + 0.45);
         g2.gain.exponentialRampToValueAtTime(0.001, t + 1.2);
         o2.start(t + 0.4); o2.stop(t + 1.2);
-    } catch (e) { console.log("Audio error", e); }
+    } catch (e) { console.log("Audio Error:", e); }
 }
 
-// ロック解除：スマホで音を出すための儀式
+// スマホのロック解除
 function unlockAudio() {
-    if (!isSoundOn) return;
     if ('speechSynthesis' in window) {
         window.speechSynthesis.speak(new SpeechSynthesisUtterance(""));
     }
@@ -1049,7 +1060,7 @@ function unlockAudio() {
 
 function submitChoice(value) {
     if (navDone) return;
-    unlockAudio(); // 回答ボタンを押した瞬間に音をアンロックする
+    if (isSoundOn) unlockAudio(); // 送信前に音のロックを外しておく
     if (timerInterval) clearInterval(timerInterval);
     const input = document.getElementById('answer-input');
     const form = document.getElementById('answer-form');
@@ -1057,10 +1068,8 @@ function submitChoice(value) {
         let timeInput = document.getElementById('time-left-input');
         if (!timeInput) {
             timeInput = document.createElement('input');
-            timeInput.type = 'hidden';
-            timeInput.name = 'seconds_left';
-            timeInput.id = 'time-left-input';
-            form.appendChild(timeInput);
+            timeInput.type = 'hidden'; timeInput.name = 'seconds_left';
+            timeInput.id = 'time-left-input'; form.appendChild(timeInput);
         }
         timeInput.value = timeLeft;
         input.value = value;
@@ -1068,9 +1077,8 @@ function submitChoice(value) {
     }
 }
 
-// 共通パーツ
 function showHint() {
-    unlockAudio();
+    if (isSoundOn) unlockAudio();
     const b = document.getElementById('hint-btn');
     const t = document.getElementById('english-hint-text');
     if (b && t) { t.style.display = 'block'; b.style.display = 'none'; }
@@ -1083,16 +1091,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const sBtn = document.getElementById('sound-toggle-btn');
     const sIcon = document.getElementById('sound-icon');
     const sStatus = document.getElementById('sound-status');
-
-    // 初期化ロジック
-    const saved = localStorage.getItem('thankjapan_sound');
-    if (saved === 'on') {
-        isSoundOn = true;
-    } else if (saved === 'off') {
-        isSoundOn = false;
-    } else {
-        isSoundOn = !isMobile;
-    }
 
     const updateUI = () => {
         if (sIcon && sStatus) {
@@ -1125,42 +1123,34 @@ document.addEventListener('DOMContentLoaded', function() {
             if (!isSoundOn) return;
             const w = document.getElementById(isCorrect ? 'correct-flag' : 'incorrect-flag')?.getAttribute('data-word');
             if (isCorrect) playChime();
-            if (w) speakJapanese(w, true);
+            if (w) setTimeout(() => speakJapanese(w, true), 300);
         };
 
-        // 【スマホ対策】結果画面でどこかを触ったらすぐ音が鳴るようにする
-        const handleInteraction = () => {
-            unlockAudio();
-            triggerSound();
-            document.removeEventListener('touchstart', handleInteraction);
-            document.removeEventListener('mousedown', handleInteraction);
-        };
-
-        if (isSoundOn) {
-            if (isMobile) {
-                // スマホは画面タップを待つ
-                document.addEventListener('touchstart', handleInteraction);
-                document.addEventListener('mousedown', handleInteraction);
-                // 自動でも一度試みる（ブラウザが許可していれば鳴る）
-                triggerSound();
-            } else {
+        // 結果画面で一度どこかを触れば音が復活するようにする
+        const onceInteraction = () => {
+            if (isSoundOn) {
+                unlockAudio();
                 triggerSound();
             }
-        }
+            document.removeEventListener('touchstart', onceInteraction);
+            document.removeEventListener('mousedown', onceInteraction);
+        };
+        
+        document.addEventListener('touchstart', onceInteraction);
+        document.addEventListener('mousedown', onceInteraction);
+        
+        // PCや一部スマホならこれだけで鳴る
+        setTimeout(triggerSound, 200);
 
         const nextUrl = config.getAttribute('data-next-url');
         if (config.getAttribute('data-difficulty') !== 'single' && nextUrl) {
             setTimeout(() => {
-                if (!navDone) {
-                    navDone = true;
-                    window.location.href = nextUrl;
-                }
+                if (!navDone) { navDone = true; window.location.href = nextUrl; }
             }, isCorrect ? 4000 : 8000);
         }
         return;
     }
 
-    // クイズ中のタイマー処理
     timeLeft = parseInt(config.getAttribute('data-seconds-left') || "60");
     const tDisp = document.getElementById('time-left');
     const tBar = document.getElementById('timer-bar-fill');
