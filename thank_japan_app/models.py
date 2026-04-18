@@ -227,3 +227,25 @@ def save_user_profile(sender, instance, **kwargs):
     if not hasattr(instance, 'profile'):
         Profile.objects.create(user=instance)
     instance.profile.save()
+    
+
+
+class WeeklyScore(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    score = models.PositiveIntegerField(default=0)
+    week_start = models.DateField()
+
+    class Meta:
+        unique_together = ('user', 'week_start')
+        ordering = ['-score']
+
+    def __str__(self):
+        return f"{self.user.username} - {self.week_start} ({self.score}pt)"
+
+    @classmethod
+    def get_current_week_start(cls):
+        from django.utils import timezone
+        import datetime
+        today = timezone.now().date()
+        return today - datetime.timedelta(days=today.weekday())
+
