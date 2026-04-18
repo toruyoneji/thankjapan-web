@@ -1,6 +1,5 @@
-# thank_japan_app/adapter.py
-
 from allauth.socialaccount.adapter import DefaultSocialAccountAdapter
+from .models import Player  
 
 class MySocialAccountAdapter(DefaultSocialAccountAdapter):
     def save_user(self, request, sociallogin, form=None):
@@ -47,7 +46,6 @@ class MySocialAccountAdapter(DefaultSocialAccountAdapter):
                 'ZA': '🇿🇦 South Africa',
                 'CI': '🇨🇮 Côte d\'Ivoire',
                 'MG': '🇲🇬 Madagascar',
-                'AU': '🇦🇺 Australia',
                 'NZ': '🇳🇿 New Zealand',
                 'AR': '🇦🇷 Argentina',
                 'CL': '🇨🇱 Chile',
@@ -65,8 +63,16 @@ class MySocialAccountAdapter(DefaultSocialAccountAdapter):
                 'PT': '🇵🇹 Portugal',
             }
             
+            display_name = country_map.get(code, code)
             
-            user.profile.country = country_map.get(code, code)
+            
+            user.profile.country = display_name
             user.profile.save()
+
+            
+            player = Player.objects.filter(username=user.username).first()
+            if player:
+                player.country = display_name
+                player.save()
             
         return user

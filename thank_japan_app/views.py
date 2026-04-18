@@ -1199,6 +1199,7 @@ def game_result(request):
 
             player.total_score = profile.total_score
             player.last_score = score
+            player.country = profile.country
             player.save()
         
         request.session['score_saved'] = True
