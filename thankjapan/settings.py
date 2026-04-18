@@ -11,7 +11,7 @@ GA_TRACKING_ID = os.environ.get('GA_TRACKING_ID', '')
 
 
 SECRET_KEY = os.environ.get('SECRET_KEY')
-DEBUG = True
+DEBUG = False
 ALLOWED_HOSTS = [
     'www.thankjapan.com',
     'thankjapan.com',
@@ -113,8 +113,6 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'thank_japan_app.context_processors.google_analytics',
                 'thank_japan_app.context_processors.language_context',
-                'allauth.account.context_processors.account',
-                'allauth.socialaccount.context_processors.socialaccount',
             ],
         },
     },
