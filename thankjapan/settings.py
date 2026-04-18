@@ -188,3 +188,6 @@ SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 
 ACCOUNT_DEFAULT_HTTP_PROTOCOL = 'https'
+
+
+SOCIALACCOUNT_ADAPTER = 'thank_japan_app.adapter.MySocialAccountAdapter'
