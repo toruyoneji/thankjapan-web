@@ -1,3 +1,5 @@
+# thank_japan_app/adapter.py
+
 from allauth.socialaccount.adapter import DefaultSocialAccountAdapter
 
 class MySocialAccountAdapter(DefaultSocialAccountAdapter):
@@ -5,11 +7,66 @@ class MySocialAccountAdapter(DefaultSocialAccountAdapter):
         
         user = super().save_user(request, sociallogin, form)
         
-        country_code = request.META.get('HTTP_CF_IPCOUNTRY')
         
-        if country_code:
+        code = request.META.get('HTTP_CF_IPCOUNTRY')
+        
+        if code:
             
-            user.profile.country = country_code
+            country_map = {
+                'JP': '🇯🇵 Japan',
+                'KR': '🇰🇷 Korea',
+                'TW': '🇹🇼 Taiwan',
+                'US': '🇺🇸 USA',
+                'DE': '🇩🇪 Germany',
+                'FR': '🇫🇷 France',
+                'PK': '🇵🇰 Pakistan',
+                'BR': '🇧🇷 Brazil',
+                'IN': '🇮🇳 India',
+                'VN': '🇻🇳 Vietnam',
+                'TH': '🇹🇭 Thailand',
+                'GB': '🇬🇧 United Kingdom',
+                'CA': '🇨🇦 Canada',
+                'AU': '🇦🇺 Australia',
+                'ID': '🇮🇩 Indonesia',
+                'PH': '🇵🇭 Philippines',
+                'ES': '🇪🇸 Spain',
+                'IT': '🇮🇹 Italy',
+                'MX': '🇲🇽 Mexico',
+                'RU': '🇷🇺 Russia',
+                'SG': '🇸🇬 Singapore',
+                'MY': '🇲🇾 Malaysia',
+                'HK': '🇭🇰 Hong Kong',
+                'NL': '🇳🇱 Netherlands',
+                'SE': '🇸🇪 Sweden',
+                'CH': '🇨🇭 Switzerland',
+                'TR': '🇹🇷 Turkey',
+                'SA': '🇸🇦 Saudi Arabia',
+                'AE': '🇦🇪 UAE',
+                'EG': '🇪🇬 Egypt',
+                'NG': '🇳🇬 Nigeria',
+                'ZA': '🇿🇦 South Africa',
+                'CI': '🇨🇮 Côte d\'Ivoire',
+                'MG': '🇲🇬 Madagascar',
+                'AU': '🇦🇺 Australia',
+                'NZ': '🇳🇿 New Zealand',
+                'AR': '🇦🇷 Argentina',
+                'CL': '🇨🇱 Chile',
+                'CO': '🇨🇴 Colombia',
+                'PE': '🇵🇪 Peru',
+                'PL': '🇵🇱 Poland',
+                'UA': '🇺🇦 Ukraine',
+                'GR': '🇬🇷 Greece',
+                'AT': '🇦🇹 Austria',
+                'BE': '🇧🇪 Belgium',
+                'DK': '🇩🇰 Denmark',
+                'FI': '🇫🇮 Finland',
+                'NO': '🇳🇴 Norway',
+                'IE': '🇮🇪 Ireland',
+                'PT': '🇵🇹 Portugal',
+            }
+            
+            
+            user.profile.country = country_map.get(code, code)
             user.profile.save()
             
         return user
