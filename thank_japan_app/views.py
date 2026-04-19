@@ -1243,9 +1243,21 @@ def game_result(request):
     ranking = Player.objects.exclude(username__icontains="Guest").order_by('-total_score')[:20]
     
     current_week = WeeklyScore.get_current_week_start()
-    weekly_ranking = WeeklyScore.objects.filter(
+    raw_weekly_ranking = WeeklyScore.objects.filter(
         week_start=current_week
     ).order_by('-score')[:10]
+    
+    weekly_ranking = []
+    last_score = None
+    current_rank = 0
+
+    for i, r in enumerate(raw_weekly_ranking, 1):
+        if r.score != last_score:
+            current_rank = i  
+        
+        r.display_rank = current_rank
+        weekly_ranking.append(r)
+        last_score = r.score
 
     return render(request, 'thank_japan_app/game_result.html', {
         'lang_code': lang_code,

@@ -853,7 +853,7 @@ tbody td {
         <tbody>
             {% for r in weekly_ranking %}
             <tr class="{% if not is_guest and r.user == request.user %}highlight{% endif %}" style="border-bottom: 1px solid #f0f0f0;">
-                <td style="padding: 8px; text-align: center; color: #888;">{{ forloop.counter }}</td>
+                <td style="padding: 8px; text-align: center; color: #888;">{{ r.display_rank }}</td>
                 <td style="padding: 8px;">{{ r.user.username }}</td>
                 <td style="padding: 8px; text-align: center; color: #d46a00; font-weight: bold;">{{ r.score }}</td>
                 <td style="padding: 8px;">{{ r.country|default:"-" }}</td>
