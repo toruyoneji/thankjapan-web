@@ -233,6 +233,7 @@ def save_user_profile(sender, instance, **kwargs):
 class WeeklyScore(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     score = models.PositiveIntegerField(default=0)
+    country = models.CharField(max_length=50, blank=True, null=True)
     week_start = models.DateField()
 
     class Meta:

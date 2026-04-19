@@ -1209,6 +1209,7 @@ def game_result(request):
                 week_start=week_start
             )
             weekly_record.score += score
+            weekly_record.country = profile.country 
             weekly_record.save()
         
         request.session['score_saved'] = True

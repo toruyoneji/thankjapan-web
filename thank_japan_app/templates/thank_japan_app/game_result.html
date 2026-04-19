@@ -856,7 +856,7 @@ tbody td {
                 <td style="padding: 8px; text-align: center; color: #888;">{{ forloop.counter }}</td>
                 <td style="padding: 8px;">{{ r.user.username }}</td>
                 <td style="padding: 8px; text-align: center; color: #d46a00; font-weight: bold;">{{ r.score }}</td>
-                <td style="padding: 8px;">{{ r.user.profile.country|default:"-" }}</td>
+                <td style="padding: 8px;">{{ r.country|default:"-" }}</td>
             </tr>
             {% endfor %}
         </tbody>
