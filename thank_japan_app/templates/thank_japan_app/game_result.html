@@ -798,6 +798,94 @@ tbody td {
 
   <hr>
 
+  
+<div style="margin: 25px auto; max-width: 450px; background: #fff; border: 2px solid #d4af37; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.1); font-family: 'Noto Sans JP', sans-serif;">
+    <div style="background: #1a1a1a; color: #d4af37; padding: 10px; text-align: center; font-weight: bold; font-size: 1.1rem;">
+        {% if lang_code == 'ja' %}🏆 今週のトップ10
+        {% elif lang_code == 'zh-hant' %}🏆 本週前 10 名
+        {% elif lang_code == 'zh-cn' %}🏆 本周前 10 名
+        {% elif lang_code == 'ko' %}🏆 이번 주 TOP 10
+        {% elif lang_code == 'de' %}🏆 Wöchentliche Top 10
+        {% elif lang_code == 'fr' %}🏆 Top 10 de la semaine
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}🏆 Top 10 de la semana
+        {% elif lang_code == 'it' %}🏆 Top 10 della settimana
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}🏆 Top 10 da semana
+        {% elif lang_code == 'vi' %}🏆 Top 10 trong tuần
+        {% elif lang_code == 'th' %}🏆 10 อันดับสูงสุดประจำสัปดาห์
+        {% else %}🏆 Weekly Top 10{% endif %}
+    </div>
+    
+    <table style="width: 100%; border-collapse: collapse; font-size: 0.9rem;">
+        <thead style="background: #fdfaf0; border-bottom: 1px solid #d4af37; color: #555;">
+            <tr>
+                <th style="padding: 8px;">#</th>
+                <th style="padding: 8px; text-align: left;">
+                    {% if lang_code == 'ja' %}ユーザー
+                    {% elif lang_code == 'zh-hant' %}使用者
+                    {% elif lang_code == 'zh-cn' %}用户
+                    {% elif lang_code == 'ko' %}사용자
+                    {% elif lang_code == 'de' %}Benutzer
+                    {% elif lang_code == 'fr' %}Utilisateur
+                    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Usuario
+                    {% elif lang_code == 'it' %}Utente
+                    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Usuário
+                    {% elif lang_code == 'vi' %}Người dùng
+                    {% elif lang_code == 'th' %}ผู้ใช้
+                    {% else %}User{% endif %}
+                </th>
+                <th style="padding: 8px;">Pts</th>
+                <th style="padding: 8px; text-align: left;">
+                    {% if lang_code == 'ja' %}国
+                    {% elif lang_code == 'zh-hant' %}國家
+                    {% elif lang_code == 'zh-cn' %}国家
+                    {% elif lang_code == 'ko' %}국가
+                    {% elif lang_code == 'de' %}Land
+                    {% elif lang_code == 'fr' %}Pays
+                    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}País
+                    {% elif lang_code == 'it' %}Paese
+                    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}País
+                    {% elif lang_code == 'vi' %}Quốc gia
+                    {% elif lang_code == 'th' %}ประเทศ
+                    {% else %}Country{% endif %}
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for r in weekly_ranking %}
+            <tr class="{% if not is_guest and r.user == request.user %}highlight{% endif %}" style="border-bottom: 1px solid #f0f0f0;">
+                <td style="padding: 8px; text-align: center; color: #888;">{{ forloop.counter }}</td>
+                <td style="padding: 8px;">{{ r.user.username }}</td>
+                <td style="padding: 8px; text-align: center; color: #d46a00; font-weight: bold;">{{ r.score }}</td>
+                <td style="padding: 8px;">{{ r.user.profile.country|default:"-" }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    {% if is_guest %}
+    <div style="background: #fdfdfd; padding: 10px; text-align: center; border-top: 1px dashed #d4af37;">
+        <p style="font-size: 0.75rem; color: #b7282e; margin: 0; font-weight: bold;">
+            {% if lang_code == 'ja' %}会員登録して、今週の1位を目指そう！
+            {% elif lang_code == 'zh-hant' %}立即註冊，爭奪本週第一！
+            {% elif lang_code == 'zh-cn' %}立即注册，争夺本周第一！
+            {% elif lang_code == 'ko' %}가입하고 이번 주 1위에 도전하세요!
+            {% elif lang_code == 'de' %}Registrieren und Platz 1 dieser Woche anstreben!
+            {% elif lang_code == 'fr' %}Inscrivez-vous et visez la 1ère place cette semaine !
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}¡Regístrate y busca el primer puesto esta semana!
+            {% elif lang_code == 'it' %}Registrati e punta al 1° posto questa settimana!
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Cadastre-se e lute pelo 1º lugar esta semana!
+            {% elif lang_code == 'vi' %}Đăng ký và phấn đấu vị trí số 1 tuần này!
+            {% elif lang_code == 'th' %}สมัครสมาชิกเพื่อเป็นอันดับ 1 ของสัปดาห์นี้!
+            {% else %}Sign up and aim for #1 this week!{% endif %}
+        </p>
+    </div>
+    {% endif %}
+</div>
+
+
+    <hr>
+
+
     <div class="appeal-section">
         {% if is_guest %}
             <p>

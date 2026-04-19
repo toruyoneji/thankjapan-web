@@ -21,6 +21,7 @@ from django.utils import timezone
 from django.utils.http import urlencode
 from django.contrib.auth.views import PasswordResetView
 from .context_processors import language_context
+from .models import WeeklyScore
 import logging
 import random
 import re, itertools
@@ -1201,6 +1202,14 @@ def game_result(request):
             player.last_score = score
             player.country = profile.country
             player.save()
+            
+            week_start = WeeklyScore.get_current_week_start()
+            weekly_record, created = WeeklyScore.objects.get_or_create(
+                user=request.user,
+                week_start=week_start
+            )
+            weekly_record.score += score
+            weekly_record.save()
         
         request.session['score_saved'] = True
         
@@ -1231,6 +1240,11 @@ def game_result(request):
             })
 
     ranking = Player.objects.exclude(username__icontains="Guest").order_by('-total_score')[:20]
+    
+    current_week = WeeklyScore.get_current_week_start()
+    weekly_ranking = WeeklyScore.objects.filter(
+        week_start=current_week
+    ).order_by('-score')[:10]
 
     return render(request, 'thank_japan_app/game_result.html', {
         'lang_code': lang_code,
@@ -1242,6 +1256,7 @@ def game_result(request):
         'difficulty': difficulty,
         'is_premium_mode': is_premium_mode,
         'ranking': ranking,
+        'weekly_ranking': weekly_ranking,
         'current_rank': current_rank,         
         'total_registered': total_registered  
     })    
