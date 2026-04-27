@@ -86,6 +86,43 @@ h2, h3 {
   text-shadow: none;
 }
 
+.hero-title {
+  font-size: 3.5rem;
+  letter-spacing: 8px;
+  margin-bottom: 25px;
+  color: #fff;
+  text-shadow: 0 2px 20px rgba(0,0,0,0.8);
+  font-family: 'Zen Antique', serif;
+}
+
+/* 箇条書きリストのスタイル（既存のhero pのデザインを継承） */
+.hero-description-list {
+  background: rgba(0,0,0,0.5); /* 既存のpと同じ */
+  padding: 20px 40px;
+  border-radius: 30px; /* 少し角を丸く */
+  border: 1px solid rgba(255,255,255,0.5); /* 既存のpと同じ */
+  margin-bottom: 40px;
+  display: inline-block;
+  max-width: 90%;
+}
+
+.hero-description-list ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  text-align: left;
+}
+
+.hero-description-list li {
+  font-size: 1.1rem;
+  font-family: 'Poppins', sans-serif;
+  color: #fff;
+  line-height: 1.8;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
 .hero-buttons {
     display: flex;
     justify-content: center;
@@ -355,8 +392,8 @@ footer {
 
 .hero-description {
     margin-bottom: 20px;
-    color: #ffffff; /* 背景に合わせて調整 */
-    text-shadow: 1px 1px 4px rgba(0,0,0,0.6); /* 文字を読みやすくする */
+    color: #ffffff; 
+    text-shadow: 1px 1px 4px rgba(0,0,0,0.6); 
 }
 
 .main-tagline {
@@ -382,18 +419,26 @@ footer {
 
 @media screen and (max-width: 768px) {
   .main { margin: 0 auto; }
-  .hero { 
-      margin-top: 0 !important;
-      height: 700px !important; 
-      min-height: 650px !important; 
-      padding: 150px 20px 60px !important;
-      
-      background-position: center top !important;
-      background-size: cover !important;
-      display: flex !important;
-      flex-direction: column !important;
-      justify-content: flex-start !important;
+  .hero {
+    height: auto !important;
+    min-height: 750px !important;
+    padding: 100px 20px 60px !important; 
+    justify-content: flex-start !important;
   }
+
+  .hero-title {
+    font-size: 2.2rem;
+    letter-spacing: 4px;
+    margin-top: 20px;
+  }
+  .hero-description-list {
+    padding: 15px 25px;
+  }
+  .hero-description-list li {
+    font-size: 0.95rem;
+  }
+
+
 
   .hero-buttons {
       flex-direction: column;
@@ -415,19 +460,16 @@ footer {
     }
 
     .hero {
-        background-size: 140% auto !important;
-        background-repeat: no-repeat !important;
-        margin-top: 0 !important;
-        background-position: center 10% !important; 
-        background-color: #000 !important;
-        height: 520px !important;
-        min-height: 500px !important;
-        padding-bottom: 40px !important;
-        display: flex !important;
-        flex-direction: column !important;
-        justify-content: flex-end !important; 
-        align-items: center !important;
-    }
+    min-height: 650px !important;
+    padding-top: 80px !important;
+  }
+  .hero-title {
+    font-size: 1.8rem;
+  }
+  .hero-description-list {
+    width: 95%;
+    padding: 15px 20px;
+  }
 
   .hero h1 { font-size: 1.5rem; }
 }
@@ -438,13 +480,19 @@ footer {
 
 <section class="hero">
   {% if not user.is_authenticated %}
-    <h1>THANK JAPAN</h1>
+    <div class="hero-container"> 
+      
+      <h1 class="hero-title">THANK JAPAN</h1>
 
-    <div class="hero-description">
-      <p class="main-tagline">Master Japanese through Fun & Games!</p>
-      <p class="sub-tagline">Culture, Food, and Tourism Guides (Featured: Ishikawa 🏯)</p>
-      <p class="level-badge">All Levels Welcome: N5 to N1</p>
-    </div>
+      <div class="hero-description-list">
+        <ul>
+          <li>🎮 Master Japanese through Fun & Games!</li>
+          <li>🍱 Culture, Food, and Tourism Guides</li>
+          <li>🗾 Featured: Ishikawa Hidden Gems</li>
+          <li>🎓 All Levels Welcome: N5 to N1</li>
+        </ul>
+      </div>
+
 
     <div class="hero-buttons">
       
