@@ -353,6 +353,32 @@ footer {
   margin: 0 10px;
 }
 
+.hero-description {
+    margin-bottom: 20px;
+    color: #ffffff; /* 背景に合わせて調整 */
+    text-shadow: 1px 1px 4px rgba(0,0,0,0.6); /* 文字を読みやすくする */
+}
+
+.main-tagline {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.sub-tagline {
+    font-size: 1.1rem;
+    opacity: 0.9;
+}
+
+.level-badge {
+    display: inline-block;
+    background: rgba(255,255,255,0.2);
+    padding: 2px 10px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    margin-top: 10px;
+}
+
 
 @media screen and (max-width: 768px) {
   .main { margin: 0 auto; }
@@ -413,6 +439,13 @@ footer {
 <section class="hero">
   {% if not user.is_authenticated %}
     <h1>THANK JAPAN</h1>
+
+    <div class="hero-description">
+      <p class="main-tagline">Master Japanese through Fun & Games!</p>
+      <p class="sub-tagline">Culture, Food, and Tourism Guides (Featured: Ishikawa 🏯)</p>
+      <p class="level-badge">All Levels Welcome: N5 to N1</p>
+    </div>
+
     <div class="hero-buttons">
       
        <a href="{% url 'category_list' %}" class="explore-btn btn-red">Learn Japanese 📖</a>
