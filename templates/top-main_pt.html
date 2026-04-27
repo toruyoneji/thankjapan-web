@@ -25,6 +25,7 @@ body {
       rgba(0,0,0,0.03) 11px, 
       rgba(0,0,0,0.03) 12px
     );
+  
   color: var(--text-main);
   text-align: center;
 }
@@ -86,6 +87,43 @@ h2, h3 {
   text-shadow: none;
 }
 
+.hero-title {
+  font-size: 3.5rem;
+  letter-spacing: 8px;
+  margin-bottom: 50px;
+  color: #fff;
+  text-shadow: 0 2px 20px rgba(0,0,0,0.8);
+  font-family: 'Zen Antique', serif;
+}
+
+
+.hero-description-list {
+  background: rgba(0,0,0,0.5); 
+  padding: 20px 40px;
+  border-radius: 30px; 
+  border: 1px solid rgba(255,255,255,0.5); 
+  margin-bottom: 40px;
+  display: inline-block;
+  max-width: 90%;
+}
+
+.hero-description-list ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  text-align: left;
+}
+
+.hero-description-list li {
+  font-size: 1.1rem;
+  font-family: 'Poppins', sans-serif;
+  color: #fff;
+  line-height: 1.8;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
 .hero-buttons {
     display: flex;
     justify-content: center;
@@ -115,6 +153,7 @@ h2, h3 {
     box-shadow: 0 6px 18px rgba(212, 175, 55, 0.6);
     border: 1px solid #ffeb99;
 }
+
 
 .btn-red {
 
@@ -169,7 +208,6 @@ h2, h3 {
     font-weight: bold;
 }
 
-
 .btn-white {
     background: #ffffff !important;
     color: #4a4a4a !important;
@@ -188,6 +226,7 @@ h2, h3 {
     filter: brightness(1.1);
     box-shadow: 0 8px 25px rgba(0,0,0,0.2);
 }
+
 
 
 .explore-btn {
@@ -352,14 +391,55 @@ footer {
   margin: 0 10px;
 }
 
+.hero-description {
+    margin-bottom: 20px;
+    color: #ffffff; 
+    text-shadow: 1px 1px 4px rgba(0,0,0,0.6); 
+}
+
+.main-tagline {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.sub-tagline {
+    font-size: 1.1rem;
+    opacity: 0.9;
+}
+
+.level-badge {
+    display: inline-block;
+    background: rgba(255,255,255,0.2);
+    padding: 2px 10px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    margin-top: 10px;
+}
+
+
 @media screen and (max-width: 768px) {
   .main { margin: 0 auto; }
-  .hero { 
-      margin-top: 0 !important;
-      height: auto; 
-      min-height: 450px; 
-      padding: 60px 15px; 
+  .hero {
+    height: auto !important;
+    min-height: 750px !important;
+    padding: 100px 20px 60px !important; 
+    justify-content: flex-start !important;
   }
+
+  .hero-title {
+    font-size: 2.2rem;
+    letter-spacing: 4px;
+    margin-top: 35px;
+  }
+  .hero-description-list {
+    padding: 15px 25px;
+  }
+  .hero-description-list li {
+    font-size: 0.95rem;
+  }
+
+
 
   .hero-buttons {
       flex-direction: column;
@@ -381,29 +461,42 @@ footer {
     }
 
     .hero {
-        background-size: 140% auto !important;
-        background-repeat: no-repeat !important;
-        margin-top: 0 !important;
-        background-position: center 10% !important; 
-        background-color: #000 !important;
-        height: 520px !important;
-        min-height: 500px !important;
-        padding-bottom: 40px !important;
-        display: flex !important;
-        flex-direction: column !important;
-        justify-content: flex-end !important; 
-        align-items: center !important;
-    }
+    min-height: 650px !important;
+    padding-top: 80px !important;
+  }
+  .hero-title {
+    font-size: 2.4rem !important; 
+    letter-spacing: 3px !important; 
+    line-height: 1.2 !important;
+    margin-top: 20px !important;
+    margin-bottom: 30px !important;
+  }
+  .hero-description-list {
+    width: 95%;
+    padding: 15px 15px;
+    margin-bottom: 35px;
+  }
 
-  .hero h1 { font-size: 1.5rem; }
+  .hero h1 { font-size: 0.9rem; }
 }
-
 </style>
+
 
 
 <section class="hero">
   {% if not user.is_authenticated %}
-    <h1>THANK JAPAN</h1>
+    <div class="hero-container"> 
+      <h1 class="hero-title">THANK JAPAN</h1>
+      
+      <div class="hero-description-list">
+        <ul>
+          <li>🎮 Domine o japonês com jogos divertidos!</li>
+          <li>🍱 Guias de cultura, gastronomia e turismo</li>
+          <li>🗾 Destaque: Os tesouros escondidos de Ishikawa</li>
+          <li>🎓 Todos os níveis bem-vindos: N5 ao N1</li>
+        </ul>
+      </div>
+
     <div class="hero-buttons">
       <a href="{% url 'category_list_pt' %}" class="explore-btn btn-red">Aprender japonês 📖</a>
 
