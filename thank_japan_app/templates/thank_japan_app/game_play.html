@@ -5,11 +5,10 @@
 {% block content %}
 <script src="https://unpkg.com/wanakana"></script>
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+<script src="https://unpkg.com/htmx.org@1.9.10"></script>
 
 <style>
-html {
-  background-color: #111; 
-}
+html, body { background-color: #111 !important; }
 
 body {
   background-color: #111;
@@ -515,7 +514,7 @@ img:hover { transform: scale(1.02); }
      data-is-correct="{{ is_correct|yesno:'true,false' }}">
 </div>
 
-<div class="main2" data-hint-length="{{ hint_length }}" data-total-questions="{{ total_questions }}">
+<div class="main2" hx-boost="true" hx-target=".main2" hx-swap="outerHTML" data-hint-length="{{ hint_length }}" data-total-questions="{{ total_questions }}">
 
     <div class="mobile-mini-nav" style="display: none; justify-content: space-between; align-items: center; padding: 10px 5px; width: 100%;">
         <a href="{% if lang_code == 'ja' %}{% url 'toppageja' %}{% elif lang_code == 'zh-hant' %}{% url 'toppagezhHANT' %}{% elif lang_code == 'zh-cn' %}{% url 'toppagezhCN' %}{% elif lang_code == 'ko' %}{% url 'toppageko' %}{% elif lang_code == 'it' %}{% url 'toppageit' %}{% elif lang_code == 'fr' %}{% url 'toppagefr' %}{% elif lang_code == 'de' %}{% url 'toppagede' %}{% elif lang_code == 'es-mx' %}{% url 'toppageesMX' %}{% elif lang_code == 'es-es' %}{% url 'toppageesES' %}{% elif lang_code == 'pt' %}{% url 'toppagept' %}{% elif lang_code == 'pt-br' %}{% url 'toppageptBR' %}{% elif lang_code == 'vi' %}{% url 'toppagevi' %}{% elif lang_code == 'th' %}{% url 'toppageth' %}{% elif lang_code == 'en-in' %}{% url 'toppageenIN' %}{% else %}{% url 'toppage' %}{% endif %}" 
@@ -936,7 +935,7 @@ img:hover { transform: scale(1.02); }
   {% else %}
 
     <div class="quiz-section" style="margin-top: 20px;">
-        <form method="post" action="{% url 'game_answer' object.id %}" id="answer-form">
+        <form method="post" action="{% url 'game_answer' object.id %}" id="answer-form" hx-post="{% url 'game_answer' object.id %}"></form>
             {% csrf_token %}
             <input type="hidden" name="answer" id="answer-input">
             <div class="choices-container" style="display: flex; flex-direction: column; gap: 15px; align-items: center;">
