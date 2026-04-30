@@ -8,7 +8,19 @@
 <script src="https://unpkg.com/htmx.org@1.9.10"></script>
 <script>
     document.body.addEventListener('htmx:configRequest', (event) => {
-        event.detail.headers['X-CSRFToken'] = '{{ csrf_token }}';
+        const name = 'csrftoken';
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        event.detail.headers['X-CSRFToken'] = cookieValue;
     });
 </script>
 
@@ -522,11 +534,11 @@ img:hover { transform: scale(1.02); }
 <div class="main2" 
      hx-boost="true" 
      hx-target=".main2" 
-     hx-swap="outerHTML" 
-     hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+     hx-swap="outerHTML show:window:top" 
      data-hint-length="{{ hint_length }}" 
      data-total-questions="{{ total_questions }}">
 
+     
     <div class="mobile-mini-nav" style="display: none; justify-content: space-between; align-items: center; padding: 10px 5px; width: 100%;">
         <a href="{% if lang_code == 'ja' %}{% url 'toppageja' %}{% elif lang_code == 'zh-hant' %}{% url 'toppagezhHANT' %}{% elif lang_code == 'zh-cn' %}{% url 'toppagezhCN' %}{% elif lang_code == 'ko' %}{% url 'toppageko' %}{% elif lang_code == 'it' %}{% url 'toppageit' %}{% elif lang_code == 'fr' %}{% url 'toppagefr' %}{% elif lang_code == 'de' %}{% url 'toppagede' %}{% elif lang_code == 'es-mx' %}{% url 'toppageesMX' %}{% elif lang_code == 'es-es' %}{% url 'toppageesES' %}{% elif lang_code == 'pt' %}{% url 'toppagept' %}{% elif lang_code == 'pt-br' %}{% url 'toppageptBR' %}{% elif lang_code == 'vi' %}{% url 'toppagevi' %}{% elif lang_code == 'th' %}{% url 'toppageth' %}{% elif lang_code == 'en-in' %}{% url 'toppageenIN' %}{% else %}{% url 'toppage' %}{% endif %}" 
         style="color: #ffffff; text-decoration: none; font-size: 0.9rem; font-weight: bold; letter-spacing: 1px; white-space: nowrap;">
