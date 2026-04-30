@@ -519,7 +519,13 @@ img:hover { transform: scale(1.02); }
      data-is-correct="{{ is_correct|yesno:'true,false' }}">
 </div>
 
-<div class="main2" hx-boost="true" hx-target=".main2" hx-swap="outerHTML" data-hint-length="{{ hint_length }}" data-total-questions="{{ total_questions }}">
+<div class="main2" 
+     hx-boost="true" 
+     hx-target=".main2" 
+     hx-swap="outerHTML" 
+     hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+     data-hint-length="{{ hint_length }}" 
+     data-total-questions="{{ total_questions }}">
 
     <div class="mobile-mini-nav" style="display: none; justify-content: space-between; align-items: center; padding: 10px 5px; width: 100%;">
         <a href="{% if lang_code == 'ja' %}{% url 'toppageja' %}{% elif lang_code == 'zh-hant' %}{% url 'toppagezhHANT' %}{% elif lang_code == 'zh-cn' %}{% url 'toppagezhCN' %}{% elif lang_code == 'ko' %}{% url 'toppageko' %}{% elif lang_code == 'it' %}{% url 'toppageit' %}{% elif lang_code == 'fr' %}{% url 'toppagefr' %}{% elif lang_code == 'de' %}{% url 'toppagede' %}{% elif lang_code == 'es-mx' %}{% url 'toppageesMX' %}{% elif lang_code == 'es-es' %}{% url 'toppageesES' %}{% elif lang_code == 'pt' %}{% url 'toppagept' %}{% elif lang_code == 'pt-br' %}{% url 'toppageptBR' %}{% elif lang_code == 'vi' %}{% url 'toppagevi' %}{% elif lang_code == 'th' %}{% url 'toppageth' %}{% elif lang_code == 'en-in' %}{% url 'toppageenIN' %}{% else %}{% url 'toppage' %}{% endif %}" 
