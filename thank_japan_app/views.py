@@ -22,7 +22,6 @@ from django.utils.http import urlencode
 from django.contrib.auth.views import PasswordResetView
 from .context_processors import language_context
 from .models import WeeklyScore
-from django.views.decorators.csrf import csrf_exempt
 import logging
 import random
 import re, itertools
@@ -949,7 +948,7 @@ def game_start(request):
     })
 
 
-@csrf_exempt
+
 def game_play(request):
     player, is_guest = get_current_player_info(request)
     premium_url_name, lang_code = get_lang_info(request)
@@ -1025,7 +1024,7 @@ def game_play(request):
         'lang_code': lang_code,
     })
          
-@csrf_exempt
+
 def game_answer(request, pk):
     if request.method != 'POST':
         return redirect('game_play')
