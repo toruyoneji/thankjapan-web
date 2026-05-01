@@ -889,34 +889,33 @@ tbody td {
     <div class="appeal-section">
         {% if is_guest %}
             <p>
-                {% if lang_code == 'ja' %}🌟 ゲームをクリアしました！<br><strong>無料登録</strong>してポイントとランクを保存しましょう！
-                {% elif lang_code == 'zh-hant' %}🌟 你完成了遊戲！<br><strong>免費註冊</strong>以保存你的積分和等級！
-                {% elif lang_code == 'zh-cn' %}🌟 你完成了游戏！<br><strong>免费注册</strong>以保存你的积分和等级！
-                {% elif lang_code == 'de' %}🌟 Du hast das Spiel beendet!<br><strong>Kostenlos anmelden</strong>, um Punkte und Rang zu speichern!
-                {% elif lang_code == 'fr' %}🌟 Vous avez terminé le jeu !<br><strong>Inscrivez-vous gratuitement</strong> pour sauvegarder vos points et votre rang !
-                {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}🌟 ¡Has terminado el juego!<br><strong>Regístrate gratis</strong> para guardar tus puntos y subir de rango!
-                {% elif lang_code == 'it' %}🌟 Hai finito il gioco!<br><strong>Registrati gratuitamente</strong> per salvare i tuoi punti e il tuo livello!
-                {% elif lang_code == 'ko' %}🌟 게임을 완료했습니다!<br><strong>무료 가입</strong>하여 점수와 등급을 저장하세요!
-                {% elif lang_code == 'pt' or lang_code == 'pt-br' %}🌟 Você terminou o jogo!<br><strong>Cadastre-se gratuitamente</strong> para salvar seus pontos e subir de nível!
-                {% elif lang_code == 'vi' %}🌟 Bạn đã hoàn thành trò chơi!<br><strong>Đăng ký miễn phí</strong> để lưu điểm và thăng hạng!
-                {% elif lang_code == 'th' %}🌟 คุณเล่นเกมจบแล้ว!<br><strong>สมัครฟรี</strong>เพื่อบันทึกคะแนนและเลื่อนระดับ!
-                {% else %}🌟 You finished the game!<br><strong>Sign up for free</strong> to save your points and rank up!
-                {% endif %}
+                {% if lang_code == 'ja' %}ナイススコア！✨<br><strong>今の記録を保存</strong>して、ランキングに参加しませんか？（無料）
+                {% elif lang_code == 'zh-hant' %}表現精彩！✨<br>不要讓進度消失—<strong>立即免費加入</strong>，保存分數並參與排名！
+                {% elif lang_code == 'zh-cn' %}表现精彩！✨<br>不要让进度消失—<strong>立即免费加入</strong>，保存分数并参与排名！
+                {% elif lang_code == 'ko' %}멋진 점수예요! ✨<br><strong>기록을 저장</strong>하고 랭킹에 참여하세요. 지금 무료 가입!
+                {% elif lang_code == 'de' %}Tolle Leistung! ✨<br>Verliere deinen Fortschritt nicht—<strong>melde dich kostenlos an</strong>, um dein Ergebnis zu speichern!
+                {% elif lang_code == 'fr' %}Beau travail ! ✨<br>Ne perdez pas votre progression—<strong>inscrivez-vous gratuitement</strong> pour sauvegarder votre score !
+                {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}¡Gran trabajo! ✨<br>No pierdas tu progreso—<strong>¡Únete gratis!</strong> Guarda tu puntuación y entra en el ranking.
+                {% elif lang_code == 'it' %}Ottimo lavoro! ✨<br>Non perdere i tuoi progressi—<strong>iscriviti gratis</strong> per salvare il punteggio e scalare la classifica!
+                {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Bom trabalho! ✨<br>Não perca seu progresso—<strong>cadastre-se grátis</strong> para salvar sua pontuação e entrar no ranking!
+                {% elif lang_code == 'vi' %}Làm tốt lắm! ✨<br>Đừng để mất tiến trình—<strong>tham gia miễn phí</strong> để lưu điểm và xem thứ hạng của bạn!
+                {% elif lang_code == 'th' %}เก่งมาก! ✨<br>อย่าให้คะแนนหายไป—<strong>สมัครฟรี</strong> เพื่อบันทึกคะแนนและดูอันดับของคุณ!
+                {% else %}Great score! ✨<br><strong>Don't lose your progress!</strong> Join for free to save your score and see your rank.{% endif %}
 
             </p>
             <a href="{% url 'player_register' %}?guest_score={{ score }}&lang={{ lang_code }}" class="neon-button">
-                {% if lang_code == 'ja' %}今すぐ登録
-                {% elif lang_code == 'zh-hant' %}立即註冊
-                {% elif lang_code == 'zh-cn' %}立即注册
-                {% elif lang_code == 'de' %}Jetzt registrieren
-                {% elif lang_code == 'fr' %}S'inscrire maintenant
-                {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Regístrate ahora
-                {% elif lang_code == 'it' %}Registrati ora
-                {% elif lang_code == 'ko' %}지금 등록
-                {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Registre-se agora
-                {% elif lang_code == 'vi' %}Đăng ký ngay
-                {% elif lang_code == 'th' %}ลงทะเบียนตอนนี้
-                {% else %}Register Now
+                {% if lang_code == 'ja' %}無料で始める
+                {% elif lang_code == 'zh-hant' %}免費加入
+                {% elif lang_code == 'zh-cn' %}免费加入
+                {% elif lang_code == 'de' %}Gratis beitreten
+                {% elif lang_code == 'fr' %}Rejoindre gratuitement
+                {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Únete gratis
+                {% elif lang_code == 'it' %}Iscriviti gratis
+                {% elif lang_code == 'ko' %}무료로 시작하기
+                {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Cadastre-se grátis
+                {% elif lang_code == 'vi' %}Tham gia miễn phí
+                {% elif lang_code == 'th' %}เข้าร่วมฟรี
+                {% else %}Join for Free
                 {% endif %}
 
             </a>
