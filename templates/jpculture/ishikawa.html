@@ -547,7 +547,39 @@ h1 {
   </div>
 
   <div style="text-align:center; margin:50px 0;">
-        <a class="btn-more" href="javascript:void(0);" onclick="goToTopPage()">← Back to Home</a>
+    <a href="javascript:void(0);" onclick="goToTopPage()" class="btn-more">
+        {% if lang == 'ja' %}
+            トップページへ戻る
+        {% elif lang == 'ko' %}
+            홈으로 돌아가기
+        {% elif lang == 'zh-cn' %}
+            返回首页
+        {% elif lang == 'zh-hant' %}
+            返回首頁
+        {% elif lang == 'th' %}
+            กลับไปที่หน้าหลัก
+        {% elif lang == 'vi' %}
+            Quay lại trang chủ
+        {% elif lang == 'de' %}
+            Zurück zur Startseite
+        {% elif lang == 'fr' %}
+            Retour à l'accueil
+        {% elif lang == 'it' %}
+            Torna alla home
+        {% elif lang == 'es-es' %}
+            Volver al inicio
+        {% elif lang == 'es-mx' %}
+            Volver al inicio
+        {% elif lang == 'pt' %}
+            Voltar à página inicial
+        {% elif lang == 'pt-br' %}
+            Voltar à página inicial
+        {% elif lang == 'en-in' %}
+            Back to Home
+        {% else %}
+            Back to Home
+        {% endif %}
+    </a>
   </div>
 
 

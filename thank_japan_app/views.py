@@ -1662,8 +1662,35 @@ class JapanFoodDEView(TemplateView):
     
 #culture(todouhuken)
 
-class JapanCultureView(TemplateView):
-    template_name = "thank_japan_app/japan/japanculturepage.html"
+class PrefectureListView(TemplateView):
+    template_name = "thank_japan_app/japan/prefecture_list_page.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # 言語コードの取得（パラメータ優先）
+        lang_code = self.request.GET.get('lang')
+        if not lang_code:
+            from thank_japan_app.views import get_lang_info # 既存の関数
+            _, lang_code = get_lang_info(self.request)
+            
+        context['lang_code'] = lang_code
+        # 共通のベースファイル出し分けロジック（前回の流用）
+        base_files = {
+            'ja': 'base/base_ja.html', 'ko': 'base/base_ko.html',
+            'zh-cn': 'base/base_zh_cn.html', 'zh-hant': 'base/base_zh_hant.html',
+            'th': 'base/base_th.html', 'vi': 'base/base_vi.html',
+            'de': 'base/base_de.html', 'fr': 'base/base_fr.html',
+            'it': 'base/base_it.html', 'es-es': 'base/base_es_es.html',
+            'es-mx': 'base/base_es_mx.html', 'pt': 'base/base_pt.html',
+            'pt-br': 'base/base_pt_br.html', 'en-in': 'base/base_en_in.html',
+        }
+        context['base_template'] = base_files.get(lang_code, 'base/base.html')
+        return context
+    
+    
+
+class IshikawaView(TemplateView):
+    template_name = "thank_japan_app/japan/ishikawapage.html.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

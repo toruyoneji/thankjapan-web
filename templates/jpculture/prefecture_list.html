@@ -1,0 +1,236 @@
+{% load static %}
+
+<style>
+body {
+  margin: 0;
+  font-family: "Poppins","Hiragino Maru Gothic ProN",sans-serif;
+  background-image: url("https://res.cloudinary.com/dotekofm5/image/upload/v1762738682/thankjapan/backgrounds/eqpmsezzbdcjecbql04f.png");
+  background-size: cover;
+  background-attachment: scroll;
+  background-repeat: no-repeat;
+  color: #333;
+  text-align: center;
+}
+
+/* ===== 見出し ===== */
+h1 {
+  color: #3b0a00;
+  font-weight: 600;
+  margin: 120px 20px 20px 20px;
+  letter-spacing: 0.05em;
+  font-size: 1.4rem;
+  text-shadow: 1px 1px 2px rgba(255,255,255,0.8);
+}
+
+/* ===== カードレイアウト ===== */
+.food-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  max-width: 950px;
+  margin: 0 auto;
+  padding: 20px;
+  justify-items: center;
+}
+
+.food-card {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  transition: transform 0.3s ease;
+  cursor: pointer;
+  width: 100%;
+  max-width: 280px;
+  margin-top: 0;
+}
+
+.food-card:hover {
+  transform: scale(1.03);
+}
+
+.food-card img {
+  width: 100%;
+  height: 170px;
+  object-fit: cover;
+}
+
+.food-card p {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;  /* 2行で省略 */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.4em;
+  max-height: 2.8em;      
+  margin: 0;              
+}
+
+.food-card img,
+.card img {
+  display: block;       
+  margin-top: 0;        
+  border-radius: 15px 15px 0 0; 
+}
+
+.btn-more {
+    display: inline-block;
+    background: #ffb347;
+    color: white;
+    padding: 10px 24px;
+    border-radius: 25px;
+    text-decoration: none;
+    font-weight: 600;
+    margin-top: 20px;
+    transition: background 0.3s;
+}
+.btn-more:hover {
+    background: #ff9642;
+}
+
+
+/* ===== レスポンシブ ===== */
+@media (max-width: 768px) {
+  h1 {
+    margin: 120px 0 15px 0;
+    padding: 50px 10px;
+    font-size: 1.2rem;
+  }
+
+  .food-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    padding: 10px;
+    margin-top: 20px;
+  }
+
+  .food-card img {
+    height: 120px;
+  }
+
+}
+
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+
+</style>
+
+
+
+<h1>
+    {% if lang == 'ja' %}探索する都道府県を選択してください
+    {% elif lang == 'ko' %}탐험할 도도부현을 선택해 주세요
+    {% elif lang == 'zh-cn' %}请选择要探索的都道府县
+    {% elif lang == 'zh-hant' %}請選擇要探索的都道府縣
+    {% elif lang == 'th' %}กรุณาเลือกจังหวัดที่คุณต้องการสำรวจ
+    {% elif lang == 'vi' %}Vui lòng chọn tỉnh thành bạn muốn khám phá
+    {% elif lang == 'de' %}Bitte wählen Sie eine Präfektur aus
+    {% elif lang == 'fr' %}Veuillez choisir une préfecture à explorer
+    {% elif lang == 'it' %}Seleziona una prefettura da esplorare
+    {% elif lang == 'es-es' or lang_code == 'es-mx' %}Selecciona una prefectura para explorar
+    {% elif lang == 'pt' or lang_code == 'pt-br' %}Selecione uma província para explorar
+    {% elif lang == 'en-in' %}Please select a prefecture to explore
+    {% else %}Please select a prefecture to explore
+    {% endif %}
+</h1>
+
+
+<div class="food-grid">
+    
+    <a href="{% url 'ishikawa' %}{% if lang %}?lang={{ lang }}{% endif %}" style="text-decoration: none; color: inherit;">
+        <div class="food-card">
+            <img src="https://res.cloudinary.com/dotekofm5/image/upload/v1761842683/thankjapan/backgrounds/ixyersx9bdpxytxzetix.jpg" alt="Ishikawa">
+            <div style="padding: 10px;">
+                <p style="font-weight: 600; color: #3b0a00;">
+                    {% if lang == 'ja' %}石川県 (Ishikawa)
+                    {% elif lang == 'ko' %}이시카와현 (Ishikawa)
+                    {% elif lang == 'zh-cn' %}石川县 (Ishikawa)
+                    {% elif lang == 'zh-hant' %}石川縣 (Ishikawa)
+                    {% elif lang == 'th' %}จังหวัดอิชิกาวะ (Ishikawa)
+                    {% elif lang == 'vi' %}Tỉnh Ishikawa
+                    {% elif lang == 'de' %}Präfektur Ishikawa
+                    {% elif lang == 'fr' %}Préfecture d'Ishikawa
+                    {% elif lang == 'it' %}Prefettura di Ishikawa
+                    {% elif lang == 'es-es' or lang == 'es-mx' %}Prefectura de Ishikawa
+                    {% elif lang == 'pt' or lang == 'pt-br' %}Província de Ishikawa
+                    {% else %}Ishikawa Prefecture{% endif %}
+                </p>
+            </div>
+        </div>
+    </a>
+
+    
+
+    
+
+</div>
+
+
+<div style="margin: 40px 0;">
+    <a href="javascript:void(0);" onclick="goToTopPage()" class="btn-more">
+        {% if lang == 'ja' %}
+            トップページへ戻る
+        {% elif lang == 'ko' %}
+            홈으로 돌아가기
+        {% elif lang == 'zh-cn' %}
+            返回首页
+        {% elif lang == 'zh-hant' %}
+            返回首頁
+        {% elif lang == 'th' %}
+            กลับไปที่หน้าหลัก
+        {% elif lang == 'vi' %}
+            Quay lại trang chủ
+        {% elif lang == 'de' %}
+            Zurück zur Startseite
+        {% elif lang == 'fr' %}
+            Retour à l'accueil
+        {% elif lang == 'it' %}
+            Torna alla home
+        {% elif lang == 'es-es' %}
+            Volver al inicio
+        {% elif lang == 'es-mx' %}
+            Volver al inicio
+        {% elif lang == 'pt' %}
+            Voltar à página inicial
+        {% elif lang == 'pt-br' %}
+            Voltar à página inicial
+        {% elif lang == 'en-in' %}
+            Back to Home
+        {% else %}
+            Back to Home
+        {% endif %}
+    </a>
+</div>
+
+{% if lang == 'ja' %}{% url 'toppageja' as final_url %}
+{% elif lang == 'ko' %}{% url 'toppageko' as final_url %}
+{% elif lang == 'zh-cn' %}{% url 'toppagezhCN' as final_url %}
+{% elif lang == 'zh-hant' %}{% url 'toppagezhHANT' as final_url %}
+{% elif lang == 'th' %}{% url 'toppageth' as final_url %}
+{% elif lang == 'vi' %}{% url 'toppagevi' as final_url %}
+{% elif lang == 'de' %}{% url 'toppagede' as final_url %}
+{% elif lang == 'fr' %}{% url 'toppagefr' as final_url %}
+{% elif lang == 'it' %}{% url 'toppageit' as final_url %}
+{% elif lang == 'es-es' %}{% url 'toppageesES' as final_url %}
+{% elif lang == 'es-mx' %}{% url 'toppageesMX' as final_url %}
+{% elif lang == 'pt' %}{% url 'toppagept' as final_url %}
+{% elif lang == 'pt-br' %}{% url 'toppageptBR' as final_url %}
+{% elif lang == 'en-in' %}{% url 'toppageenIN' as final_url %}
+{% else %}{% url 'toppage' as final_url %}
+{% endif %}
+
+
+<script>
+
+function goToTopPage() {
+    
+    const savedUrl = localStorage.getItem('tj_top_url');
+    const defaultUrl = "{{ final_url }}"; 
+    
+    window.location.href = savedUrl ? savedUrl : defaultUrl;
+}
+</script>

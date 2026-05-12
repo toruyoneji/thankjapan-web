@@ -1,0 +1,68 @@
+{% extends base_template %}
+
+{% block title %}
+    {% if lang == 'ja' %}探索する都道府県を選択：日本文化を巡る旅 | ThankJapan
+    {% elif lang == 'ko' %}탐험할 도도부현 선택: 일본 문화 여행 | ThankJapan
+    {% elif lang == 'zh-cn' %}选择要探索的都道府县：日本文化之旅 | ThankJapan
+    {% elif lang == 'zh-hant' %}選擇要探索的都道府縣：日本文化之旅 | ThankJapan
+    {% elif lang == 'th' %}เลือกจังหวัดที่จะสำรวจ: ทริปวัฒนธรรมญี่ปุ่น | ThankJapan
+    {% elif lang == 'vi' %}Chọn tỉnh thành để khám phá: Hành trình văn hóa Nhật Bản | ThankJapan
+    {% elif lang == 'de' %}Wähle eine Präfektur: Eine Reise durch Japans Kultur | ThankJapan
+    {% elif lang == 'fr' %}Choisir une préfecture : un voyage à travers la culture japonaise | ThankJapan
+    {% elif lang == 'it' %}Seleziona una prefettura: un viaggio nella cultura giapponese | ThankJapan
+    {% elif lang == 'es-es' %}Selecciona una prefectura: Un viaje por la cultura japonesa | ThankJapan
+    {% elif lang == 'es-mx' %}Selecciona una prefectura: Un viaje por la cultura japonesa | ThankJapan
+    {% elif lang == 'pt' %}Selecione uma província: Uma viagem pela cultura japonesa | ThankJapan
+    {% elif lang == 'pt-br' %}Selecione uma província: Uma viagem pela cultura japonesa | ThankJapan
+    {% elif lang == 'en-in' %}Select a Prefecture: Explore Japanese Culture | ThankJapan
+    {% else %}Select a Prefecture | Explore Japan's Regional Culture | ThankJapan
+    {% endif %}
+{% endblock %}
+
+{% block description %}
+    {% if lang == 'ja' %}日本全国の都道府県から目的地を選んで、その土地独自の文化、歴史、庭園、美食を深く知りましょう。
+    {% elif lang == 'ko' %}일본 전국의 도도부현에서 목적지를 선택하여 그 지역 고유의 문화, 역사, 정원, 미식을 깊이 있게 알아보세요.
+    {% elif lang == 'zh-cn' %}从日本各地的都道府县中选择目的地，深入了解当地独特的文化、历史、园林和美食。
+    {% elif lang == 'zh-hant' %}從日本各地的都道府縣中選擇目的地，深入瞭解當地獨特的文化、歷史、園林和美食。
+    {% elif lang == 'th' %}เลือกจุดหมายปลายทางจากจังหวัดต่างๆ ทั่วญี่ปุ่น เพื่อเรียนรู้เพิ่มเติมเกี่ยวกับวัฒนธรรม ประวัติศาสตร์ สวน และอาหารที่เป็นเอกลักษณ์ของท้องถิ่นนั้น
+    {% elif lang == 'vi' %}Chọn điểm đến từ các tỉnh thành trên khắp Nhật Bản để tìm hiểu thêm về văn hóa, lịch sử, khu vườn và ẩm thực độc đáo của địa phương đó.
+    {% elif lang == 'de' %}Wählen Sie ein Reiseziel aus den Präfekturen Japans aus, um mehr über die einzigartige Kultur, Geschichte, Gärten und Gastronomie der Region zu erfahren.
+    {% elif lang == 'fr' %}Choisissez une destination parmi les préfectures du Japon pour en savoir plus sur la culture, l'histoire, les jardins et la gastronomie uniques de la région.
+    {% elif lang == 'it' %}Scegli una destinazione tra le prefetture del Giappone per saperne di più sulla cultura, la storia, i giardini e la gastronomia unici della regione.
+    {% elif lang == 'es-es' %}Elige un destino entre las prefecturas de Japón para conocer más sobre la cultura, historia, jardines y gastronomía únicos de la región.
+    {% elif lang == 'es-mx' %}Elige un destino entre las prefecturas de Japón para conocer más sobre la cultura, historia, jardines y gastronomía únicos de la región.
+    {% elif lang == 'pt' %}Escolha um destino entre as províncias do Japão para saber mais sobre a cultura, história, jardins e gastronomia exclusivos da região.
+    {% elif lang == 'pt-br' %}Escolha um destino entre as províncias do Japão para saber mais sobre a cultura, história, jardins e gastronomia exclusivos da região.
+    {% elif lang == 'en-in' %}Choose a destination from Japan's prefectures to learn more about the unique local culture, history, gardens, and gastronomy.
+    {% else %}Select a Japanese prefecture to discover regional traditions, historic sites, and local wonders. Explore the diverse heritage of Japan.{% endif %}
+{% endblock %}
+
+
+{% block og_title %}{% block title %}{% endblock %}{% endblock %}
+{% block og_description %}{% block description %}{% endblock %}{% endblock %}
+{% block og_url %}{{ request.build_absolute_uri }}{% endblock %}
+
+{% block hreflang_tags %}
+    
+    <link rel="alternate" hreflang="en" href="https://www.thankjapan.com/japanculture/">
+    <link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/japanculture/?lang=ja">
+    <link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/japanculture/?lang=ko">
+    <link rel="alternate" hreflang="zh-hans" href="https://www.thankjapan.com/japanculture/?lang=zh-cn">
+    <link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/japanculture/?lang=zh-hant">
+    <link rel="alternate" hreflang="th" href="https://www.thankjapan.com/japanculture/?lang=th">
+    <link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/japanculture/?lang=vi">
+    <link rel="alternate" hreflang="de" href="https://www.thankjapan.com/japanculture/?lang=de">
+    <link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/japanculture/?lang=fr">
+    <link rel="alternate" hreflang="it" href="https://www.thankjapan.com/japanculture/?lang=it">
+    <link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/japanculture/?lang=es-es">
+    <link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/japanculture/?lang=es-mx">
+    <link rel="alternate" hreflang="pt-pt" href="https://www.thankjapan.com/japanculture/?lang=pt">
+    <link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/japanculture/?lang=pt-br">
+    <link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/japanculture/?lang=en-in">
+    <link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/japanculture/">
+{% endblock %}
+
+{% block content %}
+    {% include 'jpculture/prefecture_list.html' %}
+{% endblock %}
+

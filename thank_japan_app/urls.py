@@ -17,7 +17,7 @@ from .views import (TopView, TopViewFR, TopViewIT, TopViewPT, TopViewZHHANT,TopV
                     JapanFoodView,JapanFoodDEView, JapanFoodENINView, JapanFoodESESView,
                     JapanFoodESMXView, JapanFoodFRView, JapanFoodITView, JapanFoodJAView ,JapanFoodKOView,
                     JapanFoodPTBRView, JapanFoodPTView, JapanFoodTHView, JapanFoodVIView, JapanFoodZHHANTView, JapanFoodZHCNView,
-                    JapanCultureView,  CompanyFormView, CompanyFormDEView, CompanyFormENINView, CompanyFormESESView,
+                    PrefectureListView,IshikawaView,  CompanyFormView, CompanyFormDEView, CompanyFormENINView, CompanyFormESESView,
                     CompanyFormESMXView, CompanyFormFRView, CompanyFormITView, CompanyFormJAView, CompanyFormKOView,
                     CompanyFormPTBRView, CompanyFormPTView, CompanyFormTHView, CompanyFormVIView, CompanyFormZHHANTView, CompanyFormZHCNView, 
                     LegalNoticeView, LegalNoticeDEView, LegalNoticeENINView, LegalNoticeESESView, LegalNoticeESMXView,
@@ -213,7 +213,10 @@ urlpatterns = [
     path('japanfood/zh-cn/', JapanFoodZHCNView.as_view(), name='japanfoodzhCN'),
     
     #culture
-    path('japanculture/ishikawa/', JapanCultureView.as_view(), name='japanculture_ishikawa'),
+    path('japanculture/', PrefectureListView.as_view(), name='prefecture_list'),
+    
+    #prefecture
+    path('japanculture/ishikawa/', IshikawaView.as_view(), name='ishikawa'),
     #game
     path('game/start/', game_start, name='game_start'),
     path('game/play/', game_play, name='game_play'),
