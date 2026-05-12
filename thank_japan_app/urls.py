@@ -217,6 +217,7 @@ urlpatterns = [
     
     #prefecture
     path('japanculture/ishikawa/', IshikawaView.as_view(), name='ishikawa'),
+    
     #game
     path('game/start/', game_start, name='game_start'),
     path('game/play/', game_play, name='game_play'),
