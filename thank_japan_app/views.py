@@ -1673,7 +1673,7 @@ class PrefectureListView(TemplateView):
             from thank_japan_app.views import get_lang_info 
             _, lang_code = get_lang_info(self.request)
             
-        context['lang_code'] = lang_code
+        context['lang'] = lang_code
         
         base_files = {
             'ja': 'base/base_ja.html', 'ko': 'base/base_ko.html',
