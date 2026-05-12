@@ -15,12 +15,28 @@ body {
 /* ===== 見出し ===== */
 h1 {
   color: #3b0a00;
-  font-weight: 600;
-  margin: 120px 20px 20px 20px;
-  letter-spacing: 0.05em;
-  font-size: 1.4rem;
-  text-shadow: 1px 1px 2px rgba(255,255,255,0.8);
+  font-weight: 700;
+  margin: 120px auto 40px auto;
+  letter-spacing: 0.1em;
+  font-size: 2.2rem;
+  line-height: 1.4;
+  text-align: center;
+  text-shadow: 2px 2px 4px rgba(255,255,255,0.9);
+  position: relative;
+  display: block;
+  max-width: 80%;
 }
+
+h1::after {
+  content: "";
+  display: block;
+  width: 60px;
+  height: 4px;
+  background: #ffb347;
+  margin: 15px auto 0 auto;
+  border-radius: 2px;
+}
+
 
 /* ===== カードレイアウト ===== */
 .food-grid {
@@ -92,11 +108,17 @@ h1 {
 /* ===== レスポンシブ ===== */
 @media (max-width: 768px) {
   h1 {
-    margin: 120px 0 15px 0;
-    padding: 50px 10px;
-    font-size: 1.2rem;
+    margin: 100px 15px 30px 15px;
+    font-size: 1.6rem;
+    padding: 20px 0;
   }
-
+  
+  h1::after {
+    width: 40px;
+    height: 3px;
+    margin-top: 10px;
+  }
+  
   .food-grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 10px;
