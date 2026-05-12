@@ -63,6 +63,7 @@ h2, h3 {
   border-bottom: none;
   mask-image: linear-gradient(to bottom, black 85%, transparent 100%);
   -webkit-mask-image: linear-gradient(to bottom, black 85%, transparent 100%);
+  transition: background 1.5s ease-in-out;
 }
 
 .hero h1 {
@@ -483,7 +484,7 @@ footer {
   
 
 
-<section class="hero">
+<section class="hero" id="hero-slider">
   {% if not user.is_authenticated %}
     <div class="hero-container"> 
       
@@ -605,5 +606,29 @@ footer {
             }
         }());
     });
+
+    
+    (function() {
+        
+        const images = [
+            "https://res.cloudinary.com/dotekofm5/image/upload/v1778602671/thankjapan/backgrounds/ljw4gmp1ejmlh7qxnfcl.jpg", 
+            
+        ];
+
+        let currentIndex = 0;
+        const heroSection = document.getElementById('hero-slider');
+
+        function slideBackground() {
+            currentIndex = (currentIndex + 1) % images.length;
+            
+            
+            const gradient = "linear-gradient(rgba(0,0,0,0.1), rgba(0,0,0,0.3))";
+            heroSection.style.backgroundImage = `${gradient}, url("${images[currentIndex]}")`;
+        }
+
+        
+        setInterval(slideBackground, 5000);
+    })();
+
 </script>
 {% endif %}
