@@ -1,29 +1,68 @@
-{% extends 'base/base.html' %}
+{% extends base_template %}
 
-{% block title %}Explore Japanese Culture | Castles, Gardens, Festivals & Traditions | ThankJapan{% endblock %}
-{% block og_title %}Discover Japan's Rich Culture - Castles, Gardens, Festivals & Everyday Life | ThankJapan{% endblock %}
-{% block og_description %}Dive into Japan's cultural heritage. Explore historic castles, tranquil gardens, seasonal festivals, traditional arts, and daily life that make Japan unique.{% endblock %}
+{% block title %}
+    {% if lang == 'ja' %}石川・金沢の文化を巡る：城、庭園、伝統と日常の美 | ThankJapan
+    {% elif lang == 'ko' %}이시카와·가나자와 문화 여행: 성, 정원, 전통과 일상의 아름다움 | ThankJapan
+    {% elif lang == 'zh-cn' %}探索石川金泽文化：城堡、园林、传统与日常之美 | ThankJapan
+    {% elif lang == 'zh-hant' %}探索石川金澤文化：城堡、園林、傳統與日常之美 | ThankJapan
+    {% elif lang == 'th' %}สัมผัสวัฒนธรรมอิชิกาวะและคานาซาว่า: ปราสาท สวน ประเพณี และความงามในชีวิตประจำวัน | ThankJapan
+    {% elif lang == 'vi' %}Khám phá văn hóa Ishikawa & Kanazawa: Lâu đài, Khu vườn, Truyền thống & Vẻ đẹp thường nhật | ThankJapan
+    {% elif lang == 'de' %}Kultur in Ishikawa & Kanazawa: Burgen, Gärten, Traditionen & alltägliche Schönheit | ThankJapan
+    {% elif lang == 'fr' %}Découvrir la culture d'Ishikawa et Kanazawa : châteaux, jardins, traditions et beauté du quotidien | ThankJapan
+    {% elif lang == 'it' %}Scopri la cultura di Ishikawa e Kanazawa: castelli, giardini, tradizioni e bellezza quotidiana | ThankJapan
+    {% elif lang == 'es-es' %}Explora la cultura de Ishikawa y Kanazawa: castillos, jardines, tradiciones y belleza cotidiana | ThankJapan
+    {% elif lang == 'es-mx' %}Explora la cultura de Ishikawa y Kanazawa: castillos, jardines, tradiciones y belleza cotidiana | ThankJapan
+    {% elif lang == 'pt' %}Explore a cultura de Ishikawa e Kanazawa: castelos, jardins, tradições e beleza do dia a dia | ThankJapan
+    {% elif lang == 'pt-br' %}Explore a cultura de Ishikawa e Kanazawa: castelos, jardins, tradições e beleza do dia a dia | ThankJapan
+    {% elif lang == 'en-in' %}Explore Ishikawa & Kanazawa Culture: Castles, Gardens, Traditions & Everyday Beauty | ThankJapan
+    {% else %}Explore Japanese Culture: Castles, Gardens, Festivals & Traditions | ThankJapan
+    {% endif %}
+{% endblock %}
+
+{% block description %}
+    {% if lang == 'ja' %}石川県・金沢の豊かな文化遺産を体験。歴史ある金沢城、美しい兼六園、伝統工芸、そして美食の魅力を紹介します。
+    {% elif lang == 'ko' %}이시카와현 가나자와의 풍부한 문화유산을 체험해 보세요. 역사적인 가나자와 성, 아름다운 겐로쿠엔, 전통 공예, 그리고 미식의 매력을 소개합니다.
+    {% elif lang == 'zh-cn' %}体验石川县金泽丰富的文化遗产。为您介绍历史悠久的金泽城、美丽的兼六园、传统工艺以及美食的魅力。
+    {% elif lang == 'zh-hant' %}體驗石川縣金澤豐富的文化遺產。為您介紹歷史悠久的金澤城、美麗的兼六園、傳統工藝以及美食的魅力。
+    {% elif lang == 'th' %}สัมผัสบมรดกทางวัฒนธรรมอันล้ำค่าของจังหวัดอิชิกาวะและคานาซาว่า แนะนำปราสาทคานาซาว่าที่มีประวัติศาสตร์ สวนเค็นโรคุเอ็นที่สวยงาม งานฝีมือดั้งเดิม และเสน่ห์ของอาหารเลิศรส
+    {% elif lang == 'vi' %}Trải nghiệm di sản văn hóa phong phú của tỉnh Ishikawa và Kanazawa. Giới thiệu lâu đài Kanazawa lịch sử, vườn Kenrokuen tuyệt đẹp, thủ công mỹ nghệ truyền thống và sức hấp dẫn của ẩm thực.
+    {% elif lang == 'de' %}Erleben Sie das reiche kulturelle Erbe der Präfektur Ishikawa und Kanazawa. Entdecken Sie die Burg Kanazawa, den Kenrokuen-Garten, traditionelles Handwerk und die kulinarischen Highlights.
+    {% elif lang == 'fr' %}Découvrez le riche patrimoine culturel de la préfecture d'Ishikawa et de Kanazawa. Présentation du château de Kanazawa, du jardin Kenrokuen, de l'artisanat traditionnel et de la gastronomie locale.
+    {% elif lang == 'it' %}Scopri il ricco patrimonio culturale della prefettura di Ishikawa e di Kanazawa. Esplora lo storico castello di Kanazawa, il bellissimo giardino Kenrokuen, l'artigianato tradizionale e la gastronomia locale.
+    {% elif lang == 'es-es' %}Vive el rico patrimonio cultural de la prefectura de Ishikawa y Kanazawa. Descubre el histórico castillo de Kanazawa, el hermoso jardín Kenrokuen, la artesanía tradicional y la gastronomía local.
+    {% elif lang == 'es-mx' %}Vive el rico patrimonio cultural de la prefectura de Ishikawa y Kanazawa. Descubre el histórico castillo de Kanazawa, el hermoso jardín Kenrokuen, la artesanía tradicional y la gastronomía local.
+    {% elif lang == 'pt' %}Experimente a rica herança cultural da província de Ishikawa e Kanazawa. Conheça o histórico Castelo de Kanazawa, o belo Jardim Kenrokuen, o artesanato tradicional e a gastronomia local.
+    {% elif lang == 'pt-br' %}Experimente a rica herança cultural da província de Ishikawa e Kanazawa. Conheça o histórico Castelo de Kanazawa, o belo Jardim Kenrokuen, o artesanato tradicional e a gastronomia local.
+    {% elif lang == 'en-in' %}Experience the rich cultural heritage of Ishikawa Prefecture and Kanazawa. Explore the historic Kanazawa Castle, beautiful Kenrokuen Garden, traditional crafts, and local gastronomy.
+    {% else %}Dive into Japan's cultural heritage. Explore historic castles, tranquil gardens, seasonal festivals, traditional arts, and daily life that make Japan unique.
+    {% endif %}
+{% endblock %}
+
+{% block og_title %}{{ self.title }}{% endblock %}
+{% block og_description %}{{ self.description }}{% endblock %}
 {% block og_url %}{{ request.build_absolute_uri }}{% endblock %}
-{% block description %}Experience Japan beyond cuisine. Learn about historic castles, beautiful gardens, vibrant festivals, traditional crafts, and the fascinating customs that define Japanese culture.{% endblock %}
+
 
 {% block hreflang_tags %}
-    <link rel="alternate" hreflang="en" href="https://www.thankjapan.com/japanculture/">
-    <link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/japanculture/ja/">
-    <link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/japanculture/vi/">
-    <link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/japanculture/fr/">
-    <link rel="alternate" hreflang="it" href="https://www.thankjapan.com/japanculture/it/">
-    <link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/japanculture/pt/">
-    <link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/japanculture/zh-hant/">
-    <link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/japanculture/ko/">
-    <link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/japanculture/es-es/">
-    <link rel="alternate" hreflang="de" href="https://www.thankjapan.com/japanculture/de/">
-    <link rel="alternate" hreflang="th" href="https://www.thankjapan.com/japanculture/th/">
-    <link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/japanculture/pt-br/">
-    <link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/japanculture/es-mx/">
-    <link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/japanculture/en-in/">
-    <link rel="alternate" hreflang="zh-cn" href="https://www.thankjapan.com/japanculture/zh-cn/">
-    <link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/japanculture/">
+    
+    <link rel="alternate" hreflang="en" href="https://www.thankjapan.com/japanculture/ishikawa/">
+    <link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/japanculture/ishikawa/?lang=ja">
+    <link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/japanculture/ishikawa/?lang=ko">
+    <link rel="alternate" hreflang="zh-hans" href="https://www.thankjapan.com/japanculture/ishikawa/?lang=zh-cn">
+    <link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/japanculture/ishikawa/?lang=zh-hant">
+    <link rel="alternate" hreflang="th" href="https://www.thankjapan.com/japanculture/ishikawa/?lang=th">
+    <link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/japanculture/ishikawa/?lang=vi">
+    <link rel="alternate" hreflang="de" href="https://www.thankjapan.com/japanculture/ishikawa/?lang=de">
+    <link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/japanculture/ishikawa/?lang=fr">
+    <link rel="alternate" hreflang="it" href="https://www.thankjapan.com/japanculture/ishikawa/?lang=it">
+    <link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/japanculture/ishikawa/?lang=es-es">
+    <link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/japanculture/ishikawa/?lang=es-mx">
+    <link rel="alternate" hreflang="pt-pt" href="https://www.thankjapan.com/japanculture/ishikawa/?lang=pt">
+    <link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/japanculture/ishikawa/?lang=pt-br">
+    <link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/japanculture/ishikawa/?lang=en-in">
 
+    
+    <link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/japanculture/ishikawa/">
 {% endblock %}
 
 

@@ -1660,52 +1660,38 @@ class JapanFoodDEView(TemplateView):
     template_name="thank_japan_app/japan/japanfoodpage_de.html"
     
     
-#japan culture    
+#culture(todouhuken)
+
 class JapanCultureView(TemplateView):
-    template_name="thank_japan_app/japan/japanculturepage.html"
-    
-class JapanCultureZHCNView(TemplateView):
-    template_name="thank_japan_app/japan/japanculturepage_zh_cn.html"
-    
-class JapanCultureZHHANTView(TemplateView):
-    template_name="thank_japan_app/japan/japanculturepage_zh_hant.html"
-    
-class JapanCultureVIView(TemplateView):
-    template_name="thank_japan_app/japan/japanculturepage_vi.html"
-    
-class JapanCultureTHView(TemplateView):
-    template_name="thank_japan_app/japan/japanculturepage_th.html"
-    
-class JapanCulturePTView(TemplateView):
-    template_name="thank_japan_app/japan/japanculturepage_pt.html"
-    
-class JapanCulturePTBRView(TemplateView):
-    template_name="thank_japan_app/japan/japanculturepage_pt_br.html"
-    
-class JapanCultureKOView(TemplateView):
-    template_name="thank_japan_app/japan/japanculturepage_ko.html"
-    
-class JapanCultureJAView(TemplateView):
-    template_name="thank_japan_app/japan/japanculturepage_ja.html"
-    
-class JapanCultureITView(TemplateView):
-    template_name="thank_japan_app/japan/japanculturepage_it.html"
-    
-class JapanCultureFRView(TemplateView):
-    template_name="thank_japan_app/japan/japanculturepage_fr.html"
-    
-class JapanCultureESMXView(TemplateView):
-    template_name="thank_japan_app/japan/japanculturepage_es_mx.html"
-    
-class JapanCultureESESView(TemplateView):
-    template_name="thank_japan_app/japan/japanculturepage_es_es.html"
-    
-class JapanCultureENINView(TemplateView):
-    template_name="thank_japan_app/japan/japanculturepage_en_in.html"
-    
-class JapanCultureDEView(TemplateView):
-    template_name="thank_japan_app/japan/japanculturepage_de.html"
-    
+    template_name = "thank_japan_app/japan/japanculturepage.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        
+        lang = self.request.GET.get('lang', 'en')
+        
+        base_files = {
+            'ja': 'base/base_ja.html',
+            'ko': 'base/base_ko.html',
+            'zh-cn': 'base/base_zh_cn.html',
+            'zh-hant': 'base/base_zh_hant.html',
+            'th': 'base/base_th.html',
+            'vi': 'base/base_vi.html',
+            'de': 'base/base_de.html',
+            'fr': 'base/base_fr.html',
+            'it': 'base/base_it.html',
+            'es-es': 'base/base_es_es.html',
+            'es-mx': 'base/base_es_mx.html',
+            'pt': 'base/base_pt.html',
+            'pt-br': 'base/base_pt_br.html',
+            'en-in': 'base/base_en_in.html',
+        }
+        
+        
+        context['lang'] = lang
+        context['base_template'] = base_files.get(lang, 'base/base.html')
+        
+        return context    
 
 #Thank_Japan premium 
 
@@ -3172,9 +3158,28 @@ def sitemap_view(request):
         samples = ThankJapanPremium.objects.filter(category=cat).order_by('timestamp')[:6]
         public_premium_items.extend(list(samples))
 
+    languages = [
+        {'code': 'en', 'hreflang': 'en'},
+        {'code': 'ja', 'hreflang': 'ja'},
+        {'code': 'ko', 'hreflang': 'ko'},
+        {'code': 'zh-cn', 'hreflang': 'zh-hans'},
+        {'code': 'zh-hant', 'hreflang': 'zh-hant'},
+        {'code': 'th', 'hreflang': 'th'},
+        {'code': 'vi', 'hreflang': 'vi'},
+        {'code': 'de', 'hreflang': 'de'},
+        {'code': 'fr', 'hreflang': 'fr'},
+        {'code': 'it', 'hreflang': 'it'},
+        {'code': 'es-es', 'hreflang': 'es-es'},
+        {'code': 'es-mx', 'hreflang': 'es-mx'},
+        {'code': 'pt', 'hreflang': 'pt-pt'},
+        {'code': 'pt-br', 'hreflang': 'pt-br'},
+        {'code': 'en-in', 'hreflang': 'en-in'},
+    ]
+
     context = {
         'free_items': free_items,
         'premium_items': public_premium_items,
+        'languages': languages,
     }
     
     return render(request, 'sitemap.xml', context, content_type='application/xml')

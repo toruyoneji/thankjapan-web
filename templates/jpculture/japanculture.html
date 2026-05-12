@@ -62,15 +62,15 @@ h1 {
   overflow: hidden;
   text-overflow: ellipsis;
   line-height: 1.4em;
-  max-height: 2.8em;      /* line-height × 2行 */
-  margin: 0;              /* 上下の余白リセット */
+  max-height: 2.8em;      
+  margin: 0;              
 }
 
 .food-card img,
 .card img {
-  display: block;       /* 不要な隙間を消す */
-  margin-top: 0;        /* 上の余白を0に */
-  border-radius: 15px 15px 0 0; /* 角丸は残す */
+  display: block;       
+  margin-top: 0;        
+  border-radius: 15px 15px 0 0; 
 }
 
 .btn-more {
@@ -89,7 +89,7 @@ h1 {
 }
 
 
-/* ===== レスポンシブ（スマホ2列） ===== */
+/* ===== レスポンシブ ===== */
 @media (max-width: 768px) {
   h1 {
     margin: 120px 0 15px 0;
@@ -166,63 +166,382 @@ h1 {
 </style>
 
 
-<h1>Experience Japan: Culture, Food, Streets, Markets & Everyday Wonders</h1>
-
+<h1>
+    {% if lang == 'ja' %}
+        石川を巡る：伝統、自然、美食、そして日常の美
+    {% elif lang == 'ko' %}
+        이시카와 여행: 전통, 자연, 미식, 그리고 일상의 아름다움
+    {% elif lang == 'zh-cn' %}
+        探索石川：传统、自然、美食与日常之美
+    {% elif lang == 'zh-hant' %}
+        探索石川：傳統、自然、美食與日常之美
+    {% elif lang == 'th' %}
+        สำรวจอิชิกาวะ: ประเพณี ธรรมชาติ อาหารเลิศรส และความงามในชีวิตประจำวัน
+    {% elif lang == 'vi' %}
+        Khám phá Ishikawa: Truyền thống, Thiên nhiên, Ẩm thực & Vẻ đẹp thường nhật
+    {% elif lang == 'de' %}
+        Ishikawa entdecken: Tradition, Natur, Kulinarik und alltägliche Schönheit
+    {% elif lang == 'fr' %}
+        Découvrir Ishikawa : tradition, nature, gastronomie et beauté du quotidien
+    {% elif lang == 'it' %}
+        Scopri Ishikawa: tradizione, natura, gastronomia e bellezza quotidiana
+    {% elif lang == 'es-es' %}
+        Descubre Ishikawa: Tradición, Naturaleza, Gastronomía y Belleza Cotidiana
+    {% elif lang == 'es-mx' %}
+        Descubre Ishikawa: Tradición, Naturaleza, Gastronomía y Belleza Cotidiana
+    {% elif lang == 'pt' %}
+        Descubra Ishikawa: Tradição, Natureza, Gastronomia e a Beleza do Dia a Dia
+    {% elif lang == 'pt-br' %}
+        Descubra Ishikawa: Tradição, Natureza, Gastronomia e a Beleza do Dia a Dia
+    {% elif lang == 'en-in' %}
+        Explore Ishikawa: Tradition, Nature, Gastronomy & Everyday Beauty
+    {% else %}
+        Explore Ishikawa: Tradition, Nature, Gastronomy & Everyday Beauty
+    {% endif %}
+</h1>
   
 <div class="food-grid">
 
     <div class="food-card">
       <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1761842767/thankjapan/backgrounds/xzvjepgpcq0x9n8aiu31.jpg"
         alt="kanazawajou"/>
-      <p>Japanese castles are stunning symbols of history and culture, combining majestic wooden towers, stone walls, and surrounding moats that tell the story of Japan’s samurai era.</p>
+      <p>
+        {% if lang == 'ja' %}
+            日本の城は歴史と文化の壮麗な象徴であり、雄大な木造の櫓、石垣、そして周囲を囲む堀が、日本の侍時代の物語を今に伝えています。
+        {% elif lang == 'ko' %}
+            일본의 성은 역사와 문화의 웅장한 상징이며, 장엄한 목조 망루, 석벽, 그리고 이를 둘러싼 해자가 일본 사무라이 시대의 이야기를 전해줍니다.
+        {% elif lang == 'zh-cn' %}
+            日本城堡是历史与文化的宏伟象征，雄伟的木造橹楼、石墙和护城河共同述说着日本武士时代的故事。
+        {% elif lang == 'zh-hant' %}
+            日本城堡是歷史與文化的宏偉象徵，雄偉的木造櫓樓、石牆和護城河共同講述著日本武士時代的故事。
+        {% elif lang == 'th' %}
+            ปราสาทญี่ปุ่นเป็นสัญลักษณ์ที่งดงามของประวัติศาสตร์และวัฒนธรรม ผสมผสานระหว่างหอคอยไม้ที่สง่างาม กำแพงหิน และคูเมืองโดยรอบที่บอกเล่าเรื่องราวในยุคซามูไรของญี่ปุ่น
+        {% elif lang == 'vi' %}
+            Lâu đài Nhật Bản là biểu tượng lộng lẫy của lịch sử và văn hóa, kết hợp giữa những tòa tháp gỗ hùng vĩ, tường đá và hào nước bao quanh, kể lại câu chuyện về thời đại võ sĩ (samurai).
+        {% elif lang == 'de' %}
+            Japanische Burgen sind prachtvolle Symbole für Geschichte und Kultur. Mit ihren majestätischen Holztürmen, Steinmauern und Wassergräben erzählen sie die Geschichte der Samurai-Ära Japans.
+        {% elif lang == 'fr' %}
+            Les châteaux japonais sont de magnifiques symboles d'histoire et de culture, mêlant tours majestueuses en bois, remparts de pierre et douves qui racontent l'époque des samouraïs.
+        {% elif lang == 'it' %}
+            I castelli giapponesi sono splendidi simboli di storia e cultura: le maestose torri di legno, le mura di cinta e i fossati raccontano la storia dell'era dei samurai.
+        {% elif lang == 'es-es' %}
+            Los castillos japoneses son magníficos símbolos de historia y cultura; sus majestuosas torres de madera, muros de piedra y fosos narran la historia de la era samurái de Japón.
+        {% elif lang == 'es-mx' %}
+            Los castillos japoneses son magníficos símbolos de historia y cultura; sus majestuosas torres de madera, muros de piedra y fosos narran la historia de la era samurái de Japón.
+        {% elif lang == 'pt' %}
+            Os castelos japoneses são símbolos magníficos de história e cultura, combinando majestosas torres de madeira, muralhas de pedra e fossos que contam a história da era samurai do Japão.
+        {% elif lang == 'pt-br' %}
+            Os castelos japoneses são símbolos magníficos de história e cultura, combinando majestosas torres de madeira, muralhas de pedra e fossos que contam a história da era samurai do Japão.
+        {% elif lang == 'en-in' %}
+            Japanese castles are stunning symbols of history and culture, combining majestic wooden towers, stone walls, and surrounding moats that tell the story of Japan’s samurai era.
+        {% else %}
+            Japanese castles are stunning symbols of history and culture, combining majestic wooden towers, stone walls, and surrounding moats that tell the story of Japan’s samurai era.
+        {% endif %}
+      </p>
     </div>
 
     <div class="food-card">
       <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1761842683/thankjapan/backgrounds/ixyersx9bdpxytxzetix.jpg"
         alt="kanazawaike"/>
-      <p>Tranquil ponds in Japanese gardens reflect nature’s beauty and invite you to pause and feel true peace.</p>
+      <p>
+        {% if lang == 'ja' %}
+            日本庭園の静かな池は、自然の美しさを映し出し、立ち止まって本当の心の安らぎを感じさせてくれます。
+        {% elif lang == 'ko' %}
+            일본 정원의 고요한 연못은 자연의 아름다움을 비추며, 잠시 멈춰 서서 진정한 평온을 느끼게 해줍니다.
+        {% elif lang == 'zh-cn' %}
+            日本庭园中宁静的池塘映照着自然之美，邀您驻足感受真正的平静。
+        {% elif lang == 'zh-hant' %}
+            日本庭園中寧靜的池塘映照著自然之美，邀您駐足感受真正的平靜。
+        {% elif lang == 'th' %}
+            สระน้ำที่เงียบสงบในสวนญี่ปุ่นสะท้อนความงามของธรรมชาติ และเชิญชวนให้คุณหยุดพักเพื่อสัมผัสกับความสงบที่แท้จริง
+        {% elif lang == 'vi' %}
+            Những hồ nước yên bình trong khu vườn Nhật Bản phản chiếu vẻ đẹp của thiên nhiên và mời gọi bạn dừng chân để cảm nhận sự bình yên đích thực.
+        {% elif lang == 'de' %}
+            Die ruhigen Teiche in japanischen Gärten spiegeln die Schönheit der Natur wider und laden dazu ein, innezuhalten und wahre Ruhe zu finden.
+        {% elif lang == 'fr' %}
+            Les étangs paisibles des jardins japonais reflètent la beauté de la nature et vous invitent à faire une pause pour ressentir une paix véritable.
+        {% elif lang == 'it' %}
+            I tranquilli laghetti dei giardini giapponesi riflettono la bellezza della natura e invitano a fermarsi per ritrovare la vera pace interiore.
+        {% elif lang == 'es-es' %}
+            Los tranquilos estanques de los jardines japoneses reflejan la belleza de la naturaleza e invitan a detenerse y sentir la verdadera paz.
+        {% elif lang == 'es-mx' %}
+            Los tranquilos estanques de los jardines japoneses reflejan la belleza de la naturaleza e invitan a detenerse y sentir la verdadera paz.
+        {% elif lang == 'pt' %}
+            Os lagos tranquilos dos jardins japoneses refletem a beleza da natureza e convidam você a fazer uma pausa e sentir a verdadeira paz.
+        {% elif lang == 'pt-br' %}
+            Os lagos tranquilos dos jardins japoneses refletem a beleza da natureza e convidam você a fazer uma pausa e sentir a verdadeira paz.
+        {% elif lang == 'en-in' %}
+            Tranquil ponds in Japanese gardens reflect nature’s beauty and invite you to pause and feel true peace.
+        {% else %}
+            Tranquil ponds in Japanese gardens reflect nature’s beauty and invite you to pause and feel true peace.
+        {% endif %}
+      </p>
     </div>
 
     <div class="food-card">
       <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1761842722/thankjapan/backgrounds/p2uktlwymnjdmhy5w2sd.jpg"
         alt="kanazawamatsu"/>
-      <p>The pine tree in Japanese gardens stands for strength and longevity, adding timeless beauty to the scenery.</p>
+      <p>
+        {% if lang == 'ja' %}
+            日本庭園の松の木は強さと長寿の象徴であり、その風景に時代を超えた美しさを添えています。
+        {% elif lang == 'ko' %}
+            일본 정원의 소나무는 강인함과 장수를 상징하며, 풍경에 시대를 초월한 아름다움을 더해줍니다.
+        {% elif lang == 'zh-cn' %}
+            日本园林中的松树象征着力量与长寿，为景观增添了永恒的美。
+        {% elif lang == 'zh-hant' %}
+            日本園林中的松樹象徵著力量與長壽，為景觀增添了永恆的美。
+        {% elif lang == 'th' %}
+            ต้นสนในสวนญี่ปุ่นเป็นสัญลักษณ์ของความแข็งแกร่งและอายุที่ยืนยาว ช่วยเพิ่มความงามที่เหนือกาลเวลาให้กับทัศนียภาพ
+        {% elif lang == 'vi' %}
+            Cây thông trong các khu vườn Nhật Bản tượng trưng cho sức mạnh và sự trường thọ, mang lại vẻ đẹp vĩnh cửu cho cảnh quan.
+        {% elif lang == 'de' %}
+            Die Kiefer in japanischen Gärten steht für Stärke und Langlebigkeit und verleiht der Szenerie eine zeitlose Schönheit.
+        {% elif lang == 'fr' %}
+            Le pin dans les jardins japonais est un symbole de force et de longévité, ajoutant une beauté intemporelle au paysage.
+        {% elif lang == 'it' %}
+            Il pino nei giardini giapponesi rappresenta forza e longevità, aggiungendo una bellezza senza tempo al paesaggio.
+        {% elif lang == 'es-es' %}
+            El pino en los jardines japoneses representa la fuerza y la longevidad, aportando una belleza atemporal al paisaje.
+        {% elif lang == 'es-mx' %}
+            El pino en los jardines japoneses representa la fuerza y la longevidad, aportando una belleza atemporal al paisaje.
+        {% elif lang == 'pt' %}
+            O pinheiro nos jardins japoneses simboliza força e longevidade, conferindo uma beleza atemporal ao cenário.
+        {% elif lang == 'pt-br' %}
+            O pinheiro nos jardins japoneses simboliza força e longevidade, conferindo uma beleza atemporal ao cenário.
+        {% elif lang == 'en-in' %}
+            The pine tree in Japanese gardens stands for strength and longevity, adding timeless beauty to the scenery.
+        {% else %}
+            The pine tree in Japanese gardens stands for strength and longevity, adding timeless beauty to the scenery.
+        {% endif %}
+      </p>
     </div>
 
     <div class="food-card">
       <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1761842693/thankjapan/backgrounds/fa8zrl3raytsikev01qv.jpg"
         alt="kanazawakoi"/>
-      <p>Colorful koi swimming in the pond bring life, luck, and harmony to the peaceful garden.</p>
+      <p>
+        {% if lang == 'ja' %}
+            池を泳ぐ色鮮やかな錦鯉は、静かな庭園に生命の息吹と幸運、そして調和をもたらします。
+        {% elif lang == 'ko' %}
+            연못을 헤엄치는 알록달록한 비단잉어는 고요한 정원에 생명력과 행운, 그리고 조화를 가져다줍니다.
+        {% elif lang == 'zh-cn' %}
+            池塘中游动着绚丽的锦鲤，为宁静的庭园带来了生命力、好运与和谐。
+        {% elif lang == 'zh-hant' %}
+            池塘中游動著絢麗的錦鯉，為寧靜的庭園帶來了生命力、好運與和諧。
+        {% elif lang == 'th' %}
+            ปลาคาร์ฟหลากสีสันที่ว่ายอยู่ในสระน้ำช่วยนำชีวิตชีวา โชคลาภ และความกลมกลืนมาสู่สวนที่เงียบสงบ
+        {% elif lang == 'vi' %}
+            Những chú cá koi rực rỡ sắc màu bơi lội trong hồ mang lại sức sống, sự may mắn và sự hài hòa cho khu vườn thanh tịnh.
+        {% elif lang == 'de' %}
+            Farbenfrohe Koi, die im Teich schwimmen, bringen Leben, Glück und Harmonie in den friedlichen Garten.
+        {% elif lang == 'fr' %}
+            Les carpes koï colorées nageant dans l'étang apportent vie, chance et harmonie à ce jardin paisible.
+        {% elif lang == 'it' %}
+            Le colorate carpe koi che nuotano nel laghetto portano vita, fortuna e armonia al giardino sereno.
+        {% elif lang == 'es-es' %}
+            Los coloridos peces koi que nadan en el estanque aportan vida, suerte y armonía al tranquilo jardín.
+        {% elif lang == 'es-mx' %}
+            Los coloridos peces koi que nadan en el estanque aportan vida, suerte y armonía al tranquilo jardín.
+        {% elif lang == 'pt' %}
+            As carpas coloridas que nadam no lago trazem vida, sorte e harmonia ao jardim tranquilo.
+        {% elif lang == 'pt-br' %}
+            As carpas coloridas que nadam no lago trazem vida, sorte e harmonia ao jardim tranquilo.
+        {% elif lang == 'en-in' %}
+            Colorful koi swimming in the pond bring life, luck, and harmony to the peaceful garden.
+        {% else %}
+            Colorful koi swimming in the pond bring life, luck, and harmony to the peaceful garden.
+        {% endif %}
+      </p>
     </div>
 
     <div class="food-card">
       <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1761842670/thankjapan/backgrounds/pefrud2jfb9npq8jads8.jpg"
         alt="kanazawahana"/>
-      <p>A flower shop in the market bursts with color and fragrance, brightening everyone’s day.</p>
+      <p>
+        {% if lang == 'ja' %}
+            市場のお花屋さんは鮮やかな色と香りに溢れ、訪れるすべての人の一日を明るく彩ります。
+        {% elif lang == 'ko' %}
+            시장의 꽃집은 선명한 색과 향기로 가득 차 있어, 방문하는 모든 이의 하루를 환하게 밝혀줍니다.
+        {% elif lang == 'zh-cn' %}
+            市场里的花店充满了缤纷色彩与芬芳香气，点亮了每个人的心情。
+        {% elif lang == 'zh-hant' %}
+            市場裡的花店充滿了繽紛色彩與芬芳香氣，點亮了每個人的心情。
+        {% elif lang == 'th' %}
+            ร้านดอกไม้ในตลาดเต็มไปด้วยสีสันและกลิ่นหอม ช่วยทำให้วันของทุกคนสดใสขึ้น
+        {% elif lang == 'vi' %}
+            Tiệm hoa trong chợ tràn ngập sắc màu và hương thơm, làm bừng sáng một ngày của mọi người.
+        {% elif lang == 'de' %}
+            Ein Blumenladen auf dem Markt sprüht vor Farben und Düften und verschönert jedem den Tag.
+        {% elif lang == 'fr' %}
+            Une boutique de fleurs sur le marché déborde de couleurs et de parfums, illuminant la journée de chacun.
+        {% elif lang == 'it' %}
+            Un negozio di fiori al mercato esplode di colori e profumi, rallegrando la giornata di tutti.
+        {% elif lang == 'es-es' %}
+            Una floristería en el mercado rebosa de colores y fragancias, alegrando el día a todo el mundo.
+        {% elif lang == 'es-mx' %}
+            Una floristería en el mercado rebosa de colores y fragancias, alegrando el día a todo el mundo.
+        {% elif lang == 'pt' %}
+            Uma floricultura no mercado transborda cores e fragrâncias, alegrando o dia de todos.
+        {% elif lang == 'pt-br' %}
+            Uma floricultura no mercado transborda cores e fragrâncias, alegrando o dia de todos.
+        {% elif lang == 'en-in' %}
+            A flower shop in the market bursts with color and fragrance, brightening everyone’s day.
+        {% else %}
+            A flower shop in the market bursts with color and fragrance, brightening everyone’s day.
+        {% endif %}
+      </p>
     </div>
 
     <div class="food-card">
       <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1761842789/thankjapan/backgrounds/hqdsnrjuclgbubtwyw0c.jpg"
         alt="kanazawasakana"/>
-      <p>The fish shop in the market is full of fresh catches and lively energy that shows Japan’s food culture.</p>
+      <p>
+        {% if lang == 'ja' %}
+            市場の魚屋さんは新鮮な魚介と活気に満ち溢れ、日本の豊かな食文化を象徴しています。
+        {% elif lang == 'ko' %}
+            시장의 생선 가게는 신선한 해산물과 활기찬 에너지로 가득 차 있어 일본의 식문화를 잘 보여줍니다.
+        {% elif lang == 'zh-cn' %}
+            市场里的鱼铺摆满了新鲜的海产，处处洋溢着活力，展现了日本独特的饮食文化。
+        {% elif lang == 'zh-hant' %}
+            市場裡的魚鋪擺滿了新鮮的海產，處處洋溢著活力，展現了日本獨特的飲食文化。
+        {% elif lang == 'th' %}
+            ร้านขายปลาในตลาดเต็มไปด้วยอาหารทะเลที่สดใหม่และพลังที่คึกคัก ซึ่งแสดงถึงวัฒนธรรมการกินของญี่ปุ่น
+        {% elif lang == 'vi' %}
+            Cửa hàng cá trong chợ luôn tràn đầy hải sản tươi sống và nguồn năng lượng sôi động, thể hiện nét văn hóa ẩm thực của Nhật Bản.
+        {% elif lang == 'de' %}
+            Der Fischladen auf dem Markt ist voller frischer Fänge und lebendiger Energie, die Japans Esskultur widerspiegelt.
+        {% elif lang == 'fr' %}
+            La poissonnerie du marché regorge de produits frais et d'une énergie débordante qui témoigne de la culture gastronomique japonaise.
+        {% elif lang == 'it' %}
+            La pescheria del mercato è piena di pescato fresco e di un'energia vivace che mostra la cultura alimentare del Giappone.
+        {% elif lang == 'es-es' %}
+            La pescadería del mercado está llena de capturas frescas y una energía vibrante que refleja la cultura gastronómica de Japón.
+        {% elif lang == 'es-mx' %}
+            La pescadería del mercado está llena de capturas frescas y una energía vibrante que refleja la cultura gastronómica de Japón.
+        {% elif lang == 'pt' %}
+            A peixaria no mercado está repleta de peixes frescos e uma energia vibrante que demonstra a cultura alimentar do Japão.
+        {% elif lang == 'pt-br' %}
+            A peixaria no mercado está repleta de peixes frescos e uma energia vibrante que demonstra a cultura alimentar do Japão.
+        {% elif lang == 'en-in' %}
+            The fish shop in the market is full of fresh catches and lively energy that shows Japan’s food culture.
+        {% else %}
+            The fish shop in the market is full of fresh catches and lively energy that shows Japan’s food culture.
+        {% endif %}
+      </p>
     </div>
 
     <div class="food-card">
       <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1761842637/thankjapan/backgrounds/kir5gipqammzzcoofv4q.jpg"
         alt="kanazawajihanki"/>
-      <p>Unique vending machines selling sushi and sashimi show Japan’s creative blend of tradition and technology.</p>
+      <p>
+        {% if lang == 'ja' %}
+            寿司や刺身を販売するユニークな自動販売機は、日本の伝統と技術が融合した創造的な姿を象徴しています。
+        {% elif lang == 'ko' %}
+            스시와 사시미를 판매하는 독특한 자동판매기는 일본의 전통과 기술이 창의적으로 결합된 모습을 보여줍니다.
+        {% elif lang == 'zh-cn' %}
+            售卖寿司和生鱼片的独特自动贩卖机，展现了日本传统与现代技术的创意融合。
+        {% elif lang == 'zh-hant' %}
+            販售壽司和生魚片的獨特自動販賣機，展現了日本傳統與現代技術的創意融合。
+        {% elif lang == 'th' %}
+            ตู้ขายอัตโนมัติที่ไม่เหมือนใครซึ่งขายซูชิและซาซิมิ แสดงให้เห็นถึงการผสมผสานอย่างสร้างสรรค์ระหว่างประเพณีและเทคโนโลยีของญี่ปุ่น
+        {% elif lang == 'vi' %}
+            Những chiếc máy bán hàng tự động độc đáo bán sushi và sashimi cho thấy sự kết hợp sáng tạo giữa truyền thống và công nghệ của Nhật Bản.
+        {% elif lang == 'de' %}
+            Einzigartige Verkaufsautomaten für Sushi und Sashimi zeigen Japans kreative Mischung aus Tradition und Technologie.
+        {% elif lang == 'fr' %}
+            Des distributeurs automatiques uniques vendant des sushis et des sashimis illustrent le mélange créatif de tradition et de technologie du Japon.
+        {% elif lang == 'it' %}
+            Gli originali distributori automatici di sushi e sashimi mostrano il creativo connubio tra tradizione e tecnologia tipico del Giappone.
+        {% elif lang == 'es-es' %}
+            Las exclusivas máquinas expendedoras de sushi y sashimi muestran la creativa mezcla japonesa de tradición y tecnología.
+        {% elif lang == 'es-mx' %}
+            Las exclusivas máquinas expendedoras de sushi y sashimi muestran la creativa mezcla japonesa de tradición y tecnología.
+        {% elif lang == 'pt' %}
+            Máquinas de venda automática exclusivas que vendem sushi e sashimi mostram a mistura criativa de tradição e tecnologia do Japão.
+        {% elif lang == 'pt-br' %}
+            Máquinas de venda automática exclusivas que vendem sushi e sashimi mostram a mistura criativa de tradição e tecnologia do Japão.
+        {% elif lang == 'en-in' %}
+            Unique vending machines selling sushi and sashimi show Japan’s creative blend of tradition and technology.
+        {% else %}
+            Unique vending machines selling sushi and sashimi show Japan’s creative blend of tradition and technology.
+        {% endif %}
+      </p>
     </div>
 
     <div class="food-card">
       <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1761842626/thankjapan/backgrounds/iorkoeenixvnlgfkfmy4.jpg"
         alt="kanazawasake"/>
-      <p>Supermarkets and convenience stores in Japan showcase a wide array of sake, tempting every sake lover.</p>
+      <p>
+        {% if lang == 'ja' %}
+            日本のスーパーやコンビニには多彩な日本酒が並び、すべてのお酒好きを魅了します。
+        {% elif lang == 'ko' %}
+            일본의 슈퍼마켓과 편의점에는 다채로운 사케가 진열되어 있어, 모든 사케 애호가들의 마음을 사로잡습니다.
+        {% elif lang == 'zh-cn' %}
+            日本的超市和便利店展示着琳琅满目的清酒，令每一位清酒爱好者心动不已。
+        {% elif lang == 'zh-hant' %}
+            日本的超市和便利店展示著琳琅滿目的清酒，令每一位清酒愛好者心動不已。
+        {% elif lang == 'th' %}
+            ซูเปอร์มาร์เก็ตและร้านสะดวกซื้อในญี่ปุ่นมีสาเกให้เลือกมากมาย ซึ่งดึงดูดใจคนรักสาเกทุกคน
+        {% elif lang == 'vi' %}
+            Các siêu thị và cửa hàng tiện lợi ở Nhật Bản trưng bày vô số loại rượu sake, làm say lòng bất kỳ tín đồ yêu rượu nào.
+        {% elif lang == 'de' %}
+            Japanische Supermärkte und Convenience Stores bieten eine riesige Auswahl an Sake, die das Herz jedes Sake-Liebhabers höher schlagen lässt.
+        {% elif lang == 'fr' %}
+            Les supermarchés et les supérettes au Japon proposent un large éventail de sakés, de quoi séduire tous les amateurs.
+        {% elif lang == 'it' %}
+            I supermercati e i convenience store in Giappone offrono una vasta gamma di sake, una vera tentazione per ogni appassionato.
+        {% elif lang == 'es-es' %}
+            Los supermercados y las tiendas de conveniencia en Japón ofrecen una amplia variedad de sake, una tentación para cualquier amante de esta bebida.
+        {% elif lang == 'es-mx' %}
+            Los supermercados y las tiendas de conveniencia en Japón ofrecen una amplia variedad de sake, una tentación para cualquier amante de esta bebida.
+        {% elif lang == 'pt' %}
+            Os supermercados e lojas de conveniência no Japão apresentam uma grande variedade de saquê, uma tentação para todos os amantes da bebida.
+        {% elif lang == 'pt-br' %}
+            Os supermercados e lojas de conveniência no Japão apresentam uma grande variedade de saquê, una tentação para todos os amantes da bebida.
+        {% elif lang == 'en-in' %}
+            Supermarkets and convenience stores in Japan showcase a wide array of sake, tempting every sake lover.
+        {% else %}
+            Supermarkets and convenience stores in Japan showcase a wide array of sake, tempting every sake lover.
+        {% endif %}
+      </p>
     </div>
 
     <div class="food-card">
       <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1761842778/thankjapan/backgrounds/qnmjxmped0obbt72ikmx.jpg"
         alt="kanazawaosechi"/>
-      <p>Osechi ryori are traditional Japanese New Year dishes, beautifully prepared to bring luck and celebrate the season.</p>
+      <p>
+        {% if lang == 'ja' %}
+            おせち料理は日本の伝統的な正月料理で、幸運を願い、季節を祝うために美しく用意されます。
+        {% elif lang == 'ko' %}
+            오세치 요리는 일본의 전통적인 새해 음식으로, 행운을 기원하고 계절을 축하하기 위해 아름답게 준비됩니다.
+        {% elif lang == 'zh-cn' %}
+            御节料理（Osechi）是日本传统的元旦美食，不仅准备精美，还寄托了祈求好运与庆祝佳节的愿望。
+        {% elif lang == 'zh-hant' %}
+            御節料理（Osechi）是日本傳統的元旦美食，不僅準備精美，還寄託了祈求好運與慶祝佳節的願望。
+        {% elif lang == 'th' %}
+            โอเซจิ เรียวริ (Osechi ryori) เป็นอาหารปีใหม่แบบดั้งเดิมของญี่ปุ่น จัดเตรียมอย่างสวยงามเพื่อนำโชคลาภและเฉลิมฉลองเทศกาล
+        {% elif lang == 'vi' %}
+            Osechi ryori là những món ăn truyền thống trong dịp Tết của Nhật Bản, được chuẩn bị đẹp mắt để mang lại may mắn và chào đón năm mới.
+        {% elif lang == 'de' %}
+            Osechi-Ryori sind traditionelle japanische Neujahrsgerichte, die wunderschön zubereitet werden, um Glück zu bringen und die Jahreszeit zu feiern.
+        {% elif lang == 'fr' %}
+            L'Osechi ryori est composé de plats traditionnels du Nouvel An japonais, préparés avec soin pour attirer la chance et célébrer la saison.
+        {% elif lang == 'it' %}
+            L'Osechi ryori è una selezione di piatti tradizionali del Capodanno giapponese, preparati con cura per portare fortuna e celebrare la stagione.
+        {% elif lang == 'es-es' %}
+            El Osechi ryori consiste en platos tradicionales del Año Nuevo japonés, preparados bellamente para atraer la suerte y celebrar la temporada.
+        {% elif lang == 'es-mx' %}
+            El Osechi ryori consiste en platos tradicionales del Año Nuevo japonés, preparados bellamente para atraer la suerte y celebrar la temporada.
+        {% elif lang == 'pt' %}
+            Osechi ryori são pratos tradicionais de Ano Novo japonês, preparados lindamente para trazer sorte e celebrar a estação.
+        {% elif lang == 'pt-br' %}
+            Osechi ryori são pratos tradicionais de Ano Novo japonês, preparados lindamente para trazer sorte e celebrar a estação.
+        {% elif lang == 'en-in' %}
+            Osechi ryori are traditional Japanese New Year dishes, beautifully prepared to bring luck and celebrate the season.
+        {% else %}
+            Osechi ryori are traditional Japanese New Year dishes, beautifully prepared to bring luck and celebrate the season.
+        {% endif %}
+      </p>
     </div>
     
   </div>
@@ -241,15 +560,34 @@ h1 {
   </div>
 </div>
 
+{% if lang == 'ja' %}{% url 'toppageja' as final_url %}
+{% elif lang == 'ko' %}{% url 'toppageko' as final_url %}
+{% elif lang == 'zh-cn' %}{% url 'toppagezhCN' as final_url %}
+{% elif lang == 'zh-hant' %}{% url 'toppagezhHANT' as final_url %}
+{% elif lang == 'th' %}{% url 'toppageth' as final_url %}
+{% elif lang == 'vi' %}{% url 'toppagevi' as final_url %}
+{% elif lang == 'de' %}{% url 'toppagede' as final_url %}
+{% elif lang == 'fr' %}{% url 'toppagefr' as final_url %}
+{% elif lang == 'it' %}{% url 'toppageit' as final_url %}
+{% elif lang == 'es-es' %}{% url 'toppageesES' as final_url %}
+{% elif lang == 'es-mx' %}{% url 'toppageesMX' as final_url %}
+{% elif lang == 'pt' %}{% url 'toppagept' as final_url %}
+{% elif lang == 'pt-br' %}{% url 'toppageptBR' as final_url %}
+{% elif lang == 'en-in' %}{% url 'toppageenIN' as final_url %}
+{% else %}{% url 'toppage' as final_url %}
+{% endif %}
+
+
 <script>
+
 function goToTopPage() {
-        const topUrl = localStorage.getItem('tj_top_url');
-        if (topUrl) {
-            window.location.href = topUrl;
-        } else {
-            window.location.href = "{% url 'toppage' %}";
-        }
-    }
+    // localStorage に保存されたURLがあればそれを使い、なければ Djangoで作った変数を使う
+    const savedUrl = localStorage.getItem('tj_top_url');
+    const defaultUrl = "{{ final_url }}"; 
+    
+    window.location.href = savedUrl ? savedUrl : defaultUrl;
+}
+
 
 const cards = document.querySelectorAll('.food-card');
 const modal = document.getElementById('modal');
