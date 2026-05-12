@@ -2410,20 +2410,20 @@
   </url>
 
 
-  {% for current in languages %}
-    <url>
-  
-      <loc>https://www.thankjapan.com/japanculture/ishikawa/{% if current.code != 'en' %}?lang={{ current.code }}{% endif %}</loc>
-  
-  
-      {% for alt in languages %}
-          <xhtml:link rel="alternate" hreflang="{{ alt.hreflang }}" href="https://www.thankjapan.com/japanculture/ishikawa/{% if alt.code != 'en' %}?lang={{ alt.code }}{% endif %}" />
-      {% endfor %}
-  
-      <xhtml:link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/japanculture/ishikawa/" />
-    </url>
-  {% endfor %}
 
+  {% for pref in prefectures %}
+    {% for current in languages %}
+    <url>
+      <loc>https://www.thankjapan.com/japanculture/{{ pref }}/{% if current.code != 'en' %}?lang={{ current.code }}{% endif %}</loc>
+      
+      {% for alt in languages %}
+      <xhtml:link rel="alternate" hreflang="{{ alt.hreflang }}" href="https://www.thankjapan.com/japanculture/{{ pref }}/{% if alt.code != 'en' %}?lang={{ alt.code }}{% endif %}" />
+      {% endfor %}
+      
+      <xhtml:link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/japanculture/{{ pref }}/" />
+    </url>
+    {% endfor %}
+  {% endfor %}
 
   {% for item in free_items %}
     {% for current in languages %}

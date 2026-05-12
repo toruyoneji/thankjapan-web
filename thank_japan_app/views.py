@@ -3218,6 +3218,8 @@ def sitemap_view(request):
     for cat in other_categories:
         samples = ThankJapanPremium.objects.filter(category=cat).order_by('timestamp')[:6]
         public_premium_items.extend(list(samples))
+        
+    prefectures = ['ishikawa', 'toyama'] 
 
     languages = [
         {'code': 'en', 'hreflang': 'en'},
@@ -3241,6 +3243,7 @@ def sitemap_view(request):
         'free_items': free_items,
         'premium_items': public_premium_items,
         'languages': languages,
+        'prefectures': prefectures,
     }
     
     return render(request, 'sitemap.xml', context, content_type='application/xml')
