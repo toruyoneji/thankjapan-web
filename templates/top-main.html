@@ -608,25 +608,36 @@ footer {
     });
 
     
+    
     (function() {
-        
         const images = [
-            "https://res.cloudinary.com/dotekofm5/image/upload/v1778602671/thankjapan/backgrounds/ljw4gmp1ejmlh7qxnfcl.jpg", 
-            
+            "https://res.cloudinary.com/dotekofm5/image/upload/v1768385674/thankjapan/backgrounds/gx8xbypllgs1qogcsvak.jpg", // 金沢城
+            "https://res.cloudinary.com/dotekofm5/image/upload/v1778602671/thankjapan/backgrounds/ljw4gmp1ejmlh7qxnfcl.jpg" // 富山城のURLに直してください
         ];
 
         let currentIndex = 0;
         const heroSection = document.getElementById('hero-slider');
 
+        if (!heroSection) {
+            console.error("slider element not found!"); // デバッグ用：IDが見つからない場合にコンソールに出ます
+            return;
+        }
+
         function slideBackground() {
             currentIndex = (currentIndex + 1) % images.length;
             
+            // backgroundImage ではなく background プロパティを直接書き換える
+            // 前回のCSSに合わせて gradient もセットで適用
+            const newBg = `linear-gradient(rgba(0,0,0,0.1), rgba(0,0,0,0.3)), url("${images[currentIndex]}")`;
             
-            const gradient = "linear-gradient(rgba(0,0,0,0.1), rgba(0,0,0,0.3))";
-            heroSection.style.backgroundImage = `${gradient}, url("${images[currentIndex]}")`;
+            heroSection.style.background = newBg;
+            heroSection.style.backgroundSize = "cover";      // 消えないように再設定
+            heroSection.style.backgroundPosition = "center 30%"; // 消えないように再設定
+            
+            console.log("Switched to image:", currentIndex); // デバッグ用
         }
 
-        
+        // 最初は5秒待ってから切り替え開始
         setInterval(slideBackground, 5000);
     })();
 
