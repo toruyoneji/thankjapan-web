@@ -184,9 +184,29 @@ h1::after {
         </div>
     </a>
 
-    
+    <a href="{% url 'toyama' %}{% if lang %}?lang={{ lang }}{% endif %}" style="text-decoration: none; color: inherit;">
+        <div class="food-card">
+            <img src="https://res.cloudinary.com/dotekofm5/image/upload/v1778602312/thankjapan/backgrounds/l9gx7xewrm2ovfw9hsro.jpg" alt="toyama">
+            <div style="padding: 10px;">
+                <p style="font-weight: 600; color: #3b0a00;">
+                    {% if lang == 'ja' %}富山県 (Toyama)
+                    {% elif lang == 'ko' %}도야마현 (Toyama)
+                    {% elif lang == 'zh-cn' %}富山县 (Toyama)
+                    {% elif lang == 'zh-hant' %}富山縣 (Toyama)
+                    {% elif lang == 'th' %}จังหวัดโทยามะ (Toyama)
+                    {% elif lang == 'vi' %}Tỉnh Toyama
+                    {% elif lang == 'de' %}Präfektur Toyama
+                    {% elif lang == 'fr' %}Préfecture de Toyama
+                    {% elif lang == 'it' %}Prefettura di Toyama
+                    {% elif lang == 'es-es' or lang == 'es-mx' %}Prefectura de Toyama
+                    {% elif lang == 'pt' or lang == 'pt-br' %}Província de Toyama
+                    {% elif lang == 'en-in' %}Toyama Prefecture
+                    {% else %}Toyama Prefecture{% endif %}
+                </p>
+            </div>
+        </div>
+    </a>
 
-    
 
 </div>
 

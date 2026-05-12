@@ -1,0 +1,71 @@
+{% extends base_template %}
+
+{% block title %}
+    {% if lang == 'ja' %}富山を巡る：雄大な立山連峰、富山湾の海の幸、歴史ある城跡と公園 | ThankJapan
+    {% elif lang == 'ko' %}도야마 여행: 웅장한 다테야마 연봉, 도야마만의 해산물, 역사적인 성터와 공원 | ThankJapan
+    {% elif lang == 'zh-cn' %}探索富山：壮丽的立山连峰、富山湾的海鲜、历史悠久的城迹与公园 | ThankJapan
+    {% elif lang == 'zh-hant' %}探索富山：壯麗的立山連峰、富山灣的海鮮、歷史悠久的城跡與公園 | ThankJapan
+    {% elif lang == 'th' %}สัมผัสวัฒนธรรมโทยามะ: เทือกเขาทาเตยามะที่ยิ่งใหญ่ อาหารทะเลสดใหม่ และซากปราสาทที่มีประวัติศาสตร์ | ThankJapan
+    {% elif lang == 'vi' %}Khám phá văn hóa Toyama: Dãy núi Tateyama hùng vĩ, Hải sản tươi sống & Di tích thành cổ | ThankJapan
+    {% elif lang == 'de' %}Kultur in Toyama: Majestätisches Tateyama-Gebirge, frische Meeresfrüchte und historische Burgruinen | ThankJapan
+    {% elif lang == 'fr' %}Découvrir la culture de Toyama : chaîne de montagnes Tateyama, fruits de mer frais et ruines du château | ThankJapan
+    {% elif lang == 'it' %}Scopri la cultura di Toyama: la maestosa catena del Tateyama, pesce fresco e rovine del castello | ThankJapan
+    {% elif lang == 'es-es' %}Explora la cultura de Toyama: La majestuosa cordillera de Tateyama, mariscos frescos y ruinas del castillo | ThankJapan
+    {% elif lang == 'es-mx' %}Explora la cultura de Toyama: La majestuosa cordillera de Tateyama, mariscos frescos y ruinas del castillo | ThankJapan
+    {% elif lang == 'pt' %}Explore a cultura de Toyama: A majestosa cordilheira de Tateyama, frutos do mar frescos e ruínas do castelo | ThankJapan
+    {% elif lang == 'pt-br' %}Explore a cultura de Toyama: A majestosa cordilheira de Tateyama, frutos do mar frescos e ruínas do castelo | ThankJapan
+    {% elif lang == 'en-in' %}Explore Toyama Culture: Grand Tateyama Mountains, Fresh Seafood & Historic Castle Ruins | ThankJapan
+    {% else %}Explore Toyama: Grand Nature, Fresh Seafood & Historic Sites | ThankJapan
+    {% endif %}
+{% endblock %}
+
+{% block description %}
+    {% if lang == 'ja' %}富山県の魅力を体験。壮大な立山連峰のパノラマ、富山湾の新鮮な海の幸、そして富山城址公園や環水公園の歴史と美しさを巡る旅。
+    {% elif lang == 'ko' %}도야마현의 매력을 체험해 보세요. 웅장한 다테야마 연봉의 파노라마, 도야마만의 신선한 해산물, 그리고 도야마 성터 공원과 환수 공원의 역사와 아름다움을 둘러보는 여행.
+    {% elif lang == 'zh-cn' %}体验富山县的魅力。为您介绍壮丽的立山连峰全景、富山湾的新鲜海产，以及富山城址公园与环水公园的历史与美景。
+    {% elif lang == 'zh-hant' %}體驗富山縣的魅力。為您介紹壯麗的立山連峰全景、富山灣的新鮮海產，以及富山城址公園與環水公園歷史與美景。
+    {% elif lang == 'th' %}สัมผัสเสน่ห์ของจังหวัดโทยามะ แนะนำการเดินทางชมทิวทัศน์อันงดงามของเทือกเขาทาเตยามะ อาหารทะเลสดใหม่จากอ่าวโทยามะ และประวัติศาสตร์ของสวนปราสาทโทยามะ
+    {% elif lang == 'vi' %}Trải nghiệm di sản văn hóa phong phú của tỉnh Toyama. Giới thiệu dãy núi Tateyama hùng vĩ, hải sản tươi ngon từ vịnh Toyama và vẻ đẹp của Công viên Thành cổ Toyama.
+    {% elif lang == 'de' %}Erleben Sie das reiche kulturelle Erbe der Präfektur Toyama. Entdecken Sie das Tateyama-Gebirge, frische Meeresfrüchte aus der Toyama-Bucht und den Toyama Castle Park.
+    {% elif lang == 'fr' %}Découvrez le riche patrimoine culturel de la préfecture de Toyama. Présentation de la chaîne Tateyama, de la gastronomie de la baie de Toyama et du parc du château de Toyama.
+    {% elif lang == 'it' %}Scopri il ricco patrimonio culturale della prefettura di Toyama. Esplora la catena del Tateyama, il pesce fresco della baia di Toyama e la bellezza del parco del castello di Toyama.
+    {% elif lang == 'es-es' %}Vive el rico patrimonio cultural de la prefectura de Toyama. Descubre la cordillera de Tateyama, los mariscos frescos de la bahía de Toyama y la historia del Parque del Castillo de Toyama.
+    {% elif lang == 'es-mx' %}Vive el rico patrimonio cultural de la prefectura de Toyama. Descubre la cordillera de Tateyama, los mariscos frescos de la bahía de Toyama y la historia del Parque del Castillo de Toyama.
+    {% elif lang == 'pt' %}Experimente a rica herança cultural da província de Toyama. Conheça a cordilheira de Tateyama, os frutos do mar frescos da baía de Toyama e o Parque do Castelo de Toyama.
+    {% elif lang == 'pt-br' %}Experimente a rica herança cultural da província de Toyama. Conheça a cordilheira de Tateyama, os frutos do mar frescos da baía de Toyama e o Parque do Castelo de Toyama.
+    {% elif lang == 'en-in' %}Experience the wonders of Toyama Prefecture. From the grand Tateyama Mountains and fresh seafood from Toyama Bay to the historic charm of Toyama Castle Park.
+    {% else %}Discover Toyama: Experience the majestic Tateyama Mountains, fresh seafood from Toyama Bay, and the serene beauty of Toyama Castle Park.{% endif %}
+{% endblock %}
+
+{% block og_title %}{{ self.title }}{% endblock %}
+{% block og_description %}{{ self.description }}{% endblock %}
+{% block og_url %}{{ request.build_absolute_uri }}{% endblock %}
+
+{% block hreflang_tags %}
+    
+    <link rel="alternate" hreflang="en" href="https://www.thankjapan.com/japanculture/toyama/">
+    
+    <link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/japanculture/toyama/?lang=ja">
+    <link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/japanculture/toyama/?lang=ko">
+    <link rel="alternate" hreflang="zh-hans" href="https://www.thankjapan.com/japanculture/toyama/?lang=zh-cn">
+    <link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/japanculture/toyama/?lang=zh-hant">
+    <link rel="alternate" hreflang="th" href="https://www.thankjapan.com/japanculture/toyama/?lang=th">
+    <link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/japanculture/toyama/?lang=vi">
+    <link rel="alternate" hreflang="de" href="https://www.thankjapan.com/japanculture/toyama/?lang=de">
+    <link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/japanculture/toyama/?lang=fr">
+    <link rel="alternate" hreflang="it" href="https://www.thankjapan.com/japanculture/toyama/?lang=it">
+    <link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/japanculture/toyama/?lang=es-es">
+    <link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/japanculture/toyama/?lang=es-mx">
+    <link rel="alternate" hreflang="pt-pt" href="https://www.thankjapan.com/japanculture/toyama/?lang=pt">
+    <link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/japanculture/toyama/?lang=pt-br">
+    <link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/japanculture/toyama/?lang=en-in">
+
+    
+    <link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/japanculture/toyama/">
+{% endblock %}
+
+{% block content %}
+
+ {% include 'jpculture/toyama.html' %}
+
+{% endblock %}

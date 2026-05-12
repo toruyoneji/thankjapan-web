@@ -1,0 +1,673 @@
+{% load static %}
+
+<style>
+body {
+  margin: 0;
+  font-family: "Poppins","Hiragino Maru Gothic ProN",sans-serif;
+  background-image: url("https://res.cloudinary.com/dotekofm5/image/upload/v1762738682/thankjapan/backgrounds/eqpmsezzbdcjecbql04f.png");
+  background-size: cover;
+  background-attachment: scroll;
+  background-repeat: no-repeat;
+  color: #333;
+  text-align: center;
+}
+
+/* ===== 見出し ===== */
+h1 {
+  color: #3b0a00;
+  font-weight: 700;
+  margin: 120px auto 40px auto;
+  letter-spacing: 0.1em;
+  font-size: 2.2rem;
+  line-height: 1.4;
+  text-align: center;
+  text-shadow: 2px 2px 4px rgba(255,255,255,0.9);
+  position: relative;
+  display: block;
+  max-width: 80%;
+}
+
+h1::after {
+  content: "";
+  display: block;
+  width: 60px;
+  height: 4px;
+  background: #ffb347;
+  margin: 15px auto 0 auto;
+  border-radius: 2px;
+}
+
+
+/* ===== カードレイアウト ===== */
+.food-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  max-width: 950px;
+  margin: 0 auto;
+  padding: 20px;
+  justify-items: center;
+}
+
+.food-card {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  transition: transform 0.3s ease;
+  cursor: pointer;
+  width: 100%;
+  max-width: 280px;
+  margin-top: 0;
+}
+
+.food-card:hover {
+  transform: scale(1.03);
+}
+
+.food-card img {
+  width: 100%;
+  height: 170px;
+  object-fit: cover;
+}
+
+.food-card p {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;  /* 2行で省略 */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.4em;
+  max-height: 2.8em;      
+  margin: 0;              
+}
+
+.food-card img,
+.card img {
+  display: block;       
+  margin-top: 0;        
+  border-radius: 15px 15px 0 0; 
+}
+
+.btn-more {
+    display: inline-block;
+    background: #ffb347;
+    color: white;
+    padding: 10px 24px;
+    border-radius: 25px;
+    text-decoration: none;
+    font-weight: 600;
+    margin-top: 20px;
+    transition: background 0.3s;
+}
+.btn-more:hover {
+    background: #ff9642;
+}
+
+
+/* ===== レスポンシブ ===== */
+@media (max-width: 768px) {
+  h1 {
+    margin: 100px 15px 30px 15px;
+    font-size: 1.6rem;
+    padding: 20px 0;
+  }
+  
+  h1::after {
+    width: 40px;
+    height: 3px;
+    margin-top: 10px;
+  }
+  
+  .food-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    padding: 10px;
+    margin-top: 20px;
+  }
+
+  .food-card img {
+    height: 120px;
+  }
+
+}
+
+
+/* ===== モーダル ===== */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 9999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.7);
+}
+
+.modal.active {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background: #fff;
+  border-radius: 15px;
+  max-width: 90%;
+  width: 400px;
+  padding: 20px;
+  position: relative;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+  text-align: center;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.modal-content img {
+  width: 100%;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+.modal-close {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #333;
+}
+
+
+</style>
+
+
+<h1>
+    {% if lang == 'ja' %}
+        富山を巡る：雄大な自然、新鮮な海の幸、そして文化遺産
+    {% elif lang == 'ko' %}
+        도야마 여행: 웅대한 자연, 신선한 해산물, 그리고 문화유산
+    {% elif lang == 'zh-cn' %}
+        探索富山：壮丽自然、新鲜海味与文化遗产
+    {% elif lang == 'zh-hant' %}
+        探索富山：壯麗自然、新鮮海味與文化遺產
+    {% elif lang == 'th' %}
+        สำรวจโทยามะ: ธรรมชาติที่ยิ่งใหญ่ อาหารทะเลสดใหม่ และมรดกทางวัฒนธรรม
+    {% elif lang == 'vi' %}
+        Khám phá Toyama: Thiên nhiên hùng vĩ, Hải sản tươi sống & Di sản văn hóa
+    {% elif lang == 'de' %}
+        Toyama entdecken: Majestätische Natur, frische Meeresfrüchte und Kulturerbe
+    {% elif lang == 'fr' %}
+        Découvrir Toyama : nature majestueuse, fruits de mer frais et patrimoine culturel
+    {% elif lang == 'it' %}
+        Scopri Toyama: natura maestosa, pesce fresco e patrimonio culturale
+    {% elif lang == 'es-es' %}
+        Descubre Toyama: Naturaleza majestuosa, mariscos frescos y patrimonio cultural
+    {% elif lang == 'es-mx' %}
+        Descubre Toyama: Naturaleza majestuosa, mariscos frescos y patrimonio cultural
+    {% elif lang == 'pt' %}
+        Descubra Toyama: Natureza majestosa, frutos do mar frescos e património cultural
+    {% elif lang == 'pt-br' %}
+        Descubra Toyama: Natureza majestosa, frutos do mar frescos e patrimônio cultural
+    {% elif lang == 'en-in' %}
+        Explore Toyama: Grand Nature, Fresh Seafood & Cultural Heritage
+    {% else %}
+        Explore Toyama: Grand Nature, Fresh Seafood & Cultural Heritage
+    {% endif %}
+</h1>
+
+
+
+<div class="food-grid">
+
+    <div class="food-card">
+      <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1778602608/thankjapan/backgrounds/ex1x8d0ilb0z4hje1eph.jpg"
+        alt="toyamaeki"/>
+        <p>
+        {% if lang == 'ja' %}
+            富山の玄関口、富山駅です。近代的なガラス張りのデザインが美しいこの駅は、新幹線や路面電車が乗り入れる旅の拠点であり、活気に満ちています。
+        {% elif lang == 'ko' %}
+            도야마의 관문인 도야마역입니다. 현대적인 유리 벽 디자인이 아름다운 이 역은 신칸센과 노면 전차가 운행되는 여행의 거점이며 활기로 가득 차 있습니다.
+        {% elif lang == 'zh-cn' %}
+            富山的门户——富山站。这座车站拥有现代化的玻璃幕墙设计，是新干线和有轨电车汇聚的交通枢纽，处处洋溢着活力。
+        {% elif lang == 'zh-hant' %}
+            富山的門戶——富山站。這座車站擁有現代化的玻璃幕牆設計，是新幹線和路面電車匯聚的交通樞紐，處處洋溢著活力。
+        {% elif lang == 'th' %}
+            สถานีโทยามะ ประตูสู่โทยามะ สถานีที่สวยงามด้วยดีไซน์กระจกทันสมัยแห่งนี้เป็นศูนย์กลางการเดินทางที่มีทั้งรถไฟชินคันเซ็นและรถราง และเต็มไปด้วยความคึกคัก
+        {% elif lang == 'vi' %}
+            Ga Toyama, cửa ngõ của Toyama. Nhà ga với thiết kế kính hiện đại tuyệt đẹp này là trung tâm du lịch, nơi có tàu Shinkansen và xe điện chạy qua, luôn tràn đầy sức sống.
+        {% elif lang == 'de' %}
+            Der Bahnhof Toyama, das Tor zur Stadt. Mit seinem modernen Glasdesign ist dieser Bahnhof ein lebendiger Knotenpunkt für Shinkansen und Straßenbahnen sowie der ideale Ausgangspunkt für Reisende.
+        {% elif lang == 'fr' %}
+            La gare de Toyama, porte d'entrée de la ville. Avec son design moderne en verre, cette gare est un carrefour animé pour le Shinkansen et le tramway, servant de point de départ idéal pour les voyageurs.
+        {% elif lang == 'it' %}
+            La stazione di Toyama, la porta della città. Con il suo moderno design in vetro, questa stazione è un vivace snodo per lo Shinkansen e il tram, fungendo da perfetto punto di partenza per i viaggiatori.
+        {% elif lang == 'es-es' %}
+            La estación de Toyama, la puerta de entrada a la ciudad. Con su moderno diseño de cristal, esta estación es un vibrante centro de transporte para el Shinkansen y el tranvía, y el punto de partida ideal para los viajeros.
+        {% elif lang == 'es-mx' %}
+            La estación de Toyama, la puerta de entrada a la ciudad. Con su moderno diseño de cristal, esta estación es un vibrante centro de transporte para el Shinkansen y el tranvía, y el punto de partida ideal para los viajeros.
+        {% elif lang == 'pt' %}
+            A estação de Toyama, a porta de entrada da cidade. Com o seu design moderno em vidro, esta estação é um centro vibrante para o Shinkansen e o elétrico, servindo de ponto de partida ideal para os viajantes.
+        {% elif lang == 'pt-br' %}
+            A estação de Toyama, a porta de entrada da cidade. Com o seu design moderno em vidro, esta estação é um centro vibrante para o Shinkansen e o bonde, servindo de ponto de partida ideal para os viajantes.
+        {% elif lang == 'en-in' %}
+            Toyama Station, the gateway to the city. Featuring a beautiful modern glass design, this station is a bustling hub for the Shinkansen and trams, serving as the perfect starting point for any journey.
+        {% else %}
+            Toyama Station, the gateway to Toyama. This beautifully designed modern station is a vibrant hub where the Shinkansen and city trams meet, welcoming travelers from all over.
+        {% endif %}
+        </p>
+    </div>
+
+
+    <div class="food-card">
+      <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1778602671/thankjapan/backgrounds/ljw4gmp1ejmlh7qxnfcl.jpg"
+        alt="toyamajou"/>
+        <p>
+        {% if lang == 'ja' %}
+            富山城と美しい日本庭園の風景です。お堀に映る白壁の城郭と豊かな緑は、街の中心にありながら歴史の息吹を感じさせてくれる癒やしの空間です。
+        {% elif lang == 'ko' %}
+            도야마 성과 아름다운 일본 정원의 풍경입니다. 해자에 비친 하얀 성벽과 풍성한 녹음은 도심 한가운데에서도 역사의 숨결을 느끼게 해주는 힐링의 공간입니다.
+        {% elif lang == 'zh-cn' %}
+            富山城与优美的日本庭园景观。映照在护城河上的白墙建筑与苍翠的树木，让人在市中心也能感受到浓厚的历史气息与宁静。
+        {% elif lang == 'zh-hant' %}
+            富山城與優美的日本庭園景觀。映照在護城河上的白牆建築與蒼翠的樹木，讓人在市中心也能感受到濃厚的歷史氣息與寧靜。
+        {% elif lang == 'th' %}
+            ทิวทัศน์ของปราสาทโทยามะและสวนญี่ปุ่นที่สวยงาม ตัวปราสาทสีขาวที่สะท้อนบนผิวน้ำในคูเมืองท่ามกลางพื้นที่สีเขียว เป็นสถานที่พักผ่อนที่ให้สัมผัสถึงกลิ่นอายทางประวัติศาสตร์ใจกลางเมือง
+        {% elif lang == 'vi' %}
+            Phong cảnh thành Toyama và khu vườn Nhật Bản tuyệt đẹp. Những bức tường thành trắng soi bóng xuống hào nước cùng hàng cây xanh mướt tạo nên một không gian thư giãn mang đậm hơi thở lịch sử ngay giữa lòng thành phố.
+        {% elif lang == 'de' %}
+            Blick auf die Burg Toyama und ihren wunderschönen japanischen Garten. Die weißen Mauern, die sich im Wasser des Burggrabens spiegeln, bieten eine historische und beruhigende Atmosphäre mitten im Stadtzentrum.
+        {% elif lang == 'fr' %}
+            Vue sur le château de Toyama et son magnifique jardin japonais. Ses murs blancs se reflétant dans les douves entourées de verdure offrent une atmosphère historique et apaisante en plein centre-ville.
+        {% elif lang == 'it' %}
+            Veduta del castello di Toyama e del suo splendido giardino giapponese. Le mura bianche che si riflettono nel fossato circondato dal verde creano un'atmosfera storica e rilassante nel cuore della città.
+        {% elif lang == 'es-es' %}
+            Vista del Castillo de Toyama y su hermoso jardín japonés. Sus muros blancos reflejados en el foso rodeado de vegetación ofrecen una atmósfera histórica y relajante en pleno centro de la ciudad.
+        {% elif lang == 'es-mx' %}
+            Vista del Castillo de Toyama y su hermoso jardín japonés. Sus muros blancos reflejados en el foso rodeado de vegetación ofrecen una atmósfera histórica y relajante en pleno centro de la ciudad.
+        {% elif lang == 'pt' %}
+            Vista do Castelo de Toyama e do seu belo jardim japonês. As suas muralhas brancas reflectidas no fosso rodeado de vegetação oferecem uma atmosfera histórica e relaxante em pleno centro da cidade.
+        {% elif lang == 'pt-br' %}
+            Vista do Castelo de Toyama e do seu belo jardim japonês. Suas muralhas brancas refletidas no fosso rodeado de vegetação oferecem uma atmosfera histórica e relaxante em pleno centro da cidade.
+        {% elif lang == 'en-in' %}
+            A view of Toyama Castle and its beautiful Japanese garden. The white castle walls reflecting in the moat, surrounded by lush greenery, offer a peaceful escape into history in the heart of the city.
+        {% else %}
+            A view of Toyama Castle and its beautiful Japanese garden. The white castle walls reflecting in the moat, surrounded by lush greenery, provide a serene historical atmosphere in the city centre.
+        {% endif %}
+        </p>
+    </div>
+
+    <div class="food-card">
+      <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1778602723/thankjapan/backgrounds/nmgu1ls6nuc5fecrx5dj.jpg"
+        alt="toyamajounomon"/>
+        <p>
+        {% if lang == 'ja' %}
+            富山城の「千歳御門（ちとせごもん）」です。江戸時代から唯一現存する貴重な建造物で、その堂々とした構えは訪れる人々に歴史の重みを感じさせてくれます。
+        {% elif lang == 'ko' %}
+            도야마 성의 '치토세고몬' 문입니다. 에도 시대부터 유일하게 남아 있는 귀중한 건축물로, 그 당당한 모습은 방문객들에게 역사의 무게를 느끼게 해줍니다.
+        {% elif lang == 'zh-cn' %}
+            这是富山城的“千岁御门”。它是自江户时代以来唯一幸存至今的珍贵建筑，雄伟的姿态让游客感受到浓厚的历史厚重感。
+        {% elif lang == 'zh-hant' %}
+            這是富山城的「千歲御門」。它是自江戶時代以來唯一幸存至今的珍貴建築，雄偉的姿態讓遊客感受到濃厚的歷史厚重感。
+        {% elif lang == 'th' %}
+            นี่คือประตู "ชิโตเสะโกมง" ของปราสาทโทยามะ เป็นสิ่งก่อสร้างเพียงแห่งเดียวที่หลงเหลือมาจากสมัยเอโดะ รูปลักษณ์ที่สง่างามทำให้ผู้มาเยือนสัมผัสได้ถึงความสำคัญทางประวัติศาสตร์
+        {% elif lang == 'vi' %}
+            Đây là cổng "Chitose-momon" của Thành Toyama. Là kiến trúc duy nhất còn sót lại từ thời Edo, vẻ ngoài uy nghiêm của nó giúp du khách cảm nhận được sức nặng của lịch sử.
+        {% elif lang == 'de' %}
+            Dies ist das Chitose-momon-Tor der Burg Toyama. Es ist das einzige erhaltene Bauwerk aus der Edo-Zeit, und sein imposantes Erscheinungsbild lässt die Besucher die Tiefe der Geschichte spüren.
+        {% elif lang == 'fr' %}
+            Voici la porte Chitose-momon du château de Toyama. Seul vestige original de l'époque d'Edo, son allure imposante permet aux visiteurs de ressentir tout le poids de l'histoire.
+        {% elif lang == 'it' %}
+            Questa è la porta Chitose-momon del castello di Toyama. È l'unica struttura originale rimasta dal periodo Edo e il suo aspetto maestoso permette ai visitatori di percepire il peso della storia.
+        {% elif lang == 'es-es' %}
+            Esta es la puerta Chitose-momon del Castillo de Toyama. Es la única estructura original que se conserva del periodo Edo, y su aspecto imponente permite a los visitantes sentir el peso de la historia.
+        {% elif lang == 'es-mx' %}
+            Esta es la puerta Chitose-momon del Castillo de Toyama. Es la única estructura original que se conserva del periodo Edo, y su aspecto imponente permite a los visitantes sentir el peso de la historia.
+        {% elif lang == 'pt' %}
+            Este é o portão Chitose-momon do Castelo de Toyama. É a única estrutura original restante do período Edo, e a sua aparência imponente permite aos visitantes sentir o peso da história.
+        {% elif lang == 'pt-br' %}
+            Este é o portão Chitose-momon do Castelo de Toyama. É a única estrutura original restante do período Edo, e sua aparência imponente permite aos visitantes sentir o peso da história.
+        {% elif lang == 'en-in' %}
+            This is the Chitose-momon Gate of Toyama Castle. It is the only original structure remaining from the Edo period, and its grand appearance allows visitors to feel the profound weight of history.
+        {% else %}
+            This is the Chitose-momon Gate of Toyama Castle. As the only original structure remaining from the Edo period, its majestic presence gives visitors a true sense of the city's history.
+        {% endif %}
+        </p>
+    </div>
+
+    <div class="food-card">
+      <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1778602481/thankjapan/backgrounds/wvqowqpxyaydoalsf0sf.jpg"
+        alt="tenboudai"/>
+        <p>
+        {% if lang == 'ja' %}
+            運河の展望塔から望む、壮大な立山連峰の絶景です。雪を頂いた3,000メートル級の山々と美しい水辺が織りなす風景は、富山を象徴する最高のパノラマです。
+        {% elif lang == 'ko' %}
+            운하 전망대에서 바라본 장엄한 다테야마 연봉의 절경입니다. 눈 덮인 3,000미터급 산들과 아름다운 수변이 어우러진 풍경은 도야마를 상징하는 최고의 파노라마입니다.
+        {% elif lang == 'zh-cn' %}
+            从运河展望塔俯瞰，壮丽的立山连峰尽收眼底。白雪皑皑的3000米级山脈与优美的水景交相辉映，是富山最具代表性的全景景观。
+        {% elif lang == 'zh-hant' %}
+            從運河展望塔俯瞰，壯麗的立山連峰盡收眼底。白雪皚皚的3000公尺級山脈與優美的水景交相輝映，是富山最具代表性的全景景觀。
+        {% elif lang == 'th' %}
+            ทิวทัศน์อันงดงามของเทือกเขาทาเตยามะอันยิ่งใหญ่จากหอชมวิวริมคลอง ภาพภูเขาสูง 3,000 เมตรที่ปกคลุมด้วยหิมะตัดกับริมน้ำที่สวยงามเป็นทัศนียภาพแบบพาโนรามาที่ดีที่สุดของโทยามะ
+        {% elif lang == 'vi' %}
+            Tầm nhìn hùng vĩ hướng về dãy núi Tateyama từ đài quan sát ven kênh. Sự kết hợp giữa những ngọn núi cao 3.000 mét phủ tuyết trắng và mặt nước yên bình tạo nên một bức tranh toàn cảnh biểu tượng của Toyama.
+        {% elif lang == 'de' %}
+            Ein spektakulärer Blick auf das majestätische Tateyama-Gebirge vom Aussichtsturm des Kanals. Die schneebedeckten 3.000 Meter hohen Gipfel und das glitzernde Wasser bilden das schönste Panorama von Toyama.
+        {% elif lang == 'fr' %}
+            Une vue spectaculaire sur la majestueuse chaîne de montagnes Tateyama depuis la tour d'observation du canal. Ses sommets enneigés de 3 000 mètres et ses eaux paisibles offrent le plus beau panorama de Toyama.
+        {% elif lang == 'it' %}
+            Una vista spettacolare sulla maestosa catena montuosa del Tateyama dalla torre di osservazione del canale. Le cime innevate di 3.000 metri e le splendide acque creano il panorama più iconico di Toyama.
+        {% elif lang == 'es-es' %}
+            Una vista espectacular de la majestuosa cordillera de Tateyama desde la torre de observación del canal. Sus picos nevados de 3.000 metros y las hermosas aguas ofrecen el mejor panorama de Toyama.
+        {% elif lang == 'es-mx' %}
+            Una vista espectacular de la majestuosa cordillera de Tateyama desde la torre de observación del canal. Sus picos nevados de 3.000 metros y las hermosas aguas ofrecen el mejor panorama de Toyama.
+        {% elif lang == 'pt' %}
+            Uma vista espetacular da majestosa cordilheira de Tateyama a partir da torre de observação do canal. Os picos nevados de 3.000 metros e as águas deslumbrantes criam o melhor panorama de Toyama.
+        {% elif lang == 'pt-br' %}
+            Uma vista espetacular da majestosa cordilheira de Tateyama a partir da torre de observação do canal. Os picos nevados de 3.000 metros e as águas deslumbrantes criam o melhor panorama de Toyama.
+        {% elif lang == 'en-in' %}
+            A breathtaking view of the majestic Tateyama Mountain Range from the canal's observation tower. The 3,000-metre snow-capped peaks and the beautiful waterfront create Toyama’s ultimate panorama.
+        {% else %}
+            A breathtaking view of the majestic Tateyama Mountain Range from the canal observation tower. The snow-capped 3,000-meter peaks and the scenic waterfront offer the most iconic panorama in Toyama.
+        {% endif %}
+        </p>
+    </div>
+
+    <div class="food-card">
+      <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1778602403/thankjapan/backgrounds/rgxqlukblgqq9b5dsdrr.jpg"
+        alt="suimon"/>
+        <p>
+        {% if lang == 'ja' %}
+            富岩運河環水公園は、富山駅からほど近い場所にある美しい水辺の公園です。シンボルの天門橋からは公園全体を見渡すことができ、多くの人に親しまれる憩いの場です。
+        {% elif lang == 'ko' %}
+            부암 운하 환수공원은 도야마역에서 가까운 곳에 위치한 아름다운 수변 공원입니다. 상징적인 천문교에서는 공원 전체를 조망할 수 있어 많은 이들이 즐겨 찾는 휴식처입니다.
+        {% elif lang == 'zh-cn' %}
+            富岩运河环水公园是靠近富山站的一座优美的滨水公园。从标志性的天门桥可以俯瞰整个公园，是深受人们喜爱的休闲场所。
+        {% elif lang == 'zh-hant' %}
+            富岩運河環水公園是靠近富山站的一座優美的濱水公園。從標誌性的天門橋可以俯瞰整個公園，是深受人們喜愛的休閒場所。
+        {% elif lang == 'th' %}
+            สวนฟูกัน อุนงะ คันซุย (Fugan Canal Kansui Park) เป็นสวนริมน้ำที่สวยงามตั้งอยู่ใกล้กับสถานีโทยามะ จากสะพานเท็นมงเคียวที่เป็นสัญลักษณ์ คุณสามารถมองเห็นวิวทิวทัศน์ของสวนได้ทั้งหมด และเป็นสถานที่พักผ่อนยอดนิยมของผู้คน
+        {% elif lang == 'vi' %}
+            Công viên Fugan Canal Kansui là một công viên ven sông tuyệt đẹp nằm gần ga Toyama. Từ cây cầu Tenmon-kyo biểu tượng, bạn có thể ngắm nhìn toàn cảnh công viên, đây là điểm thư giãn lý tưởng được nhiều người yêu thích.
+        {% elif lang == 'de' %}
+            Der Fugan Canal Kansui Park ist eine wunderschöne Parkanlage am Wasser in der Nähe des Bahnhofs Toyama. Von der ikonischen Tenmon-kyo-Brücke aus kann man den gesamten Park überblicken, ein beliebter Ort zur Entspannung.
+        {% elif lang == 'fr' %}
+            Le parc Fugan Canal Kansui est un magnifique espace vert au bord de l'eau situé près de la gare de Toyama. Son pont emblématique Tenmon-kyo offre une vue panoramique sur tout le parc, ce qui en fait un lieu de détente très apprécié.
+        {% elif lang == 'it' %}
+            Il parco Fugan Canal Kansui è una splendida area verde situata vicino alla stazione di Toyama. Dal suo iconico ponte Tenmon-kyo si può ammirare l'intero parco, rendendolo un luogo di relax molto amato.
+        {% elif lang == 'es-es' %}
+            El Parque Fugan Canal Kansui es un hermoso espacio verde frente al agua situado cerca de la estación de Toyama. Su icónico puente Tenmon-kyo ofrece una vista panorámica de todo el parque, siendo un lugar de relax muy apreciado.
+        {% elif lang == 'es-mx' %}
+            El Parque Fugan Canal Kansui es un hermoso espacio verde frente al agua situado cerca de la estación de Toyama. Su icónico puente Tenmon-kyo ofrece una vista panorámica de todo el parque, siendo un lugar de relax muy apreciado.
+        {% elif lang == 'pt' %}
+            O Parque Fugan Canal Kansui é uma bela área verde à beira-rio situada perto da estação de Toyama. A sua icónica ponte Tenmon-kyo oferece uma vista panorâmica de todo o parque, sendo um local de relaxamento muito popular.
+        {% elif lang == 'pt-br' %}
+            O Parque Fugan Canal Kansui é uma bela área verde à beira-rio situada perto da estação de Toyama. A sua icónica ponte Tenmon-kyo oferece uma vista panorâmica de todo o parque, sendo um local de relaxamento muito popular.
+        {% elif lang == 'en-in' %}
+            Fugan Canal Kansui Park is a beautiful waterfront park located near Toyama Station. Its iconic Tenmon-kyo Bridge offers a panoramic view of the entire park, making it a beloved spot for relaxation.
+        {% else %}
+            Fugan Canal Kansui Park is a stunning waterfront park near Toyama Station. The iconic Tenmon-kyo Bridge provides a panoramic view of the grounds, making it a popular destination for a relaxing stroll.
+        {% endif %}
+        </p>
+    </div>
+
+    <div class="food-card">
+      <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1778602361/thankjapan/backgrounds/kwz49uoqr7ew8exoebnp.jpg"
+        alt="romendensha"/>
+        <p>
+        {% if lang == 'ja' %}
+            富山市内を走る路面電車です。レトロな車両が花々に囲まれた街中をのんびりと走る様子は、富山ならではの懐かしくも美しい風景です。
+        {% elif lang == 'ko' %}
+            도야마 시내를 달리는 노면 전차입니다. 레트로한 차량이 꽃들로 둘러싸인 거리를 여유롭게 달리는 모습은 도야마만의 정겹고 아름다운 풍경입니다.
+        {% elif lang == 'zh-cn' %}
+            穿行在富山市内的有轨电车。复古的车身与鲜花盛开的街道交相辉映，展现了富山特有的怀旧而优美的风情。
+        {% elif lang == 'zh-hant' %}
+            穿行在富山市內的路面電車。復古的車身與鮮花盛開的街道交相輝映，展現了富山特有的懷舊而優美的風情。
+        {% elif lang == 'th' %}
+            รถรางที่วิ่งในเมืองโทยามะ ภาพรถรางย้อนยุคที่วิ่งผ่านใจกลางเมืองอันแสนสงบท่ามกลางดอกไม้เป็นทัศนียภาพที่สวยงามและเป็นเอกลักษณ์ของโทยามะ
+        {% elif lang == 'vi' %}
+            Xe điện chạy trong thành phố Toyama. Hình ảnh những toa xe hoài cổ thong thả đi qua những khóm hoa rực rỡ là một cảnh tượng đặc trưng và xinh đẹp của Toyama.
+        {% elif lang == 'de' %}
+            Die Straßenbahn von Toyama. Das nostalgische Design der Wagen, die gemütlich durch die blumengesäumten Straßen fahren, ist ein typischer und charmanter Anblick in dieser Stadt.
+        {% elif lang == 'fr' %}
+            Le tramway de la ville de Toyama. L'image nostalgique de ces voitures rétro circulant paisiblement dans les rues fleuries est un spectacle emblématique et charmant de Toyama.
+        {% elif lang == 'it' %}
+            Il tram della città di Toyama. L'immagine nostalgica di queste carrozze rétro che attraversano lentamente le strade fiorite è uno scenario tipico e affascinante di Toyama.
+        {% elif lang == 'es-es' %}
+            El tranvía de la ciudad de Toyama. La imagen nostálgica de estos vagones retro circulando entre calles floridas es una de las escenas más encantadoras y características de la ciudad.
+        {% elif lang == 'es-mx' %}
+            El tranvía de la ciudad de Toyama. La imagen nostálgica de estos vagones retro circulando entre calles floridas es una de las escenas más encantadoras y características de la ciudad.
+        {% elif lang == 'pt' %}
+            O bonde da cidade de Toyama. A imagem nostálgica desses carros retrô circulando calmamente pelas ruas floridas é um cenário emblemático e encantador de Toyama.
+        {% elif lang == 'pt-br' %}
+            O bonde da cidade de Toyama. A imagem nostálgica desses carros retrô circulando calmamente pelas ruas floridas é um cenário emblemático e encantador de Toyama.
+        {% elif lang == 'en-in' %}
+            The Toyama City Tram. The sight of these nostalgic, retro-style cars slowly passing through flower-lined streets is a quintessential and charming scene in Toyama.
+        {% else %}
+            The Toyama City Tram. The nostalgic sight of retro cars cruising through flower-filled city streets is a charming scene unique to Toyama.
+        {% endif %}
+        </p>
+    </div>
+
+    <div class="food-card">
+      <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1778602312/thankjapan/backgrounds/l9gx7xewrm2ovfw9hsro.jpg"
+        alt="hanadokei"/>
+        <p>
+        {% if lang == 'ja' %}
+            富山城址公園にある大きな花時計は、色鮮やかな季節の花々で彩られ、公園を訪れる人々を温かく迎えてくれます。
+        {% elif lang == 'ko' %}
+            도야마 성터 공원에 있는 커다란 꽃시계는 알록달록한 계절 꽃들로 장식되어, 공원을 찾는 방문객들을 따뜻하게 맞이해 줍니다.
+        {% elif lang == 'zh-cn' %}
+            富山城址公园内的大型花钟点缀着绚烂的季节性花卉，以其自然之美迎接每一位游客。
+        {% elif lang == 'zh-hant' %}
+            富山城址公園內大型花鐘點綴著絢爛的季節性花卉，以其自然之美迎接每一位遊客。
+        {% elif lang == 'th' %}
+            นาฬิกาดอกไม้ขนาดใหญ่ในสวนปราสาทโทยามะประดับประดาด้วยดอกไม้ตามฤดูกาลที่สดใส ต้อนรับผู้มาเยือนด้วยความงามทางธรรมชาติ
+        {% elif lang == 'vi' %}
+            Chiếc đồng hồ hoa lớn tại Công viên Thành cổ Toyama được trang trí bằng những loài hoa rực rỡ theo mùa, chào đón du khách bằng vẻ đẹp tự nhiên.
+        {% elif lang == 'de' %}
+            Diese große Blumenuhr im Toyama Castle Park ist mit leuchtenden saisonalen Blumen geschmückt und empfängt Besucher mit ihrer natürlichen Schönheit.
+        {% elif lang == 'fr' %}
+            Cette grande horloge fleurie du parc du château de Toyama est ornée de fleurs de saison éclatantes, accueillant les visiteurs avec sa beauté naturelle.
+        {% elif lang == 'it' %}
+            Questo grande orologio floreale nel parco del castello di Toyama è decorato con vivaci fiori stagionali e accoglie i visitatori con la sua bellezza naturale.
+        {% elif lang == 'es-es' %}
+            Este gran reloj de flores en el Parque del Castillo de Toyama está decorado con vibrantes flores de temporada, dando la bienvenida a los visitantes con su belleza natural.
+        {% elif lang == 'es-mx' %}
+            Este gran reloj de flores en el Parque del Castillo de Toyama está decorado con vibrantes flores de temporada, dando la bienvenida a los visitantes con su belleza natural.
+        {% elif lang == 'pt' %}
+            Este grande relógio de flores no Parque do Castelo de Toyama é decorado com flores sazonais vibrantes, recebendo os visitantes com a sua beleza natural.
+        {% elif lang == 'pt-br' %}
+            Este grande relógio de flores no Parque do Castelo de Toyama é decorado com flores sazonais vibrantes, recebendo os visitantes com a sua beleza natural.
+        {% elif lang == 'en-in' %}
+            This large flower clock in Toyama Castle Park is decorated with vibrant seasonal flowers, welcoming visitors with its natural beauty.
+        {% else %}
+            This large flower clock in Toyama Castle Park is decorated with vibrant seasonal flowers, welcoming visitors with its natural beauty.
+        {% endif %}
+        </p>
+    </div>
+
+    <div class="food-card">
+      <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1778602232/thankjapan/backgrounds/euqkvscabe7fltr3prfo.jpg"
+        alt="douzou"/>
+        <p>
+        {% if lang == 'ja' %}
+            富山藩二代藩主、前田正甫公の像です。彼は富山の代名詞である「くすり」の歴史を築き、街の発展に大きく貢献した名君として知られています。
+        {% elif lang == 'ko' %}
+            도야마 번의 2대 번주인 마에다 마사토시 공의 동상입니다. 그는 도야마의 대명사인 '약'의 역사를 세우고, 도시 발전에 크게 기여한 명군으로 알려져 있습니다.
+        {% elif lang == 'zh-cn' %}
+            这是富山藩第二代藩主前田正甫的雕像。他奠定了富山代名词“医药”的历史，是为城市发展做出巨大贡献的一代名君。
+        {% elif lang == 'zh-hant' %}
+            這是富山藩第二代藩主前田正甫的雕像。他奠定了富山代名詞「醫藥」的歷史，是為城市發展做出巨大貢獻的一代名君。
+        {% elif lang == 'th' %}
+            รูปปั้นของ มาเอดะ มาซาโตชิ เจ้าเมืองลำดับที่ 2 ของแคว้นโทยามะ เขาเป็นที่รู้จักในฐานะผู้ก่อตั้งประวัติศาสตร์ "ยาสมุนไพร" ซึ่งเป็นสัญลักษณ์ของโทยามะ และเป็นผู้นำที่สร้างความเจริญให้กับเมือง
+        {% elif lang == 'vi' %}
+            Đây là bức tượng của Maeda Masatoshi, vị lãnh chúa thứ hai của phiên Toyama. Ông được biết đến là minh quân đã đặt nền móng cho lịch sử "ngành dược" - biểu tượng của Toyama.
+        {% elif lang == 'de' %}
+            Diese Statue erinnert an Maeda Masatoshi, den zweiten Lord der Toyama-Domäne. Er gilt als der weise Herrscher, der den Grundstein für Toyamas berühmte Medizintradition legte.
+        {% elif lang == 'fr' %}
+            Cette statue représente Maeda Masatoshi, le deuxième seigneur du domaine de Toyama. Il est connu comme le souverain qui a instauré la célèbre tradition médicale de la ville.
+        {% elif lang == 'it' %}
+            Questa statua commemora Maeda Masatoshi, il secondo signore del dominio di Toyama. È noto come il sovrano che ha fondato la celebre tradizione medica di Toyama.
+        {% elif lang == 'es-es' %}
+            Esta estatua representa a Maeda Masatoshi, el segundo señor del dominio de Toyama. Es conocido como el sabio gobernante que sentó las bases de la famosa tradición médica de la ciudad.
+        {% elif lang == 'es-mx' %}
+            Esta estatua representa a Maeda Masatoshi, el segundo señor del dominio de Toyama. Es conocido como el sabio gobernante que sentó las bases de la famosa tradición médica de la ciudad.
+        {% elif lang == 'pt' %}
+            Esta estátua homenageia Maeda Masatoshi, o segundo senhor do domínio de Toyama. Ele é conhecido como o governante sábio que estabeleceu as bases da famosa tradição médica da cidade.
+        {% elif lang == 'pt-br' %}
+            Esta estátua homenageia Maeda Masatoshi, o segundo senhor do domínio de Toyama. Ele é conhecido como o governante sábio que estabeleceu as bases da famosa tradição médica da cidade.
+        {% elif lang == 'en-in' %}
+            This statue commemorates Maeda Masatoshi, the second lord of the Toyama Domain. He is celebrated as the visionary leader who founded Toyama's famous medicine industry.
+        {% else %}
+            This statue commemorates Maeda Masatoshi, the second lord of the Toyama Domain. He is celebrated as the visionary leader who founded Toyama's famous medicine industry.
+        {% endif %}
+        </p>
+    </div>
+
+    <div class="food-card">
+      <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1778602265/thankjapan/backgrounds/t59a2nbik6xjrsxtyf7a.jpg"
+        alt="funsui"/>
+        <p>
+        {% if lang == 'ja' %}
+            富山城址公園にある美しい噴水は、近代的なビルに囲まれた街の中で、訪れる人々に清涼感と安らぎを与える都会のオアシスとなっています。
+        {% elif lang == 'ko' %}
+            도야마 성터 공원의 아름다운 분수는 현대적인 빌딩 숲 사이에서 방문객들에게 청량감과 안식을 주는 도심 속 오아시스입니다.
+        {% elif lang == 'zh-cn' %}
+            富山城址公园内美丽的喷泉，在现代建筑的环绕下，为游客提供了一个清凉放松的都市绿洲。
+        {% elif lang == 'zh-hant' %}
+            富山城址公園內美麗的噴泉，在現代建築的環繞下，為遊客提供了一個清涼放鬆的都市綠洲。
+        {% elif lang == 'th' %}
+            น้ำพุที่สวยงามในสวนปราสาทโทยามะ เป็นโอเอซิสกลางเมืองที่ให้ความรู้สึกสดชื่นและผ่อนคลาย ท่ามกลางตึกสมัยใหม่รอบๆ
+        {% elif lang == 'vi' %}
+            Đài phun nước xinh đẹp tại Công viên Thành cổ Toyama là một ốc đảo đô thị mang lại cảm giác tươi mát và thư giãn giữa những tòa nhà hiện đại.
+        {% elif lang == 'de' %}
+            Der wunderschöne Springbrunnen im Toyama Castle Park bietet eine erfrischende urbane Oase, in der Besucher inmitten der modernen Architektur der Stadt entspannen können.
+        {% elif lang == 'fr' %}
+            La magnifique fontaine du parc du château de Toyama offre une oasis urbaine rafraîchissante où les visiteurs peuvent se détendre au milieu de l'architecture moderne.
+        {% elif lang == 'it' %}
+            La bellissima fontana nel parco del castello di Toyama è un'oasi urbana rinfrescante dove i visitatori possono rilassarsi tra i moderni edifici della città.
+        {% elif lang == 'es-es' %}
+            La hermosa fuente en el Parque del Castillo de Toyama es un oasis urbano refrescante donde los visitantes pueden relajarse entre la arquitectura moderna de la ciudad.
+        {% elif lang == 'es-mx' %}
+            La hermosa fuente en el Parque del Castillo de Toyama es un oasis urbano refrescante donde los visitantes pueden relajarse entre la arquitectura moderna de la ciudad.
+        {% elif lang == 'pt' %}
+            A bela fonte no Parque do Castelo de Toyama é um oásis urbano refrescante, onde os visitantes podem relaxar entre a arquitetura moderna da cidade.
+        {% elif lang == 'pt-br' %}
+            A bela fonte no Parque do Castelo de Toyama é um oásis urbano refrescante, onde os visitantes podem relaxar entre a arquitetura moderna da cidade.
+        {% elif lang == 'en-in' %}
+            The beautiful fountain in Toyama Castle Park serves as a refreshing urban oasis, offering a peaceful escape amidst the city's modern buildings.
+        {% else %}
+            The beautiful fountain in Toyama Castle Park provides a refreshing urban oasis where visitors can relax amidst the city's modern architecture.
+        {% endif %}
+        </p>
+    </div>
+
+</div>
+
+
+  <div style="text-align:center; margin:50px 0;">
+    <a href="javascript:void(0);" onclick="goToTopPage()" class="btn-more">
+        {% if lang == 'ja' %}
+            トップページへ戻る
+        {% elif lang == 'ko' %}
+            홈으로 돌아가기
+        {% elif lang == 'zh-cn' %}
+            返回首页
+        {% elif lang == 'zh-hant' %}
+            返回首頁
+        {% elif lang == 'th' %}
+            กลับไปที่หน้าหลัก
+        {% elif lang == 'vi' %}
+            Quay lại trang chủ
+        {% elif lang == 'de' %}
+            Zurück zur Startseite
+        {% elif lang == 'fr' %}
+            Retour à l'accueil
+        {% elif lang == 'it' %}
+            Torna alla home
+        {% elif lang == 'es-es' %}
+            Volver al inicio
+        {% elif lang == 'es-mx' %}
+            Volver al inicio
+        {% elif lang == 'pt' %}
+            Voltar à página inicial
+        {% elif lang == 'pt-br' %}
+            Voltar à página inicial
+        {% elif lang == 'en-in' %}
+            Back to Home
+        {% else %}
+            Back to Home
+        {% endif %}
+    </a>
+  </div>
+
+
+<!-- ===== モーダル部分 ===== -->
+<div id="modal" class="modal">
+  <div class="modal-content">
+    <span class="modal-close">&times;</span>
+    <img id="modalImage" src="" alt="">
+    <p id="modalText"></p>
+  </div>
+</div>
+
+{% if lang == 'ja' %}{% url 'toppageja' as final_url %}
+{% elif lang == 'ko' %}{% url 'toppageko' as final_url %}
+{% elif lang == 'zh-cn' %}{% url 'toppagezhCN' as final_url %}
+{% elif lang == 'zh-hant' %}{% url 'toppagezhHANT' as final_url %}
+{% elif lang == 'th' %}{% url 'toppageth' as final_url %}
+{% elif lang == 'vi' %}{% url 'toppagevi' as final_url %}
+{% elif lang == 'de' %}{% url 'toppagede' as final_url %}
+{% elif lang == 'fr' %}{% url 'toppagefr' as final_url %}
+{% elif lang == 'it' %}{% url 'toppageit' as final_url %}
+{% elif lang == 'es-es' %}{% url 'toppageesES' as final_url %}
+{% elif lang == 'es-mx' %}{% url 'toppageesMX' as final_url %}
+{% elif lang == 'pt' %}{% url 'toppagept' as final_url %}
+{% elif lang == 'pt-br' %}{% url 'toppageptBR' as final_url %}
+{% elif lang == 'en-in' %}{% url 'toppageenIN' as final_url %}
+{% else %}{% url 'toppage' as final_url %}
+{% endif %}
+
+
+<script>
+
+function goToTopPage() {
+    // localStorage に保存されたURLがあればそれを使い、なければ Djangoで作った変数を使う
+    const savedUrl = localStorage.getItem('tj_top_url');
+    const defaultUrl = "{{ final_url }}"; 
+    
+    window.location.href = savedUrl ? savedUrl : defaultUrl;
+}
+
+
+const cards = document.querySelectorAll('.food-card');
+const modal = document.getElementById('modal');
+const modalImage = document.getElementById('modalImage');
+const modalText = document.getElementById('modalText');
+const closeBtn = document.querySelector('.modal-close');
+
+
+cards.forEach(card => {
+  card.addEventListener('click', () => {
+    const img = card.querySelector('img');
+    const text = card.querySelector('p');
+    modalImage.src = img.src;
+    modalText.textContent = text.textContent;
+    modal.classList.add('active');
+  });
+});
+
+// 閉じる
+closeBtn.addEventListener('click', () => modal.classList.remove('active'));
+modal.addEventListener('click', (e) => {
+  if (e.target === modal) modal.classList.remove('active');
+});
+</script>
+
