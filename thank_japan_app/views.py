@@ -1667,14 +1667,14 @@ class PrefectureListView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # 言語コードの取得（パラメータ優先）
+        
         lang_code = self.request.GET.get('lang')
         if not lang_code:
-            from thank_japan_app.views import get_lang_info # 既存の関数
+            from thank_japan_app.views import get_lang_info 
             _, lang_code = get_lang_info(self.request)
             
         context['lang_code'] = lang_code
-        # 共通のベースファイル出し分けロジック（前回の流用）
+        
         base_files = {
             'ja': 'base/base_ja.html', 'ko': 'base/base_ko.html',
             'zh-cn': 'base/base_zh_cn.html', 'zh-hant': 'base/base_zh_hant.html',
@@ -1690,7 +1690,7 @@ class PrefectureListView(TemplateView):
     
 
 class IshikawaView(TemplateView):
-    template_name = "thank_japan_app/japan/ishikawapage.html.html"
+    template_name = "thank_japan_app/japan/ishikawapage.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
