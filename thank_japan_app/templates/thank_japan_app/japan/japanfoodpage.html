@@ -1,31 +1,137 @@
-{% extends 'base/base.html' %}
+{% extends base_template %}
 
-{% block title %}Authentic Japanese Food | Sushi, Ramen, Tempura & Traditional Recipes | ThankJapan{% endblock %}
-{% block og_title %}Explore the Best of Japanese Cuisine - Sushi, Ramen, Tempura, Street Food & Traditional Sweets | ThankJapan{% endblock %}
-{% block og_description %}Dive into the world of authentic Japanese cuisine: fresh sushi, savory ramen, crispy tempura, popular street food, and traditional sweets. Learn authentic recipes, cooking tips, and the fascinating cultural stories behind Japan’s most iconic dishes – perfect for experiencing Japanese flavors from home.{% endblock %}
-{% block og_url %}{{ request.build_absolute_uri }}{% endblock %}
-{% block description %}Experience the full spectrum of Japanese cuisine: from sushi and ramen to tempura, street food, and traditional sweets. Discover authentic ingredients, cooking secrets, and the stories behind Japan’s most famous dishes. Enjoy the true flavors of Japan and immerse yourself in its rich culinary culture without leaving home.{% endblock %}
-
-{% block hreflang_tags %}
-    <link rel="alternate" hreflang="en" href="https://www.thankjapan.com/japanfood/">
-    <link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/japanfood/ja/">
-    <link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/japanfood/vi/">
-    <link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/japanfood/fr/">
-    <link rel="alternate" hreflang="it" href="https://www.thankjapan.com/japanfood/it/">
-    <link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/japanfood/pt/">
-    <link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/japanfood/zh-hant/">
-    <link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/japanfood/ko/">
-    <link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/japanfood/es-es/">
-    <link rel="alternate" hreflang="de" href="https://www.thankjapan.com/japanfood/de/">
-    <link rel="alternate" hreflang="th" href="https://www.thankjapan.com/japanfood/th/">
-    <link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/japanfood/pt-br/">
-    <link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/japanfood/es-mx/">
-    <link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/japanfood/en-in/">
-    <link rel="alternate" hreflang="zh-cn" href="https://www.thankjapan.com/japanfood/zh-cn/">
-    <link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/japanfood/">
-
+{% block title %}
+    {% if lang == 'ja' %}本場の日本食：寿司、ラーメン、天ぷらと伝統の家庭料理 | ThankJapan
+    {% elif lang == 'ko' %}본고장의 일본 음식: 스시, 라멘, 텐푸라와 전통 가정식 레시피 | ThankJapan
+    {% elif lang == 'zh-cn' %}地道日本美食：寿司、拉面、天妇罗与传统家常食谱 | ThankJapan
+    {% elif lang == 'zh-hant' %}地道日本美食：壽司、拉麵、天婦羅與傳統家常食譜 | ThankJapan
+    {% elif lang == 'th' %}อาหารญี่ปุ่นต้นตำรับ: ซูชิ ราเมน เทมปุระ และสูตรอาหารดั้งเดิม | ThankJapan
+    {% elif lang == 'vi' %}Ẩm thực Nhật Bản bản địa: Sushi, Ramen, Tempura & Công thức truyền thống | ThankJapan
+    {% elif lang == 'de' %}Authentisches japanisches Essen: Sushi, Ramen, Tempura & traditionelle Rezepte | ThankJapan
+    {% elif lang == 'fr' %}Cuisine japonaise authentique : Sushi, Ramen, Tempura et recettes traditionnelles | ThankJapan
+    {% elif lang == 'it' %}Autentica cucina giapponese: Sushi, Ramen, Tempura e ricette tradizionali | ThankJapan
+    {% elif lang == 'es-es' %}Comida japonesa auténtica: Sushi, Ramen, Tempura y recetas tradicionales | ThankJapan
+    {% elif lang == 'es-mx' %}Comida japonesa auténtica: Sushi, Ramen, Tempura y recetas tradicionales | ThankJapan
+    {% elif lang == 'pt' %}Comida japonesa autêntica: Sushi, Ramen, Tempura e receitas tradicionais | ThankJapan
+    {% elif lang == 'pt-br' %}Comida japonesa autêntica: Sushi, Ramen, Tempura e receitas tradicionais | ThankJapan
+    {% elif lang == 'en-in' %}Authentic Japanese Food | Sushi, Ramen, Tempura & Traditional Recipes | ThankJapan
+    {% else %}Authentic Japanese Food | Sushi, Ramen, Tempura & Traditional Recipes | ThankJapan
+    {% endif %}
 {% endblock %}
 
+{% block description %}
+    {% if lang == 'ja' %}
+        日本食のすべてを体験：寿司やラーメンから天ぷら、屋台料理、伝統的な和菓子まで。本場の食材や調理のコツ、名物料理に隠された物語を紹介します。自宅にいながら、日本の本物の味と豊かな食文化を楽しみましょう。
+    {% elif lang == 'ko' %}
+        일본 요리의 모든 것을 경험해 보세요: 스시와 라멘부터 텐푸라, 길거리 음식, 전통 과자까지. 본고장의 식재료, 요리 비법, 그리고 일본의 유명한 음식들에 담긴 이야기를 알아보세요. 집에서 일본의 진정한 맛과 풍부한 식문화에 빠져보세요.
+    {% elif lang == 'zh-cn' %}
+        体验日本料理的全貌：从寿司、拉面到天妇罗、街头美食和传统甜点。探索地道食材、烹饪秘诀以及日本著名美食背后的故事。足不出户，即可享受纯正的日本风味，沉浸在丰富的饮食文化中。
+    {% elif lang == 'zh-hant' %}
+        體驗日本料理的全貌：從壽司、拉麵到天婦羅、街頭美食和傳統甜點。探索地道食材、烹飪秘訣以及日本著名美食背後的故事。足不出戶，即可享受純正的日本風味，沉浸在豐富的飲食文化中。
+    {% elif lang == 'th' %}
+        สัมผัสประสบการณ์อาหารญี่ปุ่นที่หลากหลาย: ตั้งแต่ซูชิและราเมนไปจนถึงเทมปุระ สตรีทฟู้ด และขนมหวานแบบดั้งเดิม ค้นพบวัตถุดิบต้นตำรับ เคล็ดลับการทำอาหาร และเรื่องราวเบื้องหลังเมนูชื่อดังของญี่ปุ่น อิ่มอร่อยกับรสชาติที่แท้จริงจากที่บ้าน
+    {% elif lang == 'vi' %}
+        Trải nghiệm trọn vẹn tinh hoa ẩm thực Nhật Bản: từ sushi, ramen đến tempura, ẩm thực đường phố và bánh ngọt truyền thống. Khám phá các nguyên liệu bản địa, bí quyết nấu nướng và những câu chuyện đằng sau các món ăn nổi tiếng nhất. Thưởng thức hương vị Nhật Bản ngay tại nhà.
+    {% elif lang == 'de' %}
+        Erleben Sie die ganze Vielfalt der japanischen Küche: von Sushi und Ramen bis hin zu Tempura, Street Food und traditionellen Süßigkeiten. Entdecken Sie authentische Zutaten, Kochgeheimnisse und die Geschichten hinter Japans berühmtesten Gerichten. Genießen Sie die wahren Aromen Japans von zu Hause aus.
+    {% elif lang == 'fr' %}
+        Découvrez toute l'étendue de la cuisine japonaise : du sushi et ramen au tempura, en passant par la street food et les pâtisseries traditionnelles. Explorez des ingrédients authentiques, des secrets de cuisine et les histoires derrière les plats les plus célèbres du Japon. Savourez les vraies saveurs du Japon depuis chez vous.
+    {% elif lang == 'it' %}
+        Scopri l'intero spettro della cucina giapponese: dal sushi e ramen alla tempura, allo street food e ai dolci tradizionali. Esplora ingredienti autentici, segreti culinari e le storie dietro i piatti più famosi del Giappone. Assapora i veri sapori del Giappone comodamente da casa.
+    {% elif lang == 'es-es' %}
+        Experimenta todo el espectro de la cocina japonesa: desde sushi y ramen hasta tempura, comida callejera y dulces tradicionales. Descubre ingredientes auténticos, secretos de cocina y las historias detrás de los platos más famosos de Japón. Disfruta de los verdaderos sabores de Japón sin salir de casa.
+    {% elif lang == 'es-mx' %}
+        Experimenta todo el espectro de la cocina japonesa: desde sushi y ramen hasta tempura, comida callejera y dulces tradicionales. Descubre ingredientes auténticos, secretos de cocina y las historias detrás de los platos más famosos de Japón. Disfruta de los verdaderos sabores de Japón sin salir de casa.
+    {% elif lang == 'pt' %}
+        Experimente todo o espectro da culinária japonesa: do sushi e ramen ao tempura, comida de rua e doces tradicionais. Descubra ingredientes autênticos, segredos culinários e as histórias por trás dos pratos mais famosos do Japão. Saboreie os verdadeiros sabores do Japão sem sair de casa.
+    {% elif lang == 'pt-br' %}
+        Experimente todo o espectro da culinária japonesa: do sushi e ramen ao tempura, comida de rua e doces tradicionais. Descubra ingredientes autênticos, segredos culinários e as histórias por trás dos pratos mais famosos do Japão. Saboreie os verdadeiros sabores do Japão sem sair de casa.
+    {% elif lang == 'en-in' %}
+        Experience the full spectrum of Japanese cuisine: from sushi and ramen to tempura, street food, and traditional sweets. Discover authentic ingredients, cooking secrets, and the stories behind Japan’s most famous dishes. Enjoy the true flavours of Japan and immerse yourself in its rich culinary culture without leaving home.
+    {% else %}
+        Experience the full spectrum of Japanese cuisine: from sushi and ramen to tempura, street food, and traditional sweets. Discover authentic ingredients, cooking secrets, and the stories behind Japan’s most famous dishes. Enjoy the true flavors of Japan and immerse yourself in its rich culinary culture without leaving home.
+    {% endif %}
+{% endblock %}
+
+{% block og_title %}
+    {% if lang == 'ja' %}日本食の最高峰を探索：寿司、ラーメン、天ぷら、屋台料理、そして和菓子 | ThankJapan
+    {% elif lang == 'ko' %}최고의 일본 요리 탐험: 스시, 라멘, 텐푸라, 길거리 음식, 그리고 전통 과자 | ThankJapan
+    {% elif lang == 'zh-cn' %}探索顶级日本美食：寿司、拉面、天妇罗、街头小吃与传统甜点 | ThankJapan
+    {% elif lang == 'zh-hant' %}探索頂級日本美食：壽司、拉麵、天婦羅、街頭小吃與傳統甜點 | ThankJapan
+    {% elif lang == 'th' %}สำรวจสุดยอดอาหารญี่ปุ่น: ซูชิ ราเมน เทมปุระ สตรีทฟู้ด และขนมหวานแบบดั้งเดิม | ThankJapan
+    {% elif lang == 'vi' %}Khám phá Tinh hoa Ẩm thực Nhật Bản: Sushi, Ramen, Tempura, Ẩm thực Đường phố & Bánh ngọt Truyền thống | ThankJapan
+    {% elif lang == 'de' %}Entdecke das Beste der japanischen Küche: Sushi, Ramen, Tempura, Street Food & traditionelle Süßigkeiten | ThankJapan
+    {% elif lang == 'fr' %}Explorez le meilleur de la cuisine japonaise : Sushi, Ramen, Tempura, Street Food et pâtisseries traditionnelles | ThankJapan
+    {% elif lang == 'it' %}Scopri il meglio della cucina giapponese: Sushi, Ramen, Tempura, Street Food e dolci tradizionali | ThankJapan
+    {% elif lang == 'es-es' %}Explora lo mejor de la cocina japonesa: Sushi, Ramen, Tempura, comida callejera y dulces tradicionales | ThankJapan
+    {% elif lang == 'es-mx' %}Explora lo mejor de la cocina japonesa: Sushi, Ramen, Tempura, comida callejera y dulces tradicionales | ThankJapan
+    {% elif lang == 'pt' %}Explore o melhor da culinária japonesa: Sushi, Ramen, Tempura, comida de rua e doces tradicionais | ThankJapan
+    {% elif lang == 'pt-br' %}Explore o melhor da culinária japonesa: Sushi, Ramen, Tempura, comida de rua e doces tradicionais | ThankJapan
+    {% elif lang == 'en-in' %}Explore the Best of Japanese Cuisine - Sushi, Ramen, Tempura, Street Food & Traditional Sweets | ThankJapan
+    {% else %}Explore the Best of Japanese Cuisine - Sushi, Ramen, Tempura, Street Food & Traditional Sweets | ThankJapan
+    {% endif %}
+{% endblock %}
+
+
+{% block og_description %}
+    {% if lang == 'ja' %}
+        本物の日本食の世界へ：新鮮な寿司、濃厚なラーメン、サクサクの天ぷら、人気の屋台料理、そして伝統的な和菓子。本場のレシピや調理のコツ、名物料理に隠された文化的な物語を学びましょう。自宅にいながら日本の味を体験するのに最適です。
+    {% elif lang == 'ko' %}
+        정통 일본 요리의 세계로 초대합니다: 신선한 스시, 진한 라멘, 바삭한 텐푸라, 인기 길거리 음식, 그리고 전통 과자까지. 정통 레시피와 요리 팁, 상징적인 음식들에 담긴 흥미로운 문화적 이야기를 배워보세요. 집에서 일본의 맛을 느끼기에 완벽합니다.
+    {% elif lang == 'zh-cn' %}
+        深入探索地道日本美食的世界：新鲜寿司、美味拉面、酥脆天妇罗、热门街头小吃和传统甜点。学习正宗食谱、烹饪技巧以及著名美食背后的文化故事——足不出户即可体验日本风味。
+    {% elif lang == 'zh-hant' %}
+        深入探索地道日本美食的世界：新鮮壽司、美味拉麵、酥脆天婦羅、熱門街頭小吃和傳統甜點。學習正宗食譜、烹飪技巧以及著名美食背後的文化故事——足不出戶即可體驗日本風味。
+    {% elif lang == 'th' %}
+        ดำดิ่งสู่โลกแห่งอาหารญี่ปุ่นต้นตำรับ: ซูชิที่สดใหม่ ราเมนรสกลมกล่อม เทมปุระที่กรอบอร่อย สตรีทฟู้ดยอดนิยม และขนมหวานแบบดั้งเดิม เรียนรู้สูตรอาหาร เคล็ดลับการทำอาหาร และเรื่องราวทางวัฒนธรรมที่น่าสนใจเบื้องหลังเมนูชื่อดัง เหมาะสำหรับการสัมผัสรสชาติญี่ปุ่นจากที่บ้าน
+    {% elif lang == 'vi' %}
+        Đắm mình trong thế giới ẩm thực Nhật Bản bản địa: sushi tươi ngon, ramen đậm đà, tempura giòn rụm, ẩm thực đường phố phổ biến và bánh ngọt truyền thống. Học hỏi các công thức nấu ăn, mẹo nấu nướng và những câu chuyện văn hóa thú vị đằng sau các món ăn biểu tượng - hoàn hảo để trải nghiệm hương vị Nhật Bản ngay tại nhà.
+    {% elif lang == 'de' %}
+        Tauche ein in die Welt der authentischen japanischen Küche: frisches Sushi, herzhaftes Ramen, knuspriges Tempura, beliebtes Street Food und traditionelle Süßigkeiten. Lerne authentische Rezepte, Kochtipps und die faszinierenden kulturellen Geschichten hinter Japans bekanntesten Gerichten kennen – ideal, um japanische Aromen von zu Hause aus zu erleben.
+    {% elif lang == 'fr' %}
+        Plongez dans l'univers de la cuisine japonaise authentique : sushis frais, ramen savoureux, tempuras croustillants, street food populaire et pâtisseries traditionnelles. Découvrez des recettes authentiques, des conseils de cuisine et les histoires culturelles fascinantes derrière les plats les plus emblématiques du Japon – idéal pour savourer le Japon depuis chez soi.
+    {% elif lang == 'it' %}
+        Immergiti nel mondo dell'autentica cucina giapponese: sushi fresco, ramen saporito, tempura croccante, street food popolare e dolci tradizionali. Scopri ricette autentiche, consigli di cucina e le affascinanti storie culturali dietro i piatti più iconici del Giappone: perfetto per assaporare i gusti del Giappone da casa.
+    {% elif lang == 'es-es' %}
+        Sumérgete en el mundo de la auténtica cocina japonesa: sushi fresco, ramen sabroso, tempura crujiente, comida callejera popular y dulces tradicionales. Aprende recetas auténticas, trucos de cocina y las fascinantes historias culturales detrás de los platos más emblemáticos de Japón, perfecto para vivir el sabor de Japón desde casa.
+    {% elif lang == 'es-mx' %}
+        Sumérgete en el mundo de la auténtica cocina japonesa: sushi fresco, ramen sabroso, tempura crujiente, comida callejera popular y dulces tradicionales. Aprende recetas auténticas, trucos de cocina y las fascinantes historias culturales detrás de los platos más emblemáticos de Japón, perfecto para vivir el sabor de Japón desde casa.
+    {% elif lang == 'pt' %}
+        Mergulhe no mundo da autêntica cozinha japonesa: sushi fresco, ramen saboroso, tempura crocante, comida de rua popular e doces tradicionais. Aprenda receitas autênticas, dicas de culinária e as fascinantes histórias culturais por trás dos pratos mais emblemáticos do Japão – perfeito para vivenciar os sabores do Japão a partir de casa.
+    {% elif lang == 'pt-br' %}
+        Mergulhe no mundo da autêntica culinária japonesa: sushi fresco, ramen saboroso, tempura crocante, comida de rua popular e doces tradicionais. Aprenda receitas autênticas, dicas de culinária e as fascinantes histórias culturais por trás dos pratos mais emblemáticos do Japão – perfeito para vivenciar os sabores do Japão a partir de casa.
+    {% elif lang == 'en-in' %}
+        Dive into the world of authentic Japanese cuisine: fresh sushi, savoury ramen, crispy tempura, popular street food, and traditional sweets. Learn authentic recipes, cooking tips, and the fascinating cultural stories behind Japan’s most iconic dishes – perfect for experiencing Japanese flavours from home.
+    {% else %}
+        Dive into the world of authentic Japanese cuisine: fresh sushi, savory ramen, crispy tempura, popular street food, and traditional sweets. Learn authentic recipes, cooking tips, and the fascinating cultural stories behind Japan’s most iconic dishes – perfect for experiencing Japanese flavors from home.
+    {% endif %}
+{% endblock %}
+
+
+{% block og_url %}{{ request.build_absolute_uri }}{% endblock %}
+
+{% block hreflang_tags %}
+    
+    <link rel="alternate" hreflang="en" href="https://www.thankjapan.com/japanfood/">
+    
+    <link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/japanfood/?lang=ja">
+    <link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/japanfood/?lang=ko">
+    <link rel="alternate" hreflang="zh-hans" href="https://www.thankjapan.com/japanfood/?lang=zh-cn">
+    <link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/japanfood/?lang=zh-hant">
+    <link rel="alternate" hreflang="th" href="https://www.thankjapan.com/japanfood/?lang=th">
+    <link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/japanfood/?lang=vi">
+    <link rel="alternate" hreflang="de" href="https://www.thankjapan.com/japanfood/?lang=de">
+    <link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/japanfood/?lang=fr">
+    <link rel="alternate" hreflang="it" href="https://www.thankjapan.com/japanfood/?lang=it">
+    <link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/japanfood/?lang=es-es">
+    <link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/japanfood/?lang=es-mx">
+    <link rel="alternate" hreflang="pt-pt" href="https://www.thankjapan.com/japanfood/?lang=pt">
+    <link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/japanfood/?lang=pt-br">
+    <link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/japanfood/?lang=en-in">
+
+    
+    <link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/japanfood/">
+{% endblock %}
 
 {% block content %}
 

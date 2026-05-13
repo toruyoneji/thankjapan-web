@@ -166,105 +166,650 @@ h1 {
 </style>
 
 
-<h1>From here, I’ll show you some of the foods we eat at my house — just a few examples!</h1>
+<h1>
+    {% if lang == 'ja' %}
+        ここからは、私の家でよく食べている料理をいくつかご紹介します。ほんの一例ですが、ぜひご覧ください！
+    {% elif lang == 'ko' %}
+        지금부터 저희 집에서 즐겨 먹는 음식 몇 가지를 소개해 드릴게요. 극히 일부지만, 한번 구경해 보세요!
+    {% elif lang == 'zh-cn' %}
+        接下来，我想向大家展示一些我们家平时吃的食物——这只是其中几个例子！
+    {% elif lang == 'zh-hant' %}
+        接下來，我想向大家展示一些我們家平時吃的食物——這只是其中幾個例子！
+    {% elif lang == 'th' %}
+        จากตรงนี้ ฉันจะแสดงให้คุณเห็นอาหารบางอย่างที่เรากินกันที่บ้าน — นี่เป็นเพียงตัวอย่างเล็กๆ น้อยๆ เท่านั้น!
+    {% elif lang == 'vi' %}
+        Sau đây, tôi sẽ giới thiệu với các bạn một số món ăn gia đình tôi thường dùng — đây chỉ là một vài ví dụ thôi nhé!
+    {% elif lang == 'de' %}
+        Hier zeige ich euch ein paar Gerichte, die wir bei uns zu Hause essen – nur ein paar Beispiele!
+    {% elif lang == 'fr' %}
+        À partir d'ici, je vais vous montrer quelques plats que nous mangeons à la maison — juste quelques exemples !
+    {% elif lang == 'it' %}
+        Da qui vi mostrerò alcuni dei piatti che mangiamo a casa mia — solo qualche esempio!
+    {% elif lang == 'es-es' %}
+        A partir de aquí, os mostraré algunas de las comidas que tomamos en mi casa. ¡Solo unos pocos ejemplos!
+    {% elif lang == 'es-mx' %}
+        A partir de aquí, les mostraré algunas de las comidas que comemos en mi casa. ¡Solo unos cuantos ejemplos!
+    {% elif lang == 'pt' %}
+        A partir daqui, vou mostrar-vos algumas das comidas que comemos em minha casa — apenas alguns exemplos!
+    {% elif lang == 'pt-br' %}
+        A partir daqui, vou mostrar para vocês algumas das comidas que comemos em minha casa — apenas alguns exemplos!
+    {% elif lang == 'en-in' %}
+        From here, I’ll show you some of the foods we eat at my house — just a few examples!
+    {% else %}
+        From here, I’ll show you some of the foods we eat at my house — just a few examples!
+    {% endif %}
+</h1>
+
 
 <div class="food-grid">
 
     <div class="food-card">
       <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1761200066/thankjapan/backgrounds/adfqqgtdfozxi848gopz.png"
         alt="nigirisushi"/>
-      <p>Nigiri Sushi - a classic Japanese delicacy consisting of hand-pressed sushi rice topped with fresh, high-quality fish or seafood, perfect for experiencing authentic Japanese flavors.</p>
+      <p>
+        {% if lang == 'ja' %}
+            握り寿司 — 手で握った酢飯に新鮮で高品質な魚介類をのせた、日本の伝統的な逸品です。本場の味わいを楽しむのに最適です。
+        {% elif lang == 'ko' %}
+            니기리 스시 — 손으로 쥔 초밥 위에 신선하고 고급스러운 생선이나 해산물을 올린 일본의 전통 별미로, 본고장의 맛을 느끼기에 완벽합니다.
+        {% elif lang == 'zh-cn' %}
+            握寿司 — 手工捏制的醋饭配上新鲜优质的鱼类或海鲜，是体验地道日本风味的经典美味。
+        {% elif lang == 'zh-hant' %}
+            握壽司 — 手工捏製的醋飯配上新鮮優質的魚類或海鮮，是體驗地道日本風味的經典美味。
+        {% elif lang == 'th' %}
+            นิกิริซูชิ (Nigiri Sushi) — อาหารญี่ปุ่นคลาสสิกที่ประกอบด้วยข้าวปั้นด้วยมือวางหน้าด้วยปลาหรืออาหารทะเลสดใหม่คุณภาพเยี่ยม เหมาะสำหรับการสัมผัสรสชาติญี่ปุ่นต้นตำรับ
+        {% elif lang == 'vi' %}
+            Nigiri Sushi - món ăn tinh tế của Nhật Bản gồm cơm giấm nặn bằng tay kết hợp với hải sản tươi ngon, chất lượng cao, hoàn hảo để trải nghiệm hương vị Nhật Bản đích thực.
+        {% elif lang == 'de' %}
+            Nigiri Sushi – eine klassische japanische Delikatesse aus handgepresstem Sushi-Reis, belegt mit frischem Fisch oder Meeresfrüchten, ideal um authentische Aromen zu erleben.
+        {% elif lang == 'fr' %}
+            Nigiri Sushi — un mets classique composé de riz pressé à la main et garni de poisson ou de fruits de mer frais, parfait pour découvrir les saveurs authentiques du Japon.
+        {% elif lang == 'it' %}
+            Nigiri Sushi — una classica prelibatezza giapponese composta da riso pressato a mano e guarnito con pesce o frutti di mare freschi, ideale per assaporare l'autentico gusto del Giappone.
+        {% elif lang == 'es-es' %}
+            Sushi Nigiri: un manjar clásico japonés que consiste en arroz prensado a mano y cubierto con pescado o marisco fresco, perfecto para experimentar los auténticos sabores de Japón.
+        {% elif lang == 'es-mx' %}
+            Sushi Nigiri: un manjar clásico japonés que consiste en arroz prensado a mano y cubierto con pescado o marisco fresco, perfecto para experimentar los auténticos sabores de Japón.
+        {% elif lang == 'pt' %}
+            Nigiri Sushi — uma iguaria clássica japonesa que consiste em arroz moldado à mão e coberto com peixe ou marisco fresco, perfeita para saborear os autênticos sabores do Japão.
+        {% elif lang == 'pt-br' %}
+            Nigiri Sushi — uma iguaria clássica japonesa que consiste em arroz moldado à mão e coberto com peixe ou marisco fresco, perfeita para saborear os autênticos sabores do Japão.
+        {% elif lang == 'en-in' %}
+            Nigiri Sushi - a classic Japanese delicacy consisting of hand-pressed sushi rice topped with fresh, high-quality fish or seafood, perfect for experiencing authentic Japanese flavours.
+        {% else %}
+            Nigiri Sushi - a classic Japanese delicacy consisting of hand-pressed sushi rice topped with fresh, high-quality fish or seafood, perfect for experiencing authentic Japanese flavors.
+        {% endif %}
+      </p>
     </div>
 
     <div class="food-card">
       <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1761200046/thankjapan/backgrounds/ykvnom7g0hgig7xzkdzg.png"
         alt="sukiyaki"/>
-      <p>Sukiyaki - a popular Japanese hot pot dish with thinly sliced beef, vegetables, tofu, and noodles simmered in a sweet-savory soy-based broth, often enjoyed communally at the table.</p>
+      <p>
+        {% if lang == 'ja' %}
+            すき焼き — 薄切り肉、野菜、豆腐、麺を甘辛い醤油ベースの割り下で煮込む、日本で人気の鍋料理です。食卓を囲んでみんなで楽しむのが一般的です。
+        {% elif lang == 'ko' %}
+            스키야키 — 얇게 썬 소고기, 야채, 두부, 면을 달콤하고 짭짤한 간장 베이스 육수에 끓여 먹는 인기 있는 일본식 전골 요리로, 식탁에서 여럿이 함께 즐기는 경우가 많습니다.
+        {% elif lang == 'zh-cn' %}
+            寿喜烧 — 一道广受欢迎的日本火锅，将薄牛肉片、蔬菜、豆腐和面条放在咸甜适中的酱油基底汤头中炖煮，通常全家人围坐在一起享用。
+        {% elif lang == 'zh-hant' %}
+            壽喜燒 — 一道廣受歡迎的日本火鍋，將薄牛肉片、蔬菜、豆腐和麵條放在鹹甜適中的醬油基底湯頭中燉煮，通常全家人圍坐在一起享用。
+        {% elif lang == 'th' %}
+            สุกี้ยากี้ — อาหารประเภทหม้อไฟยอดนิยมของญี่ปุ่นที่ประกอบด้วยเนื้อวัวสไลด์บาง ผัก เต้าหู้ และเส้น เคี่ยวในน้ำซุปซีอิ๊วรสชาติหวานเค็ม มักรับประทานร่วมกันเป็นกลุ่มบนโต๊ะอาหาร
+        {% elif lang == 'vi' %}
+            Sukiyaki - món lẩu phổ biến của Nhật Bản với thịt bò thái mỏng, rau củ, đậu phụ và mì được nấu trong nước dùng làm từ nước tương có vị mặn ngọt, thường được thưởng thức chung tại bàn ăn.
+        {% elif lang == 'de' %}
+            Sukiyaki – ein beliebtes japanisches Eintopfgericht mit hauchdünnem Rindfleisch, Gemüse, Tofu und Nudeln, das in einem süß-pikanten Sud auf Sojasaucenbasis direkt am Tisch gemeinsam genossen wird.
+        {% elif lang == 'fr' %}
+            Sukiyaki — un plat de fondue japonaise populaire composé de fines tranches de bœuf, de légumes, de tofu et de nouilles mijotés dans un bouillon sucré-salé à base de sauce soja, souvent partagé en toute convivialité.
+        {% elif lang == 'it' %}
+            Sukiyaki — un popolare piatto unico giapponese con fettine sottili di manzo, verdure, tofu e spaghetti cotti in un brodo agrodolce a base di salsa di soia, spesso gustato in compagnia a tavola.
+        {% elif lang == 'es-es' %}
+            Sukiyaki: un plato japonés popular de tipo olla caliente con carne de ternera cortada fina, verduras, tofu y fideos cocinados en un caldo agridulce a base de soja, que suele compartirse en la mesa.
+        {% elif lang == 'es-mx' %}
+            Sukiyaki: un plato japonés popular de tipo olla caliente con carne de ternera cortada fina, verduras, tofu y fideos cocinados en un caldo agridulce a base de soja, que suele compartirse en la mesa.
+        {% elif lang == 'pt' %}
+            Sukiyaki — um popular prato japonês de panela quente com fatias finas de carne de vaca, vegetais, tofu e massa cozinhados num caldo doce e salgado à base de soja, muitas vezes apreciado em grupo à mesa.
+        {% elif lang == 'pt-br' %}
+            Sukiyaki — um popular prato japonês de panela quente com fatias finas de carne de vaca, vegetais, tofu e massa cozinhados num caldo doce e salgado à base de soja, muitas vezes apreciado em grupo à mesa.
+        {% elif lang == 'en-in' %}
+            Sukiyaki - a popular Japanese hot pot dish with thinly sliced beef, vegetables, tofu, and noodles simmered in a sweet-savory soy-based broth, often enjoyed communally at the table.
+        {% else %}
+            Sukiyaki - a popular Japanese hot pot dish with thinly sliced beef, vegetables, tofu, and noodles simmered in a sweet-savory soy-based broth, often enjoyed communally at the table.
+        {% endif %}
+      </p>
     </div>
 
     <div class="food-card">
       <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1761200094/thankjapan/backgrounds/pah6gtiqswx0cmhq5yip.png"
         alt="zarusoba"/>
-      <p>Zaru Soba — chilled buckwheat noodles served on a bamboo tray, typically enjoyed by dipping into a savory soy-based sauce called tsuyu, perfect for refreshing summer meals.</p>
+      <p>
+        {% if lang == 'ja' %}
+            ざるそば — 竹製のざるに盛られた冷たいそばを、「つゆ」と呼ばれる醤油ベースのタレにつけて食べる料理です。暑い夏の食事にぴったりです。
+        {% elif lang == 'ko' %}
+            자루 소바 — 대나무 채반(자루)에 담긴 차가운 메밀국수를 '쯔유'라고 불리는 짭짤한 간장 소스에 찍어 먹는 요리로, 시원한 여름 식사로 안성맞춤입니다.
+        {% elif lang == 'zh-cn' %}
+            荞麦凉面（Zaru Soba）— 盛放在竹帘上的冷荞麦面，通常蘸着被称为“面露”（tsuyu）的咸鲜酱油酱汁食用，是清爽夏日午餐的理想选择。
+        {% elif lang == 'zh-hant' %}
+            蕎麥涼麵（Zaru Soba）— 盛放在竹簾上的冷蕎麥麵，通常蘸著被稱為「面露」（tsuyu）的鹹鮮醬油醬汁食用，是清爽夏日午餐的理想選擇。
+        {% elif lang == 'th' %}
+            ซารุโซบะ (Zaru Soba) — เส้นโซบะจากแป้งบัควีทแบบเย็นเสิร์ฟบนถาดไม้ไผ่ มักรับประทานโดยการจุ่มลงในซอสซีอิ๊วรสกลมกล่อมที่เรียกว่า "ซึยุ" เหมาะอย่างยิ่งสำหรับมื้ออาหารในฤดูร้อนที่สดชื่น
+        {% elif lang == 'vi' %}
+            Zaru Soba - mì kiều mạch lạnh được bày trên khay tre, thường thưởng thức bằng cách chấm vào nước dùng mặn mà làm từ nước tương gọi là tsuyu, hoàn hảo cho những bữa ăn hè thanh mát.
+        {% elif lang == 'de' %}
+            Zaru Soba – kalte Buchweizennudeln, die auf einem Bambussieb serviert und in eine herzhafte Sojasauce namens Tsuyu getunkt werden. Das ideale erfrischende Gericht für heiße Sommertage.
+        {% elif lang == 'fr' %}
+            Zaru Soba — des nouilles de sarrasin froides servies sur un plateau en bambou, que l'on déguste en les trempant dans une sauce savoureuse à base de sauce soja appelée tsuyu. Un plat rafraîchissant idéal pour l'été.
+        {% elif lang == 'it' %}
+            Zaru Soba — spaghetti di grano saraceno serviti freddi su un vassoio di bambù, da gustare immergendoli in una saporita salsa a base di soia chiamata tsuyu. Un piatto rinfrescante perfetto per l'estate.
+        {% elif lang == 'es-es' %}
+            Zaru Soba: fideos fríos de trigo sarraceno servidos en una bandeja de bambú que se disfrutan mojándolos en una sabrosa salsa a base de soja llamada tsuyu. Un plato refrescante perfecto para el verano.
+        {% elif lang == 'es-mx' %}
+            Zaru Soba: fideos fríos de trigo sarraceno servidos en una bandeja de bambú que se disfrutan mojándolos en una sabrosa salsa a base de soja llamada tsuyu. Un plato refrescante perfecto para el verano.
+        {% elif lang == 'pt' %}
+            Zaru Soba — macarrão frio de trigo sarraceno servido numa bandeja de bambu, geralmente apreciado mergulhando-o num molho saboroso à base de soja chamado tsuyu. Perfeito para refeições refrescantes de verão.
+        {% elif lang == 'pt-br' %}
+            Zaru Soba — macarrão frio de trigo sarraceno servido numa bandeja de bambu, geralmente apreciado mergulhando-o num molho saboroso à base de soja chamado tsuyu. Perfeito para refeições refrescantes de verão.
+        {% elif lang == 'en-in' %}
+            Zaru Soba — chilled buckwheat noodles served on a bamboo tray, typically enjoyed by dipping into a savoury soy-based sauce called tsuyu, perfect for refreshing summer meals.
+        {% else %}
+            Zaru Soba — chilled buckwheat noodles served on a bamboo tray, typically enjoyed by dipping into a savory soy-based sauce called tsuyu, perfect for refreshing summer meals.
+        {% endif %}
+      </p>    
     </div>
 
 
     <div class="food-card">
       <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1760619729/thankjapan/backgrounds/ydojoqkpkuuejtxd7kkb.png"
         alt="ramen"/>
-      <p>Ramen is a flavorful Japanese noodle soup known for its rich broth and delicious toppings.("I made this ramen at home with a flavorful broth and my favorite toppings.)</p>
+      <p>
+        {% if lang == 'ja' %}
+            ラーメンは濃厚なスープと美味しいトッピングで知られる、日本を代表する麺料理です。（このラーメンは自宅で作ったもので、お気に入りの具材をのせています。）
+        {% elif lang == 'ko' %}
+            라멘은 진한 육수와 맛있는 토핑으로 유명한 일본의 대표적인 면 요리입니다. (이 라멘은 집에서 만든 것으로, 제가 좋아하는 재료들을 듬뿍 얹었습니다.)
+        {% elif lang == 'zh-cn' %}
+            拉面是一种以浓郁高汤和美味配料著称的日本面食。（这是我在家做的拉面，放了我最喜欢的配料。）
+        {% elif lang == 'zh-hant' %}
+            拉麵是一種以濃郁高湯和美味配料著稱的日本麵食。（這是我在家做的拉麵，放了我最喜歡的配料。）
+        {% elif lang == 'th' %}
+            ราเมนเป็นบะหมี่น้ำญี่ปุ่นรสกลมกล่อมที่ขึ้นชื่อเรื่องน้ำซุปที่เข้มข้นและเครื่องเคียงแสนอร่อย (ราเมนชามนี้ฉันทำเองที่บ้าน โดยเลือกใส่เครื่องที่ชอบลงไป)
+        {% elif lang == 'vi' %}
+            Ramen là món mì nước Nhật Bản đậm đà với nước dùng đặc trưng và các loại topping hấp dẫn. (Tôi đã tự nấu bát ramen này tại nhà với nước dùng vừa miệng và các loại đồ ăn kèm yêu thích.)
+        {% elif lang == 'de' %}
+            Ramen ist eine würzige japanische Nudelsuppe, bekannt für ihre reichhaltige Brühe und leckeren Beläge. (Diese Ramen habe ich zu Hause selbst gekocht, mit einer aromatischen Brühe und meinen Lieblingszutaten.)
+        {% elif lang == 'fr' %}
+            Le Ramen est une soupe de nouilles japonaise savoureuse, connue pour son bouillon riche et ses délicieuses garnitures. (J'ai préparé ce ramen à la maison avec un bouillon savoureux et mes garnitures préférées.)
+        {% elif lang == 'it' %}
+            Il Ramen è una saporita zuppa di spaghetti giapponesi, nota per il suo brodo ricco e i deliziosi condimenti. (Ho preparato questo ramen a casa con un brodo saporito e i miei ingredienti preferiti.)
+        {% elif lang == 'es-es' %}
+            El Ramen es una sabrosa sopa de fideos japonesa conocida por su rico caldo y deliciosos ingredientes. (He hecho este ramen en casa con un caldo muy rico y mis ingredientes favoritos.)
+        {% elif lang == 'es-mx' %}
+            El Ramen es una sabrosa sopa de fideos japonesa conocida por su rico caldo y deliciosos ingredientes. (He hecho este ramen en casa con un caldo muy rico y mis ingredientes favoritos.)
+        {% elif lang == 'pt' %}
+            O Ramen é uma saborosa sopa de macarrão japonesa, conhecida pelo seu caldo rico e coberturas deliciosas. (Fiz este ramen em casa com um caldo saboroso e os meus ingredientes favoritos.)
+        {% elif lang == 'pt-br' %}
+            O Ramen é uma saborosa sopa de macarrão japonesa, conhecida pelo seu caldo rico e coberturas deliciosas. (Fiz este ramen em casa com um caldo saboroso e os meus ingredientes favoritos.)
+        {% elif lang == 'en-in' %}
+            Ramen is a flavourful Japanese noodle soup known for its rich broth and delicious toppings. (I made this ramen at home with a flavourful broth and my favourite toppings.)
+        {% else %}
+            Ramen is a flavorful Japanese noodle soup known for its rich broth and delicious toppings. (I made this ramen at home with a flavorful broth and my favorite toppings.)
+        {% endif %}
+      </p>
     </div>
 
     <div class="food-card">
       <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1760316319/thankjapan/backgrounds/ocqmrnezyqu2i5akmqbz.png"
         alt="tsukimiudon"/>
-      <p>Tsukimi Udon is a traditional Japanese noodle soup topped with a raw egg, resembling the moon.</p>
+      <p>
+        {% if lang == 'ja' %}
+            月見うどんは、生卵を月に見立ててトッピングした日本の伝統的なうどん料理です。
+        {% elif lang == 'ko' %}
+            츠키미 우동은 생계란을 달에 비유하여 얹은 일본의 전통적인 우동 요리입니다.
+        {% elif lang == 'zh-cn' %}
+            月见乌冬面是一种传统的日本面食，上面放一个生鸡蛋，象征着明月。
+        {% elif lang == 'zh-hant' %}
+            月見烏龍麵是一種傳統的日本麵食，上面放一個生雞蛋，象徵著明月。
+        {% elif lang == 'th' %}
+            สึคิมิ อุด้ง (Tsukimi Udon) คืออุด้งแบบดั้งเดิมของญี่ปุ่นที่วางไข่ดิบไว้ด้านบนเพื่อเปรียบเสมือนดวงจันทร์
+        {% elif lang == 'vi' %}
+            Tsukimi Udon là món mì truyền thống của Nhật Bản với một quả trứng sống bên trên, tượng trưng cho mặt trăng.
+        {% elif lang == 'de' %}
+            Tsukimi Udon ist eine traditionelle japanische Nudelsuppe, die mit einem rohen Ei belegt wird, das an den Mond erinnert.
+        {% elif lang == 'fr' %}
+            Le Tsukimi Udon est une soupe de nouilles traditionnelle japonaise garnie d'un œuf cru, rappelant la lune.
+        {% elif lang == 'it' %}
+            Lo Tsukimi Udon è una tradizionale zuppa di spaghetti giapponesi guarnita con un uovo crudo, che ricorda la luna.
+        {% elif lang == 'es-es' %}
+            El Tsukimi Udon es una sopa de fideos tradicional japonesa coronada con un huevo crudo, que simboliza la luna.
+        {% elif lang == 'es-mx' %}
+            El Tsukimi Udon es una sopa de fideos tradicional japonesa coronada con un huevo crudo, que simboliza la luna.
+        {% elif lang == 'pt' %}
+            O Tsukimi Udon é uma sopa de massa tradicional japonesa com um ovo cru por cima, assemelhando-se à lua.
+        {% elif lang == 'pt-br' %}
+            O Tsukimi Udon é uma sopa de macarrão tradicional japonesa com um ovo cru por cima, lembrando a lua.
+        {% elif lang == 'en-in' %}
+            Tsukimi Udon is a traditional Japanese noodle soup topped with a raw egg, resembling the moon.
+        {% else %}
+            Tsukimi Udon is a traditional Japanese noodle soup topped with a raw egg, resembling the moon.
+        {% endif %}
+      </p>
     </div>
 
     <div class="food-card">
       <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1759999367/thankjapan/backgrounds/vhliejeec2iradog0y5a.png"
         alt="tsukemen"/>
-      <p>This is the tsukemen we make at home.</p>
+      <p>
+        {% if lang == 'ja' %}
+            これが私たちの家で作っているつけ麺です。
+        {% elif lang == 'ko' %}
+            이것이 우리 집에서 직접 만들어 먹는 츠케멘입니다.
+        {% elif lang == 'zh-cn' %}
+            这是我们在家做的沾面（Tsukemen）。
+        {% elif lang == 'zh-hant' %}
+            這是我們在家做的沾麵（Tsukemen）。
+        {% elif lang == 'th' %}
+            นี่คือสึเคเมนที่เราทำกินกันเองที่บ้านครับ
+        {% elif lang == 'vi' %}
+            Đây là món mì Tsukemen mà chúng tôi thường nấu tại nhà.
+        {% elif lang == 'de' %}
+            Das sind die Tsukemen, die wir zu Hause selbst machen.
+        {% elif lang == 'fr' %}
+            Voici le tsukemen que nous préparons à la maison.
+        {% elif lang == 'it' %}
+            Questo è lo tsukemen che prepariamo in casa.
+        {% elif lang == 'es-es' %}
+            Este es el tsukemen que hacemos en casa.
+        {% elif lang == 'es-mx' %}
+            Este es el tsukemen que hacemos en casa.
+        {% elif lang == 'pt' %}
+            Este é o tsukemen que fazemos em casa.
+        {% elif lang == 'pt-br' %}
+            Este é o tsukemen que fazemos em casa.
+        {% elif lang == 'en-in' %}
+            This is the tsukemen we make at home.
+        {% else %}
+            This is the tsukemen we make at home.
+        {% endif %}
+      </p>
     </div>
 
     <div class="food-card">
       <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1760619714/thankjapan/backgrounds/e1cxuzuub3cfrurpplvp.png"
         alt="onigiri"/>
-      <p>Onigiri: a handheld taste of Japan, wrapped in seaweed with a flavorful heart.</p>
+      <p>
+        {% if lang == 'ja' %}
+            おにぎり — 手軽に楽しめる日本の味。海苔に包まれたその中には、美味しい具材が詰まっています。
+        {% elif lang == 'ko' %}
+            오니기리 — 손쉽게 즐길 수 있는 일본의 맛. 김으로 감싸여 있으며 안에는 맛있는 속재료가 가득합니다.
+        {% elif lang == 'zh-cn' %}
+            饭团（Onigiri）— 一种可以拿在手上的日本美味，包裹在海苔中，内馅丰富可口。
+        {% elif lang == 'zh-hant' %}
+            飯糰（Onigiri）— 一種可以拿在手上的日本美味，包裹在海苔中，內餡豐富可口。
+        {% elif lang == 'th' %}
+            โอนิกิริ — รสชาติของญี่ปุ่นที่ถือทานได้ง่าย ห่อด้วยสาหร่ายและมีไส้ที่แสนอร่อยอยู่ภายใน
+        {% elif lang == 'vi' %}
+            Onigiri — hương vị Nhật Bản tiện lợi có thể cầm trên tay, được gói trong rong biển với phần nhân đậm đà bên trong.
+        {% elif lang == 'de' %}
+            Onigiri — ein Stück Japan für die Hand, in Algen eingewickelt und mit einer herzhaften Füllung im Inneren.
+        {% elif lang == 'fr' %}
+            Onigiri — un petit goût du Japon à emporter, enveloppé d'algues avec un cœur savoureux.
+        {% elif lang == 'it' %}
+            Onigiri — un gusto del Giappone a portata di mano, avvolto in alga con un cuore saporito.
+        {% elif lang == 'es-es' %}
+            Onigiri: un sabor de Japón para llevar en la mano, envuelto en alga y con un relleno muy sabroso.
+        {% elif lang == 'es-mx' %}
+            Onigiri: un sabor de Japón para llevar en la mano, envuelto en alga y con un relleno muy sabroso.
+        {% elif lang == 'pt' %}
+            Onigiri — um sabor do Japão para comer à mão, envolto em algas e com um recheio saboroso.
+        {% elif lang == 'pt-br' %}
+            Onigiri — um sabor do Japão para comer à mão, envolto em algas e com um recheio saboroso.
+        {% elif lang == 'en-in' %}
+            Onigiri: a handheld taste of Japan, wrapped in seaweed with a flavourful heart.
+        {% else %}
+            Onigiri: a handheld taste of Japan, wrapped in seaweed with a flavorful heart.
+        {% endif %}
+      </p>
     </div>
 
     <div class="food-card">
       <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1760094369/thankjapan/backgrounds/qmmbyy4i0xen2u1lcees.png"
         alt="batterazushi"/>
-      <p>Battera is a type of pressed sushi from Osaka, topped with cured mackerel.</p>
+      <p>
+        {% if lang == 'ja' %}
+            バッテラは大阪発祥の押し寿司の一種で、酢締めにした鯖（サバ）がのっています。
+        {% elif lang == 'ko' %}
+            바ッテ라는 오사카에서 유래한 누름초밥(오시즈시)의 일종으로, 식초에 절인 고등어가 올라가 있습니다.
+        {% elif lang == 'zh-cn' %}
+            棒寿司（Battera）是一种源自大阪的压制寿司，上面铺着腌制的青花鱼。
+        {% elif lang == 'zh-hant' %}
+            棒壽司（Battera）是一種源自大阪的壓製壽司，上面鋪著醃製的青花魚。
+        {% elif lang == 'th' %}
+            บัตเตระ (Battera) เป็นซูชิกดประเภทหนึ่งจากโอซาก้า วางหน้าด้วยปลาซาบะดอง
+        {% elif lang == 'vi' %}
+            Battera là một loại sushi ép từ Osaka, bên trên có cá thu ngâm giấm.
+        {% elif lang == 'de' %}
+            Battera ist eine Art gepresstes Sushi aus Osaka, belegt mit eingelegter Makrele.
+        {% elif lang == 'fr' %}
+            Le Battera est un type de sushi pressé originaire d'Osaka, garni de maquereau mariné.
+        {% elif lang == 'it' %}
+            Il Battera è un tipo di sushi pressato di Osaka, guarnito con sgombro marinato.
+        {% elif lang == 'es-es' %}
+            El Battera es un tipo de sushi prensado de Osaka, cubierto con caballa curada.
+        {% elif lang == 'es-mx' %}
+            El Battera es un tipo de sushi prensado de Osaka, cubierto con caballa curada.
+        {% elif lang == 'pt' %}
+            O Battera é um tipo de sushi prensado de Osaka, coberto com cavala curada.
+        {% elif lang == 'pt-br' %}
+            O Battera é um tipo de sushi prensado de Osaka, coberto com cavala curada.
+        {% elif lang == 'en-in' %}
+            Battera is a type of pressed sushi from Osaka, topped with cured mackerel.
+        {% else %}
+            Battera is a type of pressed sushi from Osaka, topped with cured mackerel.
+        {% endif %}
+      </p>
     </div>
 
     <div class="food-card">
       <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1759999330/thankjapan/backgrounds/aqbodxft3spep9aaoe31.png"
         alt="sanshokudango"/>
-      <p>These are tri-colored dumplings made from deep-fried shrimp paste.</p>
+      <p>
+        {% if lang == 'ja' %}
+            これはエビのすり身を揚げて作った三色の団子です。
+        {% elif lang == 'ko' %}
+            이것은 다진 새우 살을 튀겨 만든 삼색 경단입니다.
+        {% elif lang == 'zh-cn' %}
+            这是由炸虾浆制成的三色虾丸。
+        {% elif lang == 'zh-hant' %}
+            這是由炸蝦漿製成的三色蝦丸。
+        {% elif lang == 'th' %}
+            นี่คือลูกชิ้นสามสีที่ทำจากเนื้อกุ้งบดทอด
+        {% elif lang == 'vi' %}
+            Đây là những viên chả tôm chiên ba màu được làm từ thịt tôm xay.
+        {% elif lang == 'de' %}
+            Das sind dreifarbige Klößchen aus frittierter Garnelenpaste.
+        {% elif lang == 'fr' %}
+            Ce sont des boulettes tricolores faites à base de pâte de crevettes frites.
+        {% elif lang == 'it' %}
+            Queste sono polpette tricolore fatte con pasta di gamberi fritti.
+        {% elif lang == 'es-es' %}
+            Estas son albóndigas tricolores hechas de pasta de gambas fritas.
+        {% elif lang == 'es-mx' %}
+            Estas son albóndigas tricolores hechas de pasta de camarones fritos.
+        {% elif lang == 'pt' %}
+            Estes são bolinhos tricolores feitos de pasta de camarão frita.
+        {% elif lang == 'pt-br' %}
+            Estes são bolinhos tricolores feitos de pasta de camarão frita.
+        {% elif lang == 'en-in' %}
+            These are tri-coloured dumplings made from deep-fried shrimp paste.
+        {% else %}
+            These are tri-colored dumplings made from deep-fried shrimp paste.
+        {% endif %}
+      </p>
     </div>
 
     <div class="food-card">
       <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1760619749/thankjapan/backgrounds/esirfzgklponrfo897jb.png"
         alt="wagashi"/>
-      <p>These Japanese sweets — monaka and red bean dumplings — are perfect with a cup of tea.</p>
+      <p>
+        {% if lang == 'ja' %}
+            最中（もなか）やあんこ団子などの和菓子は、温かいお茶と一緒に楽しむのにぴったりです。
+        {% elif lang == 'ko' %}
+            모나카와 팥 경단 같은 일본 전통 과자는 따뜻한 차 한 잔과 함께 즐기기에 완벽합니다.
+        {% elif lang == 'zh-cn' %}
+            最中饼（Monaka）和红豆团子等日式甜点，是品茶时的绝佳伴侣。
+        {% elif lang == 'zh-hant' %}
+            最中餅（Monaka）和紅豆團子等日式甜點，是品茶時的絕佳伴侶。
+        {% elif lang == 'th' %}
+            ขนมหวานญี่ปุ่นอย่างโมนากะและดังโงะไส้ถั่วแดง เข้ากันได้ดีที่สุดกับน้ำชาสักถ้วย
+        {% elif lang == 'vi' %}
+            Những món bánh ngọt Nhật Bản như bánh monaka và bánh trôi nhân đậu đỏ rất thích hợp để thưởng thức cùng một tách trà.
+        {% elif lang == 'de' %}
+            Diese japanischen Süßigkeiten – Monaka und Rote-Bohnen-Klößchen – passen perfekt zu einer Tasse Tee.
+        {% elif lang == 'fr' %}
+            Ces pâtisseries japonaises — monaka et boulettes de haricots rouges — sont parfaites accompagnées d'une tasse de thé.
+        {% elif lang == 'it' %}
+            Questi dolci giapponesi — monaka e gnocchetti di fagioli rossi — sono perfetti con una tazza di tè.
+        {% elif lang == 'es-es' %}
+            Estos dulces japoneses, como el monaka y las bolitas de judías rojas, son perfectos para acompañar una taza de té.
+        {% elif lang == 'es-mx' %}
+            Estos dulces japoneses, como el monaka y los bollitos de frijol rojo, son perfectos para acompañar una taza de té.
+        {% elif lang == 'pt' %}
+            Estes doces japoneses — monaka e bolinhos de feijão vermelho — são perfeitos com uma chávena de chá.
+        {% elif lang == 'pt-br' %}
+            Estes doces japoneses — monaka e bolinhos de feijão vermelho — são perfeitos com uma xícara de chá.
+        {% elif lang == 'en-in' %}
+            These Japanese sweets — monaka and red bean dumplings — are perfect with a cup of tea.
+        {% else %}
+            These Japanese sweets — monaka and red bean dumplings — are perfect with a cup of tea.
+        {% endif %}
+      </p>
     </div>
 
     <div class="food-card">
       <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1759999199/thankjapan/backgrounds/bfbhlb3z6ff1lqoycztz.png"
         alt="katsuonotataki" />
-      <p>Katsuo no Tataki is one type of Japanese sashimi, featuring lightly seared skipjack tuna.</p>
+      <p>
+        {% if lang == 'ja' %}
+            カツオのたたきは日本のお刺身の一種で、カツオの表面を軽く炙っているのが特徴です。
+        {% elif lang == 'ko' %}
+            가츠오노타타키(가다랑어 타타키)는 일본 사시미의 일종으로, 가다랑어 표면을 살짝 익힌 것이 특징입니다.
+        {% elif lang == 'zh-cn' %}
+            鲣鱼刺身（Katsuo no Tataki）是一种日本生鱼片，其特点是将鲣鱼表面轻微炙烤。
+        {% elif lang == 'zh-hant' %}
+            鰹魚刺身（Katsuo no Tataki）是一種日本生魚片，其特點是將鰹魚表面輕微炙烤。
+        {% elif lang == 'th' %}
+            คัตสึโอะ โนะ ทาทากิ (Katsuo no Tataki) เป็นซาซิมิญี่ปุ่นประเภทหนึ่ง โดยนำปลาโบนิโตะมาลนไฟที่ผิวหน้าเพียงเล็กน้อย
+        {% elif lang == 'vi' %}
+            Katsuo no Tataki là một loại sashimi Nhật Bản, với đặc trưng là cá ngừ vằn được nướng sơ qua bề mặt.
+        {% elif lang == 'de' %}
+            Katsuo no Tataki ist eine Art japanisches Sashimi, bei dem die Oberfläche des Echten Bonitos kurz angebraten wird.
+        {% elif lang == 'fr' %}
+            Le Katsuo no Tataki est un type de sashimi japonais, composé de bonite à ventre rayé dont la surface est légèrement saisie.
+        {% elif lang == 'it' %}
+            Il Katsuo no Tataki è un tipo di sashimi giapponese, che consiste in tonnetto striato la cui superficie viene leggermente scottata.
+        {% elif lang == 'es-es' %}
+            El Katsuo no Tataki es un tipo de sashimi japonés que consiste en bonito listado cuya superficie ha sido ligeramente marcada a la plancha.
+        {% elif lang == 'es-mx' %}
+            El Katsuo no Tataki es un tipo de sashimi japonés que consiste en bonito listado cuya superficie ha sido ligeramente marcada a la plancha.
+        {% elif lang == 'pt' %}
+            O Katsuo no Tataki é um tipo de sashimi japonês, que consiste em bonito levemente grelhado na superfície.
+        {% elif lang == 'pt-br' %}
+            O Katsuo no Tataki é um tipo de sashimi japonês, que consiste em bonito levemente grelhado na superfície.
+        {% elif lang == 'en-in' %}
+            Katsuo no Tataki is one type of Japanese sashimi, featuring lightly seared skipjack tuna.
+        {% else %}
+            Katsuo no Tataki is one type of Japanese sashimi, featuring lightly seared skipjack tuna.
+        {% endif %}
+      </p>
     </div>
 
     <div class="food-card">
       <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1759999307/thankjapan/backgrounds/v68smnjhy3grshf0aopn.png"
         alt="shakenosashimi" />
-      <p>Salmon sashimi is fresh, raw salmon sliced thinly and served without rice.</p>
+      <p>
+        {% if lang == 'ja' %}
+            サーモンのお刺身は、新鮮な生のサーモンを薄くスライスしたもので、ご飯（シャリ）なしでそのまま提供されます。
+        {% elif lang == 'ko' %}
+            연어 사시미는 신선한 생연어를 얇게 썰어 낸 것으로, 밥 없이 그대로 제공됩니다.
+        {% elif lang == 'zh-cn' %}
+            三文鱼刺身是将新鲜的生三文鱼切成薄片，不配米饭直接食用。
+        {% elif lang == 'zh-hant' %}
+            三文魚刺身是將新鮮的生三文魚切成薄片，不配米飯直接食用。
+        {% elif lang == 'th' %}
+            ซาซิมิปลาแซลมอน คือปลาแซลมอนสดหั่นบางๆ เสิร์ฟโดยไม่มีข้าว เพื่อให้คุณลิ้มรสชาติปลาได้อย่างเต็มที่
+        {% elif lang == 'vi' %}
+            Sashimi cá hồi là cá hồi tươi sống được thái lát mỏng và dùng không kèm cơm.
+        {% elif lang == 'de' %}
+            Lachs-Sashimi besteht aus frischem, rohem Lachs, der in dünne Scheiben geschnitten und ohne Reis serviert wird.
+        {% elif lang == 'fr' %}
+            Le sashimi de saumon est composé de saumon frais et cru, coupé en fines tranches et servi sans riz.
+        {% elif lang == 'it' %}
+            Il sashimi di salmone è composto da salmone fresco e crudo, tagliato a fette sottili e servito senza riso.
+        {% elif lang == 'es-es' %}
+            El sashimi de salmón es salmón fresco y crudo cortado en finas lonchas que se sirve sin arroz.
+        {% elif lang == 'es-mx' %}
+            El sashimi de salmón es salmón fresco y crudo cortado en finas lonchas que se sirve sin arroz.
+        {% elif lang == 'pt' %}
+            O sashimi de salmão é salmão fresco e cru, cortado em fatias finas e servido sem arroz.
+        {% elif lang == 'pt-br' %}
+            O sashimi de salmão é salmão fresco e cru, cortado em fatias finas e servido sem arroz.
+        {% elif lang == 'en-in' %}
+            Salmon sashimi is fresh, raw salmon sliced thinly and served without rice.
+        {% else %}
+            Salmon sashimi is fresh, raw salmon sliced thinly and served without rice.
+        {% endif %}
+      </p>
     </div>
 
 
     <div class="food-card">
       <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1759999229/thankjapan/backgrounds/kvvtrkazdyswpqxgfoor.png"
         alt="misoshiru" />
-      <p>This miso soup features tender daikon radish and sweet potato, blending savory miso with natural sweetness and hearty vegetables.</p>
+      <p>
+        {% if lang == 'ja' %}
+            このお味噌汁は柔らかい大根とさつまいもが特徴で、味噌のコクと野菜の自然な甘みが調和した、具だくさんで優しい味わいです。
+        {% elif lang == 'ko' %}
+            이 미소 된장국은 부드러운 무와 고구마가 특징으로, 구수한 미소와 채소의 자연스러운 단맛이 어우러진 든든하고 부드러운 맛입니다.
+        {% elif lang == 'zh-cn' %}
+            这款味噌汤以鲜嫩的白萝卜和红薯为特色，将咸鲜的味噌与蔬菜的天然甜味完美融合，营养丰富且口感温和。
+        {% elif lang == 'zh-hant' %}
+            這款味噌湯以鮮嫩的白蘿蔔和紅薯為特色，將鹹鮮的味噌與蔬菜的天然甜味完美融合，營養豐富且口感溫和。
+        {% elif lang == 'th' %}
+            ซุปมิโซะถ้วยนี้ประกอบด้วยหัวไชเท้าที่นุ่มและมันเทศ เป็นการผสมผสานระหว่างมิโซะที่กลมกล่อมกับความหวานจากธรรมชาติของผักที่ทำให้อิ่มท้อง
+        {% elif lang == 'vi' %}
+            Món súp miso này có củ cải trắng mềm và khoai lang, sự kết hợp giữa vị mặn đậm đà của miso với vị ngọt tự nhiên của các loại rau củ bổ dưỡng.
+        {% elif lang == 'de' %}
+            Diese Misosuppe enthält zarten Daikon-Rettich und Süßkartoffeln. Herzhafter Miso verbindet sich hier mit der natürlichen Süße von nahrhaftem Gemüse.
+        {% elif lang == 'fr' %}
+            Cette soupe miso se compose de radis daikon tendre et de patate douce, mêlant le miso savoureux à la douceur naturelle de légumes généreux.
+        {% elif lang == 'it' %}
+            Questa zuppa di miso contiene tenero ravanello daikon e patate dolci, unendo il sapore sapido del miso alla dolcezza naturale di verdure sostanziose.
+        {% elif lang == 'es-es' %}
+            Esta sopa de miso lleva tierno rábano daikon y boniato, combinando el sabor del miso con la dulzura natural de verduras nutritivas.
+        {% elif lang == 'es-mx' %}
+            Esta sopa de miso lleva tierno rábano daikon y camote, combinando el sabor del miso con la dulzura natural de vegetales nutritivos.
+        {% elif lang == 'pt' %}
+            Esta sopa de miso leva rábano daikon tenro e batata-doce, combinando o miso saboroso com a doçura natural de vegetais nutritivos.
+        {% elif lang == 'pt-br' %}
+            Esta sopa de miso leva rábano daikon tenro e batata-doce, combinando o miso saboroso com a doçura natural de vegetais nutritivos.
+        {% elif lang == 'en-in' %}
+            This miso soup features tender daikon radish and sweet potato, blending savoury miso with natural sweetness and hearty vegetables.
+        {% else %}
+            This miso soup features tender daikon radish and sweet potato, blending savory miso with natural sweetness and hearty vegetables.
+        {% endif %}
+      </p>
     </div>
 
     <div class="food-card">
       <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1759999278/thankjapan/backgrounds/v1t6wscueelqkpvfnh8o.png"
         alt="nasutonikunotenpura" />
-      <p>This dish features tempura-style deep-fried eggplant stuffed with seasoned ground meat, offering a crispy outside and juicy, savory filling.</p>
+      <p>
+        {% if lang == 'ja' %}
+            なすの肉詰め天ぷらです。味付けしたひき肉をなすに詰め、サクサクに揚げました。外はカリッと、中はジューシーな旨みが楽しめます。
+        {% elif lang == 'ko' %}
+            가지 고기 소 튀김(텐푸라)입니다. 양념한 다진 고기를 가지에 채워 바삭하게 튀겨냈으며, 겉은 바삭하고 속은 육즙이 가득한 풍미를 선사합니다.
+        {% elif lang == 'zh-cn' %}
+            这是一道茄子酿肉天妇罗。在茄子中填入调味好的肉馅后炸至酥脆，皮薄酥脆，内馅鲜嫩多汁。
+        {% elif lang == 'zh-hant' %}
+            這是一道茄子鑲肉天婦羅。在茄子中填入調味好的肉餡後炸至酥脆，皮薄酥脆，內餡鮮嫩多汁。
+        {% elif lang == 'th' %}
+            จานนี้คือมะเขือยาวทอดสไตล์เทมปุระสอดไส้เนื้อบดปรุงรส ให้สัมผัสที่กรอบนอกและเนื้อสัมผัสที่นุ่มชุ่มฉ่ำของไส้ด้านใน
+        {% elif lang == 'vi' %}
+            Món ăn này là cà tím nhồi thịt băm đã tẩm ướp gia vị, được chiên theo kiểu tempura, mang lại lớp vỏ giòn rụm và phần nhân mọng nước, đậm đà.
+        {% elif lang == 'de' %}
+            Dieses Gericht besteht aus Auberginen-Tempura, die mit gewürztem Hackfleisch gefüllt sind – außen knusprig und innen herrlich saftig.
+        {% elif lang == 'fr' %}
+            Ce plat se compose d'aubergines frites façon tempura, farcies de viande hachée assaisonnée, offrant un extérieur croustillant et une garniture juteuse et savoureuse.
+        {% elif lang == 'it' %}
+            Questo piatto presenta melanzane fritte in stile tempura ripiene di carne macinata condita, con un esterno croccante e un ripieno succoso e saporito.
+        {% elif lang == 'es-es' %}
+            Este plato consiste en berenjenas fritas al estilo tempura rellenas de carne picada sazonada, con un exterior crujiente y un relleno jugoso y sabroso.
+        {% elif lang == 'es-mx' %}
+            Este plato consiste en berenjenas fritas al estilo tempura rellenas de carne picada sazonada, con un exterior crujiente y un relleno jugoso y sabroso.
+        {% elif lang == 'pt' %}
+            Este prato consiste em beringelas fritas ao estilo tempura recheadas com carne moída temperada, oferecendo um exterior crocante e um recheio suculento e saboroso.
+        {% elif lang == 'pt-br' %}
+            Este prato consiste em beringelas fritas ao estilo tempura recheadas com carne moída temperada, oferecendo um exterior crocante e um recheio suculento e saboroso.
+        {% elif lang == 'en-in' %}
+            This dish features tempura-style deep-fried eggplant stuffed with seasoned ground meat, offering a crispy outside and juicy, savoury filling.
+        {% else %}
+            This dish features tempura-style deep-fried eggplant stuffed with seasoned ground meat, offering a crispy outside and juicy, savory filling.
+        {% endif %}
+      </p>
     </div>
 
     <div class="food-card">
       <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1759999165/thankjapan/backgrounds/bdqzliwibqokkd3zhhz4.png"
         alt="hourensounosouzai" />
-      <p>This side dish features tender spinach seasoned simply with soy sauce and sesame, highlighting its natural flavor.</p>
+      <p>
+        {% if lang == 'ja' %}
+            この副菜は、柔らかいほうれん草を醤油と胡麻でシンプルに味付けしたもので、素材本来の風味を引き立てています。
+        {% elif lang == 'ko' %}
+            이 사이드 디시는 부드러운 시금치를 간장과 깨로 심플하게 양념하여, 채소 본연의 맛을 살린 건강한 요리입니다.
+        {% elif lang == 'zh-cn' %}
+            这道配菜采用鲜嫩的菠菜，仅用酱油和芝麻简单调味，充分展现了食材本身的原汁原味。
+        {% elif lang == 'zh-hant' %}
+            這道配菜採用鮮嫩的菠菜，僅用醬油和芝麻簡單調味，充分展現了食材本身的原汁原味。
+        {% elif lang == 'th' %}
+            เครื่องเคียงจานนี้คือผักโขมนุ่มๆ ปรุงรสอย่างเรียบง่ายด้วยซีอิ๊วและงา เพื่อดึงรสชาติดั้งเดิมของผักออกมาให้มากที่สุด
+        {% elif lang == 'vi' %}
+            Món ăn kèm này gồm cải bó xôi mềm được nêm nếm đơn giản với nước tương và vừng, làm tôn lên hương vị tự nhiên vốn có của rau.
+        {% elif lang == 'de' %}
+            Diese Beilage besteht aus zartem Spinat, der einfach mit Sojasauce und Sesam gewürzt wurde, um seinen natürlichen Eigengeschmack hervorzuheben.
+        {% elif lang == 'fr' %}
+            Cet accompagnement se compose d'épinards tendres simplement assaisonnés de sauce soja et de sésame, mettant en valeur leur saveur naturelle.
+        {% elif lang == 'it' %}
+            Questo contorno presenta teneri spinaci conditi semplicemente con salsa di soia e sesamo, esaltandone il sapore naturale.
+        {% elif lang == 'es-es' %}
+            Este acompañamiento consiste en espinacas tiernas aderezadas simplemente con salsa de soja y sésamo, realzando su sabor natural.
+        {% elif lang == 'es-mx' %}
+            Este acompañamiento consiste en espinacas tiernas aderezadas simplemente con salsa de soja y sésamo, realzando su sabor natural.
+        {% elif lang == 'pt' %}
+            Este acompanhamento leva espinafres tenros temperados simplesmente com molho de soja e sésamo, realçando o seu sabor natural.
+        {% elif lang == 'pt-br' %}
+            Este acompanhamento leva espinafres tenros temperados simplesmente com molho de soja e gergelim, realçando o seu sabor natural.
+        {% elif lang == 'en-in' %}
+            This side dish features tender spinach seasoned simply with soy sauce and sesame, highlighting its natural flavour.
+        {% else %}
+            This side dish features tender spinach seasoned simply with soy sauce and sesame, highlighting its natural flavor.
+        {% endif %}
+      </p>
     </div>
 </div>
 
 <div style="text-align:center; margin:50px 0;">
-      <a class="btn-more" href="javascript:void(0);" onclick="goToTopPage()">← Back to Home</a>
+      <a class="btn-more" href="javascript:void(0);" onclick="goToTopPage()">
+        {% if lang == 'ja' %}
+            トップページへ戻る
+        {% elif lang == 'ko' %}
+            홈으로 돌아가기
+        {% elif lang == 'zh-cn' %}
+            返回首页
+        {% elif lang == 'zh-hant' %}
+            返回首頁
+        {% elif lang == 'th' %}
+            กลับไปที่หน้าหลัก
+        {% elif lang == 'vi' %}
+            Quay lại trang chủ
+        {% elif lang == 'de' %}
+            Zurück zur Startseite
+        {% elif lang == 'fr' %}
+            Retour à l'accueil
+        {% elif lang == 'it' %}
+            Torna alla home
+        {% elif lang == 'es-es' %}
+            Volver al inicio
+        {% elif lang == 'es-mx' %}
+            Volver al inicio
+        {% elif lang == 'pt' %}
+            Voltar à página inicial
+        {% elif lang == 'pt-br' %}
+            Voltar à página inicial
+        {% elif lang == 'en-in' %}
+            Back to Home
+        {% else %}
+            Back to Home
+        {% endif %}
+      </a>
 </div>
 
 
@@ -278,15 +823,33 @@ h1 {
   </div>
 </div>
 
+{% if lang == 'ja' %}{% url 'toppageja' as final_url %}
+{% elif lang == 'ko' %}{% url 'toppageko' as final_url %}
+{% elif lang == 'zh-cn' %}{% url 'toppagezhCN' as final_url %}
+{% elif lang == 'zh-hant' %}{% url 'toppagezhHANT' as final_url %}
+{% elif lang == 'th' %}{% url 'toppageth' as final_url %}
+{% elif lang == 'vi' %}{% url 'toppagevi' as final_url %}
+{% elif lang == 'de' %}{% url 'toppagede' as final_url %}
+{% elif lang == 'fr' %}{% url 'toppagefr' as final_url %}
+{% elif lang == 'it' %}{% url 'toppageit' as final_url %}
+{% elif lang == 'es-es' %}{% url 'toppageesES' as final_url %}
+{% elif lang == 'es-mx' %}{% url 'toppageesMX' as final_url %}
+{% elif lang == 'pt' %}{% url 'toppagept' as final_url %}
+{% elif lang == 'pt-br' %}{% url 'toppageptBR' as final_url %}
+{% elif lang == 'en-in' %}{% url 'toppageenIN' as final_url %}
+{% else %}{% url 'toppage' as final_url %}
+{% endif %}
+
+
 <script>
 function goToTopPage() {
-        const topUrl = localStorage.getItem('tj_top_url');
-        if (topUrl) {
-            window.location.href = topUrl;
-        } else {
-            window.location.href = "{% url 'toppage' %}";
-        }
-    }
+    
+    const savedUrl = localStorage.getItem('tj_top_url');
+    const defaultUrl = "{{ final_url }}"; 
+    
+    window.location.href = savedUrl ? savedUrl : defaultUrl;
+}
+
 
 const cards = document.querySelectorAll('.food-card');
 const modal = document.getElementById('modal');

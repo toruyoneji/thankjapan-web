@@ -1614,50 +1614,38 @@ class DailyactionsView(ListView):
 
     
 #japan food
+
 class JapanFoodView(TemplateView):
-    template_name="thank_japan_app/japan/japanfoodpage.html"
-    
-class JapanFoodZHCNView(TemplateView):
-    template_name="thank_japan_app/japan/japanfoodpage_zh_cn.html"
-    
-class JapanFoodZHHANTView(TemplateView):
-    template_name="thank_japan_app/japan/japanfoodpage_zh_hant.html"
-    
-class JapanFoodVIView(TemplateView):
-    template_name="thank_japan_app/japan/japanfoodpage_vi.html"
-    
-class JapanFoodTHView(TemplateView):
-    template_name="thank_japan_app/japan/japanfoodpage_th.html"
-    
-class JapanFoodPTView(TemplateView):
-    template_name="thank_japan_app/japan/japanfoodpage_pt.html"
-    
-class JapanFoodPTBRView(TemplateView):
-    template_name="thank_japan_app/japan/japanfoodpage_pt_br.html"
-    
-class JapanFoodKOView(TemplateView):
-    template_name="thank_japan_app/japan/japanfoodpage_ko.html"
-    
-class JapanFoodJAView(TemplateView):
-    template_name="thank_japan_app/japan/japanfoodpage_ja.html"
-    
-class JapanFoodITView(TemplateView):
-    template_name="thank_japan_app/japan/japanfoodpage_it.html"
-    
-class JapanFoodFRView(TemplateView):
-    template_name="thank_japan_app/japan/japanfoodpage_fr.html"
-    
-class JapanFoodESMXView(TemplateView):
-    template_name="thank_japan_app/japan/japanfoodpage_es_mx.html"
-    
-class JapanFoodESESView(TemplateView):
-    template_name="thank_japan_app/japan/japanfoodpage_es_es.html"
-    
-class JapanFoodENINView(TemplateView):
-    template_name="thank_japan_app/japan/japanfoodpage_en_in.html"
-    
-class JapanFoodDEView(TemplateView):
-    template_name="thank_japan_app/japan/japanfoodpage_de.html"
+    template_name = "thank_japan_app/japan/japanfoodpage.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        
+        
+        lang = self.request.GET.get('lang', 'en')
+        context['lang'] = lang
+        
+        
+        base_files = {
+            'ja': 'base/base_ja.html',
+            'ko': 'base/base_ko.html',
+            'zh-cn': 'base/base_zh_cn.html',
+            'zh-hant': 'base/base_zh_hant.html',
+            'th': 'base/base_th.html',
+            'vi': 'base/base_vi.html',
+            'de': 'base/base_de.html',
+            'fr': 'base/base_fr.html',
+            'it': 'base/base_it.html',
+            'es-es': 'base/base_es_es.html',
+            'es-mx': 'base/base_es_mx.html',
+            'pt': 'base/base_pt.html',
+            'pt-br': 'base/base_pt_br.html',
+            'en-in': 'base/base_en_in.html',
+        }
+        
+        context['base_template'] = base_files.get(lang, 'base/base.html')
+        
+        return context
     
     
 #culture(todouhuken)
