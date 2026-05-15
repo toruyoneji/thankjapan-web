@@ -1,0 +1,21 @@
+{
+  "name": "ThankJapan - Learn Japanese Culture",
+  "short_name": "ThankJapan",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#1a1a1a",
+  "description": "Explore Japan in 15 languages.",
+  "icons": [
+    {
+      "src": "/static_jp/images/icons/thankjapanicon192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/static_jp/images/icons/thankjapanicon512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

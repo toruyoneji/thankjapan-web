@@ -9,6 +9,10 @@ from thank_japan_app.views import sitemap_view
 
 app_name = "thank_japan_app"
 urlpatterns = [
+    path('manifest.json', TemplateView.as_view(template_name='manifest.json', content_type='application/json')),
+    path('sw.js', TemplateView.as_view(template_name='sw.js', content_type='application/javascript')),
+    
+    
     path('robots.txt', robots_txt),
     path('kanrisha/', admin.site.urls),
     

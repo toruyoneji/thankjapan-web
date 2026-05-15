@@ -11,11 +11,15 @@ GA_TRACKING_ID = os.environ.get('GA_TRACKING_ID', '')
 
 
 SECRET_KEY = os.environ.get('SECRET_KEY')
+
+
 DEBUG = False
+
 ALLOWED_HOSTS = [
     'www.thankjapan.com',
     'thankjapan.com',
-    'thankjapan-4c187061757b.herokuapp.com'
+    'thankjapan-4c187061757b.herokuapp.com',
+    
 ]
 
 
@@ -28,8 +32,10 @@ RECAPTCHA_LANGUAGE = ''
 SILENCED_SYSTEM_CHECKS = ['django_recaptcha.recaptcha_test_key_error']
 
 DATABASES = {
-    'default': dj_database_url.config(conn_max_age=600, ssl_require=True)
+     'default': dj_database_url.config(conn_max_age=600, ssl_require=True)
 }
+
+
 
 
 PAYPAL_MODE = os.getenv('PAYPAL_MODE', 'live')
@@ -161,6 +167,7 @@ SECURE_HSTS_SECONDS = 3600
 SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 SECURE_HSTS_PRELOAD = True
 SECURE_CROSS_ORIGIN_OPENER_POLICY = 'same-origin-allow-popups'
+
 
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
