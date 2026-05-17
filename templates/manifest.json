@@ -8,12 +8,12 @@
   "description": "Explore Japan in 15 languages.",
   "icons": [
     {
-      "src": "/static_jp/images/icons/thankjapanicon192.png",
+      "src": "https://res.cloudinary.com/dotekofm5/image/upload/v1779004563/thankjapan/backgrounds/h27ndsiffg9cvnihcffb.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "/static_jp/images/icons/thankjapanicon512.png",
+      "src": "https://res.cloudinary.com/dotekofm5/image/upload/v1779004577/thankjapan/backgrounds/jphzggvesp4x2iamrdmm.png",
       "sizes": "512x512",
       "type": "image/png"
     }
