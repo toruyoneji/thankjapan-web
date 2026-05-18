@@ -12,9 +12,11 @@
     <link rel="apple-touch-icon" href="https://res.cloudinary.com/dotekofm5/image/upload/w_180,h_180,c_fill/v1768197979/thankjapan/backgrounds/lzqkopi7hngponvt8ekw.png">
 
     {% block meta %}
-    <meta name="description" content="{% block description %}This site introduces aspects of Japanese life, culture, food, and more.{% endblock %}" />
+    <meta name="title" content="{% block title %}Master Japanese Vocabulary through Culture: Visual Quiz Games | ThankJapan{% endblock %}" />
+    <meta name="description" content="{% block description %}Build your Japanese vocabulary through culture and visual quiz games. Master essential words in 15 languages without boring textbooks.{% endblock %}" />
     <meta name="robots" content="index,follow">
-    <meta name="keywords" content="Japanese, japan">
+    <meta name="keywords" content="Japanese vocabulary, Japanese culture, learn Japanese words, Japanese quiz, Japanese food, ThankJapan">
+
     
     <link rel="canonical" href="{{ request.scheme }}://{{ request.get_host }}{{ request.path }}{% if lang_code %}?lang={{ lang_code }}{% endif %}{% if page_obj and page_obj.number > 1 %}&page={{ page_obj.number }}{% endif %}" />
 
