@@ -1621,8 +1621,7 @@ class JapanFoodView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         
-        
-        lang = self.request.GET.get('lang', 'en')
+        lang = self.kwargs.get('lang_code') or self.request.GET.get('lang')
         context['lang'] = lang
         
         
@@ -1656,7 +1655,8 @@ class PrefectureListView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         
-        lang_code = self.request.GET.get('lang')
+        lang_code = self.kwargs.get('lang_code') or self.request.GET.get('lang')
+        
         if not lang_code:
             from thank_japan_app.views import get_lang_info 
             _, lang_code = get_lang_info(self.request)
@@ -1683,7 +1683,7 @@ class IshikawaView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         
-        lang = self.request.GET.get('lang', 'en')
+        lang = self.kwargs.get('lang_code') or self.request.GET.get('lang')
         
         base_files = {
             'ja': 'base/base_ja.html',
@@ -1715,7 +1715,7 @@ class ToyamaView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         
-        lang = self.request.GET.get('lang', 'en')
+        lang = self.kwargs.get('lang_code') or self.request.GET.get('lang')
         
         base_files = {
             'ja': 'base/base_ja.html',
