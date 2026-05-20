@@ -510,6 +510,8 @@ footer {
 
   <div class="hero-bg-layer" id="bg-1" style="background-image: url('https://res.cloudinary.com/dotekofm5/image/upload/v1768385674/thankjapan/backgrounds/gx8xbypllgs1qogcsvak.jpg'); opacity: 1;"></div>
   <div class="hero-bg-layer" id="bg-2" style="background-image: url('https://res.cloudinary.com/dotekofm5/image/upload/v1778602671/thankjapan/backgrounds/ljw4gmp1ejmlh7qxnfcl.jpg'); opacity: 0;"></div>
+  <div class="hero-bg-layer" id="bg-3" style="background-image: url('https://res.cloudinary.com/dotekofm5/image/upload/v1779246256/thankjapan/backgrounds/pplepebrtrjsrgkaksmz.jpg'); opacity: 0;"></div>
+
 
   {% if not user.is_authenticated %}
     <div class="hero-container"> 
@@ -638,25 +640,19 @@ footer {
     
 <script>
     (function() {
-        let isFirstActive = true;
-        const bg1 = document.getElementById('bg-1');
-        const bg2 = document.getElementById('bg-2');
-
-        function crossFade() {
-            if (isFirstActive) {
-                
-                bg1.style.opacity = "0";
-                bg2.style.opacity = "1";
-            } else {
-                
-                bg1.style.opacity = "1";
-                bg2.style.opacity = "0";
-            }
-            isFirstActive = !isFirstActive;
-        }
-
         
-        setInterval(crossFade, 8000);
-    })();
+        const layers = document.querySelectorAll('.hero-bg-layer');
+        let currentIndex = 0; 
 
+        function rotateBackgrounds() {
+           
+            layers[currentIndex].style.opacity = "0";
+ 
+            currentIndex = (currentIndex + 1) % layers.length;
+
+            layers[currentIndex].style.opacity = "1";
+        }
+        
+        setInterval(rotateBackgrounds, 7000);
+    })();
 </script>
