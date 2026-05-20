@@ -3239,7 +3239,7 @@ def sitemap_view(request):
         samples = ThankJapanPremium.objects.filter(category=cat).order_by('timestamp')[:6]
         public_premium_items.extend(list(samples))
         
-    prefectures = ['ishikawa', 'toyama'] 
+    prefectures = ['ishikawa', 'toyama', 'fukui'] 
 
     languages = [
         {'code': 'en', 'hreflang': 'en'},
