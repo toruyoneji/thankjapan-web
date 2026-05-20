@@ -207,6 +207,29 @@ h1::after {
         </div>
     </a>
 
+    <a href="{% url 'fukui' %}{% if lang %}?lang={{ lang }}{% endif %}" style="text-decoration: none; color: inherit;">
+        <div class="food-card">
+            <img src="https://res.cloudinary.com/dotekofm5/image/upload/v1779246287/thankjapan/backgrounds/gokbwngpnevx0jqroeub.jpg" alt="fukui">
+            <div style="padding: 10px;">
+                <p style="font-weight: 600; color: #3b0a00;">
+                    {% if lang == 'ja' %}福井県 (Fukui)
+                    {% elif lang == 'ko' %}후쿠이현 (Fukui)
+                    {% elif lang == 'zh-cn' %}福井县 (Fukui)
+                    {% elif lang == 'zh-hant' %}福井縣 (Fukui)
+                    {% elif lang == 'th' %}จังหวัดฟูกูอิ (Fukui)
+                    {% elif lang == 'vi' %}Tỉnh Fukui
+                    {% elif lang == 'de' %}Präfektur Fukui
+                    {% elif lang == 'fr' %}Préfecture de Fukui
+                    {% elif lang == 'it' %}Prefettura di Fukui
+                    {% elif lang == 'es-es' or lang == 'es-mx' %}Prefectura de Fukui
+                    {% elif lang == 'pt' or lang == 'pt-br' %}Província de Fukui
+                    {% elif lang == 'en-in' %}Fukui Prefecture
+                    {% else %}Fukui Prefecture{% endif %}
+                </p>
+            </div>
+        </div>
+    </a>
+
 
 </div>
 

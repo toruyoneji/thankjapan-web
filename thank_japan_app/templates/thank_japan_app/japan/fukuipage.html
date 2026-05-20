@@ -1,0 +1,72 @@
+{% extends base_template %}
+
+{% block title %}
+    {% if lang == 'ja' %}福井を巡る：恐竜王国、禅の聖地「永平寺」、歴史ある城跡と名園 | ThankJapan
+    {% elif lang == 'ko' %}후쿠이 여행: 공룡 왕국, 선(禅)의 성지 에이헤이지, 역사적인 성터와 정원 | ThankJapan
+    {% elif lang == 'zh-cn' %}探索福井：恐龙王国、禅宗圣地永平寺、历史遗迹与名园 | ThankJapan
+    {% elif lang == 'zh-hant' %}探索福井：恐龍王國、禪宗聖地永平寺、歷史遺蹟與名園 | ThankJapan
+    {% elif lang == 'th' %}สัมผัสวัฒนธรรมฟูกูอิ: อาณาจักรไดโนเสาร์ จิตวิญญาณแห่งเซนที่วัดเอเฮจิ และสวนประวัติศาสตร์ | ThankJapan
+    {% elif lang == 'vi' %}Khám phá văn hóa Fukui: Vương quốc Khủng long, Thánh địa Thiền tông Eiheiji & Di tích thành cổ | ThankJapan
+    {% elif lang == 'de' %}Kultur in Fukui: Königreich der Dinosaurier, Zen im Eiheiji-Tempel und historische Gärten | ThankJapan
+    {% elif lang == 'fr' %}Découvrir la culture de Fukui : Royaume des dinosaures, spiritualité Zen à l'Eiheiji et jardins historiques | ThankJapan
+    {% elif lang == 'it' %}Scopri la cultura di Fukui: il regno dei dinosauri, la spiritualità Zen dell'Eiheiji e i giardini storici | ThankJapan
+    {% elif lang == 'es-es' %}Explora la cultura de Fukui: El reino de los dinosaurios, el espíritu Zen de Eiheiji y jardines históricos | ThankJapan
+    {% elif lang == 'es-mx' %}Explora la cultura de Fukui: El reino de los dinosaurios, el espíritu Zen de Eiheiji y jardines históricos | ThankJapan
+    {% elif lang == 'pt' %}Explore a cultura de Fukui: O reino dos dinossauros, a espiritualidade Zen em Eiheiji e jardins históricos | ThankJapan
+    {% elif lang == 'pt-br' %}Explore a cultura de Fukui: O reino dos dinossauros, a espiritualidade Zen em Eiheiji e jardins históricos | ThankJapan
+    {% elif lang == 'en-in' %}Explore Fukui Culture: Dinosaur Kingdom, Zen Spirit at Eiheiji & Historic Castle Gardens | ThankJapan
+    {% else %}Explore Fukui: Dinosaur Kingdom, Zen Spirituality & Historic Sites | ThankJapan
+    {% endif %}
+{% endblock %}
+
+{% block description %}
+    {% if lang == 'ja' %}福井県の魅力を体験。世界的な恐竜博物館、禅の聖地「永平寺」、そして福井城址や名勝「養浩館庭園」の歴史と美しさを巡る旅。
+    {% elif lang == 'ko' %}후쿠이현의 매력을 체험해 보세요. 세계적인 공룡 박물관, 선(禅)의 성지 '에이헤이지', 그리고 후쿠이 성터와 명승 '요코칸 정원'의 역사와 아름다움을 둘러보는 여행.
+    {% elif lang == 'zh-cn' %}体验福井县的魅力。为您介绍世界级的恐龙博物馆、禅宗圣地“永平寺”，以及福井城遗址与名胜“养浩馆庭园”的历史与美景。
+    {% elif lang == 'zh-hant' %}體驗福井縣的魅力。為您介紹世界級的恐龍博物館、禪宗聖地「永平寺」，以及福井城遺址與名勝「養浩館庭園」歷史與美景。
+    {% elif lang == 'th' %}สัมผัสเสน่ห์ของจังหวัดฟูกูอิ แนะนำการเดินทางชมพิพิธภัณฑ์ไดโนเสาร์ระดับโลก จิตวิญญาณแห่งเซนที่วัดเอเฮจิ และประวัติศาสตร์ของซากปราสาทฟูกูอิกับสวนโยโกคังอันงดงาม
+    {% elif lang == 'vi' %}Trải nghiệm di sản văn hóa phong phú của tỉnh Fukui. Giới thiệu bảo tàng khủng long đẳng cấp thế giới, thánh địa Thiền tông Eiheiji và vẻ đẹp lịch sử của di tích thành Fukui cùng vườn Yokokan.
+    {% elif lang == 'de' %}Erleben Sie das reiche kulturelle Erbe der Präfektur Fukui. Entdecken Sie das weltberühmte Dinosaurier-Museum, den Zen-Tempel Eiheiji und die Schönheit der Burgruine Fukui sowie des Yokokan-Gartens.
+    {% elif lang == 'fr' %}Découvrez le riche patrimoine culturel de la préfecture de Fukui. Présentation du musée des dinosaures de renommée mondiale, du temple Zen Eiheiji et du charme historique du jardin Yokokan.
+    {% elif lang == 'it' %}Scopri il ricco patrimonio culturale della prefettura di Fukui. Esplora il museo dei dinosauri di fama mondiale, la spiritualità Zen dell'Eiheiji e la bellezza storica del giardino Yokokan.
+    {% elif lang == 'es-es' %}Vive el rico patrimonio cultural de la prefectura de Fukui. Descubre el mundialmente famoso Museo de Dinosaurios, el espíritu Zen de Eiheiji y la historia del Jardín Yokokan.
+    {% elif lang == 'es-mx' %}Vive el rico patrimonio cultural de la prefectura de Fukui. Descubre el mundialmente famoso Museo de Dinosaurios, el espíritu Zen de Eiheiji y la historia del Jardín Yokokan.
+    {% elif lang == 'pt' %}Experimente a rica herança cultural da província de Fukui. Conheça o museu de dinossauros mundialmente famoso, a espiritualidade Zen em Eiheiji e a beleza histórica do Jardim Yokokan.
+    {% elif lang == 'pt-br' %}Experimente a rica herança cultural da província de Fukui. Conheça o museu de dinossauros mundialmente famoso, a espiritualidade Zen em Eiheiji e a beleza histórica do Jardim Yokokan.
+    {% elif lang == 'en-in' %}Experience the wonders of Fukui Prefecture. From the world-class Dinosaur Museum and Zen spirituality at Eiheiji Temple to the historic charm of Fukui Castle ruins and Yokokan Garden.
+    {% else %}Discover Fukui: Experience the world-class Dinosaur Museum, Zen spirituality at Eiheiji Temple, and the serene beauty of Yokokan Garden.{% endif %}
+{% endblock %}
+
+
+{% block og_title %}{{ self.title }}{% endblock %}
+{% block og_description %}{{ self.description }}{% endblock %}
+{% block og_url %}{{ request.build_absolute_uri }}{% endblock %}
+
+{% block hreflang_tags %}
+    
+    <link rel="alternate" hreflang="en" href="https://www.thankjapan.com/japanculture/fukui/">
+    
+    <link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/japanculture/fukui/?lang=ja">
+    <link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/japanculture/fukui/?lang=ko">
+    <link rel="alternate" hreflang="zh-hans" href="https://www.thankjapan.com/japanculture/fukui/?lang=zh-cn">
+    <link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/japanculture/fukui/?lang=zh-hant">
+    <link rel="alternate" hreflang="th" href="https://www.thankjapan.com/japanculture/fukui/?lang=th">
+    <link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/japanculture/fukui/?lang=vi">
+    <link rel="alternate" hreflang="de" href="https://www.thankjapan.com/japanculture/fukui/?lang=de">
+    <link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/japanculture/fukui/?lang=fr">
+    <link rel="alternate" hreflang="it" href="https://www.thankjapan.com/japanculture/fukui/?lang=it">
+    <link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/japanculture/fukui/?lang=es-es">
+    <link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/japanculture/fukui/?lang=es-mx">
+    <link rel="alternate" hreflang="pt-pt" href="https://www.thankjapan.com/japanculture/fukui/?lang=pt">
+    <link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/japanculture/fukui/?lang=pt-br">
+    <link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/japanculture/fukui/?lang=en-in">
+
+    
+    <link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/japanculture/fukui/">
+{% endblock %}
+
+{% block content %}
+
+ {% include 'jpculture/fukui.html' %}
+
+{% endblock %}

@@ -15,7 +15,7 @@ from .views import (TopView, TopViewFR, TopViewIT, TopViewPT, TopViewZHHANT,TopV
                     LivingInJapanView, MedicalEmergencyView, RealestateRulesView, TourismEtiquetteView, 
                     PrefectureView, EntertainmentView, SlangView, ImgPremiumDetailView,
                     JapanFoodView, 
-                    PrefectureListView,IshikawaView, ToyamaView,  CompanyFormView, CompanyFormDEView, CompanyFormENINView, CompanyFormESESView,
+                    PrefectureListView,IshikawaView, ToyamaView, FukuiView, CompanyFormView, CompanyFormDEView, CompanyFormENINView, CompanyFormESESView,
                     CompanyFormESMXView, CompanyFormFRView, CompanyFormITView, CompanyFormJAView, CompanyFormKOView,
                     CompanyFormPTBRView, CompanyFormPTView, CompanyFormTHView, CompanyFormVIView, CompanyFormZHHANTView, CompanyFormZHCNView, 
                     LegalNoticeView, LegalNoticeDEView, LegalNoticeENINView, LegalNoticeESESView, LegalNoticeESMXView,
@@ -207,6 +207,9 @@ urlpatterns = [
     
     path('japanculture/toyama/', ToyamaView.as_view(), name='toyama'),
     path('japanculture/toyama/<str:lang_code>/', ToyamaView.as_view(), name='toyama_with_lang'),
+    
+    path('japanculture/fukui/', FukuiView.as_view(), name='fukui'),
+    path('japanculture/fukui/<str:lang_code>/', FukuiView.as_view(), name='fukui_with_lang'),
     
     #game
     path('game/start/', game_start, name='game_start'),

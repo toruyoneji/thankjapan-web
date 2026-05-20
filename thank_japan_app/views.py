@@ -1741,6 +1741,38 @@ class ToyamaView(TemplateView):
         return context    
 
 
+class FukuiView(TemplateView):
+    template_name = "thank_japan_app/japan/fukuipage.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        
+        lang = self.kwargs.get('lang_code') or self.request.GET.get('lang')
+        
+        base_files = {
+            'ja': 'base/base_ja.html',
+            'ko': 'base/base_ko.html',
+            'zh-cn': 'base/base_zh_cn.html',
+            'zh-hant': 'base/base_zh_hant.html',
+            'th': 'base/base_th.html',
+            'vi': 'base/base_vi.html',
+            'de': 'base/base_de.html',
+            'fr': 'base/base_fr.html',
+            'it': 'base/base_it.html',
+            'es-es': 'base/base_es_es.html',
+            'es-mx': 'base/base_es_mx.html',
+            'pt': 'base/base_pt.html',
+            'pt-br': 'base/base_pt_br.html',
+            'en-in': 'base/base_en_in.html',
+        }
+        
+        
+        context['lang'] = lang
+        context['base_template'] = base_files.get(lang, 'base/base.html')
+        
+        return context    
+
+
 
 #Thank_Japan premium 
 
