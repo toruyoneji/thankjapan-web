@@ -197,9 +197,6 @@ urlpatterns = [
     path('japanfood/', JapanFoodView.as_view(), name='japanfood'),
     path('japanfood/<str:lang_code>/', JapanFoodView.as_view(), name='japanfood_with_lang'),
     
-    #culture
-    path('japanculture/', PrefectureListView.as_view(), name='prefecture_list'),
-    path('japanculture/<str:lang_code>/', PrefectureListView.as_view(), name='prefecture_list_with_lang'),
     
     #prefecture
     path('japanculture/ishikawa/', IshikawaView.as_view(), name='ishikawa'),
@@ -210,6 +207,11 @@ urlpatterns = [
     
     path('japanculture/fukui/', FukuiView.as_view(), name='fukui'),
     path('japanculture/fukui/<str:lang_code>/', FukuiView.as_view(), name='fukui_with_lang'),
+    
+    #culture
+    path('japanculture/', PrefectureListView.as_view(), name='prefecture_list'),
+    path('japanculture/<str:lang_code>/', PrefectureListView.as_view(), name='prefecture_list_with_lang'),
+    
     
     #game
     path('game/start/', game_start, name='game_start'),
