@@ -591,24 +591,6 @@
     <xhtml:link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/categories/en-in/" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/categories/" />
   </url>
-
-
-  <!-- カテゴリリストページ -->
-  <url><loc>https://www.thankjapan.com/food/</loc></url>
-  <url><loc>https://www.thankjapan.com/nature/</loc></url>
-  <url><loc>https://www.thankjapan.com/fashion/</loc></url>
-  <url><loc>https://www.thankjapan.com/culture/</loc></url>
-  <url><loc>https://www.thankjapan.com/cook/</loc></url>
-  <url><loc>https://www.thankjapan.com/appliances/</loc></url>
-  <url><loc>https://www.thankjapan.com/animal/</loc></url>
-  <url><loc>https://www.thankjapan.com/building/</loc></url>
-  <url><loc>https://www.thankjapan.com/flower/</loc></url>
-  <url><loc>https://www.thankjapan.com/householditems/</loc></url>
-  <url><loc>https://www.thankjapan.com/sports/</loc></url>
-  <url><loc>https://www.thankjapan.com/work/</loc></url>
-  <url><loc>https://www.thankjapan.com/live/</loc></url>
-  <url><loc>https://www.thankjapan.com/dailyconversation/</loc></url>
-  
   
   
   <!-- 固定ページ (利用規約, 会社情報, 法的通知, プライバシーポリシー, 多言語対応) -->
@@ -2165,6 +2147,28 @@
     </url>
     {% endfor %}
   {% endfor %}
+
+
+  <!-- category（15言語分） -->
+  {% for cat in categories %}
+    {% for current in languages %}
+    <url>
+      <loc>https://www.thankjapan.com/{{ cat }}/{% if current.code != 'en' %}?lang={{ current.code }}{% endif %}</loc>
+      <priority>0.9</priority>
+      <changefreq>daily</changefreq>
+      
+      {% for alt in languages %}
+      <xhtml:link 
+        rel="alternate" 
+        hreflang="{{ alt.hreflang }}" 
+        href="https://www.thankjapan.com/{{ cat }}/{% if alt.code != 'en' %}?lang={{ alt.code }}{% endif %}" />
+      {% endfor %}
+      <xhtml:link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/{{ cat }}/" />
+    </url>
+    {% endfor %}
+  {% endfor %}
+
+  
 
 
   {% for item in free_items %}
