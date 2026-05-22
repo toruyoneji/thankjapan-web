@@ -1,11 +1,72 @@
 {% extends 'base/basecategory.html' %}
 {% load category_filters %}
 
-{% block title %}Tourism & Etiquette | Master Manners & Sightseeing | ThankJapan{% endblock %}
-{% block og_title %}Tourism & Etiquette - Essential Manners for Traveling Japan | ThankJapan{% endblock %}
-{% block og_description %}Explore Japan like a local! Master essential sightseeing vocabulary and important Japanese etiquette, from shrine visits to public transport manners.{% endblock %}
+{% block title %}
+    {% if lang_code == 'ja' %}カテゴリー別で学ぶ日本語単語：観光(Kanko)・マナー(Mana) | ThankJapan
+    {% elif lang_code == 'zh-hant' %}按類別學習日語單語：觀光(Kanko)與禮儀(Mana) | ThankJapan
+    {% elif lang_code == 'zh-cn' %}按类别学习日语单词：旅游(Kanko)与礼仪(Mana) | ThankJapan
+    {% elif lang_code == 'ko' %}카테고리별 일본어 단어 공부: 관광(Kanko) 및 에티켓(Mana) | ThankJapan
+    {% elif lang_code == 'fr' %}Apprendre le japonais par catégorie : Tourisme (Kanko) et Étiquette (Mana) | ThankJapan
+    {% elif lang_code == 'th' %}เรียนภาษาญี่ปุ่นแยกตามหมวดหมู่: การท่องเที่ยว (Kanko) และมารยาท (Mana) | ThankJapan
+    {% elif lang_code == 'vi' %}Học từ vựng tiếng Nhật theo danh mục: Du lịch (Kanko) và Nghi thức (Mana) | ThankJapan
+    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Aprende japonés por categorías: Turismo (Kanko) y Etiqueta (Mana) | ThankJapan
+    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Aprenda japonês por categorias: Turismo (Kanko) e Etiqueta (Mana) | ThankJapan
+    {% elif lang_code == 'de' %}Japanisch lernen nach Kategorien: Tourismus (Kanko) und Etikette (Mana) | ThankJapan
+    {% elif lang_code == 'it' %}Impara il giapponese per categoria: Turismo (Kanko) ed Etichetta (Mana) | ThankJapan
+    {% elif lang_code == 'en-in' %}Learn Japanese Words by Category: Tourism (Kanko) & Etiquette (Mana) | ThankJapan
+    {% else %}Learn Japanese Words by Category: Tourism (Kanko) & Etiquette (Mana) | ThankJapan{% endif %}
+{% endblock %}
+
+{% block og_title %}
+    {% if lang_code == 'ja' %}【カテゴリー別】日本の観光・マナー単語をマスターしよう | ThankJapan
+    {% elif lang_code == 'zh-hant' %}【按類別】掌握日本觀光與禮儀日語單語 | ThankJapan
+    {% elif lang_code == 'zh-cn' %}【按类别】掌握日本旅游与礼仪日语单词 | ThankJapan
+    {% elif lang_code == 'ko' %}【카테고리별】일본의 관광과 에티켓 단어 마스터하기 | ThankJapan
+    {% elif lang_code == 'fr' %}Maîtrisez le vocabulaire du tourisme et de l'étiquette par catégorie | ThankJapan
+    {% elif lang_code == 'th' %}เก่งคำศัพท์การท่องเที่ยวและมารยาทญี่ปุ่นแยกตามหมวดหมู่ | ThankJapan
+    {% elif lang_code == 'vi' %}Làm chủ từ vựng du lịch và nghi thức tiếng Nhật theo danh mục | ThankJapan
+    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Domina el vocabulario de turismo y etiqueta japonesa por categorías | ThankJapan
+    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Domine o vocabulário de turismo e etiqueta japonesa por categorias | ThankJapan
+    {% elif lang_code == 'de' %}Meistern Sie japanische Tourismus-Vokabeln nach Kategorien | ThankJapan
+    {% elif lang_code == 'it' %}Master dei vocaboli del turismo e galateo giapponese per categoria | ThankJapan
+    {% elif lang_code == 'en-in' %}Master Japanese Tourism & Etiquette Vocabulary by Category | ThankJapan
+    {% else %}Master Japanese Tourism & Etiquette Vocabulary by Category | ThankJapan{% endif %}
+{% endblock %}
+
+{% block og_description %}
+    {% if lang_code == 'ja' %}旅館(Ryokan)や温泉(Onsen)など、カテゴリー別に整理された観光(Kanko)の単語を、漢字、発音、マナー(Mana)と一緒に効率よく学びましょう。
+    {% elif lang_code == 'zh-hant' %}通過類別整理，高效學習旅館(Ryokan)、溫泉(Onsen)等觀光(Kanko)相關的日語單語、漢字與禮儀(Mana)。
+    {% elif lang_code == 'zh-cn' %}通过类别整理，高效学习旅館(Ryokan)、温泉(Onsen)等旅游(Kanko)相关的日语单词、汉字与礼仪(Mana)。
+    {% elif lang_code == 'ko' %}료칸(Ryokan), 온천(Onsen) 등 카테고리별로 정리된 관광(Kanko) 단어를 한자와 발음, 에티켓(Mana)과 함께 효율적으로 공부하세요.
+    {% elif lang_code == 'fr' %}Apprenez efficacement le vocabulaire du tourisme (Kanko) comme le Ryokan ou l'Onsen avec kanji, prononciation et étiquette (Mana), classés par catégorie.
+    {% elif lang_code == 'th' %}เรียนรู้คำศัพท์การท่องเที่ยว (Kanko) เช่น Ryokan และ Onsen พร้อมคันจิ มารยาท (Mana) และการออกเสียงอย่างมีประสิทธิภาพตามหมวดหมู่
+    {% elif lang_code == 'vi' %}Học hiệu quả các từ vựng du lịch (Kanko) như Ryokan và Onsen cùng với hán tự, nghi thức (Mana) và cách phát âm, được sắp xếp theo danh mục.
+    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Aprende de manera eficiente el vocabulario de turismo (Kanko) como Ryokan o Onsen con kanji, pronunciación y etiqueta (Mana), organizados por categorías.
+    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Aprenda de forma eficiente o vocabulário de turismo (Kanko) como Ryokan ou Onsen com kanji, pronúncia e etiqueta (Mana), organizados por categorias.
+    {% elif lang_code == 'de' %}Lernen Sie japanische Tourismus-Vokabeln (Kanko) wie Ryokan oder Onsen effizient mit Kanji, Aussprache und Etikette (Mana), geordnet nach Kategorien.
+    {% elif lang_code == 'it' %}Impara in modo efficiente i vocaboli del turismo (Kanko) come Ryokan o Onsen con kanji, pronuncia e galateo (Mana), organizzati per categoria.
+    {% elif lang_code == 'en-in' %}Learn Japanese tourism vocabulary (Kanko) like Ryokan and Onsen efficiently with kanji, pronunciation, and manners (Mana), organized by category.
+    {% else %}Learn Japanese vocabulary for tourism (Kanko) like Ryokan (Inn) and Onsen (Hot Spring). Study kanji and etiquette (Mana) with our categorized lists.{% endif %}
+{% endblock %}
+
 {% block og_url %}{{ request.build_absolute_uri }}{% endblock %}
-{% block description %}Explore Japan like a local! Master essential sightseeing vocabulary and important Japanese etiquette, from shrine visits to public transport manners.{% endblock %}
+
+{% block description %}
+    {% if lang_code == 'ja' %}旅館(Ryokan)や温泉(Onsen)など、カテゴリー別に整理された観光(Kanko)の単語を、漢字、発音、マナー(Mana)と一緒に効率よく学びましょう。
+    {% elif lang_code == 'zh-hant' %}通過類別整理，高效學習旅館(Ryokan)、溫泉(Onsen)等觀光(Kanko)相關的日語單語、漢字與禮儀(Mana)。
+    {% elif lang_code == 'zh-cn' %}通过类别整理，高效学习旅館(Ryokan)、温泉(Onsen)等旅游(Kanko)相关的日语单词、汉字与礼仪(Mana)。
+    {% elif lang_code == 'ko' %}료칸(Ryokan), 온천(Onsen) 등 카테고리별로 정리된 관광(Kanko) 단어를 한자와 발음, 에티켓(Mana)과 함께 효율적으로 공부하세요.
+    {% elif lang_code == 'fr' %}Étudiez les mots japonais pour le tourisme (Kanko) par catégorie. Apprenez le kanji et la prononciation pour le Ryokan, l'Onsen et les règles de politesse (Mana).
+    {% elif lang_code == 'th' %}ศึกษาคำศัพท์ภาษาญี่ปุ่นสำหรับการท่องเที่ยว (Kanko) ตามหมวดหมู่ เรียนรู้คันจิและการออกเสียงสำหรับ Ryokan, Onsen และมารยาทต่างๆ (Mana)
+    {% elif lang_code == 'vi' %}Nghiên cứu từ vựng tiếng Nhật cho du lịch (Kanko) theo danh mục. Học hán tự và cách phát âm cho Ryokan, Onsen và các nghi thức xã giao (Mana).
+    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Estudia palabras japonesas para turismo (Kanko) por categorías. Aprende kanji y pronunciación para Ryokan, Onsen y etiqueta (Mana).
+    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Estude palavras japonesas para turismo (Kanko) por categorias. Aprenda kanji e pronúncia para Ryokan, Onsen e etiqueta (Mana).
+    {% elif lang_code == 'de' %}Studieren Sie japanische Wörter für Tourismus (Kanko) nach Kategorien. Lernen Sie Kanji und Aussprache für Ryokan, Onsen und Verhaltensregeln (Mana).
+    {% elif lang_code == 'it' %}Studia le parole giapponesi per il turismo (Kanko) per categoria. Impara kanji e pronuncia per Ryokan, Onsen e galateo (Mana).
+    {% elif lang_code == 'en-in' %}Study Japanese words for tourism (Kanko) by category. Learn kanji and pronunciation for Ryokan and Onsen to navigate Japan with respect (Mana) and ease.
+    {% else %}Improve your Japanese by learning tourism vocabulary (Kanko) such as Ryokan (Inn) and Onsen (Hot Springs). Perfect for students learning kanji and manners (Mana) by category.{% endif %}
+{% endblock %}
+
 
 {% block content %}
 {% load static %}

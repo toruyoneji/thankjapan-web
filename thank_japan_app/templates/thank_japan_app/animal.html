@@ -1,11 +1,72 @@
 {% extends 'base/basecategory.html' %}
 {% load category_filters %}
-{% block title %}Japanese Animals List | Wildlife & Native Species in Japan | ThankJapan{% endblock %}
 
-{% block og_title %}Japanese Animals - Discover Native Wildlife | ThankJapan{% endblock %}
-{% block og_description %}Explore native Japanese animals such as snow monkeys, cranes, and more. Learn their cultural and natural significance in Japan.{% endblock %}
+{% block title %}
+    {% if lang_code == 'ja' %}カテゴリー別で学ぶ日本語単語：動物(Doubutsu)一覧 | ThankJapan
+    {% elif lang_code == 'zh-hant' %}按類別學習日語單語：動物(Doubutsu)清單 | ThankJapan
+    {% elif lang_code == 'zh-cn' %}按类别学习日语单词：动物(Doubutsu)清单 | ThankJapan
+    {% elif lang_code == 'ko' %}카테고리별 일본어 단어 공부: 동물(Doubutsu) 목록 | ThankJapan
+    {% elif lang_code == 'fr' %}Apprendre le japonais par catégorie : Les Animaux (Doubutsu) | ThankJapan
+    {% elif lang_code == 'th' %}เรียนภาษาญี่ปุ่นแยกตามหมวดหมู่: สัตว์ (Doubutsu) | ThankJapan
+    {% elif lang_code == 'vi' %}Học từ vựng tiếng Nhật theo danh mục: Động vật (Doubutsu) | ThankJapan
+    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Aprende japonés por categorías: Animales (Doubutsu) | ThankJapan
+    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Aprenda japonês por categorias: Animais (Doubutsu) | ThankJapan
+    {% elif lang_code == 'de' %}Japanisch lernen nach Kategorien: Tiere (Doubutsu) | ThankJapan
+    {% elif lang_code == 'it' %}Impara il giapponese per categoria: Animali (Doubutsu) | ThankJapan
+    {% elif lang_code == 'en-in' %}Learn Japanese Words by Category: Animals (Doubutsu) | ThankJapan
+    {% else %}Learn Japanese Words by Category: Animals (Doubutsu) List | ThankJapan{% endif %}
+{% endblock %}
+
+{% block og_title %}
+    {% if lang_code == 'ja' %}【カテゴリー別】日本語の動物単語をマスターしよう | ThankJapan
+    {% elif lang_code == 'zh-hant' %}【按類別】掌握日語動物單語 | ThankJapan
+    {% elif lang_code == 'zh-cn' %}【按类别】掌握日语动物单词 | ThankJapan
+    {% elif lang_code == 'ko' %}【카테고리별】일본어 동물 단어 마스터하기 | ThankJapan
+    {% elif lang_code == 'fr' %}Maîtrisez le vocabulaire japonais des animaux par catégorie | ThankJapan
+    {% elif lang_code == 'th' %}เก่งคำศัพท์สัตว์ญี่ปุ่นแยกตามหมวดหมู่ | ThankJapan
+    {% elif lang_code == 'vi' %}Làm chủ từ vựng động vật tiếng Nhật theo danh mục | ThankJapan
+    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Domina el vocabulario de animales japoneses por categorías | ThankJapan
+    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Domine o vocabulário de animais japoneses por categorias | ThankJapan
+    {% elif lang_code == 'de' %}Meistern Sie japanische Tier-Vokabeln nach Kategorien | ThankJapan
+    {% elif lang_code == 'it' %}Master dei vocaboli degli animali giapponesi per categoria | ThankJapan
+    {% elif lang_code == 'en-in' %}Master Japanese Animal Vocabulary by Category | ThankJapan
+    {% else %}Master Japanese Animal Vocabulary by Category | ThankJapan{% endif %}
+{% endblock %}
+
+{% block og_description %}
+    {% if lang_code == 'ja' %}ニホンザル(Nihonzaru)やツル(Tsuru)など、カテゴリー別に整理された日本の動物(Doubutsu)の単語を、漢字と発音と一緒に効率よく学びましょう。
+    {% elif lang_code == 'zh-hant' %}通過類別整理，高效學習日本猿(Nihonzaru)、丹頂鶴(Tsuru)等日本動物(Doubutsu)的日語單語、漢字與發音。
+    {% elif lang_code == 'zh-cn' %}通过类别整理，高效学习日本猿(Nihonzaru)、丹顶鹤(Tsuru)等日本动物(Doubutsu)的日语单词、汉字与发音。
+    {% elif lang_code == 'ko' %}일본원숭이(Nihonzaru), 두루미(Tsuru) 등 카테고리별로 정리된 일본의 동물(Doubutsu) 단어를 한자와 발음과 함께 효율적으로 공부하세요.
+    {% elif lang_code == 'fr' %}Apprenez efficacement le vocabulaire des animaux japonais (Doubutsu) comme le Nihonzaru ou le Tsuru avec kanji et prononciation, classés par catégorie.
+    {% elif lang_code == 'th' %}เรียนรู้คำศัพท์สัตว์ญี่ปุ่น (Doubutsu) เช่น Nihonzaru และ Tsuru พร้อมคันจิและการออกเสียงอย่างมีประสิทธิภาพตามหมวดหมู่
+    {% elif lang_code == 'vi' %}Học hiệu quả các từ vựng động vật Nhật Bản (Doubutsu) như Nihonzaru và Tsuru cùng với kanji và cách phát âm, được sắp xếp theo danh mục.
+    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Aprende de manera eficiente el vocabulario de animales japoneses (Doubutsu) como Nihonzaru o Tsuru con kanji y pronunciación, organizados por categorías.
+    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Aprenda de forma eficiente o vocabulário de animais japoneses (Doubutsu) como Nihonzaru ou Tsuru com kanji e pronúncia, organizados por categorias.
+    {% elif lang_code == 'de' %}Lernen Sie japanische Tier-Vokabeln (Doubutsu) wie Nihonzaru oder Tsuru effizient mit Kanji und Aussprache, geordnet nach Kategorien.
+    {% elif lang_code == 'it' %}Impara in modo efficiente i vocaboli degli animali giapponesi (Doubutsu) come Nihonzaru o Tsuru con kanji e pronuncia, organizzati per categoria.
+    {% elif lang_code == 'en-in' %}Learn Japanese animal vocabulary (Doubutsu) like Nihonzaru and Tsuru efficiently with kanji and pronunciation, organized by category.
+    {% else %}Learn Japanese vocabulary for animals (Doubutsu) like Nihonzaru (Japanese Macaque) and Tsuru (Crane). Study kanji and pronunciation with our categorized lists.{% endif %}
+{% endblock %}
+
 {% block og_url %}{{ request.build_absolute_uri }}{% endblock %}
-{% block description %}Explore native Japanese animals such as snow monkeys, cranes, and more. Learn their cultural and natural significance in Japan.{% endblock %}
+
+{% block description %}
+    {% if lang_code == 'ja' %}ニホンザル(Nihonzaru)やツル(Tsuru)など、カテゴリー別に整理された日本の動物(Doubutsu)の単語を、漢字と発音と一緒に効率よく学びましょう。
+    {% elif lang_code == 'zh-hant' %}通過類別整理，高效學習日本猿(Nihonzaru)、丹頂鶴(Tsuru)等日本動物(Doubutsu)的日語單語、漢字與發音。
+    {% elif lang_code == 'zh-cn' %}通过类别整理，高效学习日本猿(Nihonzaru)、丹顶鹤(Tsuru)等日本动物(Doubutsu)的日语单词、汉字与发音。
+    {% elif lang_code == 'ko' %}일본원숭이(Nihonzaru), 두루미(Tsuru) 등 카테고리별로 정리된 일본의 동물(Doubutsu) 단어를 한자와 발음과 함께 효율적으로 공부하세요.
+    {% elif lang_code == 'fr' %}Étudiez les mots japonais pour les animaux (Doubutsu) par catégorie. Apprenez le kanji et la prononciation pour le Nihonzaru, le Tsuru et plus encore.
+    {% elif lang_code == 'th' %}ศึกษาคำศัพท์ภาษาญี่ปุ่นสำหรับสัตว์ (Doubutsu) ตามหมวดหมู่ เรียนรู้คันจิและการออกเสียงสำหรับ Nihonzaru, Tsuru และอื่นๆ
+    {% elif lang_code == 'vi' %}Nghiên cứu từ vựng tiếng Nhật cho động vật (Doubutsu) theo danh mục. Học kanji và cách phát âm cho Nihonzaru, Tsuru và nhiều loài khác.
+    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Estudia palabras japonesas para animales (Doubutsu) por categorías. Aprende kanji y pronunciación para Nihonzaru, Tsuru y más.
+    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Estude palavras japonesas para animais (Doubutsu) por categorias. Aprenda kanji e pronúncia para Nihonzaru, Tsuru e muito mais.
+    {% elif lang_code == 'de' %}Studieren Sie japanische Wörter für Tiere (Doubutsu) nach Kategorien. Lernen Sie Kanji und Aussprache für Nihonzaru, Tsuru und mehr.
+    {% elif lang_code == 'it' %}Studia le parole giapponesi per gli animali (Doubutsu) per categoria. Impara kanji e pronuncia per Nihonzaru, Tsuru e altri.
+    {% elif lang_code == 'en-in' %}Study Japanese words for animals (Doubutsu) by category. Learn kanji and pronunciation for Nihonzaru, Tsuru, and more to boost your vocabulary.
+    {% else %}Improve your Japanese by learning animal vocabulary (Doubutsu) such as Nihonzaru (Japanese Macaque) and Tsuru (Crane). Perfect for students learning kanji and pronunciation by category.{% endif %}
+{% endblock %}
+
 
 {% block content %}
 

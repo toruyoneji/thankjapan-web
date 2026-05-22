@@ -1,12 +1,72 @@
 {% extends 'base/basecategory.html' %}
 {% load category_filters %}
 
-{% block title %}Jobs & Occupations in Japan | Career & Work Culture Guide | ThankJapan{% endblock %}
+{% block title %}
+    {% if lang_code == 'ja' %}カテゴリー別で学ぶ日本語単語：仕事(Shigoto)・職業(Shokugyo) | ThankJapan
+    {% elif lang_code == 'zh-hant' %}按類別學習日語單語：工作(Shigoto)與職業(Shokugyo) | ThankJapan
+    {% elif lang_code == 'zh-cn' %}按类别学习日语单词：工作(Shigoto)与职业(Shokugyo) | ThankJapan
+    {% elif lang_code == 'ko' %}카테고리별 일본어 단어 공부: 일(Shigoto) 및 직업(Shokugyo) | ThankJapan
+    {% elif lang_code == 'fr' %}Apprendre le japonais par catégorie : Travail (Shigoto) et Professions | ThankJapan
+    {% elif lang_code == 'th' %}เรียนภาษาญี่ปุ่นแยกตามหมวดหมู่: งาน (Shigoto) และอาชีพ (Shokugyo) | ThankJapan
+    {% elif lang_code == 'vi' %}Học từ vựng tiếng Nhật theo danh mục: Công việc (Shigoto) và Nghề nghiệp | ThankJapan
+    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Aprende japonés por categorías: Trabajo (Shigoto) y Profesiones | ThankJapan
+    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Aprenda japonês por categories: Trabalho (Shigoto) e Profissões | ThankJapan
+    {% elif lang_code == 'de' %}Japanisch lernen nach Kategorien: Arbeit (Shigoto) und Berufe | ThankJapan
+    {% elif lang_code == 'it' %}Impara il giapponese per categoria: Lavoro (Shigoto) e Professioni | ThankJapan
+    {% elif lang_code == 'en-in' %}Learn Japanese Words by Category: Jobs (Shigoto) & Occupations | ThankJapan
+    {% else %}Learn Japanese Words by Category: Jobs (Shigoto) & Occupations (Shokugyo) | ThankJapan{% endif %}
+{% endblock %}
 
-{% block og_title %}Working in Japan - Culture, Customs & Practices | ThankJapan{% endblock %}
-{% block og_description %}Understand Japanese work culture, including etiquette, job roles, and the concept of lifetime employment.{% endblock %}
+{% block og_title %}
+    {% if lang_code == 'ja' %}【カテゴリー別】日本の仕事・職業単語をマスターしよう | ThankJapan
+    {% elif lang_code == 'zh-hant' %}【按類別】掌握日本工作與職業日語單語 | ThankJapan
+    {% elif lang_code == 'zh-cn' %}【按类别】掌握日本工作与职业日语单词 | ThankJapan
+    {% elif lang_code == 'ko' %}【카테고리별】일본의 일과 직업 단어 마스터하기 | ThankJapan
+    {% elif lang_code == 'fr' %}Maîtrisez le vocabulaire du travail et des professions par catégorie | ThankJapan
+    {% elif lang_code == 'th' %}เก่งคำศัพท์งานและอาชีพญี่ปุ่นแยกตามหมวดหมู่ | ThankJapan
+    {% elif lang_code == 'vi' %}Làm chủ từ vựng công việc và nghề nghiệp tiếng Nhật theo danh mục | ThankJapan
+    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Domina el vocabulario de trabajo y profesiones por categorías | ThankJapan
+    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Domine o vocabulário de trabalho e profissões por categorias | ThankJapan
+    {% elif lang_code == 'de' %}Meistern Sie japanische Arbeits- und Berufsvokabeln nach Kategorien | ThankJapan
+    {% elif lang_code == 'it' %}Master dei vocaboli del lavoro e delle professioni per categoria | ThankJapan
+    {% elif lang_code == 'en-in' %}Master Japanese Job & Career Vocabulary by Category | ThankJapan
+    {% else %}Master Japanese Job & Career Vocabulary by Category | ThankJapan{% endif %}
+{% endblock %}
+
+{% block og_description %}
+    {% if lang_code == 'ja' %}会社員(Kaishain)や転職(Tenshoku)など、カテゴリー別に整理された仕事(Shigoto)の単語を、漢字と発音と一緒に効率よく学びましょう。
+    {% elif lang_code == 'zh-hant' %}通過類別整理，高效學習公司職員(Kaishain)、轉職(Tenshoku)等工作(Shigoto)相關的日語單語、漢字與發音。
+    {% elif lang_code == 'zh-cn' %}通过类别整理，高效学习公司职员(Kaishain)、转职(Tenshoku)等工作(Shigoto)相关的日语单词、汉字与发音。
+    {% elif lang_code == 'ko' %}회사원(Kaishain), 전직(Tenshoku) 등 카테고리별로 정리된 일(Shigoto) 단어를 한자와 발음과 함께 효율적으로 공부하세요.
+    {% elif lang_code == 'fr' %}Apprenez efficacement le vocabulaire du travail (Shigoto) comme Kaishain ou Tenshoku avec kanji et prononciation, classés par catégorie.
+    {% elif lang_code == 'th' %}เรียนรู้คำศัพท์เกี่ยวกับงาน (Shigoto) เช่น Kaishain และ Tenshoku พร้อมคันจิและการออกเสียงอย่างมีประสิทธิภาพตามหมวดหมู่
+    {% elif lang_code == 'vi' %}Học hiệu quả các từ vựng công việc (Shigoto) như Kaishain và Tenshoku cùng với hán tự và cách phát âm, được sắp xếp theo danh mục.
+    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Aprende de manera eficiente el vocabulario de trabajo (Shigoto) como Kaishain o Tenshoku con kanji y pronunciación, organizados por categorías.
+    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Aprenda de forma eficiente o vocabulário de trabalho (Shigoto) como Kaishain ou Tenshoku com kanji e pronúncia, organizados por categorias.
+    {% elif lang_code == 'de' %}Lernen Sie japanische Arbeits-Vokabeln (Shigoto) wie Kaishain oder Tenshoku effizient mit Kanji und Aussprache, geordnet nach Kategorien.
+    {% elif lang_code == 'it' %}Impara in modo efficiente i vocaboli del lavoro (Shigoto) come Kaishain o Tenshoku con kanji e pronuncia, organizzati per categoria.
+    {% elif lang_code == 'en-in' %}Learn Japanese job vocabulary (Shigoto) like Kaishain and Tenshoku efficiently with kanji and pronunciation, organized by category.
+    {% else %}Learn Japanese vocabulary for jobs (Shigoto) and occupations (Shokugyo). Study kanji and pronunciation for office workers (Kaishain) and career changes (Tenshoku) with our categorized lists.{% endif %}
+{% endblock %}
+
 {% block og_url %}{{ request.build_absolute_uri }}{% endblock %}
-{% block description %}Understand Japanese work culture, including etiquette, job roles, and the concept of lifetime employment.{% endblock %}
+
+{% block description %}
+    {% if lang_code == 'ja' %}会社員(Kaishain)や転職(Tenshoku)など、カテゴリー別に整理された仕事(Shigoto)の単語を、漢字と発音と一緒に効率よく学びましょう。
+    {% elif lang_code == 'zh-hant' %}通過類別整理，高效學習公司職員(Kaishain)、轉職(Tenshoku)等工作(Shigoto)相關的日語單語、漢字與發音。
+    {% elif lang_code == 'zh-cn' %}通过类别整理，高效学习公司职员(Kaishain)、转职(Tenshoku)等工作(Shigoto)相关的日语单词、汉字与发音。
+    {% elif lang_code == 'ko' %}회사원(Kaishain), 전직(Tenshoku) 등 카테고리별로 정리된 일(Shigoto) 단어를 한자와 발음과 함께 효율적으로 공부하세요.
+    {% elif lang_code == 'fr' %}Étudiez les mots japonais pour le travail (Shigoto) par catégorie. Apprenez le kanji et la prononciation pour les professions, la culture d'entreprise et l'étiquette au bureau.
+    {% elif lang_code == 'th' %}ศึกษาคำศัพท์ภาษาญี่ปุ่นสำหรับการทำงาน (Shigoto) ตามหมวดหมู่ เรียนรู้คันจิและการออกเสียงสำหรับอาชีพต่างๆ, วัฒนธรรมองค์กร และอื่นๆ
+    {% elif lang_code == 'vi' %}Nghiên cứu từ vựng tiếng Nhật cho công việc (Shigoto) theo danh mục. Học hán tự và cách phát âm cho các nghề nghiệp, văn hóa công ty và nghi thức công sở.
+    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Estudia palabras japonesas para el trabajo (Shigoto) por categorías. Aprende kanji y pronunciación para profesiones, cultura corporativa y etiqueta.
+    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Estude palavras japonesas para o trabalho (Shigoto) por categorias. Aprenda kanji e pronúncia para profissões, cultura corporativa e etiqueta.
+    {% elif lang_code == 'de' %}Studieren Sie japanische Wörter für die Arbeit (Shigoto) nach Kategorien. Lernen Sie Kanji und Aussprache für Berufe, Unternehmenskultur und Etikette.
+    {% elif lang_code == 'it' %}Studia le parole giapponesi per il lavoro (Shigoto) per categoria. Impara kanji e pronuncia per professioni, cultura aziendale e galateo.
+    {% elif lang_code == 'en-in' %}Study Japanese words for careers and occupations (Shokugyo) by category. Learn kanji and pronunciation for Shigoto and workplace culture to boost your professional skills.
+    {% else %}Improve your Japanese by learning job and career vocabulary (Shigoto). Master words for various occupations and workplace etiquette, categorized for easy study.{% endif %}
+{% endblock %}
+
 
 {% block content %}
 

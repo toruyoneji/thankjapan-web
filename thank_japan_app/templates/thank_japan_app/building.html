@@ -1,12 +1,71 @@
 {% extends 'base/basecategory.html' %}
 {% load category_filters %}
 
-{% block title %}Famous Buildings & Architecture in Japan | Historic & Modern Structures | ThankJapan{% endblock %}
+{% block title %}
+    {% if lang_code == 'ja' %}カテゴリー別で学ぶ日本語単語：日本の建築物(Kenzikubutsu) | ThankJapan
+    {% elif lang_code == 'zh-hant' %}按類別學習日語單語：日本建築物(Kenzikubutsu) | ThankJapan
+    {% elif lang_code == 'zh-cn' %}按类别学习日语单词：日本建筑物(Kenzikubutsu) | ThankJapan
+    {% elif lang_code == 'ko' %}카테고리별 일본어 단어 공부: 일본의 건축물(Kenzikubutsu) | ThankJapan
+    {% elif lang_code == 'fr' %}Apprendre le japonais par catégorie : Architecture et Bâtiments (Kenzikubutsu) | ThankJapan
+    {% elif lang_code == 'th' %}เรียนภาษาญี่ปุ่นแยกตามหมวดหมู่: สถาปัตยกรรมและอาคาร (Kenzikubutsu) | ThankJapan
+    {% elif lang_code == 'vi' %}Học từ vựng tiếng Nhật theo danh mục: Kiến trúc và Công trình (Kenzikubutsu) | ThankJapan
+    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Aprende japonés por categorías: Arquitectura y Edificios (Kenzikubutsu) | ThankJapan
+    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Aprenda japonês por categorias: Arquitetura e Edifícios (Kenzikubutsu) | ThankJapan
+    {% elif lang_code == 'de' %}Japanisch lernen nach Kategorien: Architektur und Gebäude (Kenzikubutsu) | ThankJapan
+    {% elif lang_code == 'it' %}Impara il giapponese per categoria: Architettura e Edifici (Kenzikubutsu) | ThankJapan
+    {% elif lang_code == 'en-in' %}Learn Japanese Words by Category: Architecture (Kenzikubutsu) | ThankJapan
+    {% else %}Learn Japanese Words by Category: Japanese Architecture & Buildings (Kenzikubutsu) | ThankJapan{% endif %}
+{% endblock %}
 
-{% block og_title %}Japanese Architecture - Temples, Castles & Modern Design | ThankJapan{% endblock %}
-{% block og_description %}Explore traditional and modern Japanese buildings including temples, castles, and skyscrapers.{% endblock %}
+{% block og_title %}
+    {% if lang_code == 'ja' %}【カテゴリー別】日本語の建築物単語をマスターしよう | ThankJapan
+    {% elif lang_code == 'zh-hant' %}【按類別】掌握日語建築物單語 | ThankJapan
+    {% elif lang_code == 'zh-cn' %}【按类别】掌握日语建筑物单词 | ThankJapan
+    {% elif lang_code == 'ko' %}【카테고리별】일본어 건축물 단어 마스터하기 | ThankJapan
+    {% elif lang_code == 'fr' %}Maîtrisez le vocabulaire japonais de l'architecture par catégorie | ThankJapan
+    {% elif lang_code == 'th' %}เก่งคำศัพท์สถาปัตยกรรมญี่ปุ่นแยกตามหมวดหมู่ | ThankJapan
+    {% elif lang_code == 'vi' %}Làm chủ từ vựng kiến trúc tiếng Nhật theo danh mục | ThankJapan
+    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Domina el vocabulario de arquitectura japonesa por categorías | ThankJapan
+    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Domine o vocabulário de arquitetura japonesa por categorias | ThankJapan
+    {% elif lang_code == 'de' %}Meistern Sie japanische Architektur-Vokabeln nach Kategorien | ThankJapan
+    {% elif lang_code == 'it' %}Master dei vocaboli di architettura giapponese per categoria | ThankJapan
+    {% elif lang_code == 'en-in' %}Master Japanese Architecture Vocabulary by Category | ThankJapan
+    {% else %}Master Japanese Architecture Vocabulary by Category | ThankJapan{% endif %}
+{% endblock %}
+
+{% block og_description %}
+    {% if lang_code == 'ja' %}お寺(Otera)や城(Oshiro)など、カテゴリー別に整理された建築物(Kenzikubutsu)の単語を、漢字と発音と一緒に効率よく学びましょう。
+    {% elif lang_code == 'zh-hant' %}通過類別整理，高效學習寺廟(Otera)、城堡(Oshiro)等日本建築物(Kenzikubutsu)的日語單語、漢字與發音。
+    {% elif lang_code == 'zh-cn' %}通过类别整理，高效学习寺庙(Otera)、城堡(Oshiro)等日本建筑物(Kenzikubutsu)的日语单词、汉字与发音。
+    {% elif lang_code == 'ko' %}절(Otera), 성(Oshiro) 등 카테고리별로 정리된 건축물(Kenzikubutsu) 단어를 한자와 발음과 함께 효율적으로 공부하세요.
+    {% elif lang_code == 'fr' %}Apprenez efficacement le vocabulaire japonais de l'architecture (Kenzikubutsu) comme Otera ou Oshiro avec kanji et prononciation, classés par catégorie.
+    {% elif lang_code == 'th' %}เรียนรู้คำศัพท์สถาปัตยกรรมญี่ปุ่น (Kenzikubutsu) เช่น Otera และ Oshiro พร้อมคันจิและการออกเสียงอย่างมีประสิทธิภาพตามหมวดหมู่
+    {% elif lang_code == 'vi' %}Học hiệu quả các từ vựng kiến trúc Nhật Bản (Kenzikubutsu) như Otera và Oshiro cùng với kanji và cách phát âm, được sắp xếp theo danh mục.
+    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Aprende de manera eficiente el vocabulario de arquitectura japonesa (Kenzikubutsu) como Otera u Oshiro con kanji y pronunciación, organizados por categorías.
+    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Aprenda de forma eficiente o vocabulário de arquitetura japonesa (Kenzikubutsu) como Otera ou Oshiro com kanji e pronúncia, organizados por categorias.
+    {% elif lang_code == 'de' %}Lernen Sie japanische Architektur-Vokabeln (Kaden) wie Otera oder Oshiro effizient mit Kanji und Aussprache, geordnet nach Kategorien.
+    {% elif lang_code == 'it' %}Impara in modo efficiente i vocaboli dell'architettura giapponese (Kenzikubutsu) come Otera o Oshiro con kanji e pronuncia, organizzati per categoria.
+    {% elif lang_code == 'en-in' %}Learn Japanese architecture vocabulary (Kenzikubutsu) like Otera and Oshiro efficiently with kanji and pronunciation, organized by category.
+    {% else %}Learn Japanese vocabulary for architecture (Kenzikubutsu) like Otera (Temple) and Oshiro (Castle). Study kanji and pronunciation with our categorized lists.{% endif %}
+{% endblock %}
+
 {% block og_url %}{{ request.build_absolute_uri }}{% endblock %}
-{% block description %}Explore traditional and modern Japanese buildings including temples, castles, and skyscrapers.{% endblock %}
+
+{% block description %}
+    {% if lang_code == 'ja' %}お寺(Otera)や城(Oshiro)など、カテゴリー別に整理された建築物(Kenzikubutsu)の単語を、漢字と発音と一緒に効率よく学びましょう。
+    {% elif lang_code == 'zh-hant' %}通過類別整理，高效學習寺廟(Otera)、城堡(Oshiro)等日本建築物(Kenzikubutsu)的日語單語、漢字與發音。
+    {% elif lang_code == 'zh-cn' %}通过类别整理，高效学习寺庙(Otera)、城堡(Oshiro)等日本建筑物(Kenzikubutsu)的日语单词、汉字与发音。
+    {% elif lang_code == 'ko' %}절(Otera), 성(Oshiro) 등 카테고리별로 정리된 건축물(Kenzikubutsu) 단어를 한자와 발음과 함께 효율적으로 공부하세요.
+    {% elif lang_code == 'fr' %}Étudiez les mots japonais pour l'architecture (Kenzikubutsu) par catégorie. Apprenez le kanji et la prononciation pour Otera, Oshiro et plus encore.
+    {% elif lang_code == 'th' %}ศึกษาคำศัพท์ภาษาญี่ปุ่นสำหรับสถาปัตยกรรม (Kenzikubutsu) ตามหมวดหมู่ เรียนรู้คันจิและการออกเสียงสำหรับ Otera, Oshiro และอื่นๆ
+    {% elif lang_code == 'vi' %}Nghiên cứu từ vựng tiếng Nhật cho kiến trúc (Kenzikubutsu) theo danh mục. Học kanji và cách phát âm cho Otera, Oshiro và nhiều công trình khác.
+    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Estudia palabras japonesas para arquitectura (Kenzikubutsu) por categorías. Aprende kanji y pronunciación para Otera, Oshiro y más.
+    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Estude palavras japonesas para arquitetura (Kenzikubutsu) por categorias. Aprenda kanji e pronúncia para Otera, Oshiro e muito mais.
+    {% elif lang_code == 'de' %}Studieren Sie japanische Wörter für Architektur (Kenzikubutsu) nach Kategorien. Lernen Sie Kanji und Aussprache für Otera, Oshiro und mehr.
+    {% elif lang_code == 'it' %}Studia le parole giapponesi per l'architettura (Kenzikubutsu) per categoria. Impara kanji e pronuncia per Otera, Oshiro e altri.
+    {% elif lang_code == 'en-in' %}Study Japanese words for architecture (Kenzikubutsu) by category. Learn kanji and pronunciation for Otera and Oshiro to boost your vocabulary.
+    {% else %}Improve your Japanese by learning architecture vocabulary (Kenzikubutsu) such as Otera (Temple) and Oshiro (Castle). Perfect for students learning kanji and pronunciation by category.{% endif %}
+{% endblock %}
 
 {% block content %}
 

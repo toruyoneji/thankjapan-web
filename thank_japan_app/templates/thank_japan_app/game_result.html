@@ -1,6 +1,21 @@
 {% extends 'base/basecategory.html' %}
 {% load category_filters %}
-{% block title %}Game Result | ThankJapan - Challenge your knowledge!{% endblock %}
+
+{% block title %}
+    {% if lang_code == 'ja' %}ゲーム結果(Game Result) | ThankJapan - 知識に挑戦！
+    {% elif lang_code == 'zh-hant' %}遊戲結果(Game Result) | ThankJapan - 挑戰您的知識！
+    {% elif lang_code == 'zh-cn' %}游戏结果(Game Result) | ThankJapan - 挑战您的知识！
+    {% elif lang_code == 'ko' %}게임 결과(Game Result) | ThankJapan - 지식에 도전하세요!
+    {% elif lang_code == 'fr' %}Résultat du jeu (Game Result) | ThankJapan - Relevez le défi !
+    {% elif lang_code == 'th' %}ผลการเกม (Game Result) | ThankJapan - ท้าทายความรู้ของคุณ!
+    {% elif lang_code == 'vi' %}Kết quả trò chơi (Game Result) | ThankJapan - Thử thách kiến thức của bạn!
+    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Resultado del juego (Game Result) | ThankJapan - ¡Desafía tu conocimiento!
+    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Resultado do jogo (Game Result) | ThankJapan - Desafie seu conhecimento!
+    {% elif lang_code == 'de' %}Spielergebnis (Game Result) | ThankJapan - Testen Sie Ihr Wissen!
+    {% elif lang_code == 'it' %}Risultato del gioco (Game Result) | ThankJapan - Sfida la tua conoscenza!
+    {% elif lang_code == 'en-in' %}Game Result | ThankJapan - Challenge your knowledge!
+    {% else %}Game Result | ThankJapan - Challenge your knowledge!{% endif %}
+{% endblock %}
 
 {% block meta %}
 <meta name="description" content="Check your game result and see the top 20 players on ThankJapan! Test your knowledge about Japan.">

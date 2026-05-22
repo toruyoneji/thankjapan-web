@@ -1,11 +1,72 @@
 {% extends 'base/basecategory.html' %}
 {% load category_filters %}
 
-{% block title %}Medical & Emergency | Vital Phrases for Safety | ThankJapan{% endblock %}
-{% block og_title %}Medical & Emergency - Essential Japanese for Your Safety | ThankJapan{% endblock %}
-{% block og_description %}Master essential Japanese for health emergencies and natural disasters. Learn how to describe symptoms, call for help, and stay safe in Japan.{% endblock %}
+{% block title %}
+    {% if lang_code == 'ja' %}カテゴリー別で学ぶ日本語単語：医療(Iryo)・緊急(Kinkyu) | ThankJapan
+    {% elif lang_code == 'zh-hant' %}按類別學習日語單語：醫療(Iryo)與緊急(Kinkyu) | ThankJapan
+    {% elif lang_code == 'zh-cn' %}按类别学习日语单词：医疗(Iryo)与紧急(Kinkyu) | ThankJapan
+    {% elif lang_code == 'ko' %}카테고리별 일본어 단어 공부: 의료(Iryo) 및 긴급(Kinkyu) | ThankJapan
+    {% elif lang_code == 'fr' %}Apprendre le japonais par catégorie : Médical (Iryo) et Urgence (Kinkyu) | ThankJapan
+    {% elif lang_code == 'th' %}เรียนภาษาญี่ปุ่นแยกตามหมวดหมู่: การแพทย์ (Iryo) และฉุกเฉิน (Kinkyu) | ThankJapan
+    {% elif lang_code == 'vi' %}Học từ vựng tiếng Nhật theo danh mục: Y tế (Iryo) và Khẩn cấp (Kinkyu) | ThankJapan
+    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Aprende japonés por categorías: Médico (Iryo) y Emergencia (Kinkyu) | ThankJapan
+    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Aprenda japonês por categorias: Médico (Iryo) e Emergência (Kinkyu) | ThankJapan
+    {% elif lang_code == 'de' %}Japanisch lernen nach Kategorien: Medizin (Iryo) und Notfall (Kinkyu) | ThankJapan
+    {% elif lang_code == 'it' %}Impara il giapponese per categoria: Medico (Iryo) ed Emergenza (Kinkyu) | ThankJapan
+    {% elif lang_code == 'en-in' %}Learn Japanese Words by Category: Medical (Iryo) & Emergency (Kinkyu) | ThankJapan
+    {% else %}Learn Japanese Words by Category: Medical (Iryo) & Emergency (Kinkyu) | ThankJapan{% endif %}
+{% endblock %}
+
+{% block og_title %}
+    {% if lang_code == 'ja' %}【カテゴリー別】医療・緊急時の日本語をマスターしよう | ThankJapan
+    {% elif lang_code == 'zh-hant' %}【按類別】掌握醫療與緊急時的日語單語 | ThankJapan
+    {% elif lang_code == 'zh-cn' %}【按类别】掌握医疗与紧急时的日语单词 | ThankJapan
+    {% elif lang_code == 'ko' %}【카테고리별】의료 및 긴급 상황 일본어 마스터하기 | ThankJapan
+    {% elif lang_code == 'fr' %}Maîtrisez le vocabulaire médical et d'urgence par catégorie | ThankJapan
+    {% elif lang_code == 'th' %}เก่งคำศัพท์การแพทย์และฉุกเฉินญี่ปุ่นแยกตามหมวดหมู่ | ThankJapan
+    {% elif lang_code == 'vi' %}Làm chủ từ vựng y tế và khẩn cấp tiếng Nhật theo danh mục | ThankJapan
+    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Domina el vocabulario médico y de emergencia por categorías | ThankJapan
+    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Domine o vocabulário médico e de emergência por categorias | ThankJapan
+    {% elif lang_code == 'de' %}Meistern Sie medizinische und Notfall-Vokabeln nach Kategorien | ThankJapan
+    {% elif lang_code == 'it' %}Master dei vocaboli medici e di emergenza per categoria | ThankJapan
+    {% elif lang_code == 'en-in' %}Master Medical & Emergency Japanese Vocabulary by Category | ThankJapan
+    {% else %}Master Medical & Emergency Japanese Vocabulary by Category | ThankJapan{% endif %}
+{% endblock %}
+
+{% block og_description %}
+    {% if lang_code == 'ja' %}病院(Byoin)や助けて(Tasukete)など、カテゴリー別に整理された医療(Iryo)や緊急(Kinkyu)の単語を、漢字と発音と一緒に効率よく学びましょう。
+    {% elif lang_code == 'zh-hant' %}通過類別整理，高效學習醫院(Byoin)、救命(Tasukete)等醫療(Iryo)與緊急(Kinkyu)相關的日語單語、漢字與發音。
+    {% elif lang_code == 'zh-cn' %}通过类别整理，高效学习医院(Byoin)、救命(Tasukete)等医疗(Iryo)与紧急(Kinkyu)相关的日语单词、汉字与发音。
+    {% elif lang_code == 'ko' %}병원(Byoin), 도와주세요(Tasukete) 등 카테고리별로 정리된 의료(Iryo)와 긴급(Kinkyu) 단어를 한자와 발음과 함께 효율적으로 공부하세요.
+    {% elif lang_code == 'fr' %}Apprenez efficacement le vocabulaire médical (Iryo) comme Byoin ou Tasukete avec kanji et prononciation, classés par catégorie.
+    {% elif lang_code == 'th' %}เรียนรู้คำศัพท์การแพทย์ (Iryo) เช่น Byoin และ Tasukete พร้อมคันจิและการออกเสียงอย่างมีประสิทธิภาพตามหมวดหมู่ฉุกเฉิน (Kinkyu)
+    {% elif lang_code == 'vi' %}Học hiệu quả các từ vựng y tế (Iryo) như Byoin và Tasukete cùng với hán tự và cách phát âm, được sắp xếp theo danh mục khẩn cấp (Kinkyu).
+    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Aprende de manera eficiente el vocabulario médico (Iryo) como Byoin o Tasukete con kanji y pronunciación, organizados por categorías.
+    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Aprenda de forma eficiente o vocabulário médico (Iryo) como Byoin ou Tasukete com kanji e pronúncia, organizados por categorias.
+    {% elif lang_code == 'de' %}Lernen Sie medizinische Vokabeln (Iryo) wie Byoin oder Tasukete effizient mit Kanji und Aussprache, geordnet nach Kategorien.
+    {% elif lang_code == 'it' %}Impara in modo efficiente i vocaboli medici (Iryo) come Byoin o Tasukete con kanji e pronuncia, organizzati per categoria.
+    {% elif lang_code == 'en-in' %}Learn Japanese medical vocabulary (Iryo) like Byoin and Tasukete (Help) efficiently with kanji and pronunciation, organized by category.
+    {% else %}Learn Japanese vocabulary for medical (Iryo) and emergency (Kinkyu) situations. Study kanji and pronunciation for Byoin (Hospital) and Tasukete (Help) with our categorized lists.{% endif %}
+{% endblock %}
+
 {% block og_url %}{{ request.build_absolute_uri }}{% endblock %}
-{% block description %}Master essential Japanese for health emergencies and natural disasters. Learn how to describe symptoms, call for help, and stay safe in Japan.{% endblock %}
+
+{% block description %}
+    {% if lang_code == 'ja' %}病院(Byoin)や助けて(Tasukete)など、カテゴリー別に整理された医療(Iryo)や緊急(Kinkyu)の単語を、漢字と発音と一緒に効率よく学びましょう。
+    {% elif lang_code == 'zh-hant' %}通過類別整理，高效學習醫院(Byoin)、救命(Tasukete)等醫療(Iryo)與緊急(Kinkyu)相關的日語單語、漢字與發音。
+    {% elif lang_code == 'zh-cn' %}通过类别整理，高效学习医院(Byoin)、救命(Tasukete)等医疗(Iryo)与紧急(Kinkyu)相关的日语单词、汉字与发音。
+    {% elif lang_code == 'ko' %}병원(Byoin), 도와주세요(Tasukete) 등 카테고리별로 정리된 의료(Iryo)와 긴급(Kinkyu) 단어를 한자와 발음과 함께 효율적으로 공부하세요.
+    {% elif lang_code == 'fr' %}Étudiez les mots japonais pour la santé (Iryo) et les urgences (Kinkyu) par catégorie. Apprenez le kanji et la prononciation pour Byoin, les symptômes et la sécurité.
+    {% elif lang_code == 'th' %}ศึกษาคำศัพท์ภาษาญี่ปุ่นสำหรับการแพทย์ (Iryo) ตามหมวดหมู่ เรียนรู้คันจิและการออกเสียงสำหรับ Byoin, อาการป่วย และความปลอดภัยในยามฉุกเฉิน (Kinkyu)
+    {% elif lang_code == 'vi' %}Nghiên cứu từ vựng tiếng Nhật cho y tế (Iryo) theo danh mục. Học kanji và cách phát âm cho Byoin, các triệu chứng và an toàn khẩn cấp (Kinkyu).
+    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Estudia palabras japonesas para salud (Iryo) y emergencias por categorías. Aprende kanji y pronunciación para Byoin, síntomas y seguridad.
+    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Estude palavras japonesas para saúde (Iryo) e emergências por categorias. Aprenda kanji e pronúncia para Byoin, sintomas e segurança.
+    {% elif lang_code == 'de' %}Studieren Sie japanische Wörter für Medizin (Iryo) und Notfälle nach Kategorien. Lernen Sie Kanji und Aussprache für Byoin, Symptome und Sicherheit.
+    {% elif lang_code == 'it' %}Studia le parole giapponesi per la salute (Iryo) e le emergenze per categoria. Impara kanji e pronuncia per Byoin, sintomi e sicurezza.
+    {% elif lang_code == 'en-in' %}Study Japanese words for health (Iryo) and emergencies (Kinkyu) by category. Learn kanji and pronunciation for Byoin and symptoms to stay safe in Japan.
+    {% else %}Improve your Japanese by learning medical (Iryo) and emergency (Kinkyu) vocabulary such as Byoin (Hospital). Perfect for students learning kanji and pronunciation by category.{% endif %}
+{% endblock %}
+
 
 {% block content %}
 {% load static %}

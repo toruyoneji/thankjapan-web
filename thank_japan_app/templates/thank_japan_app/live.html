@@ -1,12 +1,72 @@
 {% extends 'base/basecategory.html' %}
 {% load category_filters %}
 
-{% block title %}Living in Japan: Transportation & Daily Essentials | ThankJapan{% endblock %}
+{% block title %}
+    {% if lang_code == 'ja' %}カテゴリー別で学ぶ日本語単語：交通(Kotsu)・日本の生活 | ThankJapan
+    {% elif lang_code == 'zh-hant' %}按類別學習日語單語：交通(Kotsu)與日本生活 | ThankJapan
+    {% elif lang_code == 'zh-cn' %}按类别学习日语单词：交通(Kotsu)与日本生活 | ThankJapan
+    {% elif lang_code == 'ko' %}카테고리별 일본어 단어 공부: 교통(Kotsu) 및 일본 생활 | ThankJapan
+    {% elif lang_code == 'fr' %}Apprendre le japonais par catégorie : Transports (Kotsu) et Vie au Japon | ThankJapan
+    {% elif lang_code == 'th' %}เรียนภาษาญี่ปุ่นแยกตามหมวดหมู่: การคมนาคม (Kotsu) และการใช้ชีวิตในญี่ปุ่น | ThankJapan
+    {% elif lang_code == 'vi' %}Học từ vựng tiếng Nhật theo danh mục: Giao thông (Kotsu) và Đời sống Nhật Bản | ThankJapan
+    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Aprende japonés por categorías: Transporte (Kotsu) y Vida en Japón | ThankJapan
+    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Aprenda japonês por categorias: Transporte (Kotsu) e Vida no Japão | ThankJapan
+    {% elif lang_code == 'de' %}Japanisch lernen nach Kategorien: Verkehr (Kotsu) und Leben in Japan | ThankJapan
+    {% elif lang_code == 'it' %}Impara il giapponese per categoria: Trasporti (Kotsu) e Vita in Giappone | ThankJapan
+    {% elif lang_code == 'en-in' %}Learn Japanese Words by Category: Transportation (Kotsu) & Daily Life | ThankJapan
+    {% else %}Learn Japanese Words by Category: Transportation (Kotsu) & Daily Life Essentials | ThankJapan{% endif %}
+{% endblock %}
 
-{% block og_title %}Living in Japan: Transportation & Essentials | ThankJapan{% endblock %}
-{% block og_description %}Explore the essentials of daily life outside the home in Japan, from trains and buses to convenience stores and street culture.{% endblock %}
+{% block og_title %}
+    {% if lang_code == 'ja' %}【カテゴリー別】交通機関や生活に役立つ日本語をマスターしよう | ThankJapan
+    {% elif lang_code == 'zh-hant' %}【按類別】掌握交通工具與日本生活實用日語單語 | ThankJapan
+    {% elif lang_code == 'zh-cn' %}【按类别】掌握交通工具与日本生活实用日语单词 | ThankJapan
+    {% elif lang_code == 'ko' %}【카테고리별】교통수단과 일본 생활에 유용한 단어 마스터하기 | ThankJapan
+    {% elif lang_code == 'fr' %}Maîtrisez le vocabulaire des transports et de la vie quotidienne par catégorie | ThankJapan
+    {% elif lang_code == 'th' %}เก่งคำศัพท์การคมนาคมและการใช้ชีวิตญี่ปุ่นแยกตามหมวดหมู่ | ThankJapan
+    {% elif lang_code == 'vi' %}Làm chủ từ vựng giao thông và đời sống tiếng Nhật theo danh mục | ThankJapan
+    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Domina el vocabulario de transporte y vida diaria por categorías | ThankJapan
+    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Domine o vocabulário de transporte e vida diária por categorias | ThankJapan
+    {% elif lang_code == 'de' %}Meistern Sie japanische Verkehrs- und Alltags-Vokabeln nach Kategorien | ThankJapan
+    {% elif lang_code == 'it' %}Master dei vocaboli dei trasporti e della vita quotidiana per categoria | ThankJapan
+    {% elif lang_code == 'en-in' %}Master Japanese Transportation & Daily Life Vocabulary by Category | ThankJapan
+    {% else %}Master Japanese Transportation & Daily Life Vocabulary by Category | ThankJapan{% endif %}
+{% endblock %}
+
+{% block og_description %}
+    {% if lang_code == 'ja' %}電車(Densha)やコンビニ(Konbini)など、カテゴリー別に整理された日本の交通(Kotsu)や生活の単語を、漢字と発音と一緒に効率よく学びましょう。
+    {% elif lang_code == 'zh-hant' %}通過類別整理，高效學習電車(Densha)、超商(Konbini)等日本交通(Kotsu)與生活的日語單語、漢字與發音。
+    {% elif lang_code == 'zh-cn' %}通过类别整理，高效学习电车(Densha)、便利店(Konbini)等日本交通(Kotsu)与生活的日语单词、汉字与发音。
+    {% elif lang_code == 'ko' %}전철(Densha), 편의점(Konbini) 등 카테고리별로 정리된 일본의 교통(Kotsu)과 생활 단어를 한자와 발음과 함께 효율적으로 공부하세요.
+    {% elif lang_code == 'fr' %}Apprenez efficacement le vocabulaire japonais des transports (Kotsu) comme Densha ou Konbini avec kanji et prononciation, classés par catégorie.
+    {% elif lang_code == 'th' %}เรียนรู้คำศัพท์การคมนาคม (Kotsu) เช่น Densha และร้านสะดวกซื้อ (Konbini) พร้อมคันจิและการออกเสียงอย่างมีประสิทธิภาพตามหมวดหมู่
+    {% elif lang_code == 'vi' %}Học hiệu quả các từ vựng giao thông (Kotsu) như Densha và Konbini cùng với hán tự và cách phát âm, được sắp xếp theo danh mục.
+    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Aprende de manera eficiente el vocabulario de transporte (Kotsu) como Densha o Konbini con kanji y pronunciación, organizados por categorías.
+    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Aprenda de forma eficiente o vocabulário de transporte (Kotsu) como Densha ou Konbini com kanji e pronúncia, organizados por categorias.
+    {% elif lang_code == 'de' %}Lernen Sie japanische Verkehrs-Vokabeln (Kotsu) wie Densha oder Konbini effizient mit Kanji und Aussprache, geordnet nach Kategorien.
+    {% elif lang_code == 'it' %}Impara in modo efficiente i vocaboli dei trasporti (Kotsu) come Densha o Konbini con kanji e pronuncia, organizzati per categoria.
+    {% elif lang_code == 'en-in' %}Learn Japanese transportation vocabulary (Kotsu) like Densha and Konbini efficiently with kanji and pronunciation, organized by category.
+    {% else %}Learn Japanese vocabulary for transportation (Kotsu) and life essentials like Densha (train) and Konbini (convenience store). Study kanji and pronunciation with our categorized lists.{% endif %}
+{% endblock %}
+
 {% block og_url %}{{ request.build_absolute_uri }}{% endblock %}
-{% block description %}Explore the essentials of life outside the home in Japan — trains, subways, bikes, vending machines, and more everyday conveniences.{% endblock %}
+
+{% block description %}
+    {% if lang_code == 'ja' %}電車(Densha)やコンビニ(Konbini)など、カテゴリー別に整理された日本の交通(Kotsu)や生活の単語を、漢字と発音と一緒に効率よく学びましょう。
+    {% elif lang_code == 'zh-hant' %}通過類別整理，高效學習電車(Densha)、超商(Konbini)等日本交通(Kotsu)與生活的日語單語、漢字與發音。
+    {% elif lang_code == 'zh-cn' %}通过类别整理，高效学习电车(Densha)、便利店(Konbini)等日本交通(Kotsu)与生活的日语单词、汉字与发音。
+    {% elif lang_code == 'ko' %}전철(Densha), 편의점(Konbini) 등 카테고리별로 정리된 일본의 교통(Kotsu)과 생활 단어를 한자와 발음과 함께 효율적으로 공부하세요.
+    {% elif lang_code == 'fr' %}Étudiez les mots japonais pour les transports (Kotsu) par catégorie. Apprenez le kanji et la prononciation pour le train (Densha), le Konbini et les distributeurs (Jidohanbaiki).
+    {% elif lang_code == 'th' %}ศึกษาคำศัพท์ภาษาญี่ปุ่นสำหรับการคมนาคม (Kotsu) ตามหมวดหมู่ เรียนรู้คันจิและการออกเสียงสำหรับรถไฟ (Densha), Konbini และตู้หยอดเหรียญ
+    {% elif lang_code == 'vi' %}Nghiên cứu từ vựng tiếng Nhật cho giao thông (Kotsu) theo danh mục. Học kanji và cách phát âm cho tàu điện (Densha), Konbini và máy bán hàng tự động.
+    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Estudia palabras japonesas para transporte (Kotsu) por categorías. Aprende kanji y pronunciación para tren (Densha), Konbini y máquinas expendedoras.
+    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Estude palavras japonesas para transporte (Kotsu) por categorias. Aprenda kanji e pronúncia para trem (Densha), Konbini e máquinas de venda automática.
+    {% elif lang_code == 'de' %}Studieren Sie japanische Wörter für Verkehr (Kotsu) nach Kategorien. Lernen Sie Kanji und Aussprache für Züge (Densha), Konbini und Verkaufsautomaten.
+    {% elif lang_code == 'it' %}Studia le parole giapponesi per i trasporti (Kotsu) per categoria. Impara kanji e pronuncia per treni (Densha), Konbini e distributori automatici.
+    {% elif lang_code == 'en-in' %}Study Japanese transportation words (Kotsu) by category. Learn kanji and pronunciation for trains (Densha), Konbini, and more to navigate Japan like a local.
+    {% else %}Improve your Japanese by learning transportation (Kotsu) and daily life vocabulary. Master words for trains (Densha), convenience stores (Konbini), and more, categorized for easy study.{% endif %}
+{% endblock %}
+
 
 {% block content %}
 

@@ -1,11 +1,72 @@
 {% extends 'base/basecategory.html' %}
 {% load category_filters %}
 
-{% block title %}Real Estate & Rules | Mastering Housing in Japan | ThankJapan{% endblock %}
-{% block og_title %}Real Estate & Rules - Hidden Tips for Renting | ThankJapan{% endblock %}
-{% block og_description %}Learn the hidden rules of Japanese real estate, from "Key Money" to contract renewals. Save money and avoid trouble when moving in Japan.{% endblock %}
+{% block title %}
+    {% if lang_code == 'ja' %}カテゴリー別で学ぶ日本語単語：不動産(Fudosan)・住まいのルール | ThankJapan
+    {% elif lang_code == 'zh-hant' %}按類別學習日語單語：不動產(Fudosan)與租房規則 | ThankJapan
+    {% elif lang_code == 'zh-cn' %}按类别学习日语单词：不动产(Fudosan)与租房规则 | ThankJapan
+    {% elif lang_code == 'ko' %}카테고리별 일본어 단어 공부: 부동산(Fudosan) 및 주거 규칙 | ThankJapan
+    {% elif lang_code == 'fr' %}Apprendre le japonais par catégorie : Immobilier (Fudosan) et Règles de logement | ThankJapan
+    {% elif lang_code == 'th' %}เรียนภาษาญี่ปุ่นแยกตามหมวดหมู่: อสังหาริมทรัพย์ (Fudosan) และกฎการอยู่อาศัย | ThankJapan
+    {% elif lang_code == 'vi' %}Học từ vựng tiếng Nhật theo danh mục: Bất động sản (Fudosan) và Quy tắc nhà ở | ThankJapan
+    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Aprende japonés por categorías: Bienes raíces (Fudosan) y Reglas de vivienda | ThankJapan
+    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Aprenda japonês por categorias: Imobiliário (Fudosan) e Regras de moradia | ThankJapan
+    {% elif lang_code == 'de' %}Japanisch lernen nach Kategorien: Immobilien (Fudosan) und Wohnregeln | ThankJapan
+    {% elif lang_code == 'it' %}Impara il giapponese per categoria: Immobiliare (Fudosan) e Regole abitative | ThankJapan
+    {% elif lang_code == 'en-in' %}Learn Japanese Words by Category: Real Estate (Fudosan) & Housing Rules | ThankJapan
+    {% else %}Learn Japanese Words by Category: Real Estate (Fudosan) & Housing Rules | ThankJapan{% endif %}
+{% endblock %}
+
+{% block og_title %}
+    {% if lang_code == 'ja' %}【カテゴリー別】日本の不動産・賃貸ルール単語をマスターしよう | ThankJapan
+    {% elif lang_code == 'zh-hant' %}【按類別】掌握日本不動產與租賃規則日語單語 | ThankJapan
+    {% elif lang_code == 'zh-cn' %}【按类别】掌握日本不动产与租赁规则日语单词 | ThankJapan
+    {% elif lang_code == 'ko' %}【카테고리별】일본 부동산 및 임대 규칙 단어 마스터하기 | ThankJapan
+    {% elif lang_code == 'fr' %}Maîtrisez le vocabulaire de l'immobilier et de la location par catégorie | ThankJapan
+    {% elif lang_code == 'th' %}เก่งคำศัพท์อสังหาริมทรัพย์และกฎการเช่าบ้านญี่ปุ่นแยกตามหมวดหมู่ | ThankJapan
+    {% elif lang_code == 'vi' %}Làm chủ từ vựng bất động sản và thuê nhà tiếng Nhật theo danh mục | ThankJapan
+    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Domina el vocabulario de bienes raíces y alquiler por categorías | ThankJapan
+    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Domine o vocabulário imobiliário e de aluguel por categorias | ThankJapan
+    {% elif lang_code == 'de' %}Meistern Sie japanische Immobilien- und Mietvokabeln nach Kategorien | ThankJapan
+    {% elif lang_code == 'it' %}Master dei vocaboli immobiliari e di affitto per categoria | ThankJapan
+    {% elif lang_code == 'en-in' %}Master Japanese Real Estate & Renting Vocabulary by Category | ThankJapan
+    {% else %}Master Japanese Real Estate & Renting Vocabulary by Category | ThankJapan{% endif %}
+{% endblock %}
+
+{% block og_description %}
+    {% if lang_code == 'ja' %}敷金(Shikikin)や礼金(Reikin)など、カテゴリー別に整理された不動産(Fudosan)の単語を、漢字と発音と一緒に効率よく学びましょう。
+    {% elif lang_code == 'zh-hant' %}通過類別整理，高效學習敷金(Shikikin)、禮金(Reikin)等不動產(Fudosan)相關的日語單語、漢字與發音。
+    {% elif lang_code == 'zh-cn' %}通过类别整理，高效学习敷金(Shikikin)、礼金(Reikin)等不动产(Fudosan)相关的日语单词、汉字与发音。
+    {% elif lang_code == 'ko' %}보증금(Shikikin), 사례금(Reikin) 등 카테고리별로 정리된 부동산(Fudosan) 단어를 한자와 발음과 함께 효율적으로 공부하세요.
+    {% elif lang_code == 'fr' %}Apprenez efficacement le vocabulaire de l'immobilier (Fudosan) comme le Shikikin ou le Reikin avec kanji et prononciation, classés par catégorie.
+    {% elif lang_code == 'th' %}เรียนรู้คำศัพท์อสังหาริมทรัพย์ (Fudosan) เช่น Shikikin (เงินประกัน) และ Reikin (เงินให้เปล่า) พร้อมคันจิและการออกเสียงอย่างมีประสิทธิภาพตามหมวดหมู่
+    {% elif lang_code == 'vi' %}Học hiệu quả các từ vựng bất động sản (Fudosan) như Shikikin và Reikin cùng với hán tự và cách phát âm, được sắp xếp theo danh mục.
+    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Aprende de manera eficiente el vocabulario de bienes raíces (Fudosan) como Shikikin o Reikin con kanji y pronunciación, organizados por categorías.
+    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Aprenda de forma eficiente o vocabulário imobiliário (Fudosan) como Shikikin ou Reikin com kanji e pronúncia, organizados por categorias.
+    {% elif lang_code == 'de' %}Lernen Sie japanische Immobilien-Vokabeln (Fudosan) wie Shikikin oder Reikin effizient mit Kanji und Aussprache, geordnet nach Kategorien.
+    {% elif lang_code == 'it' %}Impara in modo efficiente i vocaboli immobiliari (Fudosan) come Shikikin o Reikin con kanji e pronuncia, organizzati per categoria.
+    {% elif lang_code == 'en-in' %}Learn Japanese real estate vocabulary (Fudosan) like Shikikin (Deposit) and Reikin (Key Money) efficiently with kanji and pronunciation, organized by category.
+    {% else %}Learn Japanese vocabulary for real estate (Fudosan) such as Shikikin (Deposit) and Reikin (Key Money). Study kanji and pronunciation with our categorized lists of housing rules.{% endif %}
+{% endblock %}
+
 {% block og_url %}{{ request.build_absolute_uri }}{% endblock %}
-{% block description %}Learn the hidden rules of Japanese real estate, from "Key Money" to contract renewals. Save money and avoid trouble when moving in Japan.{% endblock %}
+
+{% block description %}
+    {% if lang_code == 'ja' %}敷金(Shikikin)や礼金(Reikin)など、カテゴリー別に整理された不動産(Fudosan)の単語を、漢字と発音と一緒に効率よく学びましょう。
+    {% elif lang_code == 'zh-hant' %}通過類別整理，高效學習敷金(Shikikin)、禮金(Reikin)等不動產(Fudosan)相關的日語單語、漢字與發音。
+    {% elif lang_code == 'zh-cn' %}通过类别整理，高效学习敷金(Shikikin)、礼金(Reikin)等不动产(Fudosan)相关的日语单词、汉字与发音。
+    {% elif lang_code == 'ko' %}보증금(Shikikin), 사례금(Reikin) 등 카테고리별로 정리된 부동산(Fudosan) 단어를 한자와 발음과 함께 효율적으로 공부하세요.
+    {% elif lang_code == 'fr' %}Étudiez les mots japonais pour l'immobilier (Fudosan) par catégorie. Apprenez le kanji et la prononciation pour le Shikikin, le Reikin et les règles de location au Japon.
+    {% elif lang_code == 'th' %}ศึกษาคำศัพท์ภาษาญี่ปุ่นสำหรับอสังหาริมทรัพย์ (Fudosan) ตามหมวดหมู่ เรียนรู้คันจิและการออกเสียงสำหรับเงินประกัน, ค่าธรรมเนียม และกฎการเช่าบ้าน
+    {% elif lang_code == 'vi' %}Nghiên cứu từ vựng tiếng Nhật cho bất động sản (Fudosan) theo danh mục. Học hán tự và cách phát âm cho Shikikin, Reikin và các quy tắc thuê nhà.
+    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Estudia palabras japonesas para bienes raíces (Fudosan) por categorías. Aprende kanji y pronunciación para Shikikin, Reikin y reglas de alquiler.
+    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Estude palavras japonesas para o setor imobiliário (Fudosan) por categorias. Aprenda kanji e pronúncia para Shikikin, Reikin e regras de aluguel.
+    {% elif lang_code == 'de' %}Studieren Sie japanische Immobilien-Wörter (Fudosan) nach Kategorien. Lernen Sie Kanji und Aussprache für Shikikin, Reikin und Mietregeln.
+    {% elif lang_code == 'it' %}Studia le parole giapponesi per l'immobiliare (Fudosan) per categoria. Impara kanji e pronuncia per Shikikin, Reikin e regole di affitto.
+    {% elif lang_code == 'en-in' %}Study Japanese words for real estate (Fudosan) by category. Learn kanji and pronunciation for Shikikin and Reikin to navigate the Japanese housing market with confidence.
+    {% else %}Improve your Japanese by learning real estate vocabulary (Fudosan) such as Shikikin (Deposit) and Reikin (Key Money). Perfect for students learning kanji and pronunciation by category.{% endif %}
+{% endblock %}
+
 
 {% block content %}
 {% load static %}

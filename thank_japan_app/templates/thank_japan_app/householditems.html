@@ -1,12 +1,72 @@
 {% extends 'base/basecategory.html' %}
 {% load category_filters %}
 
-{% block title %}Explore Japanese Household Items - Daily Life in Japan | ThankJapan{% endblock %}
+{% block title %}
+    {% if lang_code == 'ja' %}カテゴリー別で学ぶ日本語単語：日用品(Nichiyohin)・家庭用品 | ThankJapan
+    {% elif lang_code == 'zh-hant' %}按類別學習日語單語：日用品(Nichiyohin)與家庭用品 | ThankJapan
+    {% elif lang_code == 'zh-cn' %}按类别学习日语单词：日用品(Nichiyohin)与家庭用品 | ThankJapan
+    {% elif lang_code == 'ko' %}카테고리별 일본어 단어 공부: 일용품(Nichiyohin) 및 가정용품 | ThankJapan
+    {% elif lang_code == 'fr' %}Apprendre le japonais par catégorie : Objets de la maison (Nichiyohin) | ThankJapan
+    {% elif lang_code == 'th' %}เรียนภาษาญี่ปุ่นแยกตามหมวดหมู่: ของใช้ในบ้าน (Nichiyohin) | ThankJapan
+    {% elif lang_code == 'vi' %}Học từ vựng tiếng Nhật theo danh mục: Đồ dùng gia đình (Nichiyohin) | ThankJapan
+    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Aprende japonés por categorías: Artículos del hogar (Nichiyohin) | ThankJapan
+    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Aprenda japonês por categorias: Itens domésticos (Nichiyohin) | ThankJapan
+    {% elif lang_code == 'de' %}Japanisch lernen nach Kategorien: Haushaltsgegenstände (Nichiyohin) | ThankJapan
+    {% elif lang_code == 'it' %}Impara il giapponese per categoria: Articoli per la casa (Nichiyohin) | ThankJapan
+    {% elif lang_code == 'en-in' %}Learn Japanese Words by Category: Household Items (Nichiyohin) | ThankJapan
+    {% else %}Learn Japanese Words by Category: Household Items (Nichiyohin) | ThankJapan{% endif %}
+{% endblock %}
 
-{% block og_title %}Japanese Household Items - Daily Life Essentials | ThankJapan{% endblock %}
-{% block og_description %}Explore common Japanese household goods, from futons and tatami to chopsticks and rice bowls.{% endblock %}
+{% block og_title %}
+    {% if lang_code == 'ja' %}【カテゴリー別】日本の生活雑貨・日用品単語をマスターしよう | ThankJapan
+    {% elif lang_code == 'zh-hant' %}【按類別】掌握日本生活雜貨與日用品日語單語 | ThankJapan
+    {% elif lang_code == 'zh-cn' %}【按类别】掌握日本生活杂货与日用品日语单词 | ThankJapan
+    {% elif lang_code == 'ko' %}【카테고리별】일본의 생활 잡화와 일용품 단어 마스터하기 | ThankJapan
+    {% elif lang_code == 'fr' %}Maîtrisez le vocabulaire des objets du quotidien japonais par catégorie | ThankJapan
+    {% elif lang_code == 'th' %}เก่งคำศัพท์ของใช้ในชีวิตประจำวันญี่ปุ่นแยกตามหมวดหมู่ | ThankJapan
+    {% elif lang_code == 'vi' %}Làm chủ từ vựng đồ dùng hàng ngày tiếng Nhật theo danh mục | ThankJapan
+    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Domina el vocabulario de artículos de uso diario por categorías | ThankJapan
+    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Domine o vocabulário de itens do dia a dia por categorias | ThankJapan
+    {% elif lang_code == 'de' %}Meistern Sie japanische Alltagsgegenstände-Vokabeln nach Kategorien | ThankJapan
+    {% elif lang_code == 'it' %}Master dei vocaboli degli oggetti quotidiani giapponesi per categoria | ThankJapan
+    {% elif lang_code == 'en-in' %}Master Japanese Household Items Vocabulary by Category | ThankJapan
+    {% else %}Master Japanese Household Items Vocabulary by Category | ThankJapan{% endif %}
+{% endblock %}
+
+{% block og_description %}
+    {% if lang_code == 'ja' %}布団(Futon)や畳(Tatami)、箸(Hashi)など、カテゴリー別に整理された日用品(Nichiyohin)の単語を、漢字と発音と一緒に効率よく学びましょう。
+    {% elif lang_code == 'zh-hant' %}通過類別整理，高效學習布団(Futon)、疊(Tatami)、箸(Hashi)等日用品(Nichiyohin)的日語單語、漢字與發音。
+    {% elif lang_code == 'zh-cn' %}通过类别整理，高效学习布団(Futon)、叠(Tatami)、箸(Hashi)等日用品(Nichiyohin)的日语单词、汉字与发音。
+    {% elif lang_code == 'ko' %}이불(Futon), 다다미(Tatami), 젓가락(Hashi) 등 카테고리별로 정리된 일용품(Nichiyohin) 단어를 한자와 발음과 함께 효율적으로 공부하세요.
+    {% elif lang_code == 'fr' %}Apprenez efficacement le vocabulaire des objets japonais comme le Futon, le Tatami ou les Hashi (baguettes) avec kanji et prononciation, classés par catégorie.
+    {% elif lang_code == 'th' %}เรียนรู้คำศัพท์ของใช้ในบ้าน (Nichiyohin) เช่น Futon, Tatami และ Hashi พร้อมคันจิและการออกเสียงอย่างมีประสิทธิภาพตามหมวดหมู่
+    {% elif lang_code == 'vi' %}Học hiệu quả các từ vựng đồ dùng gia đình (Nichiyohin) như Futon, Tatami và Hashi cùng với kanji và cách phát âm, được sắp xếp theo danh mục.
+    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Aprende de manera eficiente el vocabulario de artículos del hogar (Nichiyohin) como Futon, Tatami o Hashi con kanji y pronunciación, organizados por categorías.
+    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Aprenda de forma eficiente o vocabulário de itens domésticos (Nichiyohin) como Futon, Tatami ou Hashi com kanji e pronúncia, organizados por categorias.
+    {% elif lang_code == 'de' %}Lernen Sie japanische Haushalts-Vokabeln (Nichiyohin) wie Futon, Tatami oder Hashi effizient mit Kanji und Aussprache, geordnet nach Kategorien.
+    {% elif lang_code == 'it' %}Impara in modo efficiente i vocaboli degli articoli per la casa (Nichiyohin) come Futon, Tatami o Hashi con kanji e pronuncia, organizzati per categoria.
+    {% elif lang_code == 'en-in' %}Learn Japanese household items vocabulary (Nichiyohin) like Futon, Tatami, and Hashi (chopsticks) efficiently with kanji and pronunciation, organized by category.
+    {% else %}Learn Japanese vocabulary for household items (Nichiyohin) like Futon, Tatami, and Hashi (chopsticks). Study kanji and pronunciation with our categorized lists.{% endif %}
+{% endblock %}
+
 {% block og_url %}{{ request.build_absolute_uri }}{% endblock %}
-{% block description %}Explore common Japanese household goods, from futons and tatami to chopsticks and rice bowls.{% endblock %}
+
+{% block description %}
+    {% if lang_code == 'ja' %}布団(Futon)や畳(Tatami)、箸(Hashi)など、カテゴリー別に整理された日用品(Nichiyohin)の単語を、漢字と発音と一緒に効率よく学びましょう。
+    {% elif lang_code == 'zh-hant' %}通過類別整理，高效學習布団(Futon)、疊(Tatami)、箸(Hashi)等日用品(Nichiyohin)的日語單語、漢字與發音。
+    {% elif lang_code == 'zh-cn' %}通过类别整理，高效学习布団(Futon)、叠(Tatami)、箸(Hashi)等日用品(Nichiyohin)的日语单词、汉字与发音。
+    {% elif lang_code == 'ko' %}이불(Futon), 다다미(Tatami), 젓가락(Hashi) 등 카테고리별로 정리된 일용품(Nichiyohin) 단어를 한자와 발음과 함께 효율적으로 공부하세요.
+    {% elif lang_code == 'fr' %}Étudiez les mots japonais pour les objets de la maison (Nichiyohin) par catégorie. Apprenez le kanji et la prononciation pour le Futon, le Tatami et les ustensiles de cuisine.
+    {% elif lang_code == 'th' %}ศึกษาคำศัพท์ภาษาญี่ปุ่นสำหรับของใช้ในบ้าน (Nichiyohin) ตามหมวดหมู่ เรียนรู้คันจิและการออกเสียงสำหรับ Futon, Tatami และอื่นๆ
+    {% elif lang_code == 'vi' %}Nghiên cứu từ vựng tiếng Nhật cho đồ dùng gia đình (Nichiyohin) theo danh mục. Học kanji và cách phát âm cho Futon, Tatami và các vật dụng sinh hoạt.
+    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Estudia palabras japonesas para artículos del hogar (Nichiyohin) por categorías. Aprende kanji y pronunciación para Futon, Tatami y utensilios.
+    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Estude palavras japonesas para itens domésticos (Nichiyohin) por categorias. Aprenda kanji e pronúncia para Futon, Tatami e utensílios.
+    {% elif lang_code == 'de' %}Studieren Sie japanische Wörter für Haushaltsgegenstände (Nichiyohin) nach Kategorien. Lernen Sie Kanji und Aussprache für Futon, Tatami und Küchenutensilien.
+    {% elif lang_code == 'it' %}Studia le parole giapponesi per gli articoli per la casa (Nichiyohin) per categoria. Impara kanji e pronuncia per Futon, Tatami e utensili.
+    {% elif lang_code == 'en-in' %}Study Japanese words for household essentials (Nichiyohin) by category. Learn kanji and pronunciation for Futon and Tatami to boost your vocabulary.
+    {% else %}Improve your Japanese by learning household vocabulary (Nichiyohin) such as Futon, Tatami, and Hashi (chopsticks). Perfect for students learning kanji and pronunciation by category.{% endif %}
+{% endblock %}
+
 
 {% block content %}
 

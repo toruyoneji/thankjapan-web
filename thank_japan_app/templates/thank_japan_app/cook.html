@@ -1,12 +1,72 @@
 {% extends 'base/basecategory.html' %}
 {% load category_filters %}
 
-{% block title %}Traditional Japanese Dishes & Cooking Guide | Authentic Cuisine of Japan | ThankJapan{% endblock %}
+{% block title %}
+    {% if lang_code == 'ja' %}カテゴリー別で学ぶ日本語単語：和食(Washoku)・料理(Ryori) | ThankJapan
+    {% elif lang_code == 'zh-hant' %}按類別學習日語單語：和食(Washoku)與料理(Ryori) | ThankJapan
+    {% elif lang_code == 'zh-cn' %}按类别学习日语单词：和食(Washoku)与料理(Ryori) | ThankJapan
+    {% elif lang_code == 'ko' %}카테고리별 일본어 단어 공부: 와쇼쿠(Washoku) 및 요리(Ryori) | ThankJapan
+    {% elif lang_code == 'fr' %}Apprendre le japonais par catégorie : Cuisine japonaise (Washoku) | ThankJapan
+    {% elif lang_code == 'th' %}เรียนภาษาญี่ปุ่นแยกตามหมวดหมู่: อาหารญี่ปุ่น (Washoku) และการทำอาหาร (Ryori) | ThankJapan
+    {% elif lang_code == 'vi' %}Học từ vựng tiếng Nhật theo danh mục: Ẩm thực Nhật Bản (Washoku) | ThankJapan
+    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Aprende japonés por categorías: Comida japonesa (Washoku) y Cocina (Ryori) | ThankJapan
+    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Aprenda japonês por categorias: Comida japonesa (Washoku) e Culinária (Ryori) | ThankJapan
+    {% elif lang_code == 'de' %}Japanisch lernen nach Kategorien: Japanisches Essen (Washoku) | ThankJapan
+    {% elif lang_code == 'it' %}Impara il giapponese per categoria: Cucina giapponese (Washoku) | ThankJapan
+    {% elif lang_code == 'en-in' %}Learn Japanese Words by Category: Japanese Food (Washoku) & Cooking (Ryori) | ThankJapan
+    {% else %}Learn Japanese Words by Category: Japanese Food (Washoku) & Cooking (Ryori) | ThankJapan{% endif %}
+{% endblock %}
 
-{% block og_title %}Japanese Cooking - Learn How to Cook Japanese Dishes | ThankJapan{% endblock %}
-{% block og_description %}Find recipes and cooking tips for authentic Japanese cuisine. Cook dishes like miso soup, curry rice, and more.{% endblock %}
+{% block og_title %}
+    {% if lang_code == 'ja' %}【カテゴリー別】和食(Washoku)の日本語単語をマスターしよう | ThankJapan
+    {% elif lang_code == 'zh-hant' %}【按類別】掌握和食(Washoku)與料理日語單語 | ThankJapan
+    {% elif lang_code == 'zh-cn' %}【按类别】掌握和食(Washoku)与料理日语单词 | ThankJapan
+    {% elif lang_code == 'ko' %}【카테고리별】와쇼쿠(Washoku)와 요리 단어 마스터하기 | ThankJapan
+    {% elif lang_code == 'fr' %}Maîtrisez le vocabulaire de la cuisine japonaise (Washoku) par catégorie | ThankJapan
+    {% elif lang_code == 'th' %}เก่งคำศัพท์อาหารญี่ปุ่น (Washoku) แยกตามหมวดหมู่ | ThankJapan
+    {% elif lang_code == 'vi' %}Làm chủ từ vựng ẩm thực Nhật Bản (Washoku) theo danh mục | ThankJapan
+    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Domina el vocabulario de comida japonesa (Washoku) por categorías | ThankJapan
+    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Domine o vocabulário de culinária japonesa (Washoku) por categorias | ThankJapan
+    {% elif lang_code == 'de' %}Meistern Sie japanische Food-Vokabeln (Washoku) nach Kategorien | ThankJapan
+    {% elif lang_code == 'it' %}Master dei vocaboli della cucina giapponese (Washoku) per categoria | ThankJapan
+    {% elif lang_code == 'en-in' %}Master Japanese Food (Washoku) & Cooking Vocabulary by Category | ThankJapan
+    {% else %}Master Japanese Food (Washoku) & Cooking Vocabulary by Category | ThankJapan{% endif %}
+{% endblock %}
+
+{% block og_description %}
+    {% if lang_code == 'ja' %}味噌汁やカレーライスなど、カテゴリー別に整理された和食(Washoku)や料理(Ryori)の単語を、漢字と発音と一緒に効率よく学びましょう。
+    {% elif lang_code == 'zh-hant' %}通過類別整理，高效學習味噌湯、咖哩飯等和食(Washoku)與料理(Ryori)的日語單語、漢字與發音。
+    {% elif lang_code == 'zh-cn' %}通过类别整理，高效学习味噌汤、咖哩饭等和食(Washoku)与料理(Ryori)的日语单词、汉字与发音。
+    {% elif lang_code == 'ko' %}미소시루, 카레라이스 등 카테고리별로 정리된 와쇼쿠(Washoku)와 요리(Ryori) 단어를 한자와 발음과 함께 효율적으로 공부하세요.
+    {% elif lang_code == 'fr' %}Apprenez efficacement le vocabulaire de la cuisine japonaise (Washoku) comme la soupe miso ou le riz au curry avec kanji et prononciation, classés par catégorie.
+    {% elif lang_code == 'th' %}เรียนรู้คำศัพท์อาหารญี่ปุ่น (Washoku) เช่น ซุปมิโซะ ข้าวแกงกะหรี่ พร้อมคันจิและการออกเสียงอย่างมีประสิทธิภาพตามหมวดหมู่
+    {% elif lang_code == 'vi' %}Học hiệu quả các từ vựng ẩm thực Nhật Bản (Washoku) như súp miso, cơm cà ri cùng với kanji và cách phát âm, được sắp xếp theo danh mục.
+    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Aprende de manera eficiente el vocabulario de comida japonesa (Washoku) como sopa de miso o arroz con curry con kanji y pronunciación, organizados por categorías.
+    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Aprenda de forma eficiente o vocabulário de comida japonesa (Washoku) como sopa de missô ou arroz de caril com kanji e pronúncia, organizados por categorias.
+    {% elif lang_code == 'de' %}Lernen Sie japanische Food-Vokabeln (Washoku) wie Misosuppe oder Curry-Reis effizient mit Kanji und Aussprache, geordnet nach Kategorien.
+    {% elif lang_code == 'it' %}Impara in modo efficiente i vocaboli della cucina giapponese (Washoku) come zuppa di miso o riso al curry con kanji e pronuncia, organizzati per categoria.
+    {% elif lang_code == 'en-in' %}Learn Japanese food vocabulary (Washoku) like Miso soup and Curry rice efficiently with kanji and pronunciation, organized by category.
+    {% else %}Learn Japanese vocabulary for food (Washoku) and cooking (Ryori). Study kanji and pronunciation for dishes like miso soup and curry rice with our categorized lists.{% endif %}
+{% endblock %}
+
 {% block og_url %}{{ request.build_absolute_uri }}{% endblock %}
-{% block description %}Find recipes and cooking tips for authentic Japanese cuisine. Cook dishes like miso soup, curry rice, and more.{% endblock %}
+
+{% block description %}
+    {% if lang_code == 'ja' %}味噌汁やカレーライスなど、カテゴリー別に整理された和食(Washoku)や料理(Ryori)の単語を、漢字と発音と一緒に効率よく学びましょう。
+    {% elif lang_code == 'zh-hant' %}通過類別整理，高效學習味噌湯、咖哩飯等和食(Washoku)與料理(Ryori)的日語單語、漢字與發音。
+    {% elif lang_code == 'zh-cn' %}通过类别整理，高效学习味噌汤、咖哩饭等和食(Washoku)与料理(Ryori)的日语单词、汉字与发音。
+    {% elif lang_code == 'ko' %}미소시루, 카레라이스 등 카테고리별로 정리된 와쇼쿠(Washoku)와 요리(Ryori) 단어를 한자와 발음과 함께 효율적으로 공부하세요.
+    {% elif lang_code == 'fr' %}Étudiez les mots japonais pour la cuisine (Washoku) par catégorie. Apprenez le kanji et la prononciation pour la soupe miso, le curry et plus encore.
+    {% elif lang_code == 'th' %}ศึกษาคำศัพท์ภาษาญี่ปุ่นสำหรับอาหาร (Washoku) ตามหมวดหมู่ เรียนรู้คันจิและการออกเสียงสำหรับซุปมิโซะ แกงกะหรี่ และอื่นๆ
+    {% elif lang_code == 'vi' %}Nghiên cứu từ vựng tiếng Nhật cho ẩm thực (Washoku) theo danh mục. Học kanji và cách phát âm cho súp miso, cơm cà ri và nhiều món khác.
+    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Estudia palabras japonesas para comida (Washoku) por categorías. Aprende kanji y pronunciación para sopa de miso, curry y más.
+    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Estude palavras japonesas para comida (Washoku) por categorias. Aprenda kanji e pronúncia para sopa de missô, caril e muito mais.
+    {% elif lang_code == 'de' %}Studieren Sie japanische Wörter für Essen (Washoku) nach Kategorien. Lernen Sie Kanji und Aussprache für Misosuppe, Curry und mehr.
+    {% elif lang_code == 'it' %}Studia le parole giapponesi per il cibo (Washoku) per categoria. Impara kanji e pronuncia per zuppa di miso, curry e altri.
+    {% elif lang_code == 'en-in' %}Study Japanese food (Washoku) and cooking (Ryori) words by category. Learn kanji and pronunciation for popular dishes to boost your vocabulary.
+    {% else %}Improve your Japanese by learning food vocabulary (Washoku) such as Miso soup and Curry rice. Perfect for students learning kanji and pronunciation by category.{% endif %}
+{% endblock %}
+
 
 {% block content %}
 

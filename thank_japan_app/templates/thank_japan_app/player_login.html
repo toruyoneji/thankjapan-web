@@ -1,6 +1,21 @@
 {% extends 'base/basecategory.html' %}
 {% load socialaccount %}
-{% block title %}Login | ThankJapan{% endblock %}
+
+{% block title %}
+    {% if lang_code == 'ja' %}ログイン(Login) | ThankJapan
+    {% elif lang_code == 'zh-hant' %}登入(Login) | ThankJapan
+    {% elif lang_code == 'zh-cn' %}登录(Login) | ThankJapan
+    {% elif lang_code == 'ko' %}로그인(Login) | ThankJapan
+    {% elif lang_code == 'fr' %}Connexion (Login) | ThankJapan
+    {% elif lang_code == 'th' %}เข้าสู่ระบบ (Login) | ThankJapan
+    {% elif lang_code == 'vi' %}Đăng nhập (Login) | ThankJapan
+    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Iniciar sesión (Login) | ThankJapan
+    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Entrar (Login) | ThankJapan
+    {% elif lang_code == 'de' %}Anmelden (Login) | ThankJapan
+    {% elif lang_code == 'it' %}Accedi (Login) | ThankJapan
+    {% elif lang_code == 'en-in' %}Login | ThankJapan
+    {% else %}Login | ThankJapan{% endif %}
+{% endblock %}
 
 {% block content %}
 

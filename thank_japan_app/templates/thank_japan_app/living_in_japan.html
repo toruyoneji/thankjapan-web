@@ -1,12 +1,71 @@
 {% extends 'base/basecategory.html' %}
 {% load category_filters %}
 
-{% block title %}Practical Living | Master Daily Life in Japan | ThankJapan{% endblock %}
-{% block og_title %}Practical Living - Survival Japanese for Daily Life | ThankJapan{% endblock %}
-{% block og_description %}Learn essential Japanese for your daily life in Japan. Master garbage rules, city hall procedures, healthcare, and survival phrases through interactive lessons.{% endblock %}
-{% block og_url %}{{ request.build_absolute_uri }}{% endblock %}
-{% block description %}Learn essential Japanese for your daily life in Japan. Master garbage rules, city hall procedures, healthcare, and survival phrases through interactive lessons.{% endblock %}
+{% block title %}
+    {% if lang_code == 'ja' %}カテゴリー別で学ぶ日本語単語：日本の生活(Seikatsu)・サバイバル | ThankJapan
+    {% elif lang_code == 'zh-hant' %}按類別學習日語單語：日本生活(Seikatsu)與生存指南 | ThankJapan
+    {% elif lang_code == 'zh-cn' %}按类别学习日语单词：日本生活(Seikatsu)与生存指南 | ThankJapan
+    {% elif lang_code == 'ko' %}카테고리별 일본어 단어 공부: 일본 생활(Seikatsu) 및 서바이벌 | ThankJapan
+    {% elif lang_code == 'fr' %}Apprendre le japonais par catégorie : Vie quotidienne (Seikatsu) au Japon | ThankJapan
+    {% elif lang_code == 'th' %}เรียนภาษาญี่ปุ่นแยกตามหมวดหมู่: การใช้ชีวิตในญี่ปุ่น (Seikatsu) และการเอาตัวรอด | ThankJapan
+    {% elif lang_code == 'vi' %}Học từ vựng tiếng Nhật theo danh mục: Đời sống Nhật Bản (Seikatsu) và Sinh tồn | ThankJapan
+    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Aprende japonés por categorías: Vida cotidiana (Seikatsu) en Japón | ThankJapan
+    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Aprenda japonês por categorias: Vida cotidiana (Seikatsu) no Japão | ThankJapan
+    {% elif lang_code == 'de' %}Japanisch lernen nach Kategorien: Alltagsleben (Seikatsu) in Japan | ThankJapan
+    {% elif lang_code == 'it' %}Impara il giapponese per categoria: Vita quotidiana (Seikatsu) in Giappone | ThankJapan
+    {% elif lang_code == 'en-in' %}Learn Japanese Words by Category: Daily Life (Seikatsu) & Survival | ThankJapan
+    {% else %}Learn Japanese Words by Category: Practical Living (Seikatsu) & Survival | ThankJapan{% endif %}
+{% endblock %}
 
+{% block og_title %}
+    {% if lang_code == 'ja' %}【カテゴリー別】日本での生活・サバイバル日本語をマスターしよう | ThankJapan
+    {% elif lang_code == 'zh-hant' %}【按類別】掌握日本生活與生存日語單語 | ThankJapan
+    {% elif lang_code == 'zh-cn' %}【按类别】掌握日本生活与生存日语单词 | ThankJapan
+    {% elif lang_code == 'ko' %}【카테고리별】일본 생활 및 서바이벌 일본어 마스터하기 | ThankJapan
+    {% elif lang_code == 'fr' %}Maîtrisez le japonais de survie et la vie quotidienne par catégorie | ThankJapan
+    {% elif lang_code == 'th' %}เก่งภาษาญี่ปุ่นเพื่อการเอาตัวรอดในชีวิตประจำวันแยกตามหมวดหมู่ | ThankJapan
+    {% elif lang_code == 'vi' %}Làm chủ tiếng Nhật sinh tồn và đời sống theo danh mục | ThankJapan
+    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Domina el japonés de supervivencia para la vida diaria por categorías | ThankJapan
+    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Domine o japonês de sobrevivência para a vida diária por categorias | ThankJapan
+    {% elif lang_code == 'de' %}Meistern Sie Überlebens-Japanisch für den Alltag nach Kategorien | ThankJapan
+    {% elif lang_code == 'it' %}Master del giapponese di sopravvivenza quotidiana per categoria | ThankJapan
+    {% elif lang_code == 'en-in' %}Master Survival Japanese Vocabulary for Daily Life by Category | ThankJapan
+    {% else %}Master Survival Japanese Vocabulary for Daily Life by Category | ThankJapan{% endif %}
+{% endblock %}
+
+{% block og_description %}
+    {% if lang_code == 'ja' %}ゴミ出し(Gomi-dashi)や役所(Yakusho)の手続きなど、カテゴリー別に整理された日本の生活(Seikatsu)の単語を、漢字と発音と一緒に効率よく学びましょう。
+    {% elif lang_code == 'zh-hant' %}通過類別整理，高效學習倒垃圾(Gomi-dashi)、役所(Yakusho)手續等日本生活(Seikatsu)必備的日語單語、漢字與發音。
+    {% elif lang_code == 'zh-cn' %}通过类别整理，高效学习倒垃圾(Gomi-dashi)、役所(Yakusho)手续等日本生活(Seikatsu)必备的日语单词、汉字与发音。
+    {% elif lang_code == 'ko' %}쓰레기 배출(Gomi-dashi), 구청(Yakusho) 업무 등 카테고리별로 정리된 일본 생활(Seikatsu) 필수 단어를 한자와 발음과 함께 효율적으로 공부하세요.
+    {% elif lang_code == 'fr' %}Apprenez efficacement le japonais de survie (Seikatsu) comme le Gomi-dashi ou le Yakusho avec kanji et prononciation, classés par catégorie.
+    {% elif lang_code == 'th' %}เรียนรู้คำศัพท์ที่จำเป็น (Seikatsu) เช่น การทิ้งขยะ (Gomi-dashi) และงานสำนักงานเขต (Yakusho) พร้อมคันจิและการออกเสียงอย่างมีประสิทธิภาพตามหมวดหมู่
+    {% elif lang_code == 'vi' %}Học hiệu quả các từ vựng đời sống (Seikatsu) như đổ rác (Gomi-dashi) và thủ tục hành chính (Yakusho) cùng với hán tự và cách phát âm, được sắp xếp theo danh mục.
+    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Aprende de manera eficiente el japonés de supervivencia (Seikatsu) como Gomi-dashi o Yakusho con kanji y pronunciación, organizados por categorías.
+    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Aprenda de forma eficiente o japonês de sobrevivência (Seikatsu) como Gomi-dashi ou Yakusho com kanji e pronúncia, organizados por categorias.
+    {% elif lang_code == 'de' %}Lernen Sie Überlebens-Japanisch (Seikatsu) wie Gomi-dashi oder Yakusho effizient mit Kanji und Aussprache, geordnet nach Kategorien.
+    {% elif lang_code == 'it' %}Impara in modo efficiente il giapponese di sopravvivenza (Seikatsu) come Gomi-dashi o Yakusho con kanji e pronuncia, organizzati per categoria.
+    {% elif lang_code == 'en-in' %}Learn survival Japanese vocabulary (Seikatsu) like garbage rules (Gomi-dashi) and city hall (Yakusho) procedures efficiently with kanji and pronunciation, organized by category.
+    {% else %}Learn practical Japanese vocabulary for daily life (Seikatsu) like garbage rules (Gomi-dashi) and city hall (Yakusho) procedures. Study kanji and pronunciation with our categorized lists.{% endif %}
+{% endblock %}
+
+{% block og_url %}{{ request.build_absolute_uri }}{% endblock %}
+
+{% block description %}
+    {% if lang_code == 'ja' %}ゴミ出し(Gomi-dashi)や役所(Yakusho)の手続きなど、カテゴリー別に整理された日本の生活(Seikatsu)の単語を、漢字と発音と一緒に効率よく学びましょう。
+    {% elif lang_code == 'zh-hant' %}通過類別整理，高效學習倒垃圾(Gomi-dashi)、役所(Yakusho)手續等日本生活(Seikatsu)必備的日語單語、漢字與發音。
+    {% elif lang_code == 'zh-cn' %}通过类别整理，高效学习倒垃圾(Gomi-dashi)、役所(Yakusho)手续等日本生活(Seikatsu)必备的日语单词、汉字与发音。
+    {% elif lang_code == 'ko' %}쓰레기 배출(Gomi-dashi), 구청(Yakusho) 업무 등 카테고리별로 정리된 일본 생활(Seikatsu) 필수 단어를 한자와 발음과 함께 효율적으로 공부하세요.
+    {% elif lang_code == 'fr' %}Étudiez les mots japonais pour la vie quotidienne (Seikatsu) par catégorie. Apprenez le kanji et la prononciation pour le Gomi-dashi, les procédures administratives et la santé.
+    {% elif lang_code == 'th' %}ศึกษาคำศัพท์ภาษาญี่ปุ่นสำหรับการใช้ชีวิตประจำวัน (Seikatsu) ตามหมวดหมู่ เรียนรู้คันจิและการออกเสียงสำหรับการทิ้งขยะ, งานเอกสาร และอื่นๆ
+    {% elif lang_code == 'vi' %}Nghiên cứu từ vựng tiếng Nhật cho đời sống (Seikatsu) theo danh mục. Học kanji và cách phát âm cho việc đổ rác, thủ tục tại Yakusho và y tế.
+    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Estudia palabras japonesas para la vida diaria (Seikatsu) por categorías. Aprende kanji y pronunciación para Gomi-dashi, trámites en Yakusho y salud.
+    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Estude palavras japonesas para a vida cotidiana (Seikatsu) por categorias. Aprenda kanji e pronúncia para Gomi-dashi, procedimentos no Yakusho e saúde.
+    {% elif lang_code == 'de' %}Studieren Sie japanische Wörter für das Alltagsleben (Seikatsu) nach Kategorien. Lernen Sie Kanji und Aussprache für Müllentsorgung, Behördengänge und Gesundheit.
+    {% elif lang_code == 'it' %}Studia le parole giapponesi per la vita quotidiana (Seikatsu) per categoria. Impara kanji e pronuncia per lo smaltimento dei rifiuti, procedure al Yakusho e salute.
+    {% elif lang_code == 'en-in' %}Study practical Japanese words for living (Seikatsu) in Japan by category. Learn kanji and pronunciation for Gomi-dashi, Yakusho, and healthcare to navigate life with ease.
+    {% else %}Improve your survival Japanese by learning daily life vocabulary (Seikatsu) such as garbage rules (Gomi-dashi) and city hall (Yakusho). Perfect for students learning kanji and pronunciation by category.{% endif %}
+{% endblock %}
 
 {% block content %}
 {% load static %}

@@ -1,12 +1,72 @@
 {% extends 'base/basecategory.html' %}
 {% load category_filters %}
 
-{% block title %}Popular Sports in Japan | Martial Arts, Baseball & More | ThankJapan{% endblock %}
+{% block title %}
+    {% if lang_code == 'ja' %}カテゴリー別で学ぶ日本語単語：スポーツ(Supotsu)・武道(Budo) | ThankJapan
+    {% elif lang_code == 'zh-hant' %}按類別學習日語單語：運動(Supotsu)與武道(Budo) | ThankJapan
+    {% elif lang_code == 'zh-cn' %}按类别学习日语单词：运动(Supotsu)与武道(Budo) | ThankJapan
+    {% elif lang_code == 'ko' %}카테고리별 일본어 단어 공부: 스포츠(Supotsu) 및 무도(Budo) | ThankJapan
+    {% elif lang_code == 'fr' %}Apprendre le japonais par catégorie : Sports (Supotsu) et Arts martiaux | ThankJapan
+    {% elif lang_code == 'th' %}เรียนภาษาญี่ปุ่นแยกตามหมวดหมู่: กีฬา (Supotsu) และศิลปะการต่อสู้ | ThankJapan
+    {% elif lang_code == 'vi' %}Học từ vựng tiếng Nhật theo danh mục: Thể thao (Supotsu) và Võ thuật | ThankJapan
+    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Aprende japonés por categorías: Deportes (Supotsu) y Artes marciales | ThankJapan
+    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Aprenda japonês por categorias: Esportes (Supotsu) e Artes marciais | ThankJapan
+    {% elif lang_code == 'de' %}Japanisch lernen nach Kategorien: Sport (Supotsu) und Kampfkunst | ThankJapan
+    {% elif lang_code == 'it' %}Impara il giapponese per categoria: Sport (Supotsu) e Arti marziali | ThankJapan
+    {% elif lang_code == 'en-in' %}Learn Japanese Words by Category: Sports (Supotsu) & Martial Arts | ThankJapan
+    {% else %}Learn Japanese Words by Category: Sports (Supotsu) & Martial Arts (Budo) | ThankJapan{% endif %}
+{% endblock %}
 
-{% block og_title %}Japanese Sports - Traditional & Modern Games | ThankJapan{% endblock %}
-{% block og_description %}From soccer basketball to baseball, discover Japan’s unique mix of traditional and modern sports.{% endblock %}
+{% block og_title %}
+    {% if lang_code == 'ja' %}【カテゴリー別】日本のスポーツ・武道単語をマスターしよう | ThankJapan
+    {% elif lang_code == 'zh-hant' %}【按類別】掌握日本運動與武道日語單語 | ThankJapan
+    {% elif lang_code == 'zh-cn' %}【按类别】掌握日本运动与武道日语单词 | ThankJapan
+    {% elif lang_code == 'ko' %}【카테고리별】일본의 스포츠와 무도 단어 마스터하기 | ThankJapan
+    {% elif lang_code == 'fr' %}Maîtrisez le vocabulaire du sport et des arts martiaux par catégorie | ThankJapan
+    {% elif lang_code == 'th' %}เก่งคำศัพท์กีฬาและศิลปะการต่อสู้ญี่ปุ่นแยกตามหมวดหมู่ | ThankJapan
+    {% elif lang_code == 'vi' %}Làm chủ từ vựng thể thao và võ thuật tiếng Nhật theo danh mục | ThankJapan
+    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Domina el vocabulario de deportes y artes marciales por categorías | ThankJapan
+    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Domine o vocabulário de esportes e artes marciais por categorias | ThankJapan
+    {% elif lang_code == 'de' %}Meistern Sie japanische Sport- und Kampfkunst-Vokabeln nach Kategorien | ThankJapan
+    {% elif lang_code == 'it' %}Master dei vocaboli dello sport e delle arti marziali per categoria | ThankJapan
+    {% elif lang_code == 'en-in' %}Master Japanese Sports & Martial Arts Vocabulary by Category | ThankJapan
+    {% else %}Master Japanese Sports & Martial Arts Vocabulary by Category | ThankJapan{% endif %}
+{% endblock %}
+
+{% block og_description %}
+    {% if lang_code == 'ja' %}相撲(Sumo)や野球(Yakyu)など、カテゴリー別に整理されたスポーツ(Supotsu)の単語を、漢字と発音と一緒に効率よく学びましょう。
+    {% elif lang_code == 'zh-hant' %}通過類別整理，高效學習相撲(Sumo)、野球(Yakyu)等運動(Supotsu)相關的日語單語、漢字與發音。
+    {% elif lang_code == 'zh-cn' %}通过类别整理，高效学习相扑(Sumo)、棒球(Yakyu)等运动(Supotsu)相关的日语单词、汉字与发音。
+    {% elif lang_code == 'ko' %}스모(Sumo), 야구(Yakyu) 등 카테고리별로 정리된 스포츠(Supotsu) 단어를 한자와 발음과 함께 효율적으로 공부하세요.
+    {% elif lang_code == 'fr' %}Apprenez efficacement le vocabulaire du sport (Supotsu) comme le Sumo ou le Yakyu (baseball) avec kanji et prononciation, classés par catégorie.
+    {% elif lang_code == 'th' %}เรียนรู้คำศัพท์กีฬา (Supotsu) เช่น Sumo และ Yakyu (เบสบอล) พร้อมคันจิและการออกเสียงอย่างมีประสิทธิภาพตามหมวดหมู่
+    {% elif lang_code == 'vi' %}Học hiệu quả các từ vựng thể thao (Supotsu) như Sumo và Yakyu cùng với hán tự và cách phát âm, được sắp xếp theo danh mục.
+    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Aprende de manera eficiente el vocabulario de deportes (Supotsu) como Sumo o Yakyu con kanji y pronunciación, organizados por categorías.
+    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Aprenda de forma eficiente o vocabulário de esportes (Supotsu) como Sumo ou Yakyu com kanji e pronúncia, organizados por categorias.
+    {% elif lang_code == 'de' %}Lernen Sie japanische Sport-Vokabeln (Supotsu) wie Sumo oder Yakyu effizient mit Kanji und Aussprache, geordnet nach Kategorien.
+    {% elif lang_code == 'it' %}Impara in modo efficiente i vocaboli dello sport (Supotsu) come Sumo o Yakyu con kanji e pronuncia, organizzati per categoria.
+    {% elif lang_code == 'en-in' %}Learn Japanese sports vocabulary (Supotsu) like Sumo and Yakyu (Baseball) efficiently with kanji and pronunciation, organized by category.
+    {% else %}Learn Japanese vocabulary for sports (Supotsu) like Sumo and Yakyu (Baseball). Study kanji and pronunciation with our categorized lists of traditional and modern games.{% endif %}
+{% endblock %}
+
 {% block og_url %}{{ request.build_absolute_uri }}{% endblock %}
-{% block description %}From sumo wrestling to baseball, discover Japan’s unique mix of traditional and modern sports.{% endblock %}
+
+{% block description %}
+    {% if lang_code == 'ja' %}相撲(Sumo)や野球(Yakyu)など、カテゴリー別に整理されたスポーツ(Supotsu)の単語を、漢字と発音と一緒に効率よく学びましょう。
+    {% elif lang_code == 'zh-hant' %}通過類別整理，高效學習相撲(Sumo)、野球(Yakyu)等運動(Supotsu)相關的日語單語、漢字與發音。
+    {% elif lang_code == 'zh-cn' %}通过类别整理，高效学习相扑(Sumo)、棒球(Yakyu)等运动(Supotsu)相关的日语单词、汉字与发音。
+    {% elif lang_code == 'ko' %}스모(Sumo), 야구(Yakyu) 등 카테고리별로 정리된 스포츠(Supotsu) 단어를 한자와 발음과 함께 효율적으로 공부하세요.
+    {% elif lang_code == 'fr' %}Étudiez les mots japonais pour le sport (Supotsu) par catégorie. Apprenez le kanji et la prononciation pour le Sumo, le baseball (Yakyu) et les arts martiaux (Budo).
+    {% elif lang_code == 'th' %}ศึกษาคำศัพท์ภาษาญี่ปุ่นสำหรับกีฬา (Supotsu) ตามหมวดหมู่ เรียนรู้คันจิและการออกเสียงสำหรับ Sumo, Yakyu และศิลปะการต่อสู้ (Budo)
+    {% elif lang_code == 'vi' %}Nghiên cứu từ vựng tiếng Nhật cho thể thao (Supotsu) theo danh mục. Học hán tự và cách phát âm cho Sumo, Yakyu và các môn võ thuật (Budo).
+    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Estudia palabras japonesas para deportes (Supotsu) por categorías. Aprende kanji y pronunciación para Sumo, Yakyu y artes marciales (Budo).
+    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Estude palavras japonesas para esportes (Supotsu) por categorias. Aprenda kanji e pronúncia para Sumo, Yakyu e artes marciais (Budo).
+    {% elif lang_code == 'de' %}Studieren Sie japanische Wörter für Sport (Supotsu) nach Kategorien. Lernen Sie Kanji und Aussprache für Sumo, Yakyu und Kampfsport (Budo).
+    {% elif lang_code == 'it' %}Studia le parole giapponesi per lo sport (Supotsu) per categoria. Impara kanji e pronuncia per Sumo, Yakyu e arti marziali (Budo).
+    {% elif lang_code == 'en-in' %}Study Japanese sports words (Supotsu) by category. Learn kanji and pronunciation for Sumo, Yakyu, and martial arts to boost your vocabulary.
+    {% else %}Improve your Japanese by learning sports vocabulary (Supotsu) such as Sumo and Yakyu (Baseball). Perfect for students learning kanji and pronunciation by category.{% endif %}
+{% endblock %}
+
 
 {% block content %}
 

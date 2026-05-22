@@ -1,11 +1,72 @@
 {% extends 'base/basecategory.html' %}
 {% load category_filters %}
 
-{% block title %}Japanese Body Parts List | Learn Human Anatomy in Japanese | ThankJapan{% endblock %}
-{% block og_title %}Japanese Body Parts - Learn Kanji & Pronunciation | ThankJapan{% endblock %}
-{% block og_description %}Master Japanese vocabulary for body parts. Learn kanji and pronunciation for head, hands, legs, and more to navigate daily life and health in Japan.{% endblock %}
+{% block title %}
+    {% if lang_code == 'ja' %}カテゴリー別で学ぶ日本語単語：体(Karada)の部位リスト | ThankJapan
+    {% elif lang_code == 'zh-hant' %}按類別學習日語單語：身體部位(Karada)清單 | ThankJapan
+    {% elif lang_code == 'zh-cn' %}按类别学习日语单词：身体部位(Karada)清单 | ThankJapan
+    {% elif lang_code == 'ko' %}카테고리별 일본어 단어 공부: 신체 부위(Karada) 목록 | ThankJapan
+    {% elif lang_code == 'fr' %}Apprendre le japonais par catégorie : Le Corps (Karada) | ThankJapan
+    {% elif lang_code == 'th' %}เรียนภาษาญี่ปุ่นแยกตามหมวดหมู่: ร่างกาย (Karada) | ThankJapan
+    {% elif lang_code == 'vi' %}Học từ vựng tiếng Nhật theo danh mục: Cơ thể (Karada) | ThankJapan
+    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Aprende japonés por categorías: Partes del cuerpo (Karada) | ThankJapan
+    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Aprenda japonês por categorias: Partes do corpo (Karada) | ThankJapan
+    {% elif lang_code == 'de' %}Japanisch lernen nach Kategorien: Körperteile (Karada) | ThankJapan
+    {% elif lang_code == 'it' %}Impara il giapponese per categoria: Parti del corpo (Karada) | ThankJapan
+    {% elif lang_code == 'en-in' %}Learn Japanese Words by Category: Body Parts (Karada) List | ThankJapan
+    {% else %}Learn Japanese Words by Category: Body Parts (Karada) List | ThankJapan{% endif %}
+{% endblock %}
+
+{% block og_title %}
+    {% if lang_code == 'ja' %}【カテゴリー別】日本語の身体単語をマスターしよう | ThankJapan
+    {% elif lang_code == 'zh-hant' %}【按類別】掌握日語身體部位單語 | ThankJapan
+    {% elif lang_code == 'zh-cn' %}【按类别】掌握日语身体部位单词 | ThankJapan
+    {% elif lang_code == 'ko' %}【카테고리별】일본어 신체 부위 단어 마스터하기 | ThankJapan
+    {% elif lang_code == 'fr' %}Maîtrisez le vocabulaire japonais du corps par catégorie | ThankJapan
+    {% elif lang_code == 'th' %}เก่งคำศัพท์ร่างกายญี่ปุ่นแยกตามหมวดหมู่ | ThankJapan
+    {% elif lang_code == 'vi' %}Làm chủ từ vựng cơ thể tiếng Nhật theo danh mục | ThankJapan
+    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Domina el vocabulario del cuerpo japonés por categorías | ThankJapan
+    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Domine o vocabulário do corpo japonês por categorias | ThankJapan
+    {% elif lang_code == 'de' %}Meistern Sie japanische Körper-Vokabeln nach Kategorien | ThankJapan
+    {% elif lang_code == 'it' %}Master dei vocaboli del corpo giapponese per categoria | ThankJapan
+    {% elif lang_code == 'en-in' %}Master Japanese Body Parts Vocabulary by Category | ThankJapan
+    {% else %}Master Japanese Body Parts Vocabulary by Category | ThankJapan{% endif %}
+{% endblock %}
+
+{% block og_description %}
+    {% if lang_code == 'ja' %}頭(Atama)や手(Te)など、カテゴリー別に整理された体(Karada)の部位の単語を、漢字と発音と一緒に効率よく学びましょう。
+    {% elif lang_code == 'zh-hant' %}通過類別整理，高效學習頭(Atama)、手(Te)等身體部位(Karada)的日語單語、漢字與發音。
+    {% elif lang_code == 'zh-cn' %}通过类别整理，高效学习头(Atama)、手(Te)等身体部位(Karada)的日语单词、汉字与发音。
+    {% elif lang_code == 'ko' %}머리(Atama), 손(Te) 등 카테고리별로 정리된 신체 부위(Karada) 단어를 한자와 발음과 함께 효율적으로 공부하세요.
+    {% elif lang_code == 'fr' %}Apprenez efficacement le vocabulaire japonais du corps (Karada) comme Atama ou Te avec kanji et prononciation, classés par catégorie.
+    {% elif lang_code == 'th' %}เรียนรู้คำศัพท์ร่างกายญี่ปุ่น (Karada) เช่น Atama และ Te พร้อมคันจิและการออกเสียงอย่างมีประสิทธิภาพตามหมวดหมู่
+    {% elif lang_code == 'vi' %}Học hiệu quả các từ vựng cơ thể Nhật Bản (Karada) như Atama và Te cùng với kanji và cách phát âm, được sắp xếp theo danh mục.
+    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Aprende de manera eficiente el vocabulario del cuerpo japonés (Karada) como Atama con kanji y pronunciación, organizados por categorías.
+    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Aprenda de forma eficiente o vocabulário do corpo japonês (Karada) como Atama com kanji e pronúncia, organizados por categorias.
+    {% elif lang_code == 'de' %}Lernen Sie japanische Körper-Vokabeln (Karada) wie Atama effizient mit Kanji und Aussprache, geordnet nach Kategorien.
+    {% elif lang_code == 'it' %}Impara in modo efficiente i vocaboli del corpo giapponese (Karada) come Atama con kanji e pronuncia, organizzati per categoria.
+    {% elif lang_code == 'en-in' %}Learn Japanese body parts vocabulary (Karada) like Atama efficiently with kanji and pronunciation, organized by category.
+    {% else %}Learn Japanese vocabulary for body parts (Karada) like Atama (head) and Te (hand). Study kanji and pronunciation with our categorized lists.{% endif %}
+{% endblock %}
+
 {% block og_url %}{{ request.build_absolute_uri }}{% endblock %}
-{% block description %}Master Japanese vocabulary for body parts. Learn kanji and pronunciation for head, hands, legs, and more to navigate daily life and health in Japan.{% endblock %}
+
+{% block description %}
+    {% if lang_code == 'ja' %}頭(Atama)や手(Te)など、カテゴリー別に整理された体(Karada)の部位の単語を、漢字と発音と一緒に効率よく学びましょう。
+    {% elif lang_code == 'zh-hant' %}通過類別整理，高效學習頭(Atama)、手(Te)等身體部位(Karada)的日語單語、漢字與發音。
+    {% elif lang_code == 'zh-cn' %}通过类别整理，高效学习头(Atama)、手(Te)等身体部位(Karada)的日语单词、汉字与发音。
+    {% elif lang_code == 'ko' %}머리(Atama), 손(Te) 등 카테고리별로 정리된 신체 부위(Karada) 단어를 한자와 발음과 함께 효율적으로 공부하세요.
+    {% elif lang_code == 'fr' %}Étudiez les mots japonais pour le corps (Karada) par catégorie. Apprenez le kanji et la prononciation pour Atama, Te et plus encore.
+    {% elif lang_code == 'th' %}ศึกษาคำศัพท์ภาษาญี่ปุ่นสำหรับร่างกาย (Karada) ตามหมวดหมู่ เรียนรู้คันจิและการออกเสียงสำหรับ Atama, Te และอื่นๆ
+    {% elif lang_code == 'vi' %}Nghiên cứu từ vựng tiếng Nhật cho cơ thể (Karada) theo danh mục. Học kanji và cách phát âm cho Atama, Te và nhiều bộ phận khác.
+    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Estudia palabras japonesas para el cuerpo (Karada) por categorías. Aprende kanji y pronunciación para Atama, Te y más.
+    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Estude palavras japonesas para o corpo (Karada) por categorias. Aprenda kanji e pronúncia para Atama, Te e muito mais.
+    {% elif lang_code == 'de' %}Studieren Sie japanische Wörter für den Körper (Karada) nach Kategorien. Lernen Sie Kanji und Aussprache für Atama, Te und mehr.
+    {% elif lang_code == 'it' %}Studia le parole giapponesi per il corpo (Karada) per categoria. Impara kanji e pronuncia per Atama, Te e altri.
+    {% elif lang_code == 'en-in' %}Study Japanese words for body parts (Karada) by category. Learn kanji and pronunciation for Atama and Te to boost your vocabulary.
+    {% else %}Improve your Japanese by learning body parts vocabulary (Karada) such as Atama (head) and Te (hand). Perfect for students learning kanji and pronunciation by category.{% endif %}
+{% endblock %}
+
 
 {% block content %}
 

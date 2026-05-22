@@ -1,12 +1,72 @@
 {% extends 'base/basecategory.html' %}
 {% load category_filters %}
 
-{% block title %}Japanese Fashion & Accessories | Traditional & Modern Styles | ThankJapan{% endblock %}
+{% block title %}
+    {% if lang_code == 'ja' %}カテゴリー別で学ぶ日本語単語：ファッション(Fashion)・流行 | ThankJapan
+    {% elif lang_code == 'zh-hant' %}按類別學習日語單語：時尚(Fashion)與配件 | ThankJapan
+    {% elif lang_code == 'zh-cn' %}按类别学习日语单词：时尚(Fashion)与配件 | ThankJapan
+    {% elif lang_code == 'ko' %}카테고리별 일본어 단어 공부: 패션(Fashion) 및 액세서리 | ThankJapan
+    {% elif lang_code == 'fr' %}Apprendre le japonais par catégorie : Mode (Fashion) et Accessoires | ThankJapan
+    {% elif lang_code == 'th' %}เรียนภาษาญี่ปุ่นแยกตามหมวดหมู่: แฟชั่น (Fashion) และเครื่องประดับ | ThankJapan
+    {% elif lang_code == 'vi' %}Học từ vựng tiếng Nhật theo danh mục: Thời trang (Fashion) | ThankJapan
+    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Aprende japonés por categorías: Moda (Fashion) y Accesorios | ThankJapan
+    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Aprenda japonês por categorias: Moda (Fashion) e Acessórios | ThankJapan
+    {% elif lang_code == 'de' %}Japanisch lernen nach Kategorien: Mode (Fashion) und Accessoires | ThankJapan
+    {% elif lang_code == 'it' %}Impara il giapponese per categoria: Moda (Fashion) e Accessori | ThankJapan
+    {% elif lang_code == 'en-in' %}Learn Japanese Words by Category: Fashion (Fashion) & Trends | ThankJapan
+    {% else %}Learn Japanese Words by Category: Fashion (Fashion) & Trends | ThankJapan{% endif %}
+{% endblock %}
 
-{% block og_title %}Japanese Fashion - Traditional & Modern Styles | ThankJapan{% endblock %}
-{% block og_description %}Explore Japanese fashion from traditional kimonos to Harajuku street style and modern trends.{% endblock %}
+{% block og_title %}
+    {% if lang_code == 'ja' %}【カテゴリー別】日本のファッション・流行単語をマスターしよう | ThankJapan
+    {% elif lang_code == 'zh-hant' %}【按類別】掌握日本時尚與流行日語單語 | ThankJapan
+    {% elif lang_code == 'zh-cn' %}【按类别】掌握日本时尚与流行日语单词 | ThankJapan
+    {% elif lang_code == 'ko' %}【카테고리별】일본의 패션과 유행 단어 마스터하기 | ThankJapan
+    {% elif lang_code == 'fr' %}Maîtrisez le vocabulaire de la mode japonaise par catégorie | ThankJapan
+    {% elif lang_code == 'th' %}เก่งคำศัพท์แฟชั่นญี่ปุ่นแยกตามหมวดหมู่ | ThankJapan
+    {% elif lang_code == 'vi' %}Làm chủ từ vựng thời trang tiếng Nhật theo danh mục | ThankJapan
+    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Domina el vocabulario de moda japonesa por categorías | ThankJapan
+    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Domine o vocabulário de moda japonesa por categorias | ThankJapan
+    {% elif lang_code == 'de' %}Meistern Sie japanische Mode-Vokabeln nach Kategorien | ThankJapan
+    {% elif lang_code == 'it' %}Master dei vocaboli della moda giapponese per categoria | ThankJapan
+    {% elif lang_code == 'en-in' %}Master Japanese Fashion Vocabulary by Category | ThankJapan
+    {% else %}Master Japanese Fashion Vocabulary by Category | ThankJapan{% endif %}
+{% endblock %}
+
+{% block og_description %}
+    {% if lang_code == 'ja' %}着物(Kimono)や流行(Ryuko)など、カテゴリー別に整理されたファッションの単語を、漢字と発音と一緒に効率よく学びましょう。
+    {% elif lang_code == 'zh-hant' %}通過類別整理，高效學習著物(Kimono)、流行(Ryuko)等時尚單語、漢字與發音。
+    {% elif lang_code == 'zh-cn' %}通过类别整理，高效学习着物(Kimono)、流行(Ryuko)等时尚单词、汉字与发音。
+    {% elif lang_code == 'ko' %}기모노(Kimono), 유행(Ryuko) 등 카테고리별로 정리된 패션 단어를 한자와 발음과 함께 효율적으로 공부하세요.
+    {% elif lang_code == 'fr' %}Apprenez efficacement le vocabulaire de la mode japonaise comme le Kimono ou le Ryuko (tendance) avec kanji et prononciation, classés par catégorie.
+    {% elif lang_code == 'th' %}เรียนรู้คำศัพท์แฟชั่นญี่ปุ่น เช่น Kimono และ Ryuko พร้อมคันจิและการออกเสียงอย่างมีประสิทธิภาพตามหมวดหมู่
+    {% elif lang_code == 'vi' %}Học hiệu quả các từ vựng thời trang Nhật Bản như Kimono và Ryuko cùng với kanji và cách phát âm, được sắp xếp theo danh mục.
+    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Aprende de manera eficiente el vocabulario de moda japonesa como Kimono o Ryuko (tendencia) con kanji y pronunciación, organizados por categorías.
+    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Aprenda de forma eficiente o vocabulário de moda japonesa como Kimono ou Ryuko (tendência) com kanji e pronúncia, organizados por categorias.
+    {% elif lang_code == 'de' %}Lernen Sie japanische Mode-Vokabeln wie Kimono oder Ryuko (Trend) effizient mit Kanji und Aussprache, geordnet nach Kategorien.
+    {% elif lang_code == 'it' %}Impara in modo efficiente i vocaboli della moda giapponese come Kimono o Ryuko con kanji e pronuncia, organizzati per categoria.
+    {% elif lang_code == 'en-in' %}Learn Japanese fashion vocabulary like Kimono and Ryuko efficiently with kanji and pronunciation, organized by category.
+    {% else %}Learn Japanese vocabulary for fashion (Fashion) like Kimono and Ryuko (trends). Study kanji and pronunciation with our categorized lists.{% endif %}
+{% endblock %}
+
 {% block og_url %}{{ request.build_absolute_uri }}{% endblock %}
-{% block description %}Explore Japanese fashion from traditional kimonos to Harajuku street style and modern trends.{% endblock %}
+
+{% block description %}
+    {% if lang_code == 'ja' %}着物(Kimono)や流行(Ryuko)など、カテゴリー別に整理されたファッションの単語を、漢字と発音と一緒に効率よく学びましょう。
+    {% elif lang_code == 'zh-hant' %}通過類別整理，高效學習著物(Kimono)、流行(Ryuko)等時尚單語、漢字與發音。
+    {% elif lang_code == 'zh-cn' %}通过类别整理，高效学习着物(Kimono)、流行(Ryuko)等时尚单词、汉字与发音。
+    {% elif lang_code == 'ko' %}기모노(Kimono), 유행(Ryuko) 등 카테고리별로 정리된 패션 단어를 한자와 발음과 함께 효율적으로 공부하세요.
+    {% elif lang_code == 'fr' %}Étudiez les mots japonais pour la mode par catégorie. Apprenez le kanji et la prononciation pour le Kimono, le style Harajuku et les tendances actuelles.
+    {% elif lang_code == 'th' %}ศึกษาคำศัพท์ภาษาญี่ปุ่นสำหรับแฟชั่นตามหมวดหมู่ เรียนรู้คันจิและการออกเสียงสำหรับ Kimono สไตล์ฮาราจูกุ และอื่นๆ
+    {% elif lang_code == 'vi' %}Nghiên cứu từ vựng tiếng Nhật cho thời trang theo danh mục. Học kanji và cách phát âm cho Kimono, phong cách Harajuku và các xu hướng.
+    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Estudia palabras japonesas para moda por categorías. Aprende kanji y pronunciación para Kimono, estilo Harajuku y tendencias actuales.
+    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Estude palavras japonesas para moda por categorias. Aprenda kanji e pronúncia para Kimono, estilo Harajuku e tendências atuais.
+    {% elif lang_code == 'de' %}Studieren Sie japanische Wörter für Mode nach Kategorien. Lernen Sie Kanji und Aussprache für Kimono, Harajuku-Stil und Trends.
+    {% elif lang_code == 'it' %}Studia le parole giapponesi per la moda per categoria. Impara kanji e pronuncia per Kimono, stile Harajuku e tendenze.
+    {% elif lang_code == 'en-in' %}Study Japanese words for fashion by category. Learn kanji and pronunciation for Kimono and the latest Harajuku trends to boost your vocabulary.
+    {% else %}Improve your Japanese by learning fashion vocabulary (Fashion) such as Kimono and Ryuko (trends). Perfect for students learning kanji and pronunciation by category.{% endif %}
+{% endblock %}
+
 
 {% block content %}
 

@@ -1,12 +1,72 @@
 {% extends 'base/basecategory.html' %}
 {% load category_filters %}
 
-{% block title %}Japanese Flowers & Seasonal Blooms | Cherry Blossoms & More | ThankJapan{% endblock %}
+{% block title %}
+    {% if lang_code == 'ja' %}カテゴリー別で学ぶ日本語単語：日本の花(Hana)・季節の植物 | ThankJapan
+    {% elif lang_code == 'zh-hant' %}按類別學習日語單語：日本花卉(Hana)與季節植物 | ThankJapan
+    {% elif lang_code == 'zh-cn' %}按类别学习日语单词：日本花卉(Hana)与季节植物 | ThankJapan
+    {% elif lang_code == 'ko' %}카테고리별 일본어 단어 공부: 일본의 꽃(Hana)과 계절 식물 | ThankJapan
+    {% elif lang_code == 'fr' %}Apprendre le japonais par catégorie : Fleurs (Hana) et Plantes saisonnières | ThankJapan
+    {% elif lang_code == 'th' %}เรียนภาษาญี่ปุ่นแยกตามหมวดหมู่: ดอกไม้ (Hana) และพืชตามฤดูกาล | ThankJapan
+    {% elif lang_code == 'vi' %}Học từ vựng tiếng Nhật theo danh mục: Hoa (Hana) và Thực vật theo mùa | ThankJapan
+    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Aprende japonés por categorías: Flores (Hana) y Plantas estacionales | ThankJapan
+    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Aprenda japonês por categorias: Flores (Hana) e Plantas sazonais | ThankJapan
+    {% elif lang_code == 'de' %}Japanisch lernen nach Kategorien: Blumen (Hana) und Pflanzen | ThankJapan
+    {% elif lang_code == 'it' %}Impara il giapponese per categoria: Fiori (Hana) e Piante stagionali | ThankJapan
+    {% elif lang_code == 'en-in' %}Learn Japanese Words by Category: Flowers (Hana) & Seasonal Blooms | ThankJapan
+    {% else %}Learn Japanese Words by Category: Japanese Flowers (Hana) & Seasonal Blooms | ThankJapan{% endif %}
+{% endblock %}
 
-{% block og_title %}Japanese Flowers - Symbolism & Seasonal Beauty | ThankJapan{% endblock %}
-{% block og_description %}Learn about Japanese flowers like sakura (cherry blossoms) and their meaning in culture and art.{% endblock %}
+{% block og_title %}
+    {% if lang_code == 'ja' %}【カテゴリー別】日本の花・季節(Kisetzu)の単語をマスターしよう | ThankJapan
+    {% elif lang_code == 'zh-hant' %}【按類別】掌握日本花卉與季節(Kisetzu)日語單語 | ThankJapan
+    {% elif lang_code == 'zh-cn' %}【按类别】掌握日本花卉与季节(Kisetzu)日语单词 | ThankJapan
+    {% elif lang_code == 'ko' %}【카테고리별】일본의 꽃과 계절(Kisetzu) 단어 마스터하기 | ThankJapan
+    {% elif lang_code == 'fr' %}Maîtrisez le vocabulaire des fleurs et des saisons (Kisetzu) par catégorie | ThankJapan
+    {% elif lang_code == 'th' %}เก่งคำศัพท์ดอกไม้และฤดูกาล (Kisetzu) ญี่ปุ่นแยกตามหมวดหมู่ | ThankJapan
+    {% elif lang_code == 'vi' %}Làm chủ từ vựng hoa và mùa (Kisetzu) tiếng Nhật theo danh mục | ThankJapan
+    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Domina el vocabulario de flores y estaciones (Kisetzu) por categorías | ThankJapan
+    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Domine o vocabulário de flores e estações (Kisetzu) por categorias | ThankJapan
+    {% elif lang_code == 'de' %}Meistern Sie japanische Blumen- und Jahreszeiten-Vokabeln (Kisetzu) nach Kategorien | ThankJapan
+    {% elif lang_code == 'it' %}Master dei vocaboli dei fiori e delle stagioni (Kisetzu) per categoria | ThankJapan
+    {% elif lang_code == 'en-in' %}Master Japanese Flowers & Seasons (Kisetzu) Vocabulary by Category | ThankJapan
+    {% else %}Master Japanese Flowers & Seasons (Kisetzu) Vocabulary by Category | ThankJapan{% endif %}
+{% endblock %}
+
+{% block og_description %}
+    {% if lang_code == 'ja' %}桜(Sakura)や季節(Kisetzu)の花など、カテゴリー別に整理された日本の花(Hana)の単語を、漢字と発音と一緒に効率よく学びましょう。
+    {% elif lang_code == 'zh-hant' %}通過類別整理，高效學習櫻花(Sakura)與季節(Kisetzu)之花等日本花卉(Hana)的日語單語、漢字與發音。
+    {% elif lang_code == 'zh-cn' %}通过类别整理，高效学习樱花(Sakura)与季节(Kisetzu)之花等日本花卉(Hana)的日语单词、汉字与发音。
+    {% elif lang_code == 'ko' %}벚꽃(Sakura)과 계절(Kisetzu)의 꽃 등 카테고리별로 정리된 일본의 꽃(Hana) 단어를 한자와 발음과 함께 효율적으로 공부하세요.
+    {% elif lang_code == 'fr' %}Apprenez efficacement le vocabulaire des fleurs japonaises (Hana) comme le Sakura avec kanji et prononciation, classés par catégorie.
+    {% elif lang_code == 'th' %}เรียนรู้คำศัพท์ดอกไม้ญี่ปุ่น (Hana) เช่น Sakura พร้อมคันจิและการออกเสียงอย่างมีประสิทธิภาพตามหมวดหมู่ของฤดูกาล (Kisetzu)
+    {% elif lang_code == 'vi' %}Học hiệu quả các từ vựng hoa Nhật Bản (Hana) như Sakura cùng với kanji và cách phát âm, được sắp xếp theo danh mục mùa (Kisetzu).
+    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Aprende de manera eficiente el vocabulario de flores japonesas (Hana) como Sakura con kanji y pronunciación, organizados por categorías de estaciones (Kisetzu).
+    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Aprenda de forma eficiente o vocabulário de flores japonesas (Hana) como Sakura com kanji e pronúncia, organizados por categorias de estações (Kisetzu).
+    {% elif lang_code == 'de' %}Lernen Sie japanische Blumen-Vokabeln (Hana) wie Sakura effizient mit Kanji und Aussprache, geordnet nach Jahreszeiten (Kisetzu).
+    {% elif lang_code == 'it' %}Impara in modo efficiente i vocaboli dei fiori giapponesi (Hana) come Sakura con kanji e pronuncia, organizzati per categoria e stagioni (Kisetzu).
+    {% elif lang_code == 'en-in' %}Learn Japanese flower vocabulary (Hana) like Sakura efficiently with kanji and pronunciation, organized by seasonal category (Kisetzu).
+    {% else %}Learn Japanese vocabulary for flowers (Hana) like Sakura (Cherry Blossoms). Study kanji and pronunciation with our categorized lists of seasonal blooms (Kisetzu).{% endif %}
+{% endblock %}
+
 {% block og_url %}{{ request.build_absolute_uri }}{% endblock %}
-{% block description %}Learn about Japanese flowers like sakura (cherry blossoms) and their meaning in culture and art.{% endblock %}
+
+{% block description %}
+    {% if lang_code == 'ja' %}桜(Sakura)や季節(Kisetzu)の花など、カテゴリー別に整理された日本の花(Hana)の単語を、漢字と発音と一緒に効率よく学びましょう。
+    {% elif lang_code == 'zh-hant' %}通過類別整理，高效學習櫻花(Sakura)與季節(Kisetzu)之花等日本花卉(Hana)的日語單語、漢字與發音。
+    {% elif lang_code == 'zh-cn' %}通过类别整理，高效学习樱花(Sakura)与季节(Kisetzu)之花等日本花卉(Hana)的日语单词、汉字与发音。
+    {% elif lang_code == 'ko' %}벚꽃(Sakura)과 계절(Kisetzu)의 꽃 등 카테고리별로 정리된 일본의 꽃(Hana) 단어를 한자와 발음과 함께 효율적으로 공부하세요.
+    {% elif lang_code == 'fr' %}Étudiez les mots japonais pour les fleurs (Hana) par catégorie. Apprenez le kanji et la prononciation pour le Sakura et les plantes saisonnières (Kisetzu).
+    {% elif lang_code == 'th' %}ศึกษาคำศัพท์ภาษาญี่ปุ่นสำหรับดอกไม้ (Hana) ตามหมวดหมู่ เรียนรู้คันจิและการออกเสียงสำหรับ Sakura และความงามตามฤดูกาล (Kisetzu)
+    {% elif lang_code == 'vi' %}Nghiên cứu từ vựng tiếng Nhật cho hoa (Hana) theo danh mục. Học kanji và cách phát âm cho Sakura và vẻ đẹp theo mùa (Kisetzu).
+    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Estudia palabras japonesas para flores (Hana) por categorías. Aprende kanji y pronunciación para Sakura y la belleza estacional (Kisetzu).
+    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Estude palavras japonesas para flores (Hana) por categorias. Aprenda kanji e pronúncia para Sakura e a beleza sazonais (Kisetzu).
+    {% elif lang_code == 'de' %}Studieren Sie japanische Wörter für Blumen (Hana) nach Kategorien. Lernen Sie Kanji und Aussprache für Sakura und die jahreszeitliche Schönheit (Kisetzu).
+    {% elif lang_code == 'it' %}Studia le parole giapponesi per i fiori (Hana) per categoria. Impara kanji e pronuncia per Sakura e la bellezza delle stagioni (Kisetzu).
+    {% elif lang_code == 'en-in' %}Study Japanese words for flowers (Hana) by category. Learn kanji and pronunciation for Sakura and seasonal blooms to boost your vocabulary.
+    {% else %}Improve your Japanese by learning flower vocabulary (Hana) such as Sakura (Cherry Blossoms). Perfect for students learning kanji and pronunciation by category.{% endif %}
+{% endblock %}
+
 
 {% block content %}
 

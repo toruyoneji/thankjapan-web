@@ -1,11 +1,72 @@
 {% extends 'base/basecategory.html' %}
 {% load category_filters %}
 
-{% block title %}Business Japanese | Master Professional Japanese | ThankJapan{% endblock %}
-{% block og_title %}Business Japanese - Master Professional Japanese | ThankJapan{% endblock %}
-{% block og_description %}Learn essential Japanese for your career. Master business etiquette, honorifics (Keigo), and workplace culture through interactive lessons.{% endblock %}
+{% block title %}
+    {% if lang_code == 'ja' %}カテゴリー別で学ぶ日本語単語：ビジネス日本語(Business Nihongo) | ThankJapan
+    {% elif lang_code == 'zh-hant' %}按類別學習日語單語：商務日語(Business Nihongo) | ThankJapan
+    {% elif lang_code == 'zh-cn' %}按类别学习日语单词：商务日语(Business Nihongo) | ThankJapan
+    {% elif lang_code == 'ko' %}카테고리별 일본어 단어 공부: 비즈니스 일본어(Business Nihongo) | ThankJapan
+    {% elif lang_code == 'fr' %}Apprendre le japonais par catégorie : Japonais des affaires (Business Nihongo) | ThankJapan
+    {% elif lang_code == 'th' %}เรียนภาษาญี่ปุ่นแยกตามหมวดหมู่: ภาษาญี่ปุ่นเชิงธุรกิจ (Business Nihongo) | ThankJapan
+    {% elif lang_code == 'vi' %}Học từ vựng tiếng Nhật theo danh mục: Tiếng Nhật thương mại (Business Nihongo) | ThankJapan
+    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Aprende japonés por categorías: Japonés de negocios (Business Nihongo) | ThankJapan
+    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Aprenda japonês por categorias: Japonês de negócios (Business Nihongo) | ThankJapan
+    {% elif lang_code == 'de' %}Japanisch lernen nach Kategorien: Business-Japanisch (Business Nihongo) | ThankJapan
+    {% elif lang_code == 'it' %}Impara il giapponese per categoria: Giapponese commerciale (Business Nihongo) | ThankJapan
+    {% elif lang_code == 'en-in' %}Learn Japanese Words by Category: Business Japanese (Business Nihongo) | ThankJapan
+    {% else %}Learn Japanese Words by Category: Business Japanese (Business Nihongo) | ThankJapan{% endif %}
+{% endblock %}
+
+{% block og_title %}
+    {% if lang_code == 'ja' %}【カテゴリー別】ビジネス日本語と敬語をマスターしよう | ThankJapan
+    {% elif lang_code == 'zh-hant' %}【按類別】掌握商務日語與敬語單語 | ThankJapan
+    {% elif lang_code == 'zh-cn' %}【按类别】掌握商务日语与敬语单词 | ThankJapan
+    {% elif lang_code == 'ko' %}【카테고리별】비즈니스 일본어와 경어 마스터하기 | ThankJapan
+    {% elif lang_code == 'fr' %}Maîtrisez le japonais des affaires et le Keigo par catégorie | ThankJapan
+    {% elif lang_code == 'th' %}เก่งภาษาญี่ปุ่นเชิงธุรกิจและคำสุภาพแยกตามหมวดหมู่ | ThankJapan
+    {% elif lang_code == 'vi' %}Làm chủ tiếng Nhật thương mại và Keigo theo danh mục | ThankJapan
+    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Domina el japonés de negocios y el Keigo por categorías | ThankJapan
+    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Domine o japonês de negócios e o Keigo por categorias | ThankJapan
+    {% elif lang_code == 'de' %}Meistern Sie Business-Japanisch und Keigo nach Kategorien | ThankJapan
+    {% elif lang_code == 'it' %}Master del giapponese commerciale e Keigo per categoria | ThankJapan
+    {% elif lang_code == 'en-in' %}Master Business Japanese Vocabulary & Keigo by Category | ThankJapan
+    {% else %}Master Business Japanese Vocabulary & Keigo by Category | ThankJapan{% endif %}
+{% endblock %}
+
+{% block og_description %}
+    {% if lang_code == 'ja' %}敬語(Keigo)や名刺(Meishi)交換など、カテゴリー別に整理されたビジネス日本語(Business Nihongo)の単語を、漢字と発音と一緒に学びましょう。
+    {% elif lang_code == 'zh-hant' %}通過類別整理，高效學習敬語(Keigo)、名刺(Meishi)交換等商務日語(Business Nihongo)的日語單語、漢字與發音。
+    {% elif lang_code == 'zh-cn' %}通过类别整理，高效学习敬语(Keigo)、名刺(Meishi)交换等商务日语(Business Nihongo)的日语单词、汉字与发音。
+    {% elif lang_code == 'ko' %}경어(Keigo), 명함(Meishi) 교환 등 카테고리별로 정리된 비즈니스 일본어(Business Nihongo) 단어를 한자와 발음과 함께 효율적으로 공부하세요.
+    {% elif lang_code == 'fr' %}Apprenez efficacement le vocabulaire du japonais des affaires (Business Nihongo) comme le Keigo ou le Meishi avec kanji et prononciation, classés par catégorie.
+    {% elif lang_code == 'th' %}เรียนรู้คำศัพท์ภาษาญี่ปุ่นเชิงธุรกิจ (Business Nihongo) เช่น Keigo และ Meishi พร้อมคันจิและการออกเสียงอย่างมีประสิทธิภาพตามหมวดหมู่
+    {% elif lang_code == 'vi' %}Học hiệu quả các từ vựng tiếng Nhật thương mại (Business Nihongo) như Keigo và Meishi cùng với kanji và cách phát âm, được sắp xếp theo danh mục.
+    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Aprende de manera eficiente el vocabulario de japonés de negocios (Business Nihongo) como Keigo con kanji y pronunciación, organizados por categorías.
+    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Aprenda de forma eficiente o vocabulário de japonês de negócios (Business Nihongo) como Keigo com kanji e pronúncia, organizados por categorias.
+    {% elif lang_code == 'de' %}Lernen Sie Business-Japanisch (Business Nihongo) wie Keigo effizient mit Kanji und Aussprache, geordnet nach Kategorien.
+    {% elif lang_code == 'it' %}Impara in modo efficiente i vocaboli del giapponese commerciale (Business Nihongo) come Keigo con kanji e pronuncia, organizzati per categoria.
+    {% elif lang_code == 'en-in' %}Learn Business Japanese vocabulary (Business Nihongo) like Keigo efficiently with kanji and pronunciation, organized by category.
+    {% else %}Learn Japanese vocabulary for business (Business Nihongo) like Keigo (honorifics) and Meishi (business cards). Study kanji and pronunciation with our categorized lists for your career.{% endif %}
+{% endblock %}
+
 {% block og_url %}{{ request.build_absolute_uri }}{% endblock %}
-{% block description %}Learn essential Japanese for your career. Master business etiquette, honorifics (Keigo), and workplace culture through interactive lessons.{% endblock %}
+
+{% block description %}
+    {% if lang_code == 'ja' %}敬語(Keigo)や名刺(Meishi)交換など、カテゴリー別に整理されたビジネス日本語(Business Nihongo)の単語を、漢字と発音と一緒に学びましょう。
+    {% elif lang_code == 'zh-hant' %}通過類別整理，高效學習敬語(Keigo)、名刺(Meishi)交換等商務日語(Business Nihongo)的日語單語、漢字與發音。
+    {% elif lang_code == 'zh-cn' %}通过类别整理，高效学习敬语(Keigo)、名刺(Meishi)交换等商务日语(Business Nihongo)的日语单词、汉字与发音。
+    {% elif lang_code == 'ko' %}경어(Keigo), 명함(Meishi) 교환 등 카테고리별로 정리된 비즈니스 일본어(Business Nihongo) 단어를 한자와 발음과 함께 효율적으로 공부하세요.
+    {% elif lang_code == 'fr' %}Étudiez les mots du japonais des affaires (Business Nihongo) par catégorie. Apprenez le kanji et la prononciation pour le Keigo, les réunions et plus encore.
+    {% elif lang_code == 'th' %}ศึกษาคำศัพท์ภาษาญี่ปุ่นเชิงธุรกิจ (Business Nihongo) ตามหมวดหมู่ เรียนรู้คันจิและการออกเสียงสำหรับ Keigo มารยาทในที่ทำงาน และอื่นๆ
+    {% elif lang_code == 'vi' %}Nghiên cứu từ vựng tiếng Nhật thương mại (Business Nihongo) theo danh mục. Học kanji và cách phát âm cho Keigo và văn hóa công sở.
+    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Estudia palabras de japonés de negocios (Business Nihongo) por categorías. Aprende kanji y pronunciación para Keigo y etiqueta laboral.
+    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Estude palavras de japonês de negócios (Business Nihongo) por categorias. Aprenda kanji e pronúncia para Keigo e etiqueta no trabalho.
+    {% elif lang_code == 'de' %}Studieren Sie japanische Wörter für den Beruf (Business Nihongo) nach Kategorien. Lernen Sie Kanji und Aussprache für Keigo und Etikette am Arbeitsplatz.
+    {% elif lang_code == 'it' %}Studia le parole del giapponese commerciale (Business Nihongo) per categoria. Impara kanji e pronuncia per Keigo e galateo aziendale.
+    {% elif lang_code == 'en-in' %}Study Business Japanese (Business Nihongo) words by category. Learn kanji and pronunciation for Keigo and workplace etiquette to boost your professional skills.
+    {% else %}Improve your professional Japanese by learning business vocabulary (Business Nihongo) such as Keigo (honorifics). Perfect for students learning kanji and pronunciation by category.{% endif %}
+{% endblock %}
+
 
 {% block content %}
 {% load static %}

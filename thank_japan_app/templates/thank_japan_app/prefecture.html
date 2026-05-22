@@ -1,11 +1,71 @@
 {% extends 'base/basecategory.html' %}
 {% load category_filters %}
 
-{% block title %}Japanese Prefectures | Explore all 47 regions of Japan | ThankJapan{% endblock %}
-{% block og_title %}Japanese Prefectures - Discover Local Culture, Food, and History | ThankJapan{% endblock %}
-{% block og_description %}Embark on a journey through Japan's 47 prefectures. From Hokkaido's snowy landscapes to Okinawa's tropical beaches, learn about local landmarks, regional gourmet, and the unique history of every region.{% endblock %}
+{% block title %}
+    {% if lang_code == 'ja' %}カテゴリー別で学ぶ日本語単語：日本の都道府県(Todofuken) | ThankJapan
+    {% elif lang_code == 'zh-hant' %}按類別學習日語單語：日本都道府縣(Todofuken) | ThankJapan
+    {% elif lang_code == 'zh-cn' %}按类别学习日语单词：日本都道府县(Todofuken) | ThankJapan
+    {% elif lang_code == 'ko' %}카테고리별 일본어 단어 공부: 일본의 도도부현(Todofuken) | ThankJapan
+    {% elif lang_code == 'fr' %}Apprendre le japonais par catégorie : Préfectures du Japon (Todofuken) | ThankJapan
+    {% elif lang_code == 'th' %}เรียนภาษาญี่ปุ่นแยกตามหมวดหมู่: จังหวัดของญี่ปุ่น (Todofuken) | ThankJapan
+    {% elif lang_code == 'vi' %}Học từ vựng tiếng Nhật theo danh mục: Tỉnh thành Nhật Bản (Todofuken) | ThankJapan
+    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Aprende japonés por categorías: Prefecturas de Japón (Todofuken) | ThankJapan
+    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Aprenda japonês por categorias: Províncias do Japão (Todofuken) | ThankJapan
+    {% elif lang_code == 'de' %}Japanisch lernen nach Kategorien: Präfekturen Japans (Todofuken) | ThankJapan
+    {% elif lang_code == 'it' %}Impara il giapponese per categoria: Prefetture del Giappone (Todofuken) | ThankJapan
+    {% elif lang_code == 'en-in' %}Learn Japanese Words by Category: Japanese Prefectures (Todofuken) | ThankJapan
+    {% else %}Learn Japanese Words by Category: Japanese Prefectures (Todofuken) | ThankJapan{% endif %}
+{% endblock %}
+
+{% block og_title %}
+    {% if lang_code == 'ja' %}【カテゴリー別】日本の都道府県・地域単語をマスターしよう | ThankJapan
+    {% elif lang_code == 'zh-hant' %}【按類別】掌握日本都道府縣與地方日語單語 | ThankJapan
+    {% elif lang_code == 'zh-cn' %}【按类别】掌握日本都道府县与地方日语单词 | ThankJapan
+    {% elif lang_code == 'ko' %}【카테고리별】일본의 도도부현과 지역 단어 마스터하기 | ThankJapan
+    {% elif lang_code == 'fr' %}Maîtrisez le vocabulaire des préfectures japonaises par catégorie | ThankJapan
+    {% elif lang_code == 'th' %}เก่งคำศัพท์จังหวัดและภูมิภาคญี่ปุ่นแยกตามหมวดหมู่ | ThankJapan
+    {% elif lang_code == 'vi' %}Làm chủ từ vựng tỉnh thành và vùng miền tiếng Nhật theo danh mục | ThankJapan
+    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Domina el vocabulario de prefecturas y regiones por categorías | ThankJapan
+    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Domine o vocabulário de províncias e regiões por categorias | ThankJapan
+    {% elif lang_code == 'de' %}Meistern Sie japanische Präfektur-Vokabeln nach Kategorien | ThankJapan
+    {% elif lang_code == 'it' %}Master dei vocaboli delle prefetture giapponesi per categoria | ThankJapan
+    {% elif lang_code == 'en-in' %}Master Japanese Prefectures & Regions Vocabulary by Category | ThankJapan
+    {% else %}Master Japanese Prefectures & Regions Vocabulary by Category | ThankJapan{% endif %}
+{% endblock %}
+
+{% block og_description %}
+    {% if lang_code == 'ja' %}北海道(Hokkaido)から沖縄(Okinawa)まで、カテゴリー別に整理された都道府県(Todofuken)の単語を、漢字と発音と一緒に効率よく学びましょう。
+    {% elif lang_code == 'zh-hant' %}通過類別整理，高效學習從北海道(Hokkaido)到沖繩(Okinawa)的47都道府縣(Todofuken)日語單語、漢字與發音。
+    {% elif lang_code == 'zh-cn' %}通过类别整理，高效学习从北海道(Hokkaido)到冲绳(Okinawa)的47都道府县(Todofuken)日语单词、汉字与发音。
+    {% elif lang_code == 'ko' %}홋카이도(Hokkaido)부터 오키나와(Okinawa)까지, 카테고리별로 정리된 도도부현(Todofuken) 단어를 한자와 발음과 함께 효율적으로 공부하세요.
+    {% elif lang_code == 'fr' %}Apprenez efficacement le vocabulaire des préfectures (Todofuken) de Hokkaido à Okinawa avec kanji et prononciation, classés par catégorie.
+    {% elif lang_code == 'th' %}เรียนรู้คำศัพท์จังหวัด (Todofuken) ตั้งแต่ Hokkaido จนถึง Okinawa พร้อมคันจิและการออกเสียงอย่างมีประสิทธิภาพตามหมวดหมู่
+    {% elif lang_code == 'vi' %}Học hiệu quả các từ vựng tỉnh thành (Todofuken) từ Hokkaido đến Okinawa cùng với hán tự và cách phát âm, được sắp xếp theo danh mục.
+    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Aprende de manera eficiente el vocabulario de prefecturas (Todofuken) desde Hokkaido hasta Okinawa con kanji y pronunciación, organizados por categorías.
+    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Aprenda de forma eficiente o vocabulário de províncias (Todofuken) de Hokkaido a Okinawa com kanji e pronúncia, organizados por categorias.
+    {% elif lang_code == 'de' %}Lernen Sie japanische Präfektur-Vokabeln (Todofuken) von Hokkaido bis Okinawa effizient mit Kanji und Aussprache, geordnet nach Kategorien.
+    {% elif lang_code == 'it' %}Impara in modo efficiente i vocaboli delle prefetture (Todofuken) da Hokkaido a Okinawa con kanji e pronuncia, organizzati per categoria.
+    {% elif lang_code == 'en-in' %}Learn Japanese prefecture vocabulary (Todofuken) from Hokkaido to Okinawa efficiently with kanji and pronunciation, organized by category.
+    {% else %}Learn Japanese vocabulary for the 47 prefectures (Todofuken) from Hokkaido to Okinawa. Study kanji and pronunciation with our categorized regional lists.{% endif %}
+{% endblock %}
+
 {% block og_url %}{{ request.build_absolute_uri }}{% endblock %}
-{% block description %}Embark on a journey through Japan's 47 prefectures. From Hokkaido's snowy landscapes to Okinawa's tropical beaches, learn about local landmarks, regional gourmet, and the unique history of every region.{% endblock %}
+
+{% block description %}
+    {% if lang_code == 'ja' %}北海道(Hokkaido)から沖縄(Okinawa)まで、カテゴリー別に整理された都道府県(Todofuken)の単語を、漢字と発音と一緒に効率よく学びましょう。
+    {% elif lang_code == 'zh-hant' %}通過類別整理，高效學習從北海道(Hokkaido)到沖繩(Okinawa)的47都道府縣(Todofuken)日語單語、漢字與發音。
+    {% elif lang_code == 'zh-cn' %}通过类别整理，高效学习从北海道(Hokkaido)到冲绳(Okinawa)的47都道府县(Todofuken)日语单词、汉字与发音。
+    {% elif lang_code == 'ko' %}홋카이도(Hokkaido)부터 오키나와(Okinawa)까지, 카테고리별로 정리된 도도부현(Todofuken) 단어를 한자와 발음과 함께 효율적으로 공부하세요.
+    {% elif lang_code == 'fr' %}Étudiez les noms des 47 préfectures japonaises (Todofuken) par catégorie. Apprenez le kanji et la prononciation pour Hokkaido, Tokyo, Okinawa et toutes les régions (Chiho).
+    {% elif lang_code == 'th' %}ศึกษาชื่อของ 47 จังหวัดญี่ปุ่น (Todofuken) ตามหมวดหมู่ เรียนรู้คันจิและการออกเสียงสำหรับ Hokkaido, Tokyo, Okinawa และภูมิภาคต่างๆ (Chiho)
+    {% elif lang_code == 'vi' %}Nghiên cứu tên của 47 tỉnh thành Nhật Bản (Todofuken) theo danh mục. Học hán tự và cách phát âm cho Hokkaido, Tokyo, Okinawa và các vùng miền (Chiho).
+    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Estudia los nombres delle 47 prefecturas japonesas (Todofuken) por categorías. Aprende kanji y pronunciación para Hokkaido, Tokyo, Okinawa y regiones (Chiho).
+    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Estude os nomes das 47 províncias japonesas (Todofuken) por categorias. Aprenda kanji e pronúncia para Hokkaido, Tóquio, Okinawa e regiões (Chiho).
+    {% elif lang_code == 'de' %}Studieren Sie die Namen der 47 japanischen Präfekturen (Todofuken) nach Kategorien. Lernen Sie Kanji und Aussprache für Hokkaido, Tokio, Okinawa und Regionen (Chiho).
+    {% elif lang_code == 'it' %}Studia i nomi delle 47 prefetture giapponesi (Todofuken) per categoria. Impara kanji e pronuncia per Hokkaido, Tokyo, Okinawa e le regioni (Chiho).
+    {% elif lang_code == 'en-in' %}Study Japanese words for the 47 prefectures (Todofuken) by category. Learn kanji and pronunciation for Hokkaido, Okinawa, and all regions (Chiho) to boost your knowledge of Japan.
+    {% else %}Improve your Japanese by learning the vocabulary of all 47 prefectures (Todofuken). Master the names of regions (Chiho) from Hokkaido to Okinawa, categorized for easy learning.{% endif %}
+{% endblock %}
 
 {% block content %}
 {% load static %}

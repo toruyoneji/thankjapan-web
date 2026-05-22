@@ -1,11 +1,72 @@
 {% extends 'base/basecategory.html' %}
 {% load category_filters %}
 
-{% block title %}Japanese Daily Actions & Verbs | Master Essential Vocabulary | ThankJapan{% endblock %}
-{% block og_title %}Learn Japanese Daily Actions - Master Basic Verbs | ThankJapan{% endblock %}
-{% block og_description %}Master essential Japanese verbs for daily life. Learn how to say eat, drink, sleep, and more with kanji and pronunciation guides on ThankJapan.{% endblock %}
+{% block title %}
+    {% if lang_code == 'ja' %}カテゴリー別で学ぶ日本語単語：日常の動作・動詞(Doushi) | ThankJapan
+    {% elif lang_code == 'zh-hant' %}按類別學習日語單語：日常動作與動詞(Doushi) | ThankJapan
+    {% elif lang_code == 'zh-cn' %}按类别学习日语单词：日常动作与动词(Doushi) | ThankJapan
+    {% elif lang_code == 'ko' %}카테고리별 일본어 단어 공부: 일상 동작 및 동사(Doushi) | ThankJapan
+    {% elif lang_code == 'fr' %}Apprendre le japonais par catégorie : Actions quotidiennes et Verbes (Doushi) | ThankJapan
+    {% elif lang_code == 'th' %}เรียนภาษาญี่ปุ่นแยกตามหมวดหมู่: กิจวัตรประจำวันและคำกริยา (Doushi) | ThankJapan
+    {% elif lang_code == 'vi' %}Học từ vựng tiếng Nhật theo danh mục: Hành động hàng ngày và Động từ (Doushi) | ThankJapan
+    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Aprende japonés por categorías: Acciones diarias y Verbos (Doushi) | ThankJapan
+    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Aprenda japonês por categorias: Ações diárias e Verbos (Doushi) | ThankJapan
+    {% elif lang_code == 'de' %}Japanisch lernen nach Kategorien: Alltagsaktionen und Verben (Doushi) | ThankJapan
+    {% elif lang_code == 'it' %}Impara il giapponese per categoria: Azioni quotidiane e Verbi (Doushi) | ThankJapan
+    {% elif lang_code == 'en-in' %}Learn Japanese Words by Category: Daily Actions & Verbs (Doushi) | ThankJapan
+    {% else %}Learn Japanese Words by Category: Daily Actions & Verbs (Doushi) | ThankJapan{% endif %}
+{% endblock %}
+
+{% block og_title %}
+    {% if lang_code == 'ja' %}【カテゴリー別】日本語の基本的な動詞(Doushi)をマスターしよう | ThankJapan
+    {% elif lang_code == 'zh-hant' %}【按類別】掌握日語基本動詞(Doushi) | ThankJapan
+    {% elif lang_code == 'zh-cn' %}【按类别】掌握日语基本动词(Doushi) | ThankJapan
+    {% elif lang_code == 'ko' %}【카테고리별】일본어 기본 동사(Doushi) 마스터하기 | ThankJapan
+    {% elif lang_code == 'fr' %}Maîtrisez les verbes de base japonais (Doushi) par catégorie | ThankJapan
+    {% elif lang_code == 'th' %}เก่งคำกริยาพื้นฐานญี่ปุ่น (Doushi) แยกตามหมวดหมู่ | ThankJapan
+    {% elif lang_code == 'vi' %}Làm chủ các động từ tiếng Nhật cơ bản (Doushi) theo danh mục | ThankJapan
+    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Domina los verbos básicos japoneses (Doushi) por categorías | ThankJapan
+    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Domine os verbos básicos japoneses (Doushi) por categorias | ThankJapan
+    {% elif lang_code == 'de' %}Meistern Sie japanische Basisverben (Doushi) nach Kategorien | ThankJapan
+    {% elif lang_code == 'it' %}Master dei verbi base giapponesi (Doushi) per categoria | ThankJapan
+    {% elif lang_code == 'en-in' %}Master Basic Japanese Verbs (Doushi) by Category | ThankJapan
+    {% else %}Master Basic Japanese Verbs (Doushi) by Category | ThankJapan{% endif %}
+{% endblock %}
+
+{% block og_description %}
+    {% if lang_code == 'ja' %}食べる(Taberu)や飲む(Nomu)など、日常生活で必須の動詞(Doushi)をカテゴリー別に学習。漢字と発音と一緒に効率よく学びましょう。
+    {% elif lang_code == 'zh-hant' %}通過類別整理，高效學習「食べる(Taberu)」、「飲む(Nomu)」等日常生活必備動詞(Doushi)的日語單語、漢字與發音。
+    {% elif lang_code == 'zh-cn' %}通过类别整理，高效学习“食べる(Taberu)”、“飲む(Nomu)”等日常生活必备动词(Doushi)的日语单词、汉字与发音。
+    {% elif lang_code == 'ko' %}먹다(Taberu), 마시다(Nomu) 등 일상생활 필수 동사(Doushi)를 카테고리별로 학습하세요. 한자와 발음을 통해 어휘력을 높일 수 있습니다.
+    {% elif lang_code == 'fr' %}Apprenez efficacement les verbes essentiels (Doushi) comme Taberu ou Nomu avec kanji et prononciation, classés par catégorie.
+    {% elif lang_code == 'th' %}เรียนรู้คำกริยาที่จำเป็น (Doushi) เช่น Taberu และ Nomu พร้อมคันจิและการออกเสียงอย่างมีประสิทธิภาพตามหมวดหมู่
+    {% elif lang_code == 'vi' %}Học hiệu quả các động từ thiết yếu (Doushi) như Taberu và Nomu cùng với kanji và cách phát âm, được sắp xếp theo danh mục.
+    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Aprende de manera eficiente los verbos esenciales (Doushi) como Taberu o Nomu con kanji y pronunciación, organizados por categorías.
+    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Aprenda de forma eficiente os verbos essenciais (Doushi) como Taberu ou Nomu com kanji e pronúncia, organizados por categorias.
+    {% elif lang_code == 'de' %}Lernen Sie japanische Verben (Doushi) wie Taberu oder Nomu effizient mit Kanji und Aussprache, geordnet nach Kategorien.
+    {% elif lang_code == 'it' %}Impara in modo efficiente i verbi essenziali (Doushi) come Taberu o Nomu con kanji e pronuncia, organizzati per categoria.
+    {% elif lang_code == 'en-in' %}Learn essential Japanese verbs (Doushi) like Taberu and Nomu efficiently with kanji and pronunciation, organized by category.
+    {% else %}Master essential Japanese verbs (Doushi) for daily life like Taberu (eat) and Nomu (drink). Study kanji and pronunciation with our categorized lists.{% endif %}
+{% endblock %}
+
 {% block og_url %}{{ request.build_absolute_uri }}{% endblock %}
-{% block description %}Master essential Japanese verbs for daily life. Learn how to say eat, drink, sleep, and more with kanji and pronunciation guides on ThankJapan.{% endblock %}
+
+{% block description %}
+    {% if lang_code == 'ja' %}食べる(Taberu)や飲む(Nomu)など、日常生活で必須の動詞(Doushi)をカテゴリー別に学習。漢字と発音と一緒に効率よく学びましょう。
+    {% elif lang_code == 'zh-hant' %}通過類別整理，高效學習「食べる(Taberu)」、「飲む(Nomu)」等日常生活必備動詞(Doushi)的日語單語、漢字與發音。
+    {% elif lang_code == 'zh-cn' %}通过类别整理，高效学习“食べる(Taberu)”、“飲む(Nomu)”等日常生活必备动词(Doushi)的日语单词、汉字与发音。
+    {% elif lang_code == 'ko' %}먹다(Taberu), 마시다(Nomu) 등 일상생활 필수 동사(Doushi)를 카테고리별로 학습하세요. 한자와 발음을 통해 어휘력을 높일 수 있습니다.
+    {% elif lang_code == 'fr' %}Étudiez les verbes japonais (Doushi) par catégorie. Apprenez le kanji et la prononciation pour manger (Taberu), boire (Nomu) et plus encore.
+    {% elif lang_code == 'th' %}ศึกษาคำกริยาภาษาญี่ปุ่น (Doushi) ตามหมวดหมู่ เรียนรู้คันจิและการออกเสียงสำหรับการกิน (Taberu), การดื่ม (Nomu) และอื่นๆ
+    {% elif lang_code == 'vi' %}Nghiên cứu các động từ tiếng Nhật (Doushi) theo danh mục. Học kanji và cách phát âm cho các hành động như Taberu, Nomu và nhiều hơn nữa.
+    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Estudia verbos japoneses (Doushi) por categorías. Aprende kanji y pronunciación para comer (Taberu), beber (Nomu) y otras acciones diarias.
+    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Estude verbos japoneses (Doushi) por categorias. Aprenda kanji e pronúncia para comer (Taberu), beber (Nomu) e outras ações do dia a dia.
+    {% elif lang_code == 'de' %}Studieren Sie japanische Verben (Doushi) nach Kategorien. Lernen Sie Kanji und Aussprache für essen (Taberu), trinken (Nomu) und mehr.
+    {% elif lang_code == 'it' %}Studia i verbi giapponesi (Doushi) per categoria. Impara kanji e pronuncia per mangiare (Taberu), bere (Nomu) e altro ancora.
+    {% elif lang_code == 'en-in' %}Study Japanese verbs (Doushi) by category. Learn kanji and pronunciation for daily actions like Taberu and Nomu to boost your essential vocabulary.
+    {% else %}Improve your Japanese by learning daily action verbs (Doushi) such as Taberu (eat) and Nomu (drink). Perfect for students learning kanji and pronunciation by category.{% endif %}
+{% endblock %}
+
 
 {% block content %}
 

@@ -1,11 +1,71 @@
 {% extends 'base/basecategory.html' %}
 {% load category_filters %}
 
-{% block title %}Daily Conversation | Master Essential Japanese | ThankJapan{% endblock %}
-{% block og_title %}Daily Conversation - Master Real-Life Japanese | ThankJapan{% endblock %}
-{% block og_description %}Learn essential Japanese phrases for work and daily life. Master etiquette and culture through interactive lessons.{% endblock %}
+{% block title %}
+    {% if lang_code == 'ja' %}カテゴリー別で学ぶ日本語単語：日常会話(Nichijo Kaiwa) | ThankJapan
+    {% elif lang_code == 'zh-hant' %}按類別學習日語單語：日常會話(Nichijo Kaiwa) | ThankJapan
+    {% elif lang_code == 'zh-cn' %}按类别学习日语单词：日常会话(Nichijo Kaiwa) | ThankJapan
+    {% elif lang_code == 'ko' %}카테고리별 일본어 단어 공부: 일상 회화(Nichijo Kaiwa) | ThankJapan
+    {% elif lang_code == 'fr' %}Apprendre le japonais par catégorie : Conversation quotidienne (Nichijo Kaiwa) | ThankJapan
+    {% elif lang_code == 'th' %}เรียนภาษาญี่ปุ่นแยกตามหมวดหมู่: บทสนทนาในชีวิตประจำวัน (Nichijo Kaiwa) | ThankJapan
+    {% elif lang_code == 'vi' %}Học từ vựng tiếng Nhật theo danh mục: Hội thoại hàng ngày (Nichijo Kaiwa) | ThankJapan
+    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Aprende japonés por categorías: Conversación diaria (Nichijo Kaiwa) | ThankJapan
+    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Aprenda japonês por categorias: Conversação diária (Nichijo Kaiwa) | ThankJapan
+    {% elif lang_code == 'de' %}Japanisch lernen nach Kategorien: Alltagsgespräche (Nichijo Kaiwa) | ThankJapan
+    {% elif lang_code == 'it' %}Impara il giapponese per categoria: Conversazione quotidiana (Nichijo Kaiwa) | ThankJapan
+    {% elif lang_code == 'en-in' %}Learn Japanese Words by Category: Daily Conversation (Nichijo Kaiwa) | ThankJapan
+    {% else %}Learn Japanese Words by Category: Daily Conversation (Nichijo Kaiwa) | ThankJapan{% endif %}
+{% endblock %}
+
+{% block og_title %}
+    {% if lang_code == 'ja' %}【カテゴリー別】日本語の日常会話・挨拶(Aisatsu)をマスターしよう | ThankJapan
+    {% elif lang_code == 'zh-hant' %}【按類別】掌握日語日常會話與挨拶(Aisatsu) | ThankJapan
+    {% elif lang_code == 'zh-cn' %}【按类别】掌握日语日常会话与挨拶(Aisatsu) | ThankJapan
+    {% elif lang_code == 'ko' %}【카테고리별】일본어 일상 회화와 인사(Aisatsu) 마스터하기 | ThankJapan
+    {% elif lang_code == 'fr' %}Maîtrisez la conversation quotidienne et les salutations (Aisatsu) par catégorie | ThankJapan
+    {% elif lang_code == 'th' %}เก่งบทสนทนาและคำทักทาย (Aisatsu) ญี่ปุ่นแยกตามหมวดหมู่ | ThankJapan
+    {% elif lang_code == 'vi' %}Làm chủ hội thoại và chào hỏi (Aisatsu) tiếng Nhật theo danh mục | ThankJapan
+    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Domina la conversación diaria y los saludos (Aisatsu) por categorías | ThankJapan
+    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Domine a conversação diária e saudações (Aisatsu) por categorias | ThankJapan
+    {% elif lang_code == 'de' %}Meistern Sie Alltagsgespräche und Begrüßungen (Aisatsu) nach Kategorien | ThankJapan
+    {% elif lang_code == 'it' %}Master della conversazione quotidiana e dei saluti (Aisatsu) per categoria | ThankJapan
+    {% elif lang_code == 'en-in' %}Master Daily Conversation & Greetings (Aisatsu) by Category | ThankJapan
+    {% else %}Master Daily Conversation & Greetings (Aisatsu) by Category | ThankJapan{% endif %}
+{% endblock %}
+
+{% block og_description %}
+    {% if lang_code == 'ja' %}挨拶(Aisatsu)や便利なフレーズなど、カテゴリー別に整理された日常会話(Nichijo Kaiwa)の単語を、漢字と発音と一緒に効率よく学びましょう。
+    {% elif lang_code == 'zh-hant' %}通過類別整理，高效學習挨拶(Aisatsu)與常用短語等日常會話(Nichijo Kaiwa)的日語單語、漢字與發音。
+    {% elif lang_code == 'zh-cn' %}通过类别整理，高效学习挨拶(Aisatsu)与常用短语等日常会话(Nichijo Kaiwa)的日语单词、汉字与发音。
+    {% elif lang_code == 'ko' %}인사(Aisatsu)와 유용한 표현 등 카테고리별로 정리된 일상 회화(Nichijo Kaiwa) 단어를 한자와 발음과 함께 효율적으로 공부하세요.
+    {% elif lang_code == 'fr' %}Apprenez efficacement le vocabulaire de la conversation quotidienne (Nichijo Kaiwa) et les salutations (Aisatsu) avec kanji et prononciation, classés par catégorie.
+    {% elif lang_code == 'th' %}เรียนรู้คำศัพท์บทสนทนา (Nichijo Kaiwa) และการทักทาย (Aisatsu) พร้อมคันจิและการออกเสียงอย่างมีประสิทธิภาพตามหมวดหมู่
+    {% elif lang_code == 'vi' %}Học hiệu quả các từ vựng hội thoại hàng ngày (Nichijo Kaiwa) và chào hỏi (Aisatsu) cùng với kanji và cách phát âm, được sắp xếp theo danh mục.
+    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Aprende de manera eficiente el vocabulario de conversación diaria (Nichijo Kaiwa) y saludos (Aisatsu) con kanji y pronunciación, organizados por categorías.
+    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Aprenda de forma eficiente o vocabulário de conversação diária (Nichijo Kaiwa) e saudações (Aisatsu) com kanji e pronúncia, organizados por categorias.
+    {% elif lang_code == 'de' %}Lernen Sie Alltagsgespräche (Nichijo Kaiwa) und Begrüßungen (Aisatsu) effizient mit Kanji und Aussprache, geordnet nach Kategorien.
+    {% elif lang_code == 'it' %}Impara in modo efficiente i vocaboli della conversazione quotidiana (Nichijo Kaiwa) e i saluti (Aisatsu) con kanji e pronuncia, organizzati per categoria.
+    {% elif lang_code == 'en-in' %}Learn daily conversation vocabulary (Nichijo Kaiwa) and greetings (Aisatsu) efficiently with kanji and pronunciation, organized by category.
+    {% else %}Learn essential greetings (Aisatsu) and useful phrases for daily conversation (Nichijo Kaiwa) efficiently by category with kanji and pronunciation guides.{% endif %}
+{% endblock %}
+
 {% block og_url %}{{ request.build_absolute_uri }}{% endblock %}
-{% block description %}Learn essential Japanese phrases for work and daily life. Master etiquette and culture through interactive lessons.{% endblock %}
+
+{% block description %}
+    {% if lang_code == 'ja' %}挨拶(Aisatsu)や便利なフレーズなど、カテゴリー別に整理された日常会話(Nichijo Kaiwa)の単語を、漢字と発音と一緒に効率よく学びましょう。
+    {% elif lang_code == 'zh-hant' %}通過類別整理，高效學習挨拶(Aisatsu)與常用短語等日常會話(Nichijo Kaiwa)的日語單語、漢字與發音。
+    {% elif lang_code == 'zh-cn' %}通过类别整理，高效学习挨拶(Aisatsu)与常用短语等日常会话(Nichijo Kaiwa)的日语单词、汉字与发音。
+    {% elif lang_code == 'ko' %}인사(Aisatsu)와 유용한 표현 등 카테고리별로 정리된 일상 회화(Nichijo Kaiwa) 단어를 한자와 발음과 함께 효율적으로 공부하세요.
+    {% elif lang_code == 'fr' %}Étudiez les mots japonais de la conversation quotidienne (Nichijo Kaiwa) par catégorie. Apprenez le kanji et la prononciation pour les salutations et les phrases utiles.
+    {% elif lang_code == 'th' %}ศึกษาคำศัพท์ภาษาญี่ปุ่นสำหรับบทสนทนา (Nichijo Kaiwa) ตามหมวดหมู่ เรียนรู้คันจิและการออกเสียงสำหรับการทักทาย (Aisatsu) และวลีที่เป็นประโยชน์
+    {% elif lang_code == 'vi' %}Nghiên cứu từ vựng tiếng Nhật cho hội thoại hàng ngày (Nichijo Kaiwa) theo danh mục. Học kanji và cách phát âm cho chào hỏi (Aisatsu) và các cụm từ hữu ích.
+    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Estudia palabras japonesas para conversación diaria (Nichijo Kaiwa) por categorías. Aprende kanji y pronunciación para saludos (Aisatsu) y frases útiles.
+    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Estude palavras japonesas para conversação diária (Nichijo Kaiwa) por categorias. Aprenda kanji e pronúncia para saudações (Aisatsu) e frases úteis.
+    {% elif lang_code == 'de' %}Studieren Sie japanische Wörter für Alltagsgespräche (Nichijo Kaiwa) nach Kategorien. Lernen Sie Kanji und Aussprache für Begrüßungen (Aisatsu) und nützliche Phrasen.
+    {% elif lang_code == 'it' %}Studia le parole giapponesi per la conversazione quotidiana (Nichijo Kaiwa) per categoria. Impara kanji e pronuncia per saluti (Aisatsu) e frasi utili.
+    {% elif lang_code == 'en-in' %}Study Japanese words for daily conversation (Nichijo Kaiwa) by category. Learn kanji and pronunciation for greetings (Aisatsu) and common phrases to boost your skills.
+    {% else %}Improve your Japanese by learning daily conversation (Nichijo Kaiwa) and greetings (Aisatsu). Perfect for students learning kanji and pronunciation by category for work and life.{% endif %}
+{% endblock %}
 
 {% block content %}
 {% load static %}

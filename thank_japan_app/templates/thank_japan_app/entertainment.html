@@ -1,11 +1,71 @@
 {% extends 'base/basecategory.html' %}
 {% load category_filters %}
 
-{% block title %}Japanese Entertainment & Subculture | Anime, Manga, Games | ThankJapan{% endblock %}
-{% block og_title %}Japanese Entertainment - Explore Anime, Manga, and Pop Culture | ThankJapan{% endblock %}
-{% block og_description %}Dive deep into the world of Japanese anime, manga, and games. Learn essential terms for otaku culture, cosplay, and modern entertainment through interactive lessons.{% endblock %}
+{% block title %}
+    {% if lang_code == 'ja' %}カテゴリー別で学ぶ日本語単語：エンタメ(Goraku)・サブカルチャー | ThankJapan
+    {% elif lang_code == 'zh-hant' %}按類別學習日語單語：大眾娛樂(Goraku)與次文化 | ThankJapan
+    {% elif lang_code == 'zh-cn' %}按类别学习日语单词：大众娱乐(Goraku)与次文化 | ThankJapan
+    {% elif lang_code == 'ko' %}카테고리별 일본어 단어 공부: 엔터테인먼트(Goraku) 및 서브컬처 | ThankJapan
+    {% elif lang_code == 'fr' %}Apprendre le japonais par catégorie : Divertissement (Goraku) et Sous-culture | ThankJapan
+    {% elif lang_code == 'th' %}เรียนภาษาญี่ปุ่นแยกตามหมวดหมู่: ความบันเทิง (Goraku) และวัฒนธรรมย่อย | ThankJapan
+    {% elif lang_code == 'vi' %}Học từ vựng tiếng Nhật theo danh mục: Giải trí (Goraku) và Văn hóa phụ | ThankJapan
+    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Aprende japonés por categorías: Entretenimiento (Goraku) y Subcultura | ThankJapan
+    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Aprenda japonês por categorias: Entretenimento (Goraku) e Subcultura | ThankJapan
+    {% elif lang_code == 'de' %}Japanisch lernen nach Kategorien: Unterhaltung (Goraku) und Subkultur | ThankJapan
+    {% elif lang_code == 'it' %}Impara il giapponese per categoria: Intrattenimento (Goraku) e Sottocultura | ThankJapan
+    {% elif lang_code == 'en-in' %}Learn Japanese Words by Category: Entertainment (Goraku) & Subculture | ThankJapan
+    {% else %}Learn Japanese Words by Category: Entertainment (Goraku) & Subculture | ThankJapan{% endif %}
+{% endblock %}
+
+{% block og_title %}
+    {% if lang_code == 'ja' %}【カテゴリー別】アニメ・マンガの日本語単語をマスターしよう | ThankJapan
+    {% elif lang_code == 'zh-hant' %}【按類別】掌握動漫與漫畫日語單語 | ThankJapan
+    {% elif lang_code == 'zh-cn' %}【按类别】掌握动漫与漫画日语单词 | ThankJapan
+    {% elif lang_code == 'ko' %}【카테고리별】애니메이션과 만화 단어 마스터하기 | ThankJapan
+    {% elif lang_code == 'fr' %}Maîtrisez le vocabulaire japonais de l'Anime et du Manga par catégorie | ThankJapan
+    {% elif lang_code == 'th' %}เก่งคำศัพท์อนิเมะและมังงะญี่ปุ่นแยกตามหมวดหมู่ | ThankJapan
+    {% elif lang_code == 'vi' %}Làm chủ từ vựng Anime và Manga tiếng Nhật theo danh mục | ThankJapan
+    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Domina el vocabulario de Anime y Manga japonés por categorías | ThankJapan
+    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Domine o vocabulário de Anime e Mangá japonês por categorias | ThankJapan
+    {% elif lang_code == 'de' %}Meistern Sie japanische Anime- und Manga-Vokabeln nach Kategorien | ThankJapan
+    {% elif lang_code == 'it' %}Master dei vocaboli di Anime e Manga giapponesi per categoria | ThankJapan
+    {% elif lang_code == 'en-in' %}Master Japanese Anime & Manga Vocabulary by Category | ThankJapan
+    {% else %}Master Japanese Anime & Manga Vocabulary by Category | ThankJapan{% endif %}
+{% endblock %}
+
+{% block og_description %}
+    {% if lang_code == 'ja' %}アニメ(Anime)やマンガ(Manga)など、カテゴリー別に整理されたエンタメ(Goraku)の単語を、漢字と発音と一緒に効率よく学びましょう。
+    {% elif lang_code == 'zh-hant' %}通過類別整理，高效學習動漫(Anime)、漫畫(Manga)等大眾娛樂(Goraku)的日語單語、漢字與發音。
+    {% elif lang_code == 'zh-cn' %}通过类别整理，高效学习动漫(Anime)、漫画(Manga)等大众娱乐(Goraku)的日语单词、汉字与发音。
+    {% elif lang_code == 'ko' %}애니메이션(Anime), 만화(Manga) 등 카테고리별로 정리된 엔터테인먼트(Goraku) 단어를 한자와 발음과 함께 효율적으로 공부하세요.
+    {% elif lang_code == 'fr' %}Apprenez efficacement le vocabulaire japonais de l'Anime et du Manga avec kanji et prononciation, classés par catégorie.
+    {% elif lang_code == 'th' %}เรียนรู้คำศัพท์อนิเมะ (Anime) และมังงะ (Manga) พร้อมคันจิและการออกเสียงอย่างมีประสิทธิภาพตามหมวดหมู่
+    {% elif lang_code == 'vi' %}Học hiệu quả các từ vựng Anime và Manga cùng với kanji và cách phát âm, được sắp xếp theo danh mục.
+    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Aprende de manera eficiente el vocabulario de Anime y Manga con kanji y pronunciación, organizados por categorías.
+    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Aprenda de forma eficiente o vocabulário de Anime e Mangá com kanji e pronúncia, organizados por categorias.
+    {% elif lang_code == 'de' %}Lernen Sie japanische Anime- und Manga-Vokabeln effizient mit Kanji und Aussprache, geordnet nach Kategorien.
+    {% elif lang_code == 'it' %}Impara in modo efficiente i vocaboli di Anime e Manga giapponesi con kanji e pronuncia, organizzati per categoria.
+    {% elif lang_code == 'en-in' %}Learn Japanese Anime and Manga vocabulary efficiently with kanji and pronunciation, organized by category.
+    {% else %}Learn Japanese vocabulary for Anime, Manga, and Games. Study kanji and pronunciation with our categorized lists of modern entertainment (Goraku).{% endif %}
+{% endblock %}
+
 {% block og_url %}{{ request.build_absolute_uri }}{% endblock %}
-{% block description %}Dive deep into the world of Japanese anime, manga, and games. Learn essential terms for otaku culture, cosplay, and modern entertainment through interactive lessons.{% endblock %}
+
+{% block description %}
+    {% if lang_code == 'ja' %}アニメ(Anime)やマンガ(Manga)など、カテゴリー別に整理されたエンタメ(Goraku)の単語を、漢字と発音と一緒に効率よく学びましょう。
+    {% elif lang_code == 'zh-hant' %}通過類別整理，高效學習動漫(Anime)、漫畫(Manga)等大眾娛樂(Goraku)的日語單語、漢字與發音。
+    {% elif lang_code == 'zh-cn' %}通过类别整理，高效学习动漫(Anime)、漫画(Manga)等大众娱乐(Goraku)的日语单词、汉字与发音。
+    {% elif lang_code == 'ko' %}애니메이션(Anime), 만화(Manga) 등 카테고리별로 정리된 엔터테인먼트(Goraku) 단어를 한자와 발음과 함께 효율적으로 공부하세요.
+    {% elif lang_code == 'fr' %}Étudiez les mots japonais pour l'Anime et le Manga par catégorie. Apprenez le kanji et la prononciation pour la culture Otaku et les jeux.
+    {% elif lang_code == 'th' %}ศึกษาคำศัพท์ภาษาญี่ปุ่นสำหรับอนิเมะและมังงะตามหมวดหมู่ เรียนรู้คันจิและการออกเสียงสำหรับวัฒนธรรมโอตาคุและเกม
+    {% elif lang_code == 'vi' %}Nghiên cứu từ vựng tiếng Nhật cho Anime và Manga theo danh mục. Học kanji và cách phát âm cho văn hóa Otaku và trò chơi.
+    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Estudia palabras japonesas para Anime y Manga por categorías. Aprende kanji y pronunciación para la cultura Otaku y videojuegos.
+    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Estude palavras japonesas para Anime e Mangá por categorias. Aprenda kanji e pronúncia para a cultura Otaku e jogos.
+    {% elif lang_code == 'de' %}Studieren Sie japanische Wörter für Anime und Manga nach Kategorien. Lernen Sie Kanji und Aussprache für Otaku-Kultur und Spiele.
+    {% elif lang_code == 'it' %}Studia le parole giapponesi per Anime e Manga per categoria. Impara kanji e pronuncia per la cultura Otaku e i videogiochi.
+    {% elif lang_code == 'en-in' %}Study Japanese words for Anime, Manga, and games by category. Learn kanji and pronunciation for Otaku culture to boost your vocabulary.
+    {% else %}Improve your Japanese by learning vocabulary for Anime, Manga, and subculture (Goraku). Perfect for students learning kanji and pronunciation by category.{% endif %}
+{% endblock %}
 
 {% block content %}
 {% load static %}

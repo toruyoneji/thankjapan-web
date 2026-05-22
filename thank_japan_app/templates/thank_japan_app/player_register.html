@@ -1,6 +1,21 @@
 {% extends 'base/basecategory.html' %}
 {% load socialaccount %}
-{% block title %}Register | ThankJapan{% endblock %}
+
+{% block title %}
+    {% if lang_code == 'ja' %}新規登録(Register) | ThankJapan
+    {% elif lang_code == 'zh-hant' %}新用戶註冊(Register) | ThankJapan
+    {% elif lang_code == 'zh-cn' %}新用户注册(Register) | ThankJapan
+    {% elif lang_code == 'ko' %}회원가입(Register) | ThankJapan
+    {% elif lang_code == 'fr' %}S'inscrire (Register) | ThankJapan
+    {% elif lang_code == 'th' %}ลงทะเบียน (Register) | ThankJapan
+    {% elif lang_code == 'vi' %}Đăng ký (Register) | ThankJapan
+    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Registrarse (Register) | ThankJapan
+    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Registrar-se (Register) | ThankJapan
+    {% elif lang_code == 'de' %}Registrieren (Register) | ThankJapan
+    {% elif lang_code == 'it' %}Registrati (Register) | ThankJapan
+    {% elif lang_code == 'en-in' %}Register | ThankJapan
+    {% else %}Register | ThankJapan{% endif %}
+{% endblock %}
 
 {% block content %}
 

@@ -1,7 +1,21 @@
 {% extends 'base/basecategory.html' %}
 {% load category_filters %}
 
-{% block title %}Start Game | ThankJapan{% endblock %}
+{% block title %}
+    {% if lang_code == 'ja' %}ゲームを始める(Start Game) | ThankJapan
+    {% elif lang_code == 'zh-hant' %}開始遊戲(Start Game) | ThankJapan
+    {% elif lang_code == 'zh-cn' %}开始游戏(Start Game) | ThankJapan
+    {% elif lang_code == 'ko' %}게임 시작(Start Game) | ThankJapan
+    {% elif lang_code == 'fr' %}Commencer le jeu (Start Game) | ThankJapan
+    {% elif lang_code == 'th' %}เริ่มเกม (Start Game) | ThankJapan
+    {% elif lang_code == 'vi' %}Bắt đầu trò chơi (Start Game) | ThankJapan
+    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Empezar el juego (Start Game) | ThankJapan
+    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Começar o jogo (Start Game) | ThankJapan
+    {% elif lang_code == 'de' %}Spiel starten (Start Game) | ThankJapan
+    {% elif lang_code == 'it' %}Inizia il gioco (Start Game) | ThankJapan
+    {% elif lang_code == 'en-in' %}Start Game | ThankJapan
+    {% else %}Start Game | ThankJapan{% endif %}
+{% endblock %}
 
 {% block content %}
 <style>

@@ -1,12 +1,72 @@
 {% extends 'base/basecategory.html' %}
 {% load category_filters %}
 
-{% block title %}Nature in Japan | Mountains, Forests & Natural Attractions | ThankJapan{% endblock %}
+{% block title %}
+    {% if lang_code == 'ja' %}カテゴリー別で学ぶ日本語単語：日本の自然(Shizen)・風景 | ThankJapan
+    {% elif lang_code == 'zh-hant' %}按類別學習日語單語：日本自然(Shizen)與風景 | ThankJapan
+    {% elif lang_code == 'zh-cn' %}按类别学习日语单词：日本自然(Shizen)与风景 | ThankJapan
+    {% elif lang_code == 'ko' %}카테고리별 일본어 단어 공부: 일본의 자연(Shizen) 및 풍경 | ThankJapan
+    {% elif lang_code == 'fr' %}Apprendre le japonais par catégorie : Nature (Shizen) et Paysages | ThankJapan
+    {% elif lang_code == 'th' %}เรียนภาษาญี่ปุ่นแยกตามหมวดหมู่: ธรรมชาติ (Shizen) และทัศนียภาพ | ThankJapan
+    {% elif lang_code == 'vi' %}Học từ vựng tiếng Nhật theo danh mục: Thiên nhiên (Shizen) và Phong cảnh | ThankJapan
+    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Aprende japonés por categorías: Naturaleza (Shizen) y Paisajes | ThankJapan
+    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Aprenda japonês por categorias: Natureza (Shizen) e Paisagens | ThankJapan
+    {% elif lang_code == 'de' %}Japanisch lernen nach Kategorien: Natur (Shizen) und Landschaften | ThankJapan
+    {% elif lang_code == 'it' %}Impara il giapponese per categoria: Natura (Shizen) e Paesaggi | ThankJapan
+    {% elif lang_code == 'en-in' %}Learn Japanese Words by Category: Nature (Shizen) & Landscapes | ThankJapan
+    {% else %}Learn Japanese Words by Category: Japanese Nature (Shizen) & Landscapes | ThankJapan{% endif %}
+{% endblock %}
 
-{% block og_title %}Japanese Nature - Landscapes, Seasons & More | ThankJapan{% endblock %}
-{% block og_description %}Experience Japan’s beautiful nature including cherry blossoms, Mount Fuji, and seasonal landscapes.{% endblock %}
+{% block og_title %}
+    {% if lang_code == 'ja' %}【カテゴリー別】日本の自然・風景単語をマスターしよう | ThankJapan
+    {% elif lang_code == 'zh-hant' %}【按類別】掌握日本自然與風景日語單語 | ThankJapan
+    {% elif lang_code == 'zh-cn' %}【按类别】掌握日本自然与风景日语单词 | ThankJapan
+    {% elif lang_code == 'ko' %}【카테고리별】일본의 자연과 풍경 단어 마스터하기 | ThankJapan
+    {% elif lang_code == 'fr' %}Maîtrisez le vocabulaire de la nature japonaise par catégorie | ThankJapan
+    {% elif lang_code == 'th' %}เก่งคำศัพท์ธรรมชาติและทัศนียภาพญี่ปุ่นแยกตามหมวดหมู่ | ThankJapan
+    {% elif lang_code == 'vi' %}Làm chủ từ vựng thiên nhiên Nhật Bản theo danh mục | ThankJapan
+    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Domina el vocabulario de naturaleza japonesa por categorías | ThankJapan
+    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Domine o vocabulário de natureza japonesa por categorias | ThankJapan
+    {% elif lang_code == 'de' %}Meistern Sie japanische Natur-Vokabeln nach Kategorien | ThankJapan
+    {% elif lang_code == 'it' %}Master dei vocaboli della natura giapponese per categoria | ThankJapan
+    {% elif lang_code == 'en-in' %}Master Japanese Nature Vocabulary by Category | ThankJapan
+    {% else %}Master Japanese Nature Vocabulary by Category | ThankJapan{% endif %}
+{% endblock %}
+
+{% block og_description %}
+    {% if lang_code == 'ja' %}富士山(Fujisan)や山(Yama)、森(Mori)など、カテゴリー別に整理された自然(Shizen)の単語を、漢字と発音と一緒に効率よく学びましょう。
+    {% elif lang_code == 'zh-hant' %}通過類別整理，高效學習富士山(Fujisan)、山(Yama)、森林(Mori)等自然(Shizen)相關的日語單語、漢字與發音。
+    {% elif lang_code == 'zh-cn' %}通过类别整理，高效学习富士山(Fujisan)、山(Yama)、森林(Mori)等自然(Shizen)相关的日语单词、汉字与发音。
+    {% elif lang_code == 'ko' %}후지산(Fujisan), 산(Yama), 숲(Mori) 등 카테고리별로 정리된 자연(Shizen) 단어를 한자와 발음과 함께 효율적으로 공부하세요.
+    {% elif lang_code == 'fr' %}Apprenez efficacement le vocabulaire de la nature (Shizen) comme le Fujisan, Yama (montagne) ou Mori (forêt) avec kanji et prononciation, classés par catégorie.
+    {% elif lang_code == 'th' %}เรียนรู้คำศัพท์ธรรมชาติ (Shizen) เช่น Fujisan, Yama และ Mori พร้อมคันจิและการออกเสียงอย่างมีประสิทธิภาพตามหมวดหมู่
+    {% elif lang_code == 'vi' %}Học hiệu quả các từ vựng thiên nhiên (Shizen) như Fujisan, Yama và Mori cùng với hán tự và cách phát âm, được sắp xếp theo danh mục.
+    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Aprende de manera eficiente el vocabulario de naturaleza (Shizen) como Fujisan, Yama o Mori con kanji y pronunciación, organizados por categorías.
+    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Aprenda de forma eficiente o vocabulário de natureza (Shizen) como Fujisan, Yama ou Mori com kanji e pronúncia, organizados por categorias.
+    {% elif lang_code == 'de' %}Lernen Sie japanische Natur-Vokabeln (Shizen) wie Fujisan, Yama oder Mori effizient mit Kanji und Aussprache, geordnet nach Kategorien.
+    {% elif lang_code == 'it' %}Impara in modo efficiente i vocaboli della natura (Shizen) come Fujisan, Yama o Mori con kanji e pronuncia, organizzati per categoria.
+    {% elif lang_code == 'en-in' %}Learn Japanese nature vocabulary (Shizen) like Fujisan, Yama (Mountain), and Mori (Forest) efficiently with kanji and pronunciation, organized by category.
+    {% else %}Learn Japanese vocabulary for nature (Shizen) such as Fujisan (Mt. Fuji), Yama (Mountain), and Mori (Forest). Study kanji and pronunciation with our categorized lists.{% endif %}
+{% endblock %}
+
 {% block og_url %}{{ request.build_absolute_uri }}{% endblock %}
-{% block description %}Experience Japan’s beautiful nature including cherry blossoms, Mount Fuji, and seasonal landscapes.{% endblock %}
+
+{% block description %}
+    {% if lang_code == 'ja' %}富士山(Fujisan)や山(Yama)、森(Mori)など、カテゴリー別に整理された自然(Shizen)の単語を、漢字と発音と一緒に効率よく学びましょう。
+    {% elif lang_code == 'zh-hant' %}通過類別整理，高效學習富士山(Fujisan)、山(Yama)、森林(Mori)等自然(Shizen)相關的日語單語、漢字與發音。
+    {% elif lang_code == 'zh-cn' %}通过类别整理，高效学习富士山(Fujisan)、山(Yama)、森林(Mori)等自然(Shizen)相关的日语单词、汉字与发音。
+    {% elif lang_code == 'ko' %}후지산(Fujisan), 산(Yama), 숲(Mori) 등 카테고리별로 정리된 자연(Shizen) 단어를 한자와 발음과 함께 효율적으로 공부하세요.
+    {% elif lang_code == 'fr' %}Étudiez les mots japonais pour la nature (Shizen) par catégorie. Apprenez le kanji et la prononciation pour le Mont Fuji, les montagnes et les paysages saisonniers.
+    {% elif lang_code == 'th' %}ศึกษาคำศัพท์ภาษาญี่ปุ่นสำหรับธรรมชาติ (Shizen) ตามหมวดหมู่ เรียนรู้คันจิและการออกเสียงสำหรับ Fujisan, ภูเขา และป่าไม้
+    {% elif lang_code == 'vi' %}Nghiên cứu từ vựng tiếng Nhật cho thiên nhiên (Shizen) theo danh mục. Học hán tự và cách phát âm cho Fujisan, Yama, Mori và phong cảnh theo mùa.
+    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Estudia palabras japonesas para la naturaleza (Shizen) por categorías. Aprende kanji y pronunciación para el Monte Fuji, montañas y paisajes.
+    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Estude palavras japonesas para a natureza (Shizen) por categorias. Aprenda kanji e pronúncia para o Monte Fuji, montanhas e florestas.
+    {% elif lang_code == 'de' %}Studieren Sie japanische Wörter für die Natur (Shizen) nach Kategorien. Lernen Sie Kanji und Aussprache für den Fujisan, Berge und Wälder.
+    {% elif lang_code == 'it' %}Studia le parole giapponesi per la natura (Shizen) per categoria. Impara kanji e pronuncia per il Fujisan, montagne e foreste.
+    {% elif lang_code == 'en-in' %}Study Japanese words for nature (Shizen) by category. Learn kanji and pronunciation for Fujisan and Yama to appreciate Japan's landscapes while boosting your vocabulary.
+    {% else %}Improve your Japanese by learning nature vocabulary (Shizen) such as Fujisan (Mt. Fuji) and Yama (Mountain). Perfect for students learning kanji and pronunciation by category.{% endif %}
+{% endblock %}
+
 
 {% block content %}
 

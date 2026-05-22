@@ -1,12 +1,71 @@
 {% extends 'base/basecategory.html' %}
 {% load category_filters %}
 
-{% block title %}Best Japanese Electronics & Gadgets | Top Tech from Japan | ThankJapan{% endblock %}
+{% block title %}
+    {% if lang_code == 'ja' %}カテゴリー別で学ぶ日本語単語：家電(Kaden)・ガジェット | ThankJapan
+    {% elif lang_code == 'zh-hant' %}按類別學習日語單語：家電(Kaden)與電子產品 | ThankJapan
+    {% elif lang_code == 'zh-cn' %}按类别学习日语单词：家电(Kaden)与电子产品 | ThankJapan
+    {% elif lang_code == 'ko' %}카테고리별 일본어 단어 공부: 가전(Kaden) 및 전자기기 | ThankJapan
+    {% elif lang_code == 'fr' %}Apprendre le japonais par catégorie : Électronique (Kaden) | ThankJapan
+    {% elif lang_code == 'th' %}เรียนภาษาญี่ปุ่นแยกตามหมวดหมู่: เครื่องใช้ไฟฟ้า (Kaden) | ThankJapan
+    {% elif lang_code == 'vi' %}Học từ vựng tiếng Nhật theo danh mục: Đồ điện tử (Kaden) | ThankJapan
+    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Aprende japonés por categorías: Electrónica (Kaden) | ThankJapan
+    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Aprenda japonês por categorias: Eletrônicos (Kaden) | ThankJapan
+    {% elif lang_code == 'de' %}Japanisch lernen nach Kategorien: Elektronik (Kaden) | ThankJapan
+    {% elif lang_code == 'it' %}Impara il giapponese per categoria: Elettronica (Kaden) | ThankJapan
+    {% elif lang_code == 'en-in' %}Learn Japanese Words by Category: Electronics (Kaden) & Gadgets | ThankJapan
+    {% else %}Learn Japanese Words by Category: Electronics (Kaden) & Gadgets | ThankJapan{% endif %}
+{% endblock %}
 
-{% block og_title %}Japanese Appliances - Innovative Home Technology | ThankJapan{% endblock %}
-{% block og_description %}Discover the best of Japanese appliances like rice cookers, toilets, and futuristic home gadgets.{% endblock %}
+{% block og_title %}
+    {% if lang_code == 'ja' %}【カテゴリー別】日本語の家電単語をマスターしよう | ThankJapan
+    {% elif lang_code == 'zh-hant' %}【按類別】掌握日語家電單語 | ThankJapan
+    {% elif lang_code == 'zh-cn' %}【按类别】掌握日语家电单词 | ThankJapan
+    {% elif lang_code == 'ko' %}【카테고리별】일본어 가전 단어 마스터하기 | ThankJapan
+    {% elif lang_code == 'fr' %}Maîtrisez le vocabulaire japonais de l'électronique par catégorie | ThankJapan
+    {% elif lang_code == 'th' %}เก่งคำศัพท์เครื่องใช้ไฟฟ้าญี่ปุ่นแยกตามหมวดหมู่ | ThankJapan
+    {% elif lang_code == 'vi' %}Làm chủ từ vựng đồ điện tử tiếng Nhật theo danh mục | ThankJapan
+    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Domina el vocabulario de electrónica japonesa por categorías | ThankJapan
+    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Domine o vocabulário de eletrônicos japoneses por categorias | ThankJapan
+    {% elif lang_code == 'de' %}Meistern Sie japanische Elektronik-Vokabeln nach Kategorien | ThankJapan
+    {% elif lang_code == 'it' %}Master dei vocaboli di elettronica giapponese per categoria | ThankJapan
+    {% elif lang_code == 'en-in' %}Master Japanese Electronics Vocabulary by Category | ThankJapan
+    {% else %}Master Japanese Electronics Vocabulary by Category | ThankJapan{% endif %}
+{% endblock %}
+
+{% block og_description %}
+    {% if lang_code == 'ja' %}炊飯器(Suihanki)や最新技術(Saishin Gijutsu)など、カテゴリー別に整理された家電(Kaden)の単語を、漢字と発音と一緒に効率よく学びましょう。
+    {% elif lang_code == 'zh-hant' %}通過類別整理，高效學習電飯煲(Suihanki)與最新技術(Saishin Gijutsu)等日本家電(Kaden)的日語單語、漢字與發音。
+    {% elif lang_code == 'zh-cn' %}通过类别整理，高效学习电饭煲(Suihanki)与最新技术(Saishin Gijutsu)等日本家电(Kaden)的日语单词、汉字与发音。
+    {% elif lang_code == 'ko' %}전기밥솥(Suihanki), 최신 기술(Saishin Gijutsu) 등 카테고별로 정리된 가전(Kaden) 단어를 한자와 발음과 함께 효율적으로 공부하세요.
+    {% elif lang_code == 'fr' %}Apprenez efficacement le vocabulaire japonais des appareils (Kaden) comme le Suihanki avec kanji et prononciation, classés par catégorie.
+    {% elif lang_code == 'th' %}เรียนรู้คำศัพท์เครื่องใช้ไฟฟ้าญี่ปุ่น (Kaden) เช่น Suihanki พร้อมคันจิและการออกเสียงอย่างมีประสิทธิภาพตามหมวดหมู่
+    {% elif lang_code == 'vi' %}Học hiệu quả các từ vựng đồ điện tử Nhật Bản (Kaden) như Suihanki cùng với kanji và cách phát âm, được sắp xếp theo danh mục.
+    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Aprende de manera eficiente el vocabulario de electrodomésticos japoneses (Kaden) como Suihanki con kanji y pronunciación, organizados por categorías.
+    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Aprenda de forma eficiente o vocabulário de eletrodomésticos japoneses (Kaden) como Suihanki com kanji e pronúncia, organizados por categorias.
+    {% elif lang_code == 'de' %}Lernen Sie japanische Elektronik-Vokabeln (Kaden) wie Suihanki effizient mit Kanji und Aussprache, geordnet nach Kategorien.
+    {% elif lang_code == 'it' %}Impara in modo efficiente i vocaboli di elettronica giapponese (Kaden) come Suihanki con kanji e pronuncia, organizzati per categoria.
+    {% elif lang_code == 'en-in' %}Learn Japanese electronics vocabulary (Kaden) like Suihanki efficiently with kanji and pronunciation, organized by category.
+    {% else %}Learn Japanese vocabulary for electronics (Kaden) like Suihanki (rice cooker). Study kanji and pronunciation with our categorized lists of latest tech.{% endif %}
+{% endblock %}
+
 {% block og_url %}{{ request.build_absolute_uri }}{% endblock %}
-{% block description %}Discover the best of Japanese appliances like rice cookers, toilets, and futuristic home gadgets.{% endblock %}
+
+{% block description %}
+    {% if lang_code == 'ja' %}炊飯器(Suihanki)や最新技術(Saishin Gijutsu)など、カテゴリー別に整理された家電(Kaden)の単語を、漢字と発音と一緒に効率よく学びましょう。
+    {% elif lang_code == 'zh-hant' %}通過類別整理，高效學習電飯煲(Suihanki)與最新技術(Saishin Gijutsu)等日本家電(Kaden)的日語單語、漢字與發音。
+    {% elif lang_code == 'zh-cn' %}通过类别整理，高效学习电饭煲(Suihanki)与最新技术(Saishin Gijutsu)等日本家电(Kaden)的日语单词、汉字与发音。
+    {% elif lang_code == 'ko' %}전기밥솥(Suihanki), 최신 기술(Saishin Gijutsu) 등 카테고별로 정리된 가전(Kaden) 단어를 한자와 발음과 함께 효율적으로 공부하세요.
+    {% elif lang_code == 'fr' %}Étudiez les mots japonais pour l'électronique (Kaden) par catégorie. Apprenez le kanji et la prononciation pour le Suihanki et la technologie de pointe.
+    {% elif lang_code == 'th' %}ศึกษาคำศัพท์ภาษาญี่ปุ่นสำหรับเครื่องใช้ไฟฟ้า (Kaden) ตามหมวดหมู่ เรียนรู้คันจิและการออกเสียงสำหรับ Suihanki และเทคโนโลยีล่าสุด
+    {% elif lang_code == 'vi' %}Nghiên cứu từ vựng tiếng Nhật cho đồ điện tử (Kaden) theo danh mục. Học kanji và cách phát âm cho Suihanki và công nghệ mới nhất.
+    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Estudia palabras japonesas para electrónica (Kaden) por categorías. Aprende kanji y pronunciación para Suihanki y tecnología de punta.
+    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Estude palavras japonesas para eletrônicos (Kaden) por categorias. Aprenda kanji e pronúncia para Suihanki e tecnologia de ponta.
+    {% elif lang_code == 'de' %}Studieren Sie japanische Wörter für Elektronik (Kaden) nach Kategorien. Lernen Sie Kanji und Aussprache für Suihanki und modernste Technik.
+    {% elif lang_code == 'it' %}Studia le parole giapponesi per l'elettronica (Kaden) per categoria. Impara kanji e pronuncia per Suihanki e tecnologia all'avanguardia.
+    {% elif lang_code == 'en-in' %}Study Japanese words for electronics (Kaden) by category. Learn kanji and pronunciation for Suihanki and the latest gadgets to boost your vocabulary.
+    {% else %}Improve your Japanese by learning electronics vocabulary (Kaden) such as Suihanki (rice cooker). Perfect for students learning kanji and pronunciation by category.{% endif %}
+{% endblock %}
 
 {% block content %}
 

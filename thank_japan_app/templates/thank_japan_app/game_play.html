@@ -1,6 +1,21 @@
 {% extends 'base/basecategory.html' %}
 {% load category_filters %}
-{% block title %}Question {{ current_index }} | ThankJapan{% endblock %}
+
+{% block title %}
+    {% if lang_code == 'ja' %}第 {{ current_index }} 問 | ThankJapan
+    {% elif lang_code == 'zh-hant' %}第 {{ current_index }} 題 | ThankJapan
+    {% elif lang_code == 'zh-cn' %}第 {{ current_index }} 题 | ThankJapan
+    {% elif lang_code == 'ko' %}제 {{ current_index }} 문 | ThankJapan
+    {% elif lang_code == 'fr' %}Question {{ current_index }} | ThankJapan
+    {% elif lang_code == 'th' %}ข้อที่ {{ current_index }} | ThankJapan
+    {% elif lang_code == 'vi' %}Câu {{ current_index }} | ThankJapan
+    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Pregunta {{ current_index }} | ThankJapan
+    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Pergunta {{ current_index }} | ThankJapan
+    {% elif lang_code == 'de' %}Frage {{ current_index }} | ThankJapan
+    {% elif lang_code == 'it' %}Domanda {{ current_index }} | ThankJapan
+    {% elif lang_code == 'en-in' %}Question {{ current_index }} | ThankJapan
+    {% else %}Question {{ current_index }} | ThankJapan{% endif %}
+{% endblock %}
 
 {% block content %}
 <script src="https://unpkg.com/wanakana"></script>
@@ -1054,13 +1069,13 @@ function initSound() {
 initSound();
 
 function manualPlay() {
-    // ユーザーがボタンを叩いたので、ここで音声をアンロックする
+    
     unlockAudio();
     
     const config = document.getElementById('game-config');
     const isCorrect = config.getAttribute('data-is-correct') === 'true';
     
-    // correct-flag または incorrect-flag から単語を取得
+    
     const flagId = isCorrect ? 'correct-flag' : 'incorrect-flag';
     const word = document.getElementById(flagId)?.getAttribute('data-word');
 

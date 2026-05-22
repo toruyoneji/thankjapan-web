@@ -1,6 +1,21 @@
 {% extends 'base/basecategory.html' %}
 {% load category_filters %}
-{% block title %}{{ object.englishname }} - Premium Lesson | ThankJapan{% endblock %}
+
+{% block title %}
+    {% if lang_code == 'ja' %}{{ object.englishname }} - プレミアムレッスン | ThankJapan
+    {% elif lang_code == 'zh-hant' %}{{ object.englishname }} - 高級課程 | ThankJapan
+    {% elif lang_code == 'zh-cn' %}{{ object.englishname }} - 高级课程 | ThankJapan
+    {% elif lang_code == 'ko' %}{{ object.englishname }} - 프리미엄 레슨 | ThankJapan
+    {% elif lang_code == 'fr' %}{{ object.englishname }} - Leçon Premium | ThankJapan
+    {% elif lang_code == 'th' %}{{ object.englishname }} - บทเรียนพรีเมียม | ThankJapan
+    {% elif lang_code == 'vi' %}{{ object.englishname }} - Bài học Cao cấp | ThankJapan
+    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}{{ object.englishname }} - Lección Premium | ThankJapan
+    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}{{ object.englishname }} - Aula Premium | ThankJapan
+    {% elif lang_code == 'de' %}{{ object.englishname }} - Premium-Lektion | ThankJapan
+    {% elif lang_code == 'it' %}{{ object.englishname }} - Lezione Premium | ThankJapan
+    {% elif lang_code == 'en-in' %}{{ object.englishname }} - Premium Lesson | ThankJapan
+    {% else %}{{ object.englishname }} - Premium Lesson | ThankJapan{% endif %}
+{% endblock %}
 
 {% block meta %}
     <meta name="twitter:card" content="summary_large_image">

@@ -1,12 +1,72 @@
 {% extends 'base/basecategory.html' %}
 {% load category_filters %}
 
-{% block title %}Japanese Culture Explained | Traditions, Customs & History of Japan | ThankJapan{% endblock %}
+{% block title %}
+    {% if lang_code == 'ja' %}カテゴリー別で学ぶ日本語単語：日本の文化(Bunka)・伝統 | ThankJapan
+    {% elif lang_code == 'zh-hant' %}按類別學習日語單語：日本文化(Bunka)與傳統 | ThankJapan
+    {% elif lang_code == 'zh-cn' %}按类别学习日语单词：日本文化(Bunka)与传统 | ThankJapan
+    {% elif lang_code == 'ko' %}카테고리별 일본어 단어 공부: 일본의 문화(Bunka)와 전통 | ThankJapan
+    {% elif lang_code == 'fr' %}Apprendre le japonais par catégorie : Culture (Bunka) et Traditions | ThankJapan
+    {% elif lang_code == 'th' %}เรียนภาษาญี่ปุ่นแยกตามหมวดหมู่: วัฒนธรรม (Bunka) และประเพณี | ThankJapan
+    {% elif lang_code == 'vi' %}Học từ vựng tiếng Nhật theo danh mục: Văn hóa (Bunka) và Truyền thống | ThankJapan
+    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Aprende japonés por categorías: Cultura (Bunka) y Tradiciones | ThankJapan
+    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Aprenda japonês por categorias: Cultura (Bunka) e Tradições | ThankJapan
+    {% elif lang_code == 'de' %}Japanisch lernen nach Kategorien: Kultur (Bunka) und Traditionen | ThankJapan
+    {% elif lang_code == 'it' %}Impara il giapponese per categoria: Cultura (Bunka) e Tradizioni | ThankJapan
+    {% elif lang_code == 'en-in' %}Learn Japanese Words by Category: Culture (Bunka) & Traditions | ThankJapan
+    {% else %}Learn Japanese Words by Category: Japanese Culture (Bunka) & Traditions | ThankJapan{% endif %}
+{% endblock %}
 
-{% block og_title %}Japanese Culture - Traditions, Festivals & Values | ThankJapan{% endblock %}
-{% block og_description %}Dive into Japanese cultural practices including tea ceremony, festivals, customs, and etiquette.{% endblock %}
+{% block og_title %}
+    {% if lang_code == 'ja' %}【カテゴリー別】日本の文化・伝統単語をマスターしよう | ThankJapan
+    {% elif lang_code == 'zh-hant' %}【按類別】掌握日本文化與傳統日語單語 | ThankJapan
+    {% elif lang_code == 'zh-cn' %}【按类别】掌握日本文化与传统日语单词 | ThankJapan
+    {% elif lang_code == 'ko' %}【카테고리별】일본의 문화와 전통 단어 마스터하기 | ThankJapan
+    {% elif lang_code == 'fr' %}Maîtrisez le vocabulaire de la culture japonaise par catégorie | ThankJapan
+    {% elif lang_code == 'th' %}เก่งคำศัพท์วัฒนธรรมญี่ปุ่นแยกตามหมวดหมู่ | ThankJapan
+    {% elif lang_code == 'vi' %}Làm chủ từ vựng văn hóa Nhật Bản theo danh mục | ThankJapan
+    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Domina el vocabulario de cultura japonesa por categorías | ThankJapan
+    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Domine o vocabulário de cultura japonesa por categorias | ThankJapan
+    {% elif lang_code == 'de' %}Meistern Sie japanische Kultur-Vokabeln nach Kategorien | ThankJapan
+    {% elif lang_code == 'it' %}Master dei vocaboli della cultura giapponese per categoria | ThankJapan
+    {% elif lang_code == 'en-in' %}Master Japanese Culture Vocabulary by Category | ThankJapan
+    {% else %}Master Japanese Culture Vocabulary by Category | ThankJapan{% endif %}
+{% endblock %}
+
+{% block og_description %}
+    {% if lang_code == 'ja' %}茶道(Sado)や祭り(Matsuri)など、カテゴリー別に整理された日本の文化(Bunka)や伝統の単語を、漢字と発音と一緒に効率よく学びましょう。
+    {% elif lang_code == 'zh-hant' %}通過類別整理，高效學習茶道(Sado)、祭典(Matsuri)等日本文化(Bunka)與傳統的日語單語、漢字與發音。
+    {% elif lang_code == 'zh-cn' %}通过类别整理，高效学习茶道(Sado)、祭典(Matsuri)等日本文化(Bunka)与传统的日语单词、汉字与发音。
+    {% elif lang_code == 'ko' %}다도(Sado), 축제(Matsuri) 등 카테고리별로 정리된 일본의 문화(Bunka)와 전통 단어를 한자와 발음과 함께 효율적으로 공부하세요.
+    {% elif lang_code == 'fr' %}Apprenez efficacement le vocabulaire de la culture japonaise (Bunka) comme le Sado ou Matsuri avec kanji et prononciation, classés par catégorie.
+    {% elif lang_code == 'th' %}เรียนรู้คำศัพท์วัฒนธรรมญี่ปุ่น (Bunka) เช่น พิธีชงชา (Sado) และเทศกาล (Matsuri) พร้อมคันจิและการออกเสียงอย่างมีประสิทธิภาพตามหมวดหมู่
+    {% elif lang_code == 'vi' %}Học hiệu quả các từ vựng văn hóa Nhật Bản (Bunka) như Sado và Matsuri cùng với kanji và cách phát âm, được sắp xếp theo danh mục.
+    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Aprende de manera eficiente el vocabulario de cultura japonesa (Bunka) como Sado o Matsuri con kanji y pronunciación, organizados por categorías.
+    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Aprenda de forma eficiente o vocabulário da cultura japonesa (Bunka) como Sado ou Matsuri com kanji e pronúncia, organizados por categorias.
+    {% elif lang_code == 'de' %}Lernen Sie japanische Kultur-Vokabeln (Bunka) wie Sado oder Matsuri effizient mit Kanji und Aussprache, geordnet nach Kategorien.
+    {% elif lang_code == 'it' %}Impara in modo efficiente i vocaboli della cultura giapponese (Bunka) come Sado o Matsuri con kanji e pronuncia, organizzati per categoria.
+    {% elif lang_code == 'en-in' %}Learn Japanese culture vocabulary (Bunka) like Sado and Matsuri efficiently with kanji and pronunciation, organized by category.
+    {% else %}Learn Japanese vocabulary for culture (Bunka) and traditions (Dento) like Sado (Tea Ceremony) and Matsuri. Study kanji and pronunciation with our categorized lists.{% endif %}
+{% endblock %}
+
 {% block og_url %}{{ request.build_absolute_uri }}{% endblock %}
-{% block description %}Dive into Japanese cultural practices including tea ceremony, festivals, customs, and etiquette.{% endblock %}
+
+{% block description %}
+    {% if lang_code == 'ja' %}茶道(Sado)や祭り(Matsuri)など、カテゴリー別に整理された日本の文化(Bunka)や伝統の単語を、漢字と発音と一緒に効率よく学びましょう。
+    {% elif lang_code == 'zh-hant' %}通過類別整理，高效學習茶道(Sado)、祭典(Matsuri)等日本文化(Bunka)與傳統的日語單語、漢字與發音。
+    {% elif lang_code == 'zh-cn' %}通过类别整理，高效学习茶道(Sado)、祭典(Matsuri)等日本文化(Bunka)与传统的日语单词、汉字与发音。
+    {% elif lang_code == 'ko' %}다도(Sado), 축제(Matsuri) 등 카테고리별로 정리된 일본의 문화(Bunka)와 전통 단어를 한자와 발음과 함께 효율적으로 공부하세요.
+    {% elif lang_code == 'fr' %}Étudiez les mots japonais pour la culture (Bunka) par catégorie. Apprenez le kanji et la prononciation pour le Sado, Matsuri et l'étiquette.
+    {% elif lang_code == 'th' %}ศึกษาคำศัพท์ภาษาญี่ปุ่นสำหรับวัฒนธรรม (Bunka) ตามหมวดหมู่ เรียนรู้คันจิและการออกเสียงสำหรับพิธีชงชา งานเทศกาล และอื่นๆ
+    {% elif lang_code == 'vi' %}Nghiên cứu từ vựng tiếng Nhật cho văn hóa (Bunka) theo danh mục. Học kanji và cách phát âm cho Sado, Matsuri và các phong tục khác.
+    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Estudia palabras japonesas para cultura (Bunka) por categorías. Aprende kanji y pronunciación para Sado, Matsuri y etiqueta.
+    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Estude palavras japonesas para cultura (Bunka) por categorias. Aprenda kanji e pronúncia para Sado, Matsuri e etiqueta.
+    {% elif lang_code == 'de' %}Studieren Sie japanische Wörter für Kultur (Bunka) nach Kategorien. Lernen Sie Kanji und Aussprache für Sado, Matsuri und Etikette.
+    {% elif lang_code == 'it' %}Studia le parole giapponesi per la cultura (Bunka) per categoria. Impara kanji e pronuncia per Sado, Matsuri e galateo.
+    {% elif lang_code == 'en-in' %}Study Japanese words for culture (Bunka) and traditions by category. Learn kanji and pronunciation for Sado and Matsuri to boost your knowledge.
+    {% else %}Improve your Japanese by learning culture vocabulary (Bunka) such as Sado (Tea Ceremony) and Matsuri (Festivals). Perfect for students learning kanji and pronunciation by category.{% endif %}
+{% endblock %}
+
 
 {% block content %}
 
