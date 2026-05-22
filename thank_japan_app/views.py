@@ -3227,6 +3227,12 @@ class ImgPremiumDetailView(DetailView):
                 
 def sitemap_view(request):
     free_items = ThankJapanModel.objects.all()
+    premium_items_all = ThankJapanPremium.objects.all()
+    
+    free_cats = free_items.values_list('category', flat=True).distinct()
+    premium_cats = premium_items_all.values_list('category', flat=True).distinct()
+    
+    unique_categories = set([cat.lower() for cat in free_cats] + [cat.lower() for cat in premium_cats])
     
     public_premium_items = []
     
@@ -3262,6 +3268,7 @@ def sitemap_view(request):
     context = {
         'free_items': free_items,
         'premium_items': public_premium_items,
+        'categories': sorted(list(unique_categories)),
         'languages': languages,
         'prefectures': prefectures,
     }
