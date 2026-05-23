@@ -544,24 +544,25 @@ footer {
         {% if object.example_sentence_ja %}
         <div class="card">
             <h2>
+                ✿ 
                 {% if lang_code == 'ja' %}例文
                 {% elif lang_code == 'zh-hant' %}例句
                 {% elif lang_code == 'zh-cn' %}例句
                 {% elif lang_code == 'de' %}Beispielsatz
-                {% elif lang_code == 'fr' %}Exemple
+                {% elif lang_code == 'fr' %}Phrase d'exemple
                 {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Frase de ejemplo
-                {% elif lang_code == 'it' %}Esempio
+                {% elif lang_code == 'it' %}Frase di esempio
                 {% elif lang_code == 'ko' %}예문
-                {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Exemplo
+                {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Frase de exemplo
                 {% elif lang_code == 'vi' %}Câu ví dụ
                 {% elif lang_code == 'th' %}ประโยคตัวอย่าง
-                {% else %}Example
+                {% else %}Example Sentence
                 {% endif %}
             </h2>
 
             <ul style="list-style: none; padding-left: 0;">
         
-                <li style="font-size: 1.4em; margin-bottom: 5px;">
+                <li style="font-size: 1.7em; margin-bottom: 5px;">
                     {{ object.example_sentence_ja|safe }}
                 </li>
         
@@ -573,7 +574,7 @@ footer {
         
                 {% if lang_code != 'ja' %}
                     <hr style="border: 0; border-top: 1px solid #eee; margin: 10px 0;">
-                    <li style="font-weight: bold; font-size: 1.2em; color: #333;">
+                    <li style="font-weight: bold; font-size: 1.4em; color: #333;">
                         {% if lang_code == 'en-in' and object.example_sentence_en_in %}
                             {{ object.example_sentence_en_in }}
                         {% elif lang_code == 'zh-cn' and object.example_sentence_zh_cn %}
