@@ -70,6 +70,28 @@ class ThankJapanModel(models.Model):
     history_th = models.TextField(max_length=1500, blank=True, null=True)
     description_vi = models.TextField(max_length=1500, blank=True, null=True)
     history_vi = models.TextField(max_length=1500, blank=True, null=True)
+    
+    
+    # 日本語（rubyタグ付き）
+    example_sentence_ja = models.TextField(blank=True, null=True)
+    # ローマ字（wa, o, e ルール適用）
+    example_sentence_romaji = models.TextField(blank=True, null=True)
+
+    # 14言語の翻訳
+    example_sentence = models.TextField(blank=True, null=True)
+    example_sentence_en_in = models.TextField(blank=True, null=True)
+    example_sentence_zh_cn = models.TextField(blank=True, null=True)
+    example_sentence_zh_hant = models.TextField(blank=True, null=True)
+    example_sentence_ko = models.TextField(blank=True, null=True)
+    example_sentence_fr = models.TextField(blank=True, null=True)
+    example_sentence_de = models.TextField(blank=True, null=True)
+    example_sentence_it = models.TextField(blank=True, null=True)
+    example_sentence_es_es = models.TextField(blank=True, null=True)
+    example_sentence_es_mx = models.TextField(blank=True, null=True)
+    example_sentence_pt = models.TextField(blank=True, null=True)
+    example_sentence_pt_br = models.TextField(blank=True, null=True)
+    example_sentence_th = models.TextField(blank=True, null=True)
+    example_sentence_vi = models.TextField(blank=True, null=True)
 
 
     def save(self, *args, **kwargs):
