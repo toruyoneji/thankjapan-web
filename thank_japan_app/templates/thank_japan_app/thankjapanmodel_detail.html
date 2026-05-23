@@ -589,7 +589,7 @@ footer {
                 {% if lang_code != 'ja' %}
 
                     <p style="font-weight: bold; color: #888; margin-bottom: 5px; font-size: 0.9em;">
-                        {% elif lang_code == 'zh-cn' or lang_code == 'zh-hant' %}意思
+                        {% if lang_code == 'zh-cn' or lang_code == 'zh-hant' %}意思
                         {% elif lang_code == 'ko' %}의미
                         {% elif lang_code == 'fr' %}Signification
                         {% elif lang_code == 'de' %}Bedeutung
