@@ -562,7 +562,7 @@ footer {
 
             <ul style="list-style: none; padding-left: 0;">
         
-                <li style="font-size: 2.0em; margin-bottom: 10px;">
+                <li style="font-size: 1.5em; margin-bottom: 5px;">
                     {{ object.example_sentence_ja|safe }}
                 </li>
         
@@ -574,7 +574,7 @@ footer {
         
                 {% if lang_code != 'ja' %}
                     <hr style="border: 0; border-top: 1px solid #eee; margin: 10px 0;">
-                    <li style="font-weight: bold; font-size: 1.4em; color: #333;">
+                    <li style="font-weight: bold; font-size: 1.2em; color: #333;">
                         {% if lang_code == 'en-in' and object.example_sentence_en_in %}
                             {{ object.example_sentence_en_in }}
                         {% elif lang_code == 'zh-cn' and object.example_sentence_zh_cn %}
