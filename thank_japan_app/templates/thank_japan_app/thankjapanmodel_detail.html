@@ -559,21 +559,49 @@ footer {
                 {% endif %}
             </h2>
 
-            <ul style="list-style: none; padding-left: 0;">
-        
-                <li style="font-size: 1.5em; margin-bottom: 5px;">
+            <div style="padding: 0 10px;">
+
+                <p style="font-size: 1.5em; margin-bottom: 15px; color: #333;">
                     {{ object.example_sentence_ja|safe }}
-                </li>
+                </p>
+
+                <p style="font-weight: bold; color: #888; margin-bottom: 5px; font-size: 0.9em;">
+                    {% if lang_code == 'ja' %}発音
+                    {% elif lang_code == 'zh-cn' %}发音
+                    {% elif lang_code == 'zh-hant' %}發音
+                    {% elif lang_code == 'ko' %}발음
+                    {% elif lang_code == 'fr' %}Prononciation
+                    {% elif lang_code == 'de' %}Aussprache
+                    {% elif lang_code == 'it' %}Pronuncia
+                    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Pronunciación
+                    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Pronúncia
+                    {% elif lang_code == 'th' %}การออกเสียง
+                    {% elif lang_code == 'vi' %}Phát âm
+                    {% else %}Pronunciation{% endif %}
+                </p>
         
         
-                <li style="color: #666; margin-bottom: 15px; font-size: 1.2em; font-style: italic;">
+                <p style="color: #666; margin-bottom: 15px; font-size: 1.2em; font-style: italic;">
                     {{ object.example_sentence_romaji }}
-                </li>
+                </p>
 
         
                 {% if lang_code != 'ja' %}
-                    <hr style="border: 0; border-top: 1px solid #eee; margin: 10px 0;">
-                    <li style="font-weight: bold; font-size: 1.2em; color: #333;">
+
+                    <p style="font-weight: bold; color: #888; margin-bottom: 5px; font-size: 0.9em;">
+                        {% elif lang_code == 'zh-cn' or lang_code == 'zh-hant' %}意思
+                        {% elif lang_code == 'ko' %}의미
+                        {% elif lang_code == 'fr' %}Signification
+                        {% elif lang_code == 'de' %}Bedeutung
+                        {% elif lang_code == 'it' %}Significato
+                        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Significado
+                        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Significado
+                        {% elif lang_code == 'th' %}ความหมาย
+                        {% elif lang_code == 'vi' %}Ý nghĩa
+                        {% else %}Meaning{% endif %}
+                    </p>
+
+                    <p style="font-weight: bold; font-size: 1.2em; color: #333;">
                         {% if lang_code == 'en-in' and object.example_sentence_en_in %}
                             {{ object.example_sentence_en_in }}
                         {% elif lang_code == 'zh-cn' and object.example_sentence_zh_cn %}
@@ -603,9 +631,9 @@ footer {
                         {% else %}
                             {{ object.example_sentence }} 
                         {% endif %}
-                    </li>
+                    </p>
                 {% endif %}
-            </ul>
+            </div>
         </div>
         {% endif %}
     </div>
