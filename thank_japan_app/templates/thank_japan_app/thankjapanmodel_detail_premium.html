@@ -587,6 +587,102 @@ body {
                 {% endif %}
             </ul>
         </div>
+
+        {% if object.example_sentence_ja %}
+        <div class="card">
+            <h2>
+                {% if lang_code == 'ja' %}例文
+                {% elif lang_code == 'zh-hant' %}例句
+                {% elif lang_code == 'zh-cn' %}例句
+                {% elif lang_code == 'de' %}Beispielsatz
+                {% elif lang_code == 'fr' %}Phrase d'exemple
+                {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Frase de ejemplo
+                {% elif lang_code == 'it' %}Frase di esempio
+                {% elif lang_code == 'ko' %}예문
+                {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Frase de exemplo
+                {% elif lang_code == 'vi' %}Câu ví dụ
+                {% elif lang_code == 'th' %}ประโยคตัวอย่าง
+                {% else %}Example Sentence
+                {% endif %}
+            </h2>
+
+            <div style="padding: 0 10px;">
+
+                <p style="font-size: 1.5em; margin-bottom: 15px; color: #333;">
+                    {{ object.example_sentence_ja|safe }}
+                </p>
+
+                <p style="font-weight: bold; color: #888; margin-bottom: 5px; font-size: 0.9em;">
+                    {% if lang_code == 'ja' %}発音
+                    {% elif lang_code == 'zh-cn' %}发音
+                    {% elif lang_code == 'zh-hant' %}發音
+                    {% elif lang_code == 'ko' %}발음
+                    {% elif lang_code == 'fr' %}Prononciation
+                    {% elif lang_code == 'de' %}Aussprache
+                    {% elif lang_code == 'it' %}Pronuncia
+                    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Pronunciación
+                    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Pronúncia
+                    {% elif lang_code == 'th' %}การออกเสียง
+                    {% elif lang_code == 'vi' %}Phát âm
+                    {% else %}Pronunciation{% endif %}
+                </p>
+        
+        
+                <p style="color: #666; margin-bottom: 15px; font-size: 1.2em; font-style: italic;">
+                    {{ object.example_sentence_romaji }}
+                </p>
+
+        
+                {% if lang_code != 'ja' %}
+
+                    <p style="font-weight: bold; color: #888; margin-bottom: 5px; font-size: 0.9em;">
+                        {% if lang_code == 'zh-cn' or lang_code == 'zh-hant' %}意思
+                        {% elif lang_code == 'ko' %}의미
+                        {% elif lang_code == 'fr' %}Signification
+                        {% elif lang_code == 'de' %}Bedeutung
+                        {% elif lang_code == 'it' %}Significato
+                        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Significado
+                        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Significado
+                        {% elif lang_code == 'th' %}ความหมาย
+                        {% elif lang_code == 'vi' %}Ý nghĩa
+                        {% else %}Meaning{% endif %}
+                    </p>
+
+                    <p style="font-weight: bold; font-size: 1.2em; color: #333;">
+                        {% if lang_code == 'en-in' and object.example_sentence_en_in %}
+                            {{ object.example_sentence_en_in }}
+                        {% elif lang_code == 'zh-cn' and object.example_sentence_zh_cn %}
+                            {{ object.example_sentence_zh_cn }}
+                        {% elif lang_code == 'zh-hant' and object.example_sentence_zh_hant %}
+                            {{ object.example_sentence_zh_hant }}
+                        {% elif lang_code == 'ko' and object.example_sentence_ko %}
+                            {{ object.example_sentence_ko }}
+                        {% elif lang_code == 'fr' and object.example_sentence_fr %}
+                            {{ object.example_sentence_fr }}
+                        {% elif lang_code == 'de' and object.example_sentence_de %}
+                            {{ object.example_sentence_de }}
+                        {% elif lang_code == 'it' and object.example_sentence_it %}
+                            {{ object.example_sentence_it }}
+                        {% elif lang_code == 'es-es' and object.example_sentence_es_es %}
+                            {{ object.example_sentence_es_es }}
+                        {% elif lang_code == 'es-mx' and object.example_sentence_es_mx %}
+                            {{ object.example_sentence_es_mx }}
+                        {% elif lang_code == 'pt' and object.example_sentence_pt %}
+                            {{ object.example_sentence_pt }}
+                        {% elif lang_code == 'pt-br' and object.example_sentence_pt_br %}
+                            {{ object.example_sentence_pt_br }}
+                        {% elif lang_code == 'th' and object.example_sentence_th %}
+                            {{ object.example_sentence_th }}
+                        {% elif lang_code == 'vi' and object.example_sentence_vi %}
+                            {{ object.example_sentence_vi }}
+                        {% else %}
+                            {{ object.example_sentence }} 
+                        {% endif %}
+                    </p>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
     </div>
 
     <div class="game-invite-box">

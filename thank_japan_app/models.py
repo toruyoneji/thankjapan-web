@@ -77,7 +77,7 @@ class ThankJapanModel(models.Model):
     # ローマ字（wa, o, e ルール適用）
     example_sentence_romaji = models.TextField(blank=True, null=True)
 
-    # 14言語の翻訳
+
     example_sentence = models.TextField(blank=True, null=True)
     example_sentence_en_in = models.TextField(blank=True, null=True)
     example_sentence_zh_cn = models.TextField(blank=True, null=True)
@@ -176,6 +176,26 @@ class ThankJapanPremium(models.Model):
     history_th = models.TextField(max_length=2000, blank=True, null=True)
     description_vi = models.TextField(max_length=2000, blank=True, null=True)
     history_vi = models.TextField(max_length=2000, blank=True, null=True)
+    
+    
+    # 以下を ThankJapanPremium クラス内に追加
+    example_sentence_ja = models.TextField(max_length=1000, blank=True, null=True)
+    example_sentence_romaji = models.CharField(max_length=500, blank=True, null=True)
+    example_sentence = models.TextField(max_length=1000, blank=True, null=True) # English
+    
+    example_sentence_en_in = models.TextField(max_length=1000, blank=True, null=True)
+    example_sentence_zh_cn = models.TextField(max_length=1000, blank=True, null=True)
+    example_sentence_zh_hant = models.TextField(max_length=1000, blank=True, null=True)
+    example_sentence_ko = models.TextField(max_length=1000, blank=True, null=True)
+    example_sentence_fr = models.TextField(max_length=1000, blank=True, null=True)
+    example_sentence_de = models.TextField(max_length=1000, blank=True, null=True)
+    example_sentence_it = models.TextField(max_length=1000, blank=True, null=True)
+    example_sentence_es_es = models.TextField(max_length=1000, blank=True, null=True)
+    example_sentence_es_mx = models.TextField(max_length=1000, blank=True, null=True)
+    example_sentence_pt = models.TextField(max_length=1000, blank=True, null=True)
+    example_sentence_pt_br = models.TextField(max_length=1000, blank=True, null=True)
+    example_sentence_th = models.TextField(max_length=1000, blank=True, null=True)
+    example_sentence_vi = models.TextField(max_length=1000, blank=True, null=True)
     
     def save(self, *args, **kwargs):
         if not self.slug:
