@@ -1290,48 +1290,241 @@ def category_list(request):
         'is_premium': is_premium,
         'lang_code': lang_code,
     })
+    
 
 def category_list_zhcn(request):
-    return render(request, 'thank_japan_app/category/category_list_zh_cn.html') 
+    
+    is_premium = False
+    
+    if request.user.is_authenticated:
+        
+        is_premium = request.user.profile.is_premium
+
+    lang_code = request.GET.get('lang', 'zh-cn')
+
+    return render(request, 'thank_japan_app/category/category_list_zh_cn.html', {
+        'is_premium': is_premium,
+        'lang_code': lang_code,
+    })
+     
 
 def category_list_zhhant(request):
-    return render(request, 'thank_japan_app/category/category_list_zh_hant.html') 
+    
+    is_premium = False
+    
+    if request.user.is_authenticated:
+        
+        is_premium = request.user.profile.is_premium
+
+    lang_code = request.GET.get('lang', 'zh-hant')
+
+    return render(request, 'thank_japan_app/category/category_list_zh_hant.html', {
+        'is_premium': is_premium,
+        'lang_code': lang_code,
+    })
+    
 
 def category_list_vi(request):
-    return render(request, 'thank_japan_app/category/category_list_vi.html') 
+    
+    is_premium = False
+    
+    if request.user.is_authenticated:
+        
+        is_premium = request.user.profile.is_premium
+
+    lang_code = request.GET.get('lang', 'vi')
+
+    return render(request, 'thank_japan_app/category/category_list_vi.html', {
+        'is_premium': is_premium,
+        'lang_code': lang_code,
+    })
+    
 
 def category_list_th(request):
-    return render(request, 'thank_japan_app/category/category_list_th.html')
+    
+    is_premium = False
+    
+    if request.user.is_authenticated:
+        
+        is_premium = request.user.profile.is_premium
 
+    lang_code = request.GET.get('lang', 'th')
+
+    return render(request, 'thank_japan_app/category/category_list_th.html', {
+        'is_premium': is_premium,
+        'lang_code': lang_code,
+    })
+    
+    
 def category_list_pt(request):
-    return render(request, 'thank_japan_app/category/category_list_pt.html') 
+    
+    is_premium = False
+    
+    if request.user.is_authenticated:
+        
+        is_premium = request.user.profile.is_premium
+
+    lang_code = request.GET.get('lang', 'pt')
+
+    return render(request, 'thank_japan_app/category/category_list_pt.html', {
+        'is_premium': is_premium,
+        'lang_code': lang_code,
+    })
+    
+    
 
 def category_list_pt_br(request):
-    return render(request, 'thank_japan_app/category/category_list_pt_br.html') 
+    
+    is_premium = False
+    
+    if request.user.is_authenticated:
+        
+        is_premium = request.user.profile.is_premium
+
+    lang_code = request.GET.get('lang', 'pt-br')
+
+    return render(request, 'thank_japan_app/category/category_list_pt_br.html', {
+        'is_premium': is_premium,
+        'lang_code': lang_code,
+    })
+    
+    
 
 def category_list_ko(request):
-    return render(request, 'thank_japan_app/category/category_list_ko.html') 
+    
+    is_premium = False
+    
+    if request.user.is_authenticated:
+        
+        is_premium = request.user.profile.is_premium
+
+    lang_code = request.GET.get('lang', 'ko')
+
+    return render(request, 'thank_japan_app/category/category_list_ko.html', {
+        'is_premium': is_premium,
+        'lang_code': lang_code,
+    })
+    
+     
 
 def category_list_ja(request):
-    return render(request, 'thank_japan_app/category/category_list_ja.html')
+    
+    is_premium = False
+    
+    if request.user.is_authenticated:
+        
+        is_premium = request.user.profile.is_premium
+
+    lang_code = request.GET.get('lang', 'ja')
+
+    return render(request, 'thank_japan_app/category/category_list_ja.html', {
+        'is_premium': is_premium,
+        'lang_code': lang_code,
+    })
+    
+    
  
 def category_list_it(request):
-    return render(request, 'thank_japan_app/category/category_list_it.html')
+    
+    is_premium = False
+    
+    if request.user.is_authenticated:
+        
+        is_premium = request.user.profile.is_premium
+
+    lang_code = request.GET.get('lang', 'it')
+
+    return render(request, 'thank_japan_app/category/category_list_it.html', {
+        'is_premium': is_premium,
+        'lang_code': lang_code,
+    })
+    
+    
  
 def category_list_fr(request):
-    return render(request, 'thank_japan_app/category/category_list_fr.html')
+    
+    is_premium = False
+    
+    if request.user.is_authenticated:
+        
+        is_premium = request.user.profile.is_premium
+
+    lang_code = request.GET.get('lang', 'fr')
+
+    return render(request, 'thank_japan_app/category/category_list_fr.html', {
+        'is_premium': is_premium,
+        'lang_code': lang_code,
+    })
+    
+    
 
 def category_list_es_mx(request):
-    return render(request, 'thank_japan_app/category/category_list_es_mx.html')
+    
+    is_premium = False
+    
+    if request.user.is_authenticated:
+        
+        is_premium = request.user.profile.is_premium
+
+    lang_code = request.GET.get('lang', 'es-mx')
+
+    return render(request, 'thank_japan_app/category/category_list_es_mx.html', {
+        'is_premium': is_premium,
+        'lang_code': lang_code,
+    })
+    
+    
 
 def category_list_es_es(request):
-    return render(request, 'thank_japan_app/category/category_list_es_es.html')
+    
+    is_premium = False
+    
+    if request.user.is_authenticated:
+        
+        is_premium = request.user.profile.is_premium
+
+    lang_code = request.GET.get('lang', 'es-es')
+
+    return render(request, 'thank_japan_app/category/category_list_es_es.html', {
+        'is_premium': is_premium,
+        'lang_code': lang_code,
+    })
+    
+    
  
 def category_list_en_in(request):
-    return render(request, 'thank_japan_app/category/category_list_en_in.html')
+    
+    is_premium = False
+    
+    if request.user.is_authenticated:
+        
+        is_premium = request.user.profile.is_premium
+
+    lang_code = request.GET.get('lang', 'en-in')
+
+    return render(request, 'thank_japan_app/category/category_list_en_in.html', {
+        'is_premium': is_premium,
+        'lang_code': lang_code,
+    })
+    
+    
  
 def category_list_de(request):
-    return render(request, 'thank_japan_app/category/category_list_de.html')
+    
+    is_premium = False
+    
+    if request.user.is_authenticated:
+        
+        is_premium = request.user.profile.is_premium
+
+    lang_code = request.GET.get('lang', 'de')
+
+    return render(request, 'thank_japan_app/category/category_list_de.html', {
+        'is_premium': is_premium,
+        'lang_code': lang_code,
+    })
+    
+    
  
  
 #category view

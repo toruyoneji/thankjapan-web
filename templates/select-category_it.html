@@ -360,28 +360,40 @@
 
         <!-- Business Japanese (Premium) -->
         <a href="{% url 'businessjapanese'%}?lang={{ lang_code }}" class="cat-premium-card">
-            <div class="premium-label">Special</div>
+            <div class="{% if is_premium %}premium-free-label{% else %}premium-label{% endif %}">
+                {% if is_premium %}ACTIVE{% else %}Special{% endif %}
+            </div>
+
             <span class="cat-icon">👔</span>
             <span class="cat-name">Giapponese commerciale</span>
         </a>
 
         <!-- Practical Living (Premium) -->
         <a href="{% url 'living_in_japan_page'%}?lang={{ lang_code }}" class="cat-premium-card">
-            <div class="premium-label">Special</div>
+            <div class="{% if is_premium %}premium-free-label{% else %}premium-label{% endif %}">
+                {% if is_premium %}ACTIVE{% else %}Special{% endif %}
+            </div>
+
             <span class="cat-icon">🏠</span>
             <span class="cat-name">Vita Pratica in Giappone</span>
         </a>
 
         <!-- Medical & Emergency (Premium) -->
         <a href="{% url 'medical_emergency' %}?lang={{ lang_code }}" class="cat-premium-card">
-            <div class="premium-label">Special</div>
+            <div class="{% if is_premium %}premium-free-label{% else %}premium-label{% endif %}">
+                {% if is_premium %}ACTIVE{% else %}Special{% endif %}
+            </div>
+
             <span class="cat-icon">🏥</span>
             <span class="cat-name">Salute ed Emergenze</span>
         </a>
 
         <!-- Real Estate & Hidden Rules (Premium) -->
         <a href="{% url 'real_estate_rules' %}?lang={{ lang_code }}" class="cat-premium-card">
-            <div class="premium-label">Special</div>
+            <div class="{% if is_premium %}premium-free-label{% else %}premium-label{% endif %}">
+                {% if is_premium %}ACTIVE{% else %}Special{% endif %}
+            </div>
+
             <span class="cat-icon">🏢</span>
             <span class="cat-name">Immobiliare e Regole</span>
         </a>
@@ -390,7 +402,10 @@
 
         <!-- Prefectures (Premium) -->
         <a href="{% url 'prefectures' %}?lang={{ lang_code }}" class="cat-premium-card">
-            <div class="premium-label">Special</div>
+            <div class="{% if is_premium %}premium-free-label{% else %}premium-label{% endif %}">
+                {% if is_premium %}ACTIVE{% else %}Special{% endif %}
+            </div>
+            
             <span class="cat-icon">🗾</span>
             <span class="cat-name">Prefetture</span>
         </a>
