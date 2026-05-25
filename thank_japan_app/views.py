@@ -1277,7 +1277,19 @@ def game_result(request):
 #category select view
 
 def category_list(request):
-    return render(request, 'thank_japan_app/category/category_list.html') 
+    
+    is_premium = False
+    
+    if request.user.is_authenticated:
+        
+        is_premium = request.user.profile.is_premium
+
+    lang_code = request.GET.get('lang', 'en')
+
+    return render(request, 'thank_japan_app/category/category_list.html', {
+        'is_premium': is_premium,
+        'lang_code': lang_code,
+    })
 
 def category_list_zhcn(request):
     return render(request, 'thank_japan_app/category/category_list_zh_cn.html') 

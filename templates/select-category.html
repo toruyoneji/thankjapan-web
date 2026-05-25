@@ -361,28 +361,40 @@
 
         <!-- Business Japanese (Premium) -->
         <a href="{% url 'businessjapanese'%}?lang={{ lang_code }}" class="cat-premium-card">
-            <div class="premium-label">Special</div>
+            <div class="{% if is_premium %}premium-free-label{% else %}premium-label{% endif %}">
+                {% if is_premium %}UNLOCKED{% else %}Special{% endif %}
+            </div>
+
             <span class="cat-icon">👔</span>
             <span class="cat-name">Business Japanese</span>
         </a>
 
         <!-- Practical Living (Premium) -->
         <a href="{% url 'living_in_japan_page' %}?lang={{ lang_code }}" class="cat-premium-card">
-            <div class="premium-label">Special</div>
+            <div class="{% if is_premium %}premium-free-label{% else %}premium-label{% endif %}">
+                {% if is_premium %}UNLOCKED{% else %}Special{% endif %}
+            </div>
+            
             <span class="cat-icon">🏠</span>
             <span class="cat-name">Practical Living</span>
         </a>
         
         <!-- Medical & Emergency (Premium) -->
         <a href="{% url 'medical_emergency' %}?lang={{ lang_code }}" class="cat-premium-card">
-            <div class="premium-label">Special</div>
+            <div class="{% if is_premium %}premium-free-label{% else %}premium-label{% endif %}">
+                {% if is_premium %}UNLOCKED{% else %}Special{% endif %}
+            </div>
+            
             <span class="cat-icon">🏥</span>
             <span class="cat-name">Medical & Emergency</span>
         </a>
 
         <!-- Real Estate & Hidden Rules (Premium) -->
         <a href="{% url 'real_estate_rules' %}?lang={{ lang_code }}" class="cat-premium-card">
-            <div class="premium-label">Special</div>
+            <div class="{% if is_premium %}premium-free-label{% else %}premium-label{% endif %}">
+                {% if is_premium %}UNLOCKED{% else %}Special{% endif %}
+            </div>
+            
             <span class="cat-icon">🏢</span>
             <span class="cat-name">Real Estate & Rules</span>
         </a>
@@ -391,7 +403,10 @@
 
         <!-- Prefectures (Premium) -->
         <a href="{% url 'prefectures' %}?lang={{ lang_code }}" class="cat-premium-card">
-            <div class="premium-label">Special</div>
+            <div class="{% if is_premium %}premium-free-label{% else %}premium-label{% endif %}">
+                {% if is_premium %}UNLOCKED{% else %}Special{% endif %}
+            </div>
+            
             <span class="cat-icon">🗾</span>
             <span class="cat-name">Prefectures</span>
         </a>
