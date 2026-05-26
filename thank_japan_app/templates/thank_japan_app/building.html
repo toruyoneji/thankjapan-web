@@ -628,7 +628,8 @@ function speakJapanese(text) {
         const name = voice.name;
         const lang = voice.lang;
         if (lang !== 'ja-JP' && lang !== 'ja_JP') return false;
-        return name.includes('Google') || name.includes('Natural') || name.includes('Siri') || name.includes('Premium') || name.includes('O-ren');
+        return name.includes('Google') || name.includes('Natural') || name.includes('Siri') || name.includes('Premium') || name.includes('O-ren') || 
+               name.includes('Hattori');
     });
 
     if (!selectedVoice) {
