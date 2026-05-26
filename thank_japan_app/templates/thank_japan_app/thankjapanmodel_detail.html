@@ -583,6 +583,11 @@ footer {
         
                 <p style="color: #666; margin-bottom: 15px; font-size: 1.2em; font-style: italic;">
                     {{ object.example_sentence_romaji }}
+                    <button type="button" 
+                        onclick="speakJapanese('{{ object.example_sentence_ja|escapejs }}'.replace(/<ruby>.*?<\/ruby>/g, '').replace(/<[^>]+>/g, ''))" 
+                        style="background:none; border:none; cursor:pointer; font-size:1.1em; margin-left:8px; vertical-align: middle; padding:0;">
+                        🔊
+                    </button>
                 </p>
 
         
