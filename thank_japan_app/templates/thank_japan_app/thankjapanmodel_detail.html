@@ -581,11 +581,24 @@ footer {
                 </p>
         
         
-                <p style="color: #666; margin-bottom: 15px; font-size: 1.2em; font-style: italic;">
+                <p style="color: #666; margin-bottom: 15px; font-size: 1.2em; font-style: italic; display: flex; align-items: center; flex-wrap: wrap;">
                     {{ object.example_sentence_romaji }}
+    
+    
                     <span onclick="speakJapanese('{{ object.example_sentence_ja|escapejs }}'.replace(/<rt>.*?<\/rt>/g, '').replace(/<[^>]+>/g, ''))" 
-                        style="cursor: pointer; margin-left: 10px; font-style: normal; font-size: 1em;">
-                        🗣️<small style="font-size: 0.8em; opacity: 0.7;">🔊</small>
+                        style="cursor: pointer; 
+                                margin-left: 12px; 
+                                font-style: normal; 
+                                display: inline-flex; 
+                                align-items: center; 
+                                justify-content: center; 
+                                background-color: #f0f4e8; 
+                                padding: 8px 12px; 
+                                border-radius: 20px; 
+                                font-size: 1.4em; 
+                                box-shadow: 0 2px 5px rgba(0,0,0,0.1); 
+                                transition: transform 0.1s active;">
+                        🗣️<span style="font-size: 0.7em; margin-left: 4px;">🔊</span>
                     </span>
                 </p>
 
