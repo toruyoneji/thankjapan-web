@@ -1092,14 +1092,41 @@ function manualPlay() {
 
 function speakJapanese(text, isAuto = false) {
     if (isAuto && !isSoundOn) return;
-    if ('speechSynthesis' in window) {
-        window.speechSynthesis.cancel();
-        const u = new SpeechSynthesisUtterance(text);
-        u.lang = 'ja-JP';
-        u.rate = 0.85;
-        setTimeout(() => { window.speechSynthesis.speak(u); }, 100);
+    if (!('speechSynthesis' in window)) return;
+
+    window.speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    const voices = window.speechSynthesis.getVoices();
+
+    let selectedVoice = voices.find(voice => {
+        const name = voice.name;
+        const lang = voice.lang;
+        if (lang !== 'ja-JP' && lang !== 'ja_JP') return false;
+        return name.includes('Google') || name.includes('Natural') || name.includes('Siri') || name.includes('Premium') || name.includes('O-ren');
+    });
+
+    if (!selectedVoice) {
+        selectedVoice = voices.find(voice => voice.lang.startsWith('ja'));
     }
+
+    if (selectedVoice) {
+        u.voice = selectedVoice;
+    }
+
+    u.lang = 'ja-JP';
+    u.rate = 1.0; 
+    u.pitch = 1.0;
+
+    setTimeout(() => { 
+        window.speechSynthesis.speak(u); 
+    }, 100);
 }
+
+window.speechSynthesis.getVoices();
+if (speechSynthesis.onvoiceschanged !== undefined) {
+    speechSynthesis.onvoiceschanged = () => speechSynthesis.getVoices();
+}
+
 
 function playChime() {
     if (!isSoundOn) return;

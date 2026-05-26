@@ -619,13 +619,39 @@ function hideGuide(card) {
 }
 
 function speakJapanese(text) {
-    if (!window.speechSynthesis) return;
+    if (!('speechSynthesis' in window)) return;
+
+    window.speechSynthesis.cancel();
     const uttr = new SpeechSynthesisUtterance(text);
+    const voices = window.speechSynthesis.getVoices();
+
+    let selectedVoice = voices.find(voice => {
+        const name = voice.name;
+        const lang = voice.lang;
+        if (lang !== 'ja-JP' && lang !== 'ja_JP') return false;
+        return name.includes('Google') || name.includes('Natural') || name.includes('Siri') || name.includes('Premium') || name.includes('O-ren');
+    });
+
+    if (!selectedVoice) {
+        selectedVoice = voices.find(voice => voice.lang.startsWith('ja'));
+    }
+
+    if (selectedVoice) {
+        uttr.voice = selectedVoice;
+        console.log("Selected voice:", selectedVoice.name);
+    }
+
     uttr.lang = 'ja-JP';
-    uttr.rate = 0.9;
-    speechSynthesis.speak(uttr);
+    uttr.rate = 1.0;
+    uttr.pitch = 1.0;
+
+    window.speechSynthesis.speak(uttr);
 }
 
+window.speechSynthesis.getVoices();
+if (speechSynthesis.onvoiceschanged !== undefined) {
+    speechSynthesis.onvoiceschanged = () => speechSynthesis.getVoices();
+}
 
 
 function openDetailModal(url) {
