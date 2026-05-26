@@ -628,8 +628,27 @@ body {
                 </p>
         
         
-                <p style="color: #666; margin-bottom: 15px; font-size: 1.2em; font-style: italic;">
+                <p style="color: #666; margin-bottom: 15px; font-size: 1.2em; font-style: italic; display: flex; align-items: center; flex-wrap: wrap;">
                     {{ object.example_sentence_romaji }}
+    
+    
+                    <span onclick="speakJapanese('{{ object.example_sentence_ja|escapejs }}'.replace(/<rt>.*?<\/rt>/g, '').replace(/<[^>]+>/g, ''))" 
+                        style="cursor: pointer; 
+                                margin-left: 12px; 
+                                font-style: normal; 
+                                display: inline-flex; 
+                                align-items: center; 
+                                justify-content: center; 
+                                background-color: #eeeeee; 
+                                padding: 10px 16px; 
+                                border-radius: 30px; 
+                                font-size: 1.5em; 
+                                border: 1px solid #cccccc; 
+                                box-shadow: 0 2px 4px rgba(0,0,0,0.1); 
+                                user-select: none; 
+                                -webkit-tap-highlight-color: transparent;"> 
+                        🗣️<span style="font-size: 0.6em; margin-left: 6px;">🔊</span>
+                    </span>
                 </p>
 
         
