@@ -796,18 +796,49 @@ footer {
 function speakJapanese(text) {
     if ('speechSynthesis' in window) {
         window.speechSynthesis.cancel();
-
         const utterance = new SpeechSynthesisUtterance(text);
+        
+        
+        let voices = window.speechSynthesis.getVoices();
+
+        
+        let selectedVoice = voices.find(voice => {
+            const name = voice.name;
+            const lang = voice.lang;
+            
+            if (lang !== 'ja-JP' && lang !== 'ja_JP') return false;
+
+            
+            return name.includes('Google') || 
+                   name.includes('Natural') || 
+                   name.includes('Siri') || 
+                   name.includes('Premium') ||
+                   name.includes('O-ren');
+        });
+
+        
+        if (!selectedVoice) {
+            selectedVoice = voices.find(voice => voice.lang.startsWith('ja'));
+        }
+
+        if (selectedVoice) {
+            utterance.voice = selectedVoice;
+            console.log("Selected voice:", selectedVoice.name); 
+        }
+
         utterance.lang = 'ja-JP';
-        utterance.rate = 0.9;
+        utterance.rate = 1.0; 
         utterance.pitch = 1.0;
         utterance.volume = 1.0;
 
         window.speechSynthesis.speak(utterance);
-    } else {
-        alert("Sorry, your browser does not support text-to-speech.");
     }
 }
+
+
+window.speechSynthesis.onvoiceschanged = () => {
+    window.speechSynthesis.getVoices();
+};
 
 function smartBack(categoryListUrl) {
     const params = new URLSearchParams(window.location.search);
