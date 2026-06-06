@@ -723,6 +723,11 @@ def contact_thanks(request):
 
 def player_register(request):
     next_url = request.GET.get('next') or request.POST.get('next') or 'toppage'
+    
+    if 'register' in str(next_url) or 'login' in str(next_url):
+        next_url = 'toppage'
+        
+        
     lang_code = request.GET.get('lang') or request.POST.get('lang') or 'en'
     guest_score = request.POST.get('guest_score') or request.GET.get('guest_score') or '0'
 

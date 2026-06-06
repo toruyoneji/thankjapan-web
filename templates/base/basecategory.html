@@ -347,40 +347,52 @@
                 </div>
             {% else %}
                 <div class="guest-info">
+    
+                    {% url 'player_register' as reg_url %}
+                    {% url 'player_login' as login_url %}
+    
+    
+                    {% if request.resolver_match.url_name != 'player_register' and request.resolver_match.url_name != 'player_login' %}
+                        {% with next_p=request.get_full_path|urlencode %}
             
-                    <a href="{% url 'player_register' %}?next={{ request.get_full_path|urlencode }}&lang={{ lang_code }}&from=header_badge" class="header-score-badge guest">
-                        <span class="rank-emoji">🌾</span>
-                        <span class="score-text">💎 0<small>pt</small></span>
-                    </a>
+                            <a href="{{ reg_url }}?next={{ next_p }}&lang={{ lang_code }}&from=header_badge" class="header-score-badge guest">
+                                <span class="rank-emoji">🌾</span>
+                                <span class="score-text">💎 0<small>pt</small></span>
+                            </a>
+                        {% endwith %}
+                    {% else %}
+        
+                        <a href="{{ reg_url }}?next=toppage&lang={{ lang_code }}&from=header_badge" class="header-score-badge guest">
+                            <span class="rank-emoji">🌾</span>
+                            <span class="score-text">💎 0<small>pt</small></span>
+                        </a>
+                    {% endif %}
 
+    
                     <span class="user-name">
-                        {% if lang_code == 'ja' %}
-                            👤 ゲスト
-                        {% elif lang_code == 'zh-hant' %}
-                            👤 訪客
-                        {% elif lang_code == 'zh-cn' %}
-                            👤 访客
-                        {% elif lang_code == 'ko' %}
-                            👤 게스트
-                        {% elif lang_code == 'de' %}
-                            👤 Gast
-                        {% elif lang_code == 'fr' %}
-                            👤 Invité
-                        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}
-                            👤 Invitado
-                        {% elif lang_code == 'it' %}
-                            👤 Ospite
-                        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}
-                            👤 Visitante
-                        {% elif lang_code == 'vi' %}
-                            👤 Khách
-                        {% elif lang_code == 'th' %}
-                            👤 ผู้เยี่ยมชม
-                        {% else %}
-                            👤 Guest
+                        {% if lang_code == 'ja' %}👤 ゲスト
+                        {% elif lang_code == 'zh-hant' %}👤 訪客
+                        {% elif lang_code == 'zh-cn' %}👤 访客
+                        {% elif lang_code == 'ko' %}👤 게스트
+                        {% elif lang_code == 'de' %}👤 Gast
+                        {% elif lang_code == 'fr' %}👤 Invité
+                        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}👤 Invitado
+                        {% elif lang_code == 'it' %}👤 Ospite
+                        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}👤 Visitante
+                        {% elif lang_code == 'vi' %}👤 Khách
+                        {% elif lang_code == 'th' %}👤 ผู้เยี่ยมชม
+                        {% else %}👤 Guest
                         {% endif %}
                     </span> 
-                    <a href="{% url 'player_register' %}?next={{ request.get_full_path|urlencode }}&lang={{ lang_code }}&from=header_btn" class="auth-btn login">
+
+    
+                    {% if request.resolver_match.url_name != 'player_register' and request.resolver_match.url_name != 'player_login' %}
+                        {% with next_p=request.get_full_path|urlencode %}
+                            <a href="{{ reg_url }}?next={{ next_p }}&lang={{ lang_code }}&from=header_btn" class="auth-btn login">
+                        {% endwith %}
+                    {% else %}
+                        <a href="{{ reg_url }}?next=toppage&lang={{ lang_code }}&from=header_btn" class="auth-btn login">
+                    {% endif %}
                         {% if lang_code == 'ja' %}新規登録
                         {% elif lang_code == 'zh-hant' %}註冊
                         {% elif lang_code == 'zh-cn' %}注册
@@ -396,9 +408,9 @@
                         {% elif lang_code == 'en-in' %}Sign Up
                         {% else %}Sign Up
                         {% endif %}
-                    </a>
-                    
+                        </a>
                 </div>
+
             {% endif %}
         </div>
 

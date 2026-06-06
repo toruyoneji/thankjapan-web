@@ -311,16 +311,32 @@
                     <a href="{% url 'player_logout' %}?lang=vi" class="auth-btn logout">Đăng xuất</a>
                 </div>
             {% else %}
+                
                 <div class="guest-info">
-            
-                    <a href="{% url 'player_register' %}?next={{ request.get_full_path|urlencode }}&lang={{ lang_code }}&from=header_badge" class="header-score-badge guest">
-                        <span class="rank-emoji">🌾</span>
-                        <span class="score-text">💎 0<small>pt</small></span>
-                    </a>
-
-                    <span class="user-name">👤 Khách</span> 
-                    <a href="{% url 'player_register' %}?next={{ request.get_full_path|urlencode }}&lang={{ lang_code }}&from=header_btn" class="auth-btn login">Đăng ký</a>
-            
+    
+                    {% url 'player_register' as reg_url %}
+                    {% url 'player_login' as login_url %}
+    
+    
+                    {% if request.resolver_match.url_name != 'player_register' and request.resolver_match.url_name != 'player_login' %}
+                        {% with next_p=request.get_full_path|urlencode %}
+                            <a href="{{ reg_url }}?next={{ next_p }}&lang={{ lang_code }}&from=header_badge" class="header-score-badge guest">
+                                <span class="rank-emoji">🌾</span>
+                                <span class="score-text">💎 0<small>pt</small></span>
+                            </a>
+                            <span class="user-name">👤 Khách</span> 
+                            <a href="{{ reg_url }}?next={{ next_p }}&lang={{ lang_code }}&from=header_btn" class="auth-btn login">Đăng ký</a>
+                        {% endwith %}
+                    {% else %}
+        
+                        <a href="{{ reg_url }}?next=toppage&lang={{ lang_code }}&from=header_badge" class="header-score-badge guest">
+                            <span class="rank-emoji">🌾</span>
+                            <span class="score-text">💎 0<small>pt</small></span>
+                        </a>
+                        <span class="user-name">👤 Khách</span> 
+                        <a href="{{ reg_url }}?next=toppage&lang={{ lang_code }}&from=header_btn" class="auth-btn login">Đăng ký</a>
+    
+                    {% endif %}
                 </div>
             {% endif %}
         </div>
