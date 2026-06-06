@@ -784,6 +784,9 @@ def player_register(request):
 def player_login(request):
     next_url = request.GET.get('next') or request.POST.get('next') or 'toppage'
     lang_code = request.GET.get('lang') or 'en'
+    
+    if 'login' in str(next_url) or 'register' in str(next_url):
+        next_url = 'toppage'
 
     if request.method == "POST":
         username = request.POST.get('username')
