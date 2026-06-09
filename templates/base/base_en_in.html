@@ -375,12 +375,66 @@
 {% block content %}{% endblock %}
 
 <div id="cookieConsentBanner" class="cookie-consent-banner">
-    <p>This website uses cookies to improve your experience and provide personalized content. 
-       By clicking "Accept All", you agree to our use of cookies. Details in our <a href="{% url 'privacy_policyenIN' %}" class="cookie-policy-link">Privacy Policy</a>.
+    <p>
+    {% if lang_code == 'ja' %}
+        このウェブサイトでは、ユーザー体験向上のためにクッキーを使用しています。「すべて同意」をクリックすることで、クッキーの使用に同意したことになります。詳細は<a href="{% url 'privacy_policyja' %}" class="cookie-policy-link">プライバシーポリシー</a>をご覧ください。
+    {% elif lang_code == 'ko' %}
+        본 웹사이트는 사용자 경험 개선을 위해 쿠키를 사용합니다. "모두 동의"를 클릭하면 쿠키 사용에 동의하는 것으로 간주됩니다. 자세한 내용은 <a href="{% url 'privacy_policyko' %}" class="cookie-policy-link">개인정보 처리방침</a>을 확인하세요.
+    {% elif lang_code == 'zh-cn' %}
+        本网站使用 Cookie 以提升您的体验。点击“接受所有”，即表示您同意我们使用 Cookie。详情请参阅<a href="{% url 'privacy_policyzhCN' %}" class="cookie-policy-link">隐私政策</a>。
+    {% elif lang_code == 'zh-hant' %}
+        本網站使用 Cookie 以提升您的體驗。點擊「接受所有」，即表示您同意我們使用 Cookie。詳情請參閱<a href="{% url 'privacy_policyzhHANT' %}" class="cookie-policy-link">隱私政策</a>。
+    {% elif lang_code == 'th' %}
+        เว็บไซต์นี้ใช้คุกกี้เพื่อปรับปรุงประสบการณ์ของคุณ การคลิก "ยอมรับทั้งหมด" แสดงว่าคุณยอมรับการใช้คุกกี้ของเรา รายละเอียดใน<a href="{% url 'privacy_policyth' %}" class="cookie-policy-link">นโยบายความเป็นส่วนตัว</a>
+    {% elif lang_code == 'vi' %}
+        Trang web này sử dụng cookie để cải thiện trải nghiệm của bạn. Bằng cách nhấp vào "Chấp nhận tất cả", bạn đồng ý với việc chúng tôi sử dụng cookie. Chi tiết trong <a href="{% url 'privacy_policyvi' %}" class="cookie-policy-link">Chính sách bảo mật</a>.
+    {% elif lang_code == 'fr' %}
+        Ce site utilise des cookies pour améliorer votre expérience. En cliquant sur « Tout accepter », vous acceptez notre utilisation des cookies. Détails dans notre <a href="{% url 'privacy_policyfr' %}" class="cookie-policy-link">Politique de confidentialité</a>.
+    {% elif lang_code == 'de' %}
+        Diese Website verwendet Cookies, um Ihre Erfahrung zu verbessern. Durch Klicken auf „Alle akzeptieren“ stimmen Sie der Verwendung von Cookies zu. Details in unserer <a href="{% url 'privacy_policyde' %}" class="cookie-policy-link">Datenschutzerklärung</a>.
+    {% elif lang_code == 'it' %}
+        Questo sito utilizza i cookie per migliorare la tua esperienza. Cliccando su "Accetta tutti", acconsenti all'uso dei cookie. Dettagli nella nostra <a href="{% url 'privacy_policyit' %}" class="cookie-policy-link">Informativa sulla privacy</a>.
+    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}
+        Este sitio utiliza cookies para mejorar su experiencia. Al hacer clic en "Aceptar todo", acepta nuestro uso de cookies. Detalles en nuestra <a href="{% if lang_code == 'es-es' %}{% url 'privacy_policyesES' %}{% else %}{% url 'privacy_policyesMX' %}{% endif %}" class="cookie-policy-link">Política de privacidad</a>.
+    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}
+        Este site usa cookies para melhorar sua experiência. Ao clicar em "Aceitar tudo", você concorda com o uso de cookies. Detalhes em nossa <a href="{% if lang_code == 'pt' %}{% url 'privacy_policypt' %}{% else %}{% url 'privacy_policyptBR' %}{% endif %}" class="cookie-policy-link">Política de privacidade</a>.
+    {% elif lang_code == 'en-in' %}
+        This website uses cookies to improve your experience. By clicking "Accept All", you agree to our use of cookies. Details in our <a href="{% url 'privacy_policyenIN' %}" class="cookie-policy-link">Privacy Policy</a>.
+    {% else %}
+        This website uses cookies to improve your experience. By clicking "Accept All", you agree to our use of cookies. Details in our <a href="{% url 'privacy_policy' %}" class="cookie-policy-link">Privacy Policy</a>.
+    {% endif %}
     </p>
+
     <div class="cookie-consent-buttons">
-        <button id="acceptCookiesBtn" class="cookie-consent-btn accept-btn">Accept All Cookies</button>
-        <button id="manageCookiesBtn" class="cookie-consent-btn manage-btn">Manage Preferences</button>
+        <button id="acceptCookiesBtn" class="cookie-consent-btn accept-btn">
+            {% if lang_code == 'ja' %}すべてのクッキーを同意
+            {% elif lang_code == 'ko' %}모든 쿠키 허용
+            {% elif lang_code == 'zh-cn' %}接受所有 Cookie
+            {% elif lang_code == 'zh-hant' %}接受所有 Cookie
+            {% elif lang_code == 'th' %}ยอมรับคุกกี้ทั้งหมด
+            {% elif lang_code == 'vi' %}Chấp nhận tất cả Cookie
+            {% elif lang_code == 'fr' %}Accepter tous les cookies
+            {% elif lang_code == 'de' %}Alle Cookies akzeptieren
+            {% elif lang_code == 'it' %}Accetta tutti i cookie
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Aceptar todas las cookies
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Aceitar todos os cookies
+            {% else %}Accept All Cookies{% endif %}
+        </button>
+    
+        <button id="manageCookiesBtn" class="cookie-consent-btn manage-btn">
+            {% if lang_code == 'ja' %}設定を管理
+            {% elif lang_code == 'ko' %}설정 관리
+            {% elif lang_code == 'zh-cn' %}管理偏好设置
+            {% elif lang_code == 'zh-hant' %}管理偏好設定
+            {% elif lang_code == 'th' %}จัดการการตั้งค่า
+            {% elif lang_code == 'vi' %}Quản lý tùy chọn
+            {% elif lang_code == 'fr' %}Gérer les préférences
+            {% elif lang_code == 'de' %}Einstellungen verwalten
+            {% elif lang_code == 'it' %}Gestisci preferenze
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Gestionar preferencias
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Gerenciar preferências
+            {% else %}Manage Preferences{% endif %}
+        </button>
     </div>
 </div>
 

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" translate="no">
+<html lang="{{ lang_code }}" translate="no">
 {% load static %}
 <head>
     {% include 'css.html' %}
@@ -12,11 +12,53 @@
     <link rel="icon" href="https://res.cloudinary.com/dotekofm5/image/upload/w_96,h_96,c_fill/v1768197979/thankjapan/backgrounds/lzqkopi7hngponvt8ekw.png" sizes="96x96" type="image/png">
     <link rel="apple-touch-icon" href="https://res.cloudinary.com/dotekofm5/image/upload/w_180,h_180,c_fill/v1768197979/thankjapan/backgrounds/lzqkopi7hngponvt8ekw.png">
 
+
     {% block meta %}
-    <meta name="title" content="Master Japanese Vocabulary through Culture: Visual Quiz Games | ThankJapan" />
-    <meta name="description" content="{% block description %}Build your Japanese vocabulary through culture and visual quiz games. Master essential words in 15 languages without boring textbooks.{% endblock %}" />
+    <meta name="title" content="
+        {% if lang_code == 'ja' %}日本文化で学ぶ日本語単語：ビジュアルクイズゲーム | ThankJapan
+        {% elif lang_code == 'ko' %}문화로 배우는 일본어 어휘: 비주얼 퀴즈 게임 | ThankJapan
+        {% elif lang_code == 'zh-cn' %}通过文化学习日语词汇：视觉有奖竞猜游戏 | ThankJapan
+        {% elif lang_code == 'zh-hant' %}透過文化學習日語詞彙：視覺有獎競猜遊戲 | ThankJapan
+        {% elif lang_code == 'th' %}มาสเตอร์คำศัพท์ภาษาญี่ปุ่นผ่านวัฒนธรรม: เกมควิซภาพ | ThankJapan
+        {% elif lang_code == 'vi' %}Nắm vững từ vựng tiếng Nhật qua văn hóa: Trò chơi đố vui hình ảnh | ThankJapan
+        {% elif lang_code == 'fr' %}Maîtrisez le vocabulaire japonais par la culture : jeux de quiz visuels | ThankJapan
+        {% elif lang_code == 'de' %}Japanischen Wortschatz durch Kultur meistern: Visuelle Quizspiele | ThankJapan
+        {% elif lang_code == 'it' %}Padroneggia i vocaboli giapponesi attraverso la cultura: quiz visivi | ThankJapan
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Domina el vocabulario japonés a través de la cultura: juegos de preguntas visuales | ThankJapan
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Domine o vocabulário japonês através da cultura: Jogos de quiz visuais | ThankJapan
+        {% else %}Master Japanese Vocabulary through Culture: Visual Quiz Games | ThankJapan{% endif %}
+    " />
+
+    <meta name="description" content="{% block description %}{% if lang_code == 'ja' %}日本文化とビジュアルクイズゲームで日本語の単語を学習。15言語対応で、退屈な教科書を使わずに必須単語をマスターできます。
+        {% elif lang_code == 'ko' %}일본 문화와 비주얼 퀴즈 게임으로 일본어 단어를 학습하세요. 15개 언어를 지원하며, 지루한 교과서 없이 필수 단어를 마스터할 수 있습니다.
+        {% elif lang_code == 'zh-cn' %}通过文化和视觉有奖竞猜游戏积累日语词汇。支持 15 种语言，无需枯燥的教科书即可掌握必备词汇。
+        {% elif lang_code == 'zh-hant' %}透過文化和視覺有獎競猜遊戲累積日語詞彙。支持 15 種語言，無需枯燥的教科書即可掌握必備詞彙。
+        {% elif lang_code == 'th' %}สร้างคำศัพท์ภาษาญี่ปุ่นของคุณผ่านวัฒนธรรมและเกมควิซภาพ มาสเตอร์คำศัพท์ที่จำเป็นใน 15 ภาษาโดยไม่ต้องใช้ตำราที่น่าเบื่อ
+        {% elif lang_code == 'vi' %}Xây dựng vốn từ vựng tiếng Nhật của bạn thông qua văn hóa và các trò chơi đố vui hình ảnh. Nắm vững các từ thiết yếu bằng 15 ngôn ngữ mà không cần sách giáo khoa nhàm chán.
+        {% elif lang_code == 'fr' %}Développez votre vocabulaire japonais grâce à la culture et à des jeux de quiz visuels. Maîtrisez les mots essentiels en 15 langues sans manuels ennuyeux.
+        {% elif lang_code == 'de' %}Bauen Sie Ihren japanischen Wortschatz durch Kultur und visuelle Quizspiele auf. Meistern Sie wichtige Wörter in 15 Sprachen ohne langweilige Lehrbücher.
+        {% elif lang_code == 'it' %}Costruisci il tuo vocabolario giapponese attraverso la cultura e i quiz visivi. Padroneggia le parole essenziali in 15 lingue senza noiosi libri di testo.
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Desarrolla tu vocabulario japonés a través de la cultura y juegos de preguntas visuales. Domina palabras esenciales en 15 idiomas sin aburridos libros de texto.
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Construa seu vocabulário japonês através da cultura e de jogos de quiz visuais. Domine palavras essenciais em 15 idiomas sem livros didáticos chatos.
+        {% else %}Build your Japanese vocabulary through culture and visual quiz games. Master essential words in 15 languages without boring textbooks.{% endif %}{% endblock %}" />
+
     <meta name="robots" content="index,follow">
-    <meta name="keywords" content="Japanese vocabulary, Japanese culture, learn Japanese words, Japanese quiz, Japanese food, ThankJapan">
+
+   <meta name="keywords" content="
+        {% if lang_code == 'ja' %}日本語単語, 日本文化, 日本語学習, 日本語クイズ, 日本食, ThankJapan
+        {% elif lang_code == 'ko' %}일본어 단어, 일본 문화, 일본어 학습, 일본어 퀴즈, 일식, ThankJapan
+        {% elif lang_code == 'zh-cn' %}日语词汇, 日本文化, 学习日语, 日语测验, 日本料理, ThankJapan
+        {% elif lang_code == 'zh-hant' %}日語詞彙, 日本文化, 學習日語, 日語測驗, 日本料理, ThankJapan
+        {% elif lang_code == 'th' %}คำศัพท์ภาษาญี่ปุ่น, วัฒนธรรมญี่ปุ่น, เรียนภาษาญี่ปุ่น, ควิซภาษาญี่ปุ่น, อาหารญี่ปุ่น, ThankJapan
+        {% elif lang_code == 'vi' %}từ vựng tiếng Nhật, văn hóa Nhật Bản, học tiếng Nhật, trắc nghiệm tiếng Nhật, ẩm thực Nhật Bản, ThankJapan
+        {% elif lang_code == 'fr' %}vocabulaire japonais, culture japonaise, apprendre le japonais, quiz japonais, cuisine japonaise, ThankJapan
+        {% elif lang_code == 'de' %}Japanischer Wortschatz, japanische Kultur, Japanisch lernen, Japanisch-Quiz, japanisches Essen, ThankJapan
+        {% elif lang_code == 'it' %}vocaboli giapponesi, cultura giapponese, imparare il giapponese, quiz giapponese, cucina giapponese, ThankJapan
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}vocabulario japonés, cultura japonesa, aprender japonés, quiz japonés, comida japonesa, ThankJapan
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}vocabulário japonês, cultura japonesa, aprender japonês, quiz japonês, comida japonesa, ThankJapan
+        {% elif lang_code == 'en-in' %}Japanese vocabulary, Japanese culture, learn Japanese words, Japanese quiz, Japanese food, ThankJapan
+        {% else %}Japanese vocabulary, Japanese culture, learn Japanese words, Japanese quiz, Japanese food, ThankJapan{% endif %}
+    ">
 
     {% if page_obj %} 
         {% if page_obj.number == 1 %}
@@ -29,26 +71,91 @@
     {% endif %}
 
 
+    <meta property="og:title" content="{% block og_title %}
+        {% if lang_code == 'ja' %}無料の日本の単語ゲームをプレイ（ランキングに挑戦！） | ThankJapan
+        {% elif lang_code == 'ko' %}무료 일본어 단어 게임 플레이 (랭킹에 도전하세요!) | ThankJapan
+        {% elif lang_code == 'zh-cn' %}免费玩日语单词游戏（挑战排行榜！） | ThankJapan
+        {% elif lang_code == 'zh-hant' %}免費玩日語單詞遊戲（挑戰排行榜！） | ThankJapan
+        {% elif lang_code == 'th' %}เล่นเกมคำศัพท์ภาษาญี่ปุ่นฟรี (ท้าทายการจัดอันดับ!) | ThankJapan
+        {% elif lang_code == 'vi' %}Chơi các trò chơi từ vựng tiếng Nhật miễn phí (Thử thách bảng xếp hạng!) | ThankJapan
+        {% elif lang_code == 'fr' %}Jouez à des jeux de vocabulaire japonais gratuits (Défiez le classement !) | ThankJapan
+        {% elif lang_code == 'de' %}Kostenlose japanische Vokabelspiele spielen (Fordere das Ranking heraus!) | ThankJapan
+        {% elif lang_code == 'it' %}Gioca a giochi di vocaboli giapponesi gratuiti (Sfida la classifica!) | ThankJapan
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Juega juegos de vocabulario japonés gratis (¡Desafía el ranking!) | ThankJapan
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Jogue jogos de vocabulário japonês grátis (Desafie o ranking!) | ThankJapan
+        {% else %}Play free Japanese vocabulary games (Challenge the ranking!) | ThankJapan{% endif %}
+    {% endblock %}" />
 
-    <meta property="og:title" content="{% block og_title %}Discover Japan: Culture, Food & Fun Games{% endblock %}" />
-    <meta property="og:description" content="{% block og_description %}Japanese introduction site.{% endblock %}" />
+    <meta property="og:description" content="{% block og_description %}{% if lang_code == 'ja' %}日本の文化・食・言葉などを紹介するウェブサイトです。
+        {% elif lang_code == 'ko' %}일본의 문화, 음식, 언어 등을 소개하는 웹사이트입니다.
+        {% elif lang_code == 'zh-cn' %}介绍日本文化、美食和语言的网站。
+        {% elif lang_code == 'zh-hant' %}介紹日本文化、美食和語言的網站。
+        {% elif lang_code == 'th' %}เว็บไซต์แนะนำวัฒนธรรม อาหาร และภาษาญี่ปุ่น
+        {% elif lang_code == 'vi' %}Trang web giới thiệu về văn hóa, ẩm thực và ngôn ngữ Nhật Bản.
+        {% elif lang_code == 'fr' %}Site de présentation de la culture, de la cuisine et de la langue japonaises.
+        {% elif lang_code == 'de' %}Website zur Einführung in die japanische Kultur, das Essen und die Sprache.
+        {% elif lang_code == 'it' %}Sito di introduzione alla cultura, al cibo e alla lingua giapponese.
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Sitio de introducción a la cultura, la comida y el idioma japonés.
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Site de introdução à cultura, gastronomia e língua japonesa.
+        {% else %}Discover Japan: Culture, Food & Fun Games. Introducing Japanese culture to the world.{% endif %}{% endblock %}" />
+
     <meta property="og:url" content="{% block og_url %}{{ request.build_absolute_uri }}{% endblock %}" />
-
     <meta property="og:type" content="website" />
     <meta property="og:image" content="https://res.cloudinary.com/dotekofm5/image/upload/v1768385674/thankjapan/backgrounds/gx8xbypllgs1qogcsvak.jpg" />
-
     <meta property="og:site_name" content="ThankJapan" />
-    <meta property="og:locale" content="en_US"  />
 
+    <meta property="og:locale" content="{% if lang_code == 'ja' %}ja_JP{% elif lang_code == 'ko' %}ko_KR{% elif lang_code == 'zh-cn' %}zh_CN{% elif lang_code == 'zh-hant' %}zh_TW{% elif lang_code == 'th' %}th_TH{% elif lang_code == 'vi' %}vi_VN{% elif lang_code == 'fr' %}fr_FR{% elif lang_code == 'de' %}de_DE{% elif lang_code == 'it' %}it_IT{% elif lang_code == 'es-es' %}es_ES{% elif lang_code == 'es-mx' %}es_MX{% elif lang_code == 'pt' %}pt_PT{% elif lang_code == 'pt-br' %}pt_BR{% else %}en_US{% endif %}" />
+    
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Discover Japan: Culture, Food & Fun Games">
-    <meta name="twitter:description" content="This site introduces Japanese culture, food, and language to the world.">
+    <meta name="twitter:title" content="
+        {% if lang_code == 'ja' %}無料の日本の単語ゲームをプレイ（ランキングに挑戦！） | ThankJapan
+        {% elif lang_code == 'ko' %}무료 일본어 단어 게임 플레이 (랭킹에 도전하세요!) | ThankJapan
+        {% elif lang_code == 'zh-cn' %}免费玩日语单词游戏（挑战排行榜！） | ThankJapan
+        {% elif lang_code == 'zh-hant' %}免費玩日語單詞遊戲（挑戰排行榜！） | ThankJapan
+        {% elif lang_code == 'th' %}เล่นเกมคำศัพท์ภาษาญี่ปุ่นฟรี (ท้าทายการจัดอันดับ!) | ThankJapan
+        {% elif lang_code == 'vi' %}Chơi các trò chơi từ vựng tiếng Nhật miễn phí (Thử thách bảng xếp hạng!) | ThankJapan
+        {% elif lang_code == 'fr' %}Jouez à des jeux de vocabulaire japonais gratuits (Défiez le classement !) | ThankJapan
+        {% elif lang_code == 'de' %}Kostenlose japanische Vokabelspiele spielen (Fordere das Ranking heraus!) | ThankJapan
+        {% elif lang_code == 'it' %}Gioca a giochi di vocaboli giapponesi gratuiti (Sfida la classifica!) | ThankJapan
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Juega juegos de vocabulario japonés gratis (¡Desafía el ranking!) | ThankJapan
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Jogue jogos de vocabulário japonês grátis (Desafie o ranking!) | ThankJapan
+        {% else %}Play free Japanese vocabulary games (Challenge the ranking!) | ThankJapan{% endif %}
+    ">
+    <meta name="twitter:description" content="
+        {% if lang_code == 'ja' %}日本の文化、食、言葉などを紹介するサイトです。
+        {% elif lang_code == 'ko' %}일본의 문화, 음식, 언어 등을 소개하는 사이트입니다.
+        {% elif lang_code == 'zh-cn' %}本网站向世界介绍日本文化、美食和语言。
+        {% elif lang_code == 'zh-hant' %}本網站向世界介紹日本文化、美食和語言。
+        {% elif lang_code == 'th' %}เว็บไซต์นี้แนะนำวัฒนธรรม อาหาร และภาษาญี่ปุ่นให้โลกได้รับรู้
+        {% elif lang_code == 'vi' %}Trang web này giới thiệu văn hóa, ẩm thực và ngôn ngữ Nhật Bản đến thế giới.
+        {% elif lang_code == 'fr' %}Ce site présente la culture, la cuisine et la langue japonaises au monde.
+        {% elif lang_code == 'de' %}Diese Website stellt der Welt die japanische Kultur, das Essen und die Sprache vor.
+        {% elif lang_code == 'it' %}Questo sito introduce la cultura, il cibo e la lingua giapponese nel mondo.
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Este sitio presenta la cultura, la comida y el idioma japonés al mundo.
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Este site apresenta a cultura, a comida e a língua japonesa para o mundo.
+        {% else %}This site introduces Japanese culture, food, and language to the world.{% endif %}
+    ">
     <meta name="twitter:image" content="https://res.cloudinary.com/dotekofm5/image/upload/v1768385674/thankjapan/backgrounds/gx8xbypllgs1qogcsvak.jpg">
     <meta name="twitter:site" content="@thankjapan0514">
 
     {% endblock %}
 
-    <title>{% block title %}{% endblock %}</title>
+    <title>
+    {% block title %}
+        {% if lang_code == 'ja' %}ThankJapan | 日本文化と語彙学習
+        {% elif lang_code == 'ko' %}ThankJapan | 일본 문화와 어휘 학습
+        {% elif lang_code == 'zh-cn' %}ThankJapan | 日本文化与词汇学习
+        {% elif lang_code == 'zh-hant' %}ThankJapan | 日本文化與詞彙學習
+        {% elif lang_code == 'th' %}ThankJapan | เรียนรู้วัฒนธรรมและคำศัพท์ภาษาญี่ปุ่น
+        {% elif lang_code == 'vi' %}ThankJapan | Học từ vựng và văn hóa Nhật Bản
+        {% elif lang_code == 'fr' %}ThankJapan | Apprendre la culture et le vocabulaire japonais
+        {% elif lang_code == 'de' %}ThankJapan | Japanische Kultur und Wortschatz lernen
+        {% elif lang_code == 'it' %}ThankJapan | Impara la cultura e i vocaboli giapponesi
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}ThankJapan | Aprende cultura y vocabulario japonés
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}ThankJapan | Aprenda cultura e vocabulário japonês
+        {% else %}ThankJapan | Master Japanese Vocabulary through Culture{% endif %}
+    {% endblock %}
+    </title>
 
 <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -288,7 +395,9 @@
 <body>
 <header class="nav-bar">
     <div class="logo">
-        <a class="logo-link" href="{% url 'toppage' %}">Thank Japan</a>
+        <a class="logo-link" href="{% if lang_code == 'ja' %}{% url 'toppageja' %}{% elif lang_code == 'ko' %}{% url 'toppageko' %}{% elif lang_code == 'zh-cn' %}{% url 'toppagezhCN' %}{% elif lang_code == 'zh-hant' %}{% url 'toppagezhHANT' %}{% elif lang_code == 'vi' %}{% url 'toppagevi' %}{% elif lang_code == 'th' %}{% url 'toppageth' %}{% elif lang_code == 'pt' %}{% url 'toppagept' %}{% elif lang_code == 'pt-br' %}{% url 'toppageptBR' %}{% elif lang_code == 'it' %}{% url 'toppageit' %}{% elif lang_code == 'fr' %}{% url 'toppagefr' %}{% elif lang_code == 'es-mx' %}{% url 'toppageesMX' %}{% elif lang_code == 'es-es' %}{% url 'toppageesES' %}{% elif lang_code == 'en-in' %}{% url 'toppageenIN' %}{% elif lang_code == 'de' %}{% url 'toppagede' %}{% else %}{% url 'toppage' %}{% endif %}?lang={{ lang_code }}">
+            Thank Japan
+        </a>
     </div>
 
     <!-- SNSボタン -->
@@ -298,7 +407,22 @@
     <a href="https://www.facebook.com/ToruYone" target="_blank"><i class="fab fa-facebook"></i></a>
     <a href="https://www.tiktok.com/@thankjapan" target="_blank"><i class="fab fa-tiktok"></i></a>
     <a href="https://www.pinterest.com/yonetoru/" target="_blank"><i class="fab fa-pinterest"></i></a>
-    <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://www.thankjapan.com" target="_blank" title="Share on LinkedIn"><i class="fab fa-linkedin"></i></a>
+    <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://www.thankjapan.com" target="_blank" 
+        title="{% if lang_code == 'ja' %}LinkedInで共有
+          {% elif lang_code == 'ko' %}LinkedIn에서 공유
+          {% elif lang_code == 'zh-cn' %}在 LinkedIn 上分享
+          {% elif lang_code == 'zh-hant' %}在 LinkedIn 上分享
+          {% elif lang_code == 'th' %}แชร์บน LinkedIn
+          {% elif lang_code == 'vi' %}Chia sẻ trên LinkedIn
+          {% elif lang_code == 'fr' %}Partager sur LinkedIn
+          {% elif lang_code == 'de' %}Auf LinkedIn teilen
+          {% elif lang_code == 'it' %}Condividi su LinkedIn
+          {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Compartir en LinkedIn
+          {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Compartilhar no LinkedIn
+          {% elif lang_code == 'en-in' %}Share on LinkedIn
+          {% else %}Share on LinkedIn{% endif %}">
+        <i class="fab fa-linkedin"></i>
+    </a>
   </div>
 
 
@@ -308,42 +432,164 @@
             {% if user.is_authenticated %}
                 <div class="user-info">
     
-                    <a href="{% url 'toppage' %}" class="header-score-badge" title="Rank: {{ user.profile.rank_info.name }}">
-                        <span class="rank-emoji">{{ user.profile.rank_info.emoji }}</span>
-                        <span class="score-text">💎 {{ user.profile.total_score }}<small>pt</small></span>
-                    </a>
-            
-                    <span class="user-name">
-                        <a href="{% url 'account_settings' %}">👤 {{ user.username }}</a>
-                    </span>
-                        
-                        <a href="{% url 'player_logout' %}?lang=en" class="auth-btn logout">Logout</a>
+                        <a href="{% if lang_code == 'ja' %}{% url 'toppageja' %}{% elif lang_code == 'ko' %}{% url 'toppageko' %}{% elif lang_code == 'zh-cn' %}{% url 'toppagezhCN' %}{% elif lang_code == 'zh-hant' %}{% url 'toppagezhHANT' %}{% elif lang_code == 'vi' %}{% url 'toppagevi' %}{% elif lang_code == 'th' %}{% url 'toppageth' %}{% elif lang_code == 'pt' %}{% url 'toppagept' %}{% elif lang_code == 'pt-br' %}{% url 'toppageptBR' %}{% elif lang_code == 'it' %}{% url 'toppageit' %}{% elif lang_code == 'fr' %}{% url 'toppagefr' %}{% elif lang_code == 'es-mx' %}{% url 'toppageesMX' %}{% elif lang_code == 'es-es' %}{% url 'toppageesES' %}{% elif lang_code == 'en-in' %}{% url 'toppageenIN' %}{% elif lang_code == 'de' %}{% url 'toppagede' %}{% else %}{% url 'toppage' %}{% endif %}?lang={{ lang_code }}" 
+                            class="header-score-badge" 
+                            title="{% if lang_code == 'ja' %}ランク: 
+                                {% elif lang_code == 'ko' %}랭크: 
+                                {% elif lang_code == 'zh-cn' %}等级: 
+                                {% elif lang_code == 'zh-hant' %}等級: 
+                                {% elif lang_code == 'th' %}อันดับ: 
+                                {% elif lang_code == 'vi' %}Hạng: 
+                                {% elif lang_code == 'fr' %}Rang : 
+                                {% elif lang_code == 'de' %}Rang: 
+                                {% elif lang_code == 'it' %}Rango: 
+                                {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Rango: 
+                                {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Classificação: 
+                                {% else %}Rank: {% endif %}{{ user.profile.rank_info.name }}">
+                            <span class="rank-emoji">{{ user.profile.rank_info.emoji }}</span>
+                            <span class="score-text">💎 {{ user.profile.total_score }}<small>pt</small></span>
+                        </a>
+
+    
+                        <span class="user-name">
+                            <a href="{% if lang_code == 'ja' %}{% url 'account_settingsja' %}{% elif lang_code == 'ko' %}{% url 'account_settingsko' %}{% elif lang_code == 'zh-cn' %}{% url 'account_settingszhCN' %}{% elif lang_code == 'zh-hant' %}{% url 'account_settingszhHANT' %}{% elif lang_code == 'vi' %}{% url 'account_settingsvi' %}{% elif lang_code == 'th' %}{% url 'account_settingsth' %}{% elif lang_code == 'pt' %}{% url 'account_settingspt' %}{% elif lang_code == 'pt-br' %}{% url 'account_settingsptBR' %}{% elif lang_code == 'it' %}{% url 'account_settingsit' %}{% elif lang_code == 'fr' %}{% url 'account_settingsfr' %}{% elif lang_code == 'es-mx' %}{% url 'account_settingsesMX' %}{% elif lang_code == 'es-es' %}{% url 'account_settingsesES' %}{% elif lang_code == 'en-in' %}{% url 'account_settingsenIN' %}{% elif lang_code == 'de' %}{% url 'account_settingsde' %}{% else %}{% url 'account_settings' %}{% endif %}?lang={{ lang_code }}">
+                                👤 {{ user.username }}
+                            </a>
+                        </span>
+        
+    
+                            <a href="{% url 'player_logout' %}?lang={{ lang_code }}" class="auth-btn logout">
+                                {% if lang_code == 'ja' %}ログアウト
+                                {% elif lang_code == 'ko' %}로그아웃
+                                {% elif lang_code == 'zh-cn' %}退出
+                                {% elif lang_code == 'zh-hant' %}登出
+                                {% elif lang_code == 'th' %}ออกจากระบบ
+                                {% elif lang_code == 'vi' %}Đăng xuất
+                                {% elif lang_code == 'fr' %}Déconnexion
+                                {% elif lang_code == 'de' %}Abmelden
+                                {% elif lang_code == 'it' %}Logout
+                                {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Cerrar sesión
+                                {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Sair
+                                {% else %}Logout{% endif %}
+                            </a>
+
                 </div>
+
             {% else %}
+
                 <div class="guest-info">
     
                     {% url 'player_register' as reg_url %}
                     {% url 'player_login' as login_url %}
     
-    
+
                     {% if request.resolver_match.url_name != 'player_register' and request.resolver_match.url_name != 'player_login' %}
                         {% with next_p=request.get_full_path|urlencode %}
-                            <a href="{{ reg_url }}?next={{ next_p }}&lang={{ lang_code }}&from=header_badge" class="header-score-badge guest">
+            
+                            <a href="{{ reg_url }}?next={{ next_p }}&lang={{ lang_code }}&from=header_badge" 
+                                class="header-score-badge guest"
+                                title="{% if lang_code == 'ja' %}ゲストユーザー
+                                {% elif lang_code == 'ko' %}게스트 사용자
+                                {% elif lang_code == 'zh-cn' %}访客用户
+                                {% elif lang_code == 'zh-hant' %}訪客用戶
+                                {% elif lang_code == 'th' %}ผู้ใช้ทั่วไป
+                                {% elif lang_code == 'vi' %}Khách
+                                {% elif lang_code == 'fr' %}Utilisateur invité
+                                {% elif lang_code == 'de' %}Gastnutzer
+                                {% elif lang_code == 'it' %}Utente ospite
+                                {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Usuario invitado
+                                {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Usuário convidado
+                                {% else %}Guest User{% endif %}">
+
                                 <span class="rank-emoji">🌾</span>
                                 <span class="score-text">💎 0<small>pt</small></span>
                             </a>
-                            <span class="user-name">👤 Guest</span> 
-                            <a href="{{ reg_url }}?next={{ next_p }}&lang={{ lang_code }}&from=header_btn" class="auth-btn login">Sign Up</a>
+
+            
+                            <span class="user-name">
+                                👤 {% if lang_code == 'ja' %}ゲスト
+                                {% elif lang_code == 'ko' %}게스트
+                                {% elif lang_code == 'zh-cn' %}访客
+                                {% elif lang_code == 'zh-hant' %}訪客
+                                {% elif lang_code == 'th' %}แขก
+                                {% elif lang_code == 'vi' %}Khách
+                                {% elif lang_code == 'fr' %}Invité
+                                {% elif lang_code == 'de' %}Gast
+                                {% elif lang_code == 'it' %}Ospite
+                                {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Invitado
+                                {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Convidado
+                                {% else %}Guest{% endif %}
+                            </span> 
+
+            
+                            <a href="{{ reg_url }}?next={{ next_p }}&lang={{ lang_code }}&from=header_btn" class="auth-btn login">
+                                {% if lang_code == 'ja' %}新規登録
+                                {% elif lang_code == 'ko' %}가입하기
+                                {% elif lang_code == 'zh-cn' %}注册
+                                {% elif lang_code == 'zh-hant' %}註冊
+                                {% elif lang_code == 'th' %}สมัครสมาชิก
+                                {% elif lang_code == 'vi' %}Đăng ký
+                                {% elif lang_code == 'fr' %}S'inscrire
+                                {% elif lang_code == 'de' %}Registrieren
+                                {% elif lang_code == 'it' %}Registrati
+                                {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Registrarse
+                                {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Cadastre-se
+                                {% else %}Sign Up{% endif %}
+                            </a>
                         {% endwith %}
+    
                     {% else %}
         
-                        <a href="{{ reg_url }}?next=toppage&lang={{ lang_code }}&from=header_badge" class="header-score-badge guest">
+                       
+                        <a href="{{ reg_url }}?next=toppage&lang={{ lang_code }}&from=header_badge" 
+                            class="header-score-badge guest"
+                            title="{% if lang_code == 'ja' %}ゲストユーザー
+                                {% elif lang_code == 'ko' %}게스트 사용자
+                                {% elif lang_code == 'zh-cn' %}访客用户
+                                {% elif lang_code == 'zh-hant' %}訪客用戶
+                                {% elif lang_code == 'th' %}ผู้ใช้ทั่วไป
+                                {% elif lang_code == 'vi' %}Khách
+                                {% elif lang_code == 'fr' %}Utilisateur invité
+                                {% elif lang_code == 'de' %}Gastnutzer
+                                {% elif lang_code == 'it' %}Utente ospite
+                                {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Usuario invitado
+                                {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Usuário convidado
+                                {% else %}Guest User{% endif %}">
                             <span class="rank-emoji">🌾</span>
                             <span class="score-text">💎 0<small>pt</small></span>
                         </a>
-                        <span class="user-name">👤 Guest</span> 
-                        <a href="{{ reg_url }}?next=toppage&lang={{ lang_code }}&from=header_btn" class="auth-btn login">Sign Up</a>
+
     
+                        <span class="user-name">
+                            👤 {% if lang_code == 'ja' %}ゲスト
+                            {% elif lang_code == 'ko' %}게스트
+                            {% elif lang_code == 'zh-cn' %}访客
+                            {% elif lang_code == 'zh-hant' %}訪客
+                            {% elif lang_code == 'th' %}แขก
+                            {% elif lang_code == 'vi' %}Khách
+                            {% elif lang_code == 'fr' %}Invité
+                            {% elif lang_code == 'de' %}Gast
+                            {% elif lang_code == 'it' %}Ospite
+                            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Invitado
+                            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Convidado
+                            {% else %}Guest{% endif %}
+                        </span> 
+
+                        <a href="{{ reg_url }}?next=toppage&lang={{ lang_code }}&from=header_btn" class="auth-btn login">
+                            {% if lang_code == 'ja' %}新規登録
+                            {% elif lang_code == 'ko' %}가입하기
+                            {% elif lang_code == 'zh-cn' %}注册
+                            {% elif lang_code == 'zh-hant' %}註冊
+                            {% elif lang_code == 'th' %}สมัครสมาชิก
+                            {% elif lang_code == 'vi' %}Đăng ký
+                            {% elif lang_code == 'fr' %}S'inscrire
+                            {% elif lang_code == 'de' %}Registrieren
+                            {% elif lang_code == 'it' %}Registrati
+                            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Registrarse
+                            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Cadastre-se
+                            {% else %}Sign Up{% endif %}
+                        </a>
+
                     {% endif %}
                 </div>
             {% endif %}
@@ -351,16 +597,74 @@
         </div>
 
         <div class="dropdown">
-            <button class="dropbtn">Learn Japanese ▾</button>
+            <button class="dropbtn">
+                {% if lang_code == 'ja' %}日本語を学ぶ
+                {% elif lang_code == 'ko' %}일본어 배우기
+                {% elif lang_code == 'zh-cn' %}学习日语
+                {% elif lang_code == 'zh-hant' %}學習日語
+                {% elif lang_code == 'th' %}เรียนภาษาญี่ปุ่น
+                {% elif lang_code == 'vi' %}Học tiếng Nhật
+                {% elif lang_code == 'fr' %}Apprendre le japonais
+                {% elif lang_code == 'de' %}Japanisch lernen
+                {% elif lang_code == 'it' %}Impara il giapponese
+                {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Aprender japonés
+                {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Aprender japonês
+                {% else %}Learn Japanese{% endif %} ▾
+            </button>
+    
             <div class="dropdown-content">
-                <a href="{% url 'category_list' %}">Category List</a>
+        
+                <a href="{% if lang_code == 'ja' %}{% url 'category_list_ja' %}{% elif lang_code == 'ko' %}{% url 'category_list_ko' %}{% elif lang_code == 'zh-cn' %}{% url 'category_list_zhCN' %}{% elif lang_code == 'zh-hant' %}{% url 'category_list_zhHant' %}{% elif lang_code == 'vi' %}{% url 'category_list_vi' %}{% elif lang_code == 'th' %}{% url 'category_list_th' %}{% elif lang_code == 'pt' %}{% url 'category_list_pt' %}{% elif lang_code == 'pt-br' %}{% url 'category_list_ptBR' %}{% elif lang_code == 'it' %}{% url 'category_list_it' %}{% elif lang_code == 'fr' %}{% url 'category_list_fr' %}{% elif lang_code == 'es-mx' %}{% url 'category_list_esMX' %}{% elif lang_code == 'es-es' %}{% url 'category_list_esES' %}{% elif lang_code == 'en-in' %}{% url 'category_list_enIN' %}{% elif lang_code == 'de' %}{% url 'category_list_de' %}{% else %}{% url 'category_list' %}{% endif %}?lang={{ lang_code }}">
+                    {% if lang_code == 'ja' %}カテゴリー一覧
+                    {% elif lang_code == 'ko' %}카테고리 목록
+                    {% elif lang_code == 'zh-cn' %}类别列表
+                    {% elif lang_code == 'zh-hant' %}類別列表
+                    {% elif lang_code == 'th' %}รายการหมวดหมู่
+                    {% elif lang_code == 'vi' %}Danh sách chuyên mục
+                    {% elif lang_code == 'fr' %}Liste des catégories
+                    {% elif lang_code == 'de' %}Kategorieliste
+                    {% elif lang_code == 'it' %}Elenco categorie
+                    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Lista de categorías
+                    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Lista de categorias
+                    {% else %}Category List{% endif %}
+                </a>
             </div>
         </div>
 
-        <a href="{% url 'game_start' %}" class="game-link">Game</a>
+        <a href="{% url 'game_start' %}?lang={{ lang_code }}" class="game-link">
+            {% if lang_code == 'ja' %}ゲーム
+            {% elif lang_code == 'ko' %}게임
+            {% elif lang_code == 'zh-cn' %}游戏
+            {% elif lang_code == 'zh-hant' %}遊戲
+            {% elif lang_code == 'th' %}เกม
+            {% elif lang_code == 'vi' %}Trò chơi
+            {% elif lang_code == 'fr' %}Jeu
+            {% elif lang_code == 'de' %}Spiel
+            {% elif lang_code == 'it' %}Gioco
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Juego
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Jogo
+            {% else %}Game{% endif %}
+        </a>
+        
 
         <div class="lang-switch dropdown">
-            <button class="dropbtn">🌐 Language ▾</button>
+            <button class="dropbtn">
+                🌐 
+                {% if lang_code == 'ja' %}言語
+                {% elif lang_code == 'ko' %}언어
+                {% elif lang_code == 'zh-cn' %}语言
+                {% elif lang_code == 'zh-hant' %}語言
+                {% elif lang_code == 'th' %}ภาษา
+                {% elif lang_code == 'vi' %}Ngôn ngữ
+                {% elif lang_code == 'fr' %}Langue
+                {% elif lang_code == 'de' %}Sprache
+                {% elif lang_code == 'it' %}Lingua
+                {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Idioma
+                {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Idioma
+                {% else %}Language{% endif %} 
+                ▾
+            </button>
+
             <div class="dropdown-content">
                 <a href="{% url 'toppage' %}?lang=en">English</a>
                 <a href="{% url 'toppageenIN' %}?lang=en-in">English (India)</a>
@@ -385,13 +689,66 @@
 {% block content %}{% endblock %}
 
 <div id="cookieConsentBanner" class="cookie-consent-banner">
-    <p>This website uses cookies to improve your experience. 
-       By clicking "Accept All", you agree to our use of cookies. 
-       Details in our <a href="{% url 'privacy_policy' %}" class="cookie-policy-link">Privacy Policy</a>.
+    <p>
+    {% if lang_code == 'ja' %}
+        このウェブサイトでは、ユーザー体験向上のためにクッキーを使用しています。「すべて同意」をクリックすることで、クッキーの使用に同意したことになります。詳細は<a href="{% url 'privacy_policyja' %}" class="cookie-policy-link">プライバシーポリシー</a>をご覧ください。
+    {% elif lang_code == 'ko' %}
+        본 웹사이트는 사용자 경험 개선을 위해 쿠키를 사용합니다. "모두 동의"를 클릭하면 쿠키 사용에 동의하는 것으로 간주됩니다. 자세한 내용은 <a href="{% url 'privacy_policyko' %}" class="cookie-policy-link">개인정보 처리방침</a>을 확인하세요.
+    {% elif lang_code == 'zh-cn' %}
+        本网站使用 Cookie 以提升您的体验。点击“接受所有”，即表示您同意我们使用 Cookie。详情请参阅<a href="{% url 'privacy_policyzhCN' %}" class="cookie-policy-link">隐私政策</a>。
+    {% elif lang_code == 'zh-hant' %}
+        本網站使用 Cookie 以提升您的體驗。點擊「接受所有」，即表示您同意我們使用 Cookie。詳情請參閱<a href="{% url 'privacy_policyzhHANT' %}" class="cookie-policy-link">隱私政策</a>。
+    {% elif lang_code == 'th' %}
+        เว็บไซต์นี้ใช้คุกกี้เพื่อปรับปรุงประสบการณ์ของคุณ การคลิก "ยอมรับทั้งหมด" แสดงว่าคุณยอมรับการใช้คุกกี้ของเรา รายละเอียดใน<a href="{% url 'privacy_policyth' %}" class="cookie-policy-link">นโยบายความเป็นส่วนตัว</a>
+    {% elif lang_code == 'vi' %}
+        Trang web này sử dụng cookie để cải thiện trải nghiệm của bạn. Bằng cách nhấp vào "Chấp nhận tất cả", bạn đồng ý với việc chúng tôi sử dụng cookie. Chi tiết trong <a href="{% url 'privacy_policyvi' %}" class="cookie-policy-link">Chính sách bảo mật</a>.
+    {% elif lang_code == 'fr' %}
+        Ce site utilise des cookies pour améliorer votre expérience. En cliquant sur « Tout accepter », vous acceptez notre utilisation des cookies. Détails dans notre <a href="{% url 'privacy_policyfr' %}" class="cookie-policy-link">Politique de confidentialité</a>.
+    {% elif lang_code == 'de' %}
+        Diese Website verwendet Cookies, um Ihre Erfahrung zu verbessern. Durch Klicken auf „Alle akzeptieren“ stimmen Sie der Verwendung von Cookies zu. Details in unserer <a href="{% url 'privacy_policyde' %}" class="cookie-policy-link">Datenschutzerklärung</a>.
+    {% elif lang_code == 'it' %}
+        Questo sito utilizza i cookie per migliorare la tua esperienza. Cliccando su "Accetta tutti", acconsenti all'uso dei cookie. Dettagli nella nostra <a href="{% url 'privacy_policyit' %}" class="cookie-policy-link">Informativa sulla privacy</a>.
+    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}
+        Este sitio utiliza cookies para mejorar su experiencia. Al hacer clic en "Aceptar todo", acepta nuestro uso de cookies. Detalles en nuestra <a href="{% if lang_code == 'es-es' %}{% url 'privacy_policyesES' %}{% else %}{% url 'privacy_policyesMX' %}{% endif %}" class="cookie-policy-link">Política de privacidad</a>.
+    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}
+        Este site usa cookies para melhorar sua experiência. Ao clicar em "Aceitar tudo", você concorda com o uso de cookies. Detalhes em nossa <a href="{% if lang_code == 'pt' %}{% url 'privacy_policypt' %}{% else %}{% url 'privacy_policyptBR' %}{% endif %}" class="cookie-policy-link">Política de privacidade</a>.
+    {% elif lang_code == 'en-in' %}
+        This website uses cookies to improve your experience. By clicking "Accept All", you agree to our use of cookies. Details in our <a href="{% url 'privacy_policyenIN' %}" class="cookie-policy-link">Privacy Policy</a>.
+    {% else %}
+        This website uses cookies to improve your experience. By clicking "Accept All", you agree to our use of cookies. Details in our <a href="{% url 'privacy_policy' %}" class="cookie-policy-link">Privacy Policy</a>.
+    {% endif %}
     </p>
+
     <div class="cookie-consent-buttons">
-        <button id="acceptCookiesBtn" class="cookie-consent-btn accept-btn">Accept All Cookies</button>
-        <button id="manageCookiesBtn" class="cookie-consent-btn manage-btn">Manage Preferences</button>
+        <button id="acceptCookiesBtn" class="cookie-consent-btn accept-btn">
+            {% if lang_code == 'ja' %}すべてのクッキーを同意
+            {% elif lang_code == 'ko' %}모든 쿠키 허용
+            {% elif lang_code == 'zh-cn' %}接受所有 Cookie
+            {% elif lang_code == 'zh-hant' %}接受所有 Cookie
+            {% elif lang_code == 'th' %}ยอมรับคุกกี้ทั้งหมด
+            {% elif lang_code == 'vi' %}Chấp nhận tất cả Cookie
+            {% elif lang_code == 'fr' %}Accepter tous les cookies
+            {% elif lang_code == 'de' %}Alle Cookies akzeptieren
+            {% elif lang_code == 'it' %}Accetta tutti i cookie
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Aceptar todas las cookies
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Aceitar todos os cookies
+            {% else %}Accept All Cookies{% endif %}
+        </button>
+    
+        <button id="manageCookiesBtn" class="cookie-consent-btn manage-btn">
+            {% if lang_code == 'ja' %}設定を管理
+            {% elif lang_code == 'ko' %}설정 관리
+            {% elif lang_code == 'zh-cn' %}管理偏好设置
+            {% elif lang_code == 'zh-hant' %}管理偏好設定
+            {% elif lang_code == 'th' %}จัดการการตั้งค่า
+            {% elif lang_code == 'vi' %}Quản lý tùy chọn
+            {% elif lang_code == 'fr' %}Gérer les préférences
+            {% elif lang_code == 'de' %}Einstellungen verwalten
+            {% elif lang_code == 'it' %}Gestisci preferenze
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Gestionar preferencias
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Gerenciar preferências
+            {% else %}Manage Preferences{% endif %}
+        </button>
     </div>
 </div>
 
@@ -399,15 +756,68 @@
 {% if user.is_authenticated and user.profile.privacy_policy_version != "2026-03" %}
 <div id="policyUpdateBanner" style="position: fixed; bottom: 0; left: 0; width: 100%; background: #b22d35; color: white; padding: 20px; z-index: 10002; text-align: center; box-shadow: 0 -5px 15px rgba(0,0,0,0.3);">
     <p style="margin: 0 0 10px 0; font-size: 0.95rem; line-height: 1.5;">
-        <strong>Privacy Policy Updated (March 2026)</strong><br>
-        We have updated our policy regarding Premium subscriptions and AI usage. 
-        Please confirm that you agree to the new terms.
+    <strong>
+        {% if lang_code == 'ja' %}プライバシーポリシーの更新（2026年3月）
+        {% elif lang_code == 'ko' %}개인정보 처리방침 업데이트 (2026년 3월)
+        {% elif lang_code == 'zh-cn' %}隐私政策已更新（2026年3月）
+        {% elif lang_code == 'zh-hant' %}隱私政策已更新（2026年3月）
+        {% elif lang_code == 'th' %}อัปเดตนโยบายความเป็นส่วนตัว (มีนาคม 2026)
+        {% elif lang_code == 'vi' %}Cập nhật Chính sách bảo mật (tháng 3 năm 2026)
+        {% elif lang_code == 'fr' %}Mise à jour de la politique de confidentialité (mars 2026)
+        {% elif lang_code == 'de' %}Datenschutzerklärung aktualisiert (März 2026)
+        {% elif lang_code == 'it' %}Informativa sulla privacy aggiornata (marzo 2026)
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Política de privacidad actualizada (marzo de 2026)
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Política de Privacidade Atualizada (Março de 2026)
+        {% else %}Privacy Policy Updated (March 2026){% endif %}
+    </strong><br>
+    
+    {% if lang_code == 'ja' %}プレミアムプランおよびAIの利用に関するポリシーを更新しました。新しい規約に同意することを確認してください。
+    {% elif lang_code == 'ko' %}프리미엄 구독 및 AI 사용에 관한 정책이 업데이트되었습니다. 새로운 약관에 동의함을 확인해 주세요.
+    {% elif lang_code == 'zh-cn' %}我们更新了关于高级订阅和 AI 使用的政策。请确认您同意新条款。
+    {% elif lang_code == 'zh-hant' %}我們更新了關於高級訂閱和 AI 使用的政策。請確認您同意新條款。
+    {% elif lang_code == 'th' %}เราได้อัปเดตนโยบายเกี่ยวกับการสมัครสมาชิกพรีเมียมและการใช้งาน AI โปรดยืนยันว่าคุณยอมรับข้อกำหนดใหม่
+    {% elif lang_code == 'vi' %}Chúng tôi đã cập nhật chính sách liên quan đến đăng ký Premium và sử dụng AI. Vui lòng xác nhận rằng bạn đồng ý với các điều khoản mới.
+    {% elif lang_code == 'fr' %}Nous avons mis à jour notre politique concernant les abonnements Premium et l'utilisation de l'IA. Veuillez confirmer que vous acceptez les nouvelles conditions.
+    {% elif lang_code == 'de' %}Wir haben unsere Richtlinien bezüglich Premium-Abonnements und KI-Nutzung aktualisiert. Bitte bestätigen Sie, dass Sie den neuen Bedingungen zustimmen.
+    {% elif lang_code == 'it' %}Abbiamo aggiornato la nostra politica relativa agli abbonamenti Premium e all'uso dell'IA. Conferma di accettare i nuovi termini.
+    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Hemos actualizado nuestra política con respecto a las suscripciones Premium y el uso de la IA. Por favor, confirma que aceptas los nuevos términos.
+    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Atualizamos nossa política em relação a assinaturas Premium e uso de IA. Por favor, confirme que você concorda com os novos termos.
+    {% else %}We have updated our policy regarding Premium subscriptions and AI usage. Please confirm that you agree to the new terms.{% endif %}
     </p>
+
     <div style="display: flex; justify-content: center; gap: 15px;">
         <button onclick="agreeToPolicy()" style="padding: 10px 25px; background: white; color: #b22d35; border: none; border-radius: 25px; font-weight: bold; cursor: pointer; font-size: 0.9rem;">
-            I Agree
+            {% if lang_code == 'ja' %}同意する
+            {% elif lang_code == 'ko' %}동의합니다
+            {% elif lang_code == 'zh-cn' %}我同意
+            {% elif lang_code == 'zh-hant' %}我同意
+            {% elif lang_code == 'th' %}ฉันยอมรับ
+            {% elif lang_code == 'vi' %}Tôi đồng ý
+            {% elif lang_code == 'fr' %}J'accepte
+            {% elif lang_code == 'de' %}Ich stimme zu
+            {% elif lang_code == 'it' %}Accetto
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Acepto
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Aceito
+            {% elif lang_code == 'en-in' %}I Agree
+            {% else %}I Agree{% endif %}
         </button>
-        <a href="{% url 'privacy_policy' %}" target="_blank" style="color: white; text-decoration: underline; font-size: 0.8rem; align-self: center;">Read Policy</a>
+
+        <a href="{% if lang_code == 'ja' %}{% url 'privacy_policyja' %}{% elif lang_code == 'ko' %}{% url 'privacy_policyko' %}{% elif lang_code == 'zh-cn' %}{% url 'privacy_policyzhCN' %}{% elif lang_code == 'zh-hant' %}{% url 'privacy_policyzhHANT' %}{% elif lang_code == 'vi' %}{% url 'privacy_policyvi' %}{% elif lang_code == 'th' %}{% url 'privacy_policyth' %}{% elif lang_code == 'pt' %}{% url 'privacy_policypt' %}{% elif lang_code == 'pt-br' %}{% url 'privacy_policyptBR' %}{% elif lang_code == 'it' %}{% url 'privacy_policyit' %}{% elif lang_code == 'fr' %}{% url 'privacy_policyfr' %}{% elif lang_code == 'es-mx' %}{% url 'privacy_policyesMX' %}{% elif lang_code == 'es-es' %}{% url 'privacy_policyesES' %}{% elif lang_code == 'en-in' %}{% url 'privacy_policyenIN' %}{% elif lang_code == 'de' %}{% url 'privacy_policyde' %}{% else %}{% url 'privacy_policy' %}{% endif %}" 
+            target="_blank" 
+            style="color: white; text-decoration: underline; font-size: 0.8rem; align-self: center;">
+            {% if lang_code == 'ja' %}ポリシーを読む
+            {% elif lang_code == 'ko' %}정책 읽기
+            {% elif lang_code == 'zh-cn' %}阅读政策
+            {% elif lang_code == 'zh-hant' %}閱讀政策
+            {% elif lang_code == 'th' %}อ่านนโยบาย
+            {% elif lang_code == 'vi' %}Đọc chính sách
+            {% elif lang_code == 'fr' %}Lire la politique
+            {% elif lang_code == 'de' %}Richtlinie lesen
+            {% elif lang_code == 'it' %}Leggi l'informativa
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Leer política
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Ler política
+            {% else %}Read Policy{% endif %}
+        </a>
     </div>
 </div>
 {% endif %}
@@ -478,14 +888,19 @@ document.addEventListener('DOMContentLoaded', function() {
 
     if (manageBtn) {
         manageBtn.addEventListener('click', function() {
-            window.location.href = "{% url 'privacy_policy' %}#cookie-settings"; 
+            
+            let policyUrl = "{% if lang_code == 'ja' %}{% url 'privacy_policyja' %}{% elif lang_code == 'ko' %}{% url 'privacy_policyko' %}{% elif lang_code == 'zh-cn' %}{% url 'privacy_policyzhCN' %}{% elif lang_code == 'zh-hant' %}{% url 'privacy_policyzhHANT' %}{% elif lang_code == 'vi' %}{% url 'privacy_policyvi' %}{% elif lang_code == 'th' %}{% url 'privacy_policyth' %}{% elif lang_code == 'fr' %}{% url 'privacy_policyfr' %}{% elif lang_code == 'de' %}{% url 'privacy_policyde' %}{% elif lang_code == 'it' %}{% url 'privacy_policyit' %}{% elif lang_code == 'es-mx' %}{% url 'privacy_policyesMX' %}{% elif lang_code == 'es-es' %}{% url 'privacy_policyesES' %}{% elif lang_code == 'pt' %}{% url 'privacy_policypt' %}{% elif lang_code == 'pt-br' %}{% url 'privacy_policyptBR' %}{% elif lang_code == 'en-in' %}{% url 'privacy_policyenIN' %}{% else %}{% url 'privacy_policy' %}{% endif %}#cookie-settings";
+            window.location.href = policyUrl; 
         });
     }
 });
 
 function agreeToPolicy() {
     localStorage.setItem('policy_agreed_2026_03', 'true');
-    fetch("{% url 'update_policy_agreement' %}", {
+
+    let updateUrl = "{% url 'update_policy_agreement' %}?lang={{ lang_code }}";
+
+    fetch(updateUrl, {
         method: 'POST',
         headers: {
             'X-CSRFToken': '{{ csrf_token }}',
