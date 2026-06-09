@@ -519,74 +519,372 @@ footer {
       <h1 class="hero-title">THANK JAPAN</h1>
 
       <div class="hero-description-list">
-        <ul>
-          <li>🎮 Master Japanese Vocabulary through Fun Games!</li>
-          <li>🍱 Essential Food & Culture Terms in 15 Languages</li>
-          <li>🗾 Discover Hidden Gems & Local Expressions</li>
-          <li>🎓 Vocab Booster: All Levels from N5 to N1</li>
-        </ul>
-      </div>
+      <ul>
+        
+        <li>
+            {% if lang_code == 'ja' %}🎮 楽しいゲームで日本語の語彙をマスターしよう！
+            {% elif lang_code == 'ko' %}🎮 즐거운 게임으로 일본어 어휘를 마스터하세요!
+            {% elif lang_code == 'zh-cn' %}🎮 通过有趣的游戏掌握日语词汇！
+            {% elif lang_code == 'zh-hant' %}🎮 透過有趣的遊戲掌握日語詞彙！
+            {% elif lang_code == 'th' %}🎮 มาสเตอร์คำศัพท์ภาษาญี่ปุ่นผ่านเกมที่สนุกสนาน!
+            {% elif lang_code == 'vi' %}🎮 Nắm vững từ vựng tiếng Nhật thông qua các trò chơi thú vị!
+            {% elif lang_code == 'fr' %}🎮 Maîtrisez le vocabulaire japonais grâce à des jeux amusants !
+            {% elif lang_code == 'de' %}🎮 Japanische Vokabeln spielerisch meistern!
+            {% elif lang_code == 'it' %}🎮 Padroneggia i vocaboli giapponesi con giochi divertenti!
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}🎮 ¡Domina el vocabulario japonés con juegos divertidos!
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}🎮 Domine o vocabulário japonês através de jogos divertidos!
+            {% else %}🎮 Master Japanese Vocabulary through Fun Games!{% endif %}
+        </li>
 
+        
+        <li>
+            {% if lang_code == 'ja' %}🍱 15ヶ国語対応！食べ物や文化の必須用語
+            {% elif lang_code == 'ko' %}🍱 15개 국어로 배우는 필수 음식 및 문화 용어
+            {% elif lang_code == 'zh-cn' %}🍱 15 种语言的必备美食与文化术语
+            {% elif lang_code == 'zh-hant' %}🍱 15 種語言的必備美食與文化術語
+            {% elif lang_code == 'th' %}🍱 คำศัพท์อาหารและวัฒนธรรมที่จำเป็นใน 15 ภาษา
+            {% elif lang_code == 'vi' %}🍱 Các thuật ngữ văn hóa & ẩm thực thiết yếu bằng 15 ngôn ngữ
+            {% elif lang_code == 'fr' %}🍱 Termes essentiels de cuisine et culture en 15 langues
+            {% elif lang_code == 'de' %}🍱 Wichtige Begriffe zu Essen & Kultur in 15 Sprachen
+            {% elif lang_code == 'it' %}🍱 Termini essenziali su cibo e cultura in 15 lingue
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}🍱 Términos esenciales de comida y cultura en 15 idiomas
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}🍱 Termos essenciais de culinária e cultura em 15 idiomas
+            {% else %}🍱 Essential Food & Culture Terms in 15 Languages{% endif %}
+        </li>
+
+        
+        <li>
+            {% if lang_code == 'ja' %}🗾 日本の穴場スポットや現地表現を発見しよう
+            {% elif lang_code == 'ko' %}🗾 숨겨진 명소와 현지 표현을 발견해보세요
+            {% elif lang_code == 'zh-cn' %}🗾 探索日本的小众景点与地道表达
+            {% elif lang_code == 'zh-hant' %}🗾 探索日本的小眾景點與地道表達
+            {% elif lang_code == 'th' %}🗾 ค้นพบอัญมณีที่ซ่อนอยู่และสำนวนท้องถิ่น
+            {% elif lang_code == 'vi' %}🗾 Khám phá những viên ngọc ẩn và các biểu đạt địa phương
+            {% elif lang_code == 'fr' %}🗾 Découvrez des trésors cachés et des expressions locales
+            {% elif lang_code == 'de' %}🗾 Entdecken Sie Geheimtipps und lokale Ausdrücke
+            {% elif lang_code == 'it' %}🗾 Scopri gemme nascoste ed espressioni locali
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}🗾 Descubre joyas ocultas y expresiones locales
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}🗾 Descubra joias escondidas e expressões locais
+            {% else %}🗾 Discover Hidden Gems & Local Expressions{% endif %}
+        </li>
+
+        
+        <li>
+            {% if lang_code == 'ja' %}🎓 語彙力アップ：JLPT N5からN1まですべてのレベルに対応
+            {% elif lang_code == 'ko' %}🎓 어휘 부스터: N5부터 N1까지 모든 레벨 지원
+            {% elif lang_code == 'zh-cn' %}🎓 词汇量提升：支持从 N5 到 N1 的所有级别
+            {% elif lang_code == 'zh-hant' %}🎓 詞彙量提升：支持從 N5 到 N1 的所有級別
+            {% elif lang_code == 'th' %}🎓 ตัวช่วยคำศัพท์: ทุกระดับตั้งแต่ N5 ถึง N1
+            {% elif lang_code == 'vi' %}🎓 Tăng cường từ vựng: Mọi cấp độ từ N5 đến N1
+            {% elif lang_code == 'fr' %}🎓 Booster de vocabulaire : tous les niveaux de N5 à N1
+            {% elif lang_code == 'de' %}🎓 Vokabel-Booster: Alle Niveaus von N5 bis N1
+            {% elif lang_code == 'it' %}🎓 Booster di vocaboli: tutti i livelli da N5 a N1
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}🎓 Refuerzo de vocabulario: todos los niveles de N5 a N1
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}🎓 Impulsionador de vocabulário: todos os níveis de N5 a N1
+            {% else %}🎓 Vocab Booster: All Levels from N5 to N1{% endif %}
+        </li>
+      </ul>
+    </div>
 
     <div class="hero-buttons">
-      
-       <a href="{% url 'category_list' %}" class="explore-btn btn-red">Master Japanese Vocab 📖</a>
+    
+      <a href="{% if lang_code == 'ja' %}{% url 'category_list_ja' %}{% elif lang_code == 'ko' %}{% url 'category_list_ko' %}{% elif lang_code == 'zh-cn' %}{% url 'category_list_zhCN' %}{% elif lang_code == 'zh-hant' %}{% url 'category_list_zhHant' %}{% elif lang_code == 'vi' %}{% url 'category_list_vi' %}{% elif lang_code == 'th' %}{% url 'category_list_th' %}{% elif lang_code == 'pt' %}{% url 'category_list_pt' %}{% elif lang_code == 'pt-br' %}{% url 'category_list_ptBR' %}{% elif lang_code == 'it' %}{% url 'category_list_it' %}{% elif lang_code == 'fr' %}{% url 'category_list_fr' %}{% elif lang_code == 'es-mx' %}{% url 'category_list_esMX' %}{% elif lang_code == 'es-es' %}{% url 'category_list_esES' %}{% elif lang_code == 'en-in' %}{% url 'category_list_enIN' %}{% elif lang_code == 'de' %}{% url 'category_list_de' %}{% else %}{% url 'category_list' %}{% endif %}" class="explore-btn btn-red">
+        {% if lang_code == 'ja' %}日本語の語彙をマスターする 📖
+        {% elif lang_code == 'ko' %}일본어 어휘 마스터하기 📖
+        {% elif lang_code == 'zh-cn' %}掌握日语词汇 📖
+        {% elif lang_code == 'zh-hant' %}掌握日語詞彙 📖
+        {% elif lang_code == 'th' %}มาสเตอร์คำศัพท์ภาษาญี่ปุ่น 📖
+        {% elif lang_code == 'vi' %}Nắm vững từ vựng tiếng Nhật 📖
+        {% elif lang_code == 'fr' %}Maîtrisez le vocabulaire japonais 📖
+        {% elif lang_code == 'de' %}Japanische Vokabeln meistern 📖
+        {% elif lang_code == 'it' %}Padroneggia i vocaboli giapponesi 📖
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Domina el vocabulario japonés 📖
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Domine o vocabulário japonês 📖
+        {% else %}Master Japanese Vocab 📖{% endif %}
+      </a>
 
-      <a href="{% url 'player_register' %}?lang=en" class="explore-btn btn-yellow">
-          Join for Free & Earn Points 
+    
+      <a href="{% url 'player_register' %}?lang={{ lang_code }}" class="explore-btn btn-yellow">
+        {% if lang_code == 'ja' %}無料で参加してポイントを貯める
+        {% elif lang_code == 'ko' %}무료로 가입하고 포인트를 받으세요
+        {% elif lang_code == 'zh-cn' %}免费加入并赚取积分
+        {% elif lang_code == 'zh-hant' %}免費加入並賺取積分
+        {% elif lang_code == 'th' %}เข้าร่วมฟรีและสะสมคะแนน
+        {% elif lang_code == 'vi' %}Tham gia miễn phí & Nhận điểm
+        {% elif lang_code == 'fr' %}Inscrivez-vous gratuitement et gagnez des points
+        {% elif lang_code == 'de' %}Kostenlos anmelden & Punkte sammeln
+        {% elif lang_code == 'it' %}Iscriviti gratuitamente e accumula punti
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Únete gratis y gana puntos
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Cadastre-se grátis e ganhe pontos
+        {% else %}Join for Free & Earn Points{% endif %}
       </a>
     </div>
     
     <p class="login-prompt">
-      Already a member? <a href="{% url 'player_login' %}?next={{ request.path|urlencode }}&lang={{ lang_code }}">Login here</a>
+      {% if lang_code == 'ja' %}
+        すでにメンバーですか？ <a href="{% url 'player_login' %}?next={{ request.path|urlencode }}&lang={{ lang_code }}">こちらからログイン</a>
+      {% elif lang_code == 'ko' %}
+        이미 회원이신가요? <a href="{% url 'player_login' %}?next={{ request.path|urlencode }}&lang={{ lang_code }}">여기서 로그인</a>
+      {% elif lang_code == 'zh-cn' %}
+        已经是会员了？ <a href="{% url 'player_login' %}?next={{ request.path|urlencode }}&lang={{ lang_code }}">点击此处登录</a>
+      {% elif lang_code == 'zh-hant' %}
+        已經是會員了？ <a href="{% url 'player_login' %}?next={{ request.path|urlencode }}&lang={{ lang_code }}">點擊此處登錄</a>
+      {% elif lang_code == 'th' %}
+        เป็นสมาชิกอยู่แล้วใช่ไหม? <a href="{% url 'player_login' %}?next={{ request.path|urlencode }}&lang={{ lang_code }}">เข้าสู่ระบบที่นี่</a>
+      {% elif lang_code == 'vi' %}
+        Bạn đã là thành viên? <a href="{% url 'player_login' %}?next={{ request.path|urlencode }}&lang={{ lang_code }}">Đăng nhập tại đây</a>
+      {% elif lang_code == 'fr' %}
+        Déjà membre ? <a href="{% url 'player_login' %}?next={{ request.path|urlencode }}&lang={{ lang_code }}">Connectez-vous ici</a>
+      {% elif lang_code == 'de' %}
+        Schon Mitglied? <a href="{% url 'player_login' %}?next={{ request.path|urlencode }}&lang={{ lang_code }}">Hier anmelden</a>
+      {% elif lang_code == 'it' %}
+        Sei già un membro? <a href="{% url 'player_login' %}?next={{ request.path|urlencode }}&lang={{ lang_code }}">Accedi qui</a>
+      {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}
+        ¿Ya eres miembro? <a href="{% url 'player_login' %}?next={{ request.path|urlencode }}&lang={{ lang_code }}">Inicia sesión aquí</a>
+      {% elif lang_code == 'pt' or lang_code == 'pt-br' %}
+        Já é um membro? <a href="{% url 'player_login' %}?next={{ request.path|urlencode }}&lang={{ lang_code }}">Faça login aqui</a>
+      {% else %}
+        Already a member? <a href="{% url 'player_login' %}?next={{ request.path|urlencode }}&lang={{ lang_code }}">Login here</a>
+      {% endif %}
     </p>
     
-    
   {% elif not user.profile.is_premium %}
-    <h1>Welcome back, {{ user.username }}!</h1>
+    <h1>
+      {% if lang_code == 'ja' %}お帰りなさい、{{ user.username }}さん！
+      {% elif lang_code == 'ko' %}{{ user.username }}님, 환영합니다!
+      {% elif lang_code == 'zh-cn' %}欢迎回来，{{ user.username }}！
+      {% elif lang_code == 'zh-hant' %}歡迎回來，{{ user.username }}！
+      {% elif lang_code == 'th' %}ยินดีต้อนรับกลับมา {{ user.username }}!
+      {% elif lang_code == 'vi' %}Chào mừng quay trở lại, {{ user.username }}!
+      {% elif lang_code == 'fr' %}Bon retour, {{ user.username }} !
+      {% elif lang_code == 'de' %}Willkommen zurück, {{ user.username }}!
+      {% elif lang_code == 'it' %}Bentornato, {{ user.username }}!
+      {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}¡Bienvenido de nuevo, {{ user.username }}!
+      {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Bem-vindo de volta, {{ user.username }}!
+      {% else %}Welcome back, {{ user.username }}!{% endif %}
+    </h1>
+
+
     <div class="hero-buttons">
-      <a href="{% url 'category_list' %}" class="explore-btn btn-red">Start Learning 📖</a>
+      <a href="{% if lang_code == 'ja' %}{% url 'category_list_ja' %}{% elif lang_code == 'ko' %}{% url 'category_list_ko' %}{% elif lang_code == 'zh-cn' %}{% url 'category_list_zhCN' %}{% elif lang_code == 'zh-hant' %}{% url 'category_list_zhHant' %}{% elif lang_code == 'vi' %}{% url 'category_list_vi' %}{% elif lang_code == 'th' %}{% url 'category_list_th' %}{% elif lang_code == 'pt' %}{% url 'category_list_pt' %}{% elif lang_code == 'pt-br' %}{% url 'category_list_ptBR' %}{% elif lang_code == 'it' %}{% url 'category_list_it' %}{% elif lang_code == 'fr' %}{% url 'category_list_fr' %}{% elif lang_code == 'es-mx' %}{% url 'category_list_esMX' %}{% elif lang_code == 'es-es' %}{% url 'category_list_esES' %}{% elif lang_code == 'en-in' %}{% url 'category_list_enIN' %}{% elif lang_code == 'de' %}{% url 'category_list_de' %}{% else %}{% url 'category_list' %}{% endif %}" class="explore-btn btn-red">
+        {% if lang_code == 'ja' %}学習を始める 📖
+        {% elif lang_code == 'ko' %}학습 시작 📖
+        {% elif lang_code == 'zh-cn' %}开始学习 📖
+        {% elif lang_code == 'zh-hant' %}開始學習 📖
+        {% elif lang_code == 'th' %}เริ่มเรียนรู้ 📖
+        {% elif lang_code == 'vi' %}Bắt đầu học 📖
+        {% elif lang_code == 'fr' %}Commencer à apprendre 📖
+        {% elif lang_code == 'de' %}Lernen starten 📖
+        {% elif lang_code == 'it' %}Inizia a imparare 📖
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Empezar a aprender 📖
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Começar a aprender 📖
+        {% else %}Start Learning 📖{% endif %}
+      </a>
     </div>
+
+
     <div class="hero-buttons">
-      <a href="{% url 'account_settings' %}" class="explore-btn btn-white">Manage Account ⚙️</a>
+      <a href="{% if lang_code == 'ja' %}{% url 'account_settingsja' %}{% elif lang_code == 'ko' %}{% url 'account_settingsko' %}{% elif lang_code == 'zh-cn' %}{% url 'account_settingszhCN' %}{% elif lang_code == 'zh-hant' %}{% url 'account_settingszhHANT' %}{% elif lang_code == 'vi' %}{% url 'account_settingsvi' %}{% elif lang_code == 'th' %}{% url 'account_settingsth' %}{% elif lang_code == 'pt' %}{% url 'account_settingspt' %}{% elif lang_code == 'pt-br' %}{% url 'account_settingsptBR' %}{% elif lang_code == 'it' %}{% url 'account_settingsit' %}{% elif lang_code == 'fr' %}{% url 'account_settingsfr' %}{% elif lang_code == 'es-mx' %}{% url 'account_settingsesMX' %}{% elif lang_code == 'es-es' %}{% url 'account_settingsesES' %}{% elif lang_code == 'en-in' %}{% url 'account_settingsenIN' %}{% elif lang_code == 'de' %}{% url 'account_settingsde' %}{% else %}{% url 'account_settings' %}{% endif %}" class="explore-btn btn-white">
+        {% if lang_code == 'ja' %}アカウント管理 ⚙️
+        {% elif lang_code == 'ko' %}계정 관리 ⚙️
+        {% elif lang_code == 'zh-cn' %}管理账户 ⚙️
+        {% elif lang_code == 'zh-hant' %}管理帳戶 ⚙️
+        {% elif lang_code == 'th' %}จัดการบัญชี ⚙️
+        {% elif lang_code == 'vi' %}Quản lý tài khoản ⚙️
+        {% elif lang_code == 'fr' %}Gérer le compte ⚙️
+        {% elif lang_code == 'de' %}Konto verwalten ⚙️
+        {% elif lang_code == 'it' %}Gestisci account ⚙️
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Gestionar cuenta ⚙️
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Gerenciar conta ⚙️
+        {% else %}Manage Account ⚙️{% endif %}
+      </a>
     </div>
-    
+
+
   {% else %}
-    <h1>Welcome back, {{ user.username }}! <br>💎Premium Member💎</h1>
+    <h1>
+      {% if lang_code == 'ja' %}お帰りなさい、{{ user.username }}さん！<br>💎プレミアム会員💎
+      {% elif lang_code == 'ko' %}{{ user.username }}님, 환영합니다!<br>💎프리미엄 회원💎
+      {% elif lang_code == 'zh-cn' %}欢迎回来，{{ user.username }}！<br>💎尊享会员💎
+      {% elif lang_code == 'zh-hant' %}歡迎回來，{{ user.username }}！<br>💎尊享會員💎
+      {% elif lang_code == 'th' %}ยินดีต้อนรับกลับมา {{ user.username }}!<br>💎สมาชิกพรีเมียม💎
+      {% elif lang_code == 'vi' %}Chào mừng quay trở lại, {{ user.username }}!<br>💎Thành viên Premium💎
+      {% elif lang_code == 'fr' %}Bon retour, {{ user.username }} !<br>💎Membre Premium💎
+      {% elif lang_code == 'de' %}Willkommen zurück, {{ user.username }}!<br>💎Premium-Mitglied💎
+      {% elif lang_code == 'it' %}Bentornato, {{ user.username }}!<br>💎Membro Premium💎
+      {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}¡Bienvenido de nuevo, {{ user.username }}!<br>💎Miembro Premium💎
+      {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Bem-vindo de volta, {{ user.username }}!<br>💎Membro Premium💎
+      {% else %}Welcome back, {{ user.username }}!<br>💎Premium Member💎{% endif %}
+    </h1>
+
     <div class="hero-buttons">
-      <a href="{% url 'category_list' %}" class="explore-btn btn-gold">Go to Lessons 📖</a>
-      <a href="{% url 'account_settings' %}" class="explore-btn btn-white">Manage Account ⚙️</a>
+    
+      <a href="{% if lang_code == 'ja' %}{% url 'category_list_ja' %}{% elif lang_code == 'ko' %}{% url 'category_list_ko' %}{% elif lang_code == 'zh-cn' %}{% url 'category_list_zhCN' %}{% elif lang_code == 'zh-hant' %}{% url 'category_list_zhHant' %}{% elif lang_code == 'vi' %}{% url 'category_list_vi' %}{% elif lang_code == 'th' %}{% url 'category_list_th' %}{% elif lang_code == 'pt' %}{% url 'category_list_pt' %}{% elif lang_code == 'pt-br' %}{% url 'category_list_ptBR' %}{% elif lang_code == 'it' %}{% url 'category_list_it' %}{% elif lang_code == 'fr' %}{% url 'category_list_fr' %}{% elif lang_code == 'es-mx' %}{% url 'category_list_esMX' %}{% elif lang_code == 'es-es' %}{% url 'category_list_esES' %}{% elif lang_code == 'en-in' %}{% url 'category_list_enIN' %}{% elif lang_code == 'de' %}{% url 'category_list_de' %}{% else %}{% url 'category_list' %}{% endif %}" class="explore-btn btn-gold">
+        {% if lang_code == 'ja' %}レッスンへ移動 📖
+        {% elif lang_code == 'ko' %}레슨으로 이동 📖
+        {% elif lang_code == 'zh-cn' %}前往课程 📖
+        {% elif lang_code == 'zh-hant' %}前往課程 📖
+        {% elif lang_code == 'th' %}ไปที่บทเรียน 📖
+        {% elif lang_code == 'vi' %}Đi đến bài học 📖
+        {% elif lang_code == 'fr' %}Aller aux leçons 📖
+        {% elif lang_code == 'de' %}Zu den Lektionen 📖
+        {% elif lang_code == 'it' %}Vai alle lezioni 📖
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Ir a las lecciones 📖
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Ir para as lições 📖
+        {% else %}Go to Lessons 📖{% endif %}
+      </a>
+
+    
+      <a href="{% if lang_code == 'ja' %}{% url 'account_settingsja' %}{% elif lang_code == 'ko' %}{% url 'account_settingsko' %}{% elif lang_code == 'zh-cn' %}{% url 'account_settingszhCN' %}{% elif lang_code == 'zh-hant' %}{% url 'account_settingszhHANT' %}{% elif lang_code == 'vi' %}{% url 'account_settingsvi' %}{% elif lang_code == 'th' %}{% url 'account_settingsth' %}{% elif lang_code == 'pt' %}{% url 'account_settingspt' %}{% elif lang_code == 'pt-br' %}{% url 'account_settingsptBR' %}{% elif lang_code == 'it' %}{% url 'account_settingsit' %}{% elif lang_code == 'fr' %}{% url 'account_settingsfr' %}{% elif lang_code == 'es-mx' %}{% url 'account_settingsesMX' %}{% elif lang_code == 'es-es' %}{% url 'account_settingsesES' %}{% elif lang_code == 'en-in' %}{% url 'account_settingsenIN' %}{% elif lang_code == 'de' %}{% url 'account_settingsde' %}{% else %}{% url 'account_settings' %}{% endif %}" class="explore-btn btn-white">
+        {% if lang_code == 'ja' %}アカウント管理 ⚙️
+        {% elif lang_code == 'ko' %}계정 관리 ⚙️
+        {% elif lang_code == 'zh-cn' %}管理账户 ⚙️
+        {% elif lang_code == 'zh-hant' %}管理帳戶 ⚙️
+        {% elif lang_code == 'th' %}จัดการบัญชี ⚙️
+        {% elif lang_code == 'vi' %}Quản lý tài khoản ⚙️
+        {% elif lang_code == 'fr' %}Gérer le compte ⚙️
+        {% elif lang_code == 'de' %}Konto verwalten ⚙️
+        {% elif lang_code == 'it' %}Gestisci account ⚙️
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Gestionar cuenta ⚙️
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Gerenciar conta ⚙️
+        {% else %}Manage Account ⚙️{% endif %}
+      </a>
     </div>
+
   {% endif %}
 </section>
 
 
   <div class="game-call-to-action">
-    <a href="{% url 'game_start' %}" class="play-game-button">
-        Japanese Vocab Quiz 
+    <a href="{% url 'game_start' %}?lang={{ lang_code }}" class="play-game-button">
+        {% if lang_code == 'ja' %}日本語語彙クイズ
+        {% elif lang_code == 'ko' %}일본어 어휘 퀴즈
+        {% elif lang_code == 'zh-cn' %}日语词汇测验
+        {% elif lang_code == 'zh-hant' %}日語詞彙測驗
+        {% elif lang_code == 'th' %}ควิซคำศัพท์ภาษาญี่ปุ่น
+        {% elif lang_code == 'vi' %}Trắc nghiệm từ vựng tiếng Nhật
+        {% elif lang_code == 'fr' %}Quiz de vocabulaire japonais
+        {% elif lang_code == 'de' %}Japanisch-Vokabelquiz
+        {% elif lang_code == 'it' %}Quiz di vocaboli giapponesi
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Quiz de vocabulario japonés
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Quiz de vocabulário japonês
+        {% else %}Japanese Vocab Quiz{% endif %}
         <span class="game-icon">🎮</span> 
     </a>
+
     <p class="game-description">
-        Challenge the global leaderboard with our 3 choice Japanese vocab quiz!<br>Master essential words through culture and games.
+        {% if lang_code == 'ja' %}
+            3択の日本語クイズで世界ランキングに挑戦しよう！<br>文化とゲームを通じて必須単語をマスター。
+        {% elif lang_code == 'ko' %}
+            3지선다형 퀴즈로 글로벌 리더보드에 도전하세요!<br>문화와 게임을 통해 필수 단어를 마스터하세요.
+        {% elif lang_code == 'zh-cn' %}
+            通过三选一测验挑战全球排行榜！<br>通过文化和游戏掌握必备词汇。
+        {% elif lang_code == 'zh-hant' %}
+            透過三選一測驗挑戰全球排行榜！<br>透過文化和遊戲掌握必備詞彙。
+        {% elif lang_code == 'th' %}
+            ท้าทายกระดานผู้นำระดับโลกด้วยควิซคำศัพท์ภาษาญี่ปุ่น 3 ตัวเลือก!<br>มาสเตอร์คำศัพท์ที่จำเป็นผ่านวัฒนธรรมและเกม
+        {% elif lang_code == 'vi' %}
+            Thử thách bảng xếp hạng toàn cầu với trò chơi trắc nghiệm 3 lựa chọn!<br>Nắm vững các từ thiết yếu thông qua văn hóa và trò chơi.
+        {% elif lang_code == 'fr' %}
+            Relevez le défi du classement mondial avec notre quiz à 3 choix !<br>Maîtrisez les mots essentiels à travers la culture et les jeux.
+        {% elif lang_code == 'de' %}
+            Fordern Sie die globale Bestenliste mit unserem 3-Choice-Vokabelquiz heraus!<br>Meistern Sie wichtige Wörter durch Kultur und Spiele.
+        {% elif lang_code == 'it' %}
+            Sfida la classifica globale con il nostro quiz a 3 scelte!<br>Padroneggia le parole essenziali attraverso la cultura e i giochi.
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}
+            ¡Desafía la clasificación global con nuestro quiz de 3 opciones!<br>Domina palabras esenciales a través de la cultura y los juegos.
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}
+            Desafie o ranking global com nosso quiz de 3 escolhas!<br>Domine palavras essenciais através da cultura e dos jogos.
+        {% else %}
+            Challenge the global leaderboard with our 3 choice Japanese vocab quiz!<br>Master essential words through culture and games.
+        {% endif %}
     </p>
   </div>
 
   <section class="categories">
-    <h2>Discover Japan</h2>
+    <h2>
+      {% if lang_code == 'ja' %}日本を発見する
+      {% elif lang_code == 'ko' %}일본 알아보기
+      {% elif lang_code == 'zh-cn' %}探索日本
+      {% elif lang_code == 'zh-hant' %}探索日本
+      {% elif lang_code == 'th' %}ค้นพบญี่ปุ่น
+      {% elif lang_code == 'vi' %}Khám phá Nhật Bản
+      {% elif lang_code == 'fr' %}Découvrez le Japon
+      {% elif lang_code == 'de' %}Japan entdecken
+      {% elif lang_code == 'it' %}Scopri il Giappone
+      {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Descubre Japón
+      {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Descubra o Japão
+      {% else %}Discover Japan{% endif %}
+    </h2>
+
     <div class="category-grid">
       <div class="category-card">
-        <a href="{% url 'japanfood' %}?lang=en">
-          <img src="https://res.cloudinary.com/dotekofm5/image/upload/v1761200066/thankjapan/backgrounds/adfqqgtdfozxi848gopz.png" alt="Japanese Cuisine">
+        <a href="{% url 'japanfood' %}?lang={{ lang_code }}">
+          <img src="https://res.cloudinary.com/dotekofm5/image/upload/v1761200066/thankjapan/backgrounds/adfqqgtdfozxi848gopz.png" 
+          alt="{% if lang_code == 'ja' %}日本料理
+              {% elif lang_code == 'ko' %}일본 요리
+              {% elif lang_code == 'zh-cn' %}日本料理
+              {% elif lang_code == 'zh-hant' %}日本料理
+              {% elif lang_code == 'th' %}อาหารญี่ปุ่น
+              {% elif lang_code == 'vi' %}Ẩm thực Nhật Bản
+              {% elif lang_code == 'fr' %}Cuisine japonaise
+              {% elif lang_code == 'de' %}Japanische Küche
+              {% elif lang_code == 'it' %}Cucina giapponese
+              {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Cocina japonesa
+              {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Culinária japonesa
+              {% else %}Japanese Cuisine{% endif %}">
         </a>
-        <h3>Authentic Japanese Food and Everyday Meals</h3>
+
+        <h3>
+          {% if lang_code == 'ja' %}本場の日本料理と日常の食事
+          {% elif lang_code == 'ko' %}정통 일본 음식과 일상 식사
+          {% elif lang_code == 'zh-cn' %}正宗日本料理与日常饮食
+          {% elif lang_code == 'zh-hant' %}正宗日本料理與日常飲食
+          {% elif lang_code == 'th' %}อาหารญี่ปุ่นต้นตำรับและมื้ออาหารประจำวัน
+          {% elif lang_code == 'vi' %}Ẩm thực Nhật Bản chính thống và các bữa ăn hàng ngày
+          {% elif lang_code == 'fr' %}Cuisine japonaise authentique et repas quotidiens
+          {% elif lang_code == 'de' %}Authentische japanische Küche und alltägliche Mahlzeiten
+          {% elif lang_code == 'it' %}Cucina giapponese autentica e pasti quotidiani
+          {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Auténtica comida japonesa y platos cotidianos
+          {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Comida japonesa autêntica e refeições diárias
+          {% else %}Authentic Japanese Food and Everyday Meals{% endif %}
+        </h3>
+
       </div>
 
 
       <div class="category-card">
-        <a href="{% url 'prefecture_list' %}?lang=en">
-          <img src="https://res.cloudinary.com/dotekofm5/image/upload/v1761842683/thankjapan/backgrounds/ixyersx9bdpxytxzetix.jpg" alt="Japanese Tradition">
+        <a href="{% url 'prefecture_list' %}?lang={{ lang_code }}">
+        <img src="https://res.cloudinary.com/dotekofm5/image/upload/v1761842683/thankjapan/backgrounds/ixyersx9bdpxytxzetix.jpg" 
+           alt="{% if lang_code == 'ja' %}日本の伝統
+              {% elif lang_code == 'ko' %}일본의 전통
+              {% elif lang_code == 'zh-cn' %}日本传统
+              {% elif lang_code == 'zh-hant' %}日本傳統
+              {% elif lang_code == 'th' %}ประเพณีญี่ปุ่น
+              {% elif lang_code == 'vi' %}Truyền thống Nhật Bản
+              {% elif lang_code == 'fr' %}Traditions japonaises
+              {% elif lang_code == 'de' %}Japanische Traditionen
+              {% elif lang_code == 'it' %}Tradizioni giapponesi
+              {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Tradiciones japonesas
+              {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Tradições japonesas
+              {% else %}Japanese Tradition{% endif %}">
         </a>
-        <h3>Famous Places & Landmarks</h3>
+
+        <h3>
+          {% if lang_code == 'ja' %}有名な場所とランドマーク
+          {% elif lang_code == 'ko' %}유명한 장소 및 랜드마크
+          {% elif lang_code == 'zh-cn' %}著名地点与地标
+          {% elif lang_code == 'zh-hant' %}著名地點與地標
+          {% elif lang_code == 'th' %}สถานที่ที่มีชื่อเสียงและแลนด์มาร์ค
+          {% elif lang_code == 'vi' %}Địa danh & Thắng cảnh nổi tiếng
+          {% elif lang_code == 'fr' %}Lieux célèbres et monuments
+          {% elif lang_code == 'de' %}Berühmte Orte & Sehenswürdigkeiten
+          {% elif lang_code == 'it' %}Luoghi famosi e monumenti
+          {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Lugares famosos y monumentos
+          {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Lugares famosos e marcos
+          {% else %}Famous Places & Landmarks{% endif %}
+        </h3>
+
       </div>
 
   </section>
@@ -594,12 +892,88 @@ footer {
 
   <footer>
     <div class="footer-links">
-      <a href="{% url 'infomationpage' %}">About Us</a>
-      <a href="{% url 'privacy_policy' %}">Privacy Policy</a>
-      <a href="{% url 'riyoukiyaku' %}">Terms of Use</a>
-      <a href="{% url 'contact' %}">Contact</a>
+      <div class="footer-links">
+    
+      <a href="{% if lang_code == 'ja' %}{% url 'infomationpageja' %}{% elif lang_code == 'ko' %}{% url 'infomationpageko' %}{% elif lang_code == 'zh-cn' %}{% url 'infomationpagezhCN' %}{% elif lang_code == 'zh-hant' %}{% url 'infomationpagezhHANT' %}{% elif lang_code == 'vi' %}{% url 'infomationpagevi' %}{% elif lang_code == 'th' %}{% url 'infomationpageth' %}{% elif lang_code == 'fr' %}{% url 'infomationpagefr' %}{% elif lang_code == 'it' %}{% url 'infomationpageit' %}{% elif lang_code == 'de' %}{% url 'infomationpagede' %}{% elif lang_code == 'es-mx' %}{% url 'infomationpageesMX' %}{% elif lang_code == 'es-es' %}{% url 'infomationpageesES' %}{% elif lang_code == 'pt' %}{% url 'infomationpagept' %}{% elif lang_code == 'pt-br' %}{% url 'infomationpageptBR' %}{% elif lang_code == 'en-in' %}{% url 'infomationpageenIN' %}{% else %}{% url 'infomationpage' %}{% endif %}">
+        {% if lang_code == 'ja' %}運営会社
+        {% elif lang_code == 'ko' %}회사 소개
+        {% elif lang_code == 'zh-cn' %}关于我们
+        {% elif lang_code == 'zh-hant' %}關於我們
+        {% elif lang_code == 'th' %}เกี่ยวกับเรา
+        {% elif lang_code == 'vi' %}Về chúng tôi
+        {% elif lang_code == 'fr' %}À propos de nous
+        {% elif lang_code == 'de' %}Über uns
+        {% elif lang_code == 'it' %}Chi siamo
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Sobre nosotros
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Sobre nós
+        {% else %}About Us{% endif %}
+      </a>
+
+    
+      <a href="{% if lang_code == 'ja' %}{% url 'privacy_policyja' %}{% elif lang_code == 'ko' %}{% url 'privacy_policyko' %}{% elif lang_code == 'zh-cn' %}{% url 'privacy_policyzhCN' %}{% elif lang_code == 'zh-hant' %}{% url 'privacy_policyzhHANT' %}{% elif lang_code == 'vi' %}{% url 'privacy_policyvi' %}{% elif lang_code == 'th' %}{% url 'privacy_policyth' %}{% elif lang_code == 'fr' %}{% url 'privacy_policyfr' %}{% elif lang_code == 'it' %}{% url 'privacy_policyit' %}{% elif lang_code == 'de' %}{% url 'privacy_policyde' %}{% elif lang_code == 'es-mx' %}{% url 'privacy_policyesMX' %}{% elif lang_code == 'es-es' %}{% url 'privacy_policyesES' %}{% elif lang_code == 'pt' %}{% url 'privacy_policypt' %}{% elif lang_code == 'pt-br' %}{% url 'privacy_policyptBR' %}{% elif lang_code == 'en-in' %}{% url 'privacy_policyenIN' %}{% else %}{% url 'privacy_policy' %}{% endif %}">
+        {% if lang_code == 'ja' %}プライバシーポリシー
+        {% elif lang_code == 'ko' %}개인정보 처리방침
+        {% elif lang_code == 'zh-cn' %}隐私政策
+        {% elif lang_code == 'zh-hant' %}隱私政策
+        {% elif lang_code == 'th' %}นโยบายความเป็นส่วนตัว
+        {% elif lang_code == 'vi' %}Chính sách bảo mật
+        {% elif lang_code == 'fr' %}Politique de confidentialité
+        {% elif lang_code == 'de' %}Datenschutzerklärung
+        {% elif lang_code == 'it' %}Informativa sulla privacy
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Política de privacidad
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Política de privacidade
+        {% else %}Privacy Policy{% endif %}
+      </a>
+
+    
+      <a href="{% if lang_code == 'ja' %}{% url 'riyoukiyakuja' %}{% elif lang_code == 'ko' %}{% url 'riyoukiyakuko' %}{% elif lang_code == 'zh-cn' %}{% url 'riyoukiyakuzhCN' %}{% elif lang_code == 'zh-hant' %}{% url 'riyoukiyakuzhHANT' %}{% elif lang_code == 'vi' %}{% url 'riyoukiyakuvi' %}{% elif lang_code == 'th' %}{% url 'riyoukiyakuth' %}{% elif lang_code == 'fr' %}{% url 'riyoukiyakufr' %}{% elif lang_code == 'it' %}{% url 'riyoukiyakuit' %}{% elif lang_code == 'de' %}{% url 'riyoukiyakude' %}{% elif lang_code == 'es-mx' %}{% url 'riyoukiyakuesMX' %}{% elif lang_code == 'es-es' %}{% url 'riyoukiyakuesES' %}{% elif lang_code == 'pt' %}{% url 'riyoukiyakupt' %}{% elif lang_code == 'pt-br' %}{% url 'riyoukiyakuptBR' %}{% elif lang_code == 'en-in' %}{% url 'riyoukiyakuenIN' %}{% else %}{% url 'riyoukiyaku' %}{% endif %}">
+        {% if lang_code == 'ja' %}利用規約
+        {% elif lang_code == 'ko' %}이용약관
+        {% elif lang_code == 'zh-cn' %}使用条款
+        {% elif lang_code == 'zh-hant' %}使用條款
+        {% elif lang_code == 'th' %}ข้อกำหนดการใช้งาน
+        {% elif lang_code == 'vi' %}Điều khoản sử dụng
+        {% elif lang_code == 'fr' %}Conditions d'utilisation
+        {% elif lang_code == 'de' %}Nutzungsbedingungen
+        {% elif lang_code == 'it' %}Termini di utilizzo
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Términos de uso
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Termos de uso
+        {% else %}Terms of Use{% endif %}
+      </a>
+
+    
+      <a href="{% url 'contact' %}?lang={{ lang_code }}">
+        {% if lang_code == 'ja' %}お問い合わせ
+        {% elif lang_code == 'ko' %}문의하기
+        {% elif lang_code == 'zh-cn' %}联系我们
+        {% elif lang_code == 'zh-hant' %}聯繫我們
+        {% elif lang_code == 'th' %}ติดต่อเรา
+        {% elif lang_code == 'vi' %}Liên hệ
+        {% elif lang_code == 'fr' %}Contactez-nous
+        {% elif lang_code == 'de' %}Kontakt
+        {% elif lang_code == 'it' %}Contattaci
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Contacto
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Contato
+        {% else %}Contact{% endif %}
+      </a>
+      </div>
     </div>
-    <small>© 2025 Thank Japan | Explore, enjoy, and fall in love with Japanese culture</small>
+
+    <small>
+      © 2026 Thank Japan | 
+      {% if lang_code == 'ja' %}日本の言葉を学び、文化を知り、旅をしてみよう
+      {% elif lang_code == 'ko' %}일본어를 배우고 문화를 알며 여행을 떠나보세요
+      {% elif lang_code == 'zh-cn' %}学习日语，了解文化，开启旅程吧
+      {% elif lang_code == 'zh-hant' %}學習日語，了解文化，開啟旅程吧
+      {% elif lang_code == 'th' %}เรียนรู้ภาษาญี่ปุ่น รู้จักวัฒนธรรม และออกเดินทางท่องเที่ยวกันเถอะ
+      {% elif lang_code == 'vi' %}Học tiếng Nhật, hiểu về văn hóa và cùng nhau đi du lịch nào
+      {% elif lang_code == 'fr' %}Apprenez la langue, découvrez la culture et partez en voyage au Japon
+      {% elif lang_code == 'de' %}Lerne die Sprache, entdecke die Kultur und begib dich auf eine Reise durch Japan
+      {% elif lang_code == 'it' %}Impara la lingua, scopri la cultura e parti per un viaggio in Giappone
+      {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Aprende el idioma, conoce la cultura y vámonos de viaje por Japón
+      {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Aprenda o idioma, conheça a cultura e vamos viajar pelo Japão
+      {% else %}Learn the language, discover the culture, and explore Japan{% endif %}
+    </small>
   </footer>
 
   <script>
