@@ -607,7 +607,21 @@ body.modal-open {
 </div>
 
 <div style="text-align:center; margin:50px 0;">
-   <a class="btn-more" href="javascript:void(0);" onclick="goToCategoryList()">← Back</a>
+    <a class="btn-more" href="javascript:void(0);" onclick="goToCategoryList()">
+        ← 
+        {% if lang_code == 'ja' %}戻る
+        {% elif lang_code == 'ko' %}뒤로
+        {% elif lang_code == 'zh-cn' %}返回
+        {% elif lang_code == 'zh-hant' %}返回
+        {% elif lang_code == 'th' %}กลับ
+        {% elif lang_code == 'vi' %}Quay lại
+        {% elif lang_code == 'fr' %}Retour
+        {% elif lang_code == 'de' %}Zurück
+        {% elif lang_code == 'it' %}Indietro
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Volver
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Voltar
+        {% else %}Back{% endif %}
+    </a>
 </div>
 
 <script>
