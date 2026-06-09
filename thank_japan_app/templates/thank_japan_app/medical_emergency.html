@@ -689,7 +689,20 @@ body.modal-open { overflow: hidden !important; }
   <div class="pagination">
     {% if page_obj.has_previous %}
       <a href="?page=1&lang={{ lang_code }}" class="page-btn">&laquo;</a>
-      <a href="?page={{ page_obj.previous_page_number }}&lang={{ lang_code }}" class="page-btn">Prev</a>
+      <a href="?page={{ page_obj.previous_page_number }}{% if lang_code %}&lang={{ lang_code }}{% endif %}" class="page-btn">
+        {% if lang_code == 'ja' %}前へ
+        {% elif lang_code == 'ko' %}이전
+        {% elif lang_code == 'zh-cn' %}上一页
+        {% elif lang_code == 'zh-hant' %}上一頁
+        {% elif lang_code == 'th' %}ก่อนหน้า
+        {% elif lang_code == 'vi' %}Trang trước
+        {% elif lang_code == 'fr' %}Précédent
+        {% elif lang_code == 'de' %}Zurück
+        {% elif lang_code == 'it' %}Precedente
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Anterior
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Anterior
+        {% else %}Prev{% endif %}
+      </a>
     {% endif %}
 
     {% for num in page_obj.paginator.page_range %}
@@ -701,7 +714,20 @@ body.modal-open { overflow: hidden !important; }
     {% endfor %}
 
     {% if page_obj.has_next %}
-      <a href="?page={{ page_obj.next_page_number }}&lang={{ lang_code }}" class="page-btn">Next</a>
+      <a href="?page={{ page_obj.next_page_number }}{% if lang_code %}&lang={{ lang_code }}{% endif %}" class="page-btn">
+        {% if lang_code == 'ja' %}次へ
+        {% elif lang_code == 'ko' %}다음
+        {% elif lang_code == 'zh-cn' %}下一页
+        {% elif lang_code == 'zh-hant' %}下一頁
+        {% elif lang_code == 'th' %}ถัดไป
+        {% elif lang_code == 'vi' %}Tiếp theo
+        {% elif lang_code == 'fr' %}Suivant
+        {% elif lang_code == 'de' %}Weiter
+        {% elif lang_code == 'it' %}Successivo
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Siguiente
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Próximo
+        {% else %}Next{% endif %}
+      </a>
       <a href="?page={{ page_obj.paginator.num_pages }}&lang={{ lang_code }}" class="page-btn">&raquo;</a>
     {% endif %}
   </div>
