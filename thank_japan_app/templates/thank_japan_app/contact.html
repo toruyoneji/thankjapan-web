@@ -1,8 +1,22 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ lang_code }}">
 <head>
     <meta charset="UTF-8">
-    <title>Contact Support</title>
+    <title>
+        {% if lang_code == 'ja' %}お問い合わせ | ThankJapan
+        {% elif lang_code == 'ko' %}문의하기 | ThankJapan
+        {% elif lang_code == 'zh-cn' %}联系我们 | ThankJapan
+        {% elif lang_code == 'zh-hant' %}聯繫我們 | ThankJapan
+        {% elif lang_code == 'th' %}ติดต่อเรา | ThankJapan
+        {% elif lang_code == 'vi' %}Liên hệ hỗ trợ | ThankJapan
+        {% elif lang_code == 'fr' %}Contacter le support | ThankJapan
+        {% elif lang_code == 'de' %}Support kontaktieren | ThankJapan
+        {% elif lang_code == 'it' %}Contatta il supporto | ThankJapan
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Contactar al soporte | ThankJapan
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Contatar suporte | ThankJapan
+        {% else %}Contact Support | ThankJapan{% endif %}
+    </title>
+    
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         
@@ -143,6 +157,15 @@
                         {% if "required" in error %}
                             {% if lang_code == 'ja' %}お名前を入力してください。
                             {% elif lang_code == 'ko' %}이름을 입력해 주세요.
+                            {% elif lang_code == 'zh-cn' %}请输入姓名。
+                            {% elif lang_code == 'zh-hant' %}請輸入姓名。
+                            {% elif lang_code == 'th' %}กรุณากรอกชื่อของคุณ
+                            {% elif lang_code == 'vi' %}Vui lòng nhập tên của bạn.
+                            {% elif lang_code == 'fr' %}Veuillez entrer votre nom.
+                            {% elif lang_code == 'de' %}Bitte geben Sie Ihren Namen ein.
+                            {% elif lang_code == 'it' %}Per favore, inserisci il tuo nome.
+                            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Por favor, ingrese su nombre.
+                            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Por favor, insira seu nome.
                             {% else %}Name is required.{% endif %}
                         {% else %}{{ error }}{% endif %}
                     {% endwith %}

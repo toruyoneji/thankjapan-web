@@ -1,8 +1,22 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ lang_code }}">
 <head>
     <meta charset="UTF-8">
-    <title>Message Sent</title>
+    <title>
+        {% if lang_code == 'ja' %}送信完了 | ThankJapan
+        {% elif lang_code == 'ko' %}전송 완료 | ThankJapan
+        {% elif lang_code == 'zh-cn' %}发送成功 | ThankJapan
+        {% elif lang_code == 'zh-hant' %}發送成功 | ThankJapan
+        {% elif lang_code == 'th' %}ส่งข้อความแล้ว | ThankJapan
+        {% elif lang_code == 'vi' %}Đã gửi tin nhắn | ThankJapan
+        {% elif lang_code == 'fr' %}Message envoyé | ThankJapan
+        {% elif lang_code == 'de' %}Nachricht gesendet | ThankJapan
+        {% elif lang_code == 'it' %}Messaggio inviato | ThankJapan
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Mensaje enviado | ThankJapan
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Mensagem enviada | ThankJapan
+        {% else %}Message Sent | ThankJapan{% endif %}
+    </title>
+    
     <style>
         body { font-family: Arial, sans-serif; background: #f4f4f4; padding: 30px; text-align: center; }
         .container { max-width: 500px; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1);}
