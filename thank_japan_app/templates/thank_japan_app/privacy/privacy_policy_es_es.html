@@ -113,31 +113,32 @@
 
     <h2>1. Información que recopilamos</h2>
     <ul>
-        <li><strong>Información de la cuenta:</strong> Recopilamos su nombre de usuario y una versión hash (encriptada) de su contraseña. No almacenamos contraseñas en texto plano.</li>
-        <li><strong>Datos del juego:</strong> Recopilamos puntuaciones y progresos para proporcionar funciones del juego, tablas de clasificación y mejorar su experiencia.</li>
-        <li><strong>Datos de pago:</strong> El procesamiento de pagos es gestionado de forma segura por PayPal. No almacenamos números de tarjetas de crédito. Solo almacenamos el <strong>ID de suscripción</strong> y el estado del pago proporcionado por PayPal para gestionar su acceso.</li>
-        <li><strong>Privacidad e IA:</strong> NO proporcionamos sus datos personales, nombres de usuario o puntuaciones a modelos externos de inteligencia artificial para fines de entrenamiento.</li>
+        <li><strong>Información de la cuenta:</strong> Recopilamos su nombre de usuario y una versión cifrada (hash) de su contraseña. No almacenamos contraseñas en texto plano.</li>
+        <li><strong>Datos de juego:</strong> Recopilamos puntuaciones y progresos para ofrecer funciones, clasificaciones y mejorar su experiencia.</li>
+        <li><strong>Datos de pago:</strong> El procesamiento de pagos es gestionado de forma segura por {% if is_twa %}<strong>Google Play</strong>{% else %}<strong>PayPal</strong>{% endif %}. No almacenamos números de tarjeta de crédito. Solo almacenamos el <strong>ID de suscripción</strong> y el estado del pago proporcionado por {% if is_twa %}Google{% else %}PayPal{% endif %} para gestionar su acceso.</li>
+        <li><strong>Privacidad de IA:</strong> NO proporcionamos sus datos personales, nombres de usuario o puntuaciones a modelos externos de inteligencia artificial para fines de entrenamiento.</li>
     </ul>
 
     <h2>2. Cómo utilizamos la información</h2>
     <ul>
         <li>Para gestionar su cuenta y proporcionar acceso al Plan Premium.</li>
-        <li>Para procesar de forma segura las suscripciones mensuales a través de PayPal.</li>
-        <li>Para mostrar puntuaciones en las tablas de clasificación y guardar su progreso de aprendizaje.</li>
+        <li>Para procesar suscripciones mensuales de forma segura a través de {% if is_twa %}<strong>Google Play</strong>{% else %}<strong>PayPal</strong>{% endif %}.</li>
+        <li>Para mostrar puntuaciones en las clasificaciones y guardar su progreso de aprendizaje.</li>
         <li>Para garantizar la seguridad y estabilidad de nuestra plataforma.</li>
     </ul>
 
-    <h2>3. Cookies y Seguridad</h2>
-    <p>Utilizamos cookies esenciales para el inicio de sesión seguro, el mantenimiento de sesiones y para garantizar la integridad de las transacciones de PayPal. Puede gestionar las cookies en la configuración de su navegador, pero desactivarlas puede afectar a la funcionalidad del servicio.</p>
+    <h2>3. Cookies y seguridad</h2>
+    <p>Utilizamos cookies esenciales para el inicio de sesión seguro, el mantenimiento de las sesiones y para garantizar la integridad de las transacciones {% if is_twa %}de pago{% else %}de PayPal{% endif %}.</p>
 
-    <h2>4. Intercambio de datos y terceros</h2>
-    <p>Compartimos datos solo con socios de confianza necesarios para la operación:</p>
+    <h2>4. Datos compartidos y terceros</h2>
+    <p>Compartimos datos únicamente con socios de confianza necesarios para la operación:</p>
     <ul>
-        <li><strong>PayPal:</strong> Para el procesamiento de pagos y la gestión de suscripciones.</li>
+        <li><strong>{% if is_twa %}Google Play{% else %}PayPal{% endif %}:</strong> Para el procesamiento de pagos y gestión de suscripciones.</li>
         <li><strong>Cloudinary:</strong> Para la entrega de imágenes educativas optimizadas.</li>
-        <li><strong>Google Analytics:</strong> Para el análisis de uso anónimo.</li>
+        <li><strong>Google Analytics:</strong> Para el análisis de uso de forma anónima.</li>
     </ul>
 
+    
     <h2>5. Derechos del usuario y eliminación de datos</h2>
     <p>Tiene derecho a acceder, corregir o eliminar sus datos en cualquier momento. Puede <strong>eliminar permanentemente su cuenta y todo el historial asociado</strong> de forma inmediata a través de la página de "Configuración de la cuenta". Una vez eliminados, estos datos no pueden recuperarse.</p>
 

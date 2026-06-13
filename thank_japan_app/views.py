@@ -131,6 +131,13 @@ def normalize_for_judge(text):
 
     return text
 
+#android google play
+def is_android_twa(request):
+    
+    ua = request.META.get('HTTP_USER_AGENT', '').lower()
+    
+    return 'android' in ua or 'twa' in ua
+
 #category: urls:
 CATEGORY_URL_MAP = {
     'culture': 'culturepage',
@@ -246,52 +253,129 @@ class CompanyFormENINView(TemplateView):
 class CompanyFormDEView(TemplateView):
      template_name = 'thank_japan_app/info/company_de.html'
      
+     
+     
 #legalnotice
 
 class LegalNoticeView(TemplateView):
     template_name = "thank_japan_app/legal/legal_notice.html"
     
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['is_twa'] = is_android_twa(self.request)
+        return context
+    
 class LegalNoticeZHCNView(TemplateView):
     template_name = "thank_japan_app/legal/legal_notice_zh_cn.html"
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['is_twa'] = is_android_twa(self.request)
+        return context
      
 class LegalNoticeZHHANTView(TemplateView):
     template_name = "thank_japan_app/legal/legal_notice_zh_hant.html"
     
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['is_twa'] = is_android_twa(self.request)
+        return context
+    
 class LegalNoticeVIView(TemplateView):
     template_name = "thank_japan_app/legal/legal_notice_vi.html"
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['is_twa'] = is_android_twa(self.request)
+        return context
     
 class LegalNoticeTHView(TemplateView):
     template_name = "thank_japan_app/legal/legal_notice_th.html"
     
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['is_twa'] = is_android_twa(self.request)
+        return context
+    
 class LegalNoticePTView(TemplateView):
     template_name = "thank_japan_app/legal/legal_notice_pt.html"
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['is_twa'] = is_android_twa(self.request)
+        return context
     
 class LegalNoticePTBRView(TemplateView):
     template_name = "thank_japan_app/legal/legal_notice_pt_br.html"
     
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['is_twa'] = is_android_twa(self.request)
+        return context
+    
 class LegalNoticeKOView(TemplateView):
     template_name = "thank_japan_app/legal/legal_notice_ko.html"
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['is_twa'] = is_android_twa(self.request)
+        return context
     
 class LegalNoticeJAView(TemplateView):
     template_name = "thank_japan_app/legal/legal_notice_ja.html"
     
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['is_twa'] = is_android_twa(self.request)
+        return context
+    
 class LegalNoticeITView(TemplateView):
     template_name = "thank_japan_app/legal/legal_notice_it.html"
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['is_twa'] = is_android_twa(self.request)
+        return context
     
 class LegalNoticeFRView(TemplateView):
     template_name = "thank_japan_app/legal/legal_notice_fr.html"
     
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['is_twa'] = is_android_twa(self.request)
+        return context
+    
 class LegalNoticeESMXView(TemplateView):
     template_name = "thank_japan_app/legal/legal_notice_es_mx.html"
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['is_twa'] = is_android_twa(self.request)
+        return context
     
 class LegalNoticeESESView(TemplateView):
     template_name = "thank_japan_app/legal/legal_notice_es_es.html"
     
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['is_twa'] = is_android_twa(self.request)
+        return context
+    
 class LegalNoticeENINView(TemplateView):
     template_name = "thank_japan_app/legal/legal_notice_en_in.html"
     
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['is_twa'] = is_android_twa(self.request)
+        return context
+    
 class LegalNoticeDEView(TemplateView):
     template_name = "thank_japan_app/legal/legal_notice_de.html"
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['is_twa'] = is_android_twa(self.request)
+        return context
     
     
     
@@ -299,47 +383,122 @@ class LegalNoticeDEView(TemplateView):
 class PrivacyPolicy(TemplateView):
     template_name = "thank_japan_app/privacy/privacy_policy.html"
     
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['is_twa'] = is_android_twa(self.request)
+        return context
+    
 class PrivacyPolicyZHCN(TemplateView):
     template_name = "thank_japan_app/privacy/privacy_policy_zh_cn.html"
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['is_twa'] = is_android_twa(self.request)
+        return context
     
 class PrivacyPolicyZHHANT(TemplateView):
     template_name = "thank_japan_app/privacy/privacy_policy_zh_hant.html"
     
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['is_twa'] = is_android_twa(self.request)
+        return context
+    
 class PrivacyPolicyVI(TemplateView):
     template_name = "thank_japan_app/privacy/privacy_policy_vi.html"
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['is_twa'] = is_android_twa(self.request)
+        return context
     
 class PrivacyPolicyTH(TemplateView):
     template_name = "thank_japan_app/privacy/privacy_policy_th.html"
     
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['is_twa'] = is_android_twa(self.request)
+        return context
+    
 class PrivacyPolicyPT(TemplateView):
     template_name = "thank_japan_app/privacy/privacy_policy_pt.html"
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['is_twa'] = is_android_twa(self.request)
+        return context
     
 class PrivacyPolicyPTBR(TemplateView):
     template_name = "thank_japan_app/privacy/privacy_policy_pt_br.html"
     
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['is_twa'] = is_android_twa(self.request)
+        return context
+    
 class PrivacyPolicyKO(TemplateView):
     template_name = "thank_japan_app/privacy/privacy_policy_ko.html"
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['is_twa'] = is_android_twa(self.request)
+        return context
     
 class PrivacyPolicyJA(TemplateView):
     template_name = "thank_japan_app/privacy/privacy_policy_ja.html"
     
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['is_twa'] = is_android_twa(self.request)
+        return context
+    
 class PrivacyPolicyIT(TemplateView):
     template_name = "thank_japan_app/privacy/privacy_policy_it.html"
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['is_twa'] = is_android_twa(self.request)
+        return context
     
 class PrivacyPolicyFR(TemplateView):
     template_name = "thank_japan_app/privacy/privacy_policy_fr.html"
     
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['is_twa'] = is_android_twa(self.request)
+        return context
+    
 class PrivacyPolicyESMX(TemplateView):
     template_name = "thank_japan_app/privacy/privacy_policy_es_mx.html"
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['is_twa'] = is_android_twa(self.request)
+        return context
     
 class PrivacyPolicyESES(TemplateView):
     template_name = "thank_japan_app/privacy/privacy_policy_es_es.html"
     
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['is_twa'] = is_android_twa(self.request)
+        return context
+    
 class PrivacyPolicyENIN(TemplateView):
     template_name = "thank_japan_app/privacy/privacy_policy_en_in.html"
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['is_twa'] = is_android_twa(self.request)
+        return context
 
 class PrivacyPolicyDE(TemplateView):
     template_name = "thank_japan_app/privacy/privacy_policy_de.html"
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['is_twa'] = is_android_twa(self.request)
+        return context
     
     
 #riyoukiyaku    
@@ -347,61 +506,136 @@ class KiyakuView(ListView):
     template_name = "thank_japan_app/kiyaku/riyoukiyaku.html"
     model = ThankJapanModel
     
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['is_twa'] = is_android_twa(self.request)
+        return context
+    
 class KiyakuZHCNView(ListView):
     template_name = "thank_japan_app/kiyaku/riyoukiyaku_zh_cn.html"
     model = ThankJapanModel
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['is_twa'] = is_android_twa(self.request)
+        return context
     
 class KiyakuZHHANTView(ListView):
     template_name = "thank_japan_app/kiyaku/riyoukiyaku_zh_hant.html"
     model = ThankJapanModel
     
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['is_twa'] = is_android_twa(self.request)
+        return context
+    
 class KiyakuVIView(ListView):
     template_name = "thank_japan_app/kiyaku/riyoukiyaku_vi.html"
     model = ThankJapanModel
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['is_twa'] = is_android_twa(self.request)
+        return context
     
 class KiyakuTHView(ListView):
     template_name = "thank_japan_app/kiyaku/riyoukiyaku_th.html"
     model = ThankJapanModel
     
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['is_twa'] = is_android_twa(self.request)
+        return context
+    
 class KiyakuPTView(ListView):
     template_name = "thank_japan_app/kiyaku/riyoukiyaku_pt.html"
     model = ThankJapanModel
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['is_twa'] = is_android_twa(self.request)
+        return context
     
 class KiyakuPTBRView(ListView):
     template_name = "thank_japan_app/kiyaku/riyoukiyaku_pt_br.html"
     model = ThankJapanModel
     
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['is_twa'] = is_android_twa(self.request)
+        return context
+    
 class KiyakuKOView(ListView):
     template_name = "thank_japan_app/kiyaku/riyoukiyaku_ko.html"
     model = ThankJapanModel
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['is_twa'] = is_android_twa(self.request)
+        return context
     
 class KiyakuJAView(ListView):
     template_name = "thank_japan_app/kiyaku/riyoukiyaku_ja.html"
     model = ThankJapanModel
     
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['is_twa'] = is_android_twa(self.request)
+        return context
+    
 class KiyakuITView(ListView):
     template_name = "thank_japan_app/kiyaku/riyoukiyaku_it.html"
     model = ThankJapanModel
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['is_twa'] = is_android_twa(self.request)
+        return context
     
 class KiyakuFRView(ListView):
     template_name = "thank_japan_app/kiyaku/riyoukiyaku_fr.html"
     model = ThankJapanModel
     
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['is_twa'] = is_android_twa(self.request)
+        return context
+    
 class KiyakuESMXView(ListView):
     template_name = "thank_japan_app/kiyaku/riyoukiyaku_es_mx.html"
     model = ThankJapanModel
     
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['is_twa'] = is_android_twa(self.request)
+        return context
+    
 class KiyakuESESView(ListView):
     template_name = "thank_japan_app/kiyaku/riyoukiyaku_es_es.html"
     model = ThankJapanModel
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['is_twa'] = is_android_twa(self.request)
+        return context
 
 class KiyakuENINView(ListView):
     template_name = "thank_japan_app/kiyaku/riyoukiyaku_en_in.html"
     model = ThankJapanModel
     
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['is_twa'] = is_android_twa(self.request)
+        return context
+    
 class KiyakuDEView(ListView):
     template_name = "thank_japan_app/kiyaku/riyoukiyaku_de.html"
     model = ThankJapanModel
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['is_twa'] = is_android_twa(self.request)
+        return context
     
     
 #login_bonus
@@ -952,7 +1186,8 @@ def game_start(request):
         'player': player, 
         'is_guest': is_guest,
         'lang_code': lang_code,
-        'premium_url_name': premium_url_name
+        'premium_url_name': premium_url_name,
+        'is_twa': is_android_twa(request)
     })
 
 
@@ -1112,6 +1347,8 @@ def game_restart(request):
     difficulty = request.GET.get('difficulty', 'normal')
     mode = request.GET.get('mode')
     player, is_guest = get_current_player_info(request)
+    
+    is_premium_or_twa = (request.user.is_authenticated and getattr(request.user.profile, 'is_premium', False)) or is_android_twa(request)
 
     if mode == 'single':
         model_type = request.GET.get('model_type')
@@ -1121,9 +1358,7 @@ def game_restart(request):
             question = get_object_or_404(ThankJapanPremium, slug=val)
              
             if question.category != "DailyConversation" and question.category != "slang" and question.category != "TourismEtiquette" and question.category != "Entertainment":
-                is_premium = request.user.is_authenticated and getattr(request.user.profile, 'is_premium', False)
-                
-                if not is_premium:
+                if not is_premium_or_twa:
                     free_sample_ids = ThankJapanPremium.objects.filter(
                         category=question.category
                     ).order_by('-timestamp').values_list('id', flat=True)[:5]
@@ -1145,7 +1380,7 @@ def game_restart(request):
     else:
         premium_only = ['n5_premium', 'n4_premium', 'n3_premium']
         if difficulty in premium_only:
-            if is_guest or not getattr(request.user.profile, 'is_premium', False):
+            if not is_premium_or_twa:
                 url_name, _ = get_lang_info(request)
                 return redirect(url_name)
 
@@ -1191,6 +1426,9 @@ def game_restart(request):
     request.session['game_history'] = []
     
     return redirect('game_play')
+
+
+
 
 def game_result(request):
     _, lang_code = get_lang_info(request)
@@ -1286,11 +1524,7 @@ def game_result(request):
 
 def category_list(request):
     
-    is_premium = False
-    
-    if request.user.is_authenticated:
-        
-        is_premium = request.user.profile.is_premium
+    is_premium = (request.user.is_authenticated and request.user.profile.is_premium) or is_android_twa(request)
 
     lang_code = request.GET.get('lang', 'en')
 
@@ -1302,11 +1536,7 @@ def category_list(request):
 
 def category_list_zhcn(request):
     
-    is_premium = False
-    
-    if request.user.is_authenticated:
-        
-        is_premium = request.user.profile.is_premium
+    is_premium = (request.user.is_authenticated and request.user.profile.is_premium) or is_android_twa(request)
 
     lang_code = request.GET.get('lang', 'zh-cn')
 
@@ -1318,11 +1548,7 @@ def category_list_zhcn(request):
 
 def category_list_zhhant(request):
     
-    is_premium = False
-    
-    if request.user.is_authenticated:
-        
-        is_premium = request.user.profile.is_premium
+    is_premium = (request.user.is_authenticated and request.user.profile.is_premium) or is_android_twa(request)
 
     lang_code = request.GET.get('lang', 'zh-hant')
 
@@ -1334,11 +1560,7 @@ def category_list_zhhant(request):
 
 def category_list_vi(request):
     
-    is_premium = False
-    
-    if request.user.is_authenticated:
-        
-        is_premium = request.user.profile.is_premium
+    is_premium = (request.user.is_authenticated and request.user.profile.is_premium) or is_android_twa(request)
 
     lang_code = request.GET.get('lang', 'vi')
 
@@ -1350,11 +1572,7 @@ def category_list_vi(request):
 
 def category_list_th(request):
     
-    is_premium = False
-    
-    if request.user.is_authenticated:
-        
-        is_premium = request.user.profile.is_premium
+    is_premium = (request.user.is_authenticated and request.user.profile.is_premium) or is_android_twa(request)
 
     lang_code = request.GET.get('lang', 'th')
 
@@ -1366,11 +1584,7 @@ def category_list_th(request):
     
 def category_list_pt(request):
     
-    is_premium = False
-    
-    if request.user.is_authenticated:
-        
-        is_premium = request.user.profile.is_premium
+    is_premium = (request.user.is_authenticated and request.user.profile.is_premium) or is_android_twa(request)
 
     lang_code = request.GET.get('lang', 'pt')
 
@@ -1383,12 +1597,8 @@ def category_list_pt(request):
 
 def category_list_pt_br(request):
     
-    is_premium = False
+    is_premium = (request.user.is_authenticated and request.user.profile.is_premium) or is_android_twa(request)
     
-    if request.user.is_authenticated:
-        
-        is_premium = request.user.profile.is_premium
-
     lang_code = request.GET.get('lang', 'pt-br')
 
     return render(request, 'thank_japan_app/category/category_list_pt_br.html', {
@@ -1400,11 +1610,7 @@ def category_list_pt_br(request):
 
 def category_list_ko(request):
     
-    is_premium = False
-    
-    if request.user.is_authenticated:
-        
-        is_premium = request.user.profile.is_premium
+    is_premium = (request.user.is_authenticated and request.user.profile.is_premium) or is_android_twa(request)
 
     lang_code = request.GET.get('lang', 'ko')
 
@@ -1417,11 +1623,7 @@ def category_list_ko(request):
 
 def category_list_ja(request):
     
-    is_premium = False
-    
-    if request.user.is_authenticated:
-        
-        is_premium = request.user.profile.is_premium
+    is_premium = (request.user.is_authenticated and request.user.profile.is_premium) or is_android_twa(request)
 
     lang_code = request.GET.get('lang', 'ja')
 
@@ -1434,11 +1636,7 @@ def category_list_ja(request):
  
 def category_list_it(request):
     
-    is_premium = False
-    
-    if request.user.is_authenticated:
-        
-        is_premium = request.user.profile.is_premium
+    is_premium = (request.user.is_authenticated and request.user.profile.is_premium) or is_android_twa(request)
 
     lang_code = request.GET.get('lang', 'it')
 
@@ -1451,11 +1649,7 @@ def category_list_it(request):
  
 def category_list_fr(request):
     
-    is_premium = False
-    
-    if request.user.is_authenticated:
-        
-        is_premium = request.user.profile.is_premium
+    is_premium = (request.user.is_authenticated and request.user.profile.is_premium) or is_android_twa(request)
 
     lang_code = request.GET.get('lang', 'fr')
 
@@ -1468,11 +1662,7 @@ def category_list_fr(request):
 
 def category_list_es_mx(request):
     
-    is_premium = False
-    
-    if request.user.is_authenticated:
-        
-        is_premium = request.user.profile.is_premium
+    is_premium = (request.user.is_authenticated and request.user.profile.is_premium) or is_android_twa(request)
 
     lang_code = request.GET.get('lang', 'es-mx')
 
@@ -1485,12 +1675,8 @@ def category_list_es_mx(request):
 
 def category_list_es_es(request):
     
-    is_premium = False
+    is_premium = (request.user.is_authenticated and request.user.profile.is_premium) or is_android_twa(request)
     
-    if request.user.is_authenticated:
-        
-        is_premium = request.user.profile.is_premium
-
     lang_code = request.GET.get('lang', 'es-es')
 
     return render(request, 'thank_japan_app/category/category_list_es_es.html', {
@@ -1502,11 +1688,7 @@ def category_list_es_es(request):
  
 def category_list_en_in(request):
     
-    is_premium = False
-    
-    if request.user.is_authenticated:
-        
-        is_premium = request.user.profile.is_premium
+    is_premium = (request.user.is_authenticated and request.user.profile.is_premium) or is_android_twa(request)
 
     lang_code = request.GET.get('lang', 'en-in')
 
@@ -1519,11 +1701,7 @@ def category_list_en_in(request):
  
 def category_list_de(request):
     
-    is_premium = False
-    
-    if request.user.is_authenticated:
-        
-        is_premium = request.user.profile.is_premium
+    is_premium = (request.user.is_authenticated and request.user.profile.is_premium) or is_android_twa(request)
 
     lang_code = request.GET.get('lang', 'de')
 
@@ -2099,6 +2277,7 @@ def premium_info(request):
     context = {
         'paypal_client_id': settings.PAYPAL_CLIENT_ID,
         'paypal_plan_id': settings.PAYPAL_PLAN_ID,
+        'is_twa': is_android_twa(request),
     }
     return render(request, 'thank_japan_app/premium/premium_info.html', context)
 
@@ -2106,6 +2285,7 @@ def premium_infoZHCN(request):
     context = {
         'paypal_client_id': settings.PAYPAL_CLIENT_ID,
         'paypal_plan_id': settings.PAYPAL_PLAN_ID,
+        'is_twa': is_android_twa(request),
     }
     return render(request, 'thank_japan_app/premium/premium_info_zh_cn.html', context)
 
@@ -2114,6 +2294,7 @@ def premium_infoZHHANT(request):
     context = {
         'paypal_client_id': settings.PAYPAL_CLIENT_ID,
         'paypal_plan_id': settings.PAYPAL_PLAN_ID,
+        'is_twa': is_android_twa(request),
     }
     return render(request, 'thank_japan_app/premium/premium_info_zh_hant.html', context)
 
@@ -2121,6 +2302,7 @@ def premium_infoVI(request):
     context = {
         'paypal_client_id': settings.PAYPAL_CLIENT_ID,
         'paypal_plan_id': settings.PAYPAL_PLAN_ID,
+        'is_twa': is_android_twa(request),
     }
     return render(request, 'thank_japan_app/premium/premium_info_vi.html', context)
 
@@ -2128,6 +2310,7 @@ def premium_infoTH(request):
     context = {
         'paypal_client_id': settings.PAYPAL_CLIENT_ID,
         'paypal_plan_id': settings.PAYPAL_PLAN_ID,
+        'is_twa': is_android_twa(request),
     }
     return render(request, 'thank_japan_app/premium/premium_info_th.html', context)
 
@@ -2135,6 +2318,7 @@ def premium_infoPT(request):
     context = {
         'paypal_client_id': settings.PAYPAL_CLIENT_ID,
         'paypal_plan_id': settings.PAYPAL_PLAN_ID,
+        'is_twa': is_android_twa(request),
     }
     return render(request, 'thank_japan_app/premium/premium_info_pt.html', context)
 
@@ -2142,6 +2326,7 @@ def premium_infoPTBR(request):
     context = {
         'paypal_client_id': settings.PAYPAL_CLIENT_ID,
         'paypal_plan_id': settings.PAYPAL_PLAN_ID,
+        'is_twa': is_android_twa(request),
     }
     return render(request, 'thank_japan_app/premium/premium_info_pt_br.html', context)
 
@@ -2149,6 +2334,7 @@ def premium_infoKO(request):
     context = {
         'paypal_client_id': settings.PAYPAL_CLIENT_ID,
         'paypal_plan_id': settings.PAYPAL_PLAN_ID,
+        'is_twa': is_android_twa(request),
     }
     return render(request, 'thank_japan_app/premium/premium_info_ko.html', context)
 
@@ -2156,6 +2342,7 @@ def premium_infoJA(request):
     context = {
         'paypal_client_id': settings.PAYPAL_CLIENT_ID,
         'paypal_plan_id': settings.PAYPAL_PLAN_ID,
+        'is_twa': is_android_twa(request),
     }
     return render(request, 'thank_japan_app/premium/premium_info_ja.html', context)
 
@@ -2163,6 +2350,7 @@ def premium_infoIT(request):
     context = {
         'paypal_client_id': settings.PAYPAL_CLIENT_ID,
         'paypal_plan_id': settings.PAYPAL_PLAN_ID,
+        'is_twa': is_android_twa(request),
     }
     return render(request, 'thank_japan_app/premium/premium_info_it.html', context)
 
@@ -2170,6 +2358,7 @@ def premium_infoFR(request):
     context = {
         'paypal_client_id': settings.PAYPAL_CLIENT_ID,
         'paypal_plan_id': settings.PAYPAL_PLAN_ID,
+        'is_twa': is_android_twa(request),
     }
     return render(request, 'thank_japan_app/premium/premium_info_fr.html', context)
 
@@ -2177,6 +2366,7 @@ def premium_infoESMX(request):
     context = {
         'paypal_client_id': settings.PAYPAL_CLIENT_ID,
         'paypal_plan_id': settings.PAYPAL_PLAN_ID,
+        'is_twa': is_android_twa(request),
     }
     return render(request, 'thank_japan_app/premium/premium_info_es_mx.html', context)
 
@@ -2184,6 +2374,7 @@ def premium_infoESES(request):
     context = {
         'paypal_client_id': settings.PAYPAL_CLIENT_ID,
         'paypal_plan_id': settings.PAYPAL_PLAN_ID,
+        'is_twa': is_android_twa(request),
     }
     return render(request, 'thank_japan_app/premium/premium_info_es_es.html', context)
 
@@ -2191,6 +2382,7 @@ def premium_infoENIN(request):
     context = {
         'paypal_client_id': settings.PAYPAL_CLIENT_ID,
         'paypal_plan_id': settings.PAYPAL_PLAN_ID,
+        'is_twa': is_android_twa(request),
     }
     return render(request, 'thank_japan_app/premium/premium_info_en_in.html', context)
 
@@ -2198,6 +2390,7 @@ def premium_infoDE(request):
     context = {
         'paypal_client_id': settings.PAYPAL_CLIENT_ID,
         'paypal_plan_id': settings.PAYPAL_PLAN_ID,
+        'is_twa': is_android_twa(request),
     }
     return render(request, 'thank_japan_app/premium/premium_info_de.html', context)
 
@@ -2301,7 +2494,8 @@ def account_settings(request):
         'pts_to_next': pts_to_next,
         'progress_percent': progress_percent, 
         'current_rank': current_rank,         
-        'total_registered': total_registered  
+        'total_registered': total_registered,
+        'is_twa': is_android_twa(request)  
     }
     return render(request, 'thank_japan_app/account/account_settings.html', context)
 
@@ -2342,7 +2536,8 @@ def account_settingsZHCN(request):
         'pts_to_next': pts_to_next,
         'progress_percent': progress_percent, 
         'current_rank': current_rank,         
-        'total_registered': total_registered  
+        'total_registered': total_registered,
+        'is_twa': is_android_twa(request) 
     }
     return render(request, 'thank_japan_app/account/account_settings_zh_cn.html', context)
 
@@ -2383,7 +2578,8 @@ def account_settingsZHHANT(request):
         'pts_to_next': pts_to_next,
         'progress_percent': progress_percent, 
         'current_rank': current_rank,         
-        'total_registered': total_registered  
+        'total_registered': total_registered,
+        'is_twa': is_android_twa(request) 
     }
     return render(request, 'thank_japan_app/account/account_settings_zh_hant.html', context)
 
@@ -2424,7 +2620,8 @@ def account_settingsVI(request):
         'pts_to_next': pts_to_next,
         'progress_percent': progress_percent, 
         'current_rank': current_rank,         
-        'total_registered': total_registered  
+        'total_registered': total_registered,
+        'is_twa': is_android_twa(request) 
     }
     return render(request, 'thank_japan_app/account/account_settings_vi.html', context)
 
@@ -2465,7 +2662,8 @@ def account_settingsTH(request):
         'pts_to_next': pts_to_next,
         'progress_percent': progress_percent, 
         'current_rank': current_rank,         
-        'total_registered': total_registered  
+        'total_registered': total_registered,
+        'is_twa': is_android_twa(request) 
     }
     return render(request, 'thank_japan_app/account/account_settings_th.html', context)
 
@@ -2506,7 +2704,8 @@ def account_settingsPT(request):
         'pts_to_next': pts_to_next,
         'progress_percent': progress_percent, 
         'current_rank': current_rank,         
-        'total_registered': total_registered  
+        'total_registered': total_registered,
+        'is_twa': is_android_twa(request) 
     }
     return render(request, 'thank_japan_app/account/account_settings_pt.html', context)
 
@@ -2547,7 +2746,8 @@ def account_settingsPTBR(request):
         'pts_to_next': pts_to_next,
         'progress_percent': progress_percent, 
         'current_rank': current_rank,         
-        'total_registered': total_registered  
+        'total_registered': total_registered,
+        'is_twa': is_android_twa(request) 
     }
     return render(request, 'thank_japan_app/account/account_settings_pt_br.html', context)
 
@@ -2588,7 +2788,8 @@ def account_settingsKO(request):
         'pts_to_next': pts_to_next,
         'progress_percent': progress_percent, 
         'current_rank': current_rank,         
-        'total_registered': total_registered  
+        'total_registered': total_registered,
+        'is_twa': is_android_twa(request) 
     }
     return render(request, 'thank_japan_app/account/account_settings_ko.html', context)
 
@@ -2628,7 +2829,8 @@ def account_settingsJA(request):
         'pts_to_next': pts_to_next,
         'progress_percent': progress_percent, 
         'current_rank': current_rank,         
-        'total_registered': total_registered  
+        'total_registered': total_registered,
+        'is_twa': is_android_twa(request) 
     }
     return render(request, 'thank_japan_app/account/account_settings_ja.html', context)
 
@@ -2669,7 +2871,8 @@ def account_settingsIT(request):
         'pts_to_next': pts_to_next,
         'progress_percent': progress_percent, 
         'current_rank': current_rank,         
-        'total_registered': total_registered  
+        'total_registered': total_registered,
+        'is_twa': is_android_twa(request) 
     }
     return render(request, 'thank_japan_app/account/account_settings_it.html', context)
 
@@ -2710,7 +2913,8 @@ def account_settingsFR(request):
         'pts_to_next': pts_to_next,
         'progress_percent': progress_percent, 
         'current_rank': current_rank,         
-        'total_registered': total_registered  
+        'total_registered': total_registered,
+        'is_twa': is_android_twa(request) 
     }
     return render(request, 'thank_japan_app/account/account_settings_fr.html', context)
 
@@ -2751,7 +2955,8 @@ def account_settingsESMX(request):
         'pts_to_next': pts_to_next,
         'progress_percent': progress_percent, 
         'current_rank': current_rank,         
-        'total_registered': total_registered  
+        'total_registered': total_registered,
+        'is_twa': is_android_twa(request)  
     }
     return render(request, 'thank_japan_app/account/account_settings_es_mx.html', context)
 
@@ -2792,7 +2997,8 @@ def account_settingsESES(request):
         'pts_to_next': pts_to_next,
         'progress_percent': progress_percent, 
         'current_rank': current_rank,         
-        'total_registered': total_registered  
+        'total_registered': total_registered,
+        'is_twa': is_android_twa(request)  
     }
     return render(request, 'thank_japan_app/account/account_settings_es_es.html', context)
 
@@ -2833,7 +3039,8 @@ def account_settingsENIN(request):
         'pts_to_next': pts_to_next,
         'progress_percent': progress_percent, 
         'current_rank': current_rank,         
-        'total_registered': total_registered  
+        'total_registered': total_registered,
+        'is_twa': is_android_twa(request)  
     }
     return render(request, 'thank_japan_app/account/account_settings_en_in.html', context)
 
@@ -2874,7 +3081,8 @@ def account_settingsDE(request):
         'pts_to_next': pts_to_next,
         'progress_percent': progress_percent, 
         'current_rank': current_rank,         
-        'total_registered': total_registered  
+        'total_registered': total_registered,
+        'is_twa': is_android_twa(request)  
     }
     return render(request, 'thank_japan_app/account/account_settings_de.html', context)
 
@@ -3093,7 +3301,7 @@ class BusinessJapaneseView(ListView):
     paginate_by = 24
     
     def dispatch(self, request, *args, **kwargs):
-        is_premium = request.user.is_authenticated and getattr(request.user.profile, 'is_premium', False)
+        is_premium = (request.user.is_authenticated and getattr(request.user.profile, 'is_premium', False)) or is_android_twa(request)
         if not is_premium and request.GET.get('page', '1') != '1':
             url_name, lang_code = get_lang_info(request)
             return redirect(f"{reverse(url_name)}?lang={lang_code}") 
@@ -3101,7 +3309,7 @@ class BusinessJapaneseView(ListView):
     
     def get_queryset(self):
         qs = ThankJapanPremium.objects.filter(category="BusinessJapanese").order_by('timestamp')
-        is_premium = self.request.user.is_authenticated and getattr(self.request.user.profile, 'is_premium', False)
+        is_premium = (self.request.user.is_authenticated and getattr(self.request.user.profile, 'is_premium', False)) or is_android_twa(self.request)
         if not is_premium:
             return qs[:6]
         return qs
@@ -3111,11 +3319,12 @@ class BusinessJapaneseView(ListView):
         all_premium_qs = ThankJapanPremium.objects.filter(category="BusinessJapanese")
         total_count = all_premium_qs.count()
         
-        is_premium = self.request.user.is_authenticated and getattr(self.request.user.profile, 'is_premium', False)
+        is_premium = (self.request.user.is_authenticated and getattr(self.request.user.profile, 'is_premium', False)) or is_android_twa(self.request)
         url_name, lang_code = get_lang_info(self.request)
         
         context['lang_code'] = lang_code
         context['premium_url_name'] = url_name
+        context['is_twa'] = is_android_twa(self.request)
 
         if not is_premium:
             context['is_locked'] = True
@@ -3124,14 +3333,14 @@ class BusinessJapaneseView(ListView):
             context['is_locked'] = False
             
         return context
-    
+        
         
 class LivingInJapanView(ListView):
     template_name = "thank_japan_app/living_in_japan.html"
     paginate_by = 24
     
     def dispatch(self, request, *args, **kwargs):
-        is_premium = request.user.is_authenticated and getattr(request.user.profile, 'is_premium', False)
+        is_premium = (request.user.is_authenticated and getattr(request.user.profile, 'is_premium', False)) or is_android_twa(request)
         if not is_premium and request.GET.get('page', '1') != '1':
             url_name, lang_code = get_lang_info(request)
             return redirect(f"{reverse(url_name)}?lang={lang_code}") 
@@ -3139,7 +3348,7 @@ class LivingInJapanView(ListView):
     
     def get_queryset(self):
         qs = ThankJapanPremium.objects.filter(category="LivingInJapan").order_by('timestamp')
-        is_premium = self.request.user.is_authenticated and getattr(self.request.user.profile, 'is_premium', False)
+        is_premium = (self.request.user.is_authenticated and getattr(self.request.user.profile, 'is_premium', False)) or is_android_twa(self.request)
         if not is_premium:
             return qs[:6]
         return qs
@@ -3149,11 +3358,12 @@ class LivingInJapanView(ListView):
         all_premium_qs = ThankJapanPremium.objects.filter(category="LivingInJapan")
         total_count = all_premium_qs.count()
         
-        is_premium = self.request.user.is_authenticated and getattr(self.request.user.profile, 'is_premium', False)
+        is_premium = (self.request.user.is_authenticated and getattr(self.request.user.profile, 'is_premium', False)) or is_android_twa(self.request)
         url_name, lang_code = get_lang_info(self.request)
         
         context['lang_code'] = lang_code
         context['premium_url_name'] = url_name
+        context['is_twa'] = is_android_twa(self.request)
 
         if not is_premium:
             context['is_locked'] = True
@@ -3163,13 +3373,14 @@ class LivingInJapanView(ListView):
             
         return context
     
+        
     
 class MedicalEmergencyView(ListView):
     template_name = "thank_japan_app/medical_emergency.html"
     paginate_by = 24
     
     def dispatch(self, request, *args, **kwargs):
-        is_premium = request.user.is_authenticated and getattr(request.user.profile, 'is_premium', False)
+        is_premium = (request.user.is_authenticated and getattr(request.user.profile, 'is_premium', False)) or is_android_twa(request)
         if not is_premium and request.GET.get('page', '1') != '1':
             url_name, lang_code = get_lang_info(request)
             return redirect(f"{reverse(url_name)}?lang={lang_code}") 
@@ -3177,7 +3388,7 @@ class MedicalEmergencyView(ListView):
     
     def get_queryset(self):
         qs = ThankJapanPremium.objects.filter(category="MedicalEmergency").order_by('timestamp')
-        is_premium = self.request.user.is_authenticated and getattr(self.request.user.profile, 'is_premium', False)
+        is_premium = (self.request.user.is_authenticated and getattr(self.request.user.profile, 'is_premium', False)) or is_android_twa(self.request)
         if not is_premium:
             return qs[:6]
         return qs
@@ -3187,11 +3398,12 @@ class MedicalEmergencyView(ListView):
         all_premium_qs = ThankJapanPremium.objects.filter(category="MedicalEmergency")
         total_count = all_premium_qs.count()
         
-        is_premium = self.request.user.is_authenticated and getattr(self.request.user.profile, 'is_premium', False)
+        is_premium = (self.request.user.is_authenticated and getattr(self.request.user.profile, 'is_premium', False)) or is_android_twa(self.request)
         url_name, lang_code = get_lang_info(self.request)
         
         context['lang_code'] = lang_code
         context['premium_url_name'] = url_name
+        context['is_twa'] = is_android_twa(self.request)
 
         if not is_premium:
             context['is_locked'] = True
@@ -3201,13 +3413,14 @@ class MedicalEmergencyView(ListView):
             
         return context
     
+        
     
 class RealestateRulesView(ListView):
     template_name = "thank_japan_app/realestate_rules.html"
     paginate_by = 24
     
     def dispatch(self, request, *args, **kwargs):
-        is_premium = request.user.is_authenticated and getattr(request.user.profile, 'is_premium', False)
+        is_premium = (request.user.is_authenticated and getattr(request.user.profile, 'is_premium', False)) or is_android_twa(request)
         if not is_premium and request.GET.get('page', '1') != '1':
             url_name, lang_code = get_lang_info(request)
             return redirect(f"{reverse(url_name)}?lang={lang_code}") 
@@ -3215,7 +3428,7 @@ class RealestateRulesView(ListView):
     
     def get_queryset(self):
         qs = ThankJapanPremium.objects.filter(category="RealEstateRules").order_by('timestamp')
-        is_premium = self.request.user.is_authenticated and getattr(self.request.user.profile, 'is_premium', False)
+        is_premium = (self.request.user.is_authenticated and getattr(self.request.user.profile, 'is_premium', False)) or is_android_twa(self.request)
         if not is_premium:
             return qs[:6]
         return qs
@@ -3225,11 +3438,12 @@ class RealestateRulesView(ListView):
         all_premium_qs = ThankJapanPremium.objects.filter(category="RealEstateRules")
         total_count = all_premium_qs.count()
         
-        is_premium = self.request.user.is_authenticated and getattr(self.request.user.profile, 'is_premium', False)
+        is_premium = (self.request.user.is_authenticated and getattr(self.request.user.profile, 'is_premium', False)) or is_android_twa(self.request)
         url_name, lang_code = get_lang_info(self.request)
         
         context['lang_code'] = lang_code
         context['premium_url_name'] = url_name
+        context['is_twa'] = is_android_twa(self.request)
 
         if not is_premium:
             context['is_locked'] = True
@@ -3239,7 +3453,6 @@ class RealestateRulesView(ListView):
             
         return context    
     
-    
  
    
 class PrefectureView(ListView):
@@ -3247,7 +3460,9 @@ class PrefectureView(ListView):
     paginate_by = 24
     
     def dispatch(self, request, *args, **kwargs):
-        is_premium = request.user.is_authenticated and getattr(request.user.profile, 'is_premium', False)
+        
+        is_premium = (request.user.is_authenticated and getattr(request.user.profile, 'is_premium', False)) or is_android_twa(request)
+        
         if not is_premium and request.GET.get('page', '1') != '1':
             url_name, lang_code = get_lang_info(request)
             return redirect(f"{reverse(url_name)}?lang={lang_code}") 
@@ -3255,7 +3470,8 @@ class PrefectureView(ListView):
     
     def get_queryset(self):
         qs = ThankJapanPremium.objects.filter(category="Prefectures").order_by('timestamp')
-        is_premium = self.request.user.is_authenticated and getattr(self.request.user.profile, 'is_premium', False)
+        
+        is_premium = (self.request.user.is_authenticated and getattr(self.request.user.profile, 'is_premium', False)) or is_android_twa(self.request)
         if not is_premium:
             return qs[:6]
         return qs
@@ -3265,11 +3481,12 @@ class PrefectureView(ListView):
         all_premium_qs = ThankJapanPremium.objects.filter(category="Prefectures")
         total_count = all_premium_qs.count()
         
-        is_premium = self.request.user.is_authenticated and getattr(self.request.user.profile, 'is_premium', False)
+        is_premium = (self.request.user.is_authenticated and getattr(self.request.user.profile, 'is_premium', False)) or is_android_twa(self.request)
         url_name, lang_code = get_lang_info(self.request)
         
         context['lang_code'] = lang_code
         context['premium_url_name'] = url_name
+        context['is_twa'] = is_android_twa(self.request)
 
         if not is_premium:
             context['is_locked'] = True
@@ -3278,8 +3495,6 @@ class PrefectureView(ListView):
             context['is_locked'] = False
             
         return context
-
-
     
 
                
@@ -3359,7 +3574,8 @@ class ImgPremiumDetailView(DetailView):
 
     def get_object(self, queryset=None):
         obj = super().get_object(queryset)
-        is_premium = self.request.user.is_authenticated and getattr(self.request.user.profile, 'is_premium', False)
+        
+        is_premium = (self.request.user.is_authenticated and getattr(self.request.user.profile, 'is_premium', False)) or is_android_twa(self.request)
         
         if obj.category not in ["DailyConversation", "slang", "TourismEtiquette" ,"Entertainment"] and not is_premium:
             free_sample_ids = ThankJapanPremium.objects.filter(
@@ -3373,6 +3589,8 @@ class ImgPremiumDetailView(DetailView):
     def dispatch(self, request, *args, **kwargs):
         category = self.kwargs.get('category')
         slug = self.kwargs.get('slug')
+        
+        is_premium_or_twa = (request.user.is_authenticated and getattr(request.user.profile, 'is_premium', False)) or is_android_twa(request)
         
         try:
             return super().dispatch(request, *args, **kwargs)
@@ -3390,8 +3608,8 @@ class ImgPremiumDetailView(DetailView):
                 ).first()
 
             if moved_item:
-                is_premium = request.user.is_authenticated and getattr(request.user.profile, 'is_premium', False)
-                if moved_item.category in ["DailyConversation", "slang", "TourismEtiquette" ,"Entertainment"] or is_premium:
+                
+                if moved_item.category in ["DailyConversation", "slang", "TourismEtiquette" ,"Entertainment"] or is_premium_or_twa:
                     lang_param = request.GET.get('lang')
                     new_url = reverse('detail_premium', kwargs={
                         'category': moved_item.category,
@@ -3412,6 +3630,11 @@ class ImgPremiumDetailView(DetailView):
         url_name, lang_code = get_lang_info(self.request)
         context['premium_url_name'] = url_name
         context['lang_code'] = lang_code
+        
+        context['is_twa'] = is_android_twa(self.request)
+
+        
+        is_premium_or_twa = (self.request.user.is_authenticated and getattr(self.request.user.profile, 'is_premium', False)) or is_android_twa(self.request)
 
         url_target_name = CATEGORY_URL_MAP.get(current_item.category, 'toppage')
         try:
@@ -3420,9 +3643,7 @@ class ImgPremiumDetailView(DetailView):
             base_category_url = "/"
         context['category_list_url'] = f"{base_category_url}?lang={lang_code}"
 
-        is_premium = self.request.user.is_authenticated and getattr(self.request.user.profile, 'is_premium', False)
-        
-        if current_item.category in ["DailyConversation", "slang", "TourismEtiquette" ,"Entertainment"]:
+        if current_item.category in ["DailyConversation", "slang", "TourismEtiquette" ,"Entertainment"] or is_premium_or_twa:
             context['free_sample_ids'] = ThankJapanPremium.objects.filter(
                 category=current_item.category
             ).values_list('id', flat=True)
@@ -3436,7 +3657,8 @@ class ImgPremiumDetailView(DetailView):
         ).exclude(id=current_item.id).order_by('?')[:6]
         
         return context
-        
+    
+            
                 
 def sitemap_view(request):
     free_items = ThankJapanModel.objects.all()

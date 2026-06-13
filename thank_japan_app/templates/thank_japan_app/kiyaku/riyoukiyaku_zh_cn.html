@@ -146,9 +146,9 @@
 
         <dt class="riyoudt">第 4 条（订阅费用与自动续订）</dt>
         <dd class="riyoudd">
-            1. 用户须通过 PayPal 支付本站显示的“Premium 方案”月费。<br>
-            2. 本服务为<strong>自动续订的订阅制服务</strong>。除非取消，否则每月将于同一日期自动扣款。<br>
-            3. 若支付失败，本站可在不经事先通知的情况下暂停 Premium 功能的访问权限。
+        1. 作为“高级方案”的对价，用户应支付网站上显示的每月费用，支付方式为 {% if is_twa %}<strong>Google Play 结账系统</strong>。{% else %}通过 <strong>PayPal</strong> 支付。{% endif %}<br>
+        2. 高级方案是<strong>每月自动续订</strong>的订阅服务。{% if is_twa %}账单由 Google 管理。{% else %}在取消之前，每月将通过 PayPal 自动扣款。{% endif %}<br>
+        3. 若付款失败，公司可在不事先通知的情况下暂停其高级功能的使用权限。
         </dd>
 
         <dt class="riyoudt">第 5 条（知识产权与 AI）</dt>
@@ -168,8 +168,8 @@
 
         <dt class="riyoudt">第 9 条（取消与退款政策）</dt>
         <dd class="riyoudd">
-            1. 用户可随时通过“账户设置”取消 Premium 方案。<br>
-            2. <strong>退款政策：</strong>鉴于数字内容的性质，所有款项一旦支付恕不退还，亦不按比例退还剩余期限的费用。
+        1. 用户可以随时取消高级方案，取消方式为 {% if is_twa %}通过 <strong>Google Play 商店的订阅设置</strong>。{% else %}通过我们网站上的<strong>账号设置</strong>。{% endif %}<br>
+        2. <strong>退款政策：</strong> 由于数字内容的性质，所有付款均不予退还。不提供剩余订阅期间的部分退款。
         </dd>
 
         <dt class="riyoudt">第 10 条（AI 内容与成果免责声明）</dt>

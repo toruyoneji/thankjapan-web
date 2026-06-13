@@ -125,7 +125,13 @@
         <p><strong>Prix de vente :</strong><br>Affiché sur la page de sélection du forfait (TTC).</p>
         <p><strong>Frais supplémentaires :</strong><br>Aucun (Les frais de connexion Internet sont à la charge de l'utilisateur).</p>
         <p><strong>Délai de livraison :</strong><br>Le service est disponible immédiatement après la fin du processus de paiement/inscription.</p>
-        <p><strong>Mode de paiement :</strong><br>Carte de crédit / Carte de débit (via PayPal).</p>
+        <p><strong>Mode de paiement :</strong><br>
+        {% if is_twa %}
+            Facturation Google Play
+        {% else %}
+            Carte de crédit / Carte de débit (via PayPal)
+        {% endif %}
+        </p>
         <p><strong>Délai de paiement :</strong><br>Le paiement initial est traité immédiatement lors de l'abonnement. Les paiements suivants sont automatiquement facturés chaque mois à la même date.</p>
         <p><strong>Politique de retour / annulation :</strong><br>En raison de la nature des services numériques, nous n'acceptons pas de remboursement après paiement. Vous pouvez annuler votre abonnement à tout moment via la page « Paramètres du compte ». L'annulation prendra effet à partir du cycle de facturation suivant.</p>
     

@@ -111,32 +111,33 @@
     <h1 class="category-header">Política de Privacidade</h1>
     <p>A ThankJapan (a "Empresa") está empenhada em proteger a sua privacidade. <strong>O tratamento dos seus dados pessoais é realizado em conformidade com a Lei Geral de Proteção de Dados (LGPD).</strong> Esta Política de Privacidade descreve como tratamos suas informações pessoais ao utilizar nosso site, serviços e jogos.</p>
 
-    <h2>1. Informações que Coletamos</h2>
+    <h2>1. Informações que coletamos</h2>
     <ul>
-        <li><strong>Informações da Conta:</strong> Coletamos seu nome de usuário e uma versão hash (criptografada) da sua senha. Não armazenamos senhas em texto simples.</li>
-        <li><strong>Dados de Jogo:</strong> Coletamos pontuações e progresso de jogo para fornecer funcionalidades, tabelas de classificação e para melhorar sua experiência.</li>
-        <li><strong>Dados de Pagamento:</strong> O processamento de pagamentos é gerenciado de forma segura pelo PayPal. Não armazenamos números de cartões de crédito. Apenas armazenamos o <strong>ID de Assinatura (Subscription ID)</strong> e o status do pagamento fornecidos pelo PayPal para gerenciar seu acesso.</li>
-        <li><strong>Privacidade e IA:</strong> NÃO fornecemos seus dados pessoais, nomes de usuário ou pontuações para modelos de inteligência artificial externos para fins de treinamento.</li>
+        <li><strong>Informações da conta:</strong> Coletamos seu nome de usuário e uma versão hash (criptografada) da sua senha. Não armazenamos senhas em texto simples.</li>
+        <li><strong>Dados de jogo:</strong> Coletamos pontuações e progresso de jogo para fornecer funcionalidades, classificações e melhorar sua experiência.</li>
+        <li><strong>Dados de pagamento:</strong> O processamento de pagamentos é realizado de forma segura pelo {% if is_twa %}<strong>Google Play</strong>{% else %}<strong>PayPal</strong>{% endif %}. Não armazenamos números de cartão de crédito. Apenas armazenamos o <strong>ID de assinatura</strong> e o status do pagamento fornecidos pelo {% if is_twa %}Google{% else %}PayPal{% endif %} para gerenciar seu acesso.</li>
+        <li><strong>Privacidade de IA:</strong> NÃO fornecemos seus dados pessoais, nomes de usuário ou pontuações para modelos externos de inteligência artificial para fins de treinamento.</li>
     </ul>
 
-    <h2>2. Como Utilizamos as Informações</h2>
+    <h2>2. Como usamos as informações</h2>
     <ul>
-        <li>Para gerenciar sua conta e fornecer acesso ao Plano Premium.</li>
-        <li>Para processar com segurança assinaturas mensais através do PayPal.</li>
-        <li>Para exibir pontuações em tabelas de classificação e salvar seu progresso de aprendizagem.</li>
-        <li>Para garantir a segurança e estabilidade da nossa plataforma.</li>
+        <li>Para gerenciar sua conta e fornecer o acesso ao Plano Premium.</li>
+        <li>Para processar assinaturas mensais de forma segura através do {% if is_twa %}<strong>Google Play</strong>{% else %}<strong>PayPal</strong>{% endif %}.</li>
+        <li>Para exibir pontuações em classificações e salvar seu progresso de aprendizado.</li>
+        <li>Para garantir a segurança e a estabilidade da nossa plataforma.</li>
     </ul>
 
-    <h2>3. Cookies e Segurança</h2>
-    <p>Utilizamos cookies essenciais para o login seguro, manutenção de sessões e para garantir a integridade das transações do PayPal. Você pode gerenciar os cookies nas configurações do seu navegador, mas desativá-los pode afetar as funcionalidades do serviço.</p>
+    <h2>3. Cookies e segurança</h2>
+    <p>Usamos cookies essenciais para o login seguro, manutenção de sessões e para garantir a integridade das transações {% if is_twa %}de pagamento{% else %}do PayPal{% endif %}.</p>
 
-    <h2>4. Compartilhamento de Dados e Terceiros</h2>
+    <h2>4. Compartilhamento de dados e terceiros</h2>
     <p>Compartilhamos dados apenas com parceiros de confiança necessários para a operação:</p>
     <ul>
-        <li><strong>PayPal:</strong> Para processamento de pagamentos e gestão de assinaturas.</li>
+        <li><strong>{% if is_twa %}Google Play{% else %}PayPal{% endif %}:</strong> Para o processamento de pagamentos e gestão de assinaturas.</li>
         <li><strong>Cloudinary:</strong> Para a entrega de imagens educativas otimizadas.</li>
-        <li><strong>Google Analytics:</strong> Para análise de utilização anonimizada.</li>
+        <li><strong>Google Analytics:</strong> Para análise de uso de forma anônima.</li>
     </ul>
+    
 
     <h2>5. Direitos do Usuário e Exclusão de Dados</h2>
     <p>Você tem o direito de acessar, corrigir ou excluir seus dados a qualquer momento. Você pode <strong>excluir permanentemente sua conta e todo o histórico associado</strong> imediatamente através da página "Configurações da Conta". Uma vez excluídos, esses dados não podem ser recuperados.</p>

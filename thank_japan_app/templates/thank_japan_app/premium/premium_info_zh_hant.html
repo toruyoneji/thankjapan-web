@@ -247,6 +247,8 @@
         <p>為您在日本的工作與生活掌握實用日語。</p>
     </div>
 
+    {% if not is_twa %}
+
     <div class="pricing-container">
         <div class="plan-card">
             <div class="plan-name">免費版</div>
@@ -287,6 +289,35 @@
         </div>
     </div>
 
+    {% else %}
+
+    <div class="pricing-container">
+        <div class="plan-card featured" style="max-width: 500px; margin: 0 auto; border-color: #d4af37;">
+            <div class="plan-badge">App 版本</div>
+            <div class="plan-name">高級功能</div>
+                <p style="color: #5d5245; margin-bottom: 20px;">
+                    體驗 ThankJapan 的完整功能。
+                </p>
+            <ul class="plan-features">
+                <li>✅ 精通 <strong>日常會話</strong></li>
+                <li>✅ <strong>商務</strong> 日語</li>
+                <li>✅ 日本 <strong>禮儀・作法</strong></li>
+                <li>✅ 無廣告體驗</li>
+                <li>✅ 未來所有更新</li>
+            </ul>
+            <div style="margin-top: 30px; padding: 20px; background: #fffaf5; border-radius: 10px;">
+                <p style="color: #b22d35; font-weight: bold;">
+                    所有功能目前已解鎖！
+                </p>
+                <p style="font-size: 0.85rem; color: #7a7a7a;">
+                    作為測試者及早期用戶，您可以免費探索所有內容。
+                </p>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+
     <div class="bottom-nav-zone">
         {% if user.is_authenticated %}
             <a href="{% url 'account_settingszhHANT' %}" class="btn-manage-account">
@@ -300,6 +331,8 @@
         </a>
     </div>
 </div>
+
+{% if not is_twa %}
 
 <script src="https://www.paypal.com/sdk/js?client-id={{ paypal_client_id }}&vault=true&intent=subscription&currency=USD"></script>
 <script>
@@ -323,4 +356,7 @@
         onError: function (err) { alert('PayPal 發生錯誤。'); }
     }).render('#paypal-button-container');
 </script>
+
+{% endif %}
+
 {% endblock %}

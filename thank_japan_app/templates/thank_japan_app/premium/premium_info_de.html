@@ -247,6 +247,8 @@
         <p>Meistern Sie Japanisch für Ihren Beruf und Ihren Alltag in Japan.</p>
     </div>
 
+    {% if not is_twa %}
+
     <div class="pricing-container">
         <div class="plan-card">
             <div class="plan-name">Kostenlos</div>
@@ -287,6 +289,36 @@
         </div>
     </div>
 
+    {% else %}
+
+    <div class="pricing-container">
+        <div class="plan-card featured" style="max-width: 500px; margin: 0 auto; border-color: #d4af37;">
+            <div class="plan-badge">APP-VERSION</div>
+            <div class="plan-name">Premium-Funktionen</div>
+                <p style="color: #5d5245; margin-bottom: 20px;">
+                    Erleben Sie die volle Leistung von ThankJapan.
+                </p>
+            <ul class="plan-features">
+                <li>✅ <strong>Konversation</strong> meistern</li>
+                <li>✅ <strong>Business</strong>-Japanisch</li>
+                <li>✅ Japanische <strong>Etikette</strong></li>
+                <li>✅ Werbefreies Erlebnis</li>
+                <li>✅ Alle zukünftigen Updates</li>
+            </ul>
+            <div style="margin-top: 30px; padding: 20px; background: #fffaf5; border-radius: 10px;">
+                <p style="color: #b22d35; font-weight: bold;">
+                    Alle Funktionen sind aktuell FREIGESCHALTET!
+                </p>
+                <p style="font-size: 0.85rem; color: #7a7a7a;">
+                    Als Tester können Sie alles kostenlos erkunden.
+                </p>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+
+
     <div class="bottom-nav-zone">
         {% if user.is_authenticated %}
             <a href="{% url 'account_settingsde' %}" class="btn-manage-account">
@@ -300,6 +332,8 @@
         </a>
     </div>
 </div>
+
+{% if not is_twa %}
 
 <script src="https://www.paypal.com/sdk/js?client-id={{ paypal_client_id }}&vault=true&intent=subscription&currency=USD"></script>
 <script>
@@ -323,4 +357,7 @@
         onError: function (err) { alert('PayPal-Fehler aufgetreten.'); }
     }).render('#paypal-button-container');
 </script>
+
+{% endif %}
+
 {% endblock %}

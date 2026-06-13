@@ -247,6 +247,8 @@
         <p>Maîtrisez le japonais pour votre travail et votre vie au Japon.</p>
     </div>
 
+    {% if not is_twa %}
+
     <div class="pricing-container">
         <div class="plan-card">
             <div class="plan-name">Gratuit</div>
@@ -287,6 +289,35 @@
         </div>
     </div>
 
+    {% else %}
+
+    <div class="pricing-container">
+        <div class="plan-card featured" style="max-width: 500px; margin: 0 auto; border-color: #d4af37;">
+            <div class="plan-badge">VERSION APPLI</div>
+            <div class="plan-name">Fonctions Premium</div>
+                <p style="color: #5d5245; margin-bottom: 20px;">
+                    Découvrez toute la puissance de ThankJapan.
+                </p>
+            <ul class="plan-features">
+                <li>✅ Maîtrise de la <strong>Conversation</strong></li>
+                <li>✅ <strong>Japonais</strong> des affaires</li>
+                <li>✅ <strong>Étiquette</strong> japonaise</li>
+                <li>✅ Expérience sans publicité</li>
+                <li>✅ Toutes les futures mises à jour</li>
+            </ul>
+            <div style="margin-top: 30px; padding: 20px; background: #fffaf5; border-radius: 10px;">
+                <p style="color: #b22d35; font-weight: bold;">
+                    Toutes les fonctions sont DÉBLOQUÉES !
+                </p>
+                <p style="font-size: 0.85rem; color: #7a7a7a;">
+                    En tant que testeur, vous pouvez tout explorer gratuitement.
+                </p>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+
     <div class="bottom-nav-zone">
         {% if user.is_authenticated %}
             <a href="{% url 'account_settingsfr' %}" class="btn-manage-account">
@@ -300,6 +331,8 @@
         </a>
     </div>
 </div>
+
+{% if not is_twa %}
 
 <script src="https://www.paypal.com/sdk/js?client-id={{ paypal_client_id }}&vault=true&intent=subscription&currency=USD"></script>
 <script>
@@ -323,4 +356,7 @@
         onError: function (err) { alert('Une erreur PayPal est survenue.'); }
     }).render('#paypal-button-container');
 </script>
+
+{% endif %}
+
 {% endblock %}

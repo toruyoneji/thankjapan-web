@@ -113,29 +113,29 @@
 
     <h2>1. 수집하는 정보</h2>
     <ul>
-        <li><strong>계정 정보:</strong> 당사는 귀하의 사용자 이름과 해시(암호화)된 비밀번호를 수집합니다. 비밀번호를 일반 텍스트 형태로 저장하지 않습니다.</li>
-        <li><strong>게임 데이터:</strong> 당사는 게임 기능 및 리더보드 제공, 서비스 개선을 위해 게임 점수와 진행 상황을 수집합니다.</li>
-        <li><strong>결제 데이터:</strong> 결제 처리는 PayPal을 통해 안전하게 관리됩니다. 당사는 신용카드 번호를 저장하지 않습니다. 당사는 귀하의 액세스 권한 관리를 위해 PayPal에서 제공하는 <strong>정기 구독 ID(Subscription ID)</strong> 및 결제 상태 정보만을 저장합니다.</li>
-        <li><strong>AI 개인정보 보호:</strong> 당사는 귀하의 개인 데이터, 사용자 이름 또는 점수를 외부 인공지능 모델의 학습 목적으로 제공하지 않습니다.</li>
+        <li><strong>계정 정보:</strong> 사용자 이름과 암호화(해시)된 비밀번호를 수집합니다. 비밀번호를 일반 텍스트로 저장하지 않습니다.</li>
+        <li><strong>게임 데이터:</strong> 기능 제공, 리더보드 표시 및 사용자 경험 향상을 위해 게임 점수와 진축 상황을 수집합니다.</li>
+        <li><strong>결제 데이터:</strong> 결제 처리는 {% if is_twa %}<strong>Google Play</strong>{% else %}<strong>PayPal</strong>{% endif %}을(를) 통해 안전하게 이루어집니다. 당사는 신용카드 번호를 저장하지 않습니다. 액세스 권한 관리를 위해 {% if is_twa %}Google{% else %}PayPal{% endif %}에서 제공하는 <strong>구독 ID</strong>와 결제 상태만 저장합니다.</li>
+        <li><strong>AI 개인정보 보호:</strong> 당사는 귀하의 개인 데이터, 사용자 이름 또는 점수를 교육 목적으로 외부 인공지능 모델에 제공하지 않습니다.</li>
     </ul>
 
-    <h2>2. 정보 이용 목적</h2>
+    <h2>2. 정보의 이용 목적</h2>
     <ul>
-        <li>계정 관리 및 프리미엄 플랜 액세스 권한 제공.</li>
-        <li>PayPal을 통한 월간 구독의 안전한 처리.</li>
-        <li>리더보드 점수 표시 및 학습 진행 상황 저장.</li>
-        <li>플랫폼의 보안 및 안정성 유지.</li>
+        <li>계정 관리 및 프리미엄 플랜 액세스 제공.</li>
+        <li>{% if is_twa %}<strong>Google Play</strong>{% else %}<strong>PayPal</strong>{% endif %}을(를) 통한 안전한 월간 구독 처리.</li>
+        <li>리더보드에 점수 표시 및 학습 진도 저장.</li>
+        <li>플랫폼의 보안 및 안정성 확보.</li>
     </ul>
 
     <h2>3. 쿠키 및 보안</h2>
-    <p>당사는 안전한 로그인, 세션 유지 및 PayPal 트랜잭션의 무결성 보장에 필수적인 쿠키를 사용합니다. 브라우저 설정에서 쿠키를 관리할 수 있으나, 쿠키를 비활성화할 경우 서비스 기능 이용에 제한이 있을 수 있습니다.</p>
+    <p>안전한 로그인, 세션 유지 및 {% if is_twa %}결제{% else %}PayPal{% endif %} 거래의 무결성을 보장하는 데 필수적인 쿠키를 사용합니다.</p>
 
     <h2>4. 데이터 공유 및 제3자 제공</h2>
-    <p>당사는 운영에 필요한 신뢰할 수 있는 파트너와만 데이터를 공유합니다.</p>
+    <p>운영에 필요한 신뢰할 수 있는 파트너와만 데이터를 공유합니다.</p>
     <ul>
-        <li><strong>PayPal:</strong> 결제 처리 및 구독 관리 목적.</li>
-        <li><strong>Cloudinary:</strong> 최적화된 교육용 이미지 제공 목적.</li>
-        <li><strong>Google Analytics:</strong> 익명화된 이용 분석 목적.</li>
+        <li><strong>{% if is_twa %}Google Play{% else %}PayPal{% endif %}:</strong> 결제 처리 및 구독 관리를 위해 공유됩니다.</li>
+        <li><strong>Cloudinary:</strong> 최적화된 교육용 이미지 제공을 위해 공유됩니다.</li>
+        <li><strong>Google Analytics:</strong> 익명화된 이용 분석을 위해 공유됩니다.</li>
     </ul>
 
     <h2>5. 사용자의 권리 및 데이터 삭제</h2>

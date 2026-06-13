@@ -146,9 +146,9 @@
 
         <dt class="riyoudt">Articolo 4 (Costi di Abbonamento e Rinnovo Automatico)</dt>
         <dd class="riyoudd">
-            1. Per il "Piano Premium", l'Utente paga il canone mensile visualizzato sul sito tramite PayPal.<br>
-            2. L'abbonamento si <strong>rinnova automaticamente ogni mese</strong>. La fatturazione avviene nella stessa data ogni mese fino alla cancellazione.<br>
-            3. Il mancato pagamento comporterà la sospensione delle funzionalità Premium senza preavviso.
+        1. In cambio del "Piano Premium", gli utenti pagheranno la quota mensile visualizzata {% if is_twa %}tramite il <strong>sistema di fatturazione di Google Play</strong>.{% else %}sul sito web tramite <strong>PayPal</strong>.{% endif %}<br>
+        2. Il Piano Premium è un abbonamento che <strong>si rinnova automaticamente ogni mese</strong>. {% if is_twa %}La fatturazione è gestita da Google.{% else %}L'addebito avviene mensilmente tramite PayPal fino alla cancellazione.{% endif %}<br>
+        3. In caso di mancato pagamento, la Società può sospendere l'accesso alle funzionalità Premium senza preavviso.
         </dd>
 
         <dt class="riyoudt">Articolo 5 (Proprietà Intellettuale e IA)</dt>
@@ -168,8 +168,8 @@
 
         <dt class="riyoudt">Articolo 9 (Politica di Cancellazione e Rimborso)</dt>
         <dd class="riyoudd">
-            1. L'utente può annullare il Piano Premium in qualsiasi momento tramite le Impostazioni account.<br>
-            2. <strong>Politica di rimborso:</strong> Data la natura dei contenuti digitali, tutti i pagamenti non sono rimborsabili. Non sono previsti rimborsi parziali per il periodo rimanente.
+        1. Gli utenti possono annullare il proprio Piano Premium in qualsiasi momento {% if is_twa %}tramite le <strong>impostazioni degli abbonamenti nel Google Play Store</strong>.{% else %}tramite le <strong>Impostazioni dell'account</strong> sul nostro sito web.{% endif %}<br>
+        2. <strong>Politica di rimborso:</strong> Data la natura dei contenuti digitali, i pagamenti non sono rimborsabili. Non sono previsti rimborsi parziali.
         </dd>
 
         <dt class="riyoudt">Articolo 10 (Esclusione di Responsabilità per Contenuti IA e Risultati)</dt>

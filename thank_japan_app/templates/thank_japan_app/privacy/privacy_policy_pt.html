@@ -112,33 +112,34 @@
     
     <p>ThankJapan (a "Empresa") está empenhada em proteger a sua privacidade. <strong>Os seus dados pessoais são tratados em conformidade com o Regulamento Geral sobre a Proteção de Dados (RGPD).</strong> Esta política de privacidade descreve como gerimos as suas informações pessoais quando utiliza o nosso website, serviços e jogos.</p>
 
-    <h2>1. Informações que Recolhemos</h2>
+    <h2>1. Informações que recolhemos</h2>
     <ul>
-        <li><strong>Informações da Conta:</strong> Recolhemos o seu nome de utilizador e uma versão hash (encriptada) da sua palavra-passe. Não armazenamos palavras-passe em texto simples.</li>
-        <li><strong>Dados de Jogo:</strong> Recolhemos pontuações e progresso de jogo para fornecer funcionalidades, tabelas de classificação e para melhorar a sua experiência.</li>
-        <li><strong>Dados de Pagamento:</strong> O processamento de pagamentos é gerido de forma segura pelo PayPal. Não armazenamos números de cartões de crédito. Apenas armazenamos o <strong>ID de Subscrição</strong> e o estado do pagamento fornecidos pelo PayPal para gerir o seu acesso.</li>
-        <li><strong>Privacidade e IA:</strong> NÃO fornecemos os seus dados pessoais, nomes de utilizador ou pontuações a modelos de inteligência artificial externos para fins de treino.</li>
+        <li><strong>Informações da conta:</strong> Recolhemos o seu nome de utilizador e uma versão hash (encriptada) da sua palavra-passe. Não armazenamos palavras-passe em texto simples.</li>
+        <li><strong>Dados de jogo:</strong> Recolhemos pontuações e progressos de jogo para fornecer funcionalidades, tabelas de classificação e melhorar a sua experiência.</li>
+        <li><strong>Dados de pagamento:</strong> O processamento de pagamentos é gerido de forma segura pelo {% if is_twa %}<strong>Google Play</strong>{% else %}<strong>PayPal</strong>{% endif %}. Não armazenamos números de cartões de crédito. Apenas armazenamos o <strong>ID de subscrição</strong> e o estado do pagamento fornecidos pelo {% if is_twa %}Google{% else %}PayPal{% endif %} para gerir o seu acesso.</li>
+        <li><strong>Privacidade de IA:</strong> NÃO fornecemos os seus dados pessoais, nomes de utilizador ou pontuações a modelos externos de inteligência artificial para fins de treino.</li>
     </ul>
 
-    <h2>2. Como Utilizamos as Informações</h2>
+    <h2>2. Como utilizamos a informação</h2>
     <ul>
-        <li>Para gerir a sua conta e fornecer acesso ao Plano Premium.</li>
-        <li>Para processar com segurança subscrições mensais através do PayPal.</li>
+        <li>Para gerir a sua conta e fornecer o acesso ao Plano Premium.</li>
+        <li>Para processar subscrições mensais de forma segura através do {% if is_twa %}<strong>Google Play</strong>{% else %}<strong>PayPal</strong>{% endif %}.</li>
         <li>Para exibir pontuações em tabelas de classificação e guardar o seu progresso de aprendizagem.</li>
-        <li>Para garantir a segurança e estabilidade da nossa plataforma.</li>
+        <li>Para garantir a segurança e a estabilidade da nossa plataforma.</li>
     </ul>
 
-    <h2>3. Cookies e Segurança</h2>
-    <p>Utilizamos cookies essenciais para o início de sessão seguro, manutenção de sessões e para garantir a integridade das transações do PayPal. Pode gerir os cookies nas definições do seu navegador, mas desativá-los pode afetar as funcionalidades do serviço.</p>
+    <h2>3. Cookies e segurança</h2>
+    <p>Utilizamos cookies essenciais para o início de sessão seguro, manutenção de sessões e para garantir a integridade das transações {% if is_twa %}de pagamento{% else %}do PayPal{% endif %}.</p>
 
-    <h2>4. Partilha de Dados e Terceiros</h2>
+    <h2>4. Partilha de dados e terceiros</h2>
     <p>Partilhamos dados apenas com parceiros de confiança necessários para a operação:</p>
     <ul>
-        <li><strong>PayPal:</strong> Para processamento de pagamentos e gestão de subscrições.</li>
+        <li><strong>{% if is_twa %}Google Play{% else %}PayPal{% endif %}:</strong> Para o processamento de pagamentos e gestão de subscrições.</li>
         <li><strong>Cloudinary:</strong> Para a entrega de imagens educativas otimizadas.</li>
-        <li><strong>Google Analytics:</strong> Para análise de utilização anonimizada.</li>
+        <li><strong>Google Analytics:</strong> Para a análise de utilização de forma anónima.</li>
     </ul>
 
+    
     <h2>5. Direitos do Utilizador e Eliminação de Dados</h2>
     <p>Tem o direito de aceder, corrigir ou eliminar os seus dados a qualquer momento. Pode <strong>eliminar permanentemente a sua conta e todo o histórico associado</strong> imediatamente através da página "Definições da Conta". Uma vez eliminados, estes dados não podem ser recuperados.</p>
 

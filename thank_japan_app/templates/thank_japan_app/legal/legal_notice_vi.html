@@ -125,7 +125,13 @@
         <p><strong>Giá bán:</strong><br>Được hiển thị trên trang lựa chọn gói dịch vụ (đã bao gồm thuế).</p>
         <p><strong>Phí bổ sung:</strong><br>Không (Phí kết nối Internet do người dùng chịu).</p>
         <p><strong>Thời gian cung cấp dịch vụ:</strong><br>Dịch vụ có sẵn ngay sau khi quá trình thanh toán/đăng ký hoàn tất.</p>
-        <p><strong>Phương thức thanh toán:</strong><br>Thẻ tín dụng / Thẻ ghi nợ (qua PayPal).</p>
+        <p><strong>Phương thức thanh toán:</strong><br>
+        {% if is_twa %}
+            Thanh toán qua Google Play
+        {% else %}
+            Thẻ tín dụng / Thẻ ghi nợ (qua PayPal)
+        {% endif %}
+        </p>
         <p><strong>Thời điểm thanh toán:</strong><br>Thanh toán lần đầu được xử lý ngay khi đăng ký. Các lần thanh toán tiếp theo được tự động tính hóa đơn hàng tháng vào cùng một ngày.</p>
         <p><strong>Chính sách Trả hàng / Hủy bỏ:</strong><br>Do tính chất của dịch vụ kỹ thuật số, chúng tôi không chấp nhận hoàn tiền sau khi thanh toán. Bạn có thể hủy gói đăng ký bất kỳ lúc nào thông qua trang "Cài đặt tài khoản". Việc hủy bỏ sẽ có hiệu lực từ chu kỳ thanh toán tiếp theo.</p>
     </section>

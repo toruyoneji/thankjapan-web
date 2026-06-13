@@ -113,31 +113,32 @@
 
     <h2>1. 我们收集的信息</h2>
     <ul>
-        <li><strong>账户信息：</strong>我们收集您的用户名及经过哈希（加密）处理的密码。我们不存储明文密码。</li>
-        <li><strong>游戏数据：</strong>我们收集游戏分数和进度，以提供游戏功能、排行榜并提升您的体验。</li>
-        <li><strong>付款数据：</strong>付款处理通过 PayPal 安全進行。我们不存储信用卡号码。我们仅存储由 PayPal 提供的<strong>订阅 ID（Subscription ID）</strong>和支付状态，以管理您的权限。</li>
-        <li><strong>AI 隐私：</strong>我们“不会”将您的个人数据、用户名或分数提供给外部人工智能模型進行训练。</li>
+        <li><strong>账号信息：</strong> 我们收集您的用户名和密码的哈希（加密）版本。我们不以明文形式存储密码。</li>
+        <li><strong>游戏数据：</strong> 我们收集游戏分数和进度，以提供功能、排行榜并增强您的体验。</li>
+        <li><strong>付款数据：</strong> 付款处理由 {% if is_twa %}<strong>Google Play</strong>{% else %}<strong>PayPal</strong>{% endif %} 安全处理。我们不存储信用卡卡号。我们仅存储由 {% if is_twa %}Google{% else %}PayPal{% endif %} 提供的<strong>订阅 ID</strong> 和付款状态，以管理您的访问权限。</li>
+        <li><strong>AI 隐私：</strong> 我们不会将您的个人数据、用户名或分数提供给外部人工智能模型进行训练。</li>
     </ul>
 
     <h2>2. 我们如何使用信息</h2>
     <ul>
-        <li>用于管理您的账户并提供 Premium 方案的访问权限。</li>
-        <li>通过 PayPal 安全地处理每月订阅。</li>
-        <li>在排行榜上显示分数并保存您的学习进度。</li>
+        <li>管理您的账号并提供高级方案的访问权限。</li>
+        <li>通过 {% if is_twa %}<strong>Google Play</strong>{% else %}<strong>PayPal</strong>{% endif %} 安全地处理每月订阅。</li>
+        <li>在排行榜上显示分数并存储您的学习进度。</li>
         <li>确保我们平台的安全性和稳定性。</li>
     </ul>
 
     <h2>3. Cookie 与安全性</h2>
-    <p>我们使用对于安全登录、维持会话以及确保 PayPal 交易完整性至关重要的 Cookie。您可以在浏览器设置中管理 Cookie，但禁用它们可能会影响服务功能。</p>
+    <p>我们使用对于安全登录、维持会话以及确保 {% if is_twa %}付款{% else %}PayPal{% endif %} 交易完整性至关重要的 Cookie。</p>
 
     <h2>4. 数据共享与第三方</h2>
-    <p>我们仅与运营所需的信任合作伙伴共享数据：</p>
+    <p>我们仅与运营所需的信任伙伴共享数据：</p>
     <ul>
-        <li><strong>PayPal：</strong>用于付款处理和订阅管理。</li>
-        <li><strong>Cloudinary：</strong>用于提供优化的教学图像。</li>
-        <li><strong>Google Analytics：</strong>用于匿名化使用分析。</li>
+        <li><strong>{% if is_twa %}Google Play{% else %}PayPal{% endif %}：</strong> 用于付款处理和订阅管理。</li>
+        <li><strong>Cloudinary：</strong> 用于提供优化的教育图像。</li>
+        <li><strong>Google Analytics：</strong> 用于匿名使用情况分析。</li>
     </ul>
 
+    
     <h2>5. 用户权利与数据删除</h2>
     <p>您有权随时访问、更正或删除您的数据。您可以通过“账户设置”页面立即<strong>永久删除您的账户及所有相关历史记录</strong>。一旦删除，数据将无法恢复。</p>
 

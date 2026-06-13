@@ -247,6 +247,8 @@
         <p>Impara il giapponese per il tuo lavoro e la tua vita in Giappone.</p>
     </div>
 
+    {% if not is_twa %}
+
     <div class="pricing-container">
         <div class="plan-card">
             <div class="plan-name">Gratis</div>
@@ -287,6 +289,37 @@
         </div>
     </div>
 
+    {% else %}
+
+    <div class="pricing-container">
+        <div class="plan-card featured" style="max-width: 500px; margin: 0 auto; border-color: #d4af37;">
+            <div class="plan-badge">VERSIONE APP</div>
+            <div class="plan-name">Funzioni Premium</div>
+                <p style="color: #5d5245; margin-bottom: 20px;">
+                    Scopri tutta la potenza di ThankJapan.
+                </p>
+            <ul class="plan-features">
+                <li>✅ Padronanza della <strong>Conversazione</strong></li>
+                <li>✅ <strong>Giapponese</strong> commerciale</li>
+                <li>✅ <strong>Etichetta</strong> giapponese</li>
+                <li>✅ Esperienza senza pubblicità</li>
+                <li>✅ Tutti i futuri aggiornamenti</li>
+            </ul>
+            <div style="margin-top: 30px; padding: 20px; background: #fffaf5; border-radius: 10px;">
+                <p style="color: #b22d35; font-weight: bold;">
+                    Tutte le funzioni sono SBLOCCATE!
+                </p>
+                <p style="font-size: 0.85rem; color: #7a7a7a;">
+                    Come tester, puoi esplorare tutto gratuitamente.
+                </p>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+
+
+
     <div class="bottom-nav-zone">
         {% if user.is_authenticated %}
             <a href="{% url 'account_settingsit' %}" class="btn-manage-account">
@@ -300,6 +333,8 @@
         </a>
     </div>
 </div>
+
+{% if not is_twa %}
 
 <script src="https://www.paypal.com/sdk/js?client-id={{ paypal_client_id }}&vault=true&intent=subscription&currency=USD"></script>
 <script>
@@ -323,4 +358,7 @@
         onError: function (err) { alert('Errore PayPal verificato.'); }
     }).render('#paypal-button-container');
 </script>
+
+{% endif %}
+
 {% endblock %}

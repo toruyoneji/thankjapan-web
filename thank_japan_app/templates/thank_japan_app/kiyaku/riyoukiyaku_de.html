@@ -146,9 +146,9 @@
 
         <dt class="riyoudt">Artikel 4 (Abonnementgebühren und automatische Verlängerung)</dt>
         <dd class="riyoudd">
-            1. Für den "Premium-Plan" zahlt der Nutzer die auf der Website angegebene monatliche Gebühr über PayPal.<br>
-            2. Der Premium-Plan ist ein Abonnement, das sich <strong>jeden Monat automatisch verlängert</strong>. Die Abrechnung erfolgt monatlich am gleichen Tag bis zur Kündigung.<br>
-            3. Bei Zahlungsausfall kann der Zugang zu Premium-Funktionen ohne Vorankündigung gesperrt werden.
+        1. Als Gegenleistung für den „Premium-Plan“ zahlen die Nutzer die angezeigte monatliche Gebühr {% if is_twa %}über das <strong>Google Play-Abrechnungssystem</strong>.{% else %}auf der Website über <strong>PayPal</strong>.{% endif %}<br>
+        2. Der Premium-Plan ist ein Abonnement, das sich <strong>jeden Monat automatisch verlängert</strong>. {% if is_twa %}Die Abrechnung wird von Google verwaltet.{% else %}Die Abrechnung erfolgt monatlich über PayPal bis zur Kündigung.{% endif %}<br>
+        3. Bei Zahlungsausfall kann das Unternehmen den Zugang zu Premium-Funktionen ohne Vorankündigung sperren.
         </dd>
 
         <dt class="riyoudt">Artikel 5 (Geistiges Eigentum und KI)</dt>
@@ -168,8 +168,8 @@
 
         <dt class="riyoudt">Artikel 9 (Kündigungs- und Erstattungsrichtlinie)</dt>
         <dd class="riyoudd">
-            1. Nutzer können ihr Premium-Abonnement jederzeit über die Kontoeinstellungen kündigen.<br>
-            2. <strong>Erstattungsrichtlinie:</strong> Aufgrund der Beschaffenheit digitaler Inhalte sind alle Zahlungen nicht erstattungsfähig. Es erfolgt keine anteilige Erstattung für den verbleibenden Zeitraum.
+        1. Nutzer können ihren Premium-Plan jederzeit kündigen, {% if is_twa %}über die <strong>Abonnement-Einstellungen im Google Play Store</strong>.{% else %}über die <strong>Kontoeinstellungen</strong> auf unserer Website.{% endif %}<br>
+        2. <strong>Rückerstattungsrichtlinie:</strong> Aufgrund der Beschaffenheit digitaler Inhalte sind Rückerstattungen ausgeschlossen. Teilrückerstattungen sind nicht möglich.
         </dd>
 
         <dt class="riyoudt">Artikel 10 (Haftungsausschluss für KI-Inhalte und Ergebnisse)</dt>

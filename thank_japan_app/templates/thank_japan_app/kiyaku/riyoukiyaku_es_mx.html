@@ -146,9 +146,9 @@
 
         <dt class="riyoudt">Artículo 4 (Cuotas de suscripción y renovación automática)</dt>
         <dd class="riyoudd">
-            1. Para el "Plan Premium", el Usuario pagará la cuota mensual indicada en el sitio web a través de PayPal.<br>
-            2. El Plan Premium es una suscripción que se <strong>renueva automáticamente cada mes</strong>. El cobro se realizará en la misma fecha de cada mes hasta su cancelación.<br>
-            3. La falta de pago resultará en la suspensión de las funciones Premium sin previo aviso.
+        1. A cambio del "Plan Premium", los usuarios pagarán la tarifa mensual mostrada {% if is_twa %}a través del <strong>sistema de facturación de Google Play</strong>.{% else %}en el sitio web a través de <strong>PayPal</strong>.{% endif %}<br>
+        2. El Plan Premium es una suscripción que <strong>se renueva automáticamente cada mes</strong>. {% if is_twa %}La facturación es gestionada por Google.{% else %}Los cobros se realizan mensualmente por PayPal hasta su cancelación.{% endif %}<br>
+        3. Si el pago falla, la Empresa puede suspender el acceso a las funciones Premium sin previo aviso.
         </dd>
 
         <dt class="riyoudt">Artículo 5 (Propiedad intelectual e IA)</dt>
@@ -168,8 +168,8 @@
 
         <dt class="riyoudt">Artículo 9 (Política de cancelación y reembolso)</dt>
         <dd class="riyoudd">
-            1. El usuario puede cancelar su Plan Premium en cualquier momento a través de los Ajustes de cuenta.<br>
-            2. <strong>Política de reembolso:</strong> Debido a la naturaleza del contenido digital, todos los pagos son no reembolsables. No se otorgarán reembolsos parciales por el periodo restante.
+        1. Los usuarios pueden cancelar su Plan Premium en cualquier momento {% if is_twa %}a través de la <strong>configuración de suscripciones de Google Play Store</strong>.{% else %}a través de la <strong>Configuración de la cuenta</strong> en nuestro sitio web.{% endif %}<br>
+        2. <strong>Política de reembolso:</strong> Debido a la naturaleza del contenido digital, no se aceptan reembolsos. No se realizarán reembolsos parciales.
         </dd>
 
         <dt class="riyoudt">Artículo 10 (Exención de responsabilidad por contenido de IA y resultados)</dt>

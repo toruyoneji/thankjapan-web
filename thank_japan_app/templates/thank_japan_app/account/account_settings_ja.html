@@ -114,7 +114,7 @@
         {% endif %}
         </div>
 
-        {% if user.profile.is_premium %}
+        {% if user.profile.is_premium or is_twa %}
             <span class="status-badge status-premium">プレミアム会員 💎</span>
         {% else %}
             <span class="status-badge status-free">無料プラン</span>
@@ -133,15 +133,22 @@
         </div>
 
         <div class="action-group">
-            {% if not user.profile.is_premium %}
-                <a href="{% url 'premium_infoja' %}" class="btn-manage btn-upgrade">プレミアムにアップグレード 💎</a>
+            {% if is_twa %}
+                <p style="color: #d4af37; font-size: 0.9rem; margin-bottom: 10px;">
+                    プレミアムコミュニティにご参加いただきありがとうございます！
+                </p>
             {% else %}
-                <form action="{% url 'downgrade_premium' %}" method="POST" onsubmit="return confirm('無料プランに切り替えますか？')">
-                    {% csrf_token %}
-                    <input type="hidden" name="downgrade_url_name" value="downgrade_successja">
-                    <button type="submit" class="btn-manage btn-downgrade">プレミアム購読を解約する</button>
-                </form>
+                {% if not user.profile.is_premium %}
+                    <a href="{% url 'premium_infoja' %}" class="btn-manage btn-upgrade">プレミアムにアップグレード 💎</a>
+                {% else %}
+                    <form action="{% url 'downgrade_premium' %}" method="POST" onsubmit="return confirm('無料プランに切り替えますか？')">
+                        {% csrf_token %}
+                        <input type="hidden" name="downgrade_url_name" value="downgrade_successja">
+                        <button type="submit" class="btn-manage btn-downgrade">プレミアム購読を解約する</button>
+                    </form>
+                {% endif %}
             {% endif %}
+            
             <form action="{% url 'delete_account' %}" method="POST" onsubmit="return confirm('警告：アカウントとすべてのデータが永久に削除されます。よろしいですか？')">
                 {% csrf_token %}
                 <input type="hidden" name="success_url_name" value="delete_successja">

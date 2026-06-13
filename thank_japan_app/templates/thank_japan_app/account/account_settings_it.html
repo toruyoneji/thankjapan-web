@@ -113,7 +113,7 @@
         {% endif %}
         </div>
 
-        {% if user.profile.is_premium %}
+        {% if user.profile.is_premium or is_twa %}
             <span class="status-badge status-premium">Membro Premium 💎</span>
         {% else %}
             <span class="status-badge status-free">Piano Gratuito</span>
@@ -132,15 +132,22 @@
         </div>
 
         <div class="action-group">
-            {% if not user.profile.is_premium %}
-                <a href="{% url 'premium_infoit' %}" class="btn-manage btn-upgrade">Passa a Premium 💎</a>
+            {% if is_twa %}
+                <p style="color: #d4af37; font-size: 0.9rem; margin-bottom: 10px;">
+                    Grazie per far parte della nostra comunità Premium!
+                </p>
             {% else %}
-                <form action="{% url 'downgrade_premium' %}" method="POST" onsubmit="return confirm('Passare al Piano Gratuito?')">
-                    {% csrf_token %}
-                    <input type="hidden" name="downgrade_url_name" value="downgrade_successit">
-                    <button type="submit" class="btn-manage btn-downgrade">Annulla abbonamento Premium</button>
-                </form>
+                {% if not user.profile.is_premium %}
+                    <a href="{% url 'premium_infoit' %}" class="btn-manage btn-upgrade">Passa a Premium 💎</a>
+                {% else %}
+                    <form action="{% url 'downgrade_premium' %}" method="POST" onsubmit="return confirm('Passare al Piano Gratuito?')">
+                        {% csrf_token %}
+                        <input type="hidden" name="downgrade_url_name" value="downgrade_successit">
+                        <button type="submit" class="btn-manage btn-downgrade">Annulla abbonamento Premium</button>
+                    </form>
+                {% endif %}
             {% endif %}
+            
             <form action="{% url 'delete_account' %}" method="POST" onsubmit='return confirm("PERICOLO: Eliminare l&apos;account e tutti i dati in modo permanente?")'>
                 {% csrf_token %}
                 <input type="hidden" name="success_url_name" value="delete_successit">

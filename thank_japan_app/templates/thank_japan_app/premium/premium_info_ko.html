@@ -247,6 +247,8 @@
         <p>일본에서의 업무와 생활을 위한 실전 일본어를 마스터하세요.</p>
     </div>
 
+    {% if not is_twa %}
+
     <div class="pricing-container">
         <div class="plan-card">
             <div class="plan-name">무료</div>
@@ -287,6 +289,35 @@
         </div>
     </div>
 
+    {% else %}
+
+    <div class="pricing-container">
+        <div class="plan-card featured" style="max-width: 500px; margin: 0 auto; border-color: #d4af37;">
+            <div class="plan-badge">アプリ版 (App)</div>
+            <div class="plan-name">프리미엄 기능</div>
+                <p style="color: #5d5245; margin-bottom: 20px;">
+                    ThankJapan의 모든 기능을 경험해보세요.
+                </p>
+            <ul class="plan-features">
+                <li>✅ <strong>회화</strong> 마스터</li>
+                <li>✅ <strong>비즈니스</strong> 일본어</li>
+                <li>✅ 일본 <strong>에티켓・예절</strong></li>
+                <li>✅ 광고 없는 플레이</li>
+                <li>✅ 향후 모든 업데이트</li>
+            </ul>
+            <div style="margin-top: 30px; padding: 20px; background: #fffaf5; border-radius: 10px;">
+                <p style="color: #b22d35; font-weight: bold;">
+                    모든 기능이 현재 잠금 해제되었습니다!
+                </p>
+                <p style="font-size: 0.85rem; color: #7a7a7a;">
+                    테스터 및 초기 사용자는 모든 기능을 무료로 이용할 수 있습니다.
+                </p>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+
     <div class="bottom-nav-zone">
         {% if user.is_authenticated %}
             <a href="{% url 'account_settingsko' %}" class="btn-manage-account">
@@ -300,6 +331,8 @@
         </a>
     </div>
 </div>
+
+{% if not is_twa %}
 
 <script src="https://www.paypal.com/sdk/js?client-id={{ paypal_client_id }}&vault=true&intent=subscription&currency=USD"></script>
 <script>
@@ -323,4 +356,7 @@
         onError: function (err) { alert('PayPal 오류가 발생했습니다.'); }
     }).render('#paypal-button-container');
 </script>
+
+{% endif %}
+
 {% endblock %}

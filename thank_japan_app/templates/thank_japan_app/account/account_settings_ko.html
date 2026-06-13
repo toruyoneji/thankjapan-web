@@ -113,7 +113,7 @@
         {% endif %}
         </div>
         
-        {% if user.profile.is_premium %}
+        {% if user.profile.is_premium or is_twa %}
             <span class="status-badge status-premium">프리미엄 회원 💎</span>
         {% else %}
             <span class="status-badge status-free">무료 플랜</span>
@@ -132,15 +132,22 @@
         </div>
         
         <div class="action-group">
-            {% if not user.profile.is_premium %}
-                <a href="{% url 'premium_infoko' %}" class="btn-manage btn-upgrade">프리미엄으로 업그레이드 💎</a>
+            {% if is_twa %}
+                <p style="color: #d4af37; font-size: 0.9rem; margin-bottom: 10px;">
+                    프리미엄 커뮤니티의 일원이 되어 주셔서 감사합니다!
+                </p>
             {% else %}
-                <form action="{% url 'downgrade_premium' %}" method="POST" onsubmit="return confirm('무료 플랜으로 전환하시겠습니까?')">
-                    {% csrf_token %}
-                    <input type="hidden" name="downgrade_url_name" value="downgrade_successko">
-                    <button type="submit" class="btn-manage btn-downgrade">프리미엄 구독 취소</button>
-                </form>
+                {% if not user.profile.is_premium %}
+                    <a href="{% url 'premium_infoko' %}" class="btn-manage btn-upgrade">프리미엄으로 업그레이드 💎</a>
+                {% else %}
+                    <form action="{% url 'downgrade_premium' %}" method="POST" onsubmit="return confirm('무료 플랜으로 전환하시겠습니까?')">
+                        {% csrf_token %}
+                        <input type="hidden" name="downgrade_url_name" value="downgrade_successko">
+                        <button type="submit" class="btn-manage btn-downgrade">프리미엄 구독 취소</button>
+                    </form>
+                {% endif %}
             {% endif %}
+            
             <form action="{% url 'delete_account' %}" method="POST" onsubmit="return confirm('주의: 계정과 모든 데이터가 영구적으로 삭제됩니다. 계속하시겠습니까?')">
                 {% csrf_token %}
                 <input type="hidden" name="success_url_name" value="delete_successko">

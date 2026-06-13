@@ -125,7 +125,13 @@
         <p><strong>Verkaufspreis:</strong><br>Wie auf der Planauswahlseite angezeigt (inkl. MwSt.).</p>
         <p><strong>Zusätzliche Gebühren:</strong><br>Keine (Internetverbindungskosten gehen zu Lasten des Nutzers).</p>
         <p><strong>Lieferzeitpunkt:</strong><br>Der Dienst ist sofort nach Abschluss des Zahlungs-/Registrierungsvorgangs verfügbar.</p>
-        <p><strong>Zahlungsmethode:</strong><br>Kreditkarte / Debitkarte (über PayPal).</p>
+        <p><strong>Zahlungsmethode:</strong><br>
+        {% if is_twa %}
+            Google Play-Abrechnungssystem
+        {% else %}
+            Kreditkarte / Debitkarte (via PayPal)
+        {% endif %}
+        </p>
         <p><strong>Zahlungszeitpunkt:</strong><br>Die erste Zahlung wird sofort bei Abschluss des Abonnements verarbeitet. Folgezahlungen werden monatlich am gleichen Tag automatisch abgerechnet.</p>
         <p><strong>Rückgabe- / Stornierungsbedingungen:</strong><br>Aufgrund der Art digitaler Dienste akzeptieren wir keine Rückerstattungen nach der Zahlung. Sie können Ihr Abonnement jederzeit über die Seite „Kontoeinstellungen“ kündigen. Die Kündigung wird zum nächsten Abrechnungszeitraum wirksam.</p>
         

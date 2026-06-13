@@ -112,33 +112,34 @@
     
     <p>I tuoi dati personali sono trattati in conformità con il Regolamento Generale sulla Protezione dei Dati (GDPR - Regolamento UE 2016/679). Hai il diritto di accedere, rettificare o richiedere la cancellazione dei tuoi dati in qualsiasi momento.</p>
 
-    <h2>1. Informazioni raccolte</h2>
+    <h2>1. Informazioni che raccogliamo</h2>
     <ul>
-        <li><strong>Informazioni sull'account:</strong> Raccogliamo il tuo nome utente e una versione hash (criptata) della tua password. Non memorizziamo le password in testo normale.</li>
-        <li><strong>Dati di gioco:</strong> Raccogliamo punteggi e progressi di gioco per fornire funzionalità, classifiche e per migliorare la tua esperienza.</li>
-        <li><strong>Dati di pagamento:</strong> L'elaborazione dei pagamenti è gestita in modo sicuro da PayPal. Non memorizziamo i numeri delle carte di credito. Memorizziamo solo l'<strong>ID di abbonamento</strong> e lo stato del pagamento forniti da PayPal per gestire il tuo accesso.</li>
-        <li><strong>Privacy e IA:</strong> NON forniamo i tuoi dati personali, nomi utente o punteggi a modelli di intelligenza artificiale esterni a scopo di addestramento.</li>
+        <li><strong>Informazioni sull'account:</strong> Raccogliamo il tuo nome utente e una versione hash (criptata) della tua password. Non memorizziamo le password in chiaro.</li>
+        <li><strong>Dati di gioco:</strong> Raccogliamo punteggi e progressi di gioco per fornire funzionalità, classifiche e migliorare la tua esperienza.</li>
+        <li><strong>Dati di pagamento:</strong> L'elaborazione dei pagamenti è gestita in modo sicuro da {% if is_twa %}<strong>Google Play</strong>{% else %}<strong>PayPal</strong>{% endif %}. Non memorizziamo i numeri delle carte di credito. Memorizziamo solo l'<strong>ID di abbonamento</strong> e lo stato del pagamento forniti da {% if is_twa %}Google{% else %}PayPal{% endif %} per gestire il tuo accesso.</li>
+        <li><strong>Privacy AI:</strong> NON forniamo i tuoi dati personali, nomi utente o punteggi a modelli esterni di intelligenza artificiale per scopi di addestramento.</li>
     </ul>
 
     <h2>2. Come utilizziamo le informazioni</h2>
     <ul>
         <li>Per gestire il tuo account e fornire l'accesso al Piano Premium.</li>
-        <li>Per elaborare in modo sicuro gli abbonamenti mensili tramite PayPal.</li>
+        <li>Per elaborare in modo sicuro gli abbonamenti mensili tramite {% if is_twa %}<strong>Google Play</strong>{% else %}<strong>PayPal</strong>{% endif %}.</li>
         <li>Per visualizzare i punteggi nelle classifiche e salvare i tuoi progressi di apprendimento.</li>
         <li>Per garantire la sicurezza e la stabilità della nostra piattaforma.</li>
     </ul>
 
-    <h2>3. Cookie e Sicurezza</h2>
-    <p>Utilizziamo cookie essenziali per il login sicuro, il mantenimento delle sessioni e per garantire l'integrità delle transazioni PayPal. Puoi gestire i cookie nelle impostazioni del tuo browser, ma la loro disattivazione potrebbe influire sulle funzionalità del servizio.</p>
+    <h2>3. Cookie e sicurezza</h2>
+    <p>Utilizziamo cookie essenziali per il login sicuro, il mantenimento delle sessioni e per garantire l'integrità delle transazioni {% if is_twa %}di pagamento{% else %}PayPal{% endif %}.</p>
 
     <h2>4. Condivisione dei dati e terze parti</h2>
-    <p>Condividiamo i dati solo con partner fidati necessari per l'operatività:</p>
+    <p>Condividiamo i dati solo con partner fidati necessari per il funzionamento:</p>
     <ul>
-        <li><strong>PayPal:</strong> Per l'elaborazione dei pagamenti e la gestione degli abbonamenti.</li>
+        <li><strong>{% if is_twa %}Google Play{% else %}PayPal{% endif %}:</strong> Per l'elaborazione dei pagamenti e la gestione degli abbonamenti.</li>
         <li><strong>Cloudinary:</strong> Per la fornitura di immagini didattiche ottimizzate.</li>
         <li><strong>Google Analytics:</strong> Per l'analisi dell'utilizzo in forma anonima.</li>
     </ul>
 
+    
     <h2>5. Diritti dell'utente e cancellazione dei dati</h2>
     <p>Hai il diritto di accedere, correggere o eliminare i tuoi dati in qualsiasi momento. Puoi <strong>eliminare permanentemente il tuo account e tutta la cronologia associata</strong> immediatamente tramite la pagina "Impostazioni account". Una volta eliminati, questi dati non possono essere recuperati.</p>
 

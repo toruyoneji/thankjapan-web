@@ -247,6 +247,8 @@
         <p>Master Japanese for your work and life in Japan.</p>
     </div>
 
+    {% if not is_twa %}
+
     <div class="pricing-container">
         <div class="plan-card">
             <div class="plan-name">Free</div>
@@ -288,7 +290,35 @@
         </div>
     </div>
 
+    {% else %}
     
+    <div class="pricing-container">
+            <div class="plan-card featured" style="max-width: 500px; margin: 0 auto; border-color: #d4af37;">
+                <div class="plan-badge">APP VERSION</div>
+                <div class="plan-name">Premium Features</div>
+                    <p style="color: #5d5245; margin-bottom: 20px;">
+                        Experience the full power of ThankJapan.
+                    </p>
+                <ul class="plan-features">
+                    <li>✅ <strong>Conversation</strong> Mastery</li>
+                    <li>✅ <strong>Business</strong> Japanese</li>
+                    <li>✅ Japanese <strong>Etiquette</strong></li>
+                    <li>✅ Ad-Free Experience</li>
+                    <li>✅ All Future Updates</li>
+                </ul>
+                <div style="margin-top: 30px; padding: 20px; background: #fffaf5; border-radius: 10px;">
+                    <p style="color: #b22d35; font-weight: bold;">
+                        All features are currently UNLOCKED!
+                    </p>
+                    <p style="font-size: 0.85rem; color: #7a7a7a;">
+                        As a tester/early user, you can explore everything for free.
+                    </p>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+
     <div class="bottom-nav-zone">
         {% if user.is_authenticated %}
             <a href="{% url 'account_settings' %}" class="btn-manage-account">
@@ -303,6 +333,8 @@
         </a>
     </div>
 </div>
+
+{% if not is_twa %}
 
 <script src="https://www.paypal.com/sdk/js?client-id={{ paypal_client_id }}&vault=true&intent=subscription&currency=USD"></script>
 
@@ -344,4 +376,8 @@
         }
     }).render('#paypal-button-container');
 </script>
+
+{% endif %}
+
 {% endblock %}
+

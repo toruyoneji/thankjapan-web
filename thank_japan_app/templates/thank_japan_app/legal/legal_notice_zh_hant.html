@@ -125,7 +125,13 @@
         <p><strong>銷售價格：</strong><br>如方案選擇頁面所示（含稅）。</p>
         <p><strong>額外費用：</strong><br>無（網路連線費用由用戶負擔）。</p>
         <p><strong>服務提供時間：</strong><br>支付/註冊流程完成後，服務立即生效。</p>
-        <p><strong>支付方式：</strong><br>信用卡 / 借記卡（透過 PayPal）。</p>
+        <p><strong>付款方式：</strong><br>
+        {% if is_twa %}
+            Google Play 結帳系統
+        {% else %}
+            信用卡 / 簽帳金融卡 (透過 PayPal)
+        {% endif %}
+        </p>
         <p><strong>支付時間：</strong><br>首次支付在訂閱時立即處理。後續支付將在每月的同一日期自動扣款。</p>
         <p><strong>退貨 / 取消政策：</strong><br>由於數位服務的性質，我們不接受付款後的退款。您可以隨時透過「帳戶設定」頁面取消訂閱。取消將於下一個計費週期生效。</p>
     </section>

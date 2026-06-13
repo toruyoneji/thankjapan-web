@@ -111,32 +111,33 @@
     <h1 class="category-header">隱私權政策</h1>
     <p>ThankJapan（以下簡稱「本公司」）致力於保護您的隱私。<strong>我們將根據《個人資料保護法》及相關法律規定處理您的個人資訊。</strong> 本隱私權政策說明了當您使用我們的網站、服務及遊戲時，我們如何處理您的個人資料。</p>
 
-    <h2>1. 我們收集的信息</h2>
+    <h2>1. 我們收集的資訊</h2>
     <ul>
-        <li><strong>帳戶信息：</strong>我們收集您的用戶名及經過哈希（加密）處理的密碼。我們不存儲明文密碼。</li>
-        <li><strong>遊戲數據：</strong>我們收集遊戲分數和進度，以提供遊戲功能、排行榜並提升您的體驗。</li>
-        <li><strong>付款數據：</strong>付款處理透過 PayPal 安全進行。我們不存儲信用卡號碼。我們僅存儲由 PayPal 提供的<strong>定期購讀 ID（Subscription ID）</strong>和支付狀態，以管理您的權限。</li>
-        <li><strong>AI 隱私：</strong>我們「不會」將您的個人數據、用戶名或分數提供給外部人工智能模型進行訓練。</li>
+        <li><strong>帳號資訊：</strong> 我們收集您的使用者名稱和密碼的雜湊（加密）版本。我們不會以明文形式儲存密碼。</li>
+        <li><strong>遊戲數據：</strong> 我們收集遊戲分數和進度，以提供功能、排行榜並增強您的體驗。</li>
+        <li><strong>付款數據：</strong> 付款處理由 {% if is_twa %}<strong>Google Play</strong>{% else %}<strong>PayPal</strong>{% endif %} 安全處理。我們不儲存信用卡卡號。我們僅儲存由 {% if is_twa %}Google{% else %}PayPal{% endif %} 提供的<strong>訂閱 ID</strong> 和付款狀態，以管理您的存取權限。</li>
+        <li><strong>AI 隱私：</strong> 我們不會將您的個人數據、使用者名稱或分數提供給外部人工智慧模型進行訓練。</li>
     </ul>
 
-    <h2>2. 我們如何使用信息</h2>
+    <h2>2. 我們如何使用資訊</h2>
     <ul>
-        <li>用於管理您的帳戶並提供 Premium 方案的訪問權限。</li>
-        <li>透過 PayPal 安全地處理每月訂閱。</li>
-        <li>在排行榜上顯示分數並保存您的學習進度。</li>
+        <li>管理您的帳號並提供高級方案的存取權限。</li>
+        <li>透過 {% if is_twa %}<strong>Google Play</strong>{% else %}<strong>PayPal</strong>{% endif %} 安全地處理每月訂閱。</li>
+        <li>在排行榜上顯示分數並儲存您的學習進度。</li>
         <li>確保我們平台的安全性和穩定性。</li>
     </ul>
 
     <h2>3. Cookie 與安全性</h2>
-    <p>我們使用對於安全登錄、維持會話以及確保 PayPal 交易完整性至關重要的 Cookie。您可以在瀏覽器設置中管理 Cookie，但禁用它們可能會影響服務功能。</p>
+    <p>我們使用對於安全登入、維持工作階段以及確保 {% if is_twa %}付款{% else %}PayPal{% endif %} 交易完整性至關重要的 Cookie。</p>
 
-    <h2>4. 數據共享與第三方</h2>
-    <p>我們僅與運營所需的信任合作夥伴共享數據：</p>
+    <h2>4. 資料共享與第三方</h2>
+    <p>我們僅與營運所需的信任夥伴共享資料：</p>
     <ul>
-        <li><strong>PayPal：</strong>用於付款處理和訂閱管理。</li>
-        <li><strong>Cloudinary：</strong>用於提供優化的教學圖像。</li>
-        <li><strong>Google Analytics：</strong>用於匿名化使用分析。</li>
+        <li><strong>{% if is_twa %}Google Play{% else %}PayPal{% endif %}：</strong> 用於付款處理和訂閱管理。</li>
+        <li><strong>Cloudinary：</strong> 用於提供優化的教育圖像。</li>
+        <li><strong>Google Analytics：</strong> 用於匿名使用情況分析。</li>
     </ul>
+    
 
     <h2>5. 用戶權利與數據刪除</h2>
     <p>您有權隨時訪問、更正或刪除您的數據。您可以透過「帳戶設定」頁面立即<strong>永久刪除您的帳戶及所有相關歷史記錄</strong>。一旦刪除，數據將無法恢復。</p>

@@ -246,6 +246,8 @@
         <p>เก่งภาษาญี่ปุ่นเพื่อการทำงานและการใช้ชีวิตในญี่ปุ่น</p>
     </div>
 
+    {% if not is_twa %}
+
     <div class="pricing-container">
         <div class="plan-card">
             <div class="plan-name">ฟรี</div>
@@ -286,6 +288,34 @@
         </div>
     </div>
 
+    {% else %}
+
+    <div class="pricing-container">
+        <div class="plan-card featured" style="max-width: 500px; margin: 0 auto; border-color: #d4af37;">
+            <div class="plan-badge">เวอร์ชันแอป</div>
+            <div class="plan-name">ฟีเจอร์พรีเมียม</div>
+                <p style="color: #5d5245; margin-bottom: 20px;">
+                    สัมผัสประสบการณ์เต็มรูปแบบของ ThankJapan
+                </p>
+            <ul class="plan-features">
+                <li>✅ ฝึกฝน <strong>การสนทนา</strong></li>
+                <li>✅ <strong>ภาษาญี่ปุ่น</strong> ธุรกิจ</li>
+                <li>✅ <strong>มารยาท</strong> ญี่ปุ่น</li>
+                <li>✅ ไม่มีโฆษณา</li>
+                <li>✅ อัปเดตฟรีในอนาคต</li>
+            </ul>
+            <div style="margin-top: 30px; padding: 20px; background: #fffaf5; border-radius: 10px;">
+                <p style="color: #b22d35; font-weight: bold;">
+                    ปลดล็อกฟีเจอร์ทั้งหมดแล้วในขณะนี้!
+                </p>
+                <p style="font-size: 0.85rem; color: #7a7a7a;">
+                    ในฐานะผู้ทดสอบ คุณสามารถสำรวจทุกอย่างได้ฟรี
+                </p>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
     <div class="bottom-nav-zone">
         {% if user.is_authenticated %}
             <a href="{% url 'account_settingsth' %}" class="btn-manage-account">
@@ -299,6 +329,8 @@
         </a>
     </div>
 </div>
+
+{% if not is_twa %}
 
 <script src="https://www.paypal.com/sdk/js?client-id={{ paypal_client_id }}&vault=true&intent=subscription&currency=USD"></script>
 <script>
@@ -322,4 +354,7 @@
         onError: function (err) { alert('เกิดข้อผิดพลาดกับ PayPal'); }
     }).render('#paypal-button-container');
 </script>
+
+{% endif %}
+
 {% endblock %}

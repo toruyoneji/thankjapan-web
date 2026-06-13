@@ -113,29 +113,29 @@
 
     <h2>1. Thông tin chúng tôi thu thập</h2>
     <ul>
-        <li><strong>Thông tin tài khoản:</strong> Chúng tôi thu thập tên người dùng và phiên bản mật khẩu đã được mã hóa (hash). Chúng tôi không lưu trữ mật khẩu dưới dạng văn bản thuần túy.</li>
-        <li><strong>Dữ liệu trò chơi:</strong> Chúng tôi thu thập điểm số và tiến trình chơi để cung cấp chức năng trò chơi, bảng xếp hạng và cải thiện trải nghiệm của bạn.</li>
-        <li><strong>Dữ liệu thanh toán:</strong> Việc xử lý thanh toán được thực hiện an toàn bởi PayPal. Chúng tôi không lưu trữ số thẻ tín dụng. Chúng tôi chỉ lưu trữ <strong>ID đăng ký (Subscription ID)</strong> và trạng thái thanh toán do PayPal cung cấp để quản lý quyền truy cập của bạn.</li>
-        <li><strong>Quyền riêng tư về AI:</strong> Chúng tôi KHÔNG cung cấp dữ liệu cá nhân, tên người dùng hoặc điểm số của bạn cho các mô hình trí tuệ nhân tạo bên ngoài cho mục đích đào tạo.</li>
+        <li><strong>Thông tin tài khoản:</strong> Chúng tôi thu thập tên người dùng và phiên bản mật khẩu đã được mã hóa. Chúng tôi không lưu trữ mật khẩu dưới dạng văn bản thuần túy.</li>
+        <li><strong>Dữ liệu trò chơi:</strong> Chúng tôi thu thập điểm số và tiến trình trò chơi để cung cấp các chức năng, bảng xếp hạng và cải thiện trải nghiệm của bạn.</li>
+        <li><strong>Dữ liệu thanh toán:</strong> Việc xử lý thanh toán được thực hiện an toàn bởi {% if is_twa %}<strong>Google Play</strong>{% else %}<strong>PayPal</strong>{% endif %}. Chúng tôi không lưu trữ số thẻ tín dụng. Chúng tôi chỉ lưu trữ <strong>ID đăng ký</strong> và trạng thái thanh toán do {% if is_twa %}Google{% else %}PayPal{% endif %} cung cấp để quản lý quyền truy cập của bạn.</li>
+        <li><strong>Quyền riêng tư AI:</strong> Chúng tôi KHÔNG cung cấp dữ liệu cá nhân, tên người dùng hoặc điểm số của bạn cho các mô hình trí tuệ nhân tạo bên ngoài cho mục đích đào tạo.</li>
     </ul>
 
     <h2>2. Cách chúng tôi sử dụng thông tin</h2>
     <ul>
-        <li>Để quản lý tài khoản và cung cấp quyền truy cập vào Gói Premium.</li>
-        <li>Để xử lý an toàn các gói đăng ký hàng tháng thông qua PayPal.</li>
+        <li>Để quản lý tài khoản và cung cấp quyền truy cập vào Gói Cao cấp.</li>
+        <li>Để xử lý các gói đăng ký hàng tháng một cách an toàn thông qua {% if is_twa %}<strong>Google Play</strong>{% else %}<strong>PayPal</strong>{% endif %}.</li>
         <li>Để hiển thị điểm số trên bảng xếp hạng và lưu tiến trình học tập của bạn.</li>
-        <li>Để đảm bảo tính bảo mật và ổn định cho nền tảng của chúng tôi.</li>
+        <li>Để đảm bảo an ninh và tính ổn định cho nền tảng của chúng tôi.</li>
     </ul>
 
     <h2>3. Cookie và Bảo mật</h2>
-    <p>Chúng tôi sử dụng các cookie thiết yếu để đăng nhập an toàn, duy trì phiên làm việc và đảm bảo tính toàn vẹn của các giao dịch PayPal. Bạn có thể quản lý cookie trong cài đặt trình duyệt, nhưng việc tắt chúng có thể ảnh hưởng đến chức năng dịch vụ.</p>
+    <p>Chúng tôi sử dụng các cookie thiết yếu để đăng nhập an toàn, duy trì phiên làm việc và đảm bảo tính toàn vẹn của các giao dịch {% if is_twa %}thanh toán{% else %}PayPal{% endif %}.</p>
 
     <h2>4. Chia sẻ dữ liệu và Bên thứ ba</h2>
-    <p>Chúng tôi chỉ chia sẻ dữ liệu với các đối tác tin cậy cần thiết cho hoạt động vận hành:</p>
+    <p>Chúng tôi chỉ chia sẻ dữ liệu với các đối tác đáng tin cậy cần thiết cho việc vận hành:</p>
     <ul>
-        <li><strong>PayPal:</strong> Để xử lý thanh toán và quản lý gói đăng ký.</li>
-        <li><strong>Cloudinary:</strong> Để cung cấp các hình ảnh giáo dục được tối ưu hóa.</li>
-        <li><strong>Google Analytics:</strong> Để phân tích việc sử dụng dưới dạng ẩn danh.</li>
+        <li><strong>{% if is_twa %}Google Play{% else %}PayPal{% endif %}:</strong> Để xử lý thanh toán và quản lý đăng ký.</li>
+        <li><strong>Cloudinary:</strong> Để cung cấp hình ảnh giáo dục đã được tối ưu hóa.</li>
+        <li><strong>Google Analytics:</strong> Để phân tích việc sử dụng ẩn danh.</li>
     </ul>
 
     <h2>5. Quyền của người dùng và Xóa dữ liệu</h2>

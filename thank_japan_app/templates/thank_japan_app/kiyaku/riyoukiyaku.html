@@ -148,9 +148,9 @@
 
         <dt class="riyoudt">Article 4 (Subscription Fees and Automatic Renewal)</dt>
         <dd class="riyoudd">
-            1. In exchange for the "Premium Plan," Users shall pay the monthly fee displayed on the website via PayPal.<br>
-            2. The Premium Plan is a subscription that <strong>automatically renews every month</strong>. Billing occurs on the same date each month until canceled.<br>
-            3. If payment fails, the Company may suspend access to Premium features without prior notice.
+        1. In exchange for the "Premium Plan," Users shall pay the monthly fee displayed {% if is_twa %}via <strong>Google Play Billing</strong>.{% else %}on the website via <strong>PayPal</strong>.{% endif %}<br>
+        2. The Premium Plan is a subscription that <strong>automatically renews every month</strong>. {% if is_twa %}Billing is managed by Google.{% else %}Billing occurs on the same date each month via PayPal until canceled.{% endif %}<br>
+        3. If payment fails, the Company may suspend access to Premium features without prior notice.
         </dd>
 
         <dt class="riyoudt">Article 5 (Intellectual Property and AI)</dt>
@@ -170,8 +170,8 @@
 
         <dt class="riyoudt">Article 9 (Cancellation and Refund Policy)</dt>
         <dd class="riyoudd">
-            1. Users may cancel their Premium Plan at any time through the Account Settings.<br>
-            2. <strong>Refund Policy:</strong> Due to the nature of digital content, all payments are non-refundable. No partial refunds are provided for the remaining subscription period.
+        1. Users may cancel their Premium Plan at any time {% if is_twa %}through <strong>Google Play Store subscription settings</strong>.{% else %}through <strong>Account Settings</strong> on our website.{% endif %}<br>
+        2. <strong>Refund Policy:</strong> Due to the nature of digital content, all payments are non-refundable. No partial refunds are provided for the remaining subscription period.
         </dd>
 
         <dt class="riyoudt">Article 10 (Disclaimer of AI Content and Results)</dt>

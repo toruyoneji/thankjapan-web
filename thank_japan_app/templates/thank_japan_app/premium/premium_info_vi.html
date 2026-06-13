@@ -247,6 +247,8 @@
         <p>Thành thạo tiếng Nhật cho công việc và cuộc sống tại Nhật Bản.</p>
     </div>
 
+    {% if not is_twa %}
+
     <div class="pricing-container">
         <div class="plan-card">
             <div class="plan-name">Miễn phí</div>
@@ -287,6 +289,34 @@
         </div>
     </div>
 
+    {% else %}
+
+    <div class="pricing-container">
+        <div class="plan-card featured" style="max-width: 500px; margin: 0 auto; border-color: #d4af37;">
+            <div class="plan-badge">PHIÊN BẢN ỨNG DỤNG</div>
+            <div class="plan-name">Tính năng Cao cấp</div>
+                <p style="color: #5d5245; margin-bottom: 20px;">
+                    Trải nghiệm toàn bộ sức mạnh của ThankJapan.
+                </p>
+            <ul class="plan-features">
+                <li>✅ Thông thạo <strong>Hội thoại</strong></li>
+                <li>✅ <strong>Tiếng Nhật</strong> thương mại</li>
+                <li>✅ <strong>Nghi thức</strong> Nhật Bản</li>
+                <li>✅ Trải nghiệm không quảng cáo</li>
+                <li>✅ Tất cả bản cập nhật tương lai</li>
+            </ul>
+            <div style="margin-top: 30px; padding: 20px; background: #fffaf5; border-radius: 10px;">
+                <p style="color: #b22d35; font-weight: bold;">
+                    Tất cả tính năng hiện đã được MỞ KHÓA!
+                </p>
+                <p style="font-size: 0.85rem; color: #7a7a7a;">
+                    Là người dùng thử, bạn có thể khám phá mọi thứ miễn phí.
+                </p>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
     <div class="bottom-nav-zone">
         {% if user.is_authenticated %}
             <a href="{% url 'account_settingsvi' %}" class="btn-manage-account">
@@ -300,6 +330,8 @@
         </a>
     </div>
 </div>
+
+{% if not is_twa %}
 
 <script src="https://www.paypal.com/sdk/js?client-id={{ paypal_client_id }}&vault=true&intent=subscription&currency=USD"></script>
 <script>
@@ -323,4 +355,7 @@
         onError: function (err) { alert('Lỗi PayPal đã xảy ra.'); }
     }).render('#paypal-button-container');
 </script>
+
+{% endif %}
+
 {% endblock %}

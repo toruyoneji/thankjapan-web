@@ -114,30 +114,31 @@
 
     <h2>1. Informationen, die wir sammeln</h2>
     <ul>
-        <li><strong>Kontoinformationen:</strong> Wir erfassen Ihren Benutzernamen und eine gehashte (verschlüsselte) Version Ihres Passworts. Wir speichern keine Passwörter im Klartext.</li>
-        <li><strong>Spieldaten:</strong> Wir sammeln Spielergebnisse und Fortschritte, um Spielfunktionen und Bestenlisten bereitzustellen und Ihr Erlebnis zu verbessern.</li>
-        <li><strong>Zahlungsdaten:</strong> Die Zahlungsabwicklung erfolgt sicher über PayPal. Wir speichern keine Kreditkartennummern. Wir speichern nur die von PayPal bereitgestellte <strong>Abonnement-ID</strong> und den Zahlungsstatus, um Ihren Zugang zu verwalten.</li>
-        <li><strong>KI-Datenschutz:</strong> Wir geben Ihre personenbezogenen Daten, Benutzernamen oder Ergebnisse NICHT an externe Modelle der künstlichen Intelligenz zu Trainingszwecken weiter.</li>
+        <li><strong>Kontoinformationen:</strong> Wir sammeln Ihren Benutzernamen und eine gehashte (verschlüsselte) Version Ihres Passworts. Wir speichern Passwörter nicht im Klartext.</li>
+        <li><strong>Spieldaten:</strong> Wir sammeln Spielstände und Fortschritte, um Funktionen und Bestenlisten bereitzustellen und Ihr Erlebnis zu verbessern.</li>
+        <li><strong>Zahlungsdaten:</strong> Die Zahlungsabwicklung erfolgt sicher über {% if is_twa %}<strong>Google Play</strong>{% else %}<strong>PayPal</strong>{% endif %}. Wir speichern keine Kreditkartennummern. Wir speichern nur die <strong>Abonnement-ID</strong> und den Zahlungsstatus, die von {% if is_twa %}Google{% else %}PayPal{% endif %} bereitgestellt werden, um Ihren Zugang zu verwalten.</li>
+        <li><strong>KI-Datenschutz:</strong> Wir geben Ihre persönlichen Daten, Benutzernamen oder Spielstände NICHT an externe Modelle der künstlichen Intelligenz zu Trainingszwecken weiter.</li>
     </ul>
 
     <h2>2. Wie wir Informationen verwenden</h2>
     <ul>
-        <li>Um Ihr Konto zu verwalten und Zugang zum Premium-Plan zu gewähren.</li>
-        <li>Um monatliche Abonnements sicher über PayPal abzuwickeln.</li>
-        <li>Um Ergebnisse in Bestenlisten anzuzeigen und Ihren Lernfortschritt zu speichern.</li>
-        <li>Um die Sicherheit und Stabilität unserer Plattform zu gewährleisten.</li>
+        <li>Zur Verwaltung Ihres Kontos und Bereitstellung des Zugangs zum Premium-Plan.</li>
+        <li>Zur sicheren Abwicklung monatlicher Abonnements über {% if is_twa %}<strong>Google Play</strong>{% else %}<strong>PayPal</strong>{% endif %}.</li>
+        <li>Zur Anzeige von Ergebnissen in Bestenlisten und zum Speichern Ihres Lernfortschritts.</li>
+        <li>Zur Gewährleistung der Sicherheit und Stabilität unserer Plattform.</li>
     </ul>
 
     <h2>3. Cookies und Sicherheit</h2>
-    <p>Wir verwenden Cookies, die für den sicheren Login, die Aufrechterhaltung von Sitzungen und die Gewährleistung der Integrität von PayPal-Transaktionen unerlässlich sind. Sie können Cookies in Ihren Browsereinstellungen verwalten, aber das Deaktivieren kann die Funktionalität des Dienstes beeinträchtigen.</p>
+    <p>Wir verwenden Cookies, die für den sicheren Login, die Aufrechterhaltung von Sitzungen und die Gewährleistung der Integrität von {% if is_twa %}Zahlungstransaktionen{% else %}PayPal-Transaktionen{% endif %} unerlässlich sind.</p>
 
-    <h2>4. Datenaustausch und Drittanbieter</h2>
-    <p>Wir geben Daten nur an vertrauenswürdige Partner weiter, die für den Betrieb erforderlich sind:</p>
+    <h2>4. Datenteilung und Dritte</h2>
+    <p>Wir teilen Daten nur mit vertrauenswürdigen Partnern, die für den Betrieb erforderlich sind:</p>
     <ul>
-        <li><strong>PayPal:</strong> Zur Zahlungsabwicklung und Abonnementverwaltung.</li>
-        <li><strong>Cloudinary:</strong> Zur Bereitstellung optimierter Bildungsbilder.</li>
+        <li><strong>{% if is_twa %}Google Play{% else %}PayPal{% endif %}:</strong> Zur Zahlungsabwicklung und Abonnementverwaltung.</li>
+        <li><strong>Cloudinary:</strong> Zur Bereitstellung optimierter Bildungsgrafiken.</li>
         <li><strong>Google Analytics:</strong> Zur anonymisierten Nutzungsanalyse.</li>
     </ul>
+    
 
     <h2>5. Nutzerrechte und Datenlöschung</h2>
     <p>Sie haben das Recht, jederzeit auf Ihre Daten zuzugreifen, sie zu korrigieren oder zu löschen. Sie können <strong>Ihr Konto und den gesamten zugehörigen Verlauf dauerhaft löschen</strong>, indem Sie die Seite „Kontoeinstellungen“ aufrufen. Einmal gelöscht, können diese Daten nicht wiederhergestellt werden.</p>

@@ -829,7 +829,7 @@ body {
         <div class="related-grid">
             {% for item in related_items %}
             
-            {% if request.user.profile.is_premium or item.id in free_sample_ids %}
+            {% if is_twa or request.user.profile.is_premium or item.id in free_sample_ids %}
             
                 <a href="{% url 'detail_premium' category=item.category slug=item.slug %}" class="related-card">
                     {% if item.image %}

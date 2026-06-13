@@ -114,7 +114,7 @@
         {% endif %}
         </div>
         
-        {% if user.profile.is_premium %}
+        {% if user.profile.is_premium or is_twa %}
             <span class="status-badge status-premium">Membro Premium 💎</span>
         {% else %}
             <span class="status-badge status-free">Plano Gratuito</span>
@@ -133,15 +133,22 @@
         </div>
 
         <div class="action-group">
-            {% if not user.profile.is_premium %}
-                <a href="{% url 'premium_infopt' %}" class="btn-manage btn-upgrade">Actualizar para Premium 💎</a>
+            {% if is_twa %}
+                <p style="color: #d4af37; font-size: 0.9rem; margin-bottom: 10px;">
+                    Obrigado por fazer parte da nossa comunidade Premium!
+                </p>
             {% else %}
-                <form action="{% url 'downgrade_premium' %}" method="POST" onsubmit="return confirm('Mudar para Plano Gratuito?')">
-                    {% csrf_token %}
-                    <input type="hidden" name="downgrade_url_name" value="downgrade_successpt">
-                    <button type="submit" class="btn-manage btn-downgrade">Cancelar assinatura Premium</button>
-                </form>
+                {% if not user.profile.is_premium %}
+                    <a href="{% url 'premium_infopt' %}" class="btn-manage btn-upgrade">Actualizar para Premium 💎</a>
+                {% else %}
+                    <form action="{% url 'downgrade_premium' %}" method="POST" onsubmit="return confirm('Mudar para Plano Gratuito?')">
+                        {% csrf_token %}
+                        <input type="hidden" name="downgrade_url_name" value="downgrade_successpt">
+                        <button type="submit" class="btn-manage btn-downgrade">Cancelar assinatura Premium</button>
+                    </form>
+                {% endif %}
             {% endif %}
+            
             <form action="{% url 'delete_account' %}" method="POST" onsubmit="return confirm('PERIGO: Eliminar a conta e todos os dados permanentemente?')">
                 {% csrf_token %}
                 <input type="hidden" name="success_url_name" value="delete_successpt">

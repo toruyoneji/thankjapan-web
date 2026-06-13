@@ -114,7 +114,7 @@
         {% endif %}
         </div>
 
-        {% if user.profile.is_premium %}
+        {% if user.profile.is_premium or is_twa %}
             <span class="status-badge status-premium">Premium 会员 💎</span>
         {% else %}
             <span class="status-badge status-free">免费方案</span>
@@ -133,15 +133,22 @@
         </div>
 
         <div class="action-group">
-            {% if not user.profile.is_premium %}
-                <a href="{% url 'premium_infozhCN' %}" class="btn-manage btn-upgrade">升级至 Premium 💎</a>
+            {% if is_twa %}
+                <p style="color: #d4af37; font-size: 0.9rem; margin-bottom: 10px;">
+                    感谢您成为我们高级社区的一员！
+                </p>
             {% else %}
-                <form action="{% url 'downgrade_premium' %}" method="POST" onsubmit="return confirm('确定要切换回免费方案吗？')">
-                    {% csrf_token %}
-                    <input type="hidden" name="downgrade_url_name" value="downgrade_successzhCN">
-                    <button type="submit" class="btn-manage btn-downgrade">取消 Premium 订阅</button>
-                </form>
+                {% if not user.profile.is_premium %}
+                    <a href="{% url 'premium_infozhCN' %}" class="btn-manage btn-upgrade">升级至 Premium 💎</a>
+                {% else %}
+                    <form action="{% url 'downgrade_premium' %}" method="POST" onsubmit="return confirm('确定要切换回免费方案吗？')">
+                        {% csrf_token %}
+                        <input type="hidden" name="downgrade_url_name" value="downgrade_successzhCN">
+                        <button type="submit" class="btn-manage btn-downgrade">取消 Premium 订阅</button>
+                    </form>
+                {% endif %}
             {% endif %}
+            
             <form action="{% url 'delete_account' %}" method="POST" onsubmit="return confirm('危险：将永久删除账户及所有数据。确定要继续吗？')">
                 {% csrf_token %}
                 <input type="hidden" name="success_url_name" value="delete_successzhCN">

@@ -125,7 +125,13 @@
         <p><strong>Preço de Venda:</strong><br>Conforme exibido na página de seleção do plano (inclui impostos).</p>
         <p><strong>Taxas Adicionais:</strong><br>Nenhuma (custos de conexão à internet são de responsabilidade do usuário).</p>
         <p><strong>Prazo de Entrega:</strong><br>O serviço fica disponível imediatamente após a conclusão do processo de pagamento/registro.</p>
-        <p><strong>Método de Pagamento:</strong><br>Cartão de crédito / débito (via PayPal).</p>
+        <p><strong>Método de pagamento:</strong><br>
+        {% if is_twa %}
+            Faturamento do Google Play
+        {% else %}
+            Cartão de crédito / débito (via PayPal)
+        {% endif %}
+        </p>
         <p><strong>Momento do Pagamento:</strong><br>O pagamento inicial é processado imediatamente após a assinatura. Os pagamentos subsequentes são faturados automaticamente todos os meses na mesma data.</p>
         <p><strong>Política de Devolução / Cancelamento:</strong><br>Devido à natureza dos serviços digitais, não aceitamos reembolsos após o pagamento. Você pode cancelar sua assinatura a qualquer momento através da página "Configurações da Conta". O cancelamento entrará em vigor a partir do próximo ciclo de faturamento.</p>
     </section>

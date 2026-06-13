@@ -146,9 +146,9 @@
 
         <dt class="riyoudt">Điều 4 (Phí đăng ký và Gia hạn tự động)</dt>
         <dd class="riyoudd">
-            1. Đối với "Gói Premium", Người dùng sẽ thanh toán phí hàng tháng được hiển thị trên trang web thông qua PayPal.<br>
-            2. Gói Premium là một dịch vụ đăng ký <strong>tự động gia hạn hàng tháng</strong>. Việc thanh toán sẽ diễn ra vào cùng một ngày hàng tháng cho đến khi được hủy bỏ.<br>
-            3. Nếu thanh toán thất bại, Công ty có thể tạm ngừng quyền truy cập vào các tính năng Premium mà không cần thông báo trước.
+        1. Để sử dụng "Gói Cao cấp", Người dùng sẽ thanh toán phí hàng tháng được hiển thị {% if is_twa %}qua <strong>Thanh toán Google Play</strong>.{% else %}trên trang web qua <strong>PayPal</strong>.{% endif %}<br>
+        2. Gói Cao cấp là gói đăng ký <strong>tự động gia hạn hàng tháng</strong>. {% if is_twa %}Việc thanh toán được quản lý bởi Google.{% else %}Việc thanh toán sẽ được thực hiện hàng tháng qua PayPal cho đến khi hủy.{% endif %}<br>
+        3. Nếu thanh toán thất bại, Công ty có thể tạm dừng quyền truy cập vào các tính năng Cao cấp mà không cần thông báo trước.
         </dd>
 
         <dt class="riyoudt">Điều 5 (Sở hữu trí tuệ và AI)</dt>
@@ -168,8 +168,8 @@
 
         <dt class="riyoudt">Điều 9 (Chính sách Hủy bỏ và Hoàn tiền)</dt>
         <dd class="riyoudd">
-            1. Người dùng có thể hủy Gói Premium bất cứ lúc nào thông qua Cài đặt tài khoản.<br>
-            2. <strong>Chính sách hoàn tiền:</strong> Do tính chất của nội dung kỹ thuật số, tất cả các khoản thanh toán đều không được hoàn lại. Không hoàn lại tiền cho khoảng thời gian còn lại của gói đăng ký.
+        1. Người dùng có thể hủy Gói Cao cấp bất kỳ lúc nào {% if is_twa %}thông qua <strong>cài đặt đăng ký trên Google Play Store</strong>.{% else %}thông qua <strong>Cài đặt tài khoản</strong> trên trang web của chúng tôi.{% endif %}<br>
+        2. <strong>Chính sách hoàn tiền:</strong> Do tính chất của nội dung số, tất cả các khoản thanh toán đều không được hoàn lại. Không hoàn tiền cho khoảng thời gian chưa sử dụng.
         </dd>
 
         <dt class="riyoudt">Điều 10 (Miễn trừ trách nhiệm về Nội dung AI và Kết quả)</dt>

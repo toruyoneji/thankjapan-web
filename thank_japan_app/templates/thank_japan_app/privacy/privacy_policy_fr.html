@@ -114,27 +114,27 @@
 
     <h2>1. Informations que nous collectons</h2>
     <ul>
-        <li><strong>Informations sur le compte :</strong> Nous collectons votre nom d'utilisateur et une version hachée (cryptée) de votre mot de passe. Nous ne stockons pas les mots de passe en texte clair.</li>
-        <li><strong>Données de jeu :</strong> Nous collectons les scores et la progression pour fournir les fonctionnalités du jeu, les classements et améliorer votre expérience.</li>
-        <li><strong>Données de paiement :</strong> Le traitement des paiements est géré de manière sécurisée par PayPal. Nous ne stockons pas les numéros de carte de crédit. Nous stockons uniquement l'<strong>ID d'abonnement (Subscription ID)</strong> et le statut de paiement fournis par PayPal pour gérer votre accès.</li>
-        <li><strong>Confidentialité et IA :</strong> Nous ne fournissons PAS vos données personnelles, noms d'utilisateur ou scores à des modèles d'intelligence artificielle externes à des fins d'entraînement.</li>
+        <li><strong>Informations sur le compte :</strong> Nous collectons votre nom d'utilisateur et une version hachée (cryptée) de votre mot de passe.</li>
+        <li><strong>Données de jeu :</strong> Nous collectons les scores et la progression pour fournir les fonctionnalités, les classements et améliorer votre expérience.</li>
+        <li><strong>Données de paiement :</strong> Le traitement des paiements est géré de manière sécurisée par {% if is_twa %}<strong>Google Play</strong>{% else %}<strong>PayPal</strong>{% endif %}. Nous ne stockons pas les numéros de carte de crédit. Nous stockons uniquement l'<strong>ID d'abonnement</strong> et le statut du paiement fournis par {% if is_twa %}Google{% else %}PayPal{% endif %} pour gérer votre accès.</li>
+        <li><strong>Confidentialité IA :</strong> Nous ne fournissons PAS vos données personnelles, noms d'utilisateur ou scores à des modèles d'intelligence artificielle externes à des fins d'entraînement.</li>
     </ul>
 
     <h2>2. Comment nous utilisons les informations</h2>
     <ul>
         <li>Pour gérer votre compte et fournir l'accès au Plan Premium.</li>
-        <li>Pour traiter en toute sécurité les abonnements mensuels via PayPal.</li>
+        <li>Pour traiter les abonnements mensuels en toute sécurité via {% if is_twa %}<strong>Google Play</strong>{% else %}<strong>PayPal</strong>{% endif %}.</li>
         <li>Pour afficher les scores sur les classements et sauvegarder votre progression d'apprentissage.</li>
         <li>Pour assurer la sécurité et la stabilité de notre plateforme.</li>
     </ul>
 
-    <h2>3. Cookies et Sécurité</h2>
-    <p>Nous utilisons des cookies essentiels pour la connexion sécurisée, le maintien des sessions et l'intégrité des transactions PayPal. Vous pouvez gérer les cookies dans les paramètres de votre navigateur, mais leur désactivation peut affecter les fonctionnalités du service.</p>
+    <h2>3. Cookies et sécurité</h2>
+    <p>Nous utilisons des cookies essentiels pour la connexion sécurisée, le maintien des sessions et pour garantir l'intégrité des transactions {% if is_twa %}de paiement{% else %}PayPal{% endif %}.</p>
 
     <h2>4. Partage de données et tiers</h2>
-    <p>Nous ne partageons les données qu'avec des partenaires de confiance nécessaires au fonctionnement :</p>
+    <p>Nous partageons les données uniquement avec des partenaires de confiance nécessaires au fonctionnement :</p>
     <ul>
-        <li><strong>PayPal :</strong> Pour le traitement des paiements et la gestion des abonnements.</li>
+        <li><strong>{% if is_twa %}Google Play{% else %}PayPal{% endif %} :</strong> Pour le traitement des paiements et la gestion des abonnements.</li>
         <li><strong>Cloudinary :</strong> Pour la diffusion d'images éducatives optimisées.</li>
         <li><strong>Google Analytics :</strong> Pour l'analyse anonyme de l'utilisation.</li>
     </ul>

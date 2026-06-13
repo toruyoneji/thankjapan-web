@@ -146,9 +146,9 @@
 
         <dt class="riyoudt">Artigo 4 (Taxas de Assinatura e Renovação Automática)</dt>
         <dd class="riyoudd">
-            1. Pelo "Plano Premium", o Usuário pagará a mensalidade exibida no site através do PayPal.<br>
-            2. O Plano Premium é uma assinatura que se <strong>renova automaticamente todos os meses</strong>. O faturamento ocorre na mesma data todos os meses até o cancelamento.<br>
-            3. A falha no pagamento resultará na suspensão das funcionalidades Premium sem aviso prévio.
+        1. Em troca do "Plano Premium", os Utilizadores pagarão a mensalidade exibida {% if is_twa %}através do <strong>sistema de faturação do Google Play</strong>.{% else %}no site através do <strong>PayPal</strong>.{% endif %}<br>
+        2. O Plano Premium é uma subscrição que <strong>se renova automaticamente todos os meses</strong>. {% if is_twa %}A faturação é gerida pela Google.{% else %}A cobrança ocorre mensalmente via PayPal até ao cancelamento.{% endif %}<br>
+        3. Se o pagamento falhar, a Empresa poderá suspender o acesso às funcionalidades Premium sem aviso prévio.
         </dd>
 
         <dt class="riyoudt">Artigo 5 (Propriedade Intelectual e IA)</dt>
@@ -168,8 +168,8 @@
 
         <dt class="riyoudt">Artigo 9 (Política de Cancelamento e Reembolso)</dt>
         <dd class="riyoudd">
-            1. O usuário pode cancelar seu Plano Premium a qualquer momento através das Configurações da Conta.<br>
-            2. <strong>Política de Reembolso:</strong> Devido à natureza do conteúdo digital, todos os pagamentos não são reembolsáveis. Não serão concedidos reembolsos parciais pelo período restante.
+        1. Os utilizadores podem cancelar o Plano Premium a qualquer momento {% if is_twa %}através das <strong>definições de subscrição na Google Play Store</strong>.{% else %}através das <strong>Definições de Conta</strong> no nosso site.{% endif %}<br>
+        2. <strong>Política de reembolso:</strong> Devido à natureza do conteúdo digital, todos os pagamentos não são reembolsáveis. Não há reembolsos parciais.
         </dd>
 
         <dt class="riyoudt">Artigo 10 (Isenção de Responsabilidade sobre Conteúdo de IA e Resultados)</dt>

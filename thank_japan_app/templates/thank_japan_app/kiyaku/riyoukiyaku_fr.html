@@ -146,9 +146,9 @@
 
         <dt class="riyoudt">Article 4 (Frais d'abonnement et reconduction automatique)</dt>
         <dd class="riyoudd">
-            1. En échange du "Plan Premium", les Utilisateurs paient des frais mensuels affichés sur le site via PayPal.<br>
-            2. Le Plan Premium est un abonnement qui se <strong>renouvelle automatiquement chaque mois</strong>. La facturation a lieu à la même date chaque mois jusqu'à l'annulation.<br>
-            3. En cas de défaut de paiement, la Société peut suspendre l'accès aux fonctionnalités Premium sans préavis.
+        1. En échange du "Plan Premium", les utilisateurs doivent payer les frais mensuels affichés {% if is_twa %}via le <strong>système de facturation Google Play</strong>.{% else %}sur le site web via <strong>PayPal</strong>.{% endif %}<br>
+        2. Le Plan Premium est un abonnement qui <strong>se renouvelle automatiquement chaque mois</strong>. {% if is_twa %}La facturation est gérée par Google.{% else %}Le débit a lieu chaque mois via PayPal jusqu'à annulation.{% endif %}<br>
+        3. En cas d'échec du paiement, la Société peut suspendre l'accès aux fonctionnalités Premium sans préavis.
         </dd>
 
         <dt class="riyoudt">Article 5 (Propriété intellectuelle et IA)</dt>
@@ -168,8 +168,8 @@
 
         <dt class="riyoudt">Article 9 (Politique d'annulation et de remboursement)</dt>
         <dd class="riyoudd">
-            1. Les utilisateurs peuvent annuler leur Plan Premium à tout moment via les Paramètres du compte.<br>
-            2. <strong>Politique de remboursement :</strong> En raison de la nature numérique du contenu, tous les paiements sont non remboursables. Aucun remboursement partiel n'est accordé pour la période restante.
+        1. Les utilisateurs peuvent annuler leur Plan Premium à tout moment {% if is_twa %}via les <strong>paramètres d'abonnement du Google Play Store</strong>.{% else %}via les <strong>Paramètres du compte</strong> sur notre site web.{% endif %}<br>
+        2. <strong>Politique de remboursement :</strong> En raison de la nature des services numériques, aucun remboursement n'est accepté. Aucun remboursement partiel n'est prévu.
         </dd>
 
         <dt class="riyoudt">Article 10 (Exclusion de responsabilité sur le contenu IA et les résultats)</dt>
