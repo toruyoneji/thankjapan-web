@@ -697,7 +697,7 @@ body::before, body::after { display: none; }
                 </div>
             </a>
     
-            {% if is_twa or (player and player.total_score >= 300) %}
+            {% if is_twa or player and player.total_score >= 300 %}
             <a href="{% url 'game_restart' %}?difficulty=super_hard" class="difficulty-card super-hard">
                 <span class="emoji">👹</span>
                 <div class="difficulty-info">
@@ -801,7 +801,7 @@ body::before, body::after { display: none; }
             </a>
 
             <!-- LEVEL N5 -->
-            {% if is_twa or (user.is_authenticated and user.profile.is_premium) %}
+            {% if is_twa or user.is_authenticated and user.profile.is_premium %}
                 <a href="{% url 'game_restart' %}?difficulty=n5_premium" class="difficulty-card premium-gold">
             {% else %}
                 <a href="{% url premium_url_name %}?next={{ request.path }}" class="difficulty-card premium-locked">
@@ -828,7 +828,7 @@ body::before, body::after { display: none; }
             </a>
 
             <!-- LEVEL N4 -->
-            {% if is_twa or (user.is_authenticated and user.profile.is_premium) %}
+            {% if is_twa or user.is_authenticated and user.profile.is_premium %}
                 <a href="{% url 'game_restart' %}?difficulty=n4_premium" class="difficulty-card premium-gold">
             {% else %}
                 <a href="{% url premium_url_name %}?next={{ request.path }}" class="difficulty-card premium-locked">
@@ -855,7 +855,7 @@ body::before, body::after { display: none; }
             </a>
 
             <!-- LEVEL N3 -->
-            {% if is_twa or (user.is_authenticated and user.profile.is_premium) %}
+            {% if is_twa or user.is_authenticated and user.profile.is_premium %}
                 <a href="{% url 'game_restart' %}?difficulty=n3_premium" class="difficulty-card premium-gold">
             {% else %}
                 <a href="{% url premium_url_name %}?next={{ request.path }}" class="difficulty-card premium-locked">
