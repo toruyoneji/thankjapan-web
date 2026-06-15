@@ -22,7 +22,6 @@ from django.utils.http import urlencode
 from django.contrib.auth.views import PasswordResetView
 from .context_processors import language_context
 from .models import WeeklyScore
-from thank_japan_app.views import get_lang_info 
 import logging
 import random
 import re, itertools
@@ -2030,8 +2029,8 @@ class PrefectureListView(TemplateView):
         lang = self.kwargs.get('lang_code') or self.request.GET.get('lang')
         
         if not lang:
-               
-            _, lang = get_lang_info(self.request)
+            
+            _, lang = get_lang_info(self.request) 
             
         context['lang_code'] = lang
         return context    
