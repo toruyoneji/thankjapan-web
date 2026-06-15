@@ -22,6 +22,7 @@ from django.utils.http import urlencode
 from django.contrib.auth.views import PasswordResetView
 from .context_processors import language_context
 from .models import WeeklyScore
+from thank_japan_app.views import get_lang_info 
 import logging
 import random
 import re, itertools
@@ -2012,33 +2013,13 @@ class JapanFoodView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         
-        lang = self.kwargs.get('lang_code') or self.request.GET.get('lang')
-        context['lang'] = lang
+        lang = self.kwargs.get('lang_code') or self.request.GET.get('lang', 'en')
         
-        
-        base_files = {
-            'ja': 'base/base_ja.html',
-            'ko': 'base/base_ko.html',
-            'zh-cn': 'base/base_zh_cn.html',
-            'zh-hant': 'base/base_zh_hant.html',
-            'th': 'base/base_th.html',
-            'vi': 'base/base_vi.html',
-            'de': 'base/base_de.html',
-            'fr': 'base/base_fr.html',
-            'it': 'base/base_it.html',
-            'es-es': 'base/base_es_es.html',
-            'es-mx': 'base/base_es_mx.html',
-            'pt': 'base/base_pt.html',
-            'pt-br': 'base/base_pt_br.html',
-            'en-in': 'base/base_en_in.html',
-        }
-        
-        context['base_template'] = base_files.get(lang, 'base/base.html')
+        context['lang_code'] = lang 
         
         return context
     
     
-#culture(todouhuken)
 
 class PrefectureListView(TemplateView):
     template_name = "thank_japan_app/japan/prefecture_list_page.html"
@@ -2046,25 +2027,14 @@ class PrefectureListView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         
-        lang_code = self.kwargs.get('lang_code') or self.request.GET.get('lang')
+        lang = self.kwargs.get('lang_code') or self.request.GET.get('lang')
         
-        if not lang_code:
-            from thank_japan_app.views import get_lang_info 
-            _, lang_code = get_lang_info(self.request)
+        if not lang:
+               
+            _, lang = get_lang_info(self.request)
             
-        context['lang'] = lang_code
-        
-        base_files = {
-            'ja': 'base/base_ja.html', 'ko': 'base/base_ko.html',
-            'zh-cn': 'base/base_zh_cn.html', 'zh-hant': 'base/base_zh_hant.html',
-            'th': 'base/base_th.html', 'vi': 'base/base_vi.html',
-            'de': 'base/base_de.html', 'fr': 'base/base_fr.html',
-            'it': 'base/base_it.html', 'es-es': 'base/base_es_es.html',
-            'es-mx': 'base/base_es_mx.html', 'pt': 'base/base_pt.html',
-            'pt-br': 'base/base_pt_br.html', 'en-in': 'base/base_en_in.html',
-        }
-        context['base_template'] = base_files.get(lang_code, 'base/base.html')
-        return context
+        context['lang_code'] = lang
+        return context    
     
     
 
