@@ -671,7 +671,7 @@ class TopView(ListView):
     model = ThankJapanModel
 
     def get(self, request, *args, **kwargs):
-        request.session['user_lang'] = 'en'
+        request.session['tj_lang_code'] = 'en'
         apply_login_bonus(request)
         return super().get(request, *args, **kwargs)
 
@@ -686,7 +686,7 @@ class TopViewJA(ListView):
     template_name = "thank_japan_app/toppage/toppage_ja.html"
     model = ThankJapanModel
     def get(self, request, *args, **kwargs):
-        request.session['user_lang'] = 'ja'
+        request.session['tj_lang_code'] = 'ja'
         apply_login_bonus(request)
         return super().get(request, *args, **kwargs)
     
@@ -701,7 +701,7 @@ class TopViewVI(ListView):
     template_name = "thank_japan_app/toppage/toppage_vi.html"
     model = ThankJapanModel
     def get(self, request, *args, **kwargs):
-        request.session['user_lang'] = 'vi'
+        request.session['tj_lang_code'] = 'vi'
         apply_login_bonus(request)
         return super().get(request, *args, **kwargs)
     
@@ -716,7 +716,7 @@ class TopViewFR(ListView):
     template_name = "thank_japan_app/toppage/toppage_fr.html"
     model = ThankJapanModel
     def get(self, request, *args, **kwargs):
-        request.session['user_lang'] = 'fr'
+        request.session['tj_lang_code'] = 'fr'
         apply_login_bonus(request)
         return super().get(request, *args, **kwargs)
     
@@ -731,7 +731,7 @@ class TopViewIT(ListView):
     template_name = "thank_japan_app/toppage/toppage_it.html"
     model = ThankJapanModel
     def get(self, request, *args, **kwargs):
-        request.session['user_lang'] = 'it'
+        request.session['tj_lang_code'] = 'it'
         apply_login_bonus(request)
         return super().get(request, *args, **kwargs)
     
@@ -746,7 +746,7 @@ class TopViewPT(ListView):
     template_name = "thank_japan_app/toppage/toppage_pt.html"
     model = ThankJapanModel
     def get(self, request, *args, **kwargs):
-        request.session['user_lang'] = 'pt'
+        request.session['tj_lang_code'] = 'pt'
         apply_login_bonus(request)
         return super().get(request, *args, **kwargs)
     
@@ -761,7 +761,7 @@ class TopViewZHCN(ListView):
     template_name = "thank_japan_app/toppage/toppage_zh_cn.html"
     model = ThankJapanModel
     def get(self, request, *args, **kwargs):
-        request.session['user_lang'] = 'zh-cn'
+        request.session['tj_lang_code'] = 'zh-cn'
         apply_login_bonus(request)
         return super().get(request, *args, **kwargs)
     
@@ -776,7 +776,7 @@ class TopViewZHHANT(ListView):
     template_name = "thank_japan_app/toppage/toppage_zh_hant.html"
     model = ThankJapanModel
     def get(self, request, *args, **kwargs):
-        request.session['user_lang'] = 'zh-hant'
+        request.session['tj_lang_code'] = 'zh-hant'
         apply_login_bonus(request)
         return super().get(request, *args, **kwargs)
     
@@ -791,7 +791,7 @@ class TopViewKO(ListView):
     template_name = "thank_japan_app/toppage/toppage_ko.html"
     model = ThankJapanModel
     def get(self, request, *args, **kwargs):
-        request.session['user_lang'] = 'ko'
+        request.session['tj_lang_code'] = 'ko'
         apply_login_bonus(request)
         return super().get(request, *args, **kwargs)
     
@@ -806,7 +806,7 @@ class TopViewESES(ListView):
     template_name = "thank_japan_app/toppage/toppage_es_es.html"
     model = ThankJapanModel
     def get(self, request, *args, **kwargs):
-        request.session['user_lang'] = 'es-es'
+        request.session['tj_lang_code'] = 'es-es'
         apply_login_bonus(request)
         return super().get(request, *args, **kwargs)
     
@@ -821,7 +821,7 @@ class TopViewDE(ListView):
     template_name = "thank_japan_app/toppage/toppage_de.html"
     model = ThankJapanModel
     def get(self, request, *args, **kwargs):
-        request.session['user_lang'] = 'de'
+        request.session['tj_lang_code'] = 'de'
         apply_login_bonus(request)
         return super().get(request, *args, **kwargs)
     
@@ -836,7 +836,7 @@ class TopViewTH(ListView):
     template_name = "thank_japan_app/toppage/toppage_th.html"
     model = ThankJapanModel
     def get(self, request, *args, **kwargs):
-        request.session['user_lang'] = 'th'
+        request.session['tj_lang_code'] = 'th'
         apply_login_bonus(request)
         return super().get(request, *args, **kwargs)
     
@@ -851,7 +851,7 @@ class TopViewPTBR(ListView):
     template_name = "thank_japan_app/toppage/toppage_pt_br.html"
     model = ThankJapanModel
     def get(self, request, *args, **kwargs):
-        request.session['user_lang'] = 'pt-br'
+        request.session['tj_lang_code'] = 'pt-br'
         apply_login_bonus(request)
         return super().get(request, *args, **kwargs)
     
@@ -866,7 +866,7 @@ class TopViewESMX(ListView):
     template_name = "thank_japan_app/toppage/toppage_es_mx.html"
     model = ThankJapanModel
     def get(self, request, *args, **kwargs):
-        request.session['user_lang'] = 'es-mx'
+        request.session['tj_lang_code'] = 'es-mx'
         apply_login_bonus(request)
         return super().get(request, *args, **kwargs)
     
@@ -881,7 +881,7 @@ class TopViewENIN(ListView):
     template_name = "thank_japan_app/toppage/toppage_en_in.html"
     model = ThankJapanModel
     def get(self, request, *args, **kwargs):
-        request.session['user_lang'] = 'en-in'
+        request.session['tj_lang_code'] = 'en-in'
         apply_login_bonus(request)
         return super().get(request, *args, **kwargs)
     
@@ -2012,12 +2012,13 @@ class JapanFoodView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         
-        lang = self.kwargs.get('lang_code') or self.request.GET.get('lang', 'en')
+        lang = self.kwargs.get('lang_code') or self.request.GET.get('lang')
         
-        context['lang_code'] = lang 
+        if lang:
+            self.request.session['tj_lang_code'] = lang
+            context['lang_code'] = lang
         
         return context
-    
     
 
 class PrefectureListView(TemplateView):
@@ -2028,13 +2029,15 @@ class PrefectureListView(TemplateView):
         
         lang = self.kwargs.get('lang_code') or self.request.GET.get('lang')
         
-        if not lang:
+        if lang:
             
-            _, lang = get_lang_info(self.request) 
+            self.request.session['tj_lang_code'] = lang 
+            context['lang_code'] = lang
+        else:
             
-        context['lang_code'] = lang
+            pass
+
         return context    
-    
     
 
 class IshikawaView(TemplateView):
