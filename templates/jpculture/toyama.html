@@ -573,41 +573,22 @@ h1::after {
 
 
   <div style="text-align:center; margin:50px 0;">
-    <a href="javascript:void(0);" onclick="goToTopPage()" class="btn-more">
-        {% if lang == 'ja' %}
-            トップページへ戻る
-        {% elif lang == 'ko' %}
-            홈으로 돌아가기
-        {% elif lang == 'zh-cn' %}
-            返回首页
-        {% elif lang == 'zh-hant' %}
-            返回首頁
-        {% elif lang == 'th' %}
-            กลับไปที่หน้าหลัก
-        {% elif lang == 'vi' %}
-            Quay lại trang chủ
-        {% elif lang == 'de' %}
-            Zurück zur Startseite
-        {% elif lang == 'fr' %}
-            Retour à l'accueil
-        {% elif lang == 'it' %}
-            Torna alla home
-        {% elif lang == 'es-es' %}
-            Volver al inicio
-        {% elif lang == 'es-mx' %}
-            Volver al inicio
-        {% elif lang == 'pt' %}
-            Voltar à página inicial
-        {% elif lang == 'pt-br' %}
-            Voltar à página inicial
-        {% elif lang == 'en-in' %}
-            Back to Home
-        {% else %}
-            Back to Home
-        {% endif %}
+    <a href="javascript:void(0);" onclick="goToCultureList()" class="btn-more">
+        ← 
+        {% if lang == 'ja' %}戻る
+        {% elif lang == 'ko' %}뒤로
+        {% elif lang == 'zh-cn' %}返回
+        {% elif lang == 'zh-hant' %}返回
+        {% elif lang == 'th' %}กลับ
+        {% elif lang == 'vi' %}Quay lại
+        {% elif lang == 'de' %}Zurück
+        {% elif lang == 'fr' %}Retour
+        {% elif lang == 'it' %}Indietro
+        {% elif lang == 'es-es' or lang == 'es-mx' %}Volver
+        {% elif lang == 'pt' or lang == 'pt-br' %}Voltar
+        {% else %}Back{% endif %}
     </a>
-  </div>
-
+</div>
 
 <!-- ===== モーダル部分 ===== -->
 <div id="modal" class="modal">
@@ -618,32 +599,17 @@ h1::after {
   </div>
 </div>
 
-{% if lang == 'ja' %}{% url 'toppageja' as final_url %}
-{% elif lang == 'ko' %}{% url 'toppageko' as final_url %}
-{% elif lang == 'zh-cn' %}{% url 'toppagezhCN' as final_url %}
-{% elif lang == 'zh-hant' %}{% url 'toppagezhHANT' as final_url %}
-{% elif lang == 'th' %}{% url 'toppageth' as final_url %}
-{% elif lang == 'vi' %}{% url 'toppagevi' as final_url %}
-{% elif lang == 'de' %}{% url 'toppagede' as final_url %}
-{% elif lang == 'fr' %}{% url 'toppagefr' as final_url %}
-{% elif lang == 'it' %}{% url 'toppageit' as final_url %}
-{% elif lang == 'es-es' %}{% url 'toppageesES' as final_url %}
-{% elif lang == 'es-mx' %}{% url 'toppageesMX' as final_url %}
-{% elif lang == 'pt' %}{% url 'toppagept' as final_url %}
-{% elif lang == 'pt-br' %}{% url 'toppageptBR' as final_url %}
-{% elif lang == 'en-in' %}{% url 'toppageenIN' as final_url %}
-{% else %}{% url 'toppage' as final_url %}
+{% if lang and lang != 'en' %}
+    {% url 'prefecture_list_with_lang' lang_code=lang as culture_list_url %}
+{% else %}
+    {% url 'prefecture_list' as culture_list_url %}
 {% endif %}
 
 
 <script>
 
-function goToTopPage() {
-    // localStorage に保存されたURLがあればそれを使い、なければ Djangoで作った変数を使う
-    const savedUrl = localStorage.getItem('tj_top_url');
-    const defaultUrl = "{{ final_url }}"; 
-    
-    window.location.href = savedUrl ? savedUrl : defaultUrl;
+function goToCultureList() {
+    window.location.href = "{{ culture_list_url }}";
 }
 
 
