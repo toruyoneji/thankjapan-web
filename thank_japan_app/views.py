@@ -1433,6 +1433,8 @@ def game_next_question(request):
     return redirect('game_play')    
 
 
+import random
+
 def game_restart(request):
     difficulty = request.GET.get('difficulty', 'normal')
     mode = request.GET.get('mode')
@@ -1447,7 +1449,7 @@ def game_restart(request):
         if model_type == 'premium':
             question = get_object_or_404(ThankJapanPremium, slug=val)
              
-            if question.category != "DailyConversation" and question.category != "slang" and question.category != "TourismEtiquette" and question.category != "Entertainment":
+            if question.category not in ["DailyConversation", "slang", "TourismEtiquette", "Entertainment"]:
                 if not is_premium:
                     free_sample_ids = ThankJapanPremium.objects.filter(
                         category=question.category
@@ -1474,32 +1476,33 @@ def game_restart(request):
                 url_name, _ = get_lang_info(request)
                 return redirect(url_name)
 
-        settings = DIFFICULTY_SETTINGS.get(difficulty, DIFFICULTY_SETTINGS['normal'])
-        is_premium_mode = settings.get('model_type') == 'premium'
+        current_settings = DIFFICULTY_SETTINGS.get(difficulty, DIFFICULTY_SETTINGS['normal'])
+        is_premium_mode = current_settings.get('model_type') == 'premium'
         model = ThankJapanPremium if is_premium_mode else ThankJapanModel
         qs = model.objects.all()
 
-        if settings.get('category_filter'): 
-            qs = qs.filter(category__in=settings['filter'])
-        if settings.get('jlpt_level'):
-            jlpt_val = settings['jlpt_level']
+        if current_settings.get('category_filter'): 
+            qs = qs.filter(category__in=current_settings['category_filter'])
+
+        if current_settings.get('jlpt_level'):
+            jlpt_val = current_settings['jlpt_level']
             if isinstance(jlpt_val, list):
                 qs = qs.filter(jlpt_level__in=jlpt_val)
             else:
                 qs = qs.filter(jlpt_level=jlpt_val)
 
-        if settings.get('is_kanji_mode'):
+        if current_settings.get('is_kanji_mode'):
             qs = qs.filter(kanji_name__isnull=False).exclude(kanji_name="")
             qs = qs.filter(kanji_name__regex=r'[一-龠]')
-            if settings.get('length_regex'):
-                qs = qs.filter(kanji_name__iregex=settings['length_regex'])
+            if current_settings.get('length_regex'):
+                qs = qs.filter(kanji_name__iregex=current_settings['length_regex'])
         else:
-            if settings.get('length_regex'):
-                qs = qs.filter(name__iregex=settings['length_regex'])
+            if current_settings.get('length_regex'):
+                qs = qs.filter(name__iregex=current_settings['length_regex'])
         
         ids = list(qs.values_list('id', flat=True))
         random.shuffle(ids)
-        selected_question_ids = ids[:settings['num_questions']]
+        selected_question_ids = ids[:current_settings['num_questions']]
 
     keys_to_clear = [
         'game_question_ids', 'game_current_index', 'game_score', 'game_difficulty', 
@@ -1516,6 +1519,7 @@ def game_restart(request):
     request.session['game_history'] = []
     
     return redirect('game_play')
+
 
 
 def game_result(request):
