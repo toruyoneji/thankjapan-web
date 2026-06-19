@@ -293,29 +293,90 @@
     <div class="pricing-container">
         <div class="plan-card featured" style="max-width: 500px; margin: 0 auto; border-color: #d4af37;">
             <div class="plan-badge">เวอร์ชันแอป</div>
-            <div class="plan-name">ฟีเจอร์พรีเมียม</div>
-                <p style="color: #5d5245; margin-bottom: 20px;">
-                    สัมผัสประสบการณ์เต็มรูปแบบของ ThankJapan
-                </p>
+            <div class="plan-name">สมาชิกพรีเมียม</div>
+            <div class="plan-price">฿ 175.00 <span>/ เดือน</span></div>
+            
+            <p style="color: #5d5245; margin-bottom: 20px;">
+                ปลดล็อกฟีเจอร์ระดับมืออาชีพทั้งหมดของ ThankJapan
+            </p>
+            
             <ul class="plan-features">
-                <li>✅ ฝึกฝน <strong>การสนทนา</strong></li>
-                <li>✅ <strong>ภาษาญี่ปุ่น</strong> ธุรกิจ</li>
-                <li>✅ <strong>มารยาท</strong> ญี่ปุ่น</li>
-                <li>✅ ไม่มีโฆษณา</li>
-                <li>✅ อัปเดตฟรีในอนาคต</li>
+                <li>✅ เก่ง<strong>การสนทนา</strong></li>
+                <li>✅ ภาษาญี่ปุ่น<strong>ธุรกิจ</strong></li>
+                <li>✅ <strong>มารยาท</strong>และธรรมเนียมญี่ปุ่น</li>
+                <li>✅ ประสบการณ์แบบไม่มีโฆษณา</li>
+                <li>✅ การอัปเดตทั้งหมดในอนาคต</li>
             </ul>
-            <div style="margin-top: 30px; padding: 20px; background: #fffaf5; border-radius: 10px;">
-                <p style="color: #b22d35; font-weight: bold;">
-                    ปลดล็อกฟีเจอร์ทั้งหมดแล้วในขณะนี้!
-                </p>
-                <p style="font-size: 0.85rem; color: #7a7a7a;">
-                    ในฐานะผู้ทดสอบ คุณสามารถสำรวจทุกอย่างได้ฟรี
-                </p>
-            </div>
+
+            {% if user.is_authenticated %}
+                {% if user.profile.is_premium %}
+                    <div style="margin-top: 30px; padding: 20px; background: #e6ffed; border-radius: 10px; color: #28a745; font-weight: bold;">
+                        🎉 คุณเป็นสมาชิกพรีเมียมแล้ว!
+                    </div>
+                {% else %}
+                    <button id="google-play-sub-button" class="plan-btn" style="background: #d4af37; color: white; width: 100%; border: none; padding: 15px; border-radius: 5px; font-weight: bold; cursor: pointer; margin-top: 20px;">
+                        สมัครสมาชิกผ่าน Google Play
+                    </button>
+                    <p id="billing-status" style="margin-top: 10px; font-size: 0.85rem; color: #7a7a7a;"></p>
+                {% endif %}
+            {% else %}
+                <a href="{% url 'player_register' %}?lang=th" class="plan-btn">เข้าสู่ระบบเพื่อสมัครสมาชิก</a>
+            {% endif %}
+
+            <p class="agreement-text" style="margin-top: 20px; font-size: 0.75rem;">
+                จัดการโดย Google Play Billing คุณสามารถยกเลิกได้ทุกเมื่อในการตั้งค่า Play Store
+            </p>
         </div>
     </div>
+
+    <script>
+    document.getElementById('google-play-sub-button')?.addEventListener('click', async () => {
+        const statusElement = document.getElementById('billing-status');
+        if (!window.getDigitalGoodsService) {
+            alert("สภาพแวดล้อมนี้ไม่รองรับการชำระเงินผ่าน Google Play");
+            return;
+        }
+        try {
+            statusElement.innerText = "กำลังเชื่อมต่อกับ Google Play...";
+            const service = await window.getDigitalGoodsService('https://play.google.com/billing');
+            const paymentMethods = [{
+                supportedMethods: 'https://play.google.com/billing',
+                data: { sku: 'thankjapan_premium_monthly' }
+            }];
+            const paymentDetails = {
+                total: { label: 'Total', amount: { currency: 'THB', value: '175.00' } }
+            };
+            const request = new PaymentRequest(paymentMethods, paymentDetails);
+            const paymentResponse = await request.show();
+            const {purchaseToken} = paymentResponse.details;
+
+            if (purchaseToken) {
+                statusElement.innerText = "กำลังยืนยันการซื้อของคุณ...";
+                const response = await fetch("{% url 'verify_android_subscription' %}", {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'X-CSRFToken': '{{ csrf_token }}' },
+                    body: JSON.stringify({ purchaseToken: purchaseToken })
+                });
+                const result = await response.json();
+                if (result.status === 'success') {
+                    paymentResponse.complete('success');
+                    alert("สำเร็จ! ยินดีต้อนรับสู่ระดับพรีเมียม!");
+                    window.location.reload();
+                } else {
+                    paymentResponse.complete('fail');
+                    alert("การยืนยันล้มเหลว: " + result.message);
+                }
+            }
+        } catch (e) {
+            statusElement.innerText = "";
+            alert("การชำระเงินถูกยกเลิกหรือเกิดข้อผิดพลาด");
+        }
+    });
+    </script>
+
     {% endif %}
 
+    
     <div class="bottom-nav-zone">
         {% if user.is_authenticated %}
             <a href="{% url 'account_settingsth' %}" class="btn-manage-account">

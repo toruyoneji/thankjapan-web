@@ -293,28 +293,102 @@
 
     <div class="pricing-container">
         <div class="plan-card featured" style="max-width: 500px; margin: 0 auto; border-color: #d4af37;">
-            <div class="plan-badge">App 版本</div>
-            <div class="plan-name">高級功能</div>
-                <p style="color: #5d5245; margin-bottom: 20px;">
-                    體驗 ThankJapan 的完整功能。
-                </p>
+            <div class="plan-badge">APP 版本</div>
+            <div class="plan-name">高級會員 (Premium)</div>
+            <div class="plan-price">NT$ 170.00 <span>/ 月</span></div>
+            
+            <p style="color: #5d5245; margin-bottom: 20px;">
+                解鎖 ThankJapan 的所有專業功能。
+            </p>
+            
             <ul class="plan-features">
-                <li>✅ 精通 <strong>日常會話</strong></li>
-                <li>✅ <strong>商務</strong> 日語</li>
-                <li>✅ 日本 <strong>禮儀・作法</strong></li>
+                <li>✅ 精通<strong>日常會話</strong></li>
+                <li>✅ <strong>商務</strong>日語</li>
+                <li>✅ 日本<strong>禮儀</strong></li>
                 <li>✅ 無廣告體驗</li>
-                <li>✅ 未來所有更新</li>
+                <li>✅ 所有未來更新</li>
             </ul>
-            <div style="margin-top: 30px; padding: 20px; background: #fffaf5; border-radius: 10px;">
-                <p style="color: #b22d35; font-weight: bold;">
-                    所有功能目前已解鎖！
-                </p>
-                <p style="font-size: 0.85rem; color: #7a7a7a;">
-                    作為測試者及早期用戶，您可以免費探索所有內容。
-                </p>
-            </div>
+
+            {% if user.is_authenticated %}
+                {% if user.profile.is_premium %}
+                    <div style="margin-top: 30px; padding: 20px; background: #e6ffed; border-radius: 10px; color: #28a745; font-weight: bold;">
+                        🎉 您已是高級會員！
+                    </div>
+                {% else %}
+                    <!-- Google Play 訂閱按鈕 -->
+                    <button id="google-play-sub-button" class="plan-btn" style="background: #d4af37; color: white; width: 100%; border: none; padding: 15px; border-radius: 5px; font-weight: bold; cursor: pointer; margin-top: 20px;">
+                        透過 Google Play 訂閱
+                    </button>
+                    <p id="billing-status" style="margin-top: 10px; font-size: 0.85rem; color: #7a7a7a;"></p>
+                {% endif %}
+            {% else %}
+                <a href="{% url 'player_register' %}?lang=zh-hant" class="plan-btn">登錄並訂閱</a>
+            {% endif %}
+
+            <p class="agreement-text" style="margin-top: 20px; font-size: 0.75rem;">
+                由 Google Play 結算管理。您隨時可以在 Play 商店設定中取消。
+            </p>
         </div>
     </div>
+
+    
+    <script>
+    document.getElementById('google-play-sub-button')?.addEventListener('click', async () => {
+        const statusElement = document.getElementById('billing-status');
+        
+        if (!window.getDigitalGoodsService) {
+            alert("此環境不支持 Google Play 結算。");
+            return;
+        }
+
+        try {
+            statusElement.innerText = "正在連接 Google Play...";
+            const service = await window.getDigitalGoodsService('https://play.google.com/billing');
+            
+            const paymentMethods = [{
+                supportedMethods: 'https://play.google.com/billing',
+                data: { sku: 'thankjapan_premium_monthly' }
+            }];
+
+            const paymentDetails = {
+                total: { label: 'Total', amount: { currency: 'TWD', value: '170.00' } }
+            };
+
+            const request = new PaymentRequest(paymentMethods, paymentDetails);
+            const paymentResponse = await request.show();
+            const {purchaseToken} = paymentResponse.details;
+
+            if (purchaseToken) {
+                statusElement.innerText = "正在驗證您的購買...";
+                
+                const response = await fetch("{% url 'verify_android_subscription' %}", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': '{{ csrf_token }}'
+                    },
+                    body: JSON.stringify({ purchaseToken: purchaseToken })
+                });
+
+                const result = await response.json();
+
+                if (result.status === 'success') {
+                    paymentResponse.complete('success');
+                    alert("成功！歡迎加入高級會員！");
+                    window.location.reload();
+                } else {
+                    paymentResponse.complete('fail');
+                    alert("驗證失敗：" + result.message);
+                }
+            }
+        } catch (e) {
+            console.error(e);
+            statusElement.innerText = "";
+            alert("結算已取消或發生錯誤。");
+        }
+    });
+    </script>
+
     {% endif %}
 
 

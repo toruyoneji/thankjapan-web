@@ -113,7 +113,7 @@
         {% endif %}
         </div>
 
-        {% if user.profile.is_premium or is_twa %}
+        {% if user.profile.is_premium %}
             <span class="status-badge status-premium">สมาชิกพรีเมียม 💎</span>
         {% else %}
             <span class="status-badge status-free">แผนฟรี</span>
@@ -132,23 +132,25 @@
         </div>
 
         <div class="action-group">
-            {% if is_twa %}
-                <p style="color: #d4af37; font-size: 0.9rem; margin-bottom: 10px;">
-                    ขอบคุณที่เป็นส่วนหนึ่งของชุมชนพรีเมียมของเรา!
-                </p>
+            {% if not user.profile.is_premium %}
+                <a href="{% url 'premium_infoth' %}?lang={{ lang_code }}" class="btn-manage btn-upgrade">อัปเกรดเป็นพรีเมียม 💎</a>
             {% else %}
-                {% if not user.profile.is_premium %}
-                    <a href="{% url 'premium_infoth' %}" class="btn-manage btn-upgrade">อัปเกรดเป็นพรีเมียม 💎</a>
+                {% if is_twa %}
+                    <p style="color: #d4af37; font-size: 0.9rem; margin-bottom: 10px;">
+                        ขอบคุณที่ร่วมเป็นส่วนหนึ่งของชุมชนพรีเมียมของเรา!
+                    </p>
+                    <p style="font-size: 0.8rem; color: #888;">จัดการการสมัครใช้งานของคุณใน Google Play Store</p>
                 {% else %}
-                    <form action="{% url 'downgrade_premium' %}" method="POST" onsubmit="return confirm('เปลี่ยนเป็นแผนฟรีใช่หรือไม่?')">
+                    <form action="{% url 'downgrade_premium' %}?lang=th" method="POST" onsubmit="return confirm('สลับเป็นแผนบริการฟรีหรือไม่?')">
                         {% csrf_token %}
                         <input type="hidden" name="downgrade_url_name" value="downgrade_successth">
-                        <button type="submit" class="btn-manage btn-downgrade">ยกเลิกการสมัครพรีเมียม</button>
+                        <button type="submit" class="btn-manage btn-downgrade">ยกเลิกการสมัครสมาชิกพรีเมียม</button>
                     </form>
                 {% endif %}
             {% endif %}
-            
-            <form action="{% url 'delete_account' %}" method="POST" onsubmit="return confirm('อันตราย: ลบบัญชีและข้อมูลทั้งหมดถาวรใช่หรือไม่?')">
+
+    
+            <form action="{% url 'delete_account' %}?lang={{ lang_code }}" method="POST" onsubmit="return confirm('อันตราย: ลบบัญชีและข้อมูลทั้งหมดถาวรใช่หรือไม่?')">
                 {% csrf_token %}
                 <input type="hidden" name="success_url_name" value="delete_successth">
                 <button type="submit" class="btn-manage btn-delete">ลบบัญชีของฉันถาวร</button>

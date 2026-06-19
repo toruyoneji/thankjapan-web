@@ -294,28 +294,89 @@
     <div class="pricing-container">
         <div class="plan-card featured" style="max-width: 500px; margin: 0 auto; border-color: #d4af37;">
             <div class="plan-badge">PHIÊN BẢN ỨNG DỤNG</div>
-            <div class="plan-name">Tính năng Cao cấp</div>
-                <p style="color: #5d5245; margin-bottom: 20px;">
-                    Trải nghiệm toàn bộ sức mạnh của ThankJapan.
-                </p>
+            <div class="plan-name">Gói Premium</div>
+            <div class="plan-price">132.000 ₫ <span>/ tháng</span></div>
+            
+            <p style="color: #5d5245; margin-bottom: 20px;">
+                Mở khóa toàn bộ tính năng chuyên nghiệp của ThankJapan.
+            </p>
+            
             <ul class="plan-features">
-                <li>✅ Thông thạo <strong>Hội thoại</strong></li>
-                <li>✅ <strong>Tiếng Nhật</strong> thương mại</li>
-                <li>✅ <strong>Nghi thức</strong> Nhật Bản</li>
+                <li>✅ <strong>Giao tiếp</strong> thành thạo</li>
+                <li>✅ Tiếng Nhật <strong>Công việc</strong></li>
+                <li>✅ <strong>Phép tắc</strong> Nhật Bản</li>
                 <li>✅ Trải nghiệm không quảng cáo</li>
-                <li>✅ Tất cả bản cập nhật tương lai</li>
+                <li>✅ Toàn bộ cập nhật tương lai</li>
             </ul>
-            <div style="margin-top: 30px; padding: 20px; background: #fffaf5; border-radius: 10px;">
-                <p style="color: #b22d35; font-weight: bold;">
-                    Tất cả tính năng hiện đã được MỞ KHÓA!
-                </p>
-                <p style="font-size: 0.85rem; color: #7a7a7a;">
-                    Là người dùng thử, bạn có thể khám phá mọi thứ miễn phí.
-                </p>
-            </div>
+
+            {% if user.is_authenticated %}
+                {% if user.profile.is_premium %}
+                    <div style="margin-top: 30px; padding: 20px; background: #e6ffed; border-radius: 10px; color: #28a745; font-weight: bold;">
+                        🎉 Bạn đã là Thành viên Premium!
+                    </div>
+                {% else %}
+                    <button id="google-play-sub-button" class="plan-btn" style="background: #d4af37; color: white; width: 100%; border: none; padding: 15px; border-radius: 5px; font-weight: bold; cursor: pointer; margin-top: 20px;">
+                        Đăng ký qua Google Play
+                    </button>
+                    <p id="billing-status" style="margin-top: 10px; font-size: 0.85rem; color: #7a7a7a;"></p>
+                {% endif %}
+            {% else %}
+                <a href="{% url 'player_register' %}?lang=vi" class="plan-btn">Đăng nhập để đăng ký</a>
+            {% endif %}
+
+            <p class="agreement-text" style="margin-top: 20px; font-size: 0.75rem;">
+                Quản lý bởi Google Play Billing. Bạn có thể hủy bất kỳ lúc nào trong cài đặt Cửa hàng Play.
+            </p>
         </div>
     </div>
+
+    <script>
+    document.getElementById('google-play-sub-button')?.addEventListener('click', async () => {
+        const statusElement = document.getElementById('billing-status');
+        if (!window.getDigitalGoodsService) {
+            alert("Môi trường này không hỗ trợ thanh toán Google Play.");
+            return;
+        }
+        try {
+            statusElement.innerText = "Đang kết nối với Google Play...";
+            const service = await window.getDigitalGoodsService('https://play.google.com/billing');
+            const paymentMethods = [{
+                supportedMethods: 'https://play.google.com/billing',
+                data: { sku: 'thankjapan_premium_monthly' }
+            }];
+            const paymentDetails = {
+                total: { label: 'Total', amount: { currency: 'VND', value: '132000' } }
+            };
+            const request = new PaymentRequest(paymentMethods, paymentDetails);
+            const paymentResponse = await request.show();
+            const {purchaseToken} = paymentResponse.details;
+
+            if (purchaseToken) {
+                statusElement.innerText = "Đang xác minh giao dịch...";
+                const response = await fetch("{% url 'verify_android_subscription' %}", {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'X-CSRFToken': '{{ csrf_token }}' },
+                    body: JSON.stringify({ purchaseToken: purchaseToken })
+                });
+                const result = await response.json();
+                if (result.status === 'success') {
+                    paymentResponse.complete('success');
+                    alert("Thành công! Chào mừng bạn đến với Premium!");
+                    window.location.reload();
+                } else {
+                    paymentResponse.complete('fail');
+                    alert("Xác minh thất bại: " + result.message);
+                }
+            }
+        } catch (e) {
+            statusElement.innerText = "";
+            alert("Giao dịch bị hủy hoặc xảy ra lỗi.");
+        }
+    });
+    </script>
+
     {% endif %}
+
 
     <div class="bottom-nav-zone">
         {% if user.is_authenticated %}

@@ -293,30 +293,89 @@
 
     <div class="pricing-container">
         <div class="plan-card featured" style="max-width: 500px; margin: 0 auto; border-color: #d4af37;">
-            <div class="plan-badge">アプリ版 (App)</div>
-            <div class="plan-name">프리미엄 기능</div>
-                <p style="color: #5d5245; margin-bottom: 20px;">
-                    ThankJapan의 모든 기능을 경험해보세요.
-                </p>
+            <div class="plan-badge">앱 버전</div>
+            <div class="plan-name">프리미엄</div>
+            <div class="plan-price">₩8,500 <span>/ 월</span></div>
+            
+            <p style="color: #5d5245; margin-bottom: 20px;">
+                ThankJapan의 모든 전문 기능을 이용해 보세요.
+            </p>
+            
             <ul class="plan-features">
                 <li>✅ <strong>회화</strong> 마스터</li>
                 <li>✅ <strong>비즈니스</strong> 일본어</li>
-                <li>✅ 일본 <strong>에티켓・예절</strong></li>
-                <li>✅ 광고 없는 플레이</li>
+                <li>✅ 일본 <strong>매너와 예절</strong></li>
+                <li>✅ 광고 없는 경험</li>
                 <li>✅ 향후 모든 업데이트</li>
             </ul>
-            <div style="margin-top: 30px; padding: 20px; background: #fffaf5; border-radius: 10px;">
-                <p style="color: #b22d35; font-weight: bold;">
-                    모든 기능이 현재 잠금 해제되었습니다!
-                </p>
-                <p style="font-size: 0.85rem; color: #7a7a7a;">
-                    테스터 및 초기 사용자는 모든 기능을 무료로 이용할 수 있습니다.
-                </p>
-            </div>
+
+            {% if user.is_authenticated %}
+                {% if user.profile.is_premium %}
+                    <div style="margin-top: 30px; padding: 20px; background: #e6ffed; border-radius: 10px; color: #28a745; font-weight: bold;">
+                        🎉 프리미엄 회원입니다!
+                    </div>
+                {% else %}
+                    <button id="google-play-sub-button" class="plan-btn" style="background: #d4af37; color: white; width: 100%; border: none; padding: 15px; border-radius: 5px; font-weight: bold; cursor: pointer; margin-top: 20px;">
+                        Google Play로 구독하기
+                    </button>
+                    <p id="billing-status" style="margin-top: 10px; font-size: 0.85rem; color: #7a7a7a;"></p>
+                {% endif %}
+            {% else %}
+                <a href="{% url 'player_register' %}?lang=ko" class="plan-btn">로그인 후 구독하기</a>
+            {% endif %}
+
+            <p class="agreement-text" style="margin-top: 20px; font-size: 0.75rem;">
+                Google Play 결제 서비스에서 관리됩니다. Play 스토어 설정에서 언제든지 해지할 수 있습니다.
+            </p>
         </div>
     </div>
-    {% endif %}
 
+    <script>
+    document.getElementById('google-play-sub-button')?.addEventListener('click', async () => {
+        const statusElement = document.getElementById('billing-status');
+        if (!window.getDigitalGoodsService) {
+            alert("이 환경은 Google Play 결제를 지원하지 않습니다.");
+            return;
+        }
+        try {
+            statusElement.innerText = "Google Play에 연결 중...";
+            const service = await window.getDigitalGoodsService('https://play.google.com/billing');
+            const paymentMethods = [{
+                supportedMethods: 'https://play.google.com/billing',
+                data: { sku: 'thankjapan_premium_monthly' }
+            }];
+            const paymentDetails = {
+                total: { label: 'Total', amount: { currency: 'KRW', value: '8500' } }
+            };
+            const request = new PaymentRequest(paymentMethods, paymentDetails);
+            const paymentResponse = await request.show();
+            const {purchaseToken} = paymentResponse.details;
+
+            if (purchaseToken) {
+                statusElement.innerText = "구매 확인 중...";
+                const response = await fetch("{% url 'verify_android_subscription' %}", {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'X-CSRFToken': '{{ csrf_token }}' },
+                    body: JSON.stringify({ purchaseToken: purchaseToken })
+                });
+                const result = await response.json();
+                if (result.status === 'success') {
+                    paymentResponse.complete('success');
+                    alert("성공! 프리미엄 회원이 되신 것을 환영합니다!");
+                    window.location.reload();
+                } else {
+                    paymentResponse.complete('fail');
+                    alert("확인 실패: " + result.message);
+                }
+            }
+        } catch (e) {
+            statusElement.innerText = "";
+            alert("결제가 취소되었거나 오류가 발생했습니다.");
+        }
+    });
+    </script>
+
+    {% endif %}
 
     <div class="bottom-nav-zone">
         {% if user.is_authenticated %}

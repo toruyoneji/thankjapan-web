@@ -646,30 +646,34 @@ body.modal-open { overflow: hidden !important; }
                     {% endif %}
                 </p>
                 <a href="{% url premium_url_name %}?lang={{ lang_code }}" class="unlock-btn">
-                    {% if lang_code == 'ja' %}
-                        💎 今すぐアンロック
-                    {% elif lang_code == 'zh-hant' %}
-                        💎 立即解鎖
-                    {% elif lang_code == 'zh-cn' %}
-                        💎 立即解锁
-                    {% elif lang_code == 'de' %}
-                        💎 Jetzt freischalten
-                    {% elif lang_code == 'fr' %}
-                        💎 Débloquer maintenant
-                    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}
-                        💎 Desbloquear ahora
-                    {% elif lang_code == 'it' %}
-                        💎 Sblocca ora
-                    {% elif lang_code == 'ko' %}
-                        💎 지금 잠금 해제
-                    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}
-                        💎 Desbloquear agora
-                    {% elif lang_code == 'vi' %}
-                        💎 Mở khóa ngay
-                    {% elif lang_code == 'th' %}
-                        💎 ปลดล็อกเลย
+                    {% if is_twa %}       
+                        {% if lang_code == 'ja' %} 💎 Google Playでアンロック
+                        {% elif lang_code == 'ko' %} 💎 Google Play로 잠금 해제
+                        {% elif lang_code == 'zh-cn' %} 💎 通过 Google Play 解锁
+                        {% elif lang_code == 'zh-hant' %} 💎 透過 Google Play 解鎖
+                        {% elif lang_code == 'de' %} 💎 Mit Google Play freischalten
+                        {% elif lang_code == 'fr' %} 💎 Débloquer avec Google Play
+                        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %} 💎 Desbloquear con Google Play
+                        {% elif lang_code == 'it' %} 💎 Sblocca con Google Play
+                        {% elif lang_code == 'pt' or lang_code == 'pt-br' %} 💎 Desbloquear com Google Play
+                        {% elif lang_code == 'vi' %} 💎 Mở khóa qua Google Play
+                        {% elif lang_code == 'th' %} 💎 ปลดล็อกผ่าน Google Play
+                        {% else %} 💎 Unlock via Google Play
+                        {% endif %}
                     {% else %}
-                        💎 Unlock Now
+                        {% if lang_code == 'ja' %} 💎 今すぐアンロック
+                        {% elif lang_code == 'ko' %} 💎 지금 잠금 해제
+                        {% elif lang_code == 'zh-cn' %} 💎 立即解锁
+                        {% elif lang_code == 'zh-hant' %} 💎 立即解鎖
+                        {% elif lang_code == 'de' %} 💎 Jetzt freischalten
+                        {% elif lang_code == 'fr' %} 💎 Débloquer maintenant
+                        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %} 💎 Desbloquear ahora
+                        {% elif lang_code == 'it' %} 💎 Sblocca ora
+                        {% elif lang_code == 'pt' or lang_code == 'pt-br' %} 💎 Desbloquear agora
+                        {% elif lang_code == 'vi' %} 💎 Mở khóa ngay
+                        {% elif lang_code == 'th' %} 💎 ปลดล็อกเลย
+                        {% else %} 💎 Unlock Now
+                        {% endif %}
                     {% endif %}
                 </a>
             </div>

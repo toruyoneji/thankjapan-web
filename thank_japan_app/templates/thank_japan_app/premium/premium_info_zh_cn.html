@@ -292,33 +292,54 @@
     </div>
 
     {% else %}
-
     <div class="pricing-container">
         <div class="plan-card featured" style="max-width: 500px; margin: 0 auto; border-color: #d4af37;">
-            <div class="plan-badge">App 版本</div>
-            <div class="plan-name">高级功能</div>
-                <p style="color: #5d5245; margin-bottom: 20px;">
-                    体验 ThankJapan 的完整功能。
-                </p>
+            <div class="plan-badge">应用版</div>
+            <div class="plan-name">高级会员 (Premium)</div>
+            <div class="plan-price">¥ 35.00 <span>/ 月</span></div>
+            <p style="color: #5d5245; margin-bottom: 20px;">解锁 ThankJapan 的所有专业功能。</p>
             <ul class="plan-features">
-                <li>✅ 精通 <strong>日常会话</strong></li>
-                <li>✅ <strong>商务</strong> 日语</li>
-                <li>✅ 日本 <strong>礼仪・作法</strong></li>
+                <li>✅ 精通<strong>日常会话</strong></li>
+                <li>✅ <strong>商务</strong>日语</li>
+                <li>✅ 日本<strong>礼仪</strong></li>
                 <li>✅ 无广告体验</li>
-                <li>✅ 未来所有更新</li>
+                <li>✅ 所有未来的更新</li>
             </ul>
-            <div style="margin-top: 30px; padding: 20px; background: #fffaf5; border-radius: 10px;">
-                <p style="color: #b22d35; font-weight: bold;">
-                    所有功能目前已解锁！
-                </p>
-                <p style="font-size: 0.85rem; color: #7a7a7a;">
-                    作为测试者及早期用户，您可以免费探索所有内容。
-                </p>
-            </div>
+            {% if user.is_authenticated %}
+                {% if user.profile.is_premium %}
+                    <div style="margin-top: 30px; padding: 20px; background: #e6ffed; border-radius: 10px; color: #28a745; font-weight: bold;">🎉 您是高级会员！</div>
+                {% else %}
+                    <button id="google-play-sub-button" class="plan-btn" style="background: #d4af37; color: white; width: 100%; border: none; padding: 15px; border-radius: 5px; font-weight: bold; cursor: pointer; margin-top: 20px;">通过 Google Play 订阅</button>
+                    <p id="billing-status" style="margin-top: 10px; font-size: 0.85rem; color: #7a7a7a;"></p>
+                {% endif %}
+            {% else %}
+                <a href="{% url 'player_register' %}?lang=zh-cn" class="plan-btn">登录并订阅</a>
+            {% endif %}
         </div>
     </div>
+    
+    <script>
+    document.getElementById('google-play-sub-button')?.addEventListener('click', async () => {
+        const statusElement = document.getElementById('billing-status');
+        if (!window.getDigitalGoodsService) { alert("此环境不支持 Google Play 结算。"); return; }
+        try {
+            statusElement.innerText = "正在连接 Google Play...";
+            const service = await window.getDigitalGoodsService('https://play.google.com/billing');
+            const paymentMethods = [{ supportedMethods: 'https://play.google.com/billing', data: { sku: 'thankjapan_premium_monthly' } }];
+            const paymentDetails = { total: { label: 'Total', amount: { currency: 'CNY', value: '35.00' } } };
+            const request = new PaymentRequest(paymentMethods, paymentDetails);
+            const paymentResponse = await request.show();
+            const {purchaseToken} = paymentResponse.details;
+            if (purchaseToken) {
+                statusElement.innerText = "正在验证购买...";
+                const response = await fetch("{% url 'verify_android_subscription' %}", { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-CSRFToken': '{{ csrf_token }}' }, body: JSON.stringify({ purchaseToken: purchaseToken }) });
+                const result = await response.json();
+                if (result.status === 'success') { paymentResponse.complete('success'); alert("成功！欢迎加入高级会员！"); window.location.reload(); } else { paymentResponse.complete('fail'); alert("验证失败: " + result.message); }
+            }
+        } catch (e) { alert("支付已取消或发生错误。"); }
+    });
+    </script>
     {% endif %}
-
 
     <div class="bottom-nav-zone">
         {% if user.is_authenticated %}

@@ -4,6 +4,7 @@ import dj_database_url
 import cloudinary
 import cloudinary_storage
 import paypalrestsdk
+import json
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -204,3 +205,22 @@ ACCOUNT_DEFAULT_HTTP_PROTOCOL = 'https'
 
 
 SOCIALACCOUNT_ADAPTER = 'thank_japan_app.adapter.MySocialAccountAdapter'
+
+
+
+GOOGLE_PLAY_PRODUCT_ID = os.environ.get('GOOGLE_PLAY_PRODUCT_ID')
+
+
+PACKAGE_NAME = 'com.thankjapan.www.twa' 
+
+
+google_play_key_json_str = os.environ.get('GOOGLE_PLAY_KEY_JSON')
+
+if google_play_key_json_str:
+    try:
+        GOOGLE_PLAY_KEY_DICT = json.loads(google_play_key_json_str)
+    except json.JSONDecodeError:
+        print("Error: GOOGLE_PLAY_KEY_JSON is not a valid JSON format.")
+        GOOGLE_PLAY_KEY_DICT = None
+else:
+    GOOGLE_PLAY_KEY_DICT = None

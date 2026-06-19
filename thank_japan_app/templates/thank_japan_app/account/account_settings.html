@@ -114,7 +114,7 @@
         {% endif %}
         </div>
         
-        {% if user.profile.is_premium or is_twa %}
+        {% if user.profile.is_premium %}
             <span class="status-badge status-premium">Premium Member 💎</span>
         {% else %}
             <span class="status-badge status-free">Free Plan</span>
@@ -135,16 +135,19 @@
         </div>
 
         <div class="action-group">
-            {% if is_twa %}
-                
-                <p style="color: #d4af37; font-size: 0.9rem; margin-bottom: 10px;">
-                    Thank you for being part of our Premium community!
-                </p>
+            {% if not user.profile.is_premium %}
+        
+                <a href="{% url 'premium_info' %}" class="btn-manage btn-upgrade">Upgrade to Premium 💎</a>
             {% else %}
-
-                {% if not user.profile.is_premium %}
-                    <a href="{% url 'premium_info' %}" class="btn-manage btn-upgrade">Upgrade to Premium 💎</a>
+        
+                {% if is_twa %}
+            
+                    <p style="color: #d4af37; font-size: 0.9rem; margin-bottom: 10px;">
+                        Thank you for being part of our Premium community!
+                    </p>
+                    <p style="font-size: 0.8rem; color: #888;">Manage your subscription in Google Play Store.</p>
                 {% else %}
+            
                     <form action="{% url 'downgrade_premium' %}" method="POST" onsubmit="return confirm('Switch to Free Plan?')">
                         {% csrf_token %}
                         <input type="hidden" name="downgrade_url_name" value="downgrade_success">
@@ -152,6 +155,7 @@
                     </form>
                 {% endif %}
             {% endif %}
+
 
             <form action="{% url 'delete_account' %}" method="POST" onsubmit="return confirm('DANGER: Delete account and all data permanently?')">
                 {% csrf_token %}

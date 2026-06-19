@@ -293,10 +293,13 @@
     <div class="pricing-container">
         <div class="plan-card featured" style="max-width: 500px; margin: 0 auto; border-color: #d4af37;">
             <div class="plan-badge">アプリ版</div>
-            <div class="plan-name">プレミアム機能</div>
+            <div class="plan-name">プレミアム</div>
+            <div class="plan-price">¥800 <span>/ 月</span></div>
+
             <p style="color: #5d5245; margin-bottom: 20px;">
-                ThankJapanのすべての機能をご利用いただけます。
+                ThankJapanのすべてのプロフェッショナル機能を利用できます。
             </p>
+            
             <ul class="plan-features">
                 <li>✅ <strong>日常会話</strong> マスター</li>
                 <li>✅ <strong>ビジネス</strong> 日本語</li>
@@ -304,18 +307,74 @@
                 <li>✅ 広告なしでのプレイ</li>
                 <li>✅ 今後の全アップデート</li>
             </ul>
-            <div style="margin-top: 30px; padding: 20px; background: #fffaf5; border-radius: 10px;">
-                <p style="color: #b22d35; font-weight: bold;">
-                    すべての機能が現在アンロックされています！
-                </p>
-                <p style="font-size: 0.85rem; color: #7a7a7a;">
-                    テスターおよび早期ユーザーとして、すべて無料で探索できます。
-                </p>
-            </div>
+
+            {% if user.is_authenticated %}
+                {% if user.profile.is_premium %}
+                    <div style="margin-top: 30px; padding: 20px; background: #e6ffed; border-radius: 10px; color: #28a745; font-weight: bold;">
+                        🎉 プレミアム会員です
+                    </div>
+                {% else %}
+                    <button id="google-play-sub-button" class="plan-btn" style="background: #d4af37; color: white; width: 100%; border: none; padding: 15px; border-radius: 5px; font-weight: bold; cursor: pointer; margin-top: 20px;">
+                        Google Playで定期購入
+                    </button>
+                    <p id="billing-status" style="margin-top: 10px; font-size: 0.85rem; color: #7a7a7a;"></p>
+                {% endif %}
+            {% else %}
+                <a href="{% url 'player_register' %}?lang=ja" class="plan-btn">ログインして購読する</a>
+            {% endif %}
+
+            <p class="agreement-text" style="margin-top: 20px; font-size: 0.75rem;">
+                Google Play 請求サービスで管理されます。解約はいつでもPlayストアの設定から可能です。
+            </p>
         </div>
     </div>
-    {% endif %}
 
+    <script>
+    document.getElementById('google-play-sub-button')?.addEventListener('click', async () => {
+        const statusElement = document.getElementById('billing-status');
+        if (!window.getDigitalGoodsService) {
+            alert("この環境はGoogle Play決済をサポートしていません。");
+            return;
+        }
+        try {
+            statusElement.innerText = "Google Playに接続中...";
+            const service = await window.getDigitalGoodsService('https://play.google.com/billing');
+            const paymentMethods = [{
+                supportedMethods: 'https://play.google.com/billing',
+                data: { sku: 'thankjapan_premium_monthly' }
+            }];
+            const paymentDetails = {
+                total: { label: 'Total', amount: { currency: 'JPY', value: '800' } }
+            };
+            const request = new PaymentRequest(paymentMethods, paymentDetails);
+            const paymentResponse = await request.show();
+            const {purchaseToken} = paymentResponse.details;
+
+            if (purchaseToken) {
+                statusElement.innerText = "購入を確認中...";
+                const response = await fetch("{% url 'verify_android_subscription' %}", {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'X-CSRFToken': '{{ csrf_token }}' },
+                    body: JSON.stringify({ purchaseToken: purchaseToken })
+                });
+                const result = await response.json();
+                if (result.status === 'success') {
+                    paymentResponse.complete('success');
+                    alert("ありがとうございます！プレミアムになりました！");
+                    window.location.reload();
+                } else {
+                    paymentResponse.complete('fail');
+                    alert("検証に失敗しました: " + result.message);
+                }
+            }
+        } catch (e) {
+            statusElement.innerText = "";
+            alert("決済がキャンセルされたかエラーが発生しました。");
+        }
+    });
+    </script>
+
+    {% endif %}
 
     <div class="bottom-nav-zone">
         {% if user.is_authenticated %}

@@ -294,29 +294,90 @@
     <div class="pricing-container">
         <div class="plan-card featured" style="max-width: 500px; margin: 0 auto; border-color: #d4af37;">
             <div class="plan-badge">VERSIÓN APP</div>
-            <div class="plan-name">Funciones Premium</div>
-                <p style="color: #5d5245; margin-bottom: 20px;">
-                    Vive toda la experiencia de ThankJapan.
-                </p>
+            <div class="plan-name">Premium</div>
+            <div class="plan-price">$99.00 <span>/ mes</span></div>
+            
+            <p style="color: #5d5245; margin-bottom: 20px;">
+                Desbloquea todas las funciones profesionales de ThankJapan.
+            </p>
+            
             <ul class="plan-features">
-                <li>✅ Dominio de <strong>Conversación</strong></li>
-                <li>✅ <strong>Japonés</strong> de negocios</li>
-                <li>✅ <strong>Etiqueta</strong> japonesa</li>
-                <li>✅ Sin anuncios</li>
-                <li>✅ Próximas actualizaciones incluidas</li>
+                <li>✅ Dominio de la <strong>Conversación</strong></li>
+                <li>✅ Japonés de <strong>Negocios</strong></li>
+                <li>✅ <strong>Etiqueta</strong> Japonesa</li>
+                <li>✅ Experiencia Sin Publicidad</li>
+                <li>✅ Todas las Futuras Actualizaciones</li>
             </ul>
-            <div style="margin-top: 30px; padding: 20px; background: #fffaf5; border-radius: 10px;">
-                <p style="color: #b22d35; font-weight: bold;">
-                    ¡Funciones DESBLOQUEADAS por ahora!
-                </p>
-                <p style="font-size: 0.85rem; color: #7a7a7a;">
-                    Como usuario beta, explora todo sin costo.
-                </p>
-            </div>
+
+            {% if user.is_authenticated %}
+                {% if user.profile.is_premium %}
+                    <div style="margin-top: 30px; padding: 20px; background: #e6ffed; border-radius: 10px; color: #28a745; font-weight: bold;">
+                        🎉 ¡Eres Miembro Premium!
+                    </div>
+                {% else %}
+                    <button id="google-play-sub-button" class="plan-btn" style="background: #d4af37; color: white; width: 100%; border: none; padding: 15px; border-radius: 5px; font-weight: bold; cursor: pointer; margin-top: 20px;">
+                        Suscribirse vía Google Play
+                    </button>
+                    <p id="billing-status" style="margin-top: 10px; font-size: 0.85rem; color: #7a7a7a;"></p>
+                {% endif %}
+            {% else %}
+        
+                <a href="{% url 'player_register' %}?lang=es-mx" class="plan-btn">Inicia sesión para suscribirte</a>
+            {% endif %}
+
+            <p class="agreement-text" style="margin-top: 20px; font-size: 0.75rem;">
+                Gestionado por la Facturación de Google Play. Cancela en cualquier momento en los ajustes de Play Store.
+            </p>
         </div>
     </div>
-    {% endif %}
 
+    <script>
+    document.getElementById('google-play-sub-button')?.addEventListener('click', async () => {
+        const statusElement = document.getElementById('billing-status');
+        if (!window.getDigitalGoodsService) {
+            alert("Este entorno no es compatible con la facturación de Google Play.");
+            return;
+        }
+        try {
+            statusElement.innerText = "Conectando a Google Play...";
+            const service = await window.getDigitalGoodsService('https://play.google.com/billing');
+            const paymentMethods = [{
+                supportedMethods: 'https://play.google.com/billing',
+                data: { sku: 'thankjapan_premium_monthly' }
+            }];
+            const paymentDetails = {
+                
+                total: { label: 'Total',  amount: { currency: 'MXN', value: '99.00' }  }
+            };
+            const request = new PaymentRequest(paymentMethods, paymentDetails);
+            const paymentResponse = await request.show();
+            const {purchaseToken} = paymentResponse.details;
+
+            if (purchaseToken) {
+                statusElement.innerText = "Verificando su compra...";
+                const response = await fetch("{% url 'verify_android_subscription' %}", {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'X-CSRFToken': '{{ csrf_token }}' },
+                    body: JSON.stringify({ purchaseToken: purchaseToken })
+                });
+                const result = await response.json();
+                if (result.status === 'success') {
+                    paymentResponse.complete('success');
+                    alert("¡Éxito! ¡Bienvenido a Premium!");
+                    window.location.reload();
+                } else {
+                    paymentResponse.complete('fail');
+                    alert("Error de verificación: " + result.message);
+                }
+            }
+        } catch (e) {
+            statusElement.innerText = "";
+            alert("Pago cancelado o se produjo un error.");
+        }
+    });
+    </script>
+
+    {% endif %}
 
     <div class="bottom-nav-zone">
         {% if user.is_authenticated %}

@@ -114,7 +114,7 @@
         {% endif %}
         </div>
 
-        {% if user.profile.is_premium or is_twa %}
+        {% if user.profile.is_premium %}
             <span class="status-badge status-premium">Premium 會員 💎</span>
         {% else %}
             <span class="status-badge status-free">免費方案</span>
@@ -133,23 +133,25 @@
         </div>
         
         <div class="action-group">
-            {% if is_twa %}
-                <p style="color: #d4af37; font-size: 0.9rem; margin-bottom: 10px;">
-                    感謝您成為我們高級社群的一員！
-                </p>
+            {% if not user.profile.is_premium %}
+                <a href="{% url 'premium_infozh_hant' %}?lang={{ lang_code }}" class="btn-manage btn-upgrade">升級至高級會員 💎</a>
             {% else %}
-                {% if not user.profile.is_premium %}
-                    <a href="{% url 'premium_infozhHANT' %}" class="btn-manage btn-upgrade">升級至 Premium 💎</a>
+                {% if is_twa %}
+                    <p style="color: #d4af37; font-size: 0.9rem; margin-bottom: 10px;">
+                        感謝您成為我們高級社區的一員！
+                    </p>
+                    <p style="font-size: 0.8rem; color: #888;">請在 Google Play 商店中管理您的訂閱。</p>
                 {% else %}
-                    <form action="{% url 'downgrade_premium' %}" method="POST" onsubmit="return confirm('確定要切換回免費方案嗎？')">
+                    <form action="{% url 'downgrade_premium' %}?lang=zh-hant" method="POST" onsubmit="return confirm('切換至免費方案？')">
                         {% csrf_token %}
-                        <input type="hidden" name="downgrade_url_name" value="downgrade_successzhHANT">
-                        <button type="submit" class="btn-manage btn-downgrade">取消 Premium 訂閱</button>
+                        <input type="hidden" name="downgrade_url_name" value="downgrade_successzh_hant">
+                        <button type="submit" class="btn-manage btn-downgrade">取消高級訂閱</button>
                     </form>
                 {% endif %}
             {% endif %}
-            
-            <form action="{% url 'delete_account' %}" method="POST" onsubmit="return confirm('危險：將永久刪除帳戶及所有數據。確定要繼續嗎？')">
+
+    
+            <form action="{% url 'delete_account' %}?lang={{ lang_code }}" method="POST" onsubmit="return confirm('危險：將永久刪除帳戶及所有數據。確定要繼續嗎？')">
                 {% csrf_token %}
                 <input type="hidden" name="success_url_name" value="delete_successzhHANT">
                 <button type="submit" class="btn-manage btn-delete">永久刪除我的帳戶</button>

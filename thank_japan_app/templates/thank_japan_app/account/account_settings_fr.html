@@ -113,7 +113,7 @@
         {% endif %}
         </div>
         
-        {% if user.profile.is_premium or is_twa %}
+        {% if user.profile.is_premium %}
             <span class="status-badge status-premium">Membre Premium 💎</span>
         {% else %}
             <span class="status-badge status-free">Plan Gratuit</span>
@@ -132,23 +132,25 @@
         </div>
 
         <div class="action-group">
-            {% if is_twa %}
-                <p style="color: #d4af37; font-size: 0.9rem; margin-bottom: 10px;">
-                    Merci de faire partie de notre communauté Premium !
-                </p>
+            {% if not user.profile.is_premium %}
+                <a href="{% url 'premium_infofr' %}?lang={{ lang_code }}" class="btn-manage btn-upgrade">Passer à la version Premium 💎</a>
             {% else %}
-                {% if not user.profile.is_premium %}
-                    <a href="{% url 'premium_infofr' %}" class="btn-manage btn-upgrade">Passer à Premium 💎</a>
+                {% if is_twa %}
+                    <p style="color: #d4af37; font-size: 0.9rem; margin-bottom: 10px;">
+                        Merci de faire partie de notre communauté Premium !
+                    </p>
+                    <p style="font-size: 0.8rem; color: #888;">Gérez votre abonnement dans le Google Play Store.</p>
                 {% else %}
-                    <form action="{% url 'downgrade_premium' %}" method="POST" onsubmit="return confirm('Passer au Plan Gratuit ?')">
+                    <form action="{% url 'downgrade_premium' %}?lang=fr" method="POST" onsubmit="return confirm('Passer au plan gratuit ?')">
                         {% csrf_token %}
                         <input type="hidden" name="downgrade_url_name" value="downgrade_successfr">
                         <button type="submit" class="btn-manage btn-downgrade">Annuler l'abonnement Premium</button>
                     </form>
                 {% endif %}
             {% endif %}
-            
-            <form action="{% url 'delete_account' %}" method="POST" onsubmit="return confirm('DANGER : Supprimer le compte et toutes les données définitivement ?')">
+
+    
+            <form action="{% url 'delete_account' %}?lang={{ lang_code }}" method="POST" onsubmit="return confirm('DANGER : Supprimer le compte et toutes les données définitivement ?')">
                 {% csrf_token %}
                 <input type="hidden" name="success_url_name" value="delete_successfr">
                 <button type="submit" class="btn-manage btn-delete">Supprimer mon compte définitivement</button>

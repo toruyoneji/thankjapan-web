@@ -45,7 +45,7 @@ from .views import (TopView, TopViewFR, TopViewIT, TopViewPT, TopViewZHHANT,TopV
                     downgrade_successESMX, downgrade_successFR, downgrade_successIT, downgrade_successJA, downgrade_successZHCN,
                     downgrade_successKO, downgrade_successPT, downgrade_successPTBR, downgrade_successTH,
                     downgrade_successVI, downgrade_successZHHANT, update_policy_agreement, paypal_webhook,
-                    CustomPasswordResetView) 
+                    CustomPasswordResetView, verify_android_subscription) 
 
 
 urlpatterns = [
@@ -67,6 +67,7 @@ urlpatterns = [
     path('en-in/', TopViewENIN.as_view(), name='toppageenIN'),
     
     path('account/settings-redirect/', account_settings_redirect, name='account_settings_redirect'),
+    path('verify-android-subscription/', verify_android_subscription, name='verify_android_subscription'),
     
     #premium
     path('premium/', premium_info, name='premium_info'),
