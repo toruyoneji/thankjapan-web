@@ -54,25 +54,25 @@ body {
     margin: 0 auto !important;
     padding: 130px 20px 40px !important;
     text-align: center !important;
-    /* 強制的に縦並びにする設定 */
     display: flex !important;
     flex-direction: column !important;
     align-items: center !important;
 }
 
 .image-wrapper {
-    position: relative !important;
-    display: block !important;
+    
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
     width: 100% !important;
-    max-width: 500px !important; /* 画像のサイズに合わせて調整 */
-    margin: 0 auto 30px !important;
+    max-width: 750px !important; /* 1枚目に近い大きさに調整 */
+    margin-bottom: 30px !important;
 }
 
 .jlpt-tag {
-    position: absolute !important;
-    top: 20px !important;
-    left: 20px !important;
-    z-index: 10 !important;
+    
+    display: inline-block !important;
+    margin-bottom: 20px !important; 
     background: linear-gradient(135deg, #d4af37, #f1c40f) !important;
     color: #000 !important;
     padding: 5px 15px !important;
@@ -91,9 +91,7 @@ body {
     box-shadow: 0 10px 30px rgba(0,0,0,0.5) !important;
     border: 3px solid #d4af37 !important;
     display: block !important;
-    margin: 0 !important;
 }
-
 
 .detaildt {
     font-size: 2.5rem;
