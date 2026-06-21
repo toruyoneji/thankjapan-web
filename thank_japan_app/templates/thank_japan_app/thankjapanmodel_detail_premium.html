@@ -317,25 +317,29 @@ body {
 }
 
 .twitter-share-btn-white {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #ffffff; 
-    color: #000000;            
-    font-weight: bold;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    
     text-decoration: none !important; 
-    padding: 10px 25px;        
-    border-radius: 30px;
-    font-size: 1.0rem;
-    transition: all 0.3s ease;
-    border: 2px solid #000000; 
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    border-bottom: none !important; 
+
+    background-color: #ffffff !important; 
+    color: #000000 !important;            
+    font-weight: bold !important;
+    padding: 10px 25px !important;        
+    border-radius: 30px !important;
+    font-size: 1.0rem !important;
+    transition: all 0.3s ease !important;
+    border: 2px solid #000000 !important; 
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1) !important;
 }
 
-.twitter-share-btn-white:hover {
-    background-color: #f0f0f0; 
-    transform: translateY(-2px);
-    box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+
+.share-btn-text {
+    text-decoration: none !important;
+    border-bottom: none !important;
+    display: inline-block !important;
 }
 
 .twitter-share-btn-white:hover {
@@ -345,13 +349,14 @@ body {
     box-shadow: 0 6px 12px rgba(0,0,0,0.2) !important;
 }
 
-    
 .x-icon-black {
-    fill: #000000; 
-    width: 18px;
-    height: 18px;
-    margin-right: 10px;
+    fill: #000000 !important; 
+    width: 18px !important;
+    height: 18px !important;
+    margin-right: 10px !important;
+    flex-shrink: 0 !important;
 }
+
 
 .no-image-box {
     height: 120px;
