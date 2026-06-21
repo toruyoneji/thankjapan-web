@@ -34,34 +34,45 @@ body {
 }
 
 .main2 {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 40px 20px;
-    text-align: center;
+    max-width: 800px !important;
+    margin: 0 auto !important;
+    padding: 40px 20px !important;
+    text-align: center !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+}
+
+.image-wrapper {
+    display: block !important;
+    width: 100% !important;
+    max-width: 600px !important;
+    margin-bottom: 30px !important;
+    padding-top: 60px !important;
 }
 
 .detailgazou {
-    width: 100%;
-    border-radius: 12px;
-    padding-top: 80px;
-    margin-bottom: 30px;
-    object-fit: cover;
-    max-height: 400px;
-    filter: sepia(0.2);
+    width: 100% !important;
+    height: auto !important;
+    border-radius: 12px !important;
+    object-fit: cover !important;
+    max-height: 400px !important;
+    filter: sepia(0.2) !important; 
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3) !important;
 }
 
 .detaildt {
-    font-size: 2.2rem;
-    color: #fcd5b5;
-    font-weight: 600;
-    margin-bottom: 20px;
+    font-size: 2.2rem !important;
+    color: #fcd5b5 !important;
+    font-weight: 600 !important;
+    margin-bottom: 20px !important;
 }
 
 .jpname-container {
-    margin-bottom: 15px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    margin-bottom: 15px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
 }
 
 .label-text {
@@ -371,9 +382,11 @@ footer {
 </style>
 
 <div class="main2">
-    {% if object.image and object.image.url %}
-        <img class="detailgazou" src="{{ object.image.url }}" alt="{{ object.englishname }}">
-    {% endif %}
+    <div class="image-wrapper">
+        {% if object.image and object.image.url %}
+            <img class="detailgazou" src="{{ object.image.url }}" alt="{{ object.englishname }}">
+        {% endif %}
+    </div>
 
     <h1 class="detaildt">
         {% if lang_code == 'en-in' %}{{ object.englishname_en_in }}
