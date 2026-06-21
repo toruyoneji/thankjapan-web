@@ -823,7 +823,7 @@ body {
 
 
 
-{% if related_items %}
+    {% if related_items %}
     <div class="related-section">
         <div class="related-header">
             <h3>
@@ -880,7 +880,7 @@ body {
             {% endfor %}
         </div>
     </div>
-{% endif %}
+    {% endif %}
 
     <button onclick="smartBack('{{ category_list_url }}')" class="btn-back" id="back-btn">
         ← Back
