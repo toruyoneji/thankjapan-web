@@ -317,40 +317,33 @@ body {
 }
 
 .twitter-share-btn-white {
-    display: inline-flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    
-    background-color: #ffffff !important; 
-    color: #000000 !important;            
-    font-weight: bold !important;
-    text-decoration: none !important;
-    padding: 10px 25px !important;        
-    border-radius: 30px !important;
-    font-size: 1.0rem !important;
-    transition: all 0.3s ease !important;
-    border: 2px solid #000000 !important; 
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1) !important;
-    height: auto !important;
-    line-height: normal !important;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #ffffff; 
+    color: #000000;            
+    font-weight: bold;
+    text-decoration: none;
+    padding: 10px 25px;        
+    border-radius: 30px;
+    font-size: 1.0rem;
+    transition: all 0.3s ease;
+    border: 2px solid #000000; 
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
 }
 
 .twitter-share-btn-white:hover {
-    background-color: #f0f0f0 !important; 
-    transform: translateY(-2px) !important;
-    box-shadow: 0 6px 12px rgba(0,0,0,0.2) !important;
+    background-color: #f0f0f0; 
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.2);
 }
 
-.share-text {
-    white-space: nowrap !important;
-}
     
 .x-icon-black {
-    fill: #000000 !important; 
-    width: 18px !important;
-    height: 18px !important;
-    margin-right: 10px !important;
-    flex-shrink: 0 !important;
+    fill: #000000; 
+    width: 18px;
+    height: 18px;
+    margin-right: 10px;
 }
 
 .no-image-box {
@@ -804,30 +797,30 @@ body {
 
     <div style="margin: 30px 0; text-align: center;">
         <a href="https://twitter.com/intent/tweet?text=Discovering Japanese Culture: {{ object.englishname }} 🇯🇵 Check this out!&url={{ request.build_absolute_uri }}&hashtags=ThankJapan,LearnJapanese,JapanCulture" 
-        target="_blank" 
-        class="twitter-share-btn-white">
-       
-            <svg viewBox="0 0 24 24" aria-hidden="true" class="x-icon-black">
-                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path>
-            </svg>
+           target="_blank" 
+           class="twitter-share-btn-white">
            
-            <span class="share-text">
-                {% if lang_code == 'ja' %}Xでシェア
-                {% elif lang_code == 'zh-hant' %}在 X 分享
-                {% elif lang_code == 'zh-cn' %}在 X 分享
-                {% elif lang_code == 'de' %}Auf X teilen
-                {% elif lang_code == 'fr' %}Partager sur X
-                {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Compartir en X
-                {% elif lang_code == 'it' %}Condividi su X
-                {% elif lang_code == 'ko' %}X에 공유
-                {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Compartilhar no X
-                {% elif lang_code == 'vi' %}Chia sẻ trên X
-                {% elif lang_code == 'th' %}แชร์บน X
-                {% else %}Share on X
-                {% endif %}
-            </span>
+           <svg viewBox="0 0 24 24" aria-hidden="true" class="x-icon-black">
+               <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path>
+           </svg>
+           
+            {% if lang_code == 'ja' %}Xでシェア
+            {% elif lang_code == 'zh-hant' %}在 X 分享
+            {% elif lang_code == 'zh-cn' %}在 X 分享
+            {% elif lang_code == 'de' %}Auf X teilen
+            {% elif lang_code == 'fr' %}Partager sur X
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Compartir en X
+            {% elif lang_code == 'it' %}Condividi su X
+            {% elif lang_code == 'ko' %}X에 공유
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Compartilhar no X
+            {% elif lang_code == 'vi' %}Chia sẻ trên X
+            {% elif lang_code == 'th' %}แชร์บน X
+            {% else %}Share on X
+            {% endif %}
+
         </a>
     </div>
+
 
 
 {% if related_items %}
