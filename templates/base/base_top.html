@@ -275,61 +275,61 @@
         }
 
         
-        /* --- 言語モーダルの基本状態 --- */
-    .modal-overlay {
-        display: none; /* 通常は隠す */
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.8);
-        z-index: 9998; /* 他の要素より上に */
-    }
+        
+        .modal-overlay {
+            display: none; 
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 9998; 
+        }
 
-    .lang-modal {
-        position: fixed;
-        bottom: -100%; /* 通常は画面の下に隠しておく */
-        left: 0;
-        width: 100%;
-        max-height: 70vh;
-        background: #1a1a1a;
-        border-top: 3px solid #d4af37;
-        border-radius: 20px 20px 0 0;
-        padding: 20px;
-        z-index: 9999; /* オーバーレイよりさらに上に */
-        transition: bottom 0.4s ease; /* スッと上がるアニメーション */
-        overflow-y: auto;
-    }
+        .lang-modal {
+            position: fixed;
+            bottom: -100%; 
+            left: 0;
+            width: 100%;
+            max-height: 70vh;
+            background: #1a1a1a;
+            border-top: 3px solid #d4af37;
+            border-radius: 20px 20px 0 0;
+            padding: 20px;
+            z-index: 9999; 
+            transition: bottom 0.4s ease; 
+            overflow-y: auto;
+        }
 
-/* --- JSで .show クラスがついた時の表示設定 --- */
-/* !important をつけて他の設定に負けないようにします */
-    .modal-overlay.show {
-        display: block !important;
-    }
 
-    .lang-modal.show {
-        bottom: 0 !important; /* 画面の一番下まで引き上げる */
-    }
+        .modal-overlay.show {
+            display: block !important;
+        }
 
-/* 言語アイテムの見た目（念のため再掲） */
-    .lang-list {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 10px;
-    }
+        .lang-modal.show {
+            bottom: 0 !important; 
+        }
 
-    .lang-item {
-        color: #fff;
-        text-decoration: none;
-        padding: 15px;
-        background: #222;
-        border-radius: 10px;
-        text-align: center;
-        font-size: 0.9rem;
-        border: 1px solid #333;
-    }
 
+        .lang-list {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .lang-item {
+            color: #fff;
+            text-decoration: none;
+            padding: 15px;
+            background: #222;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 0.9rem;
+            border: 1px solid #333;
+        }
+
+        
 
     </style>
 
@@ -455,6 +455,76 @@
         </nav>
     </div>
 
+
+    
+    
+
+    
+    {% if user.is_authenticated and user.profile.privacy_policy_version != "2026-03" %}
+    <div id="policyUpdateBanner">
+        <p style="margin-bottom: 10px; font-size: 0.9rem;">
+            <strong>
+                {% if lang_code == 'ja' %}プライバシーポリシーの更新
+                {% elif lang_code == 'ko' %}개인정보 처리방침 업데이트
+                {% elif lang_code == 'zh-cn' %}隐私政策已更新
+                {% elif lang_code == 'zh-hant' %}隱私政策已更新
+                {% elif lang_code == 'th' %}อัปเดตนโยบายความเป็นส่วนตัว
+                {% elif lang_code == 'vi' %}Cập nhật Chính sách bảo mật
+                {% elif lang_code == 'fr' %}Mise à jour de la politique de confidentialité
+                {% elif lang_code == 'de' %}Datenschutzerklärung aktualisiert
+                {% elif lang_code == 'it' %}Informativa sulla privacy aggiornata
+                {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Política de privacidad actualizada
+                {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Política de Privacidade Atualizada
+                {% else %}Privacy Policy Updated{% endif %}
+            </strong><br>
+            {% if lang_code == 'ja' %}新しい規約に同意することを確認してください。
+            {% elif lang_code == 'ko' %}새로운 약관에 동의함을 확인해 주세요.
+            {% elif lang_code == 'zh-cn' %}请确认您同意新条款。
+            {% elif lang_code == 'zh-hant' %}請確認您同意新條款。
+            {% elif lang_code == 'th' %}โปรดยืนยันว่าคุณยอมรับข้อกำหนดใหม่
+            {% elif lang_code == 'vi' %}Vui lòng xác nhận rằng bạn đồng ý với các điều khoản mới.
+            {% elif lang_code == 'fr' %}Veuillez confirmer que vous acceptez les nouvelles conditions.
+            {% elif lang_code == 'de' %}Bitte bestätigen Sie, dass Sie den neuen Bedingungen zustimmen.
+            {% elif lang_code == 'it' %}Conferma di accettare i nuovi termini.
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Por favor, confirma que aceptas los nuevos términos.
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Por favor, confirme que você concorda com os novos termos.
+            {% else %}Please confirm that you agree to the new terms.{% endif %}
+        </p>
+
+        <div style="display: flex; justify-content: center; gap: 15px;">
+            <button onclick="agreeToPolicy()" style="padding: 10px 25px; background: white; color: #b22d35; border: none; border-radius: 25px; font-weight: bold; cursor: pointer;">
+                {% if lang_code == 'ja' %}同意する
+                {% elif lang_code == 'ko' %}동의합니다
+                {% elif lang_code == 'zh-cn' %}我同意
+                {% elif lang_code == 'zh-hant' %}我同意
+                {% elif lang_code == 'th' %}ฉันยอมรับ
+                {% elif lang_code == 'vi' %}Tôi đồng ý
+                {% elif lang_code == 'fr' %}J'accepte
+                {% elif lang_code == 'de' %}Ich stimme zu
+                {% elif lang_code == 'it' %}Accetto
+                {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Acepto
+                {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Aceito
+                {% else %}I Agree{% endif %}
+            </button>
+
+            <a href="{% url 'privacy_policy' %}?lang={{ lang_code }}" target="_blank" style="color: white; text-decoration: underline; font-size: 0.8rem; align-self: center;">
+                {% if lang_code == 'ja' %}詳細を読む
+                {% elif lang_code == 'ko' %}정책 읽기
+                {% elif lang_code == 'zh-cn' %}阅读政策
+                {% elif lang_code == 'zh-hant' %}閱讀政策
+                {% elif lang_code == 'th' %}อ่านนโยบาย
+                {% elif lang_code == 'vi' %}Đọc chính sách
+                {% elif lang_code == 'fr' %}Lire la politique
+                {% elif lang_code == 'de' %}Richtlinie lesen
+                {% elif lang_code == 'it' %}Leggi l'informativa
+                {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Leer política
+                {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Ler política
+                {% else %}Read Policy{% endif %}
+            </a>
+        </div>
+    </div>
+    {% endif %}
+
     
     <div id="cookieConsentBanner" class="cookie-consent-banner">
         <p style="font-size: 0.75rem; text-align: center; margin-bottom: 10px;">
@@ -472,72 +542,115 @@
             {% else %}Accept cookies to improve your experience?{% endif %}
         </p>
 
-        <button id="acceptCookiesBtn" class="cookie-consent-btn">
-            {% if lang_code == 'ja' %}同意する
-            {% elif lang_code == 'ko' %}동의함
-            {% elif lang_code == 'zh-cn' %}同意
-            {% elif lang_code == 'zh-hant' %}同意
-            {% elif lang_code == 'th' %}ยอมรับ
-            {% elif lang_code == 'vi' %}Đồng ý
-            {% elif lang_code == 'fr' %}Accepter
-            {% elif lang_code == 'de' %}Akzeptieren
-            {% elif lang_code == 'it' %}Accetta
-            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Aceptar
-            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Aceitar
-            {% else %}OK{% endif %}
-        </button>
-    </div>
+        <div style="display: flex; gap: 10px;">
+            <button id="acceptCookiesBtn" class="cookie-consent-btn" style="background:#d4af37; border:none; padding:8px 20px; border-radius:20px; font-weight:bold;">
+                {% if lang_code == 'ja' %}同意する
+                {% elif lang_code == 'ko' %}동의함
+                {% elif lang_code == 'zh-cn' %}同意
+                {% elif lang_code == 'zh-hant' %}同意
+                {% elif lang_code == 'th' %}ยอมรับ
+                {% elif lang_code == 'vi' %}Đồng ý
+                {% elif lang_code == 'fr' %}Accepter
+                {% elif lang_code == 'de' %}Akzeptieren
+                {% elif lang_code == 'it' %}Accetta
+                {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Aceptar
+                {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Aceitar
+                {% else %}OK{% endif %}
+            </button>
 
+            <button id="manageCookiesBtn" style="background:none; border:1px solid #555; color:#aaa; padding:8px 20px; border-radius:20px;">
+                {% if lang_code == 'ja' %}設定を管理
+                {% elif lang_code == 'ko' %}설정 관리
+                {% elif lang_code == 'zh-cn' %}管理设置
+                {% elif lang_code == 'zh-hant' %}管理設置
+                {% elif lang_code == 'th' %}จัดการการตั้งค่า
+                {% elif lang_code == 'vi' %}Quản lý cài đặt
+                {% elif lang_code == 'fr' %}Gérer les paramètres
+                {% elif lang_code == 'de' %}Einstellungen verwalten
+                {% elif lang_code == 'it' %}Gestisci impostazioni
+                {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Gestionar ajustes
+                {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Gerenciar configurações
+                {% else %}Manage Settings{% endif %}
+            </button>
+        </div>
+    </div>
     
+
     <div id="modalOverlay" class="modal-overlay" onclick="toggleLangModal()"></div>
     <div id="langModal" class="lang-modal">
         <h3 style="color:#d4af37; text-align:center; margin-bottom:20px;">Select Language</h3>
         <div class="lang-list">
             <a href="{% url 'toppageja' %}?lang=ja" class="lang-item">日本語</a>
             <a href="{% url 'toppage' %}?lang=en" class="lang-item">English</a>
+            <a href="{% url 'toppageenIN' %}?lang=en-in" class="lang-item">English (India)</a>
             <a href="{% url 'toppageko' %}?lang=ko" class="lang-item">한국어</a>
             <a href="{% url 'toppagezhCN' %}?lang=zh-cn" class="lang-item">简体中文</a>
             <a href="{% url 'toppagezhHANT' %}?lang=zh-hant" class="lang-item">繁體中文</a>
             <a href="{% url 'toppagefr' %}?lang=fr" class="lang-item">Français</a>
             <a href="{% url 'toppagede' %}?lang=de" class="lang-item">Deutsch</a>
             <a href="{% url 'toppageit' %}?lang=it" class="lang-item">Italiano</a>
-            <a href="{% url 'toppageesES' %}?lang=es-es" class="lang-item">Español</a>
+            <a href="{% url 'toppageesES' %}?lang=es-es" class="lang-item">Español (ES)</a>
+            <a href="{% url 'toppageesMX' %}?lang=es-mx" class="lang-item">Español (MX)</a>
+            <a href="{% url 'toppagept' %}?lang=pt" class="lang-item">Português (PT)</a>
+            <a href="{% url 'toppageptBR' %}?lang=pt-br" class="lang-item">Português (BR)</a>
             <a href="{% url 'toppagevi' %}?lang=vi" class="lang-item">Tiếng Việt</a>
             <a href="{% url 'toppageth' %}?lang=th" class="lang-item">ภาษาไทย</a>
-            <a href="{% url 'toppageptBR' %}?lang=pt-br" class="lang-item">Português(BR)</a>
+
         </div>
         <button onclick="toggleLangModal()" style="width:100%; margin-top:20px; padding:15px; background:#333; color:#fff; border:none; border-radius:10px;">Close</button>
     </div>
-
+    
 
     <script>
+   
+    function getCookie(name) {
+        let nameEQ = name + "=";
+        let ca = document.cookie.split(';');
+        for(let i=0;i < ca.length;i++) {
+            let c = ca[i];
+            while (c.charAt(0)==' ') c = c.substring(1,c.length);
+            if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+        }
+        return null;
+    }
+
     function toggleLangModal(e) {
         if(e) e.preventDefault();    
         document.getElementById('langModal').classList.toggle('show');
         document.getElementById('modalOverlay').classList.toggle('show');
     }
 
+    function agreeToPolicy() {
+        localStorage.setItem('policy_agreed_2026_03', 'true');
+        fetch("{% url 'update_policy_agreement' %}?lang={{ lang_code }}", {
+            method: 'POST',
+            headers: {'X-CSRFToken': '{{ csrf_token }}', 'Content-Type': 'application/json'},
+            body: JSON.stringify({ version: "2026-03" })
+        }).then(res => { if(res.ok) document.getElementById('policyUpdateBanner').style.display='none'; });
+    }
+
     document.addEventListener('DOMContentLoaded', function() {
-    
+        
         const btn = document.getElementById('lang-select-btn');
-        if (btn) {
-            btn.onclick = toggleLangModal;
+        if (btn) btn.onclick = toggleLangModal;
+        
+        const cookieBanner = document.getElementById('cookieConsentBanner');
+        if (cookieBanner && !getCookie('cookie_consent')) {
+            setTimeout(() => { cookieBanner.classList.add('show'); }, 1000);
+        }
+        document.getElementById('acceptCookiesBtn')?.addEventListener('click', () => {
+            document.cookie = "cookie_consent=accepted; max-age=31536000; path=/";
+            cookieBanner.classList.remove('show');
+        });
+
+        
+        if (localStorage.getItem('policy_agreed_2026_03') === 'true') {
+            const banner = document.getElementById('policyUpdateBanner');
+            if (banner) banner.style.display = 'none';
         }
     });
     </script>
 
-    <script>
-        
-        document.addEventListener('DOMContentLoaded', function() {
-            const cookieBanner = document.getElementById('cookieConsentBanner');
-            if (cookieBanner && !document.cookie.includes('cookie_consent')) {
-                setTimeout(() => { cookieBanner.classList.add('show'); }, 1000);
-            }
-            document.getElementById('acceptCookiesBtn')?.addEventListener('click', () => {
-                document.cookie = "cookie_consent=accepted; max-age=31536000; path=/";
-                cookieBanner.classList.remove('show');
-            });
-        });
-    </script>
+    
 </body>
 </html>
