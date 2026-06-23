@@ -371,8 +371,8 @@
 
         
         <nav class="bottom-nav">
-            <a href="{% url 'category_list' %}?lang={{ lang_code }}" class="nav-item">
-                <i class="fas fa-list"></i>
+            <a href="javascript:void(0)" class="nav-item" id="learn-modal-btn">
+                <i class="fas fa-search-location"></i>
                 <span>
                     {% if lang_code == 'ja' %}学ぶ
                     {% elif lang_code == 'ko' %}배우기
@@ -587,6 +587,106 @@
     </div>
 
 
+    <!-- 「学ぶ・発見」モーダル -->
+    <div id="learnModal" class="lang-modal">
+        <h3 style="color:#d4af37; text-align:center; margin-bottom:20px;">
+            {% if lang_code == 'ja' %}冒険を選ぼう{% else %}Choose Your Path{% endif %}
+        </h3>
+    
+        <div style="display: flex; flex-direction: column; gap: 15px;">
+        
+        
+            <div style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 15px; border: 1px solid rgba(212,175,55,0.3);">
+                <p style="color:#fff; font-size:0.8rem; margin-bottom:10px; opacity:0.8;">
+                    {% if lang_code == 'ja' %}日本を旅する
+                    {% elif lang_code == 'ko' %}일본을 발견하다
+                    {% elif lang_code == 'zh-cn' %}探索日本
+                    {% elif lang_code == 'zh-hant' %}探索日本
+                    {% elif lang_code == 'th' %}ค้นพบญี่ปุ่น
+                    {% elif lang_code == 'vi' %}Khám phá Nhật Bản
+                    {% elif lang_code == 'fr' %}Découvrir le Japon
+                    {% elif lang_code == 'de' %}Japan entdecken
+                    {% elif lang_code == 'it' %}Scopri il Giappone
+                    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Descubrir Japón
+                    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Descobrir o Japão
+                    {% else %}Discover Japan{% endif %}
+                </p>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                    <a href="{% url 'japanfood' %}?lang={{ lang_code }}" class="lang-item" style="background: linear-gradient(45deg, #a63737, #d4af37); border:none;">
+                        🍱 
+                        {% if lang_code == 'ja' %}食文化
+                        {% elif lang_code == 'ko' %}식문화
+                        {% elif lang_code == 'zh-cn' %}饮食文化
+                        {% elif lang_code == 'zh-hant' %}飲食文化
+                        {% elif lang_code == 'th' %}วัฒนธรรมอาหาร
+                        {% elif lang_code == 'vi' %}Văn hóa ẩm thực
+                        {% elif lang_code == 'fr' %}Culture culinaire
+                        {% elif lang_code == 'de' %}Esskultur
+                        {% elif lang_code == 'it' %}Cultura culinaria
+                        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Cultura culinaria
+                        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Cultura gastronômica
+                        {% else %}Food Culture{% endif %}
+                    </a>
+
+                    <a href="{% url 'prefecture_list' %}?lang={{ lang_code }}" class="lang-item" style="background: linear-gradient(45deg, #556b2f, #8f9779); border:none;">
+                        🗾 
+                        {% if lang_code == 'ja' %}名所・県
+                        {% elif lang_code == 'ko' %}명소・현
+                        {% elif lang_code == 'zh-cn' %}名胜与都道府县
+                        {% elif lang_code == 'zh-hant' %}名勝與都道府縣
+                        {% elif lang_code == 'th' %}สถานที่และจังหวัด
+                        {% elif lang_code == 'vi' %}Danh lam & Tỉnh thành
+                        {% elif lang_code == 'fr' %}Lieux et Préfectures
+                        {% elif lang_code == 'de' %}Orte & Präfekturen
+                        {% elif lang_code == 'it' %}Luoghi e Prefetture
+                        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Lugares y Prefecturas
+                        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Lugares e Províncias
+                        {% else %}Famous Places{% endif %}
+                    </a>
+                </div>
+            </div>
+
+        
+            <div style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 15px; border: 1px solid rgba(255,255,255,0.2);">
+                <p style="color:#fff; font-size:0.8rem; margin-bottom:10px; opacity:0.8;">
+                    {% if lang_code == 'ja' %}日本語を学ぼう
+                    {% elif lang_code == 'ko' %}일본어를 배워보세요
+                    {% elif lang_code == 'zh-cn' %}学习日语吧
+                    {% elif lang_code == 'zh-hant' %}學習日語吧
+                    {% elif lang_code == 'th' %}มาเรียนภาษาญี่ปุ่นกันเถอะ
+                    {% elif lang_code == 'vi' %}Cùng học tiếng Nhật nào
+                    {% elif lang_code == 'fr' %}Apprenons le japonais
+                    {% elif lang_code == 'de' %}Japanisch lernen
+                    {% elif lang_code == 'it' %}Impariamo il giapponese
+                    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Aprendamos japonés
+                    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Vamos aprender japonês
+                    {% else %}Let's Learn Japanese{% endif %}
+                </p>
+                <a href="{% url 'category_list' %}?lang={{ lang_code }}" class="lang-item" style="width:100%; background: #222; border: 1px solid #d4af37;">
+                    📖 
+                    {% if lang_code == 'ja' %}語彙カテゴリー一覧
+                    {% elif lang_code == 'ko' %}어휘 카테고리 목록
+                    {% elif lang_code == 'zh-cn' %}词汇分类列表
+                    {% elif lang_code == 'zh-hant' %}詞彙分類列表
+                    {% elif lang_code == 'th' %}รายการหมวดหมู่คำศัพท์
+                    {% elif lang_code == 'vi' %}Danh sách chuyên mục từ vựng
+                    {% elif lang_code == 'fr' %}Liste des catégories de vocabulaire
+                    {% elif lang_code == 'de' %}Wortschatz-Kategorien
+                    {% elif lang_code == 'it' %}Elenco categorie di vocaboli
+                    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Lista de categorías de vocabulario
+                    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Lista de categorias de vocabulário
+                    {% else %}Vocabulary Categories{% endif %}
+                </a>
+            </div>
+
+        </div>
+    
+        <button onclick="toggleLearnModal()" style="width:100%; margin-top:20px; padding:12px; background:none; border:1px solid #444; color:#777; border-radius:10px;">Close</button>
+    </div>
+
+
+
+
     <div id="modalOverlay" class="modal-overlay" onclick="toggleLangModal()"></div>
     <div id="langModal" class="lang-modal">
         <h3 style="color:#d4af37; text-align:center; margin-bottom:20px;">Select Language</h3>
@@ -746,6 +846,18 @@
     </div>
 
     <script>
+
+    
+    function toggleLearnModal(e) {
+        if(e) e.preventDefault();
+        document.getElementById('learnModal').classList.toggle('show');
+        document.getElementById('modalOverlay').classList.toggle('show');
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const learnBtn = document.getElementById('learn-modal-btn');
+        if (learnBtn) learnBtn.onclick = toggleLearnModal;
+    });
 
     function toggleMenuModal(e) {
         if(e) e.preventDefault();
