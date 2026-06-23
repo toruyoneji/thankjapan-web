@@ -783,11 +783,11 @@ localStorage.setItem('tj_category_menu_url', window.location.href);
 function goToTopPage() {
     const topUrl = localStorage.getItem('tj_top_url');
     if (topUrl) {
-        
+
         window.location.href = topUrl;
     } else {
-    
-        window.location.href = "{% url 'toppage' %}";
+        
+        window.location.href = "{% url 'toppage' %}?lang={{ lang_code }}";
     }
 }
 
