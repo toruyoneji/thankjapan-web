@@ -290,8 +290,8 @@
             border-radius: 20px 20px 0 0;
         }
 
-        .lang-modal.show {
-            bottom: 0; 
+        .lang-modal.show { 
+            bottom: 0 !important; 
         }
 
 
@@ -303,7 +303,9 @@
             z-index: 9998;
         }
 
-        .modal-overlay.show { display: block; }
+        .modal-overlay.show { 
+            display: block !important; 
+        }
 
         .lang-list {
             display: grid;
@@ -392,7 +394,7 @@
                     {% else %}Game{% endif %}
                 </span>
             </a>
-            <a href="#" class="nav-item" id="lang-modal-btn">
+            <a href="#" class="nav-item" id="lang-select-btn">
                 <i class="fas fa-globe"></i>
                 <span>
                     {% if lang_code == 'ja' %}言語
@@ -412,7 +414,7 @@
 
             
             <a href="{% if user.is_authenticated %}{% url 'account_settings' %}{% else %}{% url 'player_register' %}{% endif %}?lang={{ lang_code }}" class="nav-item">
-                <i class="fas fa-user-circle"></i> <!-- アイコンも少しユーザー感を出したものに変更 -->
+                <i class="fas fa-user-circle"></i> 
                 <span>
                     {% if user.is_authenticated %}
                         {% if lang_code == 'ja' %}メニュー
