@@ -681,7 +681,7 @@
 
         
             <div class="lang-list">
-                <a href="{% url 'infomationpage' %}" class="lang-item" style="font-size:0.8rem;">
+                <a href="{% if lang_code == 'ja' %}{% url 'infomationpageja' %}{% elif lang_code == 'ko' %}{% url 'infomationpageko' %}{% elif lang_code == 'zh-cn' %}{% url 'infomationpagezhCN' %}{% elif lang_code == 'zh-hant' %}{% url 'infomationpagezhHANT' %}{% elif lang_code == 'vi' %}{% url 'infomationpagevi' %}{% elif lang_code == 'th' %}{% url 'infomationpageth' %}{% elif lang_code == 'fr' %}{% url 'infomationpagefr' %}{% elif lang_code == 'it' %}{% url 'infomationpageit' %}{% elif lang_code == 'de' %}{% url 'infomationpagede' %}{% elif lang_code == 'es-mx' %}{% url 'infomationpageesMX' %}{% elif lang_code == 'es-es' %}{% url 'infomationpageesES' %}{% elif lang_code == 'pt' %}{% url 'infomationpagept' %}{% elif lang_code == 'pt-br' %}{% url 'infomationpageptBR' %}{% elif lang_code == 'en-in' %}{% url 'infomationpageenIN' %}{% else %}{% url 'infomationpage' %}{% endif %}" class="lang-item" style="font-size:0.8rem;">
                     {% if lang_code == 'ja' %}運営会社
                     {% elif lang_code == 'ko' %}회사 소개
                     {% elif lang_code == 'zh-cn' %}关于我们
@@ -695,7 +695,8 @@
                     {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Sobre nós
                     {% else %}About Us{% endif %}
                 </a>
-                <a href="{% url 'privacy_policy' %}" class="lang-item" style="font-size:0.8rem;">
+
+                <a href="{% if lang_code == 'ja' %}{% url 'privacy_policyja' %}{% elif lang_code == 'ko' %}{% url 'privacy_policyko' %}{% elif lang_code == 'zh-cn' %}{% url 'privacy_policyzhCN' %}{% elif lang_code == 'zh-hant' %}{% url 'privacy_policyzhHANT' %}{% elif lang_code == 'vi' %}{% url 'privacy_policyvi' %}{% elif lang_code == 'th' %}{% url 'privacy_policyth' %}{% elif lang_code == 'fr' %}{% url 'privacy_policyfr' %}{% elif lang_code == 'it' %}{% url 'privacy_policyit' %}{% elif lang_code == 'de' %}{% url 'privacy_policyde' %}{% elif lang_code == 'es-mx' %}{% url 'privacy_policyesMX' %}{% elif lang_code == 'es-es' %}{% url 'privacy_policyesES' %}{% elif lang_code == 'pt' %}{% url 'privacy_policypt' %}{% elif lang_code == 'pt-br' %}{% url 'privacy_policyptBR' %}{% elif lang_code == 'en-in' %}{% url 'privacy_policyenIN' %}{% else %}{% url 'privacy_policy' %}{% endif %}" class="lang-item" style="font-size:0.8rem;">
                     {% if lang_code == 'ja' %}プライバシーポリシー
                     {% elif lang_code == 'ko' %}개인정보 처리방침
                     {% elif lang_code == 'zh-cn' %}隐私政策
@@ -709,7 +710,8 @@
                     {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Política de privacidade
                     {% else %}Privacy Policy{% endif %}
                 </a>
-                <a href="{% url 'riyoukiyaku' %}?lang={{ lang_code }}" class="lang-item" style="font-size:0.8rem;">
+
+                <a href="{% if lang_code == 'ja' %}{% url 'riyoukiyakuja' %}{% elif lang_code == 'ko' %}{% url 'riyoukiyakuko' %}{% elif lang_code == 'zh-cn' %}{% url 'riyoukiyakuzhCN' %}{% elif lang_code == 'zh-hant' %}{% url 'riyoukiyakuzhHANT' %}{% elif lang_code == 'vi' %}{% url 'riyoukiyakuvi' %}{% elif lang_code == 'th' %}{% url 'riyoukiyakuth' %}{% elif lang_code == 'fr' %}{% url 'riyoukiyakufr' %}{% elif lang_code == 'it' %}{% url 'riyoukiyakuit' %}{% elif lang_code == 'de' %}{% url 'riyoukiyakude' %}{% elif lang_code == 'es-mx' %}{% url 'riyoukiyakuesMX' %}{% elif lang_code == 'es-es' %}{% url 'riyoukiyakuesES' %}{% elif lang_code == 'pt' %}{% url 'riyoukiyakupt' %}{% elif lang_code == 'pt-br' %}{% url 'riyoukiyakuptBR' %}{% elif lang_code == 'en-in' %}{% url 'riyoukiyakuenIN' %}{% else %}{% url 'riyoukiyaku' %}{% endif %}" class="lang-item" style="font-size:0.8rem;">
                     {% if lang_code == 'ja' %}利用規約
                     {% elif lang_code == 'ko' %}이용약관
                     {% elif lang_code == 'zh-cn' %}使用条款
@@ -723,7 +725,7 @@
                     {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Termos de uso
                     {% else %}Terms of Use{% endif %}
                 </a>
-                <a href="{% url 'contact' %}" class="lang-item" style="font-size:0.8rem;">
+                <a href="{% url 'contact' %}?lang={{ lang_code }}" class="lang-item" style="font-size:0.8rem;">
                     {% if lang_code == 'ja' %}お問い合わせ
                     {% elif lang_code == 'ko' %}문의하기
                     {% elif lang_code == 'zh-cn' %}联系我们
