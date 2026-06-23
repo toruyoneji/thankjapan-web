@@ -528,18 +528,37 @@
     
     <div id="cookieConsentBanner" class="cookie-consent-banner">
         <p style="font-size: 0.75rem; text-align: center; margin-bottom: 10px;">
-            {% if lang_code == 'ja' %}クッキーの使用に同意しますか？
-            {% elif lang_code == 'ko' %}쿠키 사용에 동의하십니까?
-            {% elif lang_code == 'zh-cn' %}您同意使用 Cookie 吗？
-            {% elif lang_code == 'zh-hant' %}您同意使用 Cookie 嗎？
-            {% elif lang_code == 'th' %}คุณยอมรับการใช้คุกกี้หรือไม่?
-            {% elif lang_code == 'vi' %}Bạn có đồng ý sử dụng cookie không?
-            {% elif lang_code == 'fr' %}Acceptez-vous l'utilisation des cookies ?
-            {% elif lang_code == 'de' %}Stimmen Sie der Verwendung von Cookies zu?
-            {% elif lang_code == 'it' %}Accetti l'uso dei cookie?
-            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}¿Aceptas el uso de cookies?
-            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Você aceita o uso de cookies?
-            {% else %}Accept cookies to improve your experience?{% endif %}
+            {% if lang_code == 'ja' %}
+            体験向上のためクッキーを使用します。詳細は<a href="{% url 'privacy_policyja' %}" style="color: #d4af37; text-decoration: underline;">プライバシーポリシー</a>をご覧ください。
+        {% elif lang_code == 'ko' %}
+            쿠키를 사용합니다. 자세한 내용은 <a href="{% url 'privacy_policyko' %}" style="color: #d4af37; text-decoration: underline;">개인정보 처리방침</a>을 확인하세요.
+        {% elif lang_code == 'zh-cn' %}
+            本网站使用 Cookie。详情请参阅<a href="{% url 'privacy_policyzhCN' %}" style="color: #d4af37; text-decoration: underline;">隐私政策</a>。
+        {% elif lang_code == 'zh-hant' %}
+            本網站使用 Cookie。詳情請參閱<a href="{% url 'privacy_policyzhHANT' %}" style="color: #d4af37; text-decoration: underline;">隱私政策</a>。
+        {% elif lang_code == 'th' %}
+            เว็บไซต์นี้ใช้คุกกี้ รายละเอียดใน<a href="{% url 'privacy_policyth' %}" style="color: #d4af37; text-decoration: underline;">นโยบายความเป็นส่วนตัว</a>
+        {% elif lang_code == 'vi' %}
+            Trang web sử dụng cookie. Chi tiết trong <a href="{% url 'privacy_policyvi' %}" style="color: #d4af37; text-decoration: underline;">Chính sách bảo mật</a>.
+        {% elif lang_code == 'fr' %}
+            Ce site utilise des cookies. Détails dans notre <a href="{% url 'privacy_policyfr' %}" style="color: #d4af37; text-decoration: underline;">Politique de confidentialité</a>.
+        {% elif lang_code == 'de' %}
+            Wir verwenden Cookies. Details in unserer <a href="{% url 'privacy_policyde' %}" style="color: #d4af37; text-decoration: underline;">Datenschutzerklärung</a>.
+        {% elif lang_code == 'it' %}
+            Utilizziamo i cookie. Dettagli nella nostra <a href="{% url 'privacy_policyit' %}" style="color: #d4af37; text-decoration: underline;">Informativa sulla privacy</a>.
+        {% elif lang_code == 'es-es' %}
+            Utilizamos cookies. Detalles en nuestra <a href="{% url 'privacy_policyesES' %}" style="color: #d4af37; text-decoration: underline;">Política de privacidad</a>.
+        {% elif lang_code == 'es-mx' %}
+            Utilizamos cookies. Detalles en nuestra <a href="{% url 'privacy_policyesMX' %}" style="color: #d4af37; text-decoration: underline;">Política de privacidad</a>.
+        {% elif lang_code == 'pt' %}
+            Usamos cookies. Detalhes em nossa <a href="{% url 'privacy_policypt' %}" style="color: #d4af37; text-decoration: underline;">Política de privacidade</a>.
+        {% elif lang_code == 'pt-br' %}
+            Usamos cookies. Detalhes em nossa <a href="{% url 'privacy_policyptBR' %}" style="color: #d4af37; text-decoration: underline;">Política de privacidade</a>.
+        {% elif lang_code == 'en-in' %}
+            We use cookies. Details in our <a href="{% url 'privacy_policyenIN' %}" style="color: #d4af37; text-decoration: underline;">Privacy Policy</a>.
+        {% else %}
+            We use cookies to improve your experience. Read our <a href="{% url 'privacy_policy' %}" style="color: #d4af37; text-decoration: underline;">Privacy Policy</a>.
+        {% endif %}
         </p>
 
         <div style="display: flex; gap: 10px;">
@@ -558,23 +577,10 @@
                 {% else %}OK{% endif %}
             </button>
 
-            <button id="manageCookiesBtn" style="background:none; border:1px solid #555; color:#aaa; padding:8px 20px; border-radius:20px;">
-                {% if lang_code == 'ja' %}設定を管理
-                {% elif lang_code == 'ko' %}설정 관리
-                {% elif lang_code == 'zh-cn' %}管理设置
-                {% elif lang_code == 'zh-hant' %}管理設置
-                {% elif lang_code == 'th' %}จัดการการตั้งค่า
-                {% elif lang_code == 'vi' %}Quản lý cài đặt
-                {% elif lang_code == 'fr' %}Gérer les paramètres
-                {% elif lang_code == 'de' %}Einstellungen verwalten
-                {% elif lang_code == 'it' %}Gestisci impostazioni
-                {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Gestionar ajustes
-                {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Gerenciar configurações
-                {% else %}Manage Settings{% endif %}
-            </button>
+            
         </div>
     </div>
-    
+
 
     <div id="modalOverlay" class="modal-overlay" onclick="toggleLangModal()"></div>
     <div id="langModal" class="lang-modal">
