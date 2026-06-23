@@ -920,12 +920,15 @@ body::before, body::after { display: none; }
 <script>
     function goToTopPage() {
         const topUrl = localStorage.getItem('tj_top_url');
-        if (topUrl) {
-            window.location.href = topUrl;
-        } else {
-            window.location.href = "{% url 'toppage' %}";
-        }
+    if (topUrl) {
+
+        window.location.href = topUrl;
+    } else {
+        
+        window.location.href = "{% url 'toppage' %}?lang={{ lang_code }}";
     }
+}
+    
 </script>
 {% endblock %}
 
