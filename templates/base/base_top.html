@@ -425,7 +425,7 @@
             </a>
 
             
-            <a href="{% if user.is_authenticated %}{% url 'account_settings' %}{% else %}{% url 'player_register' %}{% endif %}?lang={{ lang_code }}" class="nav-item">
+            <a href="javascript:void(0)" class="nav-item" id="menu-modal-btn">
                 <i class="fas fa-user-circle"></i> 
                 <span>
                     {% if user.is_authenticated %}
@@ -610,9 +610,152 @@
         </div>
         <button onclick="toggleLangModal()" style="width:100%; margin-top:20px; padding:15px; background:#333; color:#fff; border:none; border-radius:10px;">Close</button>
     </div>
+
+
     
+    <div id="menuModal" class="lang-modal"> 
+        <h3 style="color:#d4af37; text-align:center; margin-bottom:20px;">
+            {% if lang_code == 'ja' %}メニュー
+            {% elif lang_code == 'ko' %}메뉴
+            {% elif lang_code == 'zh-cn' %}菜单
+            {% elif lang_code == 'zh-hant' %}菜單
+            {% elif lang_code == 'th' %}เมนู
+            {% elif lang_code == 'vi' %}Menu
+            {% elif lang_code == 'fr' %}Menu
+            {% elif lang_code == 'de' %}Menü
+            {% elif lang_code == 'it' %}Menu
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Menú
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Menu
+            {% else %}Menu{% endif %}
+        </h3>
+    
+        <div style="display: flex; flex-direction: column; gap: 10px;">
+        
+            {% if user.is_authenticated %}
+                <a href="{% url 'account_settings' %}?lang={{ lang_code }}" class="lang-item" style="width:100%;">
+                    {% if lang_code == 'ja' %}アカウント管理 ⚙️
+                    {% elif lang_code == 'ko' %}계정 관리 ⚙️
+                    {% elif lang_code == 'zh-cn' %}管理账户 ⚙️
+                    {% elif lang_code == 'zh-hant' %}管理帳戶 ⚙️
+                    {% elif lang_code == 'th' %}จัดการบัญชี ⚙️
+                    {% elif lang_code == 'vi' %}Quản lý tài khoản ⚙️
+                    {% elif lang_code == 'fr' %}Gérer le compte ⚙️
+                    {% elif lang_code == 'de' %}Konto verwalten ⚙️
+                    {% elif lang_code == 'it' %}Gestisci account ⚙️
+                    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Gestionar cuenta ⚙️
+                    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Gerenciar conta ⚙️
+                    {% else %}Manage Account ⚙️{% endif %}
+                </a>
+                <a href="{% url 'player_logout' %}?lang={{ lang_code }}" class="lang-item" style="width:100%; background:#a63737;">🚪 
+                    {% if lang_code == 'ja' %}ログアウト
+                    {% elif lang_code == 'ko' %}로그아웃
+                    {% elif lang_code == 'zh-cn' %}退出
+                    {% elif lang_code == 'zh-hant' %}登出
+                    {% elif lang_code == 'th' %}ออกจากระบบ
+                    {% elif lang_code == 'vi' %}Đăng xuất
+                    {% elif lang_code == 'fr' %}Déconnexion
+                    {% elif lang_code == 'de' %}Abmelden
+                    {% elif lang_code == 'it' %}Logout
+                    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Cerrar sesión
+                    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Sair
+                    {% else %}Logout{% endif %}
+                </a>
+            {% else %}
+                <a href="{% url 'player_register' %}?lang={{ lang_code }}" class="lang-item" style="width:100%; background:#d4af37; color:#000;">✨ 
+                    {% if lang_code == 'ja' %}新規登録 / ログイン
+                    {% elif lang_code == 'ko' %}가입하기 / 로그인
+                    {% elif lang_code == 'zh-cn' %}注册 / 登录
+                    {% elif lang_code == 'zh-hant' %}註冊 / 登錄
+                    {% elif lang_code == 'th' %}สมัครสมาชิก / เข้าสู่ระบบ
+                    {% elif lang_code == 'vi' %}Đăng ký / Đăng nhập
+                    {% elif lang_code == 'fr' %}S'inscrire / Connexion
+                    {% elif lang_code == 'de' %}Registrieren / Anmelden
+                    {% elif lang_code == 'it' %}Registrati / Accedi
+                    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Registrarse / Iniciar sesión
+                    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Cadastre-se / Entrar
+                    {% else %}Sign Up / Login{% endif %}
+                </a>
+            {% endif %}
+
+            <hr style="border:0; border-top:1px solid #333; margin:10px 0;">
+
+        
+            <div class="lang-list">
+                <a href="{% url 'infomationpage' %}" class="lang-item" style="font-size:0.8rem;">
+                    {% if lang_code == 'ja' %}運営会社
+                    {% elif lang_code == 'ko' %}회사 소개
+                    {% elif lang_code == 'zh-cn' %}关于我们
+                    {% elif lang_code == 'zh-hant' %}關於我們
+                    {% elif lang_code == 'th' %}เกี่ยวกับเรา
+                    {% elif lang_code == 'vi' %}Về chúng tôi
+                    {% elif lang_code == 'fr' %}À propos de nous
+                    {% elif lang_code == 'de' %}Über uns
+                    {% elif lang_code == 'it' %}Chi siamo
+                    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Sobre nosotros
+                    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Sobre nós
+                    {% else %}About Us{% endif %}
+                </a>
+                <a href="{% url 'privacy_policy' %}" class="lang-item" style="font-size:0.8rem;">
+                    {% if lang_code == 'ja' %}プライバシーポリシー
+                    {% elif lang_code == 'ko' %}개인정보 처리방침
+                    {% elif lang_code == 'zh-cn' %}隐私政策
+                    {% elif lang_code == 'zh-hant' %}隱私政策
+                    {% elif lang_code == 'th' %}นโยบายความเป็นส่วนตัว
+                    {% elif lang_code == 'vi' %}Chính sách bảo mật
+                    {% elif lang_code == 'fr' %}Politique de confidentialité
+                    {% elif lang_code == 'de' %}Datenschutzerklärung
+                    {% elif lang_code == 'it' %}Informativa sulla privacy
+                    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Política de privacidad
+                    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Política de privacidade
+                    {% else %}Privacy Policy{% endif %}
+                </a>
+                <a href="{% url 'riyoukiyaku' %}?lang={{ lang_code }}" class="lang-item" style="font-size:0.8rem;">
+                    {% if lang_code == 'ja' %}利用規約
+                    {% elif lang_code == 'ko' %}이용약관
+                    {% elif lang_code == 'zh-cn' %}使用条款
+                    {% elif lang_code == 'zh-hant' %}使用條款
+                    {% elif lang_code == 'th' %}ข้อกำหนดการใช้งาน
+                    {% elif lang_code == 'vi' %}Điều khoản sử dụng
+                    {% elif lang_code == 'fr' %}Conditions d'utilisation
+                    {% elif lang_code == 'de' %}Nutzungsbedingungen
+                    {% elif lang_code == 'it' %}Termini di utilizzo
+                    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Términos de uso
+                    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Termos de uso
+                    {% else %}Terms of Use{% endif %}
+                </a>
+                <a href="{% url 'contact' %}" class="lang-item" style="font-size:0.8rem;">
+                    {% if lang_code == 'ja' %}お問い合わせ
+                    {% elif lang_code == 'ko' %}문의하기
+                    {% elif lang_code == 'zh-cn' %}联系我们
+                    {% elif lang_code == 'zh-hant' %}聯繫我們
+                    {% elif lang_code == 'th' %}ติดต่อเรา
+                    {% elif lang_code == 'vi' %}Liên hệ
+                    {% elif lang_code == 'fr' %}Contactez-nous
+                    {% elif lang_code == 'de' %}Kontakt
+                    {% elif lang_code == 'it' %}Contattaci
+                    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Contacto
+                    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Contato
+                    {% else %}Contact{% endif %}
+                </a>
+            </div>
+        </div>
+    
+        <button onclick="toggleMenuModal()" style="width:100%; margin-top:20px; padding:15px; background:none; border:1px solid #444; color:#777; border-radius:10px;">Close</button>
+    </div>
 
     <script>
+
+    function toggleMenuModal(e) {
+        if(e) e.preventDefault();
+        document.getElementById('menuModal').classList.toggle('show');
+        document.getElementById('modalOverlay').classList.toggle('show');
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const menuBtn = document.getElementById('menu-modal-btn');
+        if (menuBtn) menuBtn.onclick = toggleMenuModal;
+    });
+    
     
     function getCookie(name) {
         let nameEQ = name + "=";
