@@ -613,7 +613,7 @@
     
 
     <script>
-   
+    
     function getCookie(name) {
         let nameEQ = name + "=";
         let ca = document.cookie.split(';');
@@ -625,33 +625,50 @@
         return null;
     }
 
+    
     function toggleLangModal(e) {
         if(e) e.preventDefault();    
         document.getElementById('langModal').classList.toggle('show');
         document.getElementById('modalOverlay').classList.toggle('show');
     }
 
+    
     function agreeToPolicy() {
         localStorage.setItem('policy_agreed_2026_03', 'true');
         fetch("{% url 'update_policy_agreement' %}?lang={{ lang_code }}", {
             method: 'POST',
             headers: {'X-CSRFToken': '{{ csrf_token }}', 'Content-Type': 'application/json'},
             body: JSON.stringify({ version: "2026-03" })
-        }).then(res => { if(res.ok) document.getElementById('policyUpdateBanner').style.display='none'; });
+        }).then(res => { 
+            if(res.ok) document.getElementById('policyUpdateBanner').style.display='none'; 
+        });
     }
 
+    
     document.addEventListener('DOMContentLoaded', function() {
+        
         
         const btn = document.getElementById('lang-select-btn');
         if (btn) btn.onclick = toggleLangModal;
         
+        
         const cookieBanner = document.getElementById('cookieConsentBanner');
+        const acceptBtn = document.getElementById('acceptCookiesBtn');
+        const manageBtn = document.getElementById('manageCookiesBtn'); // 復活
+
         if (cookieBanner && !getCookie('cookie_consent')) {
             setTimeout(() => { cookieBanner.classList.add('show'); }, 1000);
         }
-        document.getElementById('acceptCookiesBtn')?.addEventListener('click', () => {
+
+        
+        acceptBtn?.addEventListener('click', () => {
             document.cookie = "cookie_consent=accepted; max-age=31536000; path=/";
             cookieBanner.classList.remove('show');
+        });
+
+        
+        manageBtn?.addEventListener('click', () => {
+            window.location.href = "{% url 'privacy_policy' %}?lang={{ lang_code }}#cookie-settings";
         });
 
         
@@ -660,8 +677,7 @@
             if (banner) banner.style.display = 'none';
         }
     });
-    </script>
-
+</script>
     
 </body>
 </html>

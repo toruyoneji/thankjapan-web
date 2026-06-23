@@ -245,16 +245,50 @@
     </div>
 </section>
 
+
 <script>
-    
     (function() {
         const layers = document.querySelectorAll('.hero-bg-layer');
-        let currentIndex = 0;
-        function rotateBackgrounds() {
-            layers[currentIndex].style.opacity = "0";
-            currentIndex = (currentIndex + 1) % layers.length;
-            layers[currentIndex].style.opacity = "1";
+        if (layers.length > 0) {
+            let currentIndex = 0; 
+            function rotateBackgrounds() {
+                layers[currentIndex].style.opacity = "0";
+                currentIndex = (currentIndex + 1) % layers.length;
+                layers[currentIndex].style.opacity = "1";
+            }
+            setInterval(rotateBackgrounds, 7000);
         }
-        setInterval(rotateBackgrounds, 7000);
     })();
 </script>
+
+
+{% if user.is_authenticated and user.profile.is_premium %}
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const duration = 2500;
+        const end = Date.now() + duration;
+
+        (function frame() {
+            confetti({
+                particleCount: 2,
+                angle: 60,
+                spread: 55,
+                origin: { x: 0, y: 0.8 },
+                colors: ['#f1c40f', '#ffffff']
+            });
+            confetti({
+                particleCount: 2,
+                angle: 120,
+                spread: 55,
+                origin: { x: 1, y: 0.8 },
+                colors: ['#f1c40f', '#ffffff']
+            });
+
+            if (Date.now() < end) {
+                requestAnimationFrame(frame);
+            }
+        }());
+    });
+</script>
+{% endif %}
