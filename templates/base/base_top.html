@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="{{ lang_code }}" translate="no">
+{% load static %}
+<head>
+    {% include 'css.html' %}
+    {% include 'pwa_parts.html' %}
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    <meta name="google" content="notranslate">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
+
+    <link rel="icon" href="https://res.cloudinary.com/dotekofm5/image/upload/w_96,h_96,c_fill/v1768197979/thankjapan/backgrounds/lzqkopi7hngponvt8ekw.png" sizes="96x96" type="image/png">
+    <link rel="apple-touch-icon" href="https://res.cloudinary.com/dotekofm5/image/upload/w_180,h_180,c_fill/v1768197979/thankjapan/backgrounds/lzqkopi7hngponvt8ekw.png">
+
+    {% block meta %}
+    <meta name="title" content="
+        {% if lang_code == 'ja' %}日本文化で学ぶ日本語単語：ビジュアルクイズゲーム | ThankJapan
+        {% elif lang_code == 'ko' %}문화로 배우는 일본어 어휘: 비주얼 퀴즈 게임 | ThankJapan
+        {% elif lang_code == 'zh-cn' %}通过文化学习日语词汇：视觉有奖竞猜游戏 | ThankJapan
+        {% elif lang_code == 'zh-hant' %}透過文化學習日語詞彙：視覺有獎競猜遊戲 | ThankJapan
+        {% elif lang_code == 'th' %}มาสเตอร์คำศัพท์ภาษาญี่ปุ่นผ่านวัฒนธรรม: เกมควิซภาพ | ThankJapan
+        {% elif lang_code == 'vi' %}Nắm vững từ vựng tiếng Nhật qua văn hóa: Trò chơi đố vui hình ảnh | ThankJapan
+        {% elif lang_code == 'fr' %}Maîtrisez le vocabulaire japonais par la culture : jeux de quiz visuels | ThankJapan
+        {% elif lang_code == 'de' %}Japanischen Wortschatz durch Kultur meistern: Visuelle Quizspiele | ThankJapan
+        {% elif lang_code == 'it' %}Padroneggia i vocaboli giapponesi attraverso la cultura: quiz visivi | ThankJapan
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Domina el vocabulario japonés a través de la cultura: juegos de preguntas visuales | ThankJapan
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Domine o vocabulário japonês através da cultura: Jogos de quiz visuais | ThankJapan
+        {% else %}Master Japanese Vocabulary through Culture: Visual Quiz Games | ThankJapan{% endif %}
+    " />
+
+    <meta name="description" content="{% block description %}{% if lang_code == 'ja' %}日本文化とビジュアルクイズゲームで日本語の単語を学習。15言語対応で、退屈な教科書を使わずに必須単語をマスターできます。
+        {% elif lang_code == 'ko' %}일본 문화와 비주얼 퀴즈 게임으로 일본어 단어를 학습하세요. 15개 언어를 지원하며, 지루한 교과서 없이 필수 단어를 마스터할 수 있습니다.
+        {% elif lang_code == 'zh-cn' %}通过文化和视觉有奖竞猜游戏积累日语词汇。支持 15 种语言，无需枯燥的教科书即可掌握必备词汇。
+        {% elif lang_code == 'zh-hant' %}透過文化和視覺有獎競猜遊戲累積日語詞彙。支持 15 種語言，無需枯燥的教科書即可掌握必備詞彙。
+        {% elif lang_code == 'th' %}สร้างคำศัพท์ภาษาญี่ปุ่นของคุณผ่านวัฒนธรรมและเกมควิซภาพ มาสเตอร์คำศัพท์ที่จำเป็นใน 15 ภาษาโดยไม่ต้องใช้ตำราที่น่าเบื่อ
+        {% elif lang_code == 'vi' %}Xây dựng vốn từ vựng tiếng Nhật của bạn thông qua văn hóa và các trò chơi đố vui hình ảnh. Nắm vững các từ thiết yếu bằng 15 ngôn ngữ mà không cần sách giáo khoa nhàm chán.
+        {% elif lang_code == 'fr' %}Développez votre vocabulaire japonais grâce à la culture et à des jeux de quiz visuels. Maîtrisez les mots essentiels en 15 langues sans manuels ennuyeux.
+        {% elif lang_code == 'de' %}Bauen Sie Ihren japanischen Wortschatz durch Kultur und visuelle Quizspiele auf. Meistern Sie wichtige Wörter in 15 Sprachen ohne langweilige Lehrbücher.
+        {% elif lang_code == 'it' %}Costruisci il tuo vocabolario giapponese attraverso la cultura e i quiz visivi. Padroneggia le parole essenziali in 15 lingue senza noiosi libri di testo.
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Desarrolla tu vocabulario japonés a través de la cultura y juegos de preguntas visuales. Domina palabras esenciales en 15 idiomas sin aburridos libros de texto.
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Construa seu vocabulário japonês através da cultura e de jogos de quiz visuais. Domine palavras essenciais em 15 idiomas sem livros didáticos chatos.
+        {% else %}Build your Japanese vocabulary through culture and visual quiz games. Master essential words in 15 languages without boring textbooks.{% endif %}{% endblock %}" />
+
+    <meta name="robots" content="index,follow">
+
+   <meta name="keywords" content="
+        {% if lang_code == 'ja' %}日本語単語, 日本文化, 日本語学習, 日本語クイズ, 日本食, ThankJapan
+        {% elif lang_code == 'ko' %}일본어 단어, 일본 문화, 일본어 학습, 일본어 퀴즈, 일식, ThankJapan
+        {% elif lang_code == 'zh-cn' %}日语词汇, 日本文化, 学习日语, 日语测验, 日本料理, ThankJapan
+        {% elif lang_code == 'zh-hant' %}日語詞彙, 日本文化, 學習日語, 日語測驗, 日本料理, ThankJapan
+        {% elif lang_code == 'th' %}คำศัพท์ภาษาญี่ปุ่น, วัฒนธรรมญี่ปุ่น, เรียนภาษาญี่ปุ่น, ควิซภาษาญี่ปุ่น, อาหารญี่ปุ่น, ThankJapan
+        {% elif lang_code == 'vi' %}từ vựng tiếng Nhật, văn hóa Nhật Bản, học tiếng Nhật, trắc nghiệm tiếng Nhật, ẩm thực Nhật Bản, ThankJapan
+        {% elif lang_code == 'fr' %}vocabulaire japonais, culture japonaise, apprendre le japonais, quiz japonais, cuisine japonaise, ThankJapan
+        {% elif lang_code == 'de' %}Japanischer Wortschatz, japanische Kultur, Japanisch lernen, Japanisch-Quiz, japanisches Essen, ThankJapan
+        {% elif lang_code == 'it' %}vocaboli giapponesi, cultura giapponese, imparare il giapponese, quiz giapponese, cucina giapponese, ThankJapan
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}vocabulario japonés, cultura japonesa, aprender japonés, quiz japonés, comida japonesa, ThankJapan
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}vocabulário japonês, cultura japonesa, aprender japonês, quiz japonês, comida japonesa, ThankJapan
+        {% elif lang_code == 'en-in' %}Japanese vocabulary, Japanese culture, learn Japanese words, Japanese quiz, Japanese food, ThankJapan
+        {% else %}Japanese vocabulary, Japanese culture, learn Japanese words, Japanese quiz, Japanese food, ThankJapan{% endif %}
+    ">
+
+    {% if page_obj %} 
+        {% if page_obj.number == 1 %}
+            <link rel="canonical" href="{{ request.scheme }}://{{ request.get_host }}{{ request.path }}" />
+        {% else %}
+            <link rel="canonical" href="{{ request.scheme }}://{{ request.get_host }}{{ request.get_full_path }}" />
+        {% endif %}
+    {% else %} 
+        <link rel="canonical" href="{{ request.scheme }}://{{ request.get_host }}{{ request.get_full_path }}" />
+    {% endif %}
+
+
+    <meta property="og:title" content="{% block og_title %}
+        {% if lang_code == 'ja' %}無料の日本の単語ゲームをプレイ（ランキングに挑戦！） | ThankJapan
+        {% elif lang_code == 'ko' %}무료 일본어 단어 게임 플레이 (랭킹에 도전하세요!) | ThankJapan
+        {% elif lang_code == 'zh-cn' %}免费玩日语单词游戏（挑战排行榜！） | ThankJapan
+        {% elif lang_code == 'zh-hant' %}免費玩日語單詞遊戲（挑戰排行榜！） | ThankJapan
+        {% elif lang_code == 'th' %}เล่นเกมคำศัพท์ภาษาญี่ปุ่นฟรี (ท้าทายการจัดอันดับ!) | ThankJapan
+        {% elif lang_code == 'vi' %}Chơi các trò chơi từ vựng tiếng Nhật miễn phí (Thử thách bảng xếp hạng!) | ThankJapan
+        {% elif lang_code == 'fr' %}Jouez à des jeux de vocabulaire japonais gratuits (Défiez le classement !) | ThankJapan
+        {% elif lang_code == 'de' %}Kostenlose japanische Vokabelspiele spielen (Fordere das Ranking heraus!) | ThankJapan
+        {% elif lang_code == 'it' %}Gioca a giochi di vocaboli giapponesi gratuiti (Sfida la classifica!) | ThankJapan
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Juega juegos de vocabulario japonés gratis (¡Desafía el ranking!) | ThankJapan
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Jogue jogos de vocabulário japonês grátis (Desafie o ranking!) | ThankJapan
+        {% else %}Play free Japanese vocabulary games (Challenge the ranking!) | ThankJapan{% endif %}
+    {% endblock %}" />
+
+    <meta property="og:description" content="{% block og_description %}{% if lang_code == 'ja' %}日本の文化・食・言葉などを紹介するウェブサイトです。
+        {% elif lang_code == 'ko' %}일본의 문화, 음식, 언어 등을 소개하는 웹사이트입니다.
+        {% elif lang_code == 'zh-cn' %}介绍日本文化、美食和语言的网站。
+        {% elif lang_code == 'zh-hant' %}介紹日本文化、美食和語言的網站。
+        {% elif lang_code == 'th' %}เว็บไซต์แนะนำวัฒนธรรม อาหาร และภาษาญี่ปุ่น
+        {% elif lang_code == 'vi' %}Trang web giới thiệu về văn hóa, ẩm thực và ngôn ngữ Nhật Bản.
+        {% elif lang_code == 'fr' %}Site de présentation de la culture, de la cuisine et de la langue japonaises.
+        {% elif lang_code == 'de' %}Website zur Einführung in die japanische Kultur, das Essen und die Sprache.
+        {% elif lang_code == 'it' %}Sito di introduzione alla cultura, al cibo e alla lingua giapponese.
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Sitio de introducción a la cultura, la comida y el idioma japonés.
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Site de introdução à cultura, gastronomia e língua japonesa.
+        {% else %}Discover Japan: Culture, Food & Fun Games. Introducing Japanese culture to the world.{% endif %}{% endblock %}" />
+
+    <meta property="og:url" content="{% block og_url %}{{ request.build_absolute_uri }}{% endblock %}" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://res.cloudinary.com/dotekofm5/image/upload/v1768385674/thankjapan/backgrounds/gx8xbypllgs1qogcsvak.jpg" />
+    <meta property="og:site_name" content="ThankJapan" />
+
+    <meta property="og:locale" content="{% if lang_code == 'ja' %}ja_JP{% elif lang_code == 'ko' %}ko_KR{% elif lang_code == 'zh-cn' %}zh_CN{% elif lang_code == 'zh-hant' %}zh_TW{% elif lang_code == 'th' %}th_TH{% elif lang_code == 'vi' %}vi_VN{% elif lang_code == 'fr' %}fr_FR{% elif lang_code == 'de' %}de_DE{% elif lang_code == 'it' %}it_IT{% elif lang_code == 'es-es' %}es_ES{% elif lang_code == 'es-mx' %}es_MX{% elif lang_code == 'pt' %}pt_PT{% elif lang_code == 'pt-br' %}pt_BR{% else %}en_US{% endif %}" />
+    
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="
+        {% if lang_code == 'ja' %}無料の日本の単語ゲームをプレイ（ランキングに挑戦！） | ThankJapan
+        {% elif lang_code == 'ko' %}무료 일본어 단어 게임 플레이 (랭킹에 도전하세요!) | ThankJapan
+        {% elif lang_code == 'zh-cn' %}免费玩日语单词游戏（挑战排行榜！） | ThankJapan
+        {% elif lang_code == 'zh-hant' %}免費玩日語單詞遊戲（挑戰排行榜！） | ThankJapan
+        {% elif lang_code == 'th' %}เล่นเกมคำศัพท์ภาษาญี่ปุ่นฟรี (ท้าทายการจัดอันดับ!) | ThankJapan
+        {% elif lang_code == 'vi' %}Chơi các trò chơi từ vựng tiếng Nhật miễn phí (Thử thách bảng xếp hạng!) | ThankJapan
+        {% elif lang_code == 'fr' %}Jouez à des jeux de vocabulaire japonais gratuits (Défiez le classement !) | ThankJapan
+        {% elif lang_code == 'de' %}Kostenlose japanische Vokabelspiele spielen (Fordere das Ranking heraus!) | ThankJapan
+        {% elif lang_code == 'it' %}Gioca a giochi di vocaboli giapponesi gratuiti (Sfida la classifica!) | ThankJapan
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Juega juegos de vocabulario japonés gratis (¡Desafía el ranking!) | ThankJapan
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Jogue jogos de vocabulário japonês grátis (Desafie o ranking!) | ThankJapan
+        {% else %}Play free Japanese vocabulary games (Challenge the ranking!) | ThankJapan{% endif %}
+    ">
+    <meta name="twitter:description" content="
+        {% if lang_code == 'ja' %}日本の文化、食、言葉などを紹介するサイトです。
+        {% elif lang_code == 'ko' %}일본의 문화, 음식, 언어 등을 소개하는 사이트입니다.
+        {% elif lang_code == 'zh-cn' %}本网站向世界介绍日本文化、美食和语言。
+        {% elif lang_code == 'zh-hant' %}本網站向世界介紹日本文化、美食和語言。
+        {% elif lang_code == 'th' %}เว็บไซต์นี้แนะนำวัฒนธรรม อาหาร และภาษาญี่ปุ่นให้โลกได้รับรู้
+        {% elif lang_code == 'vi' %}Trang web này giới thiệu văn hóa, ẩm thực và ngôn ngữ Nhật Bản đến thế giới.
+        {% elif lang_code == 'fr' %}Ce site présente la culture, la cuisine et la langue japonaises au monde.
+        {% elif lang_code == 'de' %}Diese Website stellt der Welt die japanische Kultur, das Essen und die Sprache vor.
+        {% elif lang_code == 'it' %}Questo sito introduce la cultura, il cibo e la lingua giapponese nel mondo.
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Este sitio presenta la cultura, la comida y el idioma japonés al mundo.
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Este site apresenta a cultura, a comida e a língua japonesa para o mundo.
+        {% else %}This site introduces Japanese culture, food, and language to the world.{% endif %}
+    ">
+    <meta name="twitter:image" content="https://res.cloudinary.com/dotekofm5/image/upload/v1768385674/thankjapan/backgrounds/gx8xbypllgs1qogcsvak.jpg">
+    <meta name="twitter:site" content="@thankjapan0514">
+
+    {% endblock %}
+
+
+    <title>
+    {% block title %}
+        {% if lang_code == 'ja' %}ThankJapan | 日本文化と語彙学習
+        {% elif lang_code == 'ko' %}ThankJapan | 일본 문화와 어휘 학습
+        {% elif lang_code == 'zh-cn' %}ThankJapan | 日本文化与词汇学习
+        {% elif lang_code == 'zh-hant' %}ThankJapan | 日本文化與詞彙學習
+        {% elif lang_code == 'th' %}ThankJapan | เรียนรู้วัฒนธรรมและคำศัพท์ภาษาญี่ปุ่น
+        {% elif lang_code == 'vi' %}ThankJapan | Học từ vựng và văn hóa Nhật Bản
+        {% elif lang_code == 'fr' %}ThankJapan | Apprendre la culture et le vocabulaire japonais
+        {% elif lang_code == 'de' %}ThankJapan | Japanische Kultur und Wortschatz lernen
+        {% elif lang_code == 'it' %}ThankJapan | Impara la cultura e i vocaboli giapponesi
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}ThankJapan | Aprende cultura y vocabulario japonés
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}ThankJapan | Aprenda cultura e vocabulário japonês
+        {% else %}ThankJapan | Master Japanese Vocabulary through Culture{% endif %}
+    {% endblock %}
+    </title>
+
+
+    <style>
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        html, body { 
+            width: 100%; 
+            height: 100vh; 
+            overflow: hidden; 
+            background-color: #000;
+            font-family: 'Zen Antique', 'Shippori Mincho', 'Noto Serif JP', serif;
+        }
+
+        
+        .app-wrapper {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            width: 100%;
+            position: relative;
+        }
+
+        
+        .app-header {
+            position: absolute;
+            top: 0; left: 0; width: 100%;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            z-index: 1000;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.6), transparent);
+        }
+
+        .app-header .logo-link {
+            font-size: 1.3rem;
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+        }
+
+        .header-score-badge {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            background: rgba(0,0,0,0.4);
+            border: 1px solid rgba(212, 175, 55, 0.6);
+            padding: 3px 12px;
+            border-radius: 20px;
+            text-decoration: none;
+        }
+
+        .score-text {
+            color: #d4af37;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        
+        .app-content {
+            flex: 1; 
+            width: 100%;
+            position: relative;
+        }
+
+        
+        .bottom-nav {
+            height: 80px;
+            background: rgba(15, 15, 15, 0.98);
+            border-top: 1px solid #d4af37;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            z-index: 2000;
+            padding-bottom: env(safe-area-inset-bottom);
+            box-shadow: 0 -5px 15px rgba(0,0,0,0.5);
+        }
+
+        .nav-item {
+            color: #d4af37;
+            text-decoration: none;
+            font-size: 0.7rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            flex: 1;
+            transition: 0.3s;
+        }
+
+        .nav-item i { font-size: 1.5rem; }
+        .nav-item:active { transform: scale(0.9); opacity: 0.7; }
+
+        
+        .cookie-consent-banner {
+            position: fixed;
+            bottom: 90px;
+            left: 5%;
+            width: 90%;
+            background: rgba(0,0,0,0.95);
+            border: 1px solid #d4af37;
+            border-radius: 15px;
+            color: #fff;
+            padding: 15px;
+            z-index: 3000;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+        }
+        .cookie-consent-banner.show { display: flex; }
+        .cookie-consent-btn {
+            background: linear-gradient(135deg, #ffd700, #d4af37);
+            border: none; padding: 10px 20px; border-radius: 20px; font-weight: bold; margin-top: 10px;
+        }
+    </style>
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id={{ GA_TRACKING_ID }}"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', '{{ GA_TRACKING_ID }}');
+    </script>
+
+    {% block jsonld %}{% endblock %}
+
+    {% block extra_head %}{% endblock %}
+
+</head>
+
+<body>
+    <div class="app-wrapper">
+        
+        <header class="app-header">
+            <a class="logo-link" href="{% url 'toppage' %}?lang={{ lang_code }}">Thank Japan</a>
+            <div class="header-right">
+                <a href="#" class="header-score-badge">
+                    <span class="score-text">💎 {{ user.profile.total_score|default:0 }}<small>pt</small></span>
+                </a>
+            </div>
+        </header>
+
+        
+        <main class="app-content">
+            {% block content %}{% endblock %}
+        </main>
+
+        
+        <nav class="bottom-nav">
+            <a href="{% url 'category_list' %}?lang={{ lang_code }}" class="nav-item">
+                <i class="fas fa-list"></i>
+                <span>
+                    {% if lang_code == 'ja' %}学ぶ
+                    {% elif lang_code == 'ko' %}배우기
+                    {% elif lang_code == 'zh-cn' %}学习
+                    {% elif lang_code == 'zh-hant' %}學習
+                    {% elif lang_code == 'th' %}เรียน
+                    {% elif lang_code == 'vi' %}Học
+                    {% elif lang_code == 'fr' %}Apprendre
+                    {% elif lang_code == 'de' %}Lernen
+                    {% elif lang_code == 'it' %}Impara
+                    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Aprender
+                    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Aprender
+                    {% else %}Learn{% endif %}
+                </span>
+            </a>
+            <a href="{% url 'game_start' %}?lang={{ lang_code }}" class="nav-item">
+                <i class="fas fa-gamepad"></i>
+                <span>
+                    {% if lang_code == 'ja' %}ゲーム
+                    {% elif lang_code == 'ko' %}게임
+                    {% elif lang_code == 'zh-cn' %}游戏
+                    {% elif lang_code == 'zh-hant' %}遊戲
+                    {% elif lang_code == 'th' %}เกม
+                    {% elif lang_code == 'vi' %}Trò chơi        
+                    {% elif lang_code == 'fr' %}Jeu
+                    {% elif lang_code == 'de' %}Spiel
+                    {% elif lang_code == 'it' %}Gioco
+                    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Juego
+                    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Jogo
+                    {% else %}Game{% endif %}
+                </span>
+            </a>
+            <a href="{% url 'toppage' %}?lang={{ lang_code }}#lang-select" class="nav-item">
+                <i class="fas fa-globe"></i>
+                <span>
+                    {% if lang_code == 'ja' %}言語
+                    {% elif lang_code == 'ko' %}언어
+                    {% elif lang_code == 'zh-cn' %}语言
+                    {% elif lang_code == 'zh-hant' %}語言
+                    {% elif lang_code == 'th' %}ภาษา
+                    {% elif lang_code == 'vi' %}Ngôn ngữ
+                    {% elif lang_code == 'fr' %}Langue
+                    {% elif lang_code == 'de' %}Sprache
+                    {% elif lang_code == 'it' %}Lingua
+                    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Idioma
+                    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Idioma
+                    {% else %}Language{% endif %} 
+                </span>
+            </a>
+
+            
+            <a href="{% if user.is_authenticated %}{% url 'account_settings' %}{% else %}{% url 'player_register' %}{% endif %}?lang={{ lang_code }}" class="nav-item">
+                <i class="fas fa-user-circle"></i> <!-- アイコンも少しユーザー感を出したものに変更 -->
+                <span>
+                    {% if user.is_authenticated %}
+                        {% if lang_code == 'ja' %}メニュー
+                        {% elif lang_code == 'ko' %}메뉴
+                        {% elif lang_code == 'zh-cn' %}菜单
+                        {% elif lang_code == 'zh-hant' %}菜單
+                        {% elif lang_code == 'th' %}เมนู
+                        {% elif lang_code == 'vi' %}Menu
+                        {% elif lang_code == 'fr' %}Menu
+                        {% elif lang_code == 'de' %}Menü
+                        {% elif lang_code == 'it' %}Menu
+                        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Menú
+                        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Menu
+                        {% else %}Menu{% endif %}
+                    {% else %}
+                        {% if lang_code == 'ja' %}ログイン
+                        {% elif lang_code == 'ko' %}로그인
+                        {% elif lang_code == 'zh-cn' %}登录
+                        {% elif lang_code == 'zh-hant' %}登錄
+                        {% elif lang_code == 'th' %}เข้าสู่ระบบ
+                        {% elif lang_code == 'vi' %}Đăng nhập
+                        {% elif lang_code == 'fr' %}Connexion
+                        {% elif lang_code == 'de' %}Anmelden
+                        {% elif lang_code == 'it' %}Accedi
+                        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Acceder
+                        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Entrar
+                        {% else %}Login{% endif %}
+                    {% endif %}
+                </span>
+            </a>
+        </nav>
+    </div>
+
+    
+    <div id="cookieConsentBanner" class="cookie-consent-banner">
+        <p style="font-size: 0.75rem; text-align: center; margin-bottom: 10px;">
+            {% if lang_code == 'ja' %}クッキーの使用に同意しますか？
+            {% elif lang_code == 'ko' %}쿠키 사용에 동의하십니까?
+            {% elif lang_code == 'zh-cn' %}您同意使用 Cookie 吗？
+            {% elif lang_code == 'zh-hant' %}您同意使用 Cookie 嗎？
+            {% elif lang_code == 'th' %}คุณยอมรับการใช้คุกกี้หรือไม่?
+            {% elif lang_code == 'vi' %}Bạn có đồng ý sử dụng cookie không?
+            {% elif lang_code == 'fr' %}Acceptez-vous l'utilisation des cookies ?
+            {% elif lang_code == 'de' %}Stimmen Sie der Verwendung von Cookies zu?
+            {% elif lang_code == 'it' %}Accetti l'uso dei cookie?
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}¿Aceptas el uso de cookies?
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Você aceita o uso de cookies?
+            {% else %}Accept cookies to improve your experience?{% endif %}
+        </p>
+
+        <button id="acceptCookiesBtn" class="cookie-consent-btn">
+            {% if lang_code == 'ja' %}同意する
+            {% elif lang_code == 'ko' %}동의함
+            {% elif lang_code == 'zh-cn' %}同意
+            {% elif lang_code == 'zh-hant' %}同意
+            {% elif lang_code == 'th' %}ยอมรับ
+            {% elif lang_code == 'vi' %}Đồng ý
+            {% elif lang_code == 'fr' %}Accepter
+            {% elif lang_code == 'de' %}Akzeptieren
+            {% elif lang_code == 'it' %}Accetta
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Aceptar
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Aceitar
+            {% else %}OK{% endif %}
+        </button>
+    </div>
+
+    <script>
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            const cookieBanner = document.getElementById('cookieConsentBanner');
+            if (cookieBanner && !document.cookie.includes('cookie_consent')) {
+                setTimeout(() => { cookieBanner.classList.add('show'); }, 1000);
+            }
+            document.getElementById('acceptCookiesBtn')?.addEventListener('click', () => {
+                document.cookie = "cookie_consent=accepted; max-age=31536000; path=/";
+                cookieBanner.classList.remove('show');
+            });
+        });
+    </script>
+</body>
+</html>

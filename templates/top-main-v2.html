@@ -1,0 +1,212 @@
+{% load static %}
+
+<style>
+
+.hero {
+    position: relative;
+    width: 100%;
+    height: calc(100vh - 140px); 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    padding: 10px;
+}
+
+.hero-bg-layer {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: -1;
+    background-size: cover;
+    background-position: center;
+    transition: opacity 3s ease-in-out;
+}
+
+.hero-bg-layer::after {
+    content: "";
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.5));
+}
+
+.hero-container {
+    z-index: 10;
+    width: 100%;
+    max-width: 450px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+.hero-title {
+    font-size: 2.2rem !important;
+    letter-spacing: 4px !important;
+    color: #fff;
+    text-shadow: 0 2px 15px rgba(0,0,0,0.9);
+    margin-bottom: 5px !important;
+    font-family: 'Zen Antique', serif;
+}
+
+
+.welcome-greeting {
+    font-size: 1.2rem; 
+    margin-bottom: 20px;
+    font-weight: bold;
+    display: inline-block; 
+    background: linear-gradient(135deg, #ffffff 30%, #ff4d4d 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.5));
+}
+
+.hero-description-list {
+    background: rgba(0, 0, 0, 0.55);
+    padding: 15px 20px !important;
+    border-radius: 20px !important;
+    border: 1px solid rgba(255,255,255,0.3);
+    width: 92%;
+    backdrop-filter: blur(5px);
+}
+
+.hero-description-list ul { list-style: none; padding: 0; margin: 0; }
+
+.hero-description-list li {
+    font-size: 0.8rem !important;
+    line-height: 1.5 !important;
+    color: #fff;
+    margin-bottom: 6px;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.hero-buttons {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: center;
+}
+
+.explore-btn {
+    width: 85% !important;
+    max-width: 300px;
+    padding: 14px 0 !important;
+    font-size: 1rem !important;
+    border-radius: 50px !important;
+    text-align: center;
+    text-decoration: none;
+    font-weight: bold;
+    border: none;
+}
+
+.btn-red {
+    background: linear-gradient(135deg, #7ecafb, #4da7db) !important;
+    color: #fff !important;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+
+.btn-gold {
+    background: linear-gradient(135deg, #fff1b8, #ffd700, #d4af37) !important;
+    color: #000 !important;
+    box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
+}
+
+.btn-yellow {
+    background: linear-gradient(to bottom, #f18e04, #ff8c00) !important;
+    color: #fff !important;
+}
+
+
+.categories, .game-call-to-action, footer { display: none; }
+</style>
+
+<section class="hero" id="hero-slider">
+    
+    <div class="hero-bg-layer" id="bg-1" style="background-image: url('https://res.cloudinary.com/dotekofm5/image/upload/v1768385674/thankjapan/backgrounds/gx8xbypllgs1qogcsvak.jpg'); opacity: 1;"></div>
+    <div class="hero-bg-layer" id="bg-2" style="background-image: url('https://res.cloudinary.com/dotekofm5/image/upload/v1778602671/thankjapan/backgrounds/ljw4gmp1ejmlh7qxnfcl.jpg'); opacity: 0;"></div>
+    <div class="hero-bg-layer" id="bg-3" style="background-image: url('https://res.cloudinary.com/dotekofm5/image/upload/v1779246274/thankjapan/backgrounds/rwra8lolzbyp0kn6cs25.jpg'); opacity: 0;"></div>
+
+    <div class="hero-container">
+        <h1 class="hero-title">THANK JAPAN</h1>
+
+        {% if not user.is_authenticated %}
+            <div class="hero-description-list">
+                <ul>
+                    <li>{% if lang_code == 'ja' %}🎮 楽しいゲームで日本語をマスターしよう！{% elif lang_code == 'ko' %}🎮 즐거운 게임으로 일본어 어휘를 마스터하세요!{% elif lang_code == 'zh-cn' %}🎮 通过有趣的游戏掌握日语词汇！{% elif lang_code == 'zh-hant' %}🎮 透過有趣的遊戲掌握日語詞彙！{% elif lang_code == 'th' %}🎮 มาสเตอร์คำศัพท์ภาษาญี่ปุ่นผ่านเกมที่สนุกสนาน!{% elif lang_code == 'vi' %}🎮 Nắm vững từ vựng tiếng Nhật thông qua các trò chơi thú vị!{% elif lang_code == 'fr' %}🎮 Maîtrisez le vocabulaire japonais grâce à des jeux amusants !{% elif lang_code == 'de' %}🎮 Japanische Vokabeln spielerisch meistern!{% elif lang_code == 'it' %}🎮 Padroneggia i vocaboli giapponesi con giochi divertenti!{% elif lang_code == 'es-es' or lang_code == 'es-mx' %}🎮 ¡Domina el vocabulario japonés con juegos divertidos!{% elif lang_code == 'pt' or lang_code == 'pt-br' %}🎮 Domine o vocabulário japonês através de jogos divertidos!{% else %}🎮 Master Japanese Vocabulary through Fun Games!{% endif %}</li>
+                    <li>{% if lang_code == 'ja' %}🍱 15ヶ国語対応！食べ物や文化の必須用語{% elif lang_code == 'ko' %}🍱 15개 국어로 배우는 필수 음식 및 문화 용어{% elif lang_code == 'zh-cn' %}🍱 15 种语言の必备美食与文化术语{% elif lang_code == 'zh-hant' %}🍱 15 種語言の必備美食與文化術語{% elif lang_code == 'th' %}🍱 คำศัพท์อาหารและวัฒนธรรมที่จำเป็นใน 15 ภาษา{% elif lang_code == 'vi' %}🍱 Các thuật ngữ văn hóa & ẩm thực thiết yếu bằng 15 ngôn ngữ{% elif lang_code == 'fr' %}🍱 Termes essentiels de cuisine et culture en 15 langues{% elif lang_code == 'de' %}🍱 Wichtige Begriffe zu Essen & Kultur in 15 Sprachen{% elif lang_code == 'it' %}🍱 Termini essenziali su cibo e cultura in 15 lingue{% elif lang_code == 'es-es' or lang_code == 'es-mx' %}🍱 Términos esenciales de comida y cultura en 15 idiomas{% elif lang_code == 'pt' or lang_code == 'pt-br' %}🍱 Termos essenciais de culinária e cultura em 15 idiomas{% else %}🍱 Essential Food & Culture Terms in 15 Languages{% endif %}</li>
+                    <li>
+                      {% if lang_code == 'ja' %}🗾 日本の穴場スポットを発見しよう
+                      {% elif lang_code == 'ko' %}🗾 일본의 숨겨진 명소를 발견해 보세요
+                      {% elif lang_code == 'zh-cn' %}🗾 探索日本的小众景点
+                      {% elif lang_code == 'zh-hant' %}🗾 探索日本的小眾景點
+                      {% elif lang_code == 'th' %}🗾 ค้นพบอัญมณีที่ซ่อนอยู่ในญี่ปุ่น
+                      {% elif lang_code == 'vi' %}🗾 Khám phá những viên ngọc ẩn của Nhật Bản
+                      {% elif lang_code == 'fr' %}🗾 Découvrez les trésors cachés du Japon
+                      {% elif lang_code == 'de' %}🗾 Entdecke Japans Geheimtipps
+                      {% elif lang_code == 'it' %}🗾 Scopri le perle nascoste del Giappone
+                      {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}🗾 Descubre las joyas ocultas de Japón
+                      {% elif lang_code == 'pt' or lang_code == 'pt-br' %}🗾 Descubra os tesouros escondidos do Japão
+                      {% else %}🗾 Discover Japan's hidden gems{% endif %}
+                    </li>
+                </ul>
+            </div>
+            <div class="hero-buttons">
+                <a href="{% url 'category_list' %}?lang={{ lang_code }}" class="explore-btn btn-red">
+                    {% if lang_code == 'ja' %}日本語の語彙をマスターする 📖{% else %}Master Japanese Vocab 📖{% endif %}
+                </a>
+                <a href="{% url 'player_register' %}?lang={{ lang_code }}" class="explore-btn btn-yellow">
+                    {% if lang_code == 'ja' %}無料で参加してポイントを貯める{% else %}Join for Free & Earn Points{% endif %}
+                </a>
+            </div>
+
+        {% else %}
+            
+            <div class="welcome-greeting">
+                {% if lang_code == 'ja' %}お帰りなさい、{{ user.username }}さん！
+                {% elif lang_code == 'ko' %}{{ user.username }}님, 환영합니다!
+                {% elif lang_code == 'zh-cn' %}欢迎回来，{{ user.username }}！
+                {% elif lang_code == 'zh-hant' %}歡迎回來，{{ user.username }}！
+                {% elif lang_code == 'th' %}ยินดีต้อนรับกลับมา {{ user.username }}!
+                {% elif lang_code == 'vi' %}Chào mừng quay trở lại, {{ user.username }}!
+                {% elif lang_code == 'fr' %}Bon retour, {{ user.username }} !
+                {% elif lang_code == 'de' %}Willkommen zurück, {{ user.username }}!
+                {% elif lang_code == 'it' %}Bentornato, {{ user.username }}!
+                {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}¡Bienvenido de nuevo, {{ user.username }}!
+                {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Bem-vindo de volta, {{ user.username }}!
+                {% else %}Welcome back, {{ user.username }}!{% endif %}
+            </div>
+
+            <div class="hero-buttons">
+                
+                <a href="{% url 'category_list' %}?lang={{ lang_code }}" class="explore-btn btn-red">
+                    {% if lang_code == 'ja' %}学習を続ける 📖{% else %}Continue Learning 📖{% endif %}
+                </a>
+                <a href="{% url 'game_start' %}?lang={{ lang_code }}" class="explore-btn btn-gold">
+                    {% if lang_code == 'ja' %}クイズで遊ぶ 🎮{% else %}Play Vocab Quiz 🎮{% endif %}
+                </a>
+            </div>
+        {% endif %}
+    </div>
+</section>
+
+<script>
+    
+    (function() {
+        const layers = document.querySelectorAll('.hero-bg-layer');
+        let currentIndex = 0;
+        function rotateBackgrounds() {
+            layers[currentIndex].style.opacity = "0";
+            currentIndex = (currentIndex + 1) % layers.length;
+            layers[currentIndex].style.opacity = "1";
+        }
+        setInterval(rotateBackgrounds, 7000);
+    })();
+</script>
+{% endblock %}
