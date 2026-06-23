@@ -164,10 +164,32 @@
             </div>
             <div class="hero-buttons">
                 <a href="{% url 'category_list' %}?lang={{ lang_code }}" class="explore-btn btn-red">
-                    {% if lang_code == 'ja' %}日本語の語彙をマスターする 📖{% else %}Master Japanese Vocab 📖{% endif %}
+                    {% if lang_code == 'ja' %}日本語の語彙をマスターする 📖
+                    {% elif lang_code == 'ko' %}일본어 어휘 마스터하기 📖
+                    {% elif lang_code == 'zh-cn' %}掌握日语词汇 📖
+                    {% elif lang_code == 'zh-hant' %}掌握日語詞彙 📖
+                    {% elif lang_code == 'th' %}มาสเตอร์คำศัพท์ภาษาญี่ปุ่น 📖
+                    {% elif lang_code == 'vi' %}Nắm vững từ vựng tiếng Nhật 📖
+                    {% elif lang_code == 'fr' %}Maîtrisez le vocabulaire japonais 📖
+                    {% elif lang_code == 'de' %}Japanische Vokabeln meistern 📖
+                    {% elif lang_code == 'it' %}Padroneggia i vocaboli giapponesi 📖
+                    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Domina el vocabulario japonés 📖
+                    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Domine o vocabulário japonês 📖
+                    {% else %}Master Japanese Vocab 📖{% endif %}
                 </a>
                 <a href="{% url 'player_register' %}?lang={{ lang_code }}" class="explore-btn btn-yellow">
-                    {% if lang_code == 'ja' %}無料で参加してポイントを貯める{% else %}Join for Free & Earn Points{% endif %}
+                  {% if lang_code == 'ja' %}無料で参加してポイントを貯める
+                  {% elif lang_code == 'ko' %}무료로 가입하고 포인트를 받으세요
+                  {% elif lang_code == 'zh-cn' %}免费加入并赚取积分
+                  {% elif lang_code == 'zh-hant' %}免費加入並賺取積分
+                  {% elif lang_code == 'th' %}เข้าร่วมฟรีและสะสมคะแนน
+                  {% elif lang_code == 'vi' %}Tham gia miễn phí & Nhận điểm
+                  {% elif lang_code == 'fr' %}Inscrivez-vous gratuitement et gagnez des points
+                  {% elif lang_code == 'de' %}Kostenlos anmelden & Punkte sammeln
+                  {% elif lang_code == 'it' %}Iscriviti gratuitamente e accumula punti
+                  {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Únete gratis y gana puntos
+                  {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Cadastre-se grátis e ganhe pontos
+                  {% else %}Join for Free & Earn Points{% endif %}
                 </a>
             </div>
 
@@ -191,10 +213,32 @@
             <div class="hero-buttons">
                 
                 <a href="{% url 'category_list' %}?lang={{ lang_code }}" class="explore-btn btn-red">
-                    {% if lang_code == 'ja' %}学習を続ける 📖{% else %}Continue Learning 📖{% endif %}
+                    {% if lang_code == 'ja' %}学習を続ける 📖
+                    {% elif lang_code == 'ko' %}학습 계속하기 📖
+                    {% elif lang_code == 'zh-cn' %}继续学习 📖
+                    {% elif lang_code == 'zh-hant' %}繼續學習 📖
+                    {% elif lang_code == 'th' %}เรียนรู้ต่อ 📖
+                    {% elif lang_code == 'vi' %}Tiếp tục học 📖
+                    {% elif lang_code == 'fr' %}Continuer à apprendre 📖
+                    {% elif lang_code == 'de' %}Weiterlernen 📖
+                    {% elif lang_code == 'it' %}Continua a imparare 📖
+                    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Continuar aprendiendo 📖
+                    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Continuar aprendendo 📖
+                    {% else %}Continue Learning 📖{% endif %}
                 </a>
                 <a href="{% url 'game_start' %}?lang={{ lang_code }}" class="explore-btn btn-gold">
-                    {% if lang_code == 'ja' %}クイズで遊ぶ 🎮{% else %}Play Vocab Quiz 🎮{% endif %}
+                    {% if lang_code == 'ja' %}クイズで遊ぶ 🎮
+                    {% elif lang_code == 'ko' %}퀴즈 풀기 🎮
+                    {% elif lang_code == 'zh-cn' %}玩词汇测验 🎮
+                    {% elif lang_code == 'zh-hant' %}玩詞彙測驗 🎮
+                    {% elif lang_code == 'th' %}เล่นควิซคำศัพท์ 🎮
+                    {% elif lang_code == 'vi' %}Chơi đố vui từ vựng 🎮
+                    {% elif lang_code == 'fr' %}Jouer au quiz 🎮
+                    {% elif lang_code == 'de' %}Quiz spielen 🎮
+                    {% elif lang_code == 'it' %}Gioca al quiz 🎮
+                    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Jugar al quiz 🎮
+                    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Jogar o quiz 🎮
+                    {% else %}Play Vocab Quiz 🎮{% endif %}
                 </a>
             </div>
         {% endif %}
