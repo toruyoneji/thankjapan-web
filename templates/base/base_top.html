@@ -275,55 +275,61 @@
         }
 
         
-        .lang-modal {
-            position: fixed;
-            bottom: -100%; 
-            left: 0;
-            width: 100%;
-            height: 70%; 
-            background: rgba(15, 15, 15, 0.98);
-            border-top: 2px solid #d4af37;
-            z-index: 9999;
-            transition: bottom 0.4s ease-out;
-            padding: 20px;
-            overflow-y: auto;
-            border-radius: 20px 20px 0 0;
-        }
+        /* --- 言語モーダルの基本状態 --- */
+    .modal-overlay {
+        display: none; /* 通常は隠す */
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        z-index: 9998; /* 他の要素より上に */
+    }
 
-        .lang-modal.show { 
-            bottom: 0 !important; 
-        }
+    .lang-modal {
+        position: fixed;
+        bottom: -100%; /* 通常は画面の下に隠しておく */
+        left: 0;
+        width: 100%;
+        max-height: 70vh;
+        background: #1a1a1a;
+        border-top: 3px solid #d4af37;
+        border-radius: 20px 20px 0 0;
+        padding: 20px;
+        z-index: 9999; /* オーバーレイよりさらに上に */
+        transition: bottom 0.4s ease; /* スッと上がるアニメーション */
+        overflow-y: auto;
+    }
 
+/* --- JSで .show クラスがついた時の表示設定 --- */
+/* !important をつけて他の設定に負けないようにします */
+    .modal-overlay.show {
+        display: block !important;
+    }
 
-        .modal-overlay {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.7);
-            display: none;
-            z-index: 9998;
-        }
+    .lang-modal.show {
+        bottom: 0 !important; /* 画面の一番下まで引き上げる */
+    }
 
-        .modal-overlay.show { 
-            display: block !important; 
-        }
+/* 言語アイテムの見た目（念のため再掲） */
+    .lang-list {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+    }
 
-        .lang-list {
-            display: grid;
-            grid-template-columns: 1fr 1fr; 
-            gap: 15px;
-            padding-bottom: 40px;
-        }
+    .lang-item {
+        color: #fff;
+        text-decoration: none;
+        padding: 15px;
+        background: #222;
+        border-radius: 10px;
+        text-align: center;
+        font-size: 0.9rem;
+        border: 1px solid #333;
+    }
 
-        .lang-item {
-            color: #fff;
-            text-decoration: none;
-            padding: 12px;
-            background: rgba(255,255,255,0.05);
-            border-radius: 10px;
-            text-align: center;
-            font-size: 0.9rem;
-            border: 1px solid rgba(212, 175, 55, 0.2);
-        }
 
     </style>
 
@@ -394,7 +400,8 @@
                     {% else %}Game{% endif %}
                 </span>
             </a>
-            <a href="#" class="nav-item" id="lang-select-btn">
+
+            <a href="javascript:void(0)" class="nav-item" id="lang-select-btn">
                 <i class="fas fa-globe"></i>
                 <span>
                     {% if lang_code == 'ja' %}言語
@@ -481,49 +488,41 @@
         </button>
     </div>
 
-
     
-    <div id="modalOverlay" class="modal-overlay"></div>
+    <div id="modalOverlay" class="modal-overlay" onclick="toggleLangModal()"></div>
     <div id="langModal" class="lang-modal">
         <h3 style="color:#d4af37; text-align:center; margin-bottom:20px;">Select Language</h3>
         <div class="lang-list">
+            <a href="{% url 'toppageja' %}?lang=ja" class="lang-item">日本語</a>
             <a href="{% url 'toppage' %}?lang=en" class="lang-item">English</a>
-            <a href="{% url 'toppageenIN' %}?lang=en-in" class="lang-item">English (India)</a>
-            <a href="{% url 'toppageit' %}?lang=it" class="lang-item">Italiano</a>
+            <a href="{% url 'toppageko' %}?lang=ko" class="lang-item">한국어</a>
+            <a href="{% url 'toppagezhCN' %}?lang=zh-cn" class="lang-item">简体中文</a>
+            <a href="{% url 'toppagezhHANT' %}?lang=zh-hant" class="lang-item">繁體中文</a>
             <a href="{% url 'toppagefr' %}?lang=fr" class="lang-item">Français</a>
             <a href="{% url 'toppagede' %}?lang=de" class="lang-item">Deutsch</a>
-            <a href="{% url 'toppagept' %}?lang=pt" class="lang-item">Português</a>
-            <a href="{% url 'toppageptBR' %}?lang=pt-br" class="lang-item">Português (Brasil)</a>
-            <a href="{% url 'toppageja' %}?lang=ja" class="lang-item">日本語</a>
+            <a href="{% url 'toppageit' %}?lang=it" class="lang-item">Italiano</a>
             <a href="{% url 'toppageesES' %}?lang=es-es" class="lang-item">Español</a>
-            <a href="{% url 'toppageesMX' %}?lang=es-mx" class="lang-item">Español (México)</a>
             <a href="{% url 'toppagevi' %}?lang=vi" class="lang-item">Tiếng Việt</a>
-            <a href="{% url 'toppageko' %}?lang=ko" class="lang-item">한국어</a>
             <a href="{% url 'toppageth' %}?lang=th" class="lang-item">ภาษาไทย</a>
-            <a href="{% url 'toppagezhHANT' %}?lang=zh-hant" class="lang-item">繁體中文</a>
-            <a href="{% url 'toppagezhCN' %}?lang=zh-cn" class="lang-item">简体中文</a>
+            <a href="{% url 'toppageptBR' %}?lang=pt-br" class="lang-item">Português(BR)</a>
         </div>
-
-        <button onclick="toggleLangModal()" style="width:100%; margin-top:20px; padding:12px; background:none; border:1px solid #444; color:#777; border-radius:10px;">Close</button>
+        <button onclick="toggleLangModal()" style="width:100%; margin-top:20px; padding:15px; background:#333; color:#fff; border:none; border-radius:10px;">Close</button>
     </div>
 
+
     <script>
-    function toggleLangModal() {
+    function toggleLangModal(e) {
+        if(e) e.preventDefault();    
         document.getElementById('langModal').classList.toggle('show');
         document.getElementById('modalOverlay').classList.toggle('show');
     }
 
-
     document.addEventListener('DOMContentLoaded', function() {
-        const langBtn = document.querySelector('a[href="#lang-select"]');
-        if (langBtn) {
-            langBtn.addEventListener('click', function(e) {
-                e.preventDefault();
-                toggleLangModal();
-            });
+    
+        const btn = document.getElementById('lang-select-btn');
+        if (btn) {
+            btn.onclick = toggleLangModal;
         }
-   
-        document.getElementById('modalOverlay').addEventListener('click', toggleLangModal);
     });
     </script>
 
