@@ -374,7 +374,7 @@
     <div class="app-wrapper">
         
         <header class="app-header">
-            <a class="logo-link" href="{% url 'toppage' %}?lang={{ lang_code }}">Thank Japan</a>
+            <a class="logo-link" href="{% url 'toppage' %}?lang={{ lang_code }}">ThankJapan</a>
             <div class="header-right">
                 <a href="#" class="header-score-badge">
                     <span class="score-text">💎 {{ user.profile.total_score|default:0 }}<small>pt</small></span>
@@ -605,7 +605,7 @@
     </div>
 
 
-    <!-- 「学ぶ・発見」モーダル -->
+    
     <div id="learnModal" class="lang-modal">
         <h3 style="color:#d4af37; text-align:center; margin-bottom:20px;">
             {% if lang_code == 'ja' %}冒険を選ぼう{% else %}Choose Your Path{% endif %}
