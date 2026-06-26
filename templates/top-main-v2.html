@@ -48,12 +48,9 @@
 }
 
 .hero-title {
-    font-size: 2.2rem !important;
-    letter-spacing: 4px !important;
-    color: #fff;
-    text-shadow: 0 2px 15px rgba(0,0,0,0.9);
-    margin-bottom: 5px !important;
-    font-family: 'Zen Antique', serif;
+    font-family: 'Poppins', sans-serif !important; 
+    font-weight: 300 !important; 
+    letter-spacing: 10px !important;
 }
 
 
@@ -70,13 +67,15 @@
 }
 
 .hero-description-list {
-    background: rgba(0, 0, 0, 0.55);
-    padding: 15px 20px !important;
+    background: rgba(0, 0, 0, 0.3) !important; 
+    backdrop-filter: blur(8px) !important; 
+    -webkit-backdrop-filter: blur(8px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
     border-radius: 20px !important;
-    border: 1px solid rgba(255,255,255,0.3);
-    width: 92%;
-    backdrop-filter: blur(5px);
+    padding: 15px 25px !important;
+    width: 90%;
 }
+
 
 .hero-description-list ul { list-style: none; padding: 0; margin: 0; }
 
@@ -112,9 +111,15 @@
 }
 
 .btn-red {
-    background: linear-gradient(135deg, #7ecafb, #4da7db) !important;
+    background: rgba(255, 255, 255, 0.1) !important;
+    backdrop-filter: blur(5px);
     color: #fff !important;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    border: 1px solid rgba(255, 255, 255, 0.5) !important;
+    box-shadow: none !important;
+}
+
+.btn-red:hover {
+    background: rgba(255, 255, 255, 0.2) !important;
 }
 
 .btn-gold {
