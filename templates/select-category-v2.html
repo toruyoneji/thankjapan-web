@@ -1,0 +1,363 @@
+{% load static %}
+
+<style>
+    .app-inner-container {
+        position: fixed;
+        top: 60px;
+        bottom: 75px;
+        left: 0;
+        right: 0;
+        display: flex;
+        flex-direction: column;
+        background: linear-gradient(to bottom, rgba(0,0,0,0.7), rgba(0,0,0,0.85)),
+                    url('https://res.cloudinary.com/dotekofm5/image/upload/v1768385674/thankjapan/backgrounds/gx8xbypllgs1qogcsvak.jpg');
+        background-size: cover;
+        background-position: center;
+    }
+
+    .category-scroll-area {
+        flex: 1;
+        overflow-y: auto;
+        padding: 20px 15px;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .category-scroll-area::-webkit-scrollbar {
+        display: none;
+    }
+
+    .category-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+        max-width: 1000px;
+        margin: 0 auto;
+    }
+
+    @media (min-width: 768px) {
+        .category-grid {
+            grid-template-columns: repeat(4, 1fr);
+        }
+    }
+
+    @media (min-width: 1024px) {
+        .category-grid {
+            grid-template-columns: repeat(5, 1fr);
+        }
+    }
+
+    .cat-card-new {
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border: 1px solid rgba(212, 175, 55, 0.3);
+        border-radius: 16px;
+        padding: 20px 10px;
+        text-decoration: none;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+        aspect-ratio: 1 / 1;
+    }
+
+    .cat-card-new:active {
+        transform: scale(0.95);
+        background: rgba(212, 175, 55, 0.1);
+    }
+
+    .icon-wrapper {
+        width: 60px;
+        height: 60px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 10px;
+        font-size: 2.2rem;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+
+    .cat-name-new {
+        color: #fff;
+        font-family: 'Inter', 'Noto Sans JP', sans-serif;
+        font-size: 0.85rem;
+        font-weight: 600;
+        text-align: center;
+        line-height: 1.3;
+    }
+
+    .badge-new {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        font-size: 10px;
+        padding: 2px 8px;
+        border-radius: 10px;
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .badge-free {
+        background: #2ecc71;
+        color: #fff;
+    }
+
+    .badge-special {
+        background: #d4af37;
+        color: #000;
+    }
+
+    .page-guide {
+        text-align: center;
+        padding: 15px 0 5px;
+        color: rgba(255,255,255,0.7);
+        font-size: 0.8rem;
+        letter-spacing: 1px;
+    }
+
+    .back-home-area {
+        padding: 30px 0 50px;
+        text-align: center;
+    }
+
+    .btn-app-secondary {
+        display: inline-block;
+        color: #d4af37;
+        text-decoration: none;
+        font-size: 0.9rem;
+        border: 1px solid #d4af37;
+        padding: 10px 30px;
+        border-radius: 25px;
+        transition: 0.3s;
+    }
+</style>
+
+<div class="app-inner-container">
+    <div class="page-guide">
+        {% if lang_code == 'ja' %}トピックを選択してください
+        {% elif lang_code == 'ko' %}주제를 선택하세요
+        {% elif lang_code == 'zh-cn' %}请选择一个话题
+        {% elif lang_code == 'zh-hant' %}請選擇一個話題
+        {% elif lang_code == 'th' %}กรุณาเลือกหัวข้อ
+        {% elif lang_code == 'vi' %}Vui lòng chọn một chủ đề
+        {% elif lang_code == 'fr' %}Choisissez un sujet
+        {% elif lang_code == 'de' %}Wählen Sie ein Thema
+        {% elif lang_code == 'it' %}Scegli un argomento
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Elige un tema
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Escolha um tema
+        {% else %}Select a Topic{% endif %}
+    </div>
+
+    <div class="category-scroll-area">
+        <div class="category-grid">
+            
+            <a href="{% url 'culturepage' %}?lang={{ lang_code }}" class="cat-card-new">
+                <div class="icon-wrapper">⛩️</div>
+                <span class="cat-name-new">
+                    {% if lang_code == 'ja' %}文化{% elif lang_code == 'ko' %}문화{% elif lang_code == 'zh-cn' %}文化{% elif lang_code == 'zh-hant' %}文化{% elif lang_code == 'th' %}วัฒนธรรม{% elif lang_code == 'vi' %}Văn hóa{% elif lang_code == 'fr' %}Culture{% elif lang_code == 'de' %}Kultur{% elif lang_code == 'it' %}Cultura{% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Cultura{% elif lang_code == 'pt' or lang_code == 'pt-br' %}Cultura{% else %}Culture{% endif %}
+                </span>
+            </a>
+
+            <a href="{% url 'dailyactionspage' %}?lang={{ lang_code }}" class="cat-card-new">
+                <div class="icon-wrapper">🏃</div>
+                <span class="cat-name-new">
+                    {% if lang_code == 'ja' %}日常の動作{% elif lang_code == 'ko' %}일상 동작{% elif lang_code == 'zh-cn' %}日常动作{% elif lang_code == 'zh-hant' %}日常動作{% elif lang_code == 'th' %}กิจวัตรประจำวัน{% elif lang_code == 'vi' %}Hành động hàng ngày{% elif lang_code == 'fr' %}Actions quotidiennes{% elif lang_code == 'de' %}Alltägliche Handlungen{% elif lang_code == 'it' %}Azioni quotidiane{% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Acciones diarias{% elif lang_code == 'pt' or lang_code == 'pt-br' %}Ações diárias{% else %}Daily Actions{% endif %}
+                </span>
+            </a>
+
+            <a href="{% url 'foodpage' %}?lang={{ lang_code }}" class="cat-card-new">
+                <div class="icon-wrapper">🍣</div>
+                <span class="cat-name-new">
+                    {% if lang_code == 'ja' %}食べ物{% elif lang_code == 'ko' %}음식{% elif lang_code == 'zh-cn' %}食物{% elif lang_code == 'zh-hant' %}食物{% elif lang_code == 'th' %}อาหาร{% elif lang_code == 'vi' %}Thức ăn{% elif lang_code == 'fr' %}Nourriture{% elif lang_code == 'de' %}Essen{% elif lang_code == 'it' %}Cibo{% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Comida{% elif lang_code == 'pt' or lang_code == 'pt-br' %}Comida{% else %}Food{% endif %}
+                </span>
+            </a>
+
+            <a href="{% url 'cookpage' %}?lang={{ lang_code }}" class="cat-card-new">
+                <div class="icon-wrapper">🍳</div>
+                <span class="cat-name-new">
+                    {% if lang_code == 'ja' %}料理{% elif lang_code == 'ko' %}요리{% elif lang_code == 'zh-cn' %}烹饪{% elif lang_code == 'zh-hant' %}烹飪{% elif lang_code == 'th' %}การทำอาหาร{% elif lang_code == 'vi' %}Nấu ăn{% elif lang_code == 'fr' %}Cuisine{% elif lang_code == 'de' %}Kochen{% elif lang_code == 'it' %}Cucina{% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Cocina{% elif lang_code == 'pt' or lang_code == 'pt-br' %}Culinária{% else %}Cuisine{% endif %}
+                </span>
+            </a>
+
+            <a href="{% url 'fashionpage' %}?lang={{ lang_code }}" class="cat-card-new">
+                <div class="icon-wrapper">👘</div>
+                <span class="cat-name-new">
+                    {% if lang_code == 'ja' %}ファッション{% elif lang_code == 'ko' %}패션{% elif lang_code == 'zh-cn' %}时尚{% elif lang_code == 'zh-hant' %}時尚{% elif lang_code == 'th' %}แฟชั่น{% elif lang_code == 'vi' %}Thời trang{% elif lang_code == 'fr' %}Mode{% elif lang_code == 'de' %}Mode{% elif lang_code == 'it' %}Moda{% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Moda{% elif lang_code == 'pt' or lang_code == 'pt-br' %}Moda{% else %}Fashion{% endif %}
+                </span>
+            </a>
+
+            <a href="{% url 'naturepage' %}?lang={{ lang_code }}" class="cat-card-new">
+                <div class="icon-wrapper">🗻</div>
+                <span class="cat-name-new">
+                    {% if lang_code == 'ja' %}自然{% elif lang_code == 'ko' %}자연{% elif lang_code == 'zh-cn' %}自然{% elif lang_code == 'zh-hant' %}自然{% elif lang_code == 'th' %}ธรรมชาติ{% elif lang_code == 'vi' %}Thiên nhiên{% elif lang_code == 'fr' %}Nature{% elif lang_code == 'de' %}Natur{% elif lang_code == 'it' %}Natura{% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Naturaleza{% elif lang_code == 'pt' or lang_code == 'pt-br' %}Natureza{% else %}Nature{% endif %}
+                </span>
+            </a>
+
+            <a href="{% url 'animalpage' %}?lang={{ lang_code }}" class="cat-card-new">
+                <div class="icon-wrapper">🐕</div>
+                <span class="cat-name-new">
+                    {% if lang_code == 'ja' %}動物{% elif lang_code == 'ko' %}동물{% elif lang_code == 'zh-cn' %}动物{% elif lang_code == 'zh-hant' %}動物{% elif lang_code == 'th' %}สัตว์{% elif lang_code == 'vi' %}Động vật{% elif lang_code == 'fr' %}Animaux{% elif lang_code == 'de' %}Tiere{% elif lang_code == 'it' %}Animali{% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Animales{% elif lang_code == 'pt' or lang_code == 'pt-br' %}Animais{% else %}Animals{% endif %}
+                </span>
+            </a>
+
+            <a href="{% url 'sportspage' %}?lang={{ lang_code }}" class="cat-card-new">
+                <div class="icon-wrapper">🥋</div>
+                <span class="cat-name-new">
+                    {% if lang_code == 'ja' %}スポーツ{% elif lang_code == 'ko' %}스포츠{% elif lang_code == 'zh-cn' %}运动{% elif lang_code == 'zh-hant' %}運動{% elif lang_code == 'th' %}กีฬา{% elif lang_code == 'vi' %}Thể thao{% elif lang_code == 'fr' %}Sports{% elif lang_code == 'de' %}Sport{% elif lang_code == 'it' %}Sport{% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Deportes{% elif lang_code == 'pt' or lang_code == 'pt-br' %}Esportes{% else %}Sports{% endif %}
+                </span>
+            </a>
+
+            <a href="{% url 'householditemspage' %}?lang={{ lang_code }}" class="cat-card-new">
+                <div class="icon-wrapper">🪑</div>
+                <span class="cat-name-new">
+                    {% if lang_code == 'ja' %}日用品{% elif lang_code == 'ko' %}생활용품{% elif lang_code == 'zh-cn' %}生活用品{% elif lang_code == 'zh-hant' %}生活用品{% elif lang_code == 'th' %}ของใช้ในบ้าน{% elif lang_code == 'vi' %}Đồ gia dụng{% elif lang_code == 'fr' %}Articles ménagers{% elif lang_code == 'de' %}Haushaltsartikel{% elif lang_code == 'it' %}Articoli per la casa{% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Artículos del hogar{% elif lang_code == 'pt' or lang_code == 'pt-br' %}Itens domésticos{% else %}Items{% endif %}
+                </span>
+            </a>
+
+            <a href="{% url 'appliancespage' %}?lang={{ lang_code }}" class="cat-card-new">
+                <div class="icon-wrapper">📺</div>
+                <span class="cat-name-new">
+                    {% if lang_code == 'ja' %}家電{% elif lang_code == 'ko' %}가전제품{% elif lang_code == 'zh-cn' %}家用电器{% elif lang_code == 'zh-hant' %}家用電器{% elif lang_code == 'th' %}เครื่องใช้ไฟฟ้า{% elif lang_code == 'vi' %}Thiết bị điện tử{% elif lang_code == 'fr' %}Appareils ménagers{% elif lang_code == 'de' %}Haushaltsgeräte{% elif lang_code == 'it' %}Elettrodomestici{% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Electrodomésticos{% elif lang_code == 'pt' or lang_code == 'pt-br' %}Eletrodomésticos{% else %}Appliances{% endif %}
+                </span>
+            </a>
+
+            <a href="{% url 'buildingpage' %}?lang={{ lang_code }}" class="cat-card-new">
+                <div class="icon-wrapper">🏯</div>
+                <span class="cat-name-new">
+                    {% if lang_code == 'ja' %}建物{% elif lang_code == 'ko' %}건물{% elif lang_code == 'zh-cn' %}建筑物{% elif lang_code == 'zh-hant' %}建築物{% elif lang_code == 'th' %}อาคาร{% elif lang_code == 'vi' %}Tòa nhà{% elif lang_code == 'fr' %}Bâtiments{% elif lang_code == 'de' %}Gebäude{% elif lang_code == 'it' %}Edifici{% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Edificios{% elif lang_code == 'pt' or lang_code == 'pt-br' %}Edifícios{% else %}Building{% endif %}
+                </span>
+            </a>
+
+            <a href="{% url 'flowerpage' %}?lang={{ lang_code }}" class="cat-card-new">
+                <div class="icon-wrapper">🌸</div>
+                <span class="cat-name-new">
+                    {% if lang_code == 'ja' %}花{% elif lang_code == 'ko' %}꽃{% elif lang_code == 'zh-cn' %}花卉{% elif lang_code == 'zh-hant' %}花卉{% elif lang_code == 'th' %}ดอกไม้{% elif lang_code == 'vi' %}Hoa{% elif lang_code == 'fr' %}Fleurs{% elif lang_code == 'de' %}Blumen{% elif lang_code == 'it' %}Fiori{% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Flores{% elif lang_code == 'pt' or lang_code == 'pt-br' %}Flores{% else %}Flowers{% endif %}
+                </span>
+            </a>
+
+            <a href="{% url 'workpage' %}?lang={{ lang_code }}" class="cat-card-new">
+                <div class="icon-wrapper">💼</div>
+                <span class="cat-name-new">
+                    {% if lang_code == 'ja' %}仕事{% elif lang_code == 'ko' %}일{% elif lang_code == 'zh-cn' %}工作{% elif lang_code == 'zh-hant' %}工作{% elif lang_code == 'th' %}งาน{% elif lang_code == 'vi' %}Công việc{% elif lang_code == 'fr' %}Travail{% elif lang_code == 'de' %}Arbeit{% elif lang_code == 'it' %}Lavoro{% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Trabajo{% elif lang_code == 'pt' or lang_code == 'pt-br' %}Trabalho{% else %}Work{% endif %}
+                </span>
+            </a>
+
+            <a href="{% url 'livepage' %}?lang={{ lang_code }}" class="cat-card-new">
+                <div class="icon-wrapper">🍵</div>
+                <span class="cat-name-new">
+                    {% if lang_code == 'ja' %}ライフスタイル{% elif lang_code == 'ko' %}라이프스타일{% elif lang_code == 'zh-cn' %}生活方式{% elif lang_code == 'zh-hant' %}生活方式{% elif lang_code == 'th' %}ไลฟ์สไตล์{% elif lang_code == 'vi' %}Lối sống{% elif lang_code == 'fr' %}Mode de vie{% elif lang_code == 'de' %}Lebensstil{% elif lang_code == 'it' %}Stile di vita{% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Estilo de vita{% elif lang_code == 'pt' or lang_code == 'pt-br' %}Estilo de vida{% else %}Lifestyle{% endif %}
+                </span>
+            </a>
+
+            <a href="{% url 'bodypage' %}?lang={{ lang_code }}" class="cat-card-new">
+                <div class="icon-wrapper">🖐️</div>
+                <span class="cat-name-new">
+                    {% if lang_code == 'ja' %}体{% elif lang_code == 'ko' %}신체{% elif lang_code == 'zh-cn' %}身体{% elif lang_code == 'zh-hant' %}身體{% elif lang_code == 'th' %}ร่างกาย{% elif lang_code == 'vi' %}Cơ thể{% elif lang_code == 'fr' %}Corps{% elif lang_code == 'de' %}Körper{% elif lang_code == 'it' %}Corpo{% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Cuerpo{% elif lang_code == 'pt' or lang_code == 'pt-br' %}Corpo{% else %}Body{% endif %}
+                </span>
+            </a>
+
+            <a href="{% url 'dailyconversation' %}?lang={{ lang_code }}" class="cat-card-new">
+                <div class="badge-new badge-free">FREE</div>
+                <div class="icon-wrapper">💬</div>
+                <span class="cat-name-new">
+                    {% if lang_code == 'ja' %}会話{% elif lang_code == 'ko' %}대화{% elif lang_code == 'zh-cn' %}会话{% elif lang_code == 'zh-hant' %}會話{% elif lang_code == 'th' %}การสนทนา{% elif lang_code == 'vi' %}Hội thoại{% elif lang_code == 'fr' %}Conversation{% elif lang_code == 'de' %}Konversation{% elif lang_code == 'it' %}Conversazione{% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Conversación{% elif lang_code == 'pt' or lang_code == 'pt-br' %}Conversação{% else %}Conversation{% endif %}
+                </span>
+            </a>
+
+            <a href="{% url 'tourism_etiquette' %}?lang={{ lang_code }}" class="cat-card-new">
+                <div class="badge-new badge-free">FREE</div>
+                <div class="icon-wrapper">🚩</div>
+                <span class="cat-name-new">
+                    {% if lang_code == 'ja' %}観光とマナー{% elif lang_code == 'ko' %}관광 및 에티켓{% elif lang_code == 'zh-cn' %}旅游与礼仪{% elif lang_code == 'zh-hant' %}旅遊與禮儀{% elif lang_code == 'th' %}การท่องเที่ยวและมารยาท{% elif lang_code == 'vi' %}Du lịch & Phép lịch sự{% elif lang_code == 'fr' %}Tourisme et Étiquette{% elif lang_code == 'de' %}Tourismus & Etikette{% elif lang_code == 'it' %}Turismo ed Etichetta{% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Turismo y Etiqueta{% elif lang_code == 'pt' or lang_code == 'pt-br' %}Turismo e Etiqueta{% else %}Tourism & Etiquette{% endif %}
+                </span>
+            </a>
+
+            <a href="{% url 'entertainment' %}?lang={{ lang_code }}" class="cat-card-new">
+                <div class="badge-new badge-free">FREE</div>
+                <div class="icon-wrapper">🎬</div>
+                <span class="cat-name-new">
+                    {% if lang_code == 'ja' %}エンターテインメント{% elif lang_code == 'ko' %}엔터테인먼트{% elif lang_code == 'zh-cn' %}娱乐{% elif lang_code == 'zh-hant' %}娛樂{% elif lang_code == 'th' %}ความบันเทิง{% elif lang_code == 'vi' %}Giải trí{% elif lang_code == 'fr' %}Divertissement{% elif lang_code == 'de' %}Unterhaltung{% elif lang_code == 'it' %}Intrattenimento{% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Entretenimiento{% elif lang_code == 'pt' or lang_code == 'pt-br' %}Entretenimento{% else %}Entertainment{% endif %}
+                </span>
+            </a>
+
+            <a href="{% url 'slang' %}?lang={{ lang_code }}" class="cat-card-new">
+                <div class="badge-new badge-free">FREE</div>
+                <div class="icon-wrapper">🔥</div>
+                <span class="cat-name-new">
+                    {% if lang_code == 'ja' %}スラングとSNS{% elif lang_code == 'ko' %}슬랭 및 SNS{% elif lang_code == 'zh-cn' %}俚语与SNS{% elif lang_code == 'zh-hant' %}俚語與SNS{% elif lang_code == 'th' %}สแลงและ SNS{% elif lang_code == 'vi' %}Tiếng lóng & SNS{% elif lang_code == 'fr' %}Argot et réseaux sociaux{% elif lang_code == 'de' %}Slang & SNS{% elif lang_code == 'it' %}Slang e SNS{% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Jerga y redes sociales{% elif lang_code == 'pt' or lang_code == 'pt-br' %}Gírias e redes sociais{% else %}Slang & SNS{% endif %}
+                </span>
+            </a>
+
+            <a href="{% url 'businessjapanese' %}?lang={{ lang_code }}" class="cat-card-new">
+                <div class="badge-new badge-special">{% if is_premium %}ACTIVE{% else %}Special{% endif %}</div>
+                <div class="icon-wrapper">👔</div>
+                <span class="cat-name-new">
+                    {% if lang_code == 'ja' %}ビジネス日本語{% elif lang_code == 'ko' %}비즈니스 일본어{% elif lang_code == 'zh-cn' %}商务日语{% elif lang_code == 'zh-hant' %}商務日語{% elif lang_code == 'th' %}ภาษาญี่ปุ่นธุรกิจ{% elif lang_code == 'vi' %}Tiếng Nhật thương mại{% elif lang_code == 'fr' %}Japonais des affaires{% elif lang_code == 'de' %}Business-Japanisch{% elif lang_code == 'it' %}Giapponese commerciale{% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Japonés de negocios{% elif lang_code == 'pt' or lang_code == 'pt-br' %}Japonês para negócios{% else %}Business Japanese{% endif %}
+                </span>
+            </a>
+
+            <a href="{% url 'living_in_japan_page' %}?lang={{ lang_code }}" class="cat-card-new">
+                <div class="badge-new badge-special">{% if is_premium %}ACTIVE{% else %}Special{% endif %}</div>
+                <div class="icon-wrapper">🏠</div>
+                <span class="cat-name-new">
+                    {% if lang_code == 'ja' %}日本での生活{% elif lang_code == 'ko' %}일본 생활{% elif lang_code == 'zh-cn' %}在日生活{% elif lang_code == 'zh-hant' %}在日生活{% elif lang_code == 'th' %}การใช้ชีวิตในญี่ปุ่น{% elif lang_code == 'vi' %}Cuộc sống tại Nhật{% elif lang_code == 'fr' %}Vie pratique{% elif lang_code == 'de' %}Praktisches Leben{% elif lang_code == 'it' %}Vita pratica{% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Vida práctica{% elif lang_code == 'pt' or lang_code == 'pt-br' %}Vida prática{% else %}Practical Living{% endif %}
+                </span>
+            </a>
+
+            <a href="{% url 'medical_emergency' %}?lang={{ lang_code }}" class="cat-card-new">
+                <div class="badge-new badge-special">{% if is_premium %}ACTIVE{% else %}Special{% endif %}</div>
+                <div class="icon-wrapper">🏥</div>
+                <span class="cat-name-new">
+                    {% if lang_code == 'ja' %}医療と緊急{% elif lang_code == 'ko' %}의료 및 응급{% elif lang_code == 'zh-cn' %}医疗与急救{% elif lang_code == 'zh-hant' %}醫療與急救{% elif lang_code == 'th' %}การแพทย์และฉุกเฉิน{% elif lang_code == 'vi' %}Y tế & Khẩn cấp{% elif lang_code == 'fr' %}Médical et Urgence{% elif lang_code == 'de' %}Medizin & Notfall{% elif lang_code == 'it' %}Medico ed Emergenza{% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Médico y Emergencia{% elif lang_code == 'pt' or lang_code == 'pt-br' %}Médico e Emergência{% else %}Medical & Emergency{% endif %}
+                </span>
+            </a>
+
+            <a href="{% url 'real_estate_rules' %}?lang={{ lang_code }}" class="cat-card-new">
+                <div class="badge-new badge-special">{% if is_premium %}ACTIVE{% else %}Special{% endif %}</div>
+                <div class="icon-wrapper">🏢</div>
+                <span class="cat-name-new">
+                    {% if lang_code == 'ja' %}不動産とルール{% elif lang_code == 'ko' %}부동산 및 규칙{% elif lang_code == 'zh-cn' %}房地产与规则{% elif lang_code == 'zh-hant' %}房地產與規則{% elif lang_code == 'th' %}อสังหาริมทรัพย์และกฎเกณฑ์{% elif lang_code == 'vi' %}Bất động sản & Quy tắc{% elif lang_code == 'fr' %}Immobilier et Règles{% elif lang_code == 'de' %}Immobilien & Regeln{% elif lang_code == 'it' %}Immobiliare e Regole{% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Bienes raíces y Reglas{% elif lang_code == 'pt' or lang_code == 'pt-br' %}Imobiliário e Regras{% else %}Real Estate & Rules{% endif %}
+                </span>
+            </a>
+
+            <a href="{% url 'prefectures' %}?lang={{ lang_code }}" class="cat-card-new">
+                <div class="badge-new badge-special">{% if is_premium %}ACTIVE{% else %}Special{% endif %}</div>
+                <div class="icon-wrapper">🗾</div>
+                <span class="cat-name-new">
+                    {% if lang_code == 'ja' %}都道府県{% elif lang_code == 'ko' %}도도부현{% elif lang_code == 'zh-cn' %}都道府县{% elif lang_code == 'zh-hant' %}都道府縣{% elif lang_code == 'th' %}จังหวัด{% elif lang_code == 'vi' %}Các tỉnh thành{% elif lang_code == 'fr' %}Préfectures{% elif lang_code == 'de' %}Präfekturen{% elif lang_code == 'it' %}Prefetture{% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Prefecturas{% elif lang_code == 'pt' or lang_code == 'pt-br' %}Províncias{% else %}Prefectures{% endif %}
+                </span>
+            </a>
+        </div>
+
+        <div class="back-home-area">
+            <a class="btn-app-secondary" href="javascript:void(0);" onclick="goToTopPage()">
+                {% if lang_code == 'ja' %}← ホームに戻る
+                {% elif lang_code == 'ko' %}← 홈으로 돌아가기
+                {% elif lang_code == 'zh-cn' %}← 返回首页
+                {% elif lang_code == 'zh-hant' %}← 返回首頁
+                {% elif lang_code == 'th' %}← กลับไปหน้าแรก
+                {% elif lang_code == 'vi' %}← Quay lại trang chủ
+                {% elif lang_code == 'fr' %}← Retour à l'accueil
+                {% elif lang_code == 'de' %}← Zurück zur Startseite
+                {% elif lang_code == 'it' %}← Torna alla Home
+                {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}← Volver al inicio
+                {% elif lang_code == 'pt' or lang_code == 'pt-br' %}← Voltar ao início
+                {% else %}← Back to Home{% endif %}
+            </a>
+        </div>
+    </div>
+</div>
+
+<script>
+    localStorage.setItem('tj_category_menu_url', window.location.href);
+    function goToTopPage() {
+        const topUrl = localStorage.getItem('tj_top_url');
+        window.location.href = topUrl ? topUrl : "{% url 'toppage' %}?lang={{ lang_code }}";
+    }
+</script>
