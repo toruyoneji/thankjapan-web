@@ -377,6 +377,59 @@
         text-align: center !important;
     }
 
+     .jpname-container {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        width: 100% !important;
+    }
+
+    
+    .jpname-wrapper {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 15px !important;
+    }
+
+    
+    .voice-btn {
+        background: rgba(212, 175, 55, 0.15) !important;
+        border: 1px solid #d4af37 !important;
+        color: #d4af37 !important;
+        border-radius: 50% !important;
+        width: 44px !important;
+        height: 44px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        padding: 0 !important;
+    }
+
+    
+    .romaji-container {
+        width: 100% !important;
+        text-align: center !important;
+        margin-top: 10px !important;
+    }
+
+    
+    .game-invite-box {
+        width: 100% !important;
+        background: linear-gradient(135deg, rgba(212, 175, 55, 0.1), rgba(0,0,0,0.5)) !important;
+        border: 1px solid rgba(212, 175, 55, 0.3) !important;
+        border-radius: 20px !important;
+        padding: 30px 20px !important;
+        box-sizing: border-box !important;
+    }
+
+    
+    .x-icon-white {
+        fill: #ffffff !important;
+        width: 16px !important;
+        height: 16px !important;
+        margin-right: 10px !important;
+    }
     </style>
 
 
@@ -423,25 +476,19 @@
 
         </span>
 
-        <div class="jpname-wrapper">
+         <div class="jpname-wrapper">
             <span class="jpname-text">
-                {% if object.kanji_name %}
-                    {{ object.kanji_name|ruby_smart:object.jpname }}
-                {% else %}
-                    {{ object.jpname }}
-                {% endif %}
+                {% if object.kanji_name %}{{ object.kanji_name|ruby_smart:object.jpname }}{% else %}{{ object.jpname }}{% endif %}
             </span>
-
-    
-            <button type="button" class="voice-btn" onclick="speakJapanese('{{ object.jpname }}')" title="Listen">
+            <button type="button" class="voice-btn-modern" onclick="speakJapanese('{{ object.jpname }}')">
                 🔊
             </button>
         </div>
+    
+        <div class="romaji-container">
+            <span class="romaji-text">{{ object.name }}</span>
+        </div>
 
-    </div>
-
-    <div class="romaji-container">
-        <span class="romaji-text">{{ object.name }}</span>
     </div>
 
 
