@@ -220,9 +220,9 @@
 }
 </style>
 
-
-<div class="category-header">
-    <h1>
+<div class="app-content-fix">
+    <div class="category-header">
+        <h1>
         {% if lang_code == 'ja' %}動物の日本語: 語彙とローマ字ガイド
         {% elif lang_code == 'zh-hant' %}日語動物：詞彙與羅馬字指南
         {% elif lang_code == 'zh-cn' %}日语动物：词汇与罗马字指南
@@ -236,11 +236,11 @@
         {% elif lang_code == 'th' %}สัตว์ภาษาญี่ปุ่น: คำศัพท์ & คู่มือโรมาจิ
         {% else %}Animals in Japanese: Vocabulary & Romaji Guide
         {% endif %}
-    </h1>
+        </h1>
 
-</div>
+    </div>
 
-<div class="main2">
+    <div class="main2">
     {% for item in object_list %}
         {% url 'category_detail' item.category item.slug as detail_url %}
         <div class="flashcard" onclick="hideGuide(this); openDetailModal('{{ detail_url }}{% if lang_code %}?lang={{ lang_code }}{% endif %}')">
@@ -297,20 +297,11 @@
             </div>
         </div>
     {% endfor %}
-</div>
-
-<div id="detailModal" class="full-screen-modal">
-    <div class="modal-body-content">
-        <div class="modal-nav">
-            <button onclick="closeDetailModal()" class="modal-close-btn">✕</button>
-        </div>
-        <div id="modalBody"></div>
     </div>
-</div>
 
 
-<div style="text-align:center; margin:50px 0;">
-    <a class="btn-more" href="javascript:void(0);" onclick="goToCategoryList()">
+    <div style="text-align:center; margin:50px 0;">
+        <a class="btn-more" href="javascript:void(0);" onclick="goToCategoryList()">
         ← 
         {% if lang_code == 'ja' %}戻る
         {% elif lang_code == 'ko' %}뒤로
@@ -324,8 +315,19 @@
         {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Volver
         {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Voltar
         {% else %}Back{% endif %}
-    </a>
+        </a>
+    </div>
 </div>
+
+    <div id="detailModal" class="full-screen-modal">
+        <div class="modal-body-content">
+            <div class="modal-nav">
+                <button onclick="closeDetailModal()" class="modal-close-btn">✕</button>
+            </div>
+            <div id="modalBody"></div>
+        </div>
+    </div>
+
 
 <script>
 function hideGuide(card) {
@@ -384,20 +386,18 @@ function openDetailModal(url) {
     fetch(url)
         .then(response => response.text())
         .then(html => {
-            const parser = new DOMParser();
-            const doc = parser.parseFromString(html, 'text/html');
-            const detailContent = doc.querySelector('.main2');
-            
-            if (detailContent) {
-                detailContent.classList.remove('main2');
-                detailContent.classList.add('modal-detail-wrapper');
-                
-                modalBody.innerHTML = '';
-                modalBody.appendChild(detailContent);
-                modal.scrollTop = 0;
-                history.pushState({modal: true}, "");
-            }
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(html, 'text/html');
+    const detailContent = doc.querySelector('.main2'); // 相手側のmain2を取得
+    
+    if (detailContent) {
+        detailContent.classList.remove('main2'); // 元のグリッド用クラスを消す
+        detailContent.classList.add('modal-detail-wrapper'); // モーダル用クラスを足す
+        modalBody.innerHTML = '';
+        modalBody.appendChild(detailContent);
+    }
         });
+
 }
 
 function closeDetailModal() {
