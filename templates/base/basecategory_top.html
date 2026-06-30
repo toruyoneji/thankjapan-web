@@ -769,6 +769,16 @@
 
     <script>
 
+    function goToCategoryList() {
+        const menuUrl = localStorage.getItem('tj_category_menu_url');
+    
+        if (menuUrl) {
+            window.location.href = menuUrl;
+        } else {
+            window.location.href = "{% url 'category_list' %}?lang={{ lang_code }}";
+        }
+    }
+
     
     function toggleLearnModal(e) {
         if(e) e.preventDefault();
