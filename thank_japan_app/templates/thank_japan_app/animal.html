@@ -379,7 +379,23 @@
     <div id="detailModal" class="full-screen-modal">
         <div class="modal-body-content">
             <div class="modal-nav">
-                <button onclick="closeDetailModal()" class="modal-close-btn">✕</button>
+                <button onclick="closeDetailModal()" class="modal-close-btn" style="display: flex; align-items: center; gap: 5px;">
+                    <span style="font-size: 0.7rem; font-weight: bold; letter-spacing: 1px;">
+                        {% if lang_code == 'ja' %}閉じる
+                        {% elif lang_code == 'zh-hant' %}關閉
+                        {% elif lang_code == 'zh-cn' %}关闭
+                        {% elif lang_code == 'ko' %}닫기
+                        {% elif lang_code == 'fr' %}Fermer
+                        {% elif lang_code == 'th' %}ปิด
+                        {% elif lang_code == 'vi' %}Đóng
+                        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Cerrar
+                        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Fechar
+                        {% elif lang_code == 'de' %}Schließen
+                        {% elif lang_code == 'it' %}Chiudi
+                        {% else %}CLOSE{% endif %}
+                    </span>
+                    <span style="font-size: 1.2rem;">✕</span>
+                </button>
             </div>
             <div id="modalBody"></div>
         </div>
