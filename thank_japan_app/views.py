@@ -1923,7 +1923,7 @@ class AppliancesView(ListView):
 
 class AnimalView(ListView):
     template_name = "thank_japan_app/animal.html"
-    paginate_by = 24
+    paginate_by = 200
     
     def get_queryset(self):
         return ThankJapanModel.objects.filter(category="animal").order_by('-timestamp')
