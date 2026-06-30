@@ -430,6 +430,46 @@
         height: 16px !important;
         margin-right: 10px !important;
     }
+
+    .voice-btn, .voice-btn-modern {
+        background: rgba(212, 175, 55, 0.1) !important;
+        border: 1px solid #d4af37 !important;
+        border-radius: 50% !important;
+        width: 44px !important;
+        height: 44px !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        cursor: pointer !important;
+        padding: 0 !important;
+        margin-left: 10px !important;
+        outline: none !important;
+    }
+
+    .game-invite-btn, .game-btn-gold {
+        display: inline-block !important;
+        background: #d4af37 !important; 
+        color: #000 !important; 
+        padding: 12px 30px !important;
+        border-radius: 50px !important;
+        text-decoration: none !important; 
+        font-weight: bold !important;
+        margin-top: 15px !important;
+        box-shadow: 0 4px 10px rgba(212, 175, 55, 0.3) !important;
+    }
+
+    
+    .twitter-share-btn-white, .x-share-btn {
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        color: #ffffff !important; 
+        text-decoration: none !important; 
+        border: 1px solid rgba(255, 255, 255, 0.3) !important;
+        padding: 8px 20px !important;
+        border-radius: 50px !important;
+        font-size: 0.9rem !important;
+    }
     </style>
 
 
@@ -753,7 +793,8 @@
             {% endif %}
         </p>
         
-        <a href="{% url 'game_restart' %}?mode=single&model_type=free&slug={{ object.slug }}" class="game-invite-btn">
+        <div style="text-align: center; margin-top: 20px;">
+            <a href="{% url 'game_restart' %}?mode=single&model_type=free&slug={{ object.slug }}" class="game-invite-btn">
             {% if lang_code == 'ja' %}⌨️ この単語を練習する
             {% elif lang_code == 'zh-hant' %}⌨️ 練習這個單字
             {% elif lang_code == 'zh-cn' %}⌨️ 练习这个单词
@@ -768,11 +809,12 @@
             {% else %}⌨️ Practice This Word
             {% endif %}
 
-        </a>
+            </a>
+        </div>
     </div>
 
     
-    <div style="margin: 30px 0; text-align: center;">
+    <div style="margin: 25px 0; text-align: center;">
         <a href="https://twitter.com/intent/tweet?text=Discovering Japanese Culture: {{ object.englishname }} 🇯🇵 Check this out!&url={{ request.build_absolute_uri }}&hashtags=ThankJapan,LearnJapanese,JapanCulture" 
            target="_blank" 
            class="twitter-share-btn-white">
