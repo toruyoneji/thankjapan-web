@@ -118,10 +118,11 @@
     padding: 30px 15px 15px;
     color: #fff;
 }
-.category-header h1 {
-    font-size: 1.6rem;
-    color: #d4af37;
-    margin-bottom: 5px;
+
+.category-header {
+    text-align: center;
+    padding: 80px 15px 10px; /* 上を80pxにしてロゴとの重なりを回避 */
+    color: #fff;
 }
 
 .main2 {
@@ -141,6 +142,39 @@
     border-radius: 16px;
     overflow: hidden;
     cursor: pointer;
+    position: relative;
+}
+
+.tap-guide {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 100;
+    pointer-events: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.finger-icon {
+    font-size: 2.5rem;
+    animation: tap-animation 0.8s infinite;
+}
+
+.tap-text {
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 2px 10px;
+    border-radius: 10px;
+    font-size: 0.75rem;
+    white-space: nowrap;
+}
+
+@keyframes tap-animation {
+    0% { transform: scale(1) translate(-50%, -50%); }
+    50% { transform: scale(1.2) translate(-42%, -42%); }
+    100% { transform: scale(1) translate(-50%, -50%); }
 }
 
 .card-image img {
