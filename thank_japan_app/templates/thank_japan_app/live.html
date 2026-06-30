@@ -236,10 +236,25 @@
 
 .modal-nav { position: absolute; top: 10px; right: 10px; z-index: 10020; }
 .modal-close-btn {
+    width: auto !important;
+    height: 36px !important;
+    padding: 0 15px !important;
+    border-radius: 20px !important;
     background: #d4af37 !important;
-    color: #000 !important;
-    width: 35px; height: 35px; border-radius: 50%; border: none; font-weight: bold;
+    color: #000000 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    font-family: 'Inter', sans-serif !important;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3) !important;
+    border: none !important;
+    position: fixed !important;
+    top: 15px !important;
+    right: 15px !important;
+    z-index: 10030 !important;
 }
+
 
 .back-home-area { padding: 30px 0; text-align: center; }
 .btn-app-secondary {
@@ -378,11 +393,28 @@
     <div id="detailModal" class="full-screen-modal">
         <div class="modal-body-content">
             <div class="modal-nav">
-                <button onclick="closeDetailModal()" class="modal-close-btn">✕</button>
+                <button onclick="closeDetailModal()" class="modal-close-btn">
+                    <span style="font-size: 0.7rem; font-weight: bold; letter-spacing: 1px;">
+                        {% if lang_code == 'ja' %}閉じる
+                        {% elif lang_code == 'zh-hant' %}關閉
+                        {% elif lang_code == 'zh-cn' %}关闭
+                        {% elif lang_code == 'ko' %}닫기
+                        {% elif lang_code == 'fr' %}Fermer
+                        {% elif lang_code == 'th' %}ปิด
+                        {% elif lang_code == 'vi' %}Đóng
+                        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Cerrar
+                        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Fechar
+                        {% elif lang_code == 'de' %}Schließen
+                        {% elif lang_code == 'it' %}Chiudi
+                        {% else %}CLOSE{% endif %}
+                    </span>
+                    <span style="font-size: 1.1rem; font-weight: bold;">✕</span>
+                </button>
             </div>
             <div id="modalBody"></div>
         </div>
     </div>
+
 
 
 <script>
