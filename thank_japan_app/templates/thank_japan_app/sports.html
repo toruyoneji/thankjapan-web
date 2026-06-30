@@ -1,4 +1,4 @@
-{% extends 'base/basecategory.html' %}
+{% extends 'base/basecategory_top.html' %}
 {% load category_filters %}
 
 {% block title %}
@@ -77,80 +77,75 @@
     </script>
 
 <style>
-body {
-    background-color: #fffaf5;
-    font-family: 'Noto Sans JP', 'Poppins', sans-serif;
-    color: #333;
+.app-inner-container {
+    width: 100%;
+    padding-top: 60px;
+    padding-bottom: 100px; 
+    min-height: 100vh;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.6), rgba(0,0,0,0.8)),
+                url('https://res.cloudinary.com/dotekofm5/image/upload/v1761842722/thankjapan/backgrounds/p2uktlwymnjdmhy5w2sd.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed; 
+}
+
+.app-content-fix {
+    width: 100%;
+    height: calc(100vh - 135px); 
+    overflow-y: auto; 
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 50px;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.6), rgba(0,0,0,0.8)),
+                url('https://res.cloudinary.com/dotekofm5/image/upload/v1761842722/thankjapan/backgrounds/p2uktlwymnjdmhy5w2sd.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: local;
+}
+
+.app-content-fix::-webkit-scrollbar { display: none; }
+
+.category-scroll-area {
+    width: 100%;
+}
+
+
+.category-header {
+    text-align: center;
+    padding: 30px 15px 15px;
+    color: #fff;
 }
 
 .category-header {
     text-align: center;
-    padding: 60px 20px 40px;
-    background: linear-gradient(135deg, #ffe8d6 0%, #fffaf5 100%);
-    border-radius: 0 0 40px 40px;
-    margin-top: 10px;
-}
-
-.category-header h1 {
-    font-size: 3.0rem;
-    font-family: 'Sawarabi Mincho', serif;
-    color: #d46a00;
-    letter-spacing: 1px;
-}
-
-.category-header p {
-    color: #666;
-    font-size: 1.1rem;
-    margin-top: 10px;
+    padding: 80px 15px 10px; 
+    color: #fff;
 }
 
 .main2 {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 24px;
-    padding: 50px 6%;
-    max-width: 1200px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    padding: 0 12px;
+    max-width: 1000px;
     margin: 0 auto;
 }
 
 .flashcard {
-    background: #fff;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(212, 175, 55, 0.3);
     border-radius: 16px;
     overflow: hidden;
     cursor: pointer;
-    border: 2px solid #ffe0b2;
-    transition: transform 0.2s, box-shadow 0.2s;
     position: relative;
-}
-
-.flashcard:active {
-    transform: scale(0.98);
-}
-
-.card-image img {
-    width: 100%;
-    height: 180px;
-    object-fit: cover;
-    display: block;
-}
-
-.card-info {
-    padding: 15px;
-    text-align: center;
-}
-
-.card-english {
-    font-size: 1.2rem;
-    font-weight: bold;
-    color: #d46a00;
 }
 
 .tap-guide {
     position: absolute;
-    top: 40%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 10;
+    bottom: 10px;    
+    right: 10px;     
+    z-index: 100;
     pointer-events: none;
     display: flex;
     flex-direction: column;
@@ -158,365 +153,150 @@ body {
 }
 
 .finger-icon {
-    font-size: 3rem;
-    animation: tap-animation 0.8s infinite;
+    font-size: 2rem;
+    animation: tap-click 0.8s infinite;
 }
+
 
 .tap-text {
     background: rgba(0, 0, 0, 0.7);
     color: white;
-    padding: 2px 10px;
-    border-radius: 10px;
-    font-size: 0.8rem;
+    padding: 1px 8px;
+    border-radius: 8px;
+    font-size: 0.65rem;
+    font-weight: bold;
+    white-space: nowrap;
 }
 
-@keyframes tap-animation {
+@keyframes tap-click {
     0% { transform: scale(1); }
-    50% { transform: scale(1.2); }
+    50% { transform: scale(1.1) translateY(-2px); }
     100% { transform: scale(1); }
 }
 
-
-.pagination-container {
-  overflow-x: auto;
-  padding: 15px 0;
-  -webkit-overflow-scrolling: touch;
-}
-.pagination {
-  display: flex;
-  gap: 10px;
-  min-width: max-content;
-  justify-content: center;
-}
-.page-btn {
-  flex: 0 0 auto;
-  padding: 8px 14px;
-  border-radius: 12px;
-  border: 1px solid #ccc;
-  background-color: #f8f8f8;
-  color: #333;
-  text-decoration: none;
-  font-weight: 500;
-  transition: all 0.2s ease;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-}
-.page-btn:hover, .page-btn.current {
-  background-color: #e63946;
-  color: #fff;
-  border-color: #e63946;
+.card-image img {
+    width: 100%;
+    height: 140px;
+    object-fit: cover;
 }
 
-.btn-more {
-    display: inline-block;
-    background: #ffb347;
-    color: white;
-    padding: 10px 24px;
-    border-radius: 25px;
-    text-decoration: none;
-    font-weight: 600;
-    margin-top: 20px;
-    transition: background 0.3s;
-}
-.btn-more:hover { background: #ff9642; }
-
-
-
+.card-info { padding: 10px 5px; text-align: center; }
+.card-english { font-size: 0.9rem; font-weight: bold; color: #fff; line-height: 1.2; }
 
 #detailModal {
     display: none;
     position: fixed;
-    z-index: 10000;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.9);
-    overflow-y: auto;
+    z-index: 11000;
+    left: 0; top: 0; 
+    width: 100%; height: 100%;
+    background-color: rgba(0, 0, 0, 0.95);
+    overflow-y: auto; 
     -webkit-overflow-scrolling: touch;
 }
 
-#detailModal.active {
-    display: block;
-}
 
 .modal-body-content {
-    background-color: #2f2a26;
+    background-color: #1a1a1a !important;
     width: 94%;
-    max-width: 850px;
     margin: 40px auto;
     border-radius: 20px;
-    position: relative;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.8);
-    overflow: hidden;
-    color: #f6efe8;
-}
-
-.modal-nav {
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    z-index: 10015;
-}
-
-.modal-close-btn {
-    background: #7b942e !important; 
-    border: 3px solid #ffffff !important; 
-    color: #ffffff !important;
-    font-size: 28px !important;
-    font-weight: bold !important;
-    width: 50px !important;
-    height: 50px !important;
-    border-radius: 50%;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.6) !important;
-}
-
-.modal-close-btn:hover {
-    transform: scale(1.1);
-    background: #8da835 !important;
+    border: 1px solid #d4af37;
+    color: #fff !important;
+    min-height: 200px; 
 }
 
 
-.modal-detail-wrapper {
-    display: block !important;
-    padding: 30px 20px 60px !important;
-    text-align: center !important;
+.modal-detail-wrapper .card {
+    background-color: rgba(255, 255, 255, 0.05) !important;
+    border: 1px solid rgba(212, 175, 55, 0.3) !important;
+    color: #fff !important;
+    padding: 15px !important;
+    margin: 10px !important;
+    display: block !important; 
 }
 
 .modal-detail-wrapper .detailgazou {
     width: 100% !important;
-    max-width: 100% !important;
-    height: auto !important;
-    border-radius: 12px;
-    margin-top: 0 !important;
-    margin-bottom: 25px !important;
-    display: block !important;
-}
-
-.modal-detail-wrapper .detaildt {
-    font-size: 2.2rem !important;
-    color: #fcd5b5 !important;
-    font-weight: 600 !important;
-    margin-bottom: 20px !important;
+    border-radius: 12px 12px 0 0 !important;
 }
 
 .modal-detail-wrapper .jpname-text {
-    font-size: 3.5rem !important;
+    font-size: 2.2rem !important;
     color: #fff !important;
-    font-weight: 700 !important;
-    line-height: 1.4 !important;
+    margin: 10px 0 !important;
 }
 
-.modal-detail-wrapper .jpname-text rt {
+.modal-detail-wrapper .detaildt,
+.modal-detail-wrapper h2 {
+    color: #d4af37 !important;
     font-size: 1.2rem !important;
-    color: #eee !important;
-}
-
-.modal-detail-wrapper .romaji-text {
-    font-size: 1.8rem !important;
-    color: #fcd5b5 !important;
-}
-
-.modal-detail-wrapper .voice-btn {
-    background: transparent !important;
-    border: 2px solid #fcd5b5 !important;
-    color: #fcd5b5 !important;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    cursor: pointer;
-    display: inline-flex !important;
-    align-items: center;
-    justify-content: center;
-}
-
-.modal-detail-wrapper .cards {
-    display: flex !important;
-    flex-direction: column !important;
-    gap: 20px !important;
-    margin-top: 30px !important;
-}
-
-.modal-detail-wrapper .card {
-    background-color: #f6efe8 !important;
-    color: #3b2f2f !important;
-    border-radius: 16px !important;
-    padding: 20px 25px !important;
-    text-align: left !important;
-    width: 100% !important;
-    box-sizing: border-box !important;
-    flex: none !important;
-}
-
-.modal-detail-wrapper .card h2 {
-    font-size: 1.2rem !important;
-    color: #a35c00 !important;
-    margin-bottom: 10px !important;
-}
-
-.modal-detail-wrapper .card ul {
-    padding-left: 20px !important;
-}
-
-.modal-detail-wrapper .card li {
-    list-style: "✿ " !important;
-    margin-bottom: 6px !important;
-    font-size: 1.0rem !important;
-}
-
-.modal-detail-wrapper .game-invite-box {
-    margin: 40px auto !important;
-    padding: 30px 20px !important;
-    background-color: #f6efe8 !important;
-    border: 4px solid #a35c00 !important;
-    border-radius: 8px !important;
-    text-align: center !important;
-    color: #3b2f2f !important;
-}
-
-.modal-detail-wrapper .game-invite-btn {
-    display: inline-block !important;
-    background: #7b942e !important;
-    color: #fff !important;
-    padding: 15px 40px !important;
-    border-radius: 50px !important;
-    text-decoration: none !important;
-    font-weight: bold !important;
-    font-size: 1.2rem !important;
-    box-shadow: 0 4px 0 #556b2f !important;
-}
-
-.modal-detail-wrapper .twitter-share-btn-white {
-    display: inline-flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    background-color: #ffffff !important; 
-    color: #000000 !important;            
-    font-weight: bold !important;
-    text-decoration: none !important;
-    padding: 10px 25px !important;        
-    border-radius: 30px !important;
-    border: 2px solid #000000 !important;
-}
-
-.modal-detail-wrapper .x-icon-black {
-    fill: #000000 !important; 
-    width: 18px !important;
-    height: 18px !important;
-    margin-right: 10px !important;
-}
-
-.modal-detail-wrapper .related-grid {
-    display: grid !important;
-    grid-template-columns: repeat(2, 1fr) !important;
-    gap: 15px !important;
-}
-
-.modal-detail-wrapper .related-card {
-    background-color: #f6efe8 !important;
-    color: #3b2f2f !important;
-    border-radius: 12px !important;
-    text-decoration: none !important;
-}
-
-.modal-detail-wrapper .related-card img {
-    width: 100% !important;
-    height: 110px !important;
-    object-fit: cover !important;
-}
-
-.modal-detail-wrapper .related-card h4 {
-    color: #a35c00 !important;
-    font-size: 0.95rem !important;
-}
-
-.modal-detail-wrapper footer, 
-.modal-detail-wrapper .btn-back {
-    display: none !important;
-}
-
-body.modal-open {
-    overflow: hidden !important;
+    margin-bottom: 5px !important;
 }
 
 
-
-@media (max-width: 900px) {
-    .main2 { grid-template-columns: repeat(2, 1fr); gap: 16px; }
-    .category-header h1 { font-size: 2.0rem; }
+.modal-nav { position: absolute; top: 10px; right: 10px; z-index: 10020; }
+.modal-close-btn {
+    background: #d4af37 !important;
+    color: #000 !important;
+    width: 35px; height: 35px; border-radius: 50%; border: none; font-weight: bold;
 }
 
-@media (max-width: 600px) {
-    .main2 { grid-template-columns: repeat(2, 1fr); gap: 10px; }
-    .category-header { padding-top: 100px !important; }
+.back-home-area { padding: 30px 0; text-align: center; }
+.btn-app-secondary {
+    display: inline-block;
+    color: #d4af37;
+    border: 1px solid #d4af37;
+    padding: 8px 25px;
+    border-radius: 20px;
+    text-decoration: none;
+}
+
+.btn-more {
+    display: inline-block;
+    background: transparent;
+    color: #d4af37;
+    border: 1px solid #d4af37;
+    padding: 12px 40px;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+    margin-bottom: 50px;
+}
+
+.btn-more:active {
+    transform: scale(0.95);
+    background: rgba(212, 175, 55, 0.1);
+}
+
+@media (min-width: 768px) {
+    .main2 { grid-template-columns: repeat(4, 1fr); }
 }
 </style>
 
 
-<div class="category-header">
-    <h1>
-        {% if lang_code == 'ja' %}
-            日本のスポーツ：語彙とローマ字ガイド
-        {% elif lang_code == 'zh-hant' %}
-            日本運動名稱：詞彙與羅馬字指南
-        {% elif lang_code == 'zh-cn' %}
-            日本运动名称：词汇与罗马字指南
-        {% elif lang_code == 'de' %}
-            Sportarten in Japan: Vokabular & Romaji-Leitfaden
-        {% elif lang_code == 'fr' %}
-            Sports au Japon : Vocabulaire & Guide Romaji
-        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}
-            Deportes en Japón: Vocabulario y Guía Romaji
-        {% elif lang_code == 'it' %}
-            Sport in Giappone: Vocabolario & Guida Romaji
-        {% elif lang_code == 'ko' %}
-            일본 스포츠: 어휘 및 로마자 가이드
-        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}
-            Esportes no Japão: Vocabulário & Guia Romaji
-        {% elif lang_code == 'vi' %}
-            Tên các môn thể thao ở Nhật Bản: Hướng dẫn từ vựng & Romaji
-        {% elif lang_code == 'th' %}
-            ชื่อกีฬาญี่ปุ่น: คำศัพท์และคำอ่านโรมาจิ
-        {% else %}
-            Sports Names in Japanese: Vocabulary & Romaji Guide
-        {% endif %}
+<div class="app-content-fix">
+    <div class="category-header">
+        <h1>
+        {% if lang_code == 'ja' %}スポーツの日本語: 語彙とローマ字ガイド
+        {% elif lang_code == 'zh-hant' %}日語運動：詞彙與羅馬字指南
+        {% elif lang_code == 'zh-cn' %}日语运动：词汇与罗马字指南
+        {% elif lang_code == 'de' %}Sport auf Japanisch: Vokabel- und Romaji-Guide
+        {% elif lang_code == 'fr' %}Sports en japonais : Vocabulaire et guide Romaji
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Deportes en japonés: Vocabulario y guía Romaji
+        {% elif lang_code == 'it' %}Sport in giapponese: Guida vocabolario e Romaji
+        {% elif lang_code == 'ko' %}일본어 스포츠: 어휘 및 로마자 가이드
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Esportes em japonês: Vocabulário e guia Romaji
+        {% elif lang_code == 'vi' %}Thể thao bằng tiếng Nhật: Hướng dẫn từ vựng & Romaji
+        {% elif lang_code == 'th' %}กีฬาภาษาญี่ปุ่น: คำศัพท์ & คู่มือโรมาจิ
+        {% else %}Sports in Japanese: Vocabulary & Romaji Guide{% endif %}
+        </h1>
 
-    </h1>
-    <p>
-        {% if lang_code == 'ja' %}
-            日本で人気のある伝統的・現代的スポーツについて学ぼう。武道、相撲なども含まれます。
-        {% elif lang_code == 'zh-hant' %}
-            了解日本流行的傳統與現代運動，包括武術、相撲等。
-        {% elif lang_code == 'zh-cn' %}
-            了解日本流行的传统与现代运动，包括武术、相扑等。
-        {% elif lang_code == 'de' %}
-            Lerne traditionelle und moderne in Japan beliebte Sportarten kennen, einschließlich Kampfsport, Sumo und mehr.
-        {% elif lang_code == 'fr' %}
-            Découvrez les sports traditionnels et modernes populaires au Japon, y compris les arts martiaux, le sumo et plus encore.
-        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}
-            Aprende sobre los deportes tradicionales y modernos populares en Japón, incluyendo artes marciales, sumo y más.
-        {% elif lang_code == 'it' %}
-            Scopri gli sport tradizionali e moderni popolari in Giappone, comprese le arti marziali, il sumo e altro ancora.
-        {% elif lang_code == 'ko' %}
-            일본에서 인기 있는 전통 및 현대 스포츠에 대해 배우세요. 무술, 스모 등도 포함됩니다.
-        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}
-            Aprenda sobre esportes tradicionais e modernos populares no Japão, incluindo artes marciais, sumô e mais.
-        {% elif lang_code == 'vi' %}
-            Tìm hiểu về các môn thể thao truyền thống và hiện đại phổ biến ở Nhật Bản, bao gồm võ thuật, sumo và nhiều hơn nữa.
-        {% elif lang_code == 'th' %}
-            เรียนรู้เกี่ยวกับกีฬาที่นิยมทั้งแบบดั้งเดิมและสมัยใหม่ในญี่ปุ่น รวมถึงศิลปะการต่อสู้ ซูโม่ และอื่น ๆ
-        {% else %}
-            Learn about traditional and modern sports popular in Japan, including martial arts, sumo, and more.
-        {% endif %}
+    </div>
 
-    </p>
-
-</div>
-
-<div class="main2">
+    <div class="main2">
     {% for item in object_list %}
         {% url 'category_detail' item.category item.slug as detail_url %}
         <div class="flashcard" onclick="hideGuide(this); openDetailModal('{{ detail_url }}{% if lang_code %}?lang={{ lang_code }}{% endif %}')">
@@ -573,68 +353,11 @@ body.modal-open {
             </div>
         </div>
     {% endfor %}
-</div>
-
-<div id="detailModal" class="full-screen-modal">
-    <div class="modal-body-content">
-        <div class="modal-nav">
-            <button onclick="closeDetailModal()" class="modal-close-btn">✕</button>
-        </div>
-        <div id="modalBody"></div>
     </div>
-</div>
 
 
-<div class="pagination-container">
-  <div class="pagination">
-    {% if page_obj.has_previous %}
-      <a href="?page=1{% if lang_code %}&lang={{ lang_code }}{% endif %}" class="page-btn">&laquo;</a>
-      <a href="?page={{ page_obj.previous_page_number }}{% if lang_code %}&lang={{ lang_code }}{% endif %}" class="page-btn">
-        {% if lang_code == 'ja' %}前へ
-        {% elif lang_code == 'ko' %}이전
-        {% elif lang_code == 'zh-cn' %}上一页
-        {% elif lang_code == 'zh-hant' %}上一頁
-        {% elif lang_code == 'th' %}ก่อนหน้า
-        {% elif lang_code == 'vi' %}Trang trước
-        {% elif lang_code == 'fr' %}Précédent
-        {% elif lang_code == 'de' %}Zurück
-        {% elif lang_code == 'it' %}Precedente
-        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Anterior
-        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Anterior
-        {% else %}Prev{% endif %}
-      </a>
-    {% endif %}
-
-    {% for num in page_obj.paginator.page_range %}
-        {% if page_obj.number == num %}
-            <span class="page-btn current">{{ num }}</span>
-        {% elif num > page_obj.number|add:-3 and num < page_obj.number|add:3 %}
-            <a href="?page={{ num }}{% if lang_code %}&lang={{ lang_code }}{% endif %}" class="page-btn">{{ num }}</a>
-        {% endif %}
-    {% endfor %}
-
-    {% if page_obj.has_next %}
-      <a href="?page={{ page_obj.next_page_number }}{% if lang_code %}&lang={{ lang_code }}{% endif %}" class="page-btn">
-        {% if lang_code == 'ja' %}次へ
-        {% elif lang_code == 'ko' %}다음
-        {% elif lang_code == 'zh-cn' %}下一页
-        {% elif lang_code == 'zh-hant' %}下一頁
-        {% elif lang_code == 'th' %}ถัดไป
-        {% elif lang_code == 'vi' %}Tiếp theo
-        {% elif lang_code == 'fr' %}Suivant
-        {% elif lang_code == 'de' %}Weiter
-        {% elif lang_code == 'it' %}Successivo
-        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Siguiente
-        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Próximo
-        {% else %}Next{% endif %}
-      </a>
-      <a href="?page={{ page_obj.paginator.num_pages }}{% if lang_code %}&lang={{ lang_code }}{% endif %}" class="page-btn">&raquo;</a>
-    {% endif %}
-  </div>
-</div>
-
-<div style="text-align:center; margin:50px 0;">
-    <a class="btn-more" href="javascript:void(0);" onclick="goToCategoryList()">
+    <div style="text-align:center; margin:50px 0;">
+        <a class="btn-more" href="javascript:void(0);" onclick="goToCategoryList()">
         ← 
         {% if lang_code == 'ja' %}戻る
         {% elif lang_code == 'ko' %}뒤로
@@ -648,8 +371,19 @@ body.modal-open {
         {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Volver
         {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Voltar
         {% else %}Back{% endif %}
-    </a>
+        </a>
+    </div>
 </div>
+
+    <div id="detailModal" class="full-screen-modal">
+        <div class="modal-body-content">
+            <div class="modal-nav">
+                <button onclick="closeDetailModal()" class="modal-close-btn">✕</button>
+            </div>
+            <div id="modalBody"></div>
+        </div>
+    </div>
+
 
 <script>
 function hideGuide(card) {
@@ -708,20 +442,18 @@ function openDetailModal(url) {
     fetch(url)
         .then(response => response.text())
         .then(html => {
-            const parser = new DOMParser();
-            const doc = parser.parseFromString(html, 'text/html');
-            const detailContent = doc.querySelector('.main2');
-            
-            if (detailContent) {
-                detailContent.classList.remove('main2');
-                detailContent.classList.add('modal-detail-wrapper');
-                
-                modalBody.innerHTML = '';
-                modalBody.appendChild(detailContent);
-                modal.scrollTop = 0;
-                history.pushState({modal: true}, "");
-            }
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(html, 'text/html');
+    const detailContent = doc.querySelector('.main2'); 
+    
+    if (detailContent) {
+        detailContent.classList.remove('main2'); 
+        detailContent.classList.add('modal-detail-wrapper'); 
+        modalBody.innerHTML = '';
+        modalBody.appendChild(detailContent);
+    }
         });
+
 }
 
 function closeDetailModal() {
@@ -745,5 +477,6 @@ window.onclick = function(event) {
 }
 
 </script>
+
 
 {% endblock %}
