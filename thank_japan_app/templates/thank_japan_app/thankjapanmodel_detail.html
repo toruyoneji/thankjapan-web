@@ -1,4 +1,4 @@
-{% extends 'base/basecategory.html' %}
+{% extends 'base/basecategory_top.html' %}
 {% load category_filters %}
 {% block title %}{{ object.englishname }} | ThankJapan{% endblock %}
 
@@ -25,62 +25,60 @@
 {% load static %}
 
 <style>
-body {
-    background-color: #2f2a26;
-    font-family: 'Noto Serif JP', 'Poppins', sans-serif;
-    color: #f6efe8;
-    margin: 0;
-    padding: 0;
-}
-
+/* 1. 全体コンテナ - animal.htmlのJSがここを抽出します */
 .main2 {
     max-width: 800px !important;
     margin: 0 auto !important;
-    padding: 40px 20px !important;
+    padding: 20px 15px !important;
     text-align: center !important;
     display: flex !important;
     flex-direction: column !important;
     align-items: center !important;
+    background: rgba(10, 10, 10, 0.95) !important; /* 漆黒の背景 */
+    color: #ffffff !important;
+    font-family: 'Inter', 'Poppins', 'Noto Sans JP', sans-serif !important;
 }
 
+/* 2. 画像エリア - 額縁のような高級感 */
 .image-wrapper {
-    display: block !important;
     width: 100% !important;
-    max-width: 600px !important;
-    margin-bottom: 30px !important;
-    padding-top: 60px !important;
+    max-width: 550px !important;
+    margin-bottom: 25px !important;
+    position: relative;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    border: 1px solid rgba(212, 175, 55, 0.3); /* 繊細な金枠 */
 }
 
 .detailgazou {
     width: 100% !important;
     height: auto !important;
-    border-radius: 12px !important;
-    object-fit: cover !important;
-    max-height: 400px !important;
-    filter: sepia(0.2) !important; 
-    box-shadow: 0 4px 15px rgba(0,0,0,0.3) !important;
+    display: block !important;
+    transition: transform 0.5s ease;
 }
 
+/* 3. タイトル（英語名） */
 .detaildt {
-    font-size: 2.2rem !important;
-    color: #fcd5b5 !important;
-    font-weight: 600 !important;
-    margin-bottom: 20px !important;
+    font-size: 1.2rem !important;
+    color: #d4af37 !important; /* ゴールド */
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    margin-bottom: 10px !important;
+    font-weight: 300 !important;
 }
 
+/* 4. 日本語名（漢字・ルビ）エリア */
 .jpname-container {
-    margin-bottom: 15px !important;
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
+    margin-bottom: 30px !important;
+    width: 100%;
 }
 
 .label-text {
-    font-size: 0.9rem;
-    color: #8d7b72;
+    font-size: 0.7rem;
+    color: rgba(255,255,255,0.5);
     text-transform: uppercase;
     letter-spacing: 2px;
-    margin-bottom: 5px;
 }
 
 .jpname-wrapper {
@@ -88,298 +86,188 @@ body {
     align-items: center;
     justify-content: center;
     gap: 15px;
-    margin-top: 20px; 
+    margin-top: 5px;
 }
 
 .jpname-text {
-    font-size: 3.5rem;
-    color: #fff;
-    font-weight: 700;
-    line-height: 1.8;
-    text-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    font-size: 3.2rem !important;
+    color: #ffffff !important;
+    font-weight: 700 !important;
+    line-height: 1.2 !important;
 }
 
-
-.jpname-text ruby {
-    ruby-align: center;
+.jpname-text ruby rt {
+    font-size: 1rem !important;
+    color: #d4af37 !important; /* ルビをゴールドにして読みやすく */
+    font-weight: 400 !important;
+    padding-bottom: 4px;
 }
 
-.jpname-text rt {
-    font-size: 1.2rem; 
-    margin-bottom: 0.2em;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
-    font-weight: 400;
-    color: #eee; /
-}
-
+/* 音声ボタンのモダン化 */
 .voice-btn {
-    background: transparent;
-    border: 2px solid #fcd5b5;
-    color: #fcd5b5;
-    width: 40px;
-    height: 40px;
+    background: rgba(212, 175, 55, 0.1);
+    border: 1px solid rgba(212, 175, 55, 0.5);
+    color: #d4af37;
+    width: 44px;
+    height: 44px;
     border-radius: 50%;
-    font-size: 1.2rem;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.3s ease;
-    padding: 0;
+    font-size: 1.2rem;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.voice-btn:hover {
-    background: #fcd5b5;
-    color: #2f2a26;
-    transform: scale(1.1);
-    box-shadow: 0 0 15px rgba(252, 213, 181, 0.4);
-}
+.voice-btn:active { transform: scale(0.9); background: #d4af37; color: #000; }
 
-.romaji-container {
-    margin-bottom: 40px;
-}
-
+/* 5. ローマ字 */
 .romaji-text {
-    font-size: 1.8rem;
-    color: #fcd5b5;
-    font-family: 'Poppins', sans-serif;
-    font-weight: 500;
-    letter-spacing: 1px;
+    font-size: 1.4rem !important;
+    color: rgba(255,255,255,0.7) !important;
+    font-family: 'Poppins', sans-serif !important;
+    font-weight: 300 !important;
+    margin-bottom: 40px !important;
+    border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+    display: inline-block;
+    padding-bottom: 5px;
 }
 
+/* 6. プレミアム・ステータスカード（Bento Grid風） */
 .cards {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    justify-content: center;
+    width: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 20px !important;
 }
 
 .card {
-    flex: 1 1 300px;
-    background-color: #f6efe8;
-    color: #3b2f2f;
-    border-radius: 16px;
-    padding: 20px 25px;
-    text-align: left;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    background: rgba(255, 255, 255, 0.03) !important;
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: 20px !important;
+    padding: 24px !important;
+    text-align: left !important;
+    transition: all 0.3s ease;
 }
 
 .card h2 {
-    font-size: 1.2rem;
-    color: #a35c00;
-    margin-bottom: 10px;
+    font-size: 0.9rem !important;
+    color: #d4af37 !important;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 15px !important;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.card h2::after {
+    content: "";
+    flex-grow: 1;
+    height: 1px;
+    background: rgba(212, 175, 55, 0.2);
 }
 
 .card ul {
-    padding-left: 20px;
-    margin: 0;
+    list-style: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
 }
 
 .card li {
-    list-style: "✿ ";
-    margin-bottom: 6px;
-    font-size: 0.95rem;
+    font-size: 1rem !important;
+    color: rgba(255,255,255,0.85) !important;
+    line-height: 1.6 !important;
+    margin-bottom: 12px !important;
+    padding-left: 18px !important;
+    position: relative !important;
 }
 
+.card li::before {
+    content: "•" !important;
+    color: #d4af37 !important;
+    position: absolute !important;
+    left: 0 !important;
+    font-weight: bold !important;
+}
+
+/* 7. 例文セクションの特別スタイル */
+.example-japanese {
+    font-size: 1.4rem !important;
+    color: #ffffff !important;
+    margin-bottom: 15px !important;
+    line-height: 1.5 !important;
+}
+
+.example-meta-label {
+    font-size: 0.7rem !important;
+    color: #d4af37 !important;
+    text-transform: uppercase;
+    margin-bottom: 4px !important;
+}
+
+.example-romaji {
+    font-size: 1rem !important;
+    color: rgba(255,255,255,0.5) !important;
+    font-style: italic !important;
+    margin-bottom: 15px !important;
+}
+
+/* 8. アクションボタン（練習・シェア） */
 .game-invite-box {
-    margin: 50px auto 30px;
-    padding: 30px 20px;
-    background-color: #f6efe8;
-    border: 4px solid #a35c00;
-    border-radius: 8px;
-    text-align: center;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-    max-width: 600px;
-    position: relative;
-    overflow: hidden;
-}
-
-.game-invite-box::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background-image: repeating-linear-gradient(45deg, rgba(163, 92, 0, 0.05) 0px, rgba(163, 92, 0, 0.05) 2px, transparent 2px, transparent 10px);
-    pointer-events: none;
-}
-
-.game-invite-title {
-    color: #3b2f2f;
-    font-size: 1.4rem;
-    font-weight: bold;
-    margin-bottom: 10px;
-    font-family: 'Zen Antique', serif;
-}
-
-.game-invite-text {
-    color: #555;
-    font-size: 0.95rem;
-    margin-bottom: 20px;
-    line-height: 1.5;
+    width: 100% !important;
+    margin: 40px 0 !important;
+    padding: 30px 20px !important;
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.1), rgba(0,0,0,0)) !important;
+    border-radius: 24px !important;
+    border: 1px solid rgba(212, 175, 55, 0.3) !important;
 }
 
 .game-invite-btn {
-    display: inline-block;
-    background: #7b942e;
-    color: #fff;
-    padding: 15px 40px;
-    border-radius: 50px;
-    text-decoration: none;
-    font-weight: bold;
-    font-size: 1.2rem;
-    box-shadow: 0 4px 0 #556b2f;
-    transition: all 0.2s;
-    position: relative;
-    z-index: 2;
+    display: inline-block !important;
+    background: #d4af37 !important; /* ゴールドボタン */
+    color: #000000 !important;
+    padding: 16px 32px !important;
+    border-radius: 50px !important;
+    text-decoration: none !important;
+    font-weight: 700 !important;
+    font-size: 1.1rem !important;
+    transition: all 0.3s ease !important;
+    box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3) !important;
 }
-
-.game-invite-btn:hover {
-    background: #8da835;
-    transform: translateY(2px);
-    box-shadow: 0 2px 0 #556b2f;
-    color: #fff;
-}
-
-.related-section {
-    max-width: 1000px;
-    margin: 60px auto 20px;
-    padding-top: 40px;
-    border-top: 1px solid #5c5048;
-}
-
-.related-header {
-    margin-bottom: 20px;
-}
-.related-header h3 {
-    font-size: 1.5rem;
-    color: #fcd5b5;
-    font-family: 'Poppins', sans-serif;
-    letter-spacing: 1px;
-}
-
-.related-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 15px;
-}
-
-.related-card {
-    background-color: #f6efe8;
-    color: #3b2f2f;
-    border-radius: 12px;
-    overflow: hidden;
-    text-decoration: none;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    display: flex;
-    flex-direction: column;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-}
-
-.related-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 16px rgba(252, 213, 181, 0.2);
-}
-
-.related-card img {
-    width: 100%;
-    height: 120px;
-    object-fit: cover;
-    border-bottom: 1px solid #d4c4b7;
-}
-
-.related-card-body {
-    padding: 12px;
-    text-align: center;
-    flex-grow: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.related-card h4 {
-    margin: 0;
-    font-size: 0.95rem;
-    color: #a35c00;
-    font-weight: 700;
-}
-
-.btn-back {
-    display: inline-block;
-    background: #fcd5b5;
-    color: #3b2f2f;
-    padding: 10px 28px;
-    border-radius: 25px;
-    text-decoration: none;
-    font-weight: 600;
-    margin-top: 40px;
-    transition: all 0.3s;
-    border: none;
-    font-size: 1rem;
-    cursor: pointer;
-}
-.btn-back:hover {
-    background: #fbc9a2;
-}
-
-footer {
-    margin-top: 40px;
-    font-size: 0.8rem;
-    color: #c6b6a9;
-}
-
 
 .twitter-share-btn-white {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #ffffff; 
-    color: #000000;            
-    font-weight: bold;
-    text-decoration: none;
-    padding: 10px 25px;        
-    border-radius: 30px;
-    font-size: 1.0rem;
-    transition: all 0.3s ease;
-    border: 2px solid #000000; 
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    background: transparent !important;
+    border: 1px solid rgba(255,255,255,0.2) !important;
+    color: #ffffff !important;
+    padding: 10px 24px !important;
+    border-radius: 50px !important;
+    font-size: 0.9rem !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 10px !important;
 }
 
-.twitter-share-btn-white:hover {
-    background-color: #f0f0f0; 
-    transform: translateY(-2px);
-    box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+/* 9. 戻るボタン */
+.btn-back {
+    background: transparent !important;
+    border: 1px solid rgba(212, 175, 55, 0.5) !important;
+    color: #d4af37 !important;
+    padding: 12px 40px !important;
+    border-radius: 50px !important;
+    font-weight: 600 !important;
+    margin: 40px 0 !important;
 }
-
-    
-.x-icon-black {
-    fill: #000000; 
-    width: 18px;
-    height: 18px;
-    margin-right: 10px;
-}
-
-.rule-caption { 
-    color: #5d4037; 
-    font-size: 0.9em; 
-    margin-top: 15px;
-    line-height: 1.6;
-    font-family: 'Noto Sans JP', sans-serif;
-}
-.rule-caption strong { color: #b7282e; font-weight: bold; }
-.rule-caption span[style] { color: #666 !important; }
-
-    
 
 @media screen and (max-width: 768px) {
-    .detailgazou { height: 280px; }
-    .jpname-text { font-size: 2.5rem; }
-    .romaji-text { font-size: 1.4rem; }
-    .game-invite-btn { width: 80%; }
-    
-    .related-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
+    .jpname-text { font-size: 2.5rem !important; }
+    .card { padding: 20px !important; }
 }
 </style>
+
+
 
 <div class="main2">
     <div class="image-wrapper">
@@ -445,6 +333,7 @@ footer {
         <span class="romaji-text">{{ object.name }}</span>
     </div>
 
+
     <div class="cards">
         <div class="card">
             <h2>
@@ -461,7 +350,6 @@ footer {
                 {% elif lang_code == 'th' %}คำอธิบาย
                 {% else %}Description
                 {% endif %}
-
             </h2>
             
             <ul>
@@ -497,7 +385,6 @@ footer {
                     {% for line in object.description.splitlines %}<li>{{ line }}</li>{% endfor %}
                 {% endif %}
             </ul>
-
         </div>
 
         <div class="card">
@@ -515,7 +402,6 @@ footer {
                 {% elif lang_code == 'th' %}ประวัติศาสตร์
                 {% else %}History
                 {% endif %}
-
             </h2>
 
             <ul>
@@ -551,8 +437,8 @@ footer {
                     {% for line in object.history.splitlines %}<li>{{ line }}</li>{% endfor %}
                 {% endif %}
             </ul>
-            
         </div>
+
 
         {% if object.example_sentence_ja %}
         <div class="card">
@@ -572,99 +458,79 @@ footer {
                 {% endif %}
             </h2>
 
-            <div style="padding: 0 10px;">
-
-                <p style="font-size: 1.5em; margin-bottom: 15px; color: #333;">
-                    {{ object.example_sentence_ja|safe }}
-                </p>
-
-                <p style="font-weight: bold; color: #888; margin-bottom: 5px; font-size: 0.9em;">
-                    {% if lang_code == 'ja' %}発音
-                    {% elif lang_code == 'zh-cn' %}发音
-                    {% elif lang_code == 'zh-hant' %}發音
-                    {% elif lang_code == 'ko' %}발음
-                    {% elif lang_code == 'fr' %}Prononciation
-                    {% elif lang_code == 'de' %}Aussprache
-                    {% elif lang_code == 'it' %}Pronuncia
-                    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Pronunciación
-                    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Pronúncia
-                    {% elif lang_code == 'th' %}การออกเสียง
-                    {% elif lang_code == 'vi' %}Phát âm
-                    {% else %}Pronunciation{% endif %}
-                </p>
-        
-        
-                <p style="color: #666; margin-bottom: 15px; font-size: 1.2em; font-style: italic; display: flex; align-items: center; flex-wrap: wrap;">
-                    {{ object.example_sentence_romaji }}
-    
-    
-                    <span onclick="speakJapanese('{{ object.example_sentence_ja|escapejs }}'.replace(/<rt>.*?<\/rt>/g, '').replace(/<[^>]+>/g, ''))" 
-                        style="cursor: pointer; 
-                                margin-left: 12px; 
-                                font-style: normal; 
-                                display: inline-flex; 
-                                align-items: center; 
-                                justify-content: center; 
-                                background-color: #eeeeee; 
-                                padding: 10px 16px; 
-                                border-radius: 30px; 
-                                font-size: 1.5em; 
-                                border: 1px solid #cccccc; 
-                                box-shadow: 0 2px 4px rgba(0,0,0,0.1); 
-                                user-select: none; 
-                                -webkit-tap-highlight-color: transparent;"> 
-                        🗣️<span style="font-size: 0.6em; margin-left: 6px;">🔊</span>
-                    </span>
-                </p>
-        
-                {% if lang_code != 'ja' %}
-
-                    <p style="font-weight: bold; color: #888; margin-bottom: 5px; font-size: 0.9em;">
-                        {% if lang_code == 'zh-cn' or lang_code == 'zh-hant' %}意思
-                        {% elif lang_code == 'ko' %}의미
-                        {% elif lang_code == 'fr' %}Signification
-                        {% elif lang_code == 'de' %}Bedeutung
-                        {% elif lang_code == 'it' %}Significato
-                        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Significado
-                        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Significado
-                        {% elif lang_code == 'th' %}ความหมาย
-                        {% elif lang_code == 'vi' %}Ý nghĩa
-                        {% else %}Meaning{% endif %}
-                    </p>
-
-                    <p style="font-weight: bold; font-size: 1.2em; color: #333;">
-                        {% if lang_code == 'en-in' and object.example_sentence_en_in %}
-                            {{ object.example_sentence_en_in }}
-                        {% elif lang_code == 'zh-cn' and object.example_sentence_zh_cn %}
-                            {{ object.example_sentence_zh_cn }}
-                        {% elif lang_code == 'zh-hant' and object.example_sentence_zh_hant %}
-                            {{ object.example_sentence_zh_hant }}
-                        {% elif lang_code == 'ko' and object.example_sentence_ko %}
-                            {{ object.example_sentence_ko }}
-                        {% elif lang_code == 'fr' and object.example_sentence_fr %}
-                            {{ object.example_sentence_fr }}
-                        {% elif lang_code == 'de' and object.example_sentence_de %}
-                            {{ object.example_sentence_de }}
-                        {% elif lang_code == 'it' and object.example_sentence_it %}
-                            {{ object.example_sentence_it }}
-                        {% elif lang_code == 'es-es' and object.example_sentence_es_es %}
-                            {{ object.example_sentence_es_es }}
-                        {% elif lang_code == 'es-mx' and object.example_sentence_es_mx %}
-                            {{ object.example_sentence_es_mx }}
-                        {% elif lang_code == 'pt' and object.example_sentence_pt %}
-                            {{ object.example_sentence_pt }}
-                        {% elif lang_code == 'pt-br' and object.example_sentence_pt_br %}
-                            {{ object.example_sentence_pt_br }}
-                        {% elif lang_code == 'th' and object.example_sentence_th %}
-                            {{ object.example_sentence_th }}
-                        {% elif lang_code == 'vi' and object.example_sentence_vi %}
-                            {{ object.example_sentence_vi }}
-                        {% else %}
-                            {{ object.example_sentence }} 
-                        {% endif %}
-                    </p>
-                {% endif %}
+            <div class="example-japanese">
+                {{ object.example_sentence_ja|safe }}
             </div>
+
+            <div class="example-meta-label">
+                {% if lang_code == 'ja' %}発音
+                {% elif lang_code == 'zh-cn' %}发音
+                {% elif lang_code == 'zh-hant' %}發音
+                {% elif lang_code == 'ko' %}발음
+                {% elif lang_code == 'fr' %}Prononciation
+                {% elif lang_code == 'de' %}Aussprache
+                {% elif lang_code == 'it' %}Pronuncia
+                {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Pronunciación
+                {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Pronúncia
+                {% elif lang_code == 'th' %}การออกเสียง
+                {% elif lang_code == 'vi' %}Phát âm
+                {% else %}Pronunciation{% endif %}
+            </div>
+    
+            <div class="example-romaji">
+                {{ object.example_sentence_romaji }}
+                <button type="button" class="voice-btn" style="display:inline-flex; margin-left:10px; width:36px; height:36px; font-size:1rem;" 
+                    onclick="speakJapanese('{{ object.example_sentence_ja|escapejs }}'.replace(/<rt>.*?<\/rt>/g, '').replace(/<[^>]+>/g, ''))">
+                    🔊
+                </button>
+            </div>
+    
+            {% if lang_code != 'ja' %}
+                <div class="example-meta-label">
+                    {% if lang_code == 'zh-cn' or lang_code == 'zh-hant' %}意思
+                    {% elif lang_code == 'ko' %}의미
+                    {% elif lang_code == 'fr' %}Signification
+                    {% elif lang_code == 'de' %}Bedeutung
+                    {% elif lang_code == 'it' %}Significato
+                    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Significado
+                    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Significado
+                    {% elif lang_code == 'th' %}ความหมาย
+                    {% elif lang_code == 'vi' %}Ý nghĩa
+                    {% else %}Meaning{% endif %}
+                </div>
+
+                <div style="font-size: 1.1rem; font-weight: 500; color: #fff; line-height: 1.4;">
+                    {% if lang_code == 'en-in' and object.example_sentence_en_in %}
+                        {{ object.example_sentence_en_in }}
+                    {% elif lang_code == 'zh-cn' and object.example_sentence_zh_cn %}
+                        {{ object.example_sentence_zh_cn }}
+                    {% elif lang_code == 'zh-hant' and object.example_sentence_zh_hant %}
+                        {{ object.example_sentence_zh_hant }}
+                    {% elif lang_code == 'ko' and object.example_sentence_ko %}
+                        {{ object.example_sentence_ko }}
+                    {% elif lang_code == 'fr' and object.example_sentence_fr %}
+                        {{ object.example_sentence_fr }}
+                    {% elif lang_code == 'de' and object.example_sentence_de %}
+                        {{ object.example_sentence_de }}
+                    {% elif lang_code == 'it' and object.example_sentence_it %}
+                        {{ object.example_sentence_it }}
+                    {% elif lang_code == 'es-es' and object.example_sentence_es_es %}
+                        {{ object.example_sentence_es_es }}
+                    {% elif lang_code == 'es-mx' and object.example_sentence_es_mx %}
+                        {{ object.example_sentence_es_mx }}
+                    {% elif lang_code == 'pt' and object.example_sentence_pt %}
+                        {{ object.example_sentence_pt }}
+                    {% elif lang_code == 'pt-br' and object.example_sentence_pt_br %}
+                        {{ object.example_sentence_pt_br }}
+                    {% elif lang_code == 'th' and object.example_sentence_th %}
+                        {{ object.example_sentence_th }}
+                    {% elif lang_code == 'vi' and object.example_sentence_vi %}
+                        {{ object.example_sentence_vi }}
+                    {% else %}
+                        {{ object.example_sentence }} 
+                    {% endif %}
+                </div>
+            {% endif %}
         </div>
         {% endif %}
     </div>
@@ -672,7 +538,7 @@ footer {
     
 
     <div class="game-invite-box">
-        <h3 class="game-invite-title">
+        <h3 class="game-invite-title" style="color: #ffffff; font-size: 1.2rem; margin-bottom: 15px;">
             {% if lang_code == 'ja' %}この単語を練習する準備はいい？
             {% elif lang_code == 'zh-hant' %}準備好練習這個單字了嗎？
             {% elif lang_code == 'zh-cn' %}准备好练习这个单词了吗？
@@ -689,7 +555,7 @@ footer {
 
         </h3>
         
-        <p class="rule-caption">
+        <p class="rule-caption" style="color: rgba(255,255,255,0.6); font-size: 0.85rem; margin-bottom: 25px;">
             {% if lang_code == 'ja' %}
                 正しい日本語を選んでください！<br>
                 ・3つの選択肢から1つをタップ
@@ -776,9 +642,8 @@ footer {
 
     
     {% if related_items %}
-    <div class="related-section">
-        <div class="related-header">
-            <h3>
+        <div style="width: 100%; margin-top: 60px; padding-top: 40px; border-top: 1px solid rgba(212, 175, 55, 0.2);">
+            <h3 style="color: #d4af37; font-size: 1.1rem; letter-spacing: 2px; margin-bottom: 20px; text-transform: uppercase;">
                 {% if lang_code == 'ja' %}もっと探す
                 {% elif lang_code == 'zh-hant' %}探索更多
                 {% elif lang_code == 'zh-cn' %}探索更多
@@ -795,19 +660,21 @@ footer {
 
             </h3>
         </div>
-        <div class="related-grid">
+
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;">
             {% for item in related_items %}
-            <a href="{% url 'category_detail' item.category item.slug %}" class="related-card">
-                {% if item.image %}
-                    <img src="{{ item.image.url }}" alt="{{ item.englishname }}" loading="lazy">
-                {% else %}
-                    <div style="height:120px; background:#e0d6ce; display:flex; align-items:center; justify-content:center; color:#888;">
-                        No Image
-                    </div>
-                {% endif %}
-                <div class="related-card-body">
-                    <h4>{{ item.englishname }}</h4>
+            <a href="{% url 'category_detail' item.category item.slug %}" style="text-decoration: none;">
+                <div style="background: rgba(255,255,255,0.05); border-radius: 12px; overflow: hidden; border: 1px solid rgba(212, 175, 55, 0.1);">
+                    {% if item.image %}
+                        <img src="{{ item.image.url }}" alt="{{ item.englishname }}" loading="lazy" style="width: 100%; height: 80px; object-fit: cover;">
+                    {% else %}
+                        <div style="height:120px; background:#e0d6ce; display:flex; align-items:center; justify-content:center; color:#888;">
+                            No Image
+                        </div>
+                    {% endif %}
                 </div>
+
+                <div style="padding: 8px; font-size: 0.75rem; color: #fff; text-align: center;">{{ item.englishname }}</div>
             </a>
             {% endfor %}
         </div>
@@ -815,10 +682,22 @@ footer {
     {% endif %}
 
     <button onclick="smartBack('{{ category_list_url }}')" class="btn-back" id="back-btn">
-        ← Back
+         ← {% if lang_code == 'ja' %}戻る
+        {% elif lang_code == 'zh-hant' %}返回
+        {% elif lang_code == 'zh-cn' %}返回
+        {% elif lang_code == 'ko' %}뒤로
+        {% elif lang_code == 'fr' %}Retour
+        {% elif lang_code == 'th' %}กลับ
+        {% elif lang_code == 'vi' %}Quay lại
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Volver
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Voltar
+        {% elif lang_code == 'de' %}Zurück
+        {% elif lang_code == 'it' %}Indietro
+        {% elif lang_code == 'en-in' %}Back
+        {% else %}Back{% endif %}
     </button>
     
-    <footer>
+    <footer style="margin-top: 40px; font-size: 0.7rem; color: rgba(255,255,255,0.3); padding-bottom: 60px; text-align: center;">
         © 2025 Thank Japan All Rights Reserved.
     </footer>
 </div>
@@ -899,7 +778,17 @@ document.addEventListener('DOMContentLoaded', function() {
     const params = new URLSearchParams(window.location.search);
     if (params.get('from') === 'game') {
         const btn = document.getElementById('back-btn');
-        if (btn) btn.textContent = '× Close';
+        if (btn) {
+            const closeLabels = {
+                'ja': '× 閉じる', 'zh-hant': '× 關閉', 'zh-cn': '× 关闭',
+                'ko': '× 닫기', 'fr': '× Fermer', 'th': '× ปิด',
+                'vi': '× Đóng', 'es-es': '× Cerrar', 'es-mx': '× Cerrar',
+                'pt': '× Fechar', 'pt-br': '× Fechar', 'de': '× Schließen',
+                'it': '× Chiudi', 'en-in': '× Close'
+            };
+            const lang = "{{ lang_code }}";
+            btn.textContent = closeLabels[lang] || '× Close';
+        }
     }
 });
 </script>
