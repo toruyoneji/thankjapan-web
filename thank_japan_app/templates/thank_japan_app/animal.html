@@ -477,6 +477,16 @@ window.onclick = function(event) {
     }
 }
 
+function openDetailModal(url) {
+    
+    if (typeof window.openDetailModal === 'function') {
+        window.openDetailModal(url);
+    } else {
+        
+        window.location.href = url;
+    }
+}
+
 </script>
 
 {% endblock %}
