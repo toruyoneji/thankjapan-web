@@ -22,35 +22,34 @@
 
 
 .premium-title {
-    color: #eee;
-    font-size: 1.2rem;
+    color: #eee; 
+    font-size: 1.1rem; 
     font-weight: 600;
-    margin: 25px 15px 15px;
+    margin: 30px 20px 10px; 
     text-align: center;
-    line-height: 1.6;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+    line-height: 1.4;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.8);
 }
-
 
 .food-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr); /* ★ここ！スマホで2列にする */
-    gap: 12px;           /* カード同士の隙間 */
-    padding: 15px;       /* 画面端との余白 */
-    max-width: 800px;    /* PCで広がりすぎないように制限 */
-    margin: 0 auto;      /* 中央寄せ */
+    grid-template-columns: repeat(2, 1fr); 
+    gap: 12px;           
+    padding: 15px;       
+    max-width: 800px;    
+    margin: 0 auto;      
 }
 
-/* --- カード自体の設定 --- */
+
 .food-card {
-    background: rgba(0, 0, 0, 0.6); /* ★背景をもっと暗くすると金枠が映えます */
+    background: rgba(0, 0, 0, 0.6); 
     backdrop-filter: blur(10px);
-    border: 1px solid rgba(212, 175, 55, 0.4); /* 繊細な金枠 */
+    border: 1px solid rgba(212, 175, 55, 0.4); 
     border-radius: 15px;
     overflow: hidden;
     display: flex;
-    flex-direction: column; /* 上に画像、下に文字 */
-    height: 100%;           /* 高さを揃える */
+    flex-direction: column; 
+    height: 100%;          
 }
 
 .food-card:active {
@@ -60,8 +59,8 @@
 
 .food-card img {
     width: 100%;
-    height: 120px;          /* ★画像の高さを固定すると綺麗に揃います */
-    object-fit: cover;      /* 画像を切り抜いてフィットさせる */
+    height: 120px;          
+    object-fit: cover;      
 }
 
 .food-description {
@@ -115,7 +114,7 @@
     max-width: 450px;
     max-height: 85vh;
     background: #0a0a0a;
-    border: 2px solid #d4af37; /* 伝説の扉のような金枠 */
+    border: 2px solid #d4af37; 
     border-radius: 20px;
     position: relative;
     overflow-y: auto;
@@ -191,7 +190,6 @@
 
 <div id="premium-food-container">
     <div class="app-content-fix">
-        <div class="food-grid">
         <h1 class="premium-title">
         {% if lang == 'ja' %}
             ここからは、私の家でよく食べている料理をいくつかご紹介します。ほんの一例ですが、ぜひご覧ください！
@@ -226,7 +224,7 @@
         {% endif %}
         </h1>
 
-
+        <div class="food-grid">
         
         <div class="food-card" onclick="openFoodModal(this)">
             <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1761200066/thankjapan/backgrounds/adfqqgtdfozxi848gopz.png" alt="nigirisushi"/>
@@ -831,10 +829,10 @@
             </div>
         </div>
         </div>
-    </div>
+    
 
 
-<div class="btn-back-container" style="text-align:center; margin:60px 0 100px;">
+    <div class="btn-back-container" style="text-align:center; margin:60px 0 100px;">
       <a class="btn-premium-gold" href="javascript:void(0);" onclick="goToTopPage()" style="
         display: inline-block;
         background: linear-gradient(135deg, #d4af37 0%, #b8860b 100%);
@@ -864,6 +862,7 @@
         {% else %}Back to Home
         {% endif %}
       </a>
+    </div>
 </div>
 
 
