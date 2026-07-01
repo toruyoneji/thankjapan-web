@@ -121,12 +121,14 @@
 }
 
 .main2 {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr) !important;
-    gap: 12px;
-    padding: 0 12px;
-    max-width: 1000px;
-    margin: 0 auto;
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important; 
+    gap: 12px !important; 
+    padding: 20px 10px 100px !important; 
+    width: 100% !important;
+    max-width: 1000px !important;
+    margin: 0 auto !important;
+    box-sizing: border-box !important;
 }
 
 .flashcard {
@@ -339,11 +341,11 @@
     .modal-body-content .locked-card,
     #detail-page-wrapper .locked-card {
         background: linear-gradient(135deg, rgba(30, 30, 30, 0.98), rgba(10, 10, 10, 1)) !important;
-        border: 2px solid #d4af37 !important; /* 太めの金枠 */
+        border: 2px solid #d4af37 !important; 
         border-radius: 24px !important;
         padding: 40px 20px !important;
         margin: 40px 10px !important;
-        box-shadow: 0 0 30px rgba(212, 175, 55, 0.2) !important; /* ほんのり光るオーラ */
+        box-shadow: 0 0 30px rgba(212, 175, 55, 0.2) !important; 
         text-align: center !important;
         width: 100% !important;
         box-sizing: border-box !important;
@@ -394,8 +396,12 @@
     justify-content: center !important;
     }
 
-@media (min-width: 768px) {
-    .main2 { grid-template-columns: repeat(4, 1fr); }
+@media screen and (min-width: 768px) {
+    .main2 {
+        grid-template-columns: repeat(3, 1fr) !important; 
+        gap: 20px !important; 
+        padding: 40px 20px 100px !important;
+    }
 }
 
 </style>
