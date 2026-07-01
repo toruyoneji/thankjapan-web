@@ -24,256 +24,13 @@
 {% block content %}
 {% load static %}
 
-<style>
-/* 1. 全体コンテナ - animal.htmlのJSがここを抽出します */
-.main2 {
-    max-width: 800px !important;
-    margin: 0 auto !important;
-    padding: 20px 15px !important;
-    text-align: center !important;
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-    background: rgba(10, 10, 10, 0.95) !important; /* 漆黒の背景 */
-    color: #ffffff !important;
-    font-family: 'Inter', 'Poppins', 'Noto Sans JP', sans-serif !important;
-}
-
-/* 2. 画像エリア - 額縁のような高級感 */
-.image-wrapper {
-    width: 100% !important;
-    max-width: 550px !important;
-    margin-bottom: 25px !important;
-    position: relative;
-    border-radius: 20px;
-    overflow: hidden;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-    border: 1px solid rgba(212, 175, 55, 0.3); /* 繊細な金枠 */
-}
-
-.detailgazou {
-    width: 100% !important;
-    height: auto !important;
-    display: block !important;
-    transition: transform 0.5s ease;
-}
-
-/* 3. タイトル（英語名） */
-.detaildt {
-    font-size: 1.2rem !important;
-    color: #d4af37 !important; /* ゴールド */
-    text-transform: uppercase;
-    letter-spacing: 3px;
-    margin-bottom: 10px !important;
-    font-weight: 300 !important;
-}
-
-/* 4. 日本語名（漢字・ルビ）エリア */
-.jpname-container {
-    margin-bottom: 30px !important;
-    width: 100%;
-}
-
-.label-text {
-    font-size: 0.7rem;
-    color: rgba(255,255,255,0.5);
-    text-transform: uppercase;
-    letter-spacing: 2px;
-}
-
-.jpname-wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 15px;
-    margin-top: 5px;
-}
-
-.jpname-text {
-    font-size: 3.2rem !important;
-    color: #ffffff !important;
-    font-weight: 700 !important;
-    line-height: 1.2 !important;
-}
-
-.jpname-text ruby rt {
-    font-size: 1rem !important;
-    color: #d4af37 !important; /* ルビをゴールドにして読みやすく */
-    font-weight: 400 !important;
-    padding-bottom: 4px;
-}
-
-/* 音声ボタンのモダン化 */
-.voice-btn {
-    background: rgba(212, 175, 55, 0.1);
-    border: 1px solid rgba(212, 175, 55, 0.5);
-    color: #d4af37;
-    width: 44px;
-    height: 44px;
-    border-radius: 50%;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.2rem;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.voice-btn:active { transform: scale(0.9); background: #d4af37; color: #000; }
-
-/* 5. ローマ字 */
-.romaji-text {
-    font-size: 1.4rem !important;
-    color: rgba(255,255,255,0.7) !important;
-    font-family: 'Poppins', sans-serif !important;
-    font-weight: 300 !important;
-    margin-bottom: 40px !important;
-    border-bottom: 1px solid rgba(212, 175, 55, 0.2);
-    display: inline-block;
-    padding-bottom: 5px;
-}
-
-/* 6. プレミアム・ステータスカード（Bento Grid風） */
-.cards {
-    width: 100% !important;
-    display: flex !important;
-    flex-direction: column !important;
-    gap: 20px !important;
-}
-
-.card {
-    background: rgba(255, 255, 255, 0.03) !important;
-    backdrop-filter: blur(10px) !important;
-    -webkit-backdrop-filter: blur(10px) !important;
-    border: 1px solid rgba(255, 255, 255, 0.1) !important;
-    border-radius: 20px !important;
-    padding: 24px !important;
-    text-align: left !important;
-    transition: all 0.3s ease;
-}
-
-.card h2 {
-    font-size: 0.9rem !important;
-    color: #d4af37 !important;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    margin-bottom: 15px !important;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.card h2::after {
-    content: "";
-    flex-grow: 1;
-    height: 1px;
-    background: rgba(212, 175, 55, 0.2);
-}
-
-.card ul {
-    list-style: none !important;
-    padding: 0 !important;
-    margin: 0 !important;
-}
-
-.card li {
-    font-size: 1rem !important;
-    color: rgba(255,255,255,0.85) !important;
-    line-height: 1.6 !important;
-    margin-bottom: 12px !important;
-    padding-left: 18px !important;
-    position: relative !important;
-}
-
-.card li::before {
-    content: "•" !important;
-    color: #d4af37 !important;
-    position: absolute !important;
-    left: 0 !important;
-    font-weight: bold !important;
-}
-
-/* 7. 例文セクションの特別スタイル */
-.example-japanese {
-    font-size: 1.4rem !important;
-    color: #ffffff !important;
-    margin-bottom: 15px !important;
-    line-height: 1.5 !important;
-}
-
-.example-meta-label {
-    font-size: 0.7rem !important;
-    color: #d4af37 !important;
-    text-transform: uppercase;
-    margin-bottom: 4px !important;
-}
-
-.example-romaji {
-    font-size: 1rem !important;
-    color: rgba(255,255,255,0.5) !important;
-    font-style: italic !important;
-    margin-bottom: 15px !important;
-}
-
-/* 8. アクションボタン（練習・シェア） */
-.game-invite-box {
-    width: 100% !important;
-    margin: 40px 0 !important;
-    padding: 30px 20px !important;
-    background: linear-gradient(135deg, rgba(212, 175, 55, 0.1), rgba(0,0,0,0)) !important;
-    border-radius: 24px !important;
-    border: 1px solid rgba(212, 175, 55, 0.3) !important;
-}
-
-.game-invite-btn {
-    display: inline-block !important;
-    background: #d4af37 !important; 
-    color: #000000 !important;
-    padding: 16px 32px !important;
-    border-radius: 50px !important;
-    text-decoration: none !important;
-    font-weight: 700 !important;
-    font-size: 1.1rem !important;
-    transition: all 0.3s ease !important;
-    box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3) !important;
-}
-
-.twitter-share-btn-white {
-    background: transparent !important;
-    border: 1px solid rgba(255,255,255,0.2) !important;
-    color: #ffffff !important;
-    padding: 10px 24px !important;
-    border-radius: 50px !important;
-    font-size: 0.9rem !important;
-    display: inline-flex !important;
-    align-items: center !important;
-    gap: 10px !important;
-}
-
-/* 9. 戻るボタン */
-.btn-back {
-    background: transparent !important;
-    border: 1px solid rgba(212, 175, 55, 0.5) !important;
-    color: #d4af37 !important;
-    padding: 12px 40px !important;
-    border-radius: 50px !important;
-    font-weight: 600 !important;
-    margin: 40px 0 !important;
-}
-
-@media screen and (max-width: 768px) {
-    .jpname-text { font-size: 2.5rem !important; }
-    .card { padding: 20px !important; }
-}
-</style>
-
 
 
 <div class="main2">
     
     <style>
     
-    .main2 {
+    .modal-body-content .main2 {
         background: #0f0f0f !important;
         color: #fff !important;
         padding: 20px 15px 100px !important;
@@ -282,7 +39,7 @@
     }
 
     
-    .image-wrapper {
+    .modal-body-content .image-wrapper {
         width: 100% !important;
         border-radius: 20px !important;
         overflow: hidden !important;
@@ -292,7 +49,7 @@
     }
 
     
-    .detaildt {
+    .modal-body-content .detaildt {
         color: #d4af37 !important;
         font-size: 1rem !important;
         letter-spacing: 5px !important;
@@ -301,28 +58,28 @@
     }
 
     
-    .jpname-container {
+    .modal-body-content .jpname-container {
         display: flex !important;
         flex-direction: column !important;
         align-items: center !important;
         margin-bottom: 30px !important;
     }
 
-    .jpname-text {
+    .modal-body-content .jpname-text {
         font-size: 3.2rem !important;
         font-weight: 700 !important;
         line-height: 1.2 !important;
         margin: 10px 0 !important;
     }
 
-    .jpname-text ruby rt {
+    .modal-body-content .jpname-text ruby rt {
         font-size: 0.9rem !important;
         color: #d4af37 !important;
         letter-spacing: 1px !important;
     }
 
     
-    .voice-btn {
+    .modal-body-content .voice-btn {
         background: rgba(212, 175, 55, 0.1) !important;
         border: 1px solid rgba(212, 175, 55, 0.6) !important;
         color: #d4af37 !important;
@@ -340,7 +97,7 @@
     }
 
     
-    .romaji-text {
+    .modal-body-content .romaji-text {
         color: rgba(255,255,255,0.4) !important;
         font-size: 1.2rem !important;
         font-style: italic !important;
@@ -348,7 +105,7 @@
     }
 
     
-    .card {
+    .modal-body-content .card {
         background: rgba(255, 255, 255, 0.05) !important;
         backdrop-filter: blur(10px) !important;
         border: 1px solid rgba(212, 175, 55, 0.2) !important;
@@ -358,7 +115,7 @@
         text-align: left !important;
     }
 
-    .card h2 {
+    .modal-body-content .card h2 {
         color: #d4af37 !important;
         font-size: 0.9rem !important;
         text-transform: uppercase !important;
@@ -369,7 +126,7 @@
     }
 
     
-    .related-card-wrapper {
+    .modal-body-content .related-card-wrapper {
         background: rgba(255,255,255,0.05) !important;
         border: 1px solid rgba(255,255,255,0.1) !important;
         border-radius: 12px !important;
@@ -377,7 +134,7 @@
         text-align: center !important;
     }
 
-     .jpname-container {
+    .modal-body-content .jpname-container {
         display: flex !important;
         flex-direction: column !important;
         align-items: center !important;
@@ -385,7 +142,7 @@
     }
 
     
-    .jpname-wrapper {
+    .modal-body-content .jpname-wrapper {
         display: flex !important;
         align-items: center !important;
         justify-content: center !important;
@@ -393,7 +150,7 @@
     }
 
     
-    .voice-btn {
+    .modal-body-content .voice-btn {
         background: rgba(212, 175, 55, 0.15) !important;
         border: 1px solid #d4af37 !important;
         color: #d4af37 !important;
@@ -407,14 +164,14 @@
     }
 
     
-    .romaji-container {
+    .modal-body-content .romaji-container {
         width: 100% !important;
         text-align: center !important;
         margin-top: 10px !important;
     }
 
     
-    .game-invite-box {
+    .modal-body-content .game-invite-box {
         width: 100% !important;
         background: linear-gradient(135deg, rgba(212, 175, 55, 0.1), rgba(0,0,0,0.5)) !important;
         border: 1px solid rgba(212, 175, 55, 0.3) !important;
@@ -424,14 +181,14 @@
     }
 
     
-    .x-icon-white {
+    .modal-body-content .x-icon-white {
         fill: #ffffff !important;
         width: 16px !important;
         height: 16px !important;
         margin-right: 10px !important;
     }
 
-    .voice-btn, .voice-btn-modern {
+    .modal-body-content .voice-btn, .voice-btn-modern {
         background: rgba(212, 175, 55, 0.1) !important;
         border: 1px solid #d4af37 !important;
         border-radius: 50% !important;
@@ -446,7 +203,7 @@
         outline: none !important;
     }
 
-    .game-invite-btn, .game-btn-gold {
+    .modal-body-content .game-invite-btn, .game-btn-gold {
         display: inline-block !important;
         background: #d4af37 !important; 
         color: #000 !important; 
@@ -459,7 +216,7 @@
     }
 
     
-    .twitter-share-btn-white, .x-share-btn {
+    .modal-body-content .twitter-share-btn-white, .x-share-btn {
         display: inline-flex !important;
         align-items: center !important;
         justify-content: center !important;
@@ -472,7 +229,7 @@
     }
 
     
-    .related-card-item {
+    .modal-body-content .related-card-item {
         background: rgba(255, 255, 255, 0.05) !important;
         border: 1px solid rgba(212, 175, 55, 0.2) !important;
         border-radius: 12px !important;
@@ -483,13 +240,13 @@
     }
 
     
-    .related-card-item:active {
+    .modal-body-content .related-card-item:active {
         transform: scale(0.95) !important;
         background: rgba(212, 175, 55, 0.1) !important;
     }
 
     
-    .related-card-item img {
+    .modal-body-content .related-card-item img {
         width: 100% !important;
         height: 70px !important;
         object-fit: cover !important;
@@ -498,7 +255,7 @@
     }
 
     
-    .related-card-text {
+    .modal-body-content .related-card-text {
         color: rgba(255, 255, 255, 0.8) !important;
         font-size: 0.7rem !important;
         padding: 8px 4px !important;
@@ -509,6 +266,19 @@
         overflow: hidden !important;
         text-overflow: ellipsis !important; 
     }
+
+     @media screen and (max-width: 768px) {
+        .modal-body-content .jpname-text { 
+            font-size: 2.5rem !important; 
+        }
+        .modal-body-content .card { 
+            padding: 20px !important; 
+        }
+        .modal-body-content .image-wrapper {
+            margin-bottom: 15px !important;
+        }
+    }
+    
     </style>
 
 
