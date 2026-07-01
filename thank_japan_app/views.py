@@ -3345,7 +3345,6 @@ class SlangView(ListView):
     
 class BusinessJapaneseView(ListView):
     template_name = "thank_japan_app/business_japanese.html"
-    paginate_by = 24
     
     def dispatch(self, request, *args, **kwargs):
         is_premium = request.user.is_authenticated and getattr(request.user.profile, 'is_premium', False)
