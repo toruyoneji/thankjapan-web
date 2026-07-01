@@ -174,51 +174,42 @@
     padding: 40px 20px;
     text-align: center;
 }
+
 .btn-premium-gold {
     display: inline-block;
     background: linear-gradient(135deg, #d4af37 0%, #b8860b 100%);
-    color: #000;
-    padding: 12px 35px;
+    color: #000; 
+    padding: 14px 45px;
     border-radius: 30px;
     text-decoration: none;
     font-weight: bold;
-    box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+    
+    border: 2px solid #000; 
+    
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.8); 
+    
+    transition: all 0.3s;
 }
 </style>
 
 <div id="premium-food-container">
     <div class="app-content-fix">
         <h1 class="premium-title">
-        {% if lang == 'ja' %}
-            ここからは、私の家でよく食べている料理をいくつかご紹介します。ほんの一例ですが、ぜひご覧ください！
-        {% elif lang == 'ko' %}
-            지금부터 저희 집에서 즐겨 먹는 음식 몇 가지를 소개해 드릴게요. 극히 일부지만, 한번 구경해 보세요!
-        {% elif lang == 'zh-cn' %}
-            接下来，我想向大家展示一些我们家平时吃的食物——这只是其中几个例子！
-        {% elif lang == 'zh-hant' %}
-            接下來，我想向大家展示一些我們家平時吃的食物——這只是其中幾個例子！
-        {% elif lang == 'th' %}
-            จากตรงนี้ ฉันจะแสดงให้คุณเห็นอาหารบางอย่างที่เรากินกันที่บ้าน — นี่เป็นเพียงตัวอย่างเล็กๆ น้อยๆ เท่านั้น!
-        {% elif lang == 'vi' %}
-            Sau đây, tôi sẽ giới thiệu với các bạn một số món ăn gia đình tôi thường dùng — đây chỉ là một vài ví dụ thôi nhé!
-        {% elif lang == 'de' %}
-            Hier zeige ich euch ein paar Gerichte, die wir bei uns zu Hause essen – nur ein paar Beispiele!
-        {% elif lang == 'fr' %}
-            À partir d'ici, je vais vous montrer quelques plats que nous mangeons à la maison — juste quelques exemples !
-        {% elif lang == 'it' %}
-            Da qui vi mostrerò alcuni dei piatti che mangiamo a casa mia — solo qualche esempio!
-        {% elif lang == 'es-es' %}
-            A partir de aquí, os mostraré algunas de las comidas que tomamos en mi casa. ¡Solo unos pocos ejemplos!
-        {% elif lang == 'es-mx' %}
-            A partir de aquí, les mostraré algunas de las comidas que comemos en mi casa. ¡Solo unos cuantos ejemplos!
-        {% elif lang == 'pt' %}
-            A partir daqui, vou mostrar-vos algumas das comidas que comemos em minha casa — apenas alguns exemplos!
-        {% elif lang == 'pt-br' %}
-            A partir daqui, vou mostrar para vocês algumas das comidas que comemos em minha casa — apenas alguns exemplos!
-        {% elif lang == 'en-in' %}
-            From here, I’ll show you some of the foods we eat at my house — just a few examples!
-        {% else %}
-            From here, I’ll show you some of the foods we eat at my house — just a few examples!
+        {% if lang == 'ja' %}日本の家庭、本場の味
+        {% elif lang == 'ko' %}일본 가정의 맛
+        {% elif lang == 'zh-cn' %}地道的日式家常菜
+        {% elif lang == 'zh-hant' %}地道的日式家常菜
+        {% elif lang == 'th' %}รสชาติญี่ปุ่นแท้ๆ จากบ้าน
+        {% elif lang == 'vi' %}Hương vị gia đình Nhật Bản
+        {% elif lang == 'de' %}Japanische Hausmannskost
+        {% elif lang == 'fr' %}Cuisine familiale japonaise
+        {% elif lang == 'it' %}Cucina casalinga giapponese
+        {% elif lang == 'es-es' %}Comida casera japonesa
+        {% elif lang == 'es-mx' %}Comida casera japonesa
+        {% elif lang == 'pt' %}Comida caseira japonesa
+        {% elif lang == 'pt-br' %}Comida caseira japonesa
+        {% elif lang == 'en-in' %}Authentic Home Cooking
+        {% else %}Authentic Home Cooking
         {% endif %}
         </h1>
 
@@ -920,7 +911,7 @@
             font-size: 1rem;
             line-height: 1.8;
             margin: 0;
-            font-family: 'Hiragino Mincho ProN', serif; /* 日本料理に合う明朝体 */
+            font-family: 'Hiragino Mincho ProN', serif; 
         "></p>
     </div>
   </div>
