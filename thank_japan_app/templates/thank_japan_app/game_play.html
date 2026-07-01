@@ -887,7 +887,10 @@ img:hover { transform: scale(1.02); }
                     {% endif %}
                 </a>
             {% else %}
-                <a href="{% url 'category_detail' category=object.category slug=object.slug %}?origin=category" class="next-btn btn-back-free" style="display: inline-block; background: #00bcd4; color: #fff; padding: 15px 30px; border-radius: 10px; text-decoration: none; font-weight: bold;">
+                <a href="{% url 'category_items' category=object.category %}?lang={{ lang_code }}" 
+                    target="_top" 
+                    class="next-btn" 
+                    style="display: inline-block; background: #d4af37; color: #000; padding: 15px 30px; border-radius: 50px; text-decoration: none; font-weight: bold; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);">
                     {% if lang_code == 'ja' %}✅ 完了してレッスンに戻る
                     {% elif lang_code == 'zh-hant' %}✅ 完成並返回課程
                     {% elif lang_code == 'zh-cn' %}✅ 完成并返回课程
