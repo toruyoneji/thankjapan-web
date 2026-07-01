@@ -3283,7 +3283,7 @@ def delete_successDE(request):
 
 class DailyConversationView(ListView):
     template_name = "thank_japan_app/dairy_conversation.html"
-    paginate_by = 24
+    paginate_by = 200
     
     def get_queryset(self):
         return ThankJapanPremium.objects.filter(category="DailyConversation").order_by('timestamp')
@@ -3297,7 +3297,7 @@ class DailyConversationView(ListView):
     
 class TourismEtiquetteView(ListView):
     template_name = "thank_japan_app/tourism_etiquette.html"
-    paginate_by = 24
+    paginate_by = 200
     
     def get_queryset(self):
         return ThankJapanPremium.objects.filter(category="TourismEtiquette").order_by('timestamp')
@@ -3311,7 +3311,7 @@ class TourismEtiquetteView(ListView):
 
 class EntertainmentView(ListView):
     template_name = "thank_japan_app/entertainment.html"
-    paginate_by = 24
+    paginate_by = 200
     
     def get_queryset(self):
         return ThankJapanPremium.objects.filter(category="Entertainment").order_by('timestamp')
@@ -3327,7 +3327,7 @@ class EntertainmentView(ListView):
 
 class SlangView(ListView):
     template_name = "thank_japan_app/slang.html"
-    paginate_by = 24
+    paginate_by = 200
     
     def get_queryset(self):
         return ThankJapanPremium.objects.filter(category="slang").order_by('timestamp')
