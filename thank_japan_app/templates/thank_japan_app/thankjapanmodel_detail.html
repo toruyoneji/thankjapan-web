@@ -689,21 +689,7 @@
     </div>
     {% endif %}
 
-    <button onclick="smartBack('{{ category_list_url }}')" class="btn-back" id="back-btn">
-         ← {% if lang_code == 'ja' %}戻る
-        {% elif lang_code == 'zh-hant' %}返回
-        {% elif lang_code == 'zh-cn' %}返回
-        {% elif lang_code == 'ko' %}뒤로
-        {% elif lang_code == 'fr' %}Retour
-        {% elif lang_code == 'th' %}กลับ
-        {% elif lang_code == 'vi' %}Quay lại
-        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Volver
-        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Voltar
-        {% elif lang_code == 'de' %}Zurück
-        {% elif lang_code == 'it' %}Indietro
-        {% elif lang_code == 'en-in' %}Back
-        {% else %}Back{% endif %}
-    </button>
+    
     
     <footer style="margin-top: 40px; font-size: 0.7rem; color: rgba(255,255,255,0.3); padding-bottom: 60px; text-align: center;">
         © 2025 Thank Japan All Rights Reserved.
