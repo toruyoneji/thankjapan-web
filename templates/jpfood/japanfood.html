@@ -22,11 +22,15 @@
 
 
 .premium-title {
-    display: block; 
-    width: 100%;    
-    color: #eee;
+    color: #d4af37;
+    font-size: 1.1rem;
+    font-weight: 600;
     text-align: center;
-    margin: 30px 0;
+    line-height: 1.6;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+    display: block;
+    width: 100%;
+    margin: 50px auto 20px auto; 
 }
 
 .food-grid {
@@ -66,7 +70,6 @@
     font-size: 0.85rem;
     color: #eee;
     text-align: left;
-    /* 2行で省略する設定 */
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
@@ -190,6 +193,14 @@
     
     transition: all 0.3s;
 }
+
+@media (max-width: 768px) {
+    .premium-title {
+        margin-top: 60px; 
+        padding: 0 15px;  
+    }
+}
+
 </style>
 
 <div id="premium-food-container">
