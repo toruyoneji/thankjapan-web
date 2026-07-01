@@ -120,13 +120,14 @@
 }
 
 .main2 {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
-    padding: 0 12px;
-    max-width: 1000px;
-    margin: 0 auto;
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important; 
+    gap: 12px !important;
+    padding: 20px 12px 100px !important;
+    max-width: 1000px !important;
+    margin: 0 auto !important;
 }
+
 
 .flashcard {
     background: rgba(255, 255, 255, 0.1);
@@ -347,8 +348,10 @@
     }
 
 @media (min-width: 768px) {
-    .main2 { grid-template-columns: repeat(4, 1fr); }
-}
+    .main2 {
+        grid-template-columns: repeat(3, 1fr) !important;
+        max-width: 900px !important;
+    }
 
 </style>
 
