@@ -546,8 +546,8 @@
     
                     <span onclick="speakJapanese('{{ object.example_sentence_ja|escapejs }}'.replace(/<rt>.*?<\/rt>/g, '').replace(/<[^>]+>/g, ''))" 
                         class="voice-btn"
-                        style="margin-left: 12px; width: 40px; height: 40px; font-size: 1rem;"> 
-                        🗣️<span style="font-size: 0.6em; margin-left: 6px;">🔊</span>
+                        style="margin-left: 12px; width: 60px; height: 45px; font-size: 1.2rem; border-radius: 30px; display: inline-flex; align-items: center; justify-content: center; padding: 0 10px;"> 
+                        🗣️<span style="font-size: 0.7em; margin-left: 4px;">🔊</span>
                     </span>
                 </p>
 
@@ -604,7 +604,7 @@
         {% endif %}
     </div>
 
-    <div class="game-invite-box">
+    <div class="game-invite-box" style="text-align: center; width: 100%; display: flex; flex-direction: column; align-items: center;">
         <h3 class="game-invite-title">
             {% if lang_code == 'ja' %}この単語を練習する準備はいい？
             {% elif lang_code == 'zh-hant' %}準備好練習這個單字了嗎？
@@ -782,7 +782,7 @@
 </div>
 
 <script>
-    
+
 function speakJapanese(text) {
     if (!('speechSynthesis' in window)) return;
     window.speechSynthesis.cancel();
