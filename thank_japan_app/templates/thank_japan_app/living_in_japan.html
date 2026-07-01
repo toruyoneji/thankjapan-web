@@ -1,4 +1,4 @@
-{% extends 'base/basecategory.html' %}
+{% extends 'base/basecategory_top.html' %}
 {% load category_filters %}
 
 {% block title %}
@@ -75,393 +75,342 @@
 </script>
 
 <style>
-body {
-    background-color: #fffaf5;
-    font-family: 'Noto Sans JP', 'Poppins', sans-serif;
-    color: #333;
+    .app-inner-container {
+    width: 100%;
+    padding-top: 60px;
+    padding-bottom: 100px; 
+    min-height: 100vh;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.6), rgba(0,0,0,0.8)),
+                url('https://res.cloudinary.com/dotekofm5/image/upload/v1761842722/thankjapan/backgrounds/p2uktlwymnjdmhy5w2sd.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed; 
+}
+
+.app-content-fix {
+    width: 100%;
+    height: calc(100vh - 135px); 
+    overflow-y: auto; 
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 50px;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.6), rgba(0,0,0,0.8)),
+                url('https://res.cloudinary.com/dotekofm5/image/upload/v1761842722/thankjapan/backgrounds/p2uktlwymnjdmhy5w2sd.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: local;
+}
+
+.app-content-fix::-webkit-scrollbar { display: none; }
+
+.category-scroll-area {
+    width: 100%;
+}
+
+
+.category-header {
+    text-align: center;
+    padding: 30px 15px 15px;
+    color: #fff;
 }
 
 .category-header {
     text-align: center;
-    padding: 60px 20px 40px;
-    background: linear-gradient(135deg, #ffe8d6 0%, #fffaf5 100%);
-    border-radius: 0 0 40px 40px;
-    margin-top: 10px;
-}
-.category-header h1 {
-    font-size: 2.2rem;
-    font-family: 'Sawarabi Mincho', serif;
-    color: #d46a00;
+    padding: 80px 15px 10px; 
+    color: #fff;
 }
 
 .main2 {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 24px;
-    padding: 50px 6%;
-    max-width: 1200px;
-    margin: 0 auto;
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important; 
+    gap: 12px !important; 
+    padding: 20px 10px 100px !important; 
+    width: 100% !important;
+    max-width: 1000px !important;
+    margin: 0 auto !important;
+    box-sizing: border-box !important;
 }
 
-
 .flashcard {
-    background: #fff;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(212, 175, 55, 0.3);
     border-radius: 16px;
     overflow: hidden;
     cursor: pointer;
-    border: 2px solid #ffe0b2;
     position: relative;
-    transition: transform 0.2s;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 }
-
-.flashcard:active { transform: scale(0.98); }
-
-.card-image img {
-    width: 100%;
-    height: 180px;
-    object-fit: cover;
-    display: block;
-}
-
-
-.card-info {
-    padding: 10px 5px !important;
-    text-align: center;
-}
-
-.card-english {
-    font-size: 1.1rem;
-    font-weight: bold;
-    color: #d46a00;
-    margin-bottom: 0 !important;
-}
-
-.jlpt-badge {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    background: #d4af37;
-    color: #000;
-    font-weight: bold;
-    padding: 4px 8px;
-    border-radius: 4px;
-    font-size: 0.8rem;
-    z-index: 10;
-}
-
-
-.locked-card-container {
-    grid-column: 1 / -1; 
-    display: flex;
-    justify-content: center;
-    margin: 20px 0 !important;
-    padding: 0 20px;
-}
-
-.locked-card {
-    background: linear-gradient(135deg, #1a1a1a, #2c3e50) !important;
-    color: #fff;
-    padding: 30px !important;
-    border-radius: 20px;
-    text-align: center;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
-    max-width: 600px;
-    width: 100%;
-    border: 2px solid #d4af37;
-}
-
-.unlock-btn {
-    display: inline-block;
-    background: linear-gradient(45deg, #d4af37, #f3e5ab, #d4af37);
-    color: #000;
-    font-weight: bold;
-    font-size: 1.1rem;
-    padding: 12px 40px;
-    border-radius: 50px;
-    text-decoration: none;
-}
-
-.btn-more {
-    display: inline-block;
-    background: #ffb347;
-    color: white;
-    padding: 10px 24px;
-    border-radius: 25px;
-    text-decoration: none;
-    font-weight: 600;
-    margin-top: 20px;
-    transition: background 0.3s;
-}
-
-.btn-more:hover { background: #ff9642; }
-
-.pagination-container {
-  overflow-x: auto;
-  padding: 15px 0;
-  -webkit-overflow-scrolling: touch;
-}
-.pagination {
-  display: flex;
-  gap: 10px;
-  min-width: max-content;
-  justify-content: center;
-}
-.page-btn {
-  flex: 0 0 auto;
-  padding: 8px 14px;
-  border-radius: 12px;
-  border: 1px solid #ccc;
-  background-color: #f8f8f8;
-  color: #333;
-  text-decoration: none;
-  font-weight: 500;
-  transition: all 0.2s ease;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-}
-.page-btn:hover, .page-btn.current {
-  background-color: #e63946;
-  color: #fff;
-  border-color: #e63946;
-}
-
-
-
-#detailModal {
-    display: none;
-    position: fixed;
-    z-index: 10000;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.9);
-    overflow-y: auto;
-}
-
-#detailModal.active { display: block; }
-
-.modal-body-content {
-    background-color: #2f2a26;
-    width: 94%;
-    max-width: 850px;
-    margin: 40px auto;
-    border-radius: 20px;
-    position: relative;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.8);
-    overflow: hidden;
-    color: #f6efe8;
-}
-
-.modal-nav {
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    z-index: 10015;
-}
-
-.modal-close-btn {
-    background: #7b942e !important;
-    border: 3px solid #ffffff !important;
-    color: white !important;
-    font-size: 26px;
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-
-.modal-detail-wrapper {
-    display: block !important;
-    padding: 30px 20px 60px !important;
-    text-align: center !important;
-}
-
-.modal-detail-wrapper .detailgazou {
-    width: 100% !important;
-    height: auto !important;
-    border-radius: 12px;
-    margin-bottom: 25px !important;
-    display: block !important;
-}
-
-.modal-detail-wrapper .jpname-text {
-    font-size: 3.5rem !important;
-    color: #fff !important;
-}
-
-
-.modal-detail-wrapper .voice-btn {
-    background: transparent !important;
-    border: 2px solid #fcd5b5 !important;
-    color: #fcd5b5 !important;
-    width: 40px !important;
-    height: 40px !important;
-    border-radius: 50% !important;
-    font-size: 1.2rem !important;
-    cursor: pointer !important;
-    display: inline-flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    padding: 0 !important;
-    margin-left: 10px !important;
-    vertical-align: middle !important;
-}
-
-.modal-detail-wrapper .cards {
-    display: flex !important;
-    flex-direction: column !important;
-    gap: 15px !important;
-    margin-top: 30px !important;
-    align-items: stretch !important; /
-}
-
-
-.modal-detail-wrapper .card {
-    background-color: #f6efe8 !important;
-    color: #3b2f2f !important;
-    border-radius: 16px !important;
-    padding: 15px 20px !important; 
-    text-align: left !important;
-    margin: 0 !important;
-}
-
-.modal-detail-wrapper .card h2 { color: #a35c00 !important; font-size: 1.1rem !important; }
-.modal-detail-wrapper .card li { list-style: "✿ " !important; margin-bottom: 4px !important; }
-
-
-
-.modal-detail-wrapper .game-invite-box {
-    margin: 40px auto 20px !important;
-    padding: 30px 20px !important;
-    background: linear-gradient(135deg, #2f2a26, #1e1b19) !important;
-    border: 2px solid #d4af37 !important;
-    border-radius: 16px !important;
-    text-align: center !important;
-    box-shadow: 0 15px 40px rgba(0,0,0,0.4) !important;
-}
-
-
-.modal-detail-wrapper .game-invite-title {
-    color: #fcd5b5 !important;
-    font-size: 1.4rem !important;
-}
-
-
-.modal-detail-wrapper .rule-caption {
-    color: #c6b6a9 !important;
-}
-
-
-.modal-detail-wrapper .game-invite-btn {
-    display: inline-block !important;
-    background: linear-gradient(135deg, #d4af37, #ffd700) !important;
-    color: #000 !important;
-    padding: 15px 45px !important;
-    border-radius: 50px !important;
-    text-decoration: none !important;
-    font-weight: bold !important;
-    font-size: 1.2rem !important;
-    box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3) !important;
-    border: none !important;
-}
-
-.modal-detail-wrapper .game-invite-btn:hover {
-    background: linear-gradient(135deg, #ffd700, #f3e5ab) !important;
-    transform: translateY(-2px) !important;
-}
-
-
-.modal-detail-wrapper .twitter-share-btn-white {
-    display: inline-flex !important;
-    align-items: center !important;
-    background-color: #ffffff !important;
-    color: #000000 !important;
-    padding: 8px 20px !important;
-    border-radius: 30px !important;
-    border: 2px solid #000 !important;
-}
-
-
-.modal-detail-wrapper .related-grid {
-    display: grid !important;
-    grid-template-columns: repeat(2, 1fr) !important;
-    gap: 12px !important;
-}
-
-.modal-detail-wrapper .related-card { background-color: #f6efe8 !important; border-radius: 12px !important; text-decoration: none !important; color: inherit !important;}
-.modal-detail-wrapper .related-card img { width: 100% !important; height: 100px !important; object-fit: cover !important; }
-
-.modal-detail-wrapper .related-card h4 {
-    color: #a35c00 !important; 
-    text-decoration: none !important;
-    margin: 0 !important;
-    font-size: 0.9rem !important;
-    font-weight: 700 !important;
-}
-
-.modal-detail-wrapper .related-card:hover h4 {
-    color: #d46a00 !important; 
-    text-decoration: none !important;
-}
-
-.modal-detail-wrapper footer, .modal-detail-wrapper .btn-back { display: none !important; }
-body.modal-open { overflow: hidden !important; }
-
 
 .tap-guide {
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    bottom: 10px;    
+    right: 10px;     
     z-index: 100;
     pointer-events: none;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
 }
 
 .finger-icon {
-    font-size: 3.5rem;
-    filter: drop-shadow(0 2px 5px rgba(0,0,0,0.3));
-    animation: tap-animation 0.8s infinite;
+    font-size: 2rem;
+    animation: tap-click 0.8s infinite;
 }
+
 
 .tap-text {
     background: rgba(0, 0, 0, 0.7);
     color: white;
-    padding: 4px 12px;
-    border-radius: 12px;
-    font-size: 0.9rem;
+    padding: 1px 8px;
+    border-radius: 8px;
+    font-size: 0.65rem;
     font-weight: bold;
-    margin-top: -5px;
     white-space: nowrap;
 }
 
+@keyframes tap-click {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1) translateY(-2px); }
+    100% { transform: scale(1); }
+}
 
-@keyframes tap-animation {
-    0% { transform: scale(1) translateY(0); }
-    50% { transform: scale(1.2) translateY(-10px); }
-    100% { transform: scale(1) translateY(0); }
+.card-image img {
+    width: 100%;
+    height: 140px;
+    object-fit: cover;
+}
+
+.card-info { padding: 10px 5px; text-align: center; }
+.card-english { font-size: 0.9rem; font-weight: bold; color: #fff; line-height: 1.2; }
+
+#detailModal {
+    display: none;
+    position: fixed;
+    z-index: 11000;
+    left: 0; top: 0; 
+    width: 100%; height: 100%;
+    background-color: rgba(0, 0, 0, 0.95);
+    overflow-y: auto; 
+    -webkit-overflow-scrolling: touch;
 }
 
 
-.flashcard {
-    position: relative; 
+.modal-body-content {
+    background-color: #1a1a1a !important;
+    width: 94%;
+    margin: 40px auto;
+    border-radius: 20px;
+    border: 1px solid #d4af37;
+    color: #fff !important;
+    min-height: 200px; 
 }
 
-@media (max-width: 900px) { .main2 { grid-template-columns: repeat(2, 1fr); gap: 16px; } }
-@media (max-width: 600px) { .flashcard { height: auto; } .card-image img { height: 140px; } }
+
+.modal-detail-wrapper .card {
+    background-color: rgba(255, 255, 255, 0.05) !important;
+    border: 1px solid rgba(212, 175, 55, 0.3) !important;
+    color: #fff !important;
+    padding: 15px !important;
+    margin: 10px !important;
+    display: block !important; 
+}
+
+.modal-detail-wrapper .detailgazou {
+    width: 100% !important;
+    border-radius: 12px 12px 0 0 !important;
+}
+
+.modal-detail-wrapper .jpname-text {
+    font-size: 2.2rem !important;
+    color: #fff !important;
+    margin: 10px 0 !important;
+}
+
+.modal-detail-wrapper .detaildt,
+.modal-detail-wrapper h2 {
+    color: #d4af37 !important;
+    font-size: 1.2rem !important;
+    margin-bottom: 5px !important;
+}
+
+
+.modal-nav { position: absolute; top: 10px; right: 10px; z-index: 10020; }
+.modal-close-btn {
+    width: auto !important;
+    height: 36px !important;
+    padding: 0 15px !important;
+    border-radius: 20px !important;
+    background: #d4af37 !important;
+    color: #000000 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    font-family: 'Inter', sans-serif !important;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3) !important;
+    border: none !important;
+    position: fixed !important;
+    top: 15px !important;
+    right: 15px !important;
+    z-index: 10030 !important;
+}
+
+.back-home-area { padding: 30px 0; text-align: center; }
+.btn-app-secondary {
+    display: inline-block;
+    color: #d4af37;
+    border: 1px solid #d4af37;
+    padding: 8px 25px;
+    border-radius: 20px;
+    text-decoration: none;
+}
+
+.btn-more {
+    display: inline-block;
+    background: transparent;
+    color: #d4af37;
+    border: 1px solid #d4af37;
+    padding: 12px 40px;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+    margin-bottom: 50px;
+}
+
+.btn-more:active {
+    transform: scale(0.95);
+    background: rgba(212, 175, 55, 0.1);
+}
+
+.jlpt-badge {
+        position: absolute !important;
+        top: 10px !important;
+        left: 10px !important;
+        background: linear-gradient(135deg, #d4af37, #b8860b) !important;
+        color: #000 !important;
+        font-size: 0.7rem !important;
+        font-weight: 800 !important;
+        padding: 3px 10px !important;
+        border-radius: 6px !important;
+        z-index: 10 !important;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.5) !important;
+        border: 1px solid rgba(255,255,255,0.3) !important;
+        letter-spacing: 1px !important;
+    }
+
+    .pagination-container {
+        width: 100% !important;
+        display: flex !important;
+        justify-content: center !important;
+        gap: 10px !important;
+        padding: 40px 0 !important;
+    }
+
+    .page-btn {
+        background: rgba(255, 255, 255, 0.05) !important;
+        border: 1px solid rgba(212, 175, 55, 0.4) !important;
+        color: #d4af37 !important;
+        padding: 8px 16px !important;
+        border-radius: 12px !important;
+        text-decoration: none !important;
+        font-size: 0.85rem !important;
+        transition: 0.3s !important;
+    }
+
+    .page-btn.current {
+        background: #d4af37 !important;
+        color: #000 !important;
+        font-weight: bold !important;
+    }
+
+    .locked-card {
+        background: linear-gradient(135deg, rgba(20,20,20,0.95), rgba(40,40,40,0.95)) !important;
+        border: 2px solid #d4af37 !important;
+        border-radius: 20px !important;
+        padding: 40px 20px !important;
+        text-align: center !important;
+        margin: 40px 15px !important;
+        box-shadow: 0 15px 50px rgba(0,0,0,0.8) !important;
+    }
+
+    
+    .modal-body-content .locked-card,
+    #detail-page-wrapper .locked-card {
+        background: linear-gradient(135deg, rgba(30, 30, 30, 0.98), rgba(10, 10, 10, 1)) !important;
+        border: 2px solid #d4af37 !important; 
+        border-radius: 24px !important;
+        padding: 40px 20px !important;
+        margin: 40px 10px !important;
+        box-shadow: 0 0 30px rgba(212, 175, 55, 0.2) !important; 
+        text-align: center !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+    }
+
+    .lock-icon {
+        font-size: 3rem !important;
+        margin-bottom: 15px !important;
+        display: block !important;
+        filter: drop-shadow(0 0 10px #d4af37) !important;
+    }
+
+    .locked-card h3 {
+        color: #d4af37 !important;
+        font-size: 1.5rem !important;
+        margin-bottom: 15px !important;
+        font-weight: 800 !important;
+    }
+
+    .locked-card p {
+        color: rgba(255, 255, 255, 0.7) !important;
+        font-size: 0.95rem !important;
+        line-height: 1.6 !important;
+        margin-bottom: 30px !important;
+    }
+
+    .unlock-btn {
+        display: inline-block !important;
+        background: linear-gradient(45deg, #d4af37, #f1c40f, #d4af37) !important;
+        color: #000000 !important;
+        padding: 18px 40px !important;
+        border-radius: 50px !important;
+        text-decoration: none !important;
+        font-weight: 900 !important;
+        font-size: 1.1rem !important;
+        box-shadow: 0 4px 20px rgba(212, 175, 55, 0.5) !important;
+        transition: transform 0.2s !important;
+    }
+
+    .unlock-btn:active {
+        transform: scale(0.95) !important;
+    }
+
+    .locked-card-container {
+    grid-column: 1 / -1 !important; 
+    width: 100% !important;
+    display: flex !important;
+    justify-content: center !important;
+    }
+
+@media screen and (min-width: 768px) {
+    .main2 {
+        grid-template-columns: repeat(3, 1fr) !important; 
+        gap: 20px !important; 
+        padding: 40px 20px 100px !important;
+    }
+}
+
 </style>
 
 
-<div class="category-header">
-    <h1>
+
+<div class="app-content-fix">
+    <div class="category-header">
+    
+        <h1 style="color: #d4af37; font-size: 2rem; letter-spacing: 2px;">
         {% if lang_code == 'ja' %}
             実用的な生活 🏠
         {% elif lang_code == 'zh-hant' %}
@@ -488,101 +437,73 @@ body.modal-open { overflow: hidden !important; }
             Practical Living 🏠
         {% endif %}
 
-    </h1>
-    <p>
-        {% if lang_code == 'ja' %}
-            日本での新生活に役立つ生き残りフレーズと基本ルールをマスター。日常の用事、公共サービス、地域の習慣を自信を持ってこなそう。
-        {% elif lang_code == 'zh-hant' %}
-            掌握在日本新生活中生存所需的短語與基本規則，自信應對日常事務、公共服務及當地習俗。
-        {% elif lang_code == 'zh-cn' %}
-            掌握在日本新生活中生存所需的短语与基本规则，自信应对日常事务、公共服务及当地习俗。
-        {% elif lang_code == 'de' %}
-            Meistere überlebenswichtige Redewendungen und essentielle Regeln für dein neues Leben in Japan. Bewältige alltägliche Erledigungen, öffentliche Dienste und lokale Bräuche mit Selbstvertrauen.
-        {% elif lang_code == 'fr' %}
-            Maîtrisez les phrases essentielles et les règles de survie pour votre nouvelle vie au Japon. Gérez les courses quotidiennes, les services publics et les coutumes locales en toute confiance.
-        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}
-            Domina frases esenciales y reglas básicas para tu nueva vida en Japón. Maneja diligencias diarias, servicios públicos y costumbres locales con confianza.
-        {% elif lang_code == 'it' %}
-            Padroneggia frasi essenziali e regole fondamentali per la tua nuova vita in Giappone. Gestisci commissioni quotidiane, servizi pubblici e usanze locali con sicurezza.
-        {% elif lang_code == 'ko' %}
-            일본에서의 새 생활에 필요한 생존 문구와 기본 규칙을 마스터하세요. 일상 업무, 공공 서비스, 지역 관습을 자신 있게 이용할 수 있습니다.
-        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}
-            Domine frases essenciais e regras básicas para sua nova vida no Japão. Realize tarefas diárias, serviços públicos e costumes locais com confiança.
-        {% elif lang_code == 'vi' %}
-            Thành thạo các câu giao tiếp sinh tồn và các quy tắc cần thiết cho cuộc sống mới ở Nhật Bản. Thực hiện các việc hàng ngày, dịch vụ công và phong tục địa phương một cách tự tin.
-        {% elif lang_code == 'th' %}
-            ฝึกฝนวลีรอดชีวิตและกฎสำคัญสำหรับชีวิตใหม่ในญี่ปุ่น จัดการงานประจำวัน บริการสาธารณะ และขนบธรรมเนียมท้องถิ่นด้วยความมั่นใจ
-        {% else %}
-            Master survival phrases and essential rules for your new life in Japan. Navigate daily errands, public services, and local customs with confidence.
-        {% endif %}
+        </h1>
+    
+    </div>
 
-    </p>
-</div>
+    <div class="main2">
+        {% for item in object_list %}
+            {% url 'detail_premium' category=item.category slug=item.slug as detail_url %}
+            <div class="flashcard" onclick="hideGuide(this); openDetailModal('{{ detail_url }}?lang={% if lang_code %}{{ lang_code }}{% else %}en{% endif %}')">  
+                {% if forloop.first %}
+                <div class="tap-guide" id="first-card-guide">
+                    <div class="finger-icon">👆</div>
+                    <div class="tap-text">
+                        {% if lang_code == 'ja' %}タップ！
+                        {% elif lang_code == 'zh-hant' %}點擊！
+                        {% elif lang_code == 'zh-cn' %}点击！
+                        {% elif lang_code == 'ko' %}탭!
+                        {% elif lang_code == 'fr' %}Appuyez !
+                        {% elif lang_code == 'de' %}Tippen!
+                        {% elif lang_code == 'it' %}Tocca!
+                        {% elif lang_code == 'es' or lang_code == 'es-es' %}¡Toca!
+                        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Toque!
+                        {% elif lang_code == 'vi' %}Chạm!
+                        {% elif lang_code == 'th' %}แตะ!
+                        {% else %}Tap!
+                        {% endif %}
+                    </div>
+                </div>
+                {% endif %}
 
-<div class="main2">
-    {% for item in object_list %}
-        {% url 'detail_premium' category=item.category slug=item.slug as detail_url %}
-        <div class="flashcard" onclick="hideGuide(this); openDetailModal('{{ detail_url }}?lang={% if lang_code %}{{ lang_code }}{% else %}en{% endif %}')">  
-            {% if forloop.first %}
-            <div class="tap-guide" id="first-card-guide">
-                <div class="finger-icon">👆</div>
-                <div class="tap-text">
-                    {% if lang_code == 'ja' %}タップ！
-                    {% elif lang_code == 'zh-hant' %}點擊！
-                    {% elif lang_code == 'zh-cn' %}点击！
-                    {% elif lang_code == 'ko' %}탭!
-                    {% elif lang_code == 'fr' %}Appuyez !
-                    {% elif lang_code == 'de' %}Tippen!
-                    {% elif lang_code == 'it' %}Tocca!
-                    {% elif lang_code == 'es' or lang_code == 'es-es' %}¡Toca!
-                    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Toque!
-                    {% elif lang_code == 'vi' %}Chạm!
-                    {% elif lang_code == 'th' %}แตะ!
-                    {% else %}Tap!
+                {% if item.jlpt_level %}
+                    <div class="jlpt-badge">{{ item.jlpt_level }}</div>
+                {% endif %}
+
+                <div class="card-image">
+                    {% if item.image %}
+                        <img src="{{ item.image.url }}" alt="{{ item.englishname }}" {% if forloop.counter > 7 %} loading="lazy" {% endif %}>
+                    {% else %}
+                        <div class="no-image">No Image</div>
                     {% endif %}
                 </div>
-            </div>
-            {% endif %}
 
-            {% if item.jlpt_level %}
-                <div class="jlpt-badge">{{ item.jlpt_level }}</div>
-            {% endif %}
-
-            <div class="card-image">
-                {% if item.image %}
-                    <img src="{{ item.image.url }}" alt="{{ item.englishname }}" {% if forloop.counter > 7 %} loading="lazy" {% endif %}>
-                {% else %}
-                    <div class="no-image">No Image</div>
-                {% endif %}
-            </div>
-
-            <div class="card-info">
-                <div class="card-english">
-                    {% if lang_code == 'ja' %}{{ item.englishname }}
-                    {% elif lang_code == 'zh-hant' %}{{ item.englishname_zh_hant }}
-                    {% elif lang_code == 'zh-cn' %}{{ item.englishname_zh_cn }}
-                    {% elif lang_code == 'ko' %}{{ item.englishname_ko }}
-                    {% elif lang_code == 'fr' %}{{ item.englishname_fr }}
-                    {% elif lang_code == 'de' %}{{ item.englishname_de }}
-                    {% elif lang_code == 'it' %}{{ item.englishname_it }}
-                    {% elif lang_code == 'es' or lang_code == 'es-es' %}{{ item.englishname_es_es }}
-                    {% elif lang_code == 'es-mx' %}{{ item.englishname_es_mx }}
-                    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}{{ item.englishname_pt }}
-                    {% elif lang_code == 'th' %}{{ item.englishname_th }}
-                    {% elif lang_code == 'vi' %}{{ item.englishname_vi }}
-                    {% else %}{{ item.englishname }}{% endif %}
+                <div class="card-info">
+                    <div class="card-english">
+                        {% if lang_code == 'ja' %}{{ item.englishname }}
+                        {% elif lang_code == 'zh-hant' %}{{ item.englishname_zh_hant }}
+                        {% elif lang_code == 'zh-cn' %}{{ item.englishname_zh_cn }}
+                        {% elif lang_code == 'ko' %}{{ item.englishname_ko }}
+                        {% elif lang_code == 'fr' %}{{ item.englishname_fr }}
+                        {% elif lang_code == 'de' %}{{ item.englishname_de }}
+                        {% elif lang_code == 'it' %}{{ item.englishname_it }}
+                        {% elif lang_code == 'es' or lang_code == 'es-es' %}{{ item.englishname_es_es }}
+                        {% elif lang_code == 'es-mx' %}{{ item.englishname_es_mx }}
+                        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}{{ item.englishname_pt }}
+                        {% elif lang_code == 'th' %}{{ item.englishname_th }}
+                        {% elif lang_code == 'vi' %}{{ item.englishname_vi }}
+                        {% else %}{{ item.englishname }}{% endif %}
+                    </div>
                 </div>
             </div>
-        </div>
-    {% endfor %}
+        {% endfor %}
 
-    {% if is_locked %}
-    <div class="locked-card-container">
-        <div class="locked-card">
-            <div class="locked-content">
-                <div class="lock-icon">🔒</div>
-                <h3>
-                
+        {% if is_locked %}
+        <div class="locked-card-container">
+            <div class="locked-card">
+                <div class="locked-content">
+                    <div class="lock-icon">🔒</div>
+                    <h3>
                     {% if lang_code == 'ja' %}
                         プレミアムコンテンツをアンロック
                     {% elif lang_code == 'zh-hant' %}
@@ -608,9 +529,8 @@ body.modal-open { overflow: hidden !important; }
                     {% else %}
                         Unlock Premium Content
                     {% endif %}
-                
-                </h3>
-                <p>
+                    </h3>
+                    <p>
                     {% if lang_code == 'ja' %}
                         無料サンプルをすべて表示しました。<br>
                         アップグレードして <b>{{ hidden_count }}+</b> 以上のフレーズにアクセスし、このカテゴリーをマスターしましょう！
@@ -648,9 +568,8 @@ body.modal-open { overflow: hidden !important; }
                         You've viewed the free samples.<br>
                         Upgrade to access <b>{{ hidden_count }}+</b> more phrases and master this special category!
                     {% endif %}
-                </p>
-                
-                <a href="{% url premium_url_name %}?lang={{ lang_code }}" class="unlock-btn">
+                    </p>
+                    <a href="{% url premium_url_name %}?lang={{ lang_code }}" class="unlock-btn">
                     {% if is_twa %}       
                         {% if lang_code == 'ja' %} 💎 Google Playでアンロック
                         {% elif lang_code == 'ko' %} 💎 Google Play로 잠금 해제
@@ -680,92 +599,60 @@ body.modal-open { overflow: hidden !important; }
                         {% else %} 💎 Unlock Now
                         {% endif %}
                     {% endif %}
-                </a>
-                    
+                    </a>
+                </div>
             </div>
         </div>
+        {% endif %}
     </div>
-    {% endif %}
 
-</div>
-
-{% if not is_locked %}
-<div class="pagination-container">
-  <div class="pagination">
-    {% if page_obj.has_previous %}
-      <a href="?page=1&lang={{ lang_code }}" class="page-btn">&laquo;</a>
-      <a href="?page={{ page_obj.previous_page_number }}{% if lang_code %}&lang={{ lang_code }}{% endif %}" class="page-btn">
-        {% if lang_code == 'ja' %}前へ
-        {% elif lang_code == 'ko' %}이전
-        {% elif lang_code == 'zh-cn' %}上一页
-        {% elif lang_code == 'zh-hant' %}上一頁
-        {% elif lang_code == 'th' %}ก่อนหน้า
-        {% elif lang_code == 'vi' %}Trang trước
-        {% elif lang_code == 'fr' %}Précédent
-        {% elif lang_code == 'de' %}Zurück
-        {% elif lang_code == 'it' %}Precedente
-        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Anterior
-        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Anterior
-        {% else %}Prev{% endif %}
-      </a>
-    {% endif %}
-
-    {% for num in page_obj.paginator.page_range %}
-      {% if page_obj.number == num %}
-        <span class="page-btn current">{{ num }}</span>
-      {% elif num > page_obj.number|add:-3 and num < page_obj.number|add:3 %}
-        <a href="?page={{ num }}&lang={{ lang_code }}" class="page-btn">{{ num }}</a>
-      {% endif %}
-    {% endfor %}
-
-    {% if page_obj.has_next %}
-      <a href="?page={{ page_obj.next_page_number }}{% if lang_code %}&lang={{ lang_code }}{% endif %}" class="page-btn">
-        {% if lang_code == 'ja' %}次へ
-        {% elif lang_code == 'ko' %}다음
-        {% elif lang_code == 'zh-cn' %}下一页
-        {% elif lang_code == 'zh-hant' %}下一頁
-        {% elif lang_code == 'th' %}ถัดไป
-        {% elif lang_code == 'vi' %}Tiếp theo
-        {% elif lang_code == 'fr' %}Suivant
-        {% elif lang_code == 'de' %}Weiter
-        {% elif lang_code == 'it' %}Successivo
-        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Siguiente
-        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Próximo
-        {% else %}Next{% endif %}
-      </a>
-      <a href="?page={{ page_obj.paginator.num_pages }}&lang={{ lang_code }}" class="page-btn">&raquo;</a>
-    {% endif %}
-  </div>
-</div>
-{% endif %}
-
-<div id="detailModal">
-    <div class="modal-body-content">
-        <div class="modal-nav">
-            <button onclick="closeDetailModal()" class="modal-close-btn">✕</button>
+        <div style="text-align:center; margin:50px 0;">
+            <a class="btn-more" href="javascript:void(0);" onclick="goToCategoryList()">
+            ← 
+            {% if lang_code == 'ja' %}戻る
+            {% elif lang_code == 'ko' %}뒤로
+            {% elif lang_code == 'zh-cn' %}返回
+            {% elif lang_code == 'zh-hant' %}返回
+            {% elif lang_code == 'th' %}กลับ
+            {% elif lang_code == 'vi' %}Quay lại
+            {% elif lang_code == 'fr' %}Retour
+            {% elif lang_code == 'de' %}Zurück
+            {% elif lang_code == 'it' %}Indietro
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Volver
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Voltar
+            {% else %}Back{% endif %}
+            </a>
         </div>
-        <div id="modalBody"></div>
+</div>
+
+
+
+    <div id="detailModal" class="full-screen-modal">
+        <div class="modal-body-content">
+            <div class="modal-nav">
+                <button onclick="closeDetailModal()" class="modal-close-btn">
+                    <span style="font-size: 0.7rem; font-weight: bold; letter-spacing: 1px;">
+                        {% if lang_code == 'ja' %}閉じる
+                        {% elif lang_code == 'zh-hant' %}關閉
+                        {% elif lang_code == 'zh-cn' %}关闭
+                        {% elif lang_code == 'ko' %}닫기
+                        {% elif lang_code == 'fr' %}Fermer
+                        {% elif lang_code == 'th' %}ปิด
+                        {% elif lang_code == 'vi' %}Đóng
+                        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Cerrar
+                        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Fechar
+                        {% elif lang_code == 'de' %}Schließen
+                        {% elif lang_code == 'it' %}Chiudi
+                        {% else %}CLOSE{% endif %}
+                    </span>
+                    <span style="font-size: 1.1rem; font-weight: bold;">✕</span>
+                </button>
+            </div>
+            <div id="modalBody"></div>
+        </div>
     </div>
-</div>
 
 
-<div style="text-align:center; margin:50px 0;">
-    <a class="btn-more" href="javascript:void(0);" onclick="goToCategoryList()">
-        ← 
-        {% if lang_code == 'ja' %}戻る
-        {% elif lang_code == 'ko' %}뒤로
-        {% elif lang_code == 'zh-cn' %}返回
-        {% elif lang_code == 'zh-hant' %}返回
-        {% elif lang_code == 'th' %}กลับ
-        {% elif lang_code == 'vi' %}Quay lại
-        {% elif lang_code == 'fr' %}Retour
-        {% elif lang_code == 'de' %}Zurück
-        {% elif lang_code == 'it' %}Indietro
-        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Volver
-        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Voltar
-        {% else %}Back{% endif %}
-    </a>
-</div>
 
 <script>
 function hideGuide(card) {
@@ -811,13 +698,16 @@ if (speechSynthesis.onvoiceschanged !== undefined) {
     speechSynthesis.onvoiceschanged = () => speechSynthesis.getVoices();
 }
 
+
 function openDetailModal(url) {
     const modal = document.getElementById('detailModal');
     const modalBody = document.getElementById('modalBody');
     
-    modal.classList.add('active');
-    document.body.classList.add('modal-open');
-    modalBody.innerHTML = '<div style="text-align:center;padding:100px;color:white;">Loading...</div>';
+    modal.style.display = 'block';
+    
+    document.body.style.overflow = 'hidden';
+    
+    modalBody.innerHTML = '<div style="text-align:center;padding:100px;color:#d4af37;font-weight:bold;">Loading...</div>';
 
     fetch(url)
         .then(response => response.text())
@@ -832,8 +722,13 @@ function openDetailModal(url) {
                 
                 modalBody.innerHTML = '';
                 modalBody.appendChild(detailContent);
+                
+                
                 modal.scrollTop = 0;
-                history.pushState({modal: true}, "");
+                
+                if (!window.location.hash) {
+                    history.pushState({modal: true}, "");
+                }
             }
         });
 }
@@ -841,11 +736,13 @@ function openDetailModal(url) {
 function closeDetailModal() {
     const modal = document.getElementById('detailModal');
     if (modal) {
-        modal.classList.remove('active');
-        document.body.classList.remove('modal-open');
+        
+        modal.style.display = 'none';
+        document.body.style.overflow = '';
         document.getElementById('modalBody').innerHTML = '';
     }
 }
+
 
 window.onpopstate = function() {
     closeDetailModal();
@@ -858,5 +755,6 @@ window.onclick = function(event) {
     }
 }
 </script>
+
 
 {% endblock %}
