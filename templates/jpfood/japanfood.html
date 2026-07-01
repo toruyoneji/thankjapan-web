@@ -22,7 +22,7 @@
 
 
 .premium-title {
-    color: #d4af37;
+    color: #eee;
     font-size: 1.2rem;
     font-weight: 600;
     margin: 25px 15px 15px;
@@ -34,25 +34,23 @@
 
 .food-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
-    padding: 0 12px;
+    grid-template-columns: repeat(2, 1fr); /* ★ここ！スマホで2列にする */
+    gap: 12px;           /* カード同士の隙間 */
+    padding: 15px;       /* 画面端との余白 */
+    max-width: 800px;    /* PCで広がりすぎないように制限 */
+    margin: 0 auto;      /* 中央寄せ */
 }
 
-
+/* --- カード自体の設定 --- */
 .food-card {
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(0, 0, 0, 0.6); /* ★背景をもっと暗くすると金枠が映えます */
     backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(212, 175, 55, 0.3); /* 繊細な金枠 */
-    border-radius: 12px;
+    border: 1px solid rgba(212, 175, 55, 0.4); /* 繊細な金枠 */
+    border-radius: 15px;
     overflow: hidden;
-    transition: transform 0.2s;
-    cursor: pointer;
-    text-decoration: none;
-    color: inherit;
     display: flex;
-    flex-direction: column;
+    flex-direction: column; /* 上に画像、下に文字 */
+    height: 100%;           /* 高さを揃える */
 }
 
 .food-card:active {
@@ -62,9 +60,20 @@
 
 .food-card img {
     width: 100%;
-    height: 110px;
-    object-fit: cover;
-    border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+    height: 120px;          /* ★画像の高さを固定すると綺麗に揃います */
+    object-fit: cover;      /* 画像を切り抜いてフィットさせる */
+}
+
+.food-description {
+    padding: 10px;
+    font-size: 0.85rem;
+    color: #eee;
+    text-align: left;
+    /* 2行で省略する設定 */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
 .food-card .card-body {
