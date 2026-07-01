@@ -102,11 +102,15 @@ def ruby_smart(kanji_text, kana_text):
         anchor = match.group()
         idx_k = mid_kanji.find(anchor)
         
-        idx_kana = to_h(mid_kana).find(to_h(anchor))
+        search_kana = to_h(mid_kana)
+        idx_kana = search_kana.find(to_h(anchor))
+        if idx_k > 0 and idx_kana == 0:
+            idx_kana = search_kana.find(to_h(anchor), 1)
         
         if idx_kana != -1:
             left = ruby_smart(mid_kanji[:idx_k], mid_kana[:idx_kana])
             right = ruby_smart(mid_kanji[idx_k + len(anchor):], mid_kana[idx_kana + len(anchor):])
             return mark_safe(f"{prefix}{left}{anchor}{right}{suffix}")
 
-    return mark_safe(f'{prefix}<ruby>{mid_kanji}<rt style="font-size: 0.5em;">{mid_kana}</rt></ruby>{suffix}')
+    
+    return mark_safe(f'{prefix}<ruby>{mid_kanji}<rt>{mid_kana}</rt></ruby>{suffix}')
