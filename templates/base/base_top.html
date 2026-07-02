@@ -666,8 +666,10 @@
             </div>
 
         
-            <div style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 15px; border: 1px solid rgba(255,255,255,0.2);">
-                <p style="color:#fff; font-size:0.8rem; margin-bottom:10px; opacity:0.8;">
+            
+            <div style="background: rgba(0, 0, 0, 0.6); padding: 25px 20px; border-radius: 20px; border: 1px solid rgba(212, 175, 55, 0.4); backdrop-filter: blur(10px); margin: 20px 0;">
+
+                <p style="color: #d4af37; font-size: 0.85rem; margin: 0 0 15px 0; font-weight: 600; letter-spacing: 0.05em; text-align: center;">
                     {% if lang_code == 'ja' %}日本語を学ぼう
                     {% elif lang_code == 'ko' %}일본어를 배워보세요
                     {% elif lang_code == 'zh-cn' %}学习日语吧
@@ -681,8 +683,25 @@
                     {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Vamos aprender japonês
                     {% else %}Let's Learn Japanese{% endif %}
                 </p>
-                <a href="{% url 'category_list' %}?lang={{ lang_code }}" class="lang-item" style="width:100%; background: #222; border: 1px solid #d4af37;">
-                    📖 
+
+    
+                <a href="{% url 'category_list' %}?lang={{ lang_code }}" class="lang-item" style="
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    width: 100%;
+                    min-height: 55px;
+                    background: #0a0a0a;
+                    color: #fff;
+                    border: 2px solid #d4af37;
+                    border-radius: 12px;
+                    text-decoration: none;
+                    font-weight: bold;
+                    font-size: 1rem;
+                    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+                    transition: transform 0.2s;
+                    " onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">
+                    <span style="margin-right: 8px;">📖</span> 
                     {% if lang_code == 'ja' %}語彙カテゴリー一覧
                     {% elif lang_code == 'ko' %}어휘 카테고리 목록
                     {% elif lang_code == 'zh-cn' %}词汇分类列表
@@ -697,7 +716,6 @@
                     {% else %}Vocabulary Categories{% endif %}
                 </a>
             </div>
-
         </div>
     
         <button onclick="toggleLearnModal()" style="width:100%; margin-top:20px; padding:12px; background:none; border:1px solid #444; color:#777; border-radius:10px;">Close</button>
