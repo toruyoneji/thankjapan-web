@@ -3,8 +3,8 @@
   "short_name": "ThankJapan",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#1a1a1a",
+  "background_color": "#0a0a0a", 
+  "theme_color": "#0a0a0a",
   "description": "Master Japanese vocabulary and Kanji through culture and interactive games in 15 languages.",
   "icons": [
     {
