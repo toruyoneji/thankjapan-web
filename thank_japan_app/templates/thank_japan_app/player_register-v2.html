@@ -45,13 +45,13 @@
   justify-content: center;
   align-items: flex-start;
   height: 100vh;
-  padding: 50px 0; /* 40pxから50pxに増やして10px下げました */
+  padding: 75px 0 150px;
   box-sizing: border-box;
   overflow-y: scroll;
   -ms-overflow-style: none;
   scrollbar-width: none;
   }
-  
+
   #premium-auth-container::-webkit-scrollbar {
     display: none;
   }
@@ -417,7 +417,7 @@
       </div>
 
       <!-- ホームに戻る -->
-      <div style="text-align:center; margin-top: 30px;">
+      <div style="text-align:center; margin-top: 20px;">
         <a class="btn-home" href="javascript:void(0);" onclick="goToTopPage()">
           {% if lang_code == 'ja' %}← ホームに戻る{% else %}← Back to Home{% endif %}
         </a>
