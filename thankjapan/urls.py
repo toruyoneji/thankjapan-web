@@ -1,6 +1,6 @@
 
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include, re_path
 from django.conf import settings
 from django.conf.urls.static import static
 from thank_japan_app.views import robots_txt
@@ -43,7 +43,7 @@ urlpatterns = [
     path('manifest.json', TemplateView.as_view(template_name='manifest.json', content_type='application/json')),
     path('sw.js', TemplateView.as_view(template_name='sw.js', content_type='application/javascript')),
     
-    path('.well-known/assetlinks.json', assetlinks_view),
+    re_path('.well-known/assetlinks.json', assetlinks_view),
     
     path('robots.txt', robots_txt),
     path('kanrisha/', admin.site.urls),

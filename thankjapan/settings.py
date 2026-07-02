@@ -224,3 +224,5 @@ if google_play_key_json_str:
         GOOGLE_PLAY_KEY_DICT = None
 else:
     GOOGLE_PLAY_KEY_DICT = None
+    
+APPEND_SLASH = False
