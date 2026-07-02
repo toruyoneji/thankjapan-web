@@ -354,6 +354,7 @@
   <form method="post" novalidate>
     {% csrf_token %}
     <input type="hidden" name="next" value="{{ next }}">
+    <input type="hidden" name="lang" value="{{ lang_code }}">
     
     <p>
       <label for="id_username">

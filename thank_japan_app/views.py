@@ -1140,6 +1140,18 @@ def player_login(request):
                 pass
 
             request.session['is_guest'] = False 
+            
+            if next_url == 'toppage':
+                lang_urls = {
+                    'ja': 'toppageja', 'vi': 'toppagevi', 'fr': 'toppagefr',
+                    'it': 'toppageit', 'pt': 'toppagept', 'zh-hant': 'toppagezhHANT',
+                    'zh-cn': 'toppagezhCN', 'ko': 'toppageko', 'es-es': 'toppageesES',
+                    'de': 'toppagede', 'th': 'toppageth', 'pt-br': 'toppageptBR',
+                    'es-mx': 'toppageesMX', 'en-in': 'toppageenIN'
+                }
+                
+                return redirect(lang_urls.get(lang_code, 'toppage'))
+            
             return redirect(next_url)
         else:
             messages.error(request, "Invalid username or password.", extra_tags="login_invalid")
