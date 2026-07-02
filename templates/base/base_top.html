@@ -372,46 +372,6 @@
 </head>
 
 <body>
-    <div id="startup-loader" style="position:fixed; top:0; left:0; width:100%; height:100%; background:#0a0a0a; z-index:100000; display:flex; flex-direction:column; justify-content:center; align-items:center;">
-    
-    <img src="https://res.cloudinary.com/dotekofm5/image/upload/v1779071765/thankjapan/backgrounds/es8wp3d0qg99odz0ux4n.png" 
-         style="width:120px; height:120px; border-radius:25px; margin-bottom:25px;">
-    
-    
-    <div style="color:#d4af37; font-family:'Sawarabi Mincho', serif; font-size:1.2rem; letter-spacing:4px;">
-        Loading<span class="premium-dot">.</span><span class="premium-dot">.</span><span class="premium-dot">.</span>
-    </div>
-</div>
-
-<style>
-    .premium-dot { animation: blink 1.4s infinite; opacity: 0; margin-left: 2px; }
-    .premium-dot:nth-child(1) { animation-delay: 0s; }
-    .premium-dot:nth-child(2) { animation-delay: 0.2s; }
-    .premium-dot:nth-child(3) { animation-delay: 0.4s; }
-
-    @keyframes blink {
-        0%, 100% { opacity: 0.2; }
-        50% { opacity: 1; }
-    }
-
-    .loader-hide {
-        opacity: 0;
-        transition: opacity 0.8s ease;
-        pointer-events: none;
-    }
-</style>
-
-<script>
-    window.addEventListener('load', function() {
-        const loader = document.getElementById('startup-loader');
-        
-        setTimeout(() => {
-            loader.classList.add('loader-hide');
-            setTimeout(() => { loader.style.display = 'none'; }, 800);
-        }, 1000);
-    });
-</script>
-
 
     <div class="app-wrapper">
         
