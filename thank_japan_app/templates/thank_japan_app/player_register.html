@@ -1,4 +1,4 @@
-{% extends 'base/basecategory.html' %}
+{% extends 'base/basecategory_top.html' %}
 {% load socialaccount %}
 
 {% block title %}
@@ -20,160 +20,80 @@
 {% block content %}
 
 <style>
+  /* 全体の背景：漆黒と深いグラデーションで高級感を演出 */
   body {
-    background-color: #e0d9b8;
-    background-image: repeating-linear-gradient(0deg, rgba(0,0,0,0.02) 0px, rgba(0,0,0,0.02) 1px, transparent 1px, transparent 10px);
+    background: radial-gradient(circle at center, #1a1a1a 0%, #0a0a0a 100%) !important;
     margin: 0;
+    overflow: hidden; /* ブラウザ自体のスクロールを禁止 */
   }
 
-  .main2 {
-    max-width: 420px;
-    margin: 90px auto 40px;
-    background: #fffaf0;
-    padding: 40px 35px;
-    border-radius: 4px;
-    border: 4px solid #5d5245;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  /* スコーピングコンテナ：既存のスタイルと干渉させない */
+  #premium-auth-container {
     font-family: 'Sawarabi Mincho', serif;
+    color: #eee;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* 画面にフィット */
+    padding-top: 20px; /* ヘッダー分の余白調整 */
     box-sizing: border-box;
   }
 
-  h2 {
-    text-align: center;
-    color: #3e4a2a;
-    margin-bottom: 30px;
-    font-weight: 700;
-    border-bottom: 2px solid #8b9d77;
-    display: block;
-    padding-bottom: 10px;
-  }
-
-  ul {
-    padding: 0;
-    margin-bottom: 20px;
-  }
-
-  ul li {
-    list-style: none;
-    background: #fdf2f2;
-    color: #b22d35;
-    padding: 10px 15px;
-    border-left: 5px solid #b22d35;
-    margin-bottom: 10px;
-    font-weight: 600;
-    font-size: 0.9rem;
-  }
-
-  form p {
-    margin-bottom: 18px;
-  }
-
-  form label {
-    display: block;
-    font-weight: 600;
-    color: #5d5245;
-    margin-bottom: 6px;
-    font-size: 0.95rem;
-  }
-
-  form input, form select {
-    width: 100%;
-    padding: 14px 15px;
-    border: 1px solid #a8a095;
-    border-radius: 4px;
-    font-size: 16px;
-    transition: all 0.3s ease;
+  /* アプリ風固定コンテンツエリア */
+  .app-content-fix {
+    width: 92%;
+    max-width: 450px;
+    /* 画面の高さからナビゲーション分を引いた高さに制限 */
+    height: calc(100vh - 150px); 
+    overflow-y: auto;
+    background: rgba(0, 0, 0, 0.7); /* ガラスモフィズム */
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(212, 175, 55, 0.4); /* 繊細な金枠 */
+    border-radius: 15px;
+    padding: 30px 20px;
     box-sizing: border-box;
-    background-color: #fdfdfd;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+    position: relative;
   }
 
-  form input:focus, form select:focus {
-    outline: none;
-    border-color: #5d6d3e;
-    box-shadow: 0 0 8px rgba(93, 109, 62, 0.3);
+  /* スクロールバーを完全に隠す（アプリ感を出す魔法） */
+  .app-content-fix::-webkit-scrollbar { display: none; }
+  .app-content-fix {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
   }
 
-  button {
-    width: 100%;
-    padding: 16px 0;
-    background: #5d6d3e;
-    border: none;
-    border-radius: 30px;
-    color: white;
-    font-size: 1.2rem;
-    font-weight: bold;
-    cursor: pointer;
-    box-shadow: 0 4px 0 #3e4a2a;
-    transition: all 0.2s ease;
-    margin-top: 10px;
-  }
-
-  button:hover {
-    background: #4e5b34;
-    transform: translateY(2px);
-    box-shadow: 0 2px 0 #3e4a2a;
-  }
-
-  p {
+  /* 見出し：純白と黄金のアンダーライン */
+  h2.premium-title {
     text-align: center;
-    margin-top: 25px;
-    font-size: 0.95rem;
-    color: #5d5245;
+    color: #ffffff;
+    font-size: 1.5rem;
+    margin-bottom: 25px;
+    letter-spacing: 2px;
+    border-bottom: none;
+  }
+  h2.premium-title::after {
+    content: "";
+    display: block;
+    width: 50px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #d4af37, transparent);
+    margin: 10px auto 0;
   }
 
-  p a {
-    color: #b22d35;
-    font-weight: bold;
-    text-decoration: none;
-  }
-
-  .btn-more {
-    display: inline-block;
-    background: #ffb347;
-    color: white;
-    padding: 10px 24px;
-    border-radius: 25px;
-    text-decoration: none;
-    font-weight: 600;
-    margin-top: 20px;
-    transition: background 0.3s;
-  }
-  .btn-more:hover {
-    background: #ff9642;
-  }
-
- @media (max-width: 900px) {
-    .main {
-      margin-left: 0 !important;
-      width: 100% !important;
-    }
-
-    .main2 {
-      width: 92% !important;
-      max-width: 400px !important;
-      margin: 130px auto 40px !important;
-      padding: 30px 20px !important;
-      border-radius: 8px !important;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.1) !important;
-    }
-  }
-
-  @media (max-width: 600px) {
-    .main2 {
-      margin-top: 100px !important;
-    }
-  }
-
-  @media (max-width: 400px) {
-    .main2 {
-      margin-top: 150px !important;
-    }
+  /* 一旦、中身のフォームは後で調整するため現状維持の構造だけ用意 */
+  .inner-form-wrapper {
+    width: 100%;
   }
 
 </style>
 
-<div class="main2">
-  <h2>
+
+<div id="premium-auth-container">
+  <div class="app-content-fix">
+    
+    <h2 class="premium-title">
     {% if lang_code == 'ja' %}アカウント作成
     {% elif lang_code == 'zh-hant' %}建立帳號
     {% elif lang_code == 'zh-cn' %}创建账户
@@ -187,49 +107,50 @@
     {% elif lang_code == 'th' %}สร้างบัญชี
     {% else %}Create an Account
     {% endif %}
-  </h2>
+    </h2>
 
   <!-- Google Login Section Start -->
-<div style="margin-bottom: 25px; text-align: center;">
-  <a href="{% provider_login_url 'google' %}" style="
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #ffffff;
-    color: #757575;
-    border: 1px solid #dadce0;
-    border-radius: 4px;
-    padding: 10px 16px;
-    text-decoration: none;
-    font-family: 'Roboto', arial, sans-serif;
-    font-weight: 500;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
-    transition: background-color 0.2s;
-  " onmouseover="this.style.backgroundColor='#f8f9fa'" onmouseout="this.style.backgroundColor='#ffffff'">
-    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" viewBox="0 0 48 48" style="margin-right: 10px;">
-      <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"></path>
-      <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"></path>
-      <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"></path>
-      <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"></path>
-    </svg>
-    <span>
-      {% if lang_code == 'ja' %}Googleで登録
-      {% elif lang_code == 'zh-hant' %}使用 Google 註冊
-      {% elif lang_code == 'zh-cn' %}使用 Google 注册
-      {% elif lang_code == 'ko' %}Google 계정으로 가입
-      {% elif lang_code == 'de' %}Mit Google registrieren
-      {% elif lang_code == 'fr' %}S'inscrire avec Google
-      {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Registrarse con Google
-      {% elif lang_code == 'it' %}Registrati con Google
-      {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Cadastrar com Google
-      {% elif lang_code == 'vi' %}Đăng ký bằng Google
-      {% elif lang_code == 'th' %}ลงทะเบียนด้วย Google
-      {% else %}Sign up with Google
-      {% endif %}
-    </span>
-  </a>
+    <div class="inner-form-wrapper">
+      <div style="margin-bottom: 25px; text-align: center;">
+        <a href="{% provider_login_url 'google' %}" style="
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background-color: #ffffff;
+          color: #757575;
+          border: 1px solid #dadce0;
+          border-radius: 4px;
+          padding: 10px 16px;
+          text-decoration: none;
+          font-family: 'Roboto', arial, sans-serif;
+          font-weight: 500;
+          box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+          transition: background-color 0.2s;
+        " onmouseover="this.style.backgroundColor='#f8f9fa'" onmouseout="this.style.backgroundColor='#ffffff'">
+          <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" viewBox="0 0 48 48" style="margin-right: 10px;">
+            <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"></path>
+            <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"></path>
+            <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"></path>
+            <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"></path>
+          </svg>
+          <span>
+            {% if lang_code == 'ja' %}Googleで登録
+            {% elif lang_code == 'zh-hant' %}使用 Google 註冊
+            {% elif lang_code == 'zh-cn' %}使用 Google 注册
+            {% elif lang_code == 'ko' %}Google 계정으로 가입
+            {% elif lang_code == 'de' %}Mit Google registrieren
+            {% elif lang_code == 'fr' %}S'inscrire avec Google
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Registrarse con Google
+            {% elif lang_code == 'it' %}Registrati con Google
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Cadastrar com Google
+            {% elif lang_code == 'vi' %}Đăng ký bằng Google
+            {% elif lang_code == 'th' %}ลงทะเบียนด้วย Google
+            {% else %}Sign up with Google
+            {% endif %}
+          </span>
+        </a>
 
-  <!-- 区切り線 -->
+  
   <div style="margin-top: 20px; display: flex; align-items: center; color: #888; font-size: 0.9em;">
     <div style="flex: 1; height: 1px; background: #ddd;"></div>
     <div style="padding: 0 10px;">
@@ -1060,6 +981,7 @@
         {% else %}← Back to Home
         {% endif %}
     </a>
+  </div>
   </div>
   
 </div>

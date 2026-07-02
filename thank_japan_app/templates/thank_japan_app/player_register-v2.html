@@ -1,0 +1,412 @@
+{% extends 'base/basecategory_top.html' %}
+{% load socialaccount %}
+
+{% block title %}
+    {% if lang_code == 'ja' %}新規登録(Register) | ThankJapan
+    {% elif lang_code == 'zh-hant' %}新用戶註冊(Register) | ThankJapan
+    {% elif lang_code == 'zh-cn' %}新用户注册(Register) | ThankJapan
+    {% elif lang_code == 'ko' %}회원가입(Register) | ThankJapan
+    {% elif lang_code == 'fr' %}S'inscrire (Register) | ThankJapan
+    {% elif lang_code == 'th' %}ลงทะเบียน (Register) | ThankJapan
+    {% elif lang_code == 'vi' %}Đăng ký (Register) | ThankJapan
+    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Registrarse (Register) | ThankJapan
+    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Registrar-se (Register) | ThankJapan
+    {% elif lang_code == 'de' %}Registrieren (Register) | ThankJapan
+    {% elif lang_code == 'it' %}Registrati (Register) | ThankJapan
+    {% elif lang_code == 'en-in' %}Register | ThankJapan
+    {% else %}Register | ThankJapan{% endif %}
+{% endblock %}
+
+
+{% block content %}
+
+<style>
+  /* --- 1. 土台スタイル（継続） --- */
+  body {
+    background: radial-gradient(circle at center, #1a1a1a 0%, #0a0a0a 100%) !important;
+    margin: 0;
+    overflow: hidden;
+  }
+  #premium-auth-container {
+    font-family: 'Sawarabi Mincho', serif;
+    color: #eee;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    padding-top: 20px;
+    box-sizing: border-box;
+  }
+  .app-content-fix {
+    width: 92%;
+    max-width: 450px;
+    height: calc(100vh - 150px); 
+    overflow-y: auto;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(212, 175, 55, 0.4);
+    border-radius: 15px;
+    padding: 30px 20px;
+    box-sizing: border-box;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+  }
+  .app-content-fix::-webkit-scrollbar { display: none; }
+  .app-content-fix { -ms-overflow-style: none; scrollbar-width: none; }
+
+  h2.premium-title {
+    text-align: center;
+    color: #ffffff;
+    font-size: 1.5rem;
+    margin-bottom: 25px;
+    letter-spacing: 2px;
+  }
+  h2.premium-title::after {
+    content: "";
+    display: block;
+    width: 50px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #d4af37, transparent);
+    margin: 10px auto 0;
+  }
+
+  /* --- 2. 入力フォームのプレミアム化 --- */
+  form label {
+    display: block;
+    font-weight: 600;
+    color: #d4af37; /* ラベルを黄金に */
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+    margin-top: 15px;
+  }
+
+  form input {
+    width: 100%;
+    padding: 12px 15px;
+    background: rgba(255, 255, 255, 0.05) !important; /* 暗い背景 */
+    border: 1px solid rgba(212, 175, 55, 0.3) !important;
+    border-radius: 8px !important;
+    color: #fff !important;
+    font-size: 16px;
+    box-sizing: border-box;
+    transition: all 0.3s;
+  }
+
+  form input:focus {
+    outline: none;
+    border-color: #d4af37 !important;
+    background: rgba(255, 255, 255, 0.1) !important;
+    box-shadow: 0 0 10px rgba(212, 175, 55, 0.2);
+  }
+
+  /* プレースホルダーの色 */
+  form input::placeholder { color: #888; }
+
+  /* --- 3. ボタンのプレミアム化 --- */
+  /* 登録ボタン：黄金グラデーション */
+  button[type="submit"] {
+    width: 100%;
+    padding: 15px;
+    margin-top: 25px;
+    background: linear-gradient(135deg, #d4af37 0%, #aa891c 100%);
+    border: none;
+    border-radius: 30px;
+    color: #000; /* 文字は黒でパキッと */
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+    transition: all 0.3s;
+  }
+
+  button[type="submit"]:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
+    filter: brightness(1.1);
+  }
+
+  /* ホームに戻るボタン：黒背景×金枠 */
+  .btn-home {
+    display: inline-block;
+    padding: 12px 30px;
+    background: #000;
+    color: #d4af37;
+    border: 1px solid #d4af37;
+    border-radius: 25px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: all 0.3s;
+  }
+  .btn-home:hover {
+    background: #d4af37;
+    color: #000;
+  }
+
+  /* リンク色 */
+  a { color: #d4af37; text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  /* メッセージ（エラー） */
+  .error-msg { color: #ff6b6b; font-size: 0.85em; list-style: none; padding: 0; }
+
+</style>
+
+<div id="premium-auth-container">
+  <div class="app-content-fix">
+    
+    <h2 class="premium-title">
+      {% if lang_code == 'ja' %}アカウント作成
+      {% elif lang_code == 'zh-hant' %}建立帳號
+      {% elif lang_code == 'zh-cn' %}创建账户
+      {% elif lang_code == 'ko' %}계정 생성
+      {% elif lang_code == 'de' %}Konto erstellen
+      {% elif lang_code == 'fr' %}Créer un compte
+      {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Crear una cuenta
+      {% elif lang_code == 'it' %}Crea un account
+      {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Criar uma conta
+      {% elif lang_code == 'vi' %}Tạo tài khoản
+      {% elif lang_code == 'th' %}สร้างบัญชี
+      {% else %}Create an Account
+    </h2>
+
+    <div class="inner-form-wrapper">
+      
+      <!-- Google Login: 高級感のあるダークなボタンへ -->
+      <div style="margin-bottom: 25px; text-align: center;">
+        <a href="{% provider_login_url 'google' %}" style="
+          display: flex; align-items: center; justify-content: center;
+          background-color: rgba(255,255,255,0.05); color: #fff;
+          border: 1px solid rgba(212,175,55,0.4); border-radius: 8px;
+          padding: 10px 16px; text-decoration: none; font-weight: 500;
+          transition: 0.3s;" 
+          onmouseover="this.style.backgroundColor='rgba(255,255,255,0.1)'" 
+          onmouseout="this.style.backgroundColor='rgba(255,255,255,0.05)'">
+          <!-- Google Icon SVG (そのまま) -->
+          <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" viewBox="0 0 48 48" style="margin-right: 10px;">
+            <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"></path>
+            <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"></path>
+            <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"></path>
+            <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"></path>
+          </svg>
+          <span>
+            {% if lang_code == 'ja' %}Googleで登録
+            {% elif lang_code == 'zh-hant' %}使用 Google 註冊
+            {% elif lang_code == 'zh-cn' %}使用 Google 注册
+            {% elif lang_code == 'ko' %}Google 계정으로 가입
+            {% elif lang_code == 'de' %}Mit Google registrieren
+            {% elif lang_code == 'fr' %}S'inscrire avec Google
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Registrarse con Google
+            {% elif lang_code == 'it' %}Registrati con Google
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Cadastrar com Google
+            {% elif lang_code == 'vi' %}Đăng ký bằng Google
+            {% elif lang_code == 'th' %}ลงทะเบียนด้วย Google
+            {% else %}Sign up with Google
+            {% endif %}  
+          </span>
+        </a>
+
+        <!-- 区切り線 -->
+        <div style="margin-top: 20px; display: flex; align-items: center; color: #666; font-size: 0.8em;">
+          <div style="flex: 1; height: 1px; background: rgba(212,175,55,0.2);"></div>
+          <div style="padding: 0 15px;">
+            {% if lang_code == 'ja' %}または
+            {% elif lang_code == 'zh-hant' %}或
+            {% elif lang_code == 'zh-cn' %}或
+            {% elif lang_code == 'ko' %}또는
+            {% elif lang_code == 'de' %}oder
+            {% elif lang_code == 'fr' %}ou
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}o
+            {% elif lang_code == 'it' %}o
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}ou
+            {% elif lang_code == 'vi' %}hoặc
+            {% elif lang_code == 'th' %}หรือ
+            {% else %}or
+            {% endif %}
+          </div>
+          <div style="flex: 1; height: 1px; background: rgba(212,175,55,0.2);"></div>
+        </div>
+      </div>
+
+      {% if messages %}
+      <ul class="error-msg">
+        {% for message in messages %}<li>
+          {% if lang_code == 'ja' %}
+            {% if "already taken" in message.message %}このユーザー名は既に使用されています。
+            {% elif "already registered" in message.message %}このメールアドレスは既に登録されています。
+            {% elif "Invalid username" in message.message %}ユーザー名またはパスワードが正しくありません。
+            {% elif "Account created" in message.message %}アカウントが作成されました！ログインしてください。
+            {% elif "Logged out" in message.message.message %}ログアウトしました。
+            {% else %}{{ message }}{% endif %}
+
+        {% elif lang_code == 'zh-hant' %}
+            {% if "already taken" in message.message %}此用戶名稱已被使用。
+            {% elif "already registered" in message.message %}此電子郵件地址已註冊。
+            {% elif "Invalid username" in message.message %}用戶名或密碼無效。
+            {% elif "Account created" in message.message %}帳號已建立！請登入。
+            {% elif "Logged out" in message.message %}您已登出。
+            {% else %}{{ message }}{% endif %}
+
+        {% elif lang_code == 'zh-cn' %}
+            {% if "already taken" in message.message %}此用户名已被使用。
+            {% elif "already registered" in message.message %}此电子邮件地址已注册。
+            {% elif "Invalid username" in message.message %}用户名或密码无效。
+            {% elif "Account created" in message.message %}账号已建立！请登录。
+            {% elif "Logged out" in message.message %}您已登出。
+            {% else %}{{ message }}{% endif %}
+
+        {% elif lang_code == 'ko' %}
+            {% if "already taken" in message.message %}이미 사용 중인 사용자 이름입니다.
+            {% elif "already registered" in message.message %}이미 등록된 이메일 주소입니다.
+            {% elif "Invalid username" in message.message %}사용자 이름 또는 비밀번호가 잘못되었습니다.
+            {% elif "Account created" in message.message %}계정이 생성되었습니다! 로그인해 주세요.
+            {% elif "Logged out" in message.message %}로그아웃되었습니다.
+            {% else %}{{ message }}{% endif %}
+
+        {% elif lang_code == 'de' %}
+            {% if "already taken" in message.message %}Dieser Benutzername ist bereits vergeben.
+            {% elif "already registered" in message.message %}Diese E-Mail-Adresse ist bereits registriert.
+            {% elif "Invalid username" in message.message %}Benutzername oder Passwort ist ungültig.
+            {% elif "Account created" in message.message %}Konto erstellt! Bitte melden Sie sich an.
+            {% elif "Logged out" in message.message %}Abmeldung erfolgreich.
+            {% else %}{{ message }}{% endif %}
+
+        {% elif lang_code == 'fr' %}
+            {% if "already taken" in message.message %}Ce nom d'utilisateur est déjà utilisé.
+            {% elif "already registered" in message.message %}Cette adresse e-mail est déjà enregistrée.
+            {% elif "Invalid username" in message.message %}Nom d'utilisateur ou mot de passe invalide.
+            {% elif "Account created" in message.message %}Compte créé ! Veuillez vous connecter.
+            {% elif "Logged out" in message.message %}Vous avez été déconnecté.
+            {% else %}{{ message }}{% endif %}
+
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}
+            {% if "already taken" in message.message %}Este nombre de usuario ya está en uso.
+            {% elif "already registered" in message.message %}Esta dirección de correo electrónico ya está registrada.
+            {% elif "Invalid username" in message.message %}Usuario o contraseña no válidos.
+            {% elif "Account created" in message.message %}¡Cuenta creada! Por favor, inicia sesión.
+            {% elif "Logged out" in message.message %}Has cerrado sesión.
+            {% else %}{{ message }}{% endif %}
+
+        {% elif lang_code == 'it' %}
+            {% if "already taken" in message.message %}Questo nome utente è già in uso.
+            {% elif "already registered" in message.message %}Questo indirizzo email è già registrato.
+            {% elif "Invalid username" in message.message %}Nome utente o password non validi.
+            {% elif "Account created" in message.message %}Account creato! Effettua l'accesso.
+            {% elif "Logged out" in message.message %}Sei stato disconnesso.
+            {% else %}{{ message }}{% endif %}
+
+        {% elif lang_code == 'pt' %}
+            {% if "already taken" in message.message %}Este nome de utilizador já está em uso.
+            {% elif "already registered" in message.message %}Este endereço de e-mail já está registado.
+            {% elif "Invalid username" in message.message %}Nome de utilizador ou palavra-passe inválidos.
+            {% elif "Account created" in message.message %}Conta criada! Por favor, inicie sessão.
+            {% elif "Logged out" in message.message %}Sessão encerrada.
+            {% else %}{{ message }}{% endif %}
+
+        {% elif lang_code == 'pt-br' %}
+            {% if "already taken" in message.message %}Este nome de usuário já está em uso.
+            {% elif "already registered" in message.message %}Este endereço de e-mail já está cadastrado.
+            {% elif "Invalid username" in message.message %}Nome de usuário ou senha inválidos.
+            {% elif "Account created" in message.message %}Conta criada! Por favor, faça login.
+            {% elif "Logged out" in message.message %}Você saiu com sucesso.
+            {% else %}{{ message }}{% endif %}
+
+        {% elif lang_code == 'vi' %}
+            {% if "already taken" in message.message %}Tên người dùng này đã được sử dụng.
+            {% elif "already registered" in message.message %}Địa chỉ email này đã được đăng ký.
+            {% elif "Invalid username" in message.message %}Tên người dùng hoặc mật khẩu không hợp lệ.
+            {% elif "Account created" in message.message %}Tài khoản đã được tạo! Vui lòng đăng nhập.
+            {% elif "Logged out" in message.message %}Bạn đã đăng xuất.
+            {% else %}{{ message }}{% endif %}
+
+        {% elif lang_code == 'th' %}
+            {% if "already taken" in message.message %}ชื่อผู้ใช้นี้ถูกใช้งานแล้ว
+            {% elif "already registered" in message.message %}อีเมลนี้ถูกลงทะเบียนแล้ว
+            {% elif "Invalid username" in message.message %}ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง
+            {% elif "Account created" in message.message %}สร้างบัญชีเรียบร้อยแล้ว! กรุณาเข้าสู่ระบบ
+            {% elif "Logged out" in message.message %}คุณออกจากระบบแล้ว
+            {% else %}{{ message }}{% endif %}
+
+        {% elif lang_code == 'en-in' %}
+            {% if "already taken" in message.message %}This username is already taken.
+            {% elif "already registered" in message.message %}This email address is already registered.
+            {% elif "Invalid username" in message.message %}Invalid username or password.
+            {% elif "Account created" in message.message %}Account created! Please log in.
+            {% else %}{{ message }}{% endif %}
+
+        {% else %}
+            {{ message }}
+        {% endif %}
+        </li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+
+      <form method="post" novalidate>
+        {% csrf_token %}
+        <input type="hidden" name="next" value="{{ next }}">
+        
+        <!-- ユーザー名 -->
+        <label for="id_username">{% if lang_code == 'ja' %}ユーザー名:{% else %}Username:{% endif %}</label>
+        <input type="text" name="username" id="id_username" required placeholder="User_Name" value="{{ form.username.value|default:'' }}">
+        {% for error in form.username.errors %}<div class="error-msg">{{ error }}</div>{% endfor %}
+
+        <!-- メールアドレス -->
+        <label for="id_email">{% if lang_code == 'ja' %}メールアドレス:{% else %}Email Address:{% endif %}</label>
+        <input type="email" name="email" id="id_email" required placeholder="example@mail.com" value="{{ form.email.value|default:'' }}">
+        {% for error in form.email.errors %}<div class="error-msg">{{ error }}</div>{% endfor %}
+
+        <!-- パスワード -->
+        <label for="id_password">{% if lang_code == 'ja' %}パスワード:{% else %}Password:{% endif %}</label>
+        <input type="password" name="password" id="id_password" required placeholder="********">
+        {% for error in form.password.errors %}<div class="error-msg">{{ error }}</div>{% endfor %}
+
+        <!-- 国 -->
+        <label for="id_country">{% if lang_code == 'ja' %}国:{% else %}Country:{% endif %}</label>
+        <input type="text" name="country" id="id_country" required placeholder="Japan" value="{{ form.country.value|default:'' }}">
+
+        <!-- reCAPTCHA -->
+        <div style="margin: 20px 0; transform: scale(0.9); transform-origin: left center;">
+          {{ form.captcha }}
+        </div>
+        
+        <button type="submit">
+          {% if lang_code == 'ja' %}登録する{% else %}Register{% endif %}
+        </button>
+      </form>
+
+      
+      <div style="margin-top: 25px; font-size: 0.8rem; color: #aaa; text-align: center; line-height: 1.6;">
+        {% if lang_code == 'ja' %}
+          登録により、<a href="#">利用規約</a>に同意したものとみなされます。<br><br>
+          すでにアカウントをお持ちですか？ <a href="{% url 'player_login' %}?lang={{ lang_code }}" style="font-weight: bold;">ログインはこちら</a>
+        {% else %}
+          By registering, you agree to the <a href="#">Terms of Use</a>.<br><br>
+          Already have an account? <a href="{% url 'player_login' %}?lang={{ lang_code }}" style="font-weight: bold;">Login here</a>
+        {% endif %}
+      </div>
+
+      <!-- ホームに戻る -->
+      <div style="text-align:center; margin: 40px 0 20px;">
+        <a class="btn-home" href="javascript:void(0);" onclick="goToTopPage()">
+          {% if lang_code == 'ja' %}← ホームに戻る{% else %}← Back to Home{% endif %}
+        </a>
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+<script>
+    function goToTopPage() {
+        const topUrl = localStorage.getItem('tj_top_url');
+        if (topUrl) {
+            window.location.href = topUrl;
+        } else {
+            let fallbackUrl = "{% if lang_code == 'ja' %}{% url 'toppageja' %}{% elif lang_code == 'zh-hant' %}{% url 'toppagezhHANT' %}{% elif lang_code == 'zh-cn' %}{% url 'toppagezhCN' %}{% elif lang_code == 'ko' %}{% url 'toppageko' %}{% elif lang_code == 'it' %}{% url 'toppageit' %}{% elif lang_code == 'fr' %}{% url 'toppagefr' %}{% elif lang_code == 'de' %}{% url 'toppagede' %}{% elif lang_code == 'es-mx' %}{% url 'toppageesMX' %}{% elif lang_code == 'es-es' %}{% url 'toppageesES' %}{% elif lang_code == 'pt' %}{% url 'toppagept' %}{% elif lang_code == 'pt-br' %}{% url 'toppageptBR' %}{% elif lang_code == 'vi' %}{% url 'toppagevi' %}{% elif lang_code == 'th' %}{% url 'toppageth' %}{% elif lang_code == 'en-in' %}{% url 'toppageenIN' %}{% else %}{% url 'toppage' %}{% endif %}";
+            window.location.href = fallbackUrl;
+        }
+    }
+</script>
+
+
+{% endblock %}

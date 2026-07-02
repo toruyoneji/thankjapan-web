@@ -1097,7 +1097,7 @@ def player_register(request):
     else:
         form = UsernameForm()
 
-    return render(request, 'thank_japan_app/player_register.html', {
+    return render(request, 'thank_japan_app/player_register-v2.html', {
         'form': form, 
         'next': next_url, 
         'lang_code': lang_code, 
