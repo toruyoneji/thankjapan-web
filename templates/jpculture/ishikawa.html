@@ -1,872 +1,889 @@
 {% load static %}
 
 <style>
-body {
-  margin: 0;
-  font-family: "Poppins","Hiragino Maru Gothic ProN",sans-serif;
-  background-image: url("https://res.cloudinary.com/dotekofm5/image/upload/v1762738682/thankjapan/backgrounds/eqpmsezzbdcjecbql04f.png");
-  background-size: cover;
-  background-attachment: scroll;
-  background-repeat: no-repeat;
-  color: #333;
-  text-align: center;
-}
 
-/* ===== 見出し ===== */
-h1 {
-  color: #3b0a00;
-  font-weight: 700;
-  margin: 120px auto 40px auto;
-  letter-spacing: 0.1em;
-  font-size: 2.2rem;
-  line-height: 1.4;
-  text-align: center;
-  text-shadow: 2px 2px 4px rgba(255,255,255,0.9);
-  position: relative;
-  display: block;
-  max-width: 80%;
-}
-
-h1::after {
-  content: "";
-  display: block;
-  width: 60px;
-  height: 4px;
-  background: #ffb347;
-  margin: 15px auto 0 auto;
-  border-radius: 2px;
+#premium-ishikawa-container {
+    background-color: #0a0a0a;
+    background-image: url("https://res.cloudinary.com/dotekofm5/image/upload/v1762738702/thankjapan/backgrounds/ca3mq0jab4zhb4lpsabw.png");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    color: #fff;
 }
 
 
-/* ===== カードレイアウト ===== */
+.app-content-fix {
+    height: calc(100vh - 135px); 
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-top: 60px; 
+    padding-bottom: 120px;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+.app-content-fix::-webkit-scrollbar { display: none; }
+
+
+.premium-title {
+    color: #ffffff;
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin: 0 auto 30px;
+    text-align: center;
+    line-height: 1.6;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.9);
+    width: 85%;
+}
+
+
 .food-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
-  max-width: 950px;
-  margin: 0 auto;
-  padding: 20px;
-  justify-items: center;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    padding: 0 12px;
+    max-width: 800px;
+    margin: 0 auto;
 }
+
 
 .food-card {
-  background: rgba(255, 255, 255, 0.95);
-  border-radius: 15px;
-  overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-  transition: transform 0.3s ease;
-  cursor: pointer;
-  width: 100%;
-  max-width: 280px;
-  margin-top: 0;
-}
-
-.food-card:hover {
-  transform: scale(1.03);
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(212, 175, 55, 0.4);
+    border-radius: 15px;
+    overflow: hidden;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
 }
 
 .food-card img {
-  width: 100%;
-  height: 170px;
-  object-fit: cover;
-}
-
-.food-card p {
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;  /* 2行で省略 */
-  overflow: hidden;
-  text-overflow: ellipsis;
-  line-height: 1.4em;
-  max-height: 2.8em;      
-  margin: 0;              
-}
-
-.food-card img,
-.card img {
-  display: block;       
-  margin-top: 0;        
-  border-radius: 15px 15px 0 0; 
-}
-
-.btn-more {
-    display: inline-block;
-    background: #ffb347;
-    color: white;
-    padding: 10px 24px;
-    border-radius: 25px;
-    text-decoration: none;
-    font-weight: 600;
-    margin-top: 20px;
-    transition: background 0.3s;
-}
-.btn-more:hover {
-    background: #ff9642;
-}
-
-
-/* ===== レスポンシブ ===== */
-@media (max-width: 768px) {
-  h1 {
-    margin: 100px 15px 30px 15px;
-    font-size: 1.6rem;
-    padding: 20px 0;
-  }
-  
-  h1::after {
-    width: 40px;
-    height: 3px;
-    margin-top: 10px;
-  }
-  
-  .food-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
-    padding: 10px;
-    margin-top: 20px;
-  }
-
-  .food-card img {
+    width: 100%;
     height: 120px;
-  }
+    object-fit: cover;
+}
 
+.food-description {
+    padding: 10px;
+    font-size: 0.8rem;
+    color: #eee;
+    text-align: left;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
 
-/* ===== モーダル ===== */
 .modal {
-  display: none;
-  position: fixed;
-  z-index: 9999;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-  background-color: rgba(0,0,0,0.7);
+    display: none;
+    position: fixed;
+    z-index: 10000;
+    left: 0; top: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    backdrop-filter: blur(10px);
+    justify-content: center;
+    align-items: center;
 }
-
-.modal.active {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
+.modal.active { display: flex; }
 .modal-content {
-  background: #fff;
-  border-radius: 15px;
-  max-width: 90%;
-  width: 400px;
-  padding: 20px;
-  position: relative;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-  text-align: center;
-  animation: fadeIn 0.3s ease;
+    background: #0a0a0a;
+    border: 2px solid #d4af37;
+    border-radius: 20px;
+    width: 92%;
+    max-width: 480px;
+    max-height: 85vh;
+    overflow-y: auto;
+    position: relative;
+    animation: modalFadeUp 0.3s ease-out;
 }
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: scale(0.9); }
-  to { opacity: 1; transform: scale(1); }
-}
-
-.modal-content img {
-  width: 100%;
-  border-radius: 10px;
-  margin-bottom: 10px;
-}
-
-.modal-close {
-  position: absolute;
-  top: 10px;
-  right: 15px;
-  font-size: 1.5rem;
-  cursor: pointer;
-  color: #333;
-}
-
-
+@keyframes modalFadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
 </style>
 
-
-<h1>
-    {% if lang == 'ja' %}
-        石川を巡る：伝統、自然、美食、そして日常の美
-    {% elif lang == 'ko' %}
-        이시카와 여행: 전통, 자연, 미식, 그리고 일상의 아름다움
-    {% elif lang == 'zh-cn' %}
-        探索石川：传统、自然、美食与日常之美
-    {% elif lang == 'zh-hant' %}
-        探索石川：傳統、自然、美食與日常之美
-    {% elif lang == 'th' %}
-        สำรวจอิชิกาวะ: ประเพณี ธรรมชาติ อาหารเลิศรส และความงามในชีวิตประจำวัน
-    {% elif lang == 'vi' %}
-        Khám phá Ishikawa: Truyền thống, Thiên nhiên, Ẩm thực & Vẻ đẹp thường nhật
-    {% elif lang == 'de' %}
-        Ishikawa entdecken: Tradition, Natur, Kulinarik und alltägliche Schönheit
-    {% elif lang == 'fr' %}
-        Découvrir Ishikawa : tradition, nature, gastronomie et beauté du quotidien
-    {% elif lang == 'it' %}
-        Scopri Ishikawa: tradizione, natura, gastronomia e bellezza quotidiana
-    {% elif lang == 'es-es' %}
-        Descubre Ishikawa: Tradición, Naturaleza, Gastronomía y Belleza Cotidiana
-    {% elif lang == 'es-mx' %}
-        Descubre Ishikawa: Tradición, Naturaleza, Gastronomía y Belleza Cotidiana
-    {% elif lang == 'pt' %}
-        Descubra Ishikawa: Tradição, Natureza, Gastronomia e a Beleza do Dia a Dia
-    {% elif lang == 'pt-br' %}
-        Descubra Ishikawa: Tradição, Natureza, Gastronomia e a Beleza do Dia a Dia
-    {% elif lang == 'en-in' %}
-        Explore Ishikawa: Tradition, Nature, Gastronomy & Everyday Beauty
-    {% else %}
-        Explore Ishikawa: Tradition, Nature, Gastronomy & Everyday Beauty
-    {% endif %}
-</h1>
+<div id="premium-ishikawa-container">
+    <div class="app-content-fix">
+        
+        
+        <h1 class="premium-title">
+            {% if lang == 'ja' %}
+                石川を巡る：伝統、自然、美食、そして日常の美
+            {% elif lang == 'ko' %}
+                이시카와 여행: 전통, 자연, 미식, 그리고 일상의 아름다움
+            {% elif lang == 'zh-cn' %}
+                探索石川：传统、自然、美食与日常之美
+            {% elif lang == 'zh-hant' %}
+                探索石川：傳統、自然、美食與日常之美
+            {% elif lang == 'th' %}
+                สำรวจอิชิกาวะ: ประเพณี ธรรมชาติ อาหารเลิศรส และความงามในชีวิตประจำวัน
+            {% elif lang == 'vi' %}
+                Khám phá Ishikawa: Truyền thống, Thiên nhiên, Ẩm thực & Vẻ đẹp thường nhật
+            {% elif lang == 'de' %}
+                Ishikawa entdecken: Tradition, Natur, Kulinarik und alltägliche Schönheit
+            {% elif lang == 'fr' %}
+                Découvrir Ishikawa : tradition, nature, gastronomie et beauté du quotidien
+            {% elif lang == 'it' %}
+                Scopri Ishikawa: tradizione, natura, gastronomia e bellezza quotidiana
+            {% elif lang == 'es-es' %}
+                Descubre Ishikawa: Tradición, Naturaleza, Gastronomía y Belleza Cotidiana
+            {% elif lang == 'es-mx' %}
+                Descubre Ishikawa: Tradición, Naturaleza, Gastronomía y Belleza Cotidiana
+            {% elif lang == 'pt' %}
+                Descubra Ishikawa: Tradição, Natureza, Gastronomia e a Beleza do Dia a Dia
+            {% elif lang == 'pt-br' %}
+                Descubra Ishikawa: Tradição, Natureza, Gastronomia e a Beleza do Dia a Dia
+            {% elif lang == 'en-in' %}
+                Explore Ishikawa: Tradition, Nature, Gastronomy & Everyday Beauty
+            {% else %}
+                Explore Ishikawa: Tradition, Nature, Gastronomy & Everyday Beauty
+            {% endif %}
+        </h1>
   
-<div class="food-grid">
+        <div class="food-grid">
 
-    <div class="food-card">
-      <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1779246124/thankjapan/backgrounds/drswnkf4nl1syrx96nrx.jpg"
-        alt="kanazawaeki"/>
-      <p>
-        {% if lang == 'ja' %}
-            金沢駅の「鼓門」は、日本の伝統建築と現代的なデザインが融合した見事な象徴です。鼓をモチーフにした壮大な木造構造は、「おもてなし」の心で訪れる人々を迎えます。
-        {% elif lang == 'ko' %}
-            가나자와역의 '쓰즈미몬'은 일본의 전통 건축과 현대적인 디자인이 융합된 멋진 상징입니다. 북(쓰즈미)을 모티브로 한 웅장한 목조 구조는 '오모테나시(환대)'의 마음으로 방문객을 맞이합니다.
-        {% elif lang == 'zh-cn' %}
-            金泽站的“鼓门”是日本传统建筑与现代设计融合的杰出象征。以鼓为灵感的大型木制结构，以“款待（Omotenashi）”之心迎接每一位访客。
-        {% elif lang == 'zh-hant' %}
-            金澤站的「鼓門」是日本傳統建築與現代設計融合的傑出象徵。以鼓為靈感的大型木製結構，以「款待（Omotenashi）」之心迎接每一位訪客。
-        {% elif lang == 'th' %}
-            ประตู "ซึซึมิ" (Tsuzumi-mon) ที่สถานีคานาซาว่าเป็นการผสมผสานที่ยอดเยี่ยมระหว่างสถาปัตยกรรมดั้งเดิมและการออกแบบที่ทันสมัย โครงสร้างไม้ที่งดงามนี้ได้รับแรงบันดาลใจจากกลองซึซึมิ พร้อมต้อนรับผู้มาเยือนด้วยจิตวิญญาณแห่ง "โอโมเตะนาชิ"
-        {% elif lang == 'vi' %}
-            Cổng "Tsuzumi-mon" tại Ga Kanazawa là sự kết hợp tuyệt vời giữa kiến trúc truyền thống Nhật Bản và thiết kế hiện đại. Cấu trúc gỗ hùng vĩ lấy cảm hứng từ trống tsuzumi, chào đón du khách bằng tinh thần "Omotenashi" (lòng hiếu khách).
-        {% elif lang == 'de' %}
-            Das „Tsuzumi-mon“-Tor am Bahnhof Kanazawa ist eine beeindruckende Mischung aus traditioneller japanischer Architektur und modernem Design. Die majestätische Holzkonstruktion, inspiriert von der Tsuzumi-Trommel, empfängt Besucher mit dem Geist von „Omotenashi“.
-        {% elif lang == 'fr' %}
-            La porte « Tsuzumi-mon » de la gare de Kanazawa est un mélange impressionnant d'architecture traditionnelle japonaise et de design moderne. Inspirée du tambour tsuzumi, sa majestueuse structure en bois accueille les visiteurs dans l'esprit de l'« Omotenashi ».
-        {% elif lang == 'it' %}
-            La porta "Tsuzumi-mon" della stazione di Kanazawa è una splendida fusione di architettura tradizionale giapponese e design moderno. La maestosa struttura in legno, ispirata al tamburo tsuzumi, accoglie i visitatori con lo spirito dell' "Omotenashi".
-        {% elif lang == 'es-es' %}
-            La puerta "Tsuzumi-mon" de la estación de Kanazawa es una impresionante mezcla de arquitectura tradicional japonesa y diseño moderno. Su majestuosa estructura de madera, inspirada en el tambor tsuzumi, recibe a los visitantes con el espíritu del "Omotenashi".
-        {% elif lang == 'es-mx' %}
-            La puerta "Tsuzumi-mon" de la estación de Kanazawa es una impresionante mezcla de arquitectura tradicional japonesa y diseño moderno. Su majestuosa estructura de madera, inspirada en el tambor tsuzumi, recibe a los visitantes con el espíritu del "Omotenashi".
-        {% elif lang == 'pt' %}
-            O portão "Tsuzumi-mon" da estação de Kanazawa é uma mistura impressionante de arquitetura tradicional japonesa e design moderno. Sua majestosa estrutura de madeira, inspirada no tambor tsuzumi, recebe os visitantes com o espírito do "Omotenashi".
-        {% elif lang == 'pt-br' %}
-            O portão "Tsuzumi-mon" da estação de Kanazawa é uma mistura impressionante de arquitetura tradicional japonesa e design moderno. Sua majestosa estrutura de madeira, inspirada no tambor tsuzumi, recebe os visitantes com o espírito do "Omotenashi".
-        {% elif lang == 'en-in' %}
-            Kanazawa Station’s "Tsuzumi-mon" Gate is a stunning blend of traditional Japanese architecture and modern design. Inspired by the tsuzumi drum, its majestic wooden structure welcomes visitors with the spirit of "Omotenashi" (hospitality).
-        {% else %}
-            Kanazawa Station’s "Tsuzumi-mon" Gate is a stunning blend of traditional Japanese architecture and modern design. Inspired by the tsuzumi drum, its majestic wooden structure welcomes visitors with the spirit of "Omotenashi" (hospitality).
-        {% endif %}
-      </p>
-    </div>
+    
+        <div class="food-card" onclick="openFoodModal(this)">
+            <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1779246124/thankjapan/backgrounds/drswnkf4nl1syrx96nrx.jpg" alt="kanazawaeki"/>
+            <div class="card-body">
+                <p class="food-description">
+                    {% if lang == 'ja' %}
+                        金沢駅の「鼓門」は、日本の伝統建築と現代的なデザインが融合した見事な象徴です。鼓をモチーフにした壮大な木造構造は、「おもてなし」の心で訪れる人々を迎えます。
+                    {% elif lang == 'ko' %}
+                        가나자와역의 '쓰즈미몬'은 일본의 전통 건축과 현대적인 디자인이 융합된 멋진 상징입니다. 북(쓰즈미)을 모티브로 한 웅장한 목조 구조는 '오모테나시(환대)'의 마음으로 방문객을 맞이합니다.
+                    {% elif lang == 'zh-cn' %}
+                        金泽站的“鼓门”是日本传统建筑与现代设计融合的杰出象征。以鼓为灵感的大型木制结构，以“款待（Omotenashi）”之心迎接每一位访客。
+                    {% elif lang == 'zh-hant' %}
+                        金澤站的「鼓門」是日本傳統建築與現代設計融合的傑出象徵。以鼓為靈感的大型木製結構，以「款待（Omotenashi）」之心迎接每一位訪客。
+                    {% elif lang == 'th' %}
+                        ประตู "ซึซึมิ" (Tsuzumi-mon) ที่สถานีคานาซาว่าเป็นการผสมผสานที่ยอดเยี่ยมระหว่างสถาปัตยกรรมดั้งเดิมและการออกแบบที่ทันสมัย โครงสร้างไม้ที่งดงามนี้ได้รับแรงบันดาลใจจากกลองซึซึมิ พร้อมต้อนรับผู้มาเยือนด้วยจิตวิญญาณแห่ง "โอโมเตะนาชิ"
+                    {% elif lang == 'vi' %}
+                        Cổng "Tsuzumi-mon" tại Ga Kanazawa là sự kết hợp tuyệt vời giữa kiến trúc truyền thống Nhật Bản và thiết kế hiện đại. Cấu trúc gỗ hùng vĩ lấy cảm hứng từ trống tsuzumi, chào đón du khách bằng tinh thần "Omotenashi" (lòng hiếu khách).
+                    {% elif lang == 'de' %}
+                        Das „Tsuzumi-mon“-Tor am Bahnhof Kanazawa ist eine beeindruckende Mischung aus traditioneller japanischer Architektur und modernem Design. Die majestätische Holzkonstruktion, inspiriert von der Tsuzumi-Trommel, empfängt Besucher mit dem Geist von „Omotenashi“.
+                    {% elif lang == 'fr' %}
+                        La porte « Tsuzumi-mon » de la gare de Kanazawa est un mélange impressionnant d'architecture traditionnelle japonaise et de design moderne. Inspirée du tambour tsuzumi, sa majestueuse structure en bois accueille les visiteurs dans l'esprit de l'« Omotenashi ».
+                    {% elif lang == 'it' %}
+                        La porta "Tsuzumi-mon" della stazione di Kanazawa è una splendida fusione di architettura tradizionale giapponese e design moderno. La maestosa struttura in legno, ispirata al tamburo tsuzumi, accoglie i visitatori con lo spirito dell' "Omotenashi".
+                    {% elif lang == 'es-es' %}
+                        La puerta "Tsuzumi-mon" de la estación de Kanazawa es una impresionante mezcla de arquitectura tradicional japonesa y diseño moderno. Su majestuosa estructura de madera, inspirada en el tambor tsuzumi, recibe a los visitantes con el espíritu del "Omotenashi".
+                    {% elif lang == 'es-mx' %}
+                        La puerta "Tsuzumi-mon" de la estación de Kanazawa es una impresionante mezcla de arquitectura tradicional japonesa y diseño moderno. Su majestuosa estructura de madera, inspirada en el tambor tsuzumi, recibe a los visitantes con el espíritu del "Omotenashi".
+                    {% elif lang == 'pt' %}
+                        O portão "Tsuzumi-mon" da estação de Kanazawa é uma mistura impressionante de arquitetura tradicional japonesa e design moderno. Sua majestosa estrutura de madeira, inspirada no tambor tsuzumi, recebe os visitantes com o espírito do "Omotenashi".
+                    {% elif lang == 'pt-br' %}
+                        O portão "Tsuzumi-mon" da estação de Kanazawa é uma mistura impressionante de arquitetura tradicional japonesa e design moderno. Sua majestosa estrutura de madeira, inspirada no tambor tsuzumi, recebe os visitantes com o espírito do "Omotenashi".
+                    {% elif lang == 'en-in' %}
+                        Kanazawa Station’s "Tsuzumi-mon" Gate is a stunning blend of traditional Japanese architecture and modern design. Inspired by the tsuzumi drum, its majestic wooden structure welcomes visitors with the spirit of "Omotenashi" (hospitality).
+                    {% else %}
+                        Kanazawa Station’s "Tsuzumi-mon" Gate is a stunning blend of traditional Japanese architecture and modern design. Inspired by the tsuzumi drum, its majestic wooden structure welcomes visitors with the spirit of "Omotenashi" (hospitality).
+                    {% endif %}
+                </p>
+            </div>
+        </div>
 
+        
+        <div class="food-card" onclick="openFoodModal(this)">
+            <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1761842767/thankjapan/backgrounds/xzvjepgpcq0x9n8aiu31.jpg" alt="kanazawajou"/>
+            <div class="card-body">
+                <p class="food-description">
+                    {% if lang == 'ja' %}
+                        日本の城は歴史と文化の壮麗な象徴であり、雄大な木造の櫓、石垣、そして周囲を囲む堀が、日本の侍時代の物語を今に伝えています。
+                    {% elif lang == 'ko' %}
+                        일본의 성은 역사와 문화의 웅장한 상징이며, 장엄한 목조 망루, 석벽, 그리고 이를 둘러싼 해자가 일본 사무라이 시대의 이야기를 전해줍니다.
+                    {% elif lang == 'zh-cn' %}
+                        日本城堡是历史与文化的宏伟象征，雄伟的木造橹楼、石墙和护城河共同述说着日本武士时代的故事。
+                    {% elif lang == 'zh-hant' %}
+                        日本城堡是歷史與文化的宏偉象徵，雄偉的木造櫓樓、石牆和護城河共同講述著日本武士時代的故事。
+                    {% elif lang == 'th' %}
+                        ปราสาทญี่ปุ่นเป็นสัญลักษณ์ที่งดงามของประวัติศาสตร์และวัฒนธรรม ผสมผสานระหว่างหอคอยไม้ที่สง่างาม กำแพงหิน และคูเมืองโดยรอบที่บอกเล่าเรื่องราวในยุคซามูไรของญี่ปุ่น
+                    {% elif lang == 'vi' %}
+                        Lâu đài Nhật Bản là biểu tượng lộng lẫy của lịch sử và văn hóa, kết hợp giữa những tòa tháp gỗ hùng vĩ, tường đá và hào nước bao quanh, kể lại câu chuyện về thời đại võ sĩ (samurai).
+                    {% elif lang == 'de' %}
+                        Japanische Burgen sind prachtvolle Symbole für Geschichte und Kultur. Mit ihren majestätischen Holztürmen, Steinmauern und Wassergräben erzählen sie die Geschichte der Samurai-Ära Japans.
+                    {% elif lang == 'fr' %}
+                        Les châteaux japonais sont de magnifiques symboles d'histoire et de culture, mêlant tours majestueuses en bois, remparts de pierre et douves qui racontent l'époque des samouraïs.
+                    {% elif lang == 'it' %}
+                        I castelli giapponesi sono splendidi simboli di storia e cultura: le maestose torri di legno, le mura di cinta e i fossati raccontano la storia dell'era dei samurai.
+                    {% elif lang == 'es-es' %}
+                        Los castillos japoneses son magníficos símbolos de historia y cultura; sus majestuosas torres de madera, muros de piedra y fosos narran la historia de la era samurái de Japón.
+                    {% elif lang == 'es-mx' %}
+                        Los castillos japoneses son magníficos símbolos de historia y cultura; sus majestuosas torres de madera, muros de piedra y fosos narran la historia de la era samurái de Japón.
+                    {% elif lang == 'pt' %}
+                        Os castelos japoneses são símbolos magníficos de história e cultura, combinando majestosas torres de madeira, muralhas de pedra e fossos que contam a história da era samurai do Japão.
+                    {% elif lang == 'pt-br' %}
+                        Os castelos japoneses são símbolos magníficos de história e cultura, combinando majestosas torres de madeira, muralhas de pedra e fossos que contam a história da era samurai do Japão.
+                    {% elif lang == 'en-in' %}
+                        Japanese castles are stunning symbols of history and culture, combining majestic wooden towers, stone walls, and surrounding moats that tell the story of Japan’s samurai era.
+                    {% else %}
+                        Japanese castles are stunning symbols of history and culture, combining majestic wooden towers, stone walls, and surrounding moats that tell the story of Japan’s samurai era.
+                    {% endif %}
+                </p>
+            </div>
+        </div>
 
-    <div class="food-card">
-      <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1761842767/thankjapan/backgrounds/xzvjepgpcq0x9n8aiu31.jpg"
-        alt="kanazawajou"/>
-      <p>
-        {% if lang == 'ja' %}
-            日本の城は歴史と文化の壮麗な象徴であり、雄大な木造の櫓、石垣、そして周囲を囲む堀が、日本の侍時代の物語を今に伝えています。
-        {% elif lang == 'ko' %}
-            일본의 성은 역사와 문화의 웅장한 상징이며, 장엄한 목조 망루, 석벽, 그리고 이를 둘러싼 해자가 일본 사무라이 시대의 이야기를 전해줍니다.
-        {% elif lang == 'zh-cn' %}
-            日本城堡是历史与文化的宏伟象征，雄伟的木造橹楼、石墙和护城河共同述说着日本武士时代的故事。
-        {% elif lang == 'zh-hant' %}
-            日本城堡是歷史與文化的宏偉象徵，雄偉的木造櫓樓、石牆和護城河共同講述著日本武士時代的故事。
-        {% elif lang == 'th' %}
-            ปราสาทญี่ปุ่นเป็นสัญลักษณ์ที่งดงามของประวัติศาสตร์และวัฒนธรรม ผสมผสานระหว่างหอคอยไม้ที่สง่างาม กำแพงหิน และคูเมืองโดยรอบที่บอกเล่าเรื่องราวในยุคซามูไรของญี่ปุ่น
-        {% elif lang == 'vi' %}
-            Lâu đài Nhật Bản là biểu tượng lộng lẫy của lịch sử và văn hóa, kết hợp giữa những tòa tháp gỗ hùng vĩ, tường đá và hào nước bao quanh, kể lại câu chuyện về thời đại võ sĩ (samurai).
-        {% elif lang == 'de' %}
-            Japanische Burgen sind prachtvolle Symbole für Geschichte und Kultur. Mit ihren majestätischen Holztürmen, Steinmauern und Wassergräben erzählen sie die Geschichte der Samurai-Ära Japans.
-        {% elif lang == 'fr' %}
-            Les châteaux japonais sont de magnifiques symboles d'histoire et de culture, mêlant tours majestueuses en bois, remparts de pierre et douves qui racontent l'époque des samouraïs.
-        {% elif lang == 'it' %}
-            I castelli giapponesi sono splendidi simboli di storia e cultura: le maestose torri di legno, le mura di cinta e i fossati raccontano la storia dell'era dei samurai.
-        {% elif lang == 'es-es' %}
-            Los castillos japoneses son magníficos símbolos de historia y cultura; sus majestuosas torres de madera, muros de piedra y fosos narran la historia de la era samurái de Japón.
-        {% elif lang == 'es-mx' %}
-            Los castillos japoneses son magníficos símbolos de historia y cultura; sus majestuosas torres de madera, muros de piedra y fosos narran la historia de la era samurái de Japón.
-        {% elif lang == 'pt' %}
-            Os castelos japoneses são símbolos magníficos de história e cultura, combinando majestosas torres de madeira, muralhas de pedra e fossos que contam a história da era samurai do Japão.
-        {% elif lang == 'pt-br' %}
-            Os castelos japoneses são símbolos magníficos de história e cultura, combinando majestosas torres de madeira, muralhas de pedra e fossos que contam a história da era samurai do Japão.
-        {% elif lang == 'en-in' %}
-            Japanese castles are stunning symbols of history and culture, combining majestic wooden towers, stone walls, and surrounding moats that tell the story of Japan’s samurai era.
-        {% else %}
-            Japanese castles are stunning symbols of history and culture, combining majestic wooden towers, stone walls, and surrounding moats that tell the story of Japan’s samurai era.
-        {% endif %}
-      </p>
-    </div>
-
-    <div class="food-card">
-      <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1761842683/thankjapan/backgrounds/ixyersx9bdpxytxzetix.jpg"
-        alt="kanazawaike"/>
-      <p>
-        {% if lang == 'ja' %}
-            日本庭園の静かな池は、自然の美しさを映し出し、立ち止まって本当の心の安らぎを感じさせてくれます。
-        {% elif lang == 'ko' %}
-            일본 정원의 고요한 연못은 자연의 아름다움을 비추며, 잠시 멈춰 서서 진정한 평온을 느끼게 해줍니다.
-        {% elif lang == 'zh-cn' %}
-            日本庭园中宁静的池塘映照着自然之美，邀您驻足感受真正的平静。
-        {% elif lang == 'zh-hant' %}
-            日本庭園中寧靜的池塘映照著自然之美，邀您駐足感受真正的平靜。
-        {% elif lang == 'th' %}
-            สระน้ำที่เงียบสงบในสวนญี่ปุ่นสะท้อนความงามของธรรมชาติ และเชิญชวนให้คุณหยุดพักเพื่อสัมผัสกับความสงบที่แท้จริง
-        {% elif lang == 'vi' %}
-            Những hồ nước yên bình trong khu vườn Nhật Bản phản chiếu vẻ đẹp của thiên nhiên và mời gọi bạn dừng chân để cảm nhận sự bình yên đích thực.
-        {% elif lang == 'de' %}
-            Die ruhigen Teiche in japanischen Gärten spiegeln die Schönheit der Natur wider und laden dazu ein, innezuhalten und wahre Ruhe zu finden.
-        {% elif lang == 'fr' %}
-            Les étangs paisibles des jardins japonais reflètent la beauté de la nature et vous invitent à faire une pause pour ressentir une paix véritable.
-        {% elif lang == 'it' %}
-            I tranquilli laghetti dei giardini giapponesi riflettono la bellezza della natura e invitano a fermarsi per ritrovare la vera pace interiore.
-        {% elif lang == 'es-es' %}
-            Los tranquilos estanques de los jardines japoneses reflejan la belleza de la naturaleza e invitan a detenerse y sentir la verdadera paz.
-        {% elif lang == 'es-mx' %}
-            Los tranquilos estanques de los jardines japoneses reflejan la belleza de la naturaleza e invitan a detenerse y sentir la verdadera paz.
-        {% elif lang == 'pt' %}
-            Os lagos tranquilos dos jardins japoneses refletem a beleza da natureza e convidam você a fazer uma pausa e sentir a verdadeira paz.
-        {% elif lang == 'pt-br' %}
-            Os lagos tranquilos dos jardins japoneses refletem a beleza da natureza e convidam você a fazer uma pausa e sentir a verdadeira paz.
-        {% elif lang == 'en-in' %}
-            Tranquil ponds in Japanese gardens reflect nature’s beauty and invite you to pause and feel true peace.
-        {% else %}
-            Tranquil ponds in Japanese gardens reflect nature’s beauty and invite you to pause and feel true peace.
-        {% endif %}
-      </p>
-    </div>
-
-    <div class="food-card">
-      <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1761842722/thankjapan/backgrounds/p2uktlwymnjdmhy5w2sd.jpg"
-        alt="kanazawamatsu"/>
-      <p>
-        {% if lang == 'ja' %}
-            日本庭園の松の木は強さと長寿の象徴であり、その風景に時代を超えた美しさを添えています。
-        {% elif lang == 'ko' %}
-            일본 정원의 소나무는 강인함과 장수를 상징하며, 풍경에 시대를 초월한 아름다움을 더해줍니다.
-        {% elif lang == 'zh-cn' %}
-            日本园林中的松树象征着力量与长寿，为景观增添了永恒的美。
-        {% elif lang == 'zh-hant' %}
-            日本園林中的松樹象徵著力量與長壽，為景觀增添了永恆的美。
-        {% elif lang == 'th' %}
-            ต้นสนในสวนญี่ปุ่นเป็นสัญลักษณ์ของความแข็งแกร่งและอายุที่ยืนยาว ช่วยเพิ่มความงามที่เหนือกาลเวลาให้กับทัศนียภาพ
-        {% elif lang == 'vi' %}
-            Cây thông trong các khu vườn Nhật Bản tượng trưng cho sức mạnh và sự trường thọ, mang lại vẻ đẹp vĩnh cửu cho cảnh quan.
-        {% elif lang == 'de' %}
-            Die Kiefer in japanischen Gärten steht für Stärke und Langlebigkeit und verleiht der Szenerie eine zeitlose Schönheit.
-        {% elif lang == 'fr' %}
-            Le pin dans les jardins japonais est un symbole de force et de longévité, ajoutant une beauté intemporelle au paysage.
-        {% elif lang == 'it' %}
-            Il pino nei giardini giapponesi rappresenta forza e longevità, aggiungendo una bellezza senza tempo al paesaggio.
-        {% elif lang == 'es-es' %}
-            El pino en los jardines japoneses representa la fuerza y la longevidad, aportando una belleza atemporal al paisaje.
-        {% elif lang == 'es-mx' %}
-            El pino en los jardines japoneses representa la fuerza y la longevidad, aportando una belleza atemporal al paisaje.
-        {% elif lang == 'pt' %}
-            O pinheiro nos jardins japoneses simboliza força e longevidade, conferindo uma beleza atemporal ao cenário.
-        {% elif lang == 'pt-br' %}
-            O pinheiro nos jardins japoneses simboliza força e longevidade, conferindo uma beleza atemporal ao cenário.
-        {% elif lang == 'en-in' %}
-            The pine tree in Japanese gardens stands for strength and longevity, adding timeless beauty to the scenery.
-        {% else %}
-            The pine tree in Japanese gardens stands for strength and longevity, adding timeless beauty to the scenery.
-        {% endif %}
-      </p>
-    </div>
-
-    <div class="food-card">
-      <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1761842693/thankjapan/backgrounds/fa8zrl3raytsikev01qv.jpg"
-        alt="kanazawakoi"/>
-      <p>
-        {% if lang == 'ja' %}
-            池を泳ぐ色鮮やかな錦鯉は、静かな庭園に生命の息吹と幸運、そして調和をもたらします。
-        {% elif lang == 'ko' %}
-            연못을 헤엄치는 알록달록한 비단잉어는 고요한 정원에 생명력과 행운, 그리고 조화를 가져다줍니다.
-        {% elif lang == 'zh-cn' %}
-            池塘中游动着绚丽的锦鲤，为宁静的庭园带来了生命力、好运与和谐。
-        {% elif lang == 'zh-hant' %}
-            池塘中游動著絢麗的錦鯉，為寧靜的庭園帶來了生命力、好運與和諧。
-        {% elif lang == 'th' %}
-            ปลาคาร์ฟหลากสีสันที่ว่ายอยู่ในสระน้ำช่วยนำชีวิตชีวา โชคลาภ และความกลมกลืนมาสู่สวนที่เงียบสงบ
-        {% elif lang == 'vi' %}
-            Những chú cá koi rực rỡ sắc màu bơi lội trong hồ mang lại sức sống, sự may mắn và sự hài hòa cho khu vườn thanh tịnh.
-        {% elif lang == 'de' %}
-            Farbenfrohe Koi, die im Teich schwimmen, bringen Leben, Glück und Harmonie in den friedlichen Garten.
-        {% elif lang == 'fr' %}
-            Les carpes koï colorées nageant dans l'étang apportent vie, chance et harmonie à ce jardin paisible.
-        {% elif lang == 'it' %}
-            Le colorate carpe koi che nuotano nel laghetto portano vita, fortuna e armonia al giardino sereno.
-        {% elif lang == 'es-es' %}
-            Los coloridos peces koi que nadan en el estanque aportan vida, suerte y armonía al tranquilo jardín.
-        {% elif lang == 'es-mx' %}
-            Los coloridos peces koi que nadan en el estanque aportan vida, suerte y armonía al tranquilo jardín.
-        {% elif lang == 'pt' %}
-            As carpas coloridas que nadam no lago trazem vida, sorte e harmonia ao jardim tranquilo.
-        {% elif lang == 'pt-br' %}
-            As carpas coloridas que nadam no lago trazem vida, sorte e harmonia ao jardim tranquilo.
-        {% elif lang == 'en-in' %}
-            Colorful koi swimming in the pond bring life, luck, and harmony to the peaceful garden.
-        {% else %}
-            Colorful koi swimming in the pond bring life, luck, and harmony to the peaceful garden.
-        {% endif %}
-      </p>
-    </div>
-
-
-    <div class="food-card">
-      <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1780738431/thankjapan/backgrounds/vizip5p6kg41dcsuqkxm.jpg"
-        alt="hyakumangoku omatsu"/>
-      <p>
-        {% if lang == 'ja' %}
-            金沢百万石まつりで「お松の方」を演じる姿は、伝統的な着物の優雅な美しさを象徴しています。
-        {% elif lang == 'ko' %}
-            가나자와 햐쿠만고쿠 축제에서 '오마츠노카타'를 연기하는 모습은 전통 기모노의 우아한 아름다움을 상징합니다.
-        {% elif lang == 'zh-cn' %}
-            在金泽百万石祭中，饰演“阿松之方”的形象展现了传统和服的优雅之美。
-        {% elif lang == 'zh-hant' %}
-            在金澤百萬石祭中，飾演「阿松之方」的形象展現了傳統和服的優雅之美。
-        {% elif lang == 'th' %}
-            ในเทศกาลคานาซาว่า เฮียคุมังกุ ผู้รับบทเป็น "โอมาตสึโนะกาตะ" ถ่ายทอดความงามที่สง่างามของชุดกิโมโนแบบดั้งเดิม
-        {% elif lang == 'vi' %}
-            Tại Lễ hội Kanazawa Hyakumangoku, hình ảnh "Omatsu-no-kata" đã thể hiện vẻ đẹp thanh lịch của bộ Kimono truyền thống.
-        {% elif lang == 'de' %}
-            Beim Kanazawa-Hyakumangoku-Festival verkörpert die Darstellung der Omatsu-no-kata die elegante Schönheit des traditionellen Kimonos.
-        {% elif lang == 'fr' %}
-            Lors du festival Kanazawa Hyakumangoku, la représentation d'Omatsu-no-kata illustre la beauté élégante du kimono traditionnel.
-        {% elif lang == 'it' %}
-            Al Festival Hyakumangoku di Kanazawa, la figura di Omatsu-no-kata mostra l'elegante bellezza del kimono tradizionale.
-        {% elif lang == 'es-es' %}
-            En el Festival Hyakumangoku de Kanazawa, la representación de Omatsu-no-kata muestra la elegante belleza del kimono tradicional.
-        {% elif lang == 'es-mx' %}
-            En el Festival Hyakumangoku de Kanazawa, la representación de Omatsu-no-kata muestra la elegante belleza del kimono tradicional.
-        {% elif lang == 'pt' %}
-            No Festival Hyakumangoku de Kanazawa, a representação de Omatsu-no-kata exibe a beleza elegante do quimono tradicional.
-        {% elif lang == 'pt-br' %}
-            No Festival Hyakumangoku de Kanazawa, a representação de Omatsu-no-kata exibe a beleza elegante do quimono tradicional.
-        {% elif lang == 'en-in' %}
-            At the Kanazawa Hyakumangoku Festival, the portrayal of Omatsu-no-kata showcases the elegant beauty of traditional kimono.
-        {% else %}
-            At the Kanazawa Hyakumangoku Festival, the portrayal of Omatsu-no-kata showcases the elegant beauty of traditional kimono.
-        {% endif %}
-      </p>
-    </div>
-
-    <div class="food-card">
-      <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1780738413/thankjapan/backgrounds/nwmgzlgt32ltyqjfzylg.jpg"
-        alt="hyakumangoku tobi"/>
-      <p>
-        {% if lang == 'ja' %}
-            金沢百万石まつりの「加賀鳶」の梯子登りは、江戸時代の火消したちの勇気と伝統的な技を今に伝えています。
-        {% elif lang == 'ko' %}
-            가나자와 햐쿠만고쿠 축제의 '가가토비' 사다리 타기는 에도 시대 소방관들의 용기와 전통 기술을 오늘날까지 전하고 있습니다.
-        {% elif lang == 'zh-cn' %}
-            金泽百万石祭中的“加贺鸢”梯子登，展现了江户时代消防员的英勇与传统技艺。
-        {% elif lang == 'zh-hant' %}
-            金澤百萬石祭中的「加賀鳶」梯子登，展現了江戶時代消防員的英勇與傳統技藝。
-        {% elif lang == 'th' %}
-            การปีนบันได "คากะโทบิ" ในเทศกาลคานาซาว่า เฮียคุมังกุ แสดงให้เห็นถึงความกล้าหาญและทักษะดั้งเดิมของนักดับเพลิงในสมัยเอโดะ
-        {% elif lang == 'vi' %}
-            Leo thang "Kaga Tobi" tại Lễ hội Kanazawa Hyakumangoku thể hiện lòng dũng cảm và kỹ năng truyền thống của những người lính cứu hỏa thời Edo.
-        {% elif lang == 'de' %}
-            Das Kaga-Tobi-Leiterklettern beim Kanazawa-Hyakumangoku-Festival zeigt den Mut und das traditionelle Geschick der Feuerwehrleute aus der Edo-Zeit.
-        {% elif lang == 'fr' %}
-            L'ascension d'échelle "Kaga Tobi" au festival Kanazawa Hyakumangoku illustre le courage et l'habileté traditionnelle des pompiers de l'époque d'Edo.
-        {% elif lang == 'it' %}
-            La scalata della scala "Kaga Tobi" al Festival Hyakumangoku di Kanazawa mostra il coraggio e l'abilità tradizionale dei vigili del fuoco del periodo Edo.
-        {% elif lang == 'es-es' %}
-            La escalada de escaleras "Kaga Tobi" en el Festival Hyakumangoku de Kanazawa muestra la valentía y la habilidad tradicional de los bomberos del periodo Edo.
-        {% elif lang == 'es-mx' %}
-            La escalada de escaleras "Kaga Tobi" en el Festival Hyakumangoku de Kanazawa muestra la valentía y la habilidad tradicional de los bomberos del periodo Edo.
-        {% elif lang == 'pt' %}
-            A escalada de escadas "Kaga Tobi" no Festival Hyakumangoku de Kanazawa mostra a bravura e a habilidade tradicional dos bombeiros do período Edo.
-        {% elif lang == 'pt-br' %}
-            A escalada de escadas "Kaga Tobi" no Festival Hyakumangoku de Kanazawa mostra a bravura e a habilidade tradicional dos bomberos do período Edo.
-        {% elif lang == 'en-in' %}
-            At the Kanazawa Hyakumangoku Festival, the "Kaga Tobi" ladder climbing showcases the bravery and traditional skills of Edo-period firefighters.
-        {% else %}
-            At the Kanazawa Hyakumangoku Festival, the "Kaga Tobi" ladder climbing showcases the bravery and traditional skills of Edo-period firefighters.
-        {% endif %}
-      </p>
-    </div>
-
-
-
-    <div class="food-card">
-      <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1761842670/thankjapan/backgrounds/pefrud2jfb9npq8jads8.jpg"
-        alt="kanazawahana"/>
-      <p>
-        {% if lang == 'ja' %}
-            市場のお花屋さんは鮮やかな色と香りに溢れ、訪れるすべての人の一日を明るく彩ります。
-        {% elif lang == 'ko' %}
-            시장의 꽃집은 선명한 색과 향기로 가득 차 있어, 방문하는 모든 이의 하루를 환하게 밝혀줍니다.
-        {% elif lang == 'zh-cn' %}
-            市场里的花店充满了缤纷色彩与芬芳香气，点亮了每个人的心情。
-        {% elif lang == 'zh-hant' %}
-            市場裡的花店充滿了繽紛色彩與芬芳香氣，點亮了每個人的心情。
-        {% elif lang == 'th' %}
-            ร้านดอกไม้ในตลาดเต็มไปด้วยสีสันและกลิ่นหอม ช่วยทำให้วันของทุกคนสดใสขึ้น
-        {% elif lang == 'vi' %}
-            Tiệm hoa trong chợ tràn ngập sắc màu và hương thơm, làm bừng sáng một ngày của mọi người.
-        {% elif lang == 'de' %}
-            Ein Blumenladen auf dem Markt sprüht vor Farben und Düften und verschönert jedem den Tag.
-        {% elif lang == 'fr' %}
-            Une boutique de fleurs sur le marché déborde de couleurs et de parfums, illuminant la journée de chacun.
-        {% elif lang == 'it' %}
-            Un negozio di fiori al mercato esplode di colori e profumi, rallegrando la giornata di tutti.
-        {% elif lang == 'es-es' %}
-            Una floristería en el mercado rebosa de colores y fragancias, alegrando el día a todo el mundo.
-        {% elif lang == 'es-mx' %}
-            Una floristería en el mercado rebosa de colores y fragancias, alegrando el día a todo el mundo.
-        {% elif lang == 'pt' %}
-            Uma floricultura no mercado transborda cores e fragrâncias, alegrando o dia de todos.
-        {% elif lang == 'pt-br' %}
-            Uma floricultura no mercado transborda cores e fragrâncias, alegrando o dia de todos.
-        {% elif lang == 'en-in' %}
-            A flower shop in the market bursts with color and fragrance, brightening everyone’s day.
-        {% else %}
-            A flower shop in the market bursts with color and fragrance, brightening everyone’s day.
-        {% endif %}
-      </p>
-    </div>
-
-    <div class="food-card">
-      <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1761842789/thankjapan/backgrounds/hqdsnrjuclgbubtwyw0c.jpg"
-        alt="kanazawasakana"/>
-      <p>
-        {% if lang == 'ja' %}
-            市場の魚屋さんは新鮮な魚介と活気に満ち溢れ、日本の豊かな食文化を象徴しています。
-        {% elif lang == 'ko' %}
-            시장의 생선 가게는 신선한 해산물과 활기찬 에너지로 가득 차 있어 일본의 식문화를 잘 보여줍니다.
-        {% elif lang == 'zh-cn' %}
-            市场里的鱼铺摆满了新鲜的海产，处处洋溢着活力，展现了日本独特的饮食文化。
-        {% elif lang == 'zh-hant' %}
-            市場裡的魚鋪擺滿了新鮮的海產，處處洋溢著活力，展現了日本獨特的飲食文化。
-        {% elif lang == 'th' %}
-            ร้านขายปลาในตลาดเต็มไปด้วยอาหารทะเลที่สดใหม่และพลังที่คึกคัก ซึ่งแสดงถึงวัฒนธรรมการกินของญี่ปุ่น
-        {% elif lang == 'vi' %}
-            Cửa hàng cá trong chợ luôn tràn đầy hải sản tươi sống và nguồn năng lượng sôi động, thể hiện nét văn hóa ẩm thực của Nhật Bản.
-        {% elif lang == 'de' %}
-            Der Fischladen auf dem Markt ist voller frischer Fänge und lebendiger Energie, die Japans Esskultur widerspiegelt.
-        {% elif lang == 'fr' %}
-            La poissonnerie du marché regorge de produits frais et d'une énergie débordante qui témoigne de la culture gastronomique japonaise.
-        {% elif lang == 'it' %}
-            La pescheria del mercato è piena di pescato fresco e di un'energia vivace che mostra la cultura alimentare del Giappone.
-        {% elif lang == 'es-es' %}
-            La pescadería del mercado está llena de capturas frescas y una energía vibrante que refleja la cultura gastronómica de Japón.
-        {% elif lang == 'es-mx' %}
-            La pescadería del mercado está llena de capturas frescas y una energía vibrante que refleja la cultura gastronómica de Japón.
-        {% elif lang == 'pt' %}
-            A peixaria no mercado está repleta de peixes frescos e uma energia vibrante que demonstra a cultura alimentar do Japão.
-        {% elif lang == 'pt-br' %}
-            A peixaria no mercado está repleta de peixes frescos e uma energia vibrante que demonstra a cultura alimentar do Japão.
-        {% elif lang == 'en-in' %}
-            The fish shop in the market is full of fresh catches and lively energy that shows Japan’s food culture.
-        {% else %}
-            The fish shop in the market is full of fresh catches and lively energy that shows Japan’s food culture.
-        {% endif %}
-      </p>
-    </div>
-
-    <div class="food-card">
-      <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1761842637/thankjapan/backgrounds/kir5gipqammzzcoofv4q.jpg"
-        alt="kanazawajihanki"/>
-      <p>
-        {% if lang == 'ja' %}
-            寿司や刺身を販売するユニークな自動販売機は、日本の伝統と技術が融合した創造的な姿を象徴しています。
-        {% elif lang == 'ko' %}
-            스시와 사시미를 판매하는 독특한 자동판매기는 일본의 전통과 기술이 창의적으로 결합된 모습을 보여줍니다.
-        {% elif lang == 'zh-cn' %}
-            售卖寿司和生鱼片的独特自动贩卖机，展现了日本传统与现代技术的创意融合。
-        {% elif lang == 'zh-hant' %}
-            販售壽司和生魚片的獨特自動販賣機，展現了日本傳統與現代技術的創意融合。
-        {% elif lang == 'th' %}
-            ตู้ขายอัตโนมัติที่ไม่เหมือนใครซึ่งขายซูชิและซาซิมิ แสดงให้เห็นถึงการผสมผสานอย่างสร้างสรรค์ระหว่างประเพณีและเทคโนโลยีของญี่ปุ่น
-        {% elif lang == 'vi' %}
-            Những chiếc máy bán hàng tự động độc đáo bán sushi và sashimi cho thấy sự kết hợp sáng tạo giữa truyền thống và công nghệ của Nhật Bản.
-        {% elif lang == 'de' %}
-            Einzigartige Verkaufsautomaten für Sushi und Sashimi zeigen Japans kreative Mischung aus Tradition und Technologie.
-        {% elif lang == 'fr' %}
-            Des distributeurs automatiques uniques vendant des sushis et des sashimis illustrent le mélange créatif de tradition et de technologie du Japon.
-        {% elif lang == 'it' %}
-            Gli originali distributori automatici di sushi e sashimi mostrano il creativo connubio tra tradizione e tecnologia tipico del Giappone.
-        {% elif lang == 'es-es' %}
-            Las exclusivas máquinas expendedoras de sushi y sashimi muestran la creativa mezcla japonesa de tradición y tecnología.
-        {% elif lang == 'es-mx' %}
-            Las exclusivas máquinas expendedoras de sushi y sashimi muestran la creativa mezcla japonesa de tradición y tecnología.
-        {% elif lang == 'pt' %}
-            Máquinas de venda automática exclusivas que vendem sushi e sashimi mostram a mistura criativa de tradição e tecnologia do Japão.
-        {% elif lang == 'pt-br' %}
-            Máquinas de venda automática exclusivas que vendem sushi e sashimi mostram a mistura criativa de tradição e tecnologia do Japão.
-        {% elif lang == 'en-in' %}
-            Unique vending machines selling sushi and sashimi show Japan’s creative blend of tradition and technology.
-        {% else %}
-            Unique vending machines selling sushi and sashimi show Japan’s creative blend of tradition and technology.
-        {% endif %}
-      </p>
-    </div>
-
-    <div class="food-card">
-      <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1761842626/thankjapan/backgrounds/iorkoeenixvnlgfkfmy4.jpg"
-        alt="kanazawasake"/>
-      <p>
-        {% if lang == 'ja' %}
-            日本のスーパーやコンビニには多彩な日本酒が並び、すべてのお酒好きを魅了します。
-        {% elif lang == 'ko' %}
-            일본의 슈퍼마켓과 편의점에는 다채로운 사케가 진열되어 있어, 모든 사케 애호가들의 마음을 사로잡습니다.
-        {% elif lang == 'zh-cn' %}
-            日本的超市和便利店展示着琳琅满目的清酒，令每一位清酒爱好者心动不已。
-        {% elif lang == 'zh-hant' %}
-            日本的超市和便利店展示著琳琅滿目的清酒，令每一位清酒愛好者心動不已。
-        {% elif lang == 'th' %}
-            ซูเปอร์มาร์เก็ตและร้านสะดวกซื้อในญี่ปุ่นมีสาเกให้เลือกมากมาย ซึ่งดึงดูดใจคนรักสาเกทุกคน
-        {% elif lang == 'vi' %}
-            Các siêu thị và cửa hàng tiện lợi ở Nhật Bản trưng bày vô số loại rượu sake, làm say lòng bất kỳ tín đồ yêu rượu nào.
-        {% elif lang == 'de' %}
-            Japanische Supermärkte und Convenience Stores bieten eine riesige Auswahl an Sake, die das Herz jedes Sake-Liebhabers höher schlagen lässt.
-        {% elif lang == 'fr' %}
-            Les supermarchés et les supérettes au Japon proposent un large éventail de sakés, de quoi séduire tous les amateurs.
-        {% elif lang == 'it' %}
-            I supermercati e i convenience store in Giappone offrono una vasta gamma di sake, una vera tentazione per ogni appassionato.
-        {% elif lang == 'es-es' %}
-            Los supermercados y las tiendas de conveniencia en Japón ofrecen una amplia variedad de sake, una tentación para cualquier amante de esta bebida.
-        {% elif lang == 'es-mx' %}
-            Los supermercados y las tiendas de conveniencia en Japón ofrecen una amplia variedad de sake, una tentación para cualquier amante de esta bebida.
-        {% elif lang == 'pt' %}
-            Os supermercados e lojas de conveniência no Japão apresentam uma grande variedade de saquê, uma tentação para todos os amantes da bebida.
-        {% elif lang == 'pt-br' %}
-            Os supermercados e lojas de conveniência no Japão apresentam uma grande variedade de saquê, una tentação para todos os amantes da bebida.
-        {% elif lang == 'en-in' %}
-            Supermarkets and convenience stores in Japan showcase a wide array of sake, tempting every sake lover.
-        {% else %}
-            Supermarkets and convenience stores in Japan showcase a wide array of sake, tempting every sake lover.
-        {% endif %}
-      </p>
-    </div>
-
-    <div class="food-card">
-      <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1761842778/thankjapan/backgrounds/qnmjxmped0obbt72ikmx.jpg"
-        alt="kanazawaosechi"/>
-      <p>
-        {% if lang == 'ja' %}
-            おせち料理は日本の伝統的な正月料理で、幸運を願い、季節を祝うために美しく用意されます。
-        {% elif lang == 'ko' %}
-            오세치 요리는 일본의 전통적인 새해 음식으로, 행운을 기원하고 계절을 축하하기 위해 아름답게 준비됩니다.
-        {% elif lang == 'zh-cn' %}
-            御节料理（Osechi）是日本传统的元旦美食，不仅准备精美，还寄托了祈求好运与庆祝佳节的愿望。
-        {% elif lang == 'zh-hant' %}
-            御節料理（Osechi）是日本傳統的元旦美食，不僅準備精美，還寄託了祈求好運與慶祝佳節的願望。
-        {% elif lang == 'th' %}
-            โอเซจิ เรียวริ (Osechi ryori) เป็นอาหารปีใหม่แบบดั้งเดิมของญี่ปุ่น จัดเตรียมอย่างสวยงามเพื่อนำโชคลาภและเฉลิมฉลองเทศกาล
-        {% elif lang == 'vi' %}
-            Osechi ryori là những món ăn truyền thống trong dịp Tết của Nhật Bản, được chuẩn bị đẹp mắt để mang lại may mắn và chào đón năm mới.
-        {% elif lang == 'de' %}
-            Osechi-Ryori sind traditionelle japanische Neujahrsgerichte, die wunderschön zubereitet werden, um Glück zu bringen und die Jahreszeit zu feiern.
-        {% elif lang == 'fr' %}
-            L'Osechi ryori est composé de plats traditionnels du Nouvel An japonais, préparés avec soin pour attirer la chance et célébrer la saison.
-        {% elif lang == 'it' %}
-            L'Osechi ryori è una selezione di piatti tradizionali del Capodanno giapponese, preparati con cura per portare fortuna e celebrare la stagione.
-        {% elif lang == 'es-es' %}
-            El Osechi ryori consiste en platos tradicionales del Año Nuevo japonés, preparados bellamente para atraer la suerte y celebrar la temporada.
-        {% elif lang == 'es-mx' %}
-            El Osechi ryori consiste en platos tradicionales del Año Nuevo japonés, preparados bellamente para atraer la suerte y celebrar la temporada.
-        {% elif lang == 'pt' %}
-            Osechi ryori são pratos tradicionais de Ano Novo japonês, preparados lindamente para trazer sorte e celebrar a estação.
-        {% elif lang == 'pt-br' %}
-            Osechi ryori são pratos tradicionais de Ano Novo japonês, preparados lindamente para trazer sorte e celebrar a estação.
-        {% elif lang == 'en-in' %}
-            Osechi ryori are traditional Japanese New Year dishes, beautifully prepared to bring luck and celebrate the season.
-        {% else %}
-            Osechi ryori are traditional Japanese New Year dishes, beautifully prepared to bring luck and celebrate the season.
-        {% endif %}
-      </p>
-    </div>
-
-    <div class="food-card">
-      <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1780093344/thankjapan/backgrounds/n3rsoxb2gragnibvi0yf.jpg"
-        alt="higashichayagai01"/>
-      <p>
-        {% if lang == 'ja' %}
-            ひがし茶屋街の石畳と格子戸が続く街並みは、まるで江戸時代にタイムスリップしたかのような錯覚を覚えます。
-        {% elif lang == 'ko' %}
-            히가시 차야가이의 돌담길과 격자문이 이어지는 거리는 마치 에도 시대로 타임슬립한 것 같은 착각을 불러일으킵니다.
-        {% elif lang == 'zh-cn' %}
-            东茶屋街延伸的石板路与木格子窗街道，仿佛让人产生了穿越回江户时代的错觉。
-        {% elif lang == 'zh-hant' %}
-            東茶屋街延伸的石板路與木格子窗街道，仿佛讓人產生了穿越回江戶時代的錯覺。
-        {% elif lang == 'th' %}
-            ถนนหินและประตูไม้ระแนงของย่านฮิกาชิชายะ ทำให้รู้สึกเหมือนได้ย้อนเวลากลับไปในสมัยเอโดะจริงๆ
-        {% elif lang == 'vi' %}
-            Những con đường lát đá và cửa lưới gỗ ở Higashi Chaya-gai khiến bạn có cảm giác như vừa quay ngược thời gian trở về thời kỳ Edo.
-        {% elif lang == 'de' %}
-            Das Kopfsteinpflaster und die Gittertüren im Viertel Higashi Chaya vermitteln die Illusion einer Zeitreise in die Edo-Zeit.
-        {% elif lang == 'fr' %}
-            Les rues pavées et les portes en treillis du quartier Higashi Chaya donnent l'illusion de remonter le temps jusqu'à l'époque d'Edo.
-        {% elif lang == 'it' %}
-            Le strade acciottolate e le porte a traliccio del quartiere Higashi Chaya danno l'illusione di un salto temporale nell'epoca Edo.
-        {% elif lang == 'es-es' %}
-            Las calles empedradas y las puertas de celosía del barrio Higashi Chaya dan la ilusión de un viaje en el tiempo a la época Edo.
-        {% elif lang == 'es-mx' %}
-            Las calles empedradas y las puertas de celosía del barrio Higashi Chaya dan la ilusión de un viaje en el tiempo a la época Edo.
-        {% elif lang == 'pt' %}
-            As ruas de paralelepípedos e portas de treliça no bairro Higashi Chaya dão a ilusão de uma viagem no tempo ao período Edo.
-        {% elif lang == 'pt-br' %}
-            As ruas de paralelepípedos e portas de treliça no bairro Higashi Chaya dão a ilusão de uma viagem no tempo ao período Edo.
-        {% elif lang == 'en-in' %}
-            The stone-paved streets and latticed windows of Higashi Chaya District create the illusion of stepping back in time to the Edo period.
-        {% else %}
-            The stone-paved streets and latticed windows of Higashi Chaya District create the illusion of stepping back in time to the Edo period.
-        {% endif %}
-      </p>
-    </div>
-
-    <div class="food-card">
-      <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1780093329/thankjapan/backgrounds/m87tfj2uq9cgx1nxadkj.jpg"
-        alt="higashichayagai02"/>
-      <p>
-        {% if lang == 'ja' %}
-            保存されたひがし茶屋街の美しい景観は、日本の伝統的な建築美と文化的な誇りを今に伝えています。
-        {% elif lang == 'ko' %}
-            보존된 히가시 차야가이의 아름다운 경관은 일본의 전통적인 건축미와 문화적 자부심을 오늘날에 전하고 있습니다.
-        {% elif lang == 'zh-cn' %}
-            保存完好的东茶屋街美景，向世人展示着日本传统的建筑之美与文化自豪。
-        {% elif lang == 'zh-hant' %}
-            保存完好的東茶屋街美景，向世人展示著日本傳統的建築之美與文化自豪。
-        {% elif lang == 'th' %}
-            ทิวทัศน์ที่สวยงามและได้รับการอนุรักษ์ไว้อย่างดีของย่านฮิกาชิชายะ สะท้อนถึงความงามทางสถาปัตยกรรมและความภาคภูมิใจทางวัฒนธรรมของญี่ปุ่น
-        {% elif lang == 'vi' %}
-            Cảnh quan tuyệt đẹp được bảo tồn của Higashi Chaya-gai truyền tải vẻ đẹp kiến trúc truyền thống và niềm tự hào văn hóa của Nhật Bản đến tận ngày nay.
-        {% elif lang == 'de' %}
-            Die gut erhaltene Architektur des Higashi Chaya-Viertels zeugt von der traditionellen japanischen Baukunst und kulturellem Stolz.
-        {% elif lang == 'fr' %}
-            L'architecture préservée du quartier Higashi Chaya témoigne de la beauté architecturale traditionnelle et de la fierté culturelle du Japon.
-        {% elif lang == 'it' %}
-            L'architettura preservata del quartiere Higashi Chaya testimonia la bellezza architettonica tradizionale e l'orgoglio culturale del Giappone.
-        {% elif lang == 'es-es' %}
-            La arquitectura preservada del barrio Higashi Chaya es testimonio de la belleza arquitectónica tradicional y el orgullo cultural de Japón.
-        {% elif lang == 'es-mx' %}
-            La arquitectura preservada del barrio Higashi Chaya es testimonio de la belleza arquitectónica tradicional y el orgullo cultural de Japón.
-        {% elif lang == 'pt' %}
-            A arquitetura preservada do bairro Higashi Chaya testemunha a beleza arquitetônica tradicional e o orgulho cultural do Japão.
-        {% elif lang == 'pt-br' %}
-            A arquitetura preservada do bairro Higashi Chaya testemunha a beleza arquitectónica tradicional e o orgulho cultural do Japão.
-        {% elif lang == 'en-in' %}
-            The beautifully preserved architecture of Higashi Chaya District proudly showcases Japan's traditional aesthetics and cultural heritage.
-        {% else %}
-            The beautifully preserved architecture of Higashi Chaya District proudly showcases Japan's traditional aesthetics and cultural heritage.
-        {% endif %}
-      </p>
-    </div>
-
-    <div class="food-card">
-      <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1780093313/thankjapan/backgrounds/zkdisnianyo95l6qbd2m.jpg"
-        alt="asanogawa"/>
-      <p>
-        {% if lang == 'ja' %}
-            浅野川の穏やかな流れと伝統的な街並みが調和し、金沢ならではの静寂と情緒を感じさせてくれます。
-        {% elif lang == 'ko' %}
-            아사노강의 온화한 흐름과 전통적인 거리 풍경이 조화를 이루어 가나자와 특유의 정적과 정취를 느끼게 해줍니다.
-        {% elif lang == 'zh-cn' %}
-            浅野川平静的流水与传统的街道建筑交相辉映，让人感受到金沢特有的宁静与古朴韵味。
-        {% elif lang == 'zh-hant' %}
-            淺野川平靜的流水與傳統的街道建築交相輝映，讓人感受到金澤特有的寧靜與古樸韻味。
-        {% elif lang == 'th' %}
-            แม่น้ำอาซาโนะที่ไหลเอื่อยๆ ผสมผสานกับทิวทัศน์บ้านเมืองแบบดั้งเดิม ให้ความรู้สึกสงบและมีเสน่ห์ตามแบบฉบับของคานาซาว่า
-        {% elif lang == 'vi' %}
-            Dòng chảy êm đềm của sông Asano hòa quyện với những dãy phố truyền thống, mang lại cảm giác tĩnh lặng và phong vị đặc trưng của Kanazawa.
-        {% elif lang == 'de' %}
-            Der ruhige Flusslauf des Asano harmoniert mit dem traditionellen Stadtbild und lässt die für Kanazawa typische Stille und Atmosphäre spüren.
-        {% elif lang == 'fr' %}
-            Le cours paisible de la rivière Asano s'harmonise avec le paysage urbain traditionnel, laissant transparaître le calme et l'élégance propres à Kanazawa.
-        {% elif lang == 'it' %}
-            Lo scorrere placido del fiume Asano si armonizza con il paesaggio urbano tradizionale, trasmettendo la calma e il fascino tipici di Kanazawa.
-        {% elif lang == 'es-es' %}
-            El flujo sereno del río Asano armoniza con el paisaje urbano tradicional, permitiendo sentir la calma y el encanto únicos de Kanazawa.
-        {% elif lang == 'es-mx' %}
-            El flujo sereno del río Asano armoniza con el paisaje urbano tradicional, permitiendo sentir la calma y el encanto únicos de Kanazawa.
-        {% elif lang == 'pt' %}
-            O fluxo sereno do rio Asano harmoniza-se com a paisagem urbana tradicional, deixando transparecer a calma e o encanto típicos de Kanazawa.
-        {% elif lang == 'pt-br' %}
-            O fluxo sereno do rio Asano harmoniza-se com a paisagem urbana tradicional, deixando transparecer a calma e o encanto típicos de Kanazawa.
-        {% elif lang == 'en-in' %}
-            The gentle flow of the Asano River harmonizes with the traditional streetscape, offering a sense of serenity and historic charm unique to Kanazawa.
-        {% else %}
-            The gentle flow of the Asano River harmonizes with the traditional streetscape, offering a sense of serenity and historic charm unique to Kanazawa.
-        {% endif %}
-      </p>
-    </div>
-
-    <div class="food-card">
-      <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1780093388/thankjapan/backgrounds/oyngs8ohcrgmo4hr4vx6.jpg"
-        alt="genhouin no jinja"/>
-      <p>
-        {% if lang == 'ja' %}
-            源法院の山門は、歴史ある石柱と豊かな緑に囲まれ、日本の深い精神性と伝統的な美しさを伝えています。
-        {% elif lang == 'ko' %}
-            겐포인 사원의 산문은 역사 깊은 석주와 풍부한 녹음에 둘러싸여 일본의 깊은 정신성과 전통적인 아름다움을 전합니다.
-        {% elif lang == 'zh-cn' %}
-            源法院的山门环绕在历史悠久的石柱与郁郁葱葱的绿意中，传递着日本深邃的精神世界与传统美学。
-        {% elif lang == 'zh-hant' %}
-            源法院的山門環繞在歷史悠久的石柱與郁郁蔥蔥的綠意中，傳遞著日本深邃的精神世界與傳統美學。
-        {% elif lang == 'th' %}
-            ประตูวัดเกนโปอินล้อมรอบด้วยเสาหินเก่าแก่และพื้นที่สีเขียวขจี สื่อถึงจิตวิญญาณและความงามแบบดั้งเดิมที่ลึกซึ้งของญี่ปุ่น
-        {% elif lang == 'vi' %}
-            Cổng đền Genpou-in được bao quanh bởi những cột đá cổ kính và cây xanh mướt, truyền tải tinh thần sâu sắc và vẻ đẹp truyền thống của Nhật Bản.
-        {% elif lang == 'de' %}
-            Das Tempeltor von Genpou-in, umgeben von historischen Steinsäulen und sattem Grün, vermittelt die tiefe Spiritualität und traditionelle Schönheit Japans.
-        {% elif lang == 'fr' %}
-            La porte du temple Genpou-in, entourée de piliers de pierre historiques et d'une verdure luxuriante, témoigne de la profonde spiritualité et de la beauté traditionnelle du Japon.
-        {% elif lang == 'it' %}
-            Il portale del tempio Genpou-in, circondato da pilastri di pietra storici e una rigogliosa vegetazione, esprime la profonda spiritualità e la bellezza tradizionale del Giappone.
-        {% elif lang == 'es-es' %}
-            La puerta del templo Genpou-in, rodeada de pilares de piedra históricos y exuberante vegetazione, transmite la profunda espiritualidad y belleza tradicional de Japón.
-        {% elif lang == 'es-mx' %}
-            La puerta del templo Genpou-in, rodeada de pilares de piedra históricos y exuberante vegetazione, transmite la profunda espiritualidad y belleza tradicional de Japón.
-        {% elif lang == 'pt' %}
-            O portão do templo Genpou-in, cercado por pilares de pedra históricos e vegetação exuberante, transmite a profunda espiritualidade e beleza tradicional do Japão.
-        {% elif lang == 'pt-br' %}
-            O portão do templo Genpou-in, cercado por pilares de pedra históricos e vegetação exuberante, transmite a profunda espiritualidade e beleza tradicional do Japão.
-        {% elif lang == 'en-in' %}
-            The Genpou-in temple gate, surrounded by historic stone pillars and lush greenery, conveys Japan's deep spirituality and traditional beauty.
-        {% else %}
-            The Genpou-in temple gate, surrounded by historic stone pillars and lush greenery, conveys Japan's deep spirituality and traditional beauty.
-        {% endif %}
-      </p>
-    </div>
+        
+        <div class="food-card" onclick="openFoodModal(this)">
+            <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1761842683/thankjapan/backgrounds/ixyersx9bdpxytxzetix.jpg" alt="kanazawaike"/>
+            <div class="card-body">
+                <p class="food-description">
+                    {% if lang == 'ja' %}
+                        日本庭園の静かな池は、自然の美しさを映し出し、立ち止まって本当の心の安らぎを感じさせてくれます。
+                    {% elif lang == 'ko' %}
+                        일본 정원의 고요한 연못은 자연의 아름다움을 비추며, 잠시 멈춰 서서 진정한 평온을 느끼게 해줍니다.
+                    {% elif lang == 'zh-cn' %}
+                        日本庭园中宁静的池塘映照着自然之美，邀您驻足感受真正的平静。
+                    {% elif lang == 'zh-hant' %}
+                        日本庭園中寧靜的池塘映照著自然之美，邀您駐足感受真正的平靜。
+                    {% elif lang == 'th' %}
+                        สระน้ำที่เงียบสงบในสวนญี่ปุ่นสะท้อนความงามของธรรมชาติ และเชิญชวนให้คุณหยุดพักเพื่อสัมผัสกับความสงบที่แท้จริง
+                    {% elif lang == 'vi' %}
+                        Những hồ nước yên bình trong khu vườn Nhật Bản phản chiếu vẻ đẹp của thiên nhiên và mời gọi bạn dừng chân để cảm nhận sự bình yên đích thực.
+                    {% elif lang == 'de' %}
+                        Die ruhigen Teiche in japanischen Gärten spiegeln die Schönheit der Natur wider und laden dazu ein, innezuhalten und wahre Ruhe zu finden.
+                    {% elif lang == 'fr' %}
+                        Les étangs paisibles des jardins japonais reflètent la beauté de la nature et vous invitent à faire une pause pour ressentir une paix véritable.
+                    {% elif lang == 'it' %}
+                        I tranquilli laghetti dei giardini giapponesi riflettono la bellezza della natura e invitano a fermarsi per ritrovare la vera pace interiore.
+                    {% elif lang == 'es-es' %}
+                        Los tranquilos estanques de los jardines japonais reflejan la belleza de la naturaleza e invitan a detenerse y sentir la verdadera paz.
+                    {% elif lang == 'es-mx' %}
+                        Los tranquilos estanques de los jardines japonais reflejan la belleza de la naturaleza e invitan a detenerse y sentir la verdadera paz.
+                    {% elif lang == 'pt' %}
+                        Os lagos tranquilos dos jardins japonais refletem a beleza da natureza e convidam você a fazer uma pausa e sentir a verdadera paz.
+                    {% elif lang == 'pt-br' %}
+                        Os lagos tranquilos dos jardins japonais refletem a beleza da natureza e convidam você a fazer uma pausa e sentir a verdadera paz.
+                    {% elif lang == 'en-in' %}
+                        Tranquil ponds in Japanese gardens reflect nature’s beauty and invite you to pause and feel true peace.
+                    {% else %}
+                        Tranquil ponds in Japanese gardens reflect nature’s beauty and invite you to pause and feel true peace.
+                    {% endif %}
+                </p>
+            </div>
+        </div>
 
 
     
-  </div>
+        <div class="food-card" onclick="openFoodModal(this)">
+            <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1761842722/thankjapan/backgrounds/p2uktlwymnjdmhy5w2sd.jpg" alt="kanazawamatsu"/>
+            <div class="card-body">
+                <p class="food-description">
+                    {% if lang == 'ja' %}
+                        日本庭園の松の木は強さと長寿の象徴であり、その風景に時代を超えた美しさを添えています。
+                    {% elif lang == 'ko' %}
+                        일본 정원의 소나무는 강인함과 장수를 상징하며, 풍경에 시대를 초월한 아름다움을 더해줍니다.
+                    {% elif lang == 'zh-cn' %}
+                        日本园林中的松树象征着力量与长寿，为景观增添了永恒的美。
+                    {% elif lang == 'zh-hant' %}
+                        日本園林中的松樹象徵著力量與長壽，為景觀增添了永恆的美。
+                    {% elif lang == 'th' %}
+                        ต้นสนในสวนญี่ปุ่นเป็นสัญลักษณ์ของความแข็งแกร่งและอายุที่ยืนยาว ช่วยเพิ่มความงามที่เหนือกาลเวลาให้กับทัศนียภาพ
+                    {% elif lang == 'vi' %}
+                        Cây thông trong các khu vườn Nhật Bản tượng trưng cho sức mạnh và sự trường thọ, mang lại vẻ đẹp vĩnh cửu cho cảnh quan.
+                    {% elif lang == 'de' %}
+                        Die Kiefer in japanischen Gärten steht für Stärke und Langlebigkeit und verleiht der Szenerie eine zeitlose Schönheit.
+                    {% elif lang == 'fr' %}
+                        Le pin dans les jardins japonais est un symbole de force et de longévité, ajoutant une beauté intemporelle au paysage.
+                    {% elif lang == 'it' %}
+                        Il pino nei giardini giapponesi rappresenta forza e longevità, aggiungendo una bellezza senza tempo al paesaggio.
+                    {% elif lang == 'es-es' %}
+                        El pino en los jardines japoneses representa la fuerza y la longevidad, aportando una belleza atemporal al paisaje.
+                    {% elif lang == 'es-mx' %}
+                        El pino en los jardines japoneses representa la fuerza y la longevidad, aportando una belleza atemporal al paisaje.
+                    {% elif lang == 'pt' %}
+                        O pinheiro nos jardins japoneses simboliza força e longevidade, conferindo uma beleza atemporal ao cenário.
+                    {% elif lang == 'pt-br' %}
+                        O pinheiro nos jardins japoneses simboliza força e longevidade, conferindo uma beleza atemporal ao cenário.
+                    {% elif lang == 'en-in' %}
+                        The pine tree in Japanese gardens stands for strength and longevity, adding timeless beauty to the scenery.
+                    {% else %}
+                        The pine tree in Japanese gardens stands for strength and longevity, adding timeless beauty to the scenery.
+                    {% endif %}
+                </p>
+            </div>
+        </div>
 
-  <div style="text-align:center; margin:50px 0;">
-    <a href="javascript:void(0);" onclick="goToCultureList()" class="btn-more">
-        ← 
-        {% if lang == 'ja' %}戻る
-        {% elif lang == 'ko' %}뒤로
-        {% elif lang == 'zh-cn' %}返回
-        {% elif lang == 'zh-hant' %}返回
-        {% elif lang == 'th' %}กลับ
-        {% elif lang == 'vi' %}Quay lại
-        {% elif lang == 'de' %}Zurück
-        {% elif lang == 'fr' %}Retour
-        {% elif lang == 'it' %}Indietro
-        {% elif lang == 'es-es' or lang == 'es-mx' %}Volver
-        {% elif lang == 'pt' or lang == 'pt-br' %}Voltar
-        {% else %}Back{% endif %}
-    </a>
+        
+        <div class="food-card" onclick="openFoodModal(this)">
+            <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1761842693/thankjapan/backgrounds/fa8zrl3raytsikev01qv.jpg" alt="kanazawakoi"/>
+            <div class="card-body">
+                <p class="food-description">
+                    {% if lang == 'ja' %}
+                        池を泳ぐ色鮮やかな錦鯉は、静かな庭園に生命の息吹と幸運、そして調和をもたらします。
+                    {% elif lang == 'ko' %}
+                        연못을 헤엄치는 알록달록한 비단잉어는 고요한 정원에 생명력과 행운, 그리고 조화를 가져다줍니다.
+                    {% elif lang == 'zh-cn' %}
+                        池塘中游动着绚丽的锦鲤，为宁静的庭园带来了生命力、好运与和谐。
+                    {% elif lang == 'zh-hant' %}
+                        池塘中游動著絢麗的錦鯉，為寧靜的庭園帶來了生命力、好運與和諧。
+                    {% elif lang == 'th' %}
+                        ปลาคาร์ฟหลากสีสันที่ว่ายอยู่ในสระน้ำช่วยนำชีวิตชีวา โชคลาภ และความกลมกลืนมาสู่สวนที่เงียบสงบ
+                    {% elif lang == 'vi' %}
+                        Những chú cá koi rực rỡ sắc màu bơi lội trong hồ mang lại sức sống, sự may mắn và sự hài hòa cho khu vườn thanh tịnh.
+                    {% elif lang == 'de' %}
+                        Farbenfrohe Koi, die im Teich schwimmen, bringen Leben, Glück und Harmonie in den friedlichen Garten.
+                    {% elif lang == 'fr' %}
+                        Les carpes koï colorées nageant dans l'étang apportent vie, chance et harmonie à ce jardin paisible.
+                    {% elif lang == 'it' %}
+                        Le colorate carpe koi che nuotano nel laghetto portano vita, fortuna e armonia al giardino sereno.
+                    {% elif lang == 'es-es' %}
+                        Los coloridos peces koi que nadan en el estanque aportan vida, suerte y armonía al tranquilo jardín.
+                    {% elif lang == 'es-mx' %}
+                        Los coloridos peces koi que nadan en el estanque aportan vida, suerte y armonía al tranquilo jardín.
+                    {% elif lang == 'pt' %}
+                        As carpas coloridas que nadam no lago trazem vida, sorte e harmonia ao jardim tranquilo.
+                    {% elif lang == 'pt-br' %}
+                        As carpas coloridas que nadam no lago trazem vida, sorte e harmonia ao jardim tranquilo.
+                    {% elif lang == 'en-in' %}
+                        Colorful koi swimming in the pond bring life, luck, and harmony to the peaceful garden.
+                    {% else %}
+                        Colorful koi swimming in the pond bring life, luck, and harmony to the peaceful garden.
+                    {% endif %}
+                </p>
+            </div>
+        </div>
+
+        
+        <div class="food-card" onclick="openFoodModal(this)">
+            <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1780738431/thankjapan/backgrounds/vizip5p6kg41dcsuqkxm.jpg" alt="hyakumangoku omatsu"/>
+            <div class="card-body">
+                <p class="food-description">
+                    {% if lang == 'ja' %}
+                        金沢百万石まつりで「お松の方」を演じる姿は、伝統的な着物の優雅な美しさを象徴しています。
+                    {% elif lang == 'ko' %}
+                        가나자와 햐쿠만고쿠 축제에서 '오마츠노카타'를 연기하는 모습은 전통 기모노의 우아한 아름다움을 상징합니다.
+                    {% elif lang == 'zh-cn' %}
+                        在金泽百万石祭中，饰演“阿松之方”的形象展现了传统和服的优雅之美。
+                    {% elif lang == 'zh-hant' %}
+                        在金澤百萬石祭中，飾演「阿松之方」的形象展現了傳統和服的優雅之美。
+                    {% elif lang == 'th' %}
+                        ในเทศกาลคานาซาว่า เฮียคุมังกุ ผู้รับบทเป็น "โอมาตสึโนะกาตะ" ถ่ายทอดความงามที่สง่างามของชุดกิโมโนแบบดั้งเดิม
+                    {% elif lang == 'vi' %}
+                        Tại Lễ hội Kanazawa Hyakumangoku, hình ảnh "Omatsu-no-kata" đã thể hiện vẻ đẹp thanh lịch của bộ Kimono truyền thống.
+                    {% elif lang == 'de' %}
+                        Beim Kanazawa-Hyakumangoku-Festival verkörpert die Darstellung der Omatsu-no-kata die elegante Schönheit des traditionellen Kimonos.
+                    {% elif lang == 'fr' %}
+                        Lors du festival Kanazawa Hyakumangoku, la représentation d'Omatsu-no-kata illustre la beauté élégante du kimono traditionnel.
+                    {% elif lang == 'it' %}
+                        Al Festival Hyakumangoku di Kanazawa, la figura di Omatsu-no-kata mostra l'elegante bellezza del kimono tradizionale.
+                    {% elif lang == 'es-es' %}
+                        En el Festival Hyakumangoku de Kanazawa, la representación de Omatsu-no-kata muestra la elegante bellezza del kimono tradicional.
+                    {% elif lang == 'es-mx' %}
+                        En el Festival Hyakumangoku de Kanazawa, la representación de Omatsu-no-kata muestra la elegante bellezza del kimono tradicional.
+                    {% elif lang == 'pt' %}
+                        No Festival Hyakumangoku de Kanazawa, a representação de Omatsu-no-kata exibe a beleza elegante do quimono tradicional.
+                    {% elif lang == 'pt-br' %}
+                        No Festival Hyakumangoku de Kanazawa, a representação de Omatsu-no-kata exibe a beleza elegante do quimono tradicional.
+                    {% elif lang == 'en-in' %}
+                        At the Kanazawa Hyakumangoku Festival, the portrayal of Omatsu-no-kata showcases the elegant beauty of traditional kimono.
+                    {% else %}
+                        At the Kanazawa Hyakumangoku Festival, the portrayal of Omatsu-no-kata showcases the elegant beauty of traditional kimono.
+                    {% endif %}
+                </p>
+            </div>
+        </div>
+
+
+        <div class="food-card" onclick="openFoodModal(this)">
+            <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1780738413/thankjapan/backgrounds/nwmgzlgt32ltyqjfzylg.jpg" alt="hyakumangoku tobi"/>
+            <div class="card-body">
+                <p class="food-description">
+                    {% if lang == 'ja' %}
+                        金沢百万石まつりの「加賀鳶」の梯子登りは、江戸時代の火消したちの勇気と伝統的な技を今に伝えています。
+                    {% elif lang == 'ko' %}
+                        가나자와 햐쿠만고쿠 축제의 '가가토비' 사다리 타기는 에도 시대 소방관들의 용기와 전통 기술을 오늘날까지 전하고 있습니다.
+                    {% elif lang == 'zh-cn' %}
+                        金泽百万石祭中的“加贺鸢”梯子登，展现了江户时代消防员的英勇与传统技艺。
+                    {% elif lang == 'zh-hant' %}
+                        金澤百萬石祭中的「加賀鳶」梯子登，展現了江戶時代消防員的英勇與傳統技藝。
+                    {% elif lang == 'th' %}
+                        การปีนบันダイ "คากะโทบิ" ในเทศกาลคานาซาว่า เฮียคุมังกุ แสดงให้เห็นถึงความกล้าหาญและทักษะดั้งเดิมของนักดับเพลิงในสมัยเอโดะ
+                    {% elif lang == 'vi' %}
+                        Leo thang "Kaga Tobi" tại Lễ hội Kanazawa Hyakumangoku thể hiện lòng dũng cảm và kỹ năng truyền thống của những người lính cứu hỏa thời Edo.
+                    {% elif lang == 'de' %}
+                        Das Kaga-Tobi-Leiterklettern beim Kanazawa-Hyakumangoku-Festival zeigt den Mut und das traditionelle Geschick der Feuerwehrleute aus der Edo-Zeit.
+                    {% elif lang == 'fr' %}
+                        L'ascension d'échelle "Kaga Tobi" au festival Kanazawa Hyakumangoku illustre le courage et l'habileté traditionnelle des pompiers de l'époque d'Edo.
+                    {% elif lang == 'it' %}
+                        La scalata della scala "Kaga Tobi" al Festival Hyakumangoku di Kanazawa mostra il coraggio e l'abilità tradizionale dei vigili del fuoco del periodo Edo.
+                    {% elif lang == 'es-es' %}
+                        La escalada de escaleras "Kaga Tobi" en el Festival Hyakumangoku de Kanazawa muestra la valentía y la habilidad tradicional de los bomberos del periodo Edo.
+                    {% elif lang == 'es-mx' %}
+                        La escalada de escaleras "Kaga Tobi" en el Festival Hyakumangoku de Kanazawa muestra la valentía y la habilidad tradicional de los bomberos del periodo Edo.
+                    {% elif lang == 'pt' %}
+                        A escalada de escadas "Kaga Tobi" no Festival Hyakumangoku de Kanazawa mostra a bravura e a habilidade tradicional dos bombeiros do período Edo.
+                    {% elif lang == 'pt-br' %}
+                        A escalada de escadas "Kaga Tobi" no Festival Hyakumangoku de Kanazawa mostra a bravura e a habilidade tradicional dos bomberos do período Edo.
+                    {% elif lang == 'en-in' %}
+                        At the Kanazawa Hyakumangoku Festival, the "Kaga Tobi" ladder climbing showcases the bravery and traditional skills of Edo-period firefighters.
+                    {% else %}
+                        At the Kanazawa Hyakumangoku Festival, the "Kaga Tobi" ladder climbing showcases the bravery and traditional skills of Edo-period firefighters.
+                    {% endif %}
+                </p>
+            </div>
+        </div>
+
+        
+        <div class="food-card" onclick="openFoodModal(this)">
+            <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1761842670/thankjapan/backgrounds/pefrud2jfb9npq8jads8.jpg" alt="kanazawahana"/>
+            <div class="card-body">
+                <p class="food-description">
+                    {% if lang == 'ja' %}
+                        市場のお花屋さんは鮮やかな色と香りに溢れ、訪れるすべての人の一日を明るく彩ります。
+                    {% elif lang == 'ko' %}
+                        시장의 꽃집은 선명한 색과 향기로 가득 차 있어, 방문하는 모든 이의 하루를 환하게 밝혀줍니다.
+                    {% elif lang == 'zh-cn' %}
+                        市场里的花店充满了缤纷色彩与芬芳香气，点亮了每个人的心情。
+                    {% elif lang == 'zh-hant' %}
+                        市場裡的花店充滿了繽紛色彩與芬芳香氣，點亮了每個人的心情。
+                    {% elif lang == 'th' %}
+                        ร้านดอกไม้ในตลาดเต็มไปด้วยสีสันและกลิ่นหอม ช่วยทำให้วันของทุกคนสดใสขึ้น
+                    {% elif lang == 'vi' %}
+                        Tiệm hoa trong chợ tràn ngập sắc màu và hương thơm, làm bừng sáng một ngày của mọi người.
+                    {% elif lang == 'de' %}
+                        Ein Blumenladen auf dem Markt sprüht vor Farben und Düften und verschönert jedem den Tag.
+                    {% elif lang == 'fr' %}
+                        Une boutique de fleurs sur le marché déborde de couleurs et de parfums, illuminant la journée de chacun.
+                    {% elif lang == 'it' %}
+                        Un negozio di fiori al mercato esplode di colori e profumi, rallegrando la giornata di tutti.
+                    {% elif lang == 'es-es' %}
+                        Una floristería en el mercado rebosa de colores y fragancias, alegrando el día a todo el mundo.
+                    {% elif lang == 'es-mx' %}
+                        Una floristería en el mercado rebosa de colores y fragancias, alegrando el día a todo el mundo.
+                    {% elif lang == 'pt' %}
+                        Uma floricultura no mercado transborda cores e fragrâncias, alegrando o dia de todos.
+                    {% elif lang == 'pt-br' %}
+                        Uma floricultura no mercado transborda cores e fragrâncias, alegrando o dia de todos.
+                    {% elif lang == 'en-in' %}
+                        A flower shop in the market bursts with color and fragrance, brightening everyone’s day.
+                    {% else %}
+                        A flower shop in the market bursts with color and fragrance, brightening everyone’s day.
+                    {% endif %}
+                </p>
+            </div>
+        </div>
+
+        
+        <div class="food-card" onclick="openFoodModal(this)">
+            <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1761842789/thankjapan/backgrounds/hqdsnrjuclgbubtwyw0c.jpg" alt="kanazawasakana"/>
+            <div class="card-body">
+                <p class="food-description">
+                    {% if lang == 'ja' %}
+                        市場の魚屋さんは新鮮な魚介と活気に満ち溢れ、日本の豊かな食文化を象徴しています。
+                    {% elif lang == 'ko' %}
+                        시장의 생선 가게는 신선한 해산물과 활기찬 에너지로 가득 차 있어 일본의 식문화를 잘 보여줍니다.
+                    {% elif lang == 'zh-cn' %}
+                        市场里的鱼铺摆满了新鲜的海产，处处洋溢着活力，展现了日本独特的饮食文化。
+                    {% elif lang == 'zh-hant' %}
+                        市場裡的魚鋪擺滿了新鮮的海產，處處洋溢著活力，展現了日本獨特的飲食文化。
+                    {% elif lang == 'th' %}
+                        ร้านขายปลาในตลาดเต็มไปด้วยอาหารทะเลที่สดใหม่และพลังที่คึกคัก ซึ่งแสดงถึงวัฒนธรรมการกินของญี่ปุ่น
+                    {% elif lang == 'vi' %}
+                        Cửa hàng cá trong chợ luôn tràn đầy hải sản tươi sống và nguồn năng lượng sôi động, thể hiện nét văn hóa ẩm thực của Nhật Bản.
+                    {% elif lang == 'de' %}
+                        Der Fischladen auf dem Markt ist voller frischer Fänge und lebendiger Energie, die Japans Esskultur widerspiegelt.
+                    {% elif lang == 'fr' %}
+                        La poissonnerie du marché regorge de produits frais et d'une énergie débordante qui témoigne de la culture gastronomique japonaise.
+                    {% elif lang == 'it' %}
+                        La pescheria del mercato è piena di pescato fresco e di un'energia vivace che mostra la cultura alimentare del Giappone.
+                    {% elif lang == 'es-es' %}
+                        La pescadería del mercado está llena de capturas frescas y una energía vibrante que refleja la cultura gastronómica de Japón.
+                    {% elif lang == 'es-mx' %}
+                        La pescadería del mercado está llena de capturas frescas y una energía vibrante que refleja la cultura gastronómica de Japón.
+                    {% elif lang == 'pt' %}
+                        A peixaria no mercado está repleta de peixes frescos e uma energia vibrante que demonstra a cultura alimentar do Japão.
+                    {% elif lang == 'pt-br' %}
+                        A peixaria no mercado está repleta de peixes frescos e uma energia vibrante que demonstra a cultura alimentar do Japão.
+                    {% elif lang == 'en-in' %}
+                        The fish shop in the market is full of fresh catches and lively energy that shows Japan’s food culture.
+                    {% else %}
+                        The fish shop in the market is full of fresh catches and lively energy that shows Japan’s food culture.
+                    {% endif %}
+                </p>
+            </div>
+        </div>
+
+
+        <div class="food-card" onclick="openFoodModal(this)">
+            <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1761842637/thankjapan/backgrounds/kir5gipqammzzcoofv4q.jpg" alt="kanazawajihanki"/>
+            <div class="card-body">
+                <p class="food-description">
+                    {% if lang == 'ja' %}
+                        寿司や刺身を販売するユニークな自動販売機は、日本の伝統と技術が融合した創造的な姿を象徴しています。
+                    {% elif lang == 'ko' %}
+                        스시와 사시미를 판매하는 독특한 자동판매기는 일본의 전통과 기술이 창의적으로 결합된 모습을 보여줍니다.
+                    {% elif lang == 'zh-cn' %}
+                        售卖寿司和生鱼片的独特自动贩卖机，展现了日本传统与现代技术的创意融合。
+                    {% elif lang == 'zh-hant' %}
+                        販售壽司和生魚片的獨特自動販賣機，展現了日本傳統與現代技術的創意融合。
+                    {% elif lang == 'th' %}
+                        ตู้ขายอัตโนมัติที่ไม่เหมือนใครซึ่งขายซูชิและซาซิมิ แสดงให้เห็นถึงการผสมผสานอย่างสร้างสรรค์ระหว่างประเพณีและเทคโนโลยีของญี่ปุ่น
+                    {% elif lang == 'vi' %}
+                        Những chiếc máy bán hàng tự động độc đáo bán sushi và sashimi cho thấy sự kết hợp sáng tạo giữa truyền thống và công nghệ của Nhật Bản.
+                    {% elif lang == 'de' %}
+                        Einzigartige Verkaufsautomaten für Sushi und Sashimi zeigen Japans kreative Mischung aus Tradition und Technologie.
+                    {% elif lang == 'fr' %}
+                        Des distributeurs automatiques uniques vendant des sushis et des sashimis illustrent le mélange créatif de tradition et de technologie du Japon.
+                    {% elif lang == 'it' %}
+                        Gli originali distributori automatici di sushi e sashimi mostrano il creativo connubio tra tradizione e tecnologia tipico del Giappone.
+                    {% elif lang == 'es-es' %}
+                        Las exclusivas máquinas expendedoras de sushi y sashimi muestran la creativa mezcla japonesa de tradición y tecnología.
+                    {% elif lang == 'es-mx' %}
+                        Las exclusivas máquinas expendedoras de sushi y sashimi muestran la creativa mezcla japonesa de tradición y tecnología.
+                    {% elif lang == 'pt' %}
+                        Máquinas de venda automática exclusivas que vendem sushi e sashimi mostram a mistura criativa de tradição e tecnologia do Japão.
+                    {% elif lang == 'pt-br' %}
+                        Máquinas de venda automática exclusivas que vendem sushi e sashimi mostram a mistura criativa de tradição e tecnologia do Japão.
+                    {% elif lang == 'en-in' %}
+                        Unique vending machines selling sushi and sashimi show Japan’s creative blend of tradition and technology.
+                    {% else %}
+                        Unique vending machines selling sushi and sashimi show Japan’s creative blend of tradition and technology.
+                    {% endif %}
+                </p>
+            </div>
+        </div>
+
+        
+        <div class="food-card" onclick="openFoodModal(this)">
+            <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1761842626/thankjapan/backgrounds/iorkoeenixvnlgfkfmy4.jpg" alt="kanazawasake"/>
+            <div class="card-body">
+                <p class="food-description">
+                    {% if lang == 'ja' %}
+                        日本のスーパーやコンビニには多彩な日本酒が並び、すべてのお酒好きを魅了します。
+                    {% elif lang == 'ko' %}
+                        일본의 슈퍼마켓과 편의점에는 다채로운 사케가 진열되어 있어, 모든 사케 애호가들의 마음을 사로잡습니다.
+                    {% elif lang == 'zh-cn' %}
+                        日本的超市和便利店展示着琳琅满目的清酒，令每一位清酒爱好者心动不已。
+                    {% elif lang == 'zh-hant' %}
+                        日本的超市和便利店展示著琳琅滿目的清酒，令每一位清酒愛好者心動不已。
+                    {% elif lang == 'th' %}
+                        ซูเปอร์มาร์เก็ตและร้านสะดวกซื้อในญี่ปุ่นมีสาเกให้เลือกมากมาย ซึ่งดึงดูดใจคนรักสาเกทุกคน
+                    {% elif lang == 'vi' %}
+                        Các siêu thị và cửa hàng tiện lợi ở Nhật Bản trưng bày vô số loại rượu sake, làm say lòng bất kỳ tín đồ yêu rượu nào.
+                    {% elif lang == 'de' %}
+                        Japanische Supermärkte und Convenience Stores bieten eine riesige Auswahl an Sake, die das Herz jedes Sake-Liebhabers höher schlagen lässt.
+                    {% elif lang == 'fr' %}
+                        Les supermarchés et les supérettes au Japon proposent un large éventail de sakés, de quoi séduire tous les amateurs.
+                    {% elif lang == 'it' %}
+                        I supermercati e i convenience store in Giappone offrono una vasta gamma di sake, una vera tentazione per ogni appassionato.
+                    {% elif lang == 'es-es' %}
+                        Los supermercados y las tiendas de conveniencia en Japón ofrecen una amplia variedad de sake, una tentación para cualquier amante de esta bebida.
+                    {% elif lang == 'es-mx' %}
+                        Los supermercados y las tiendas de conveniencia en Japón ofrecen una amplia variedad de sake, una tentación para cualquier amante de esta bebida.
+                    {% elif lang == 'pt' %}
+                        Os supermercados e lojas de conveniência no Japão apresentam uma grande variedade de saquê, uma tentação para todos os amantes da bebida.
+                    {% elif lang == 'pt-br' %}
+                        Os supermercados e lojas de conveniência no Japão apresentam uma grande variedade de saquê, una tentação para todos os amantes da bebida.
+                    {% elif lang == 'en-in' %}
+                        Supermarkets and convenience stores in Japan showcase a wide array of sake, tempting every sake lover.
+                    {% else %}
+                        Supermarkets and convenience stores in Japan showcase a wide array of sake, tempting every sake lover.
+                    {% endif %}
+                </p>
+            </div>
+        </div>
+
+        
+        <div class="food-card" onclick="openFoodModal(this)">
+            <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1761842778/thankjapan/backgrounds/qnmjxmped0obbt72ikmx.jpg" alt="kanazawaosechi"/>
+            <div class="card-body">
+                <p class="food-description">
+                    {% if lang == 'ja' %}
+                        おせち料理は日本の伝統的な正月料理で、幸運を願い、季節を祝うために美しく用意されます。
+                    {% elif lang == 'ko' %}
+                        오세치 요리는 일본의 전통적인 새해 음식으로, 행운을 기원하고 계절을 축하하기 위해 아름답게 준비됩니다.
+                    {% elif lang == 'zh-cn' %}
+                        御节料理（Osechi）是日本传统的元旦美食，不仅准备精美，还寄托了祈求好运与庆祝佳节的愿望。
+                    {% elif lang == 'zh-hant' %}
+                        御節料理（Osechi）是日本傳統的元旦美食，不僅準備精美，還寄託了祈求好運與慶祝佳節的願望。
+                    {% elif lang == 'th' %}
+                        โอเซจิ เรียวริ (Osechi ryori) เป็นอาหารปีใหม่แบบดั้งเดิมของญี่ปุ่น จัดเตรียมอย่างสวยงามเพื่อนำโชคลาภและเฉลิมฉลองเทศกาล
+                    {% elif lang == 'vi' %}
+                        Osechi ryori là những món ăn truyền thống trong dịp Tết của Nhật Bản, được chuẩn bị đẹp mắt để mang lại may mắn và chào đón năm mới.
+                    {% elif lang == 'de' %}
+                        Osechi-Ryori sind traditionelle japanische Neujahrsgerichte, die wunderschön zubereitet werden, um Glück zu bringen und die Jahreszeit zu feiern.
+                    {% elif lang == 'fr' %}
+                        L'Osechi ryori est composé de plats traditionnels du Nouvel An japonais, préparés avec soin pour attirer la chance et célébrer la saison.
+                    {% elif lang == 'it' %}
+                        L'Osechi ryori è una selezione di piatti traditionali del Capodanno giapponese, preparati con cura per portare fortuna e celebrare la stagione.
+                    {% elif lang == 'es-es' %}
+                        El Osechi ryori consiste en platos tradicionales del Año Nuevo japonés, preparados bellamente para atraer la suerte y celebrar la temporada.
+                    {% elif lang == 'es-mx' %}
+                        El Osechi ryori consiste en platos tradicionales del Año Nuevo japonés, preparados bellamente para atraer la suerte y celebrar la temporada.
+                    {% elif lang == 'pt' %}
+                        Osechi ryori são pratos tradicionais de Ano Novo japonês, preparados lindamente para trazer sorte e celebrar a estação.
+                    {% elif lang == 'pt-br' %}
+                        Osechi ryori são pratos tradicionais de Ano Novo japonês, preparados lindamente para trazer sorte e celebrar a estação.
+                    {% elif lang == 'en-in' %}
+                        Osechi ryori are traditional Japanese New Year dishes, beautifully prepared to bring luck and celebrate the season.
+                    {% else %}
+                        Osechi ryori are traditional Japanese New Year dishes, beautifully prepared to bring luck and celebrate the season.
+                    {% endif %}
+                </p>
+            </div>
+        </div>
+
+
+        <div class="food-card" onclick="openFoodModal(this)">
+            <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1780093344/thankjapan/backgrounds/n3rsoxb2gragnibvi0yf.jpg" alt="higashichayagai01"/>
+            <div class="card-body">
+                <p class="food-description">
+                    {% if lang == 'ja' %}
+                        ひがし茶屋街の石畳と格子戸が続く街並みは、まるで江戸時代にタイムスリップしたかのような錯覚を覚えます。
+                    {% elif lang == 'ko' %}
+                        히가시 차야가이의 돌담길과 격자문이 이어지는 거리는 마치 에도 시대로 타임슬립한 것 같은 착각을 불러일으킵니다.
+                    {% elif lang == 'zh-cn' %}
+                        东茶屋街延伸的石板路与木格子窗街道，仿佛让人产生了穿越回江户时代的错觉。
+                    {% elif lang == 'zh-hant' %}
+                        東茶屋街延伸的石板路與木格子窗街道，仿佛讓人產生了穿越回江戶時代的錯覺。
+                    {% elif lang == 'th' %}
+                        ถนนหินและประตูไม้ระแนงของย่านฮิกาชิชายะ ทำให้รู้สึกเหมือนได้ย้อนเวลากลับไปในสมัยเอโดะจริงๆ
+                    {% elif lang == 'vi' %}
+                        Những con đường lát đá và cửa lưới gỗ ở Higashi Chaya-gai khiến bạn có cảm giác như vừa quay ngược thời gian trở về thời kỳ Edo.
+                    {% elif lang == 'de' %}
+                        Das Kopfsteinpflaster und die Gittertüren im Viertel Higashi Chaya vermitteln die Illusion einer Zeitreise in die Edo-Zeit.
+                    {% elif lang == 'fr' %}
+                        Les rues pavées et les portes en treillis du quartier Higashi Chaya donnent l'illusion de remonter le temps jusqu'à l'époque d'Edo.
+                    {% elif lang == 'it' %}
+                        Le strade acciottolate e le porte a traliccio del quartiere Higashi Chaya danno l'illusione di un salto temporale nell'epoca Edo.
+                    {% elif lang == 'es-es' %}
+                        Las calles empedradas y las puertas de celosía del barrio Higashi Chaya dan la ilusión de un viaje en el tiempo a la época Edo.
+                    {% elif lang == 'es-mx' %}
+                        Las calles empedradas y las puertas de celosía del barrio Higashi Chaya dan la ilusión de un viaje en el tiempo a la época Edo.
+                    {% elif lang == 'pt' %}
+                        As ruas de paralelepípedos e portas de treliça no bairro Higashi Chaya dão a ilusão de uma viagem no tempo ao período Edo.
+                    {% elif lang == 'pt-br' %}
+                        As ruas de paralelepípedos e portas de treliça no bairro Higashi Chaya dão a ilusão de uma viagem no tempo ao período Edo.
+                    {% elif lang == 'en-in' %}
+                        The stone-paved streets and latticed windows of Higashi Chaya District create the illusion of stepping back in time to the Edo period.
+                    {% else %}
+                        The stone-paved streets and latticed windows of Higashi Chaya District create the illusion of stepping back in time to the Edo period.
+                    {% endif %}
+                </p>
+            </div>
+        </div>
+
+        
+        <div class="food-card" onclick="openFoodModal(this)">
+            <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1780093329/thankjapan/backgrounds/m87tfj2uq9cgx1nxadkj.jpg" alt="higashichayagai02"/>
+            <div class="card-body">
+                <p class="food-description">
+                    {% if lang == 'ja' %}
+                        保存されたひがし茶屋街の美しい景観は、日本の伝統的な建築美と文化的な誇りを今に伝えています。
+                    {% elif lang == 'ko' %}
+                        보존된 히가시 차야가이의 아름다운 경관은 일본의 전통적인 건축미와 문화적 자부심을 오늘날에 전하고 있습니다.
+                    {% elif lang == 'zh-cn' %}
+                        保存完好的东茶屋街美景，向世人展示着日本传统的建筑之美与文化自豪。
+                    {% elif lang == 'zh-hant' %}
+                        保存完好的東茶屋街美景，向世人展示著日本傳統的建築之美與文化自豪。
+                    {% elif lang == 'th' %}
+                        ทิวทัศน์ที่สวยงามและได้รับการอนุรักษ์ไว้อย่างดีของย่านฮิกาชิชายะ สะท้อนถึงความงามทางสถาปัตยกรรมและความภาคภูมิใจทางวัฒนธรรมของญี่ปุ่น
+                    {% elif lang == 'vi' %}
+                        Cảnh quan tuyệt đẹp được bảo tồn của Higashi Chaya-gai truyền tải vẻ đẹp kiến trúc truyền thống và niềm tự hào văn hóa của Nhật Bản đến tận ngày nay.
+                    {% elif lang == 'de' %}
+                        Die gut erhaltene Architektur des Higashi Chaya-Viertels zeugt von der traditionellen japanischen Baukunst und kulturellem Stolz.
+                    {% elif lang == 'fr' %}
+                        L'architecture préservée du quartier Higashi Chaya témoigne de la beauté architecturale traditionnelle et de la fierté culturelle du Japon.
+                    {% elif lang == 'it' %}
+                        L'architettura preservata del quartiere Higashi Chaya testimonia la bellezza architettonica tradizionale e l'orgoglio culturale del Giappone.
+                    {% elif lang == 'es-es' %}
+                        La arquitectura preservada del barrio Higashi Chaya es testimonio de la belleza arquitectónica tradicional y el orgullo cultural de Japón.
+                    {% elif lang == 'es-mx' %}
+                        La arquitectura preservada del barrio Higashi Chaya es testimonio de la belleza arquitectónica tradicional y el orgullo cultural de Japón.
+                    {% elif lang == 'pt' %}
+                        A arquitetura preservada do bairro Higashi Chaya testemunha a beleza arquitetônica tradicional e o orgulho cultural do Japão.
+                    {% elif lang == 'pt-br' %}
+                        A arquitetura preservada do bairro Higashi Chaya testemunha a beleza arquitectónica tradicional e o orgulho cultural do Japão.
+                    {% elif lang == 'en-in' %}
+                        The beautifully preserved architecture of Higashi Chaya District proudly showcases Japan's traditional aesthetics and cultural heritage.
+                    {% else %}
+                        The beautifully preserved architecture of Higashi Chaya District proudly showcases Japan's traditional aesthetics and cultural heritage.
+                    {% endif %}
+                </p>
+            </div>
+        </div>
+
+    
+        <div class="food-card" onclick="openFoodModal(this)">
+            <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1780093313/thankjapan/backgrounds/zkdisnianyo95l6qbd2m.jpg" alt="asanogawa"/>
+            <div class="card-body">
+                <p class="food-description">
+                    {% if lang == 'ja' %}
+                        浅野川の穏やかな流れと伝統的な街並みが調和し、金沢ならではの静寂と情緒を感じさせてくれます。
+                    {% elif lang == 'ko' %}
+                        아사노강의 온화한 흐름과 전통적인 거리 풍경이 조화를 이루어 가나자와 특유의 정적과 정취를 느끼게 해줍니다.
+                    {% elif lang == 'zh-cn' %}
+                        浅野川平静的流水与传统的街道建築交相辉映，让人感受到金沢特有的宁静与古朴韵味。
+                    {% elif lang == 'zh-hant' %}
+                        淺野川平靜的流水與傳統的街道建築交相輝映，讓人感受到金澤特有的寧靜與古樸韻味。
+                    {% elif lang == 'th' %}
+                        แม่น้ำอาซาโนะที่ไหลเอื่อยๆ ผสมผสานกับทิวทัศน์บ้านเมืองแบบดั้งเดิม ให้ความรู้สึกสงบและมีเสน่ห์ตามแบบฉบับของคานาซาว่า
+                    {% elif lang == 'vi' %}
+                        Dòng chảy êm đềm của sông Asano hòa quyện với những dãy phố truyền thống, mang lại cảm giác tĩnh lặng và phong vị đặc trưng của Kanazawa.
+                    {% elif lang == 'de' %}
+                        Der ruhige Flusslauf des Asano harmoniert mit dem traditionellen Stadtbild und lässt die für Kanazawa typische Stille und Atmosphäre spüren.
+                    {% elif lang == 'fr' %}
+                        Le cours paisible de la rivière Asano s'harmonise avec le paysage urbain traditionnel, laissant transparaître le calme et l'élégance propres à Kanazawa.
+                    {% elif lang == 'it' %}
+                        Lo scorrere placido del fiume Asano si armonizza con il paesaggio urbano tradizionale, trasmettendo la calma e il fascino tipici di Kanazawa.
+                    {% elif lang == 'es-es' %}
+                        El flujo sereno del río Asano armoniza con el paisaje urbano tradicional, permitiendo sentir la calma y el encanto únicos de Kanazawa.
+                    {% elif lang == 'es-mx' %}
+                        El flujo sereno del río Asano armoniza con el paisaje urbano tradicional, permitiendo sentir la calma y el encanto únicos de Kanazawa.
+                    {% elif lang == 'pt' %}
+                        O fluxo sereno do rio Asano harmoniza-se com a paisagem urbana tradicional, deixando transparecer a calma e o encanto típicos de Kanazawa.
+                    {% elif lang == 'pt-br' %}
+                        O fluxo sereno do rio Asano harmoniza-se com a paisagem urbana tradicional, deixando transparecer a calma e o encanto típicos de Kanazawa.
+                    {% elif lang == 'en-in' %}
+                        The gentle flow of the Asano River harmonizes with the traditional streetscape, offering a sense of serenity and historic charm unique to Kanazawa.
+                    {% else %}
+                        The gentle flow of the Asano River harmonizes with the traditional streetscape, offering a sense of serenity and historic charm unique to Kanazawa.
+                    {% endif %}
+                </p>
+            </div>
+        </div>
+
+
+        <div class="food-card" onclick="openFoodModal(this)">
+            <img class="image" src="https://res.cloudinary.com/dotekofm5/image/upload/v1780093388/thankjapan/backgrounds/oyngs8ohcrgmo4hr4vx6.jpg" alt="genhouin no jinja"/>
+            <div class="card-body">
+                <p class="food-description">
+                    {% if lang == 'ja' %}
+                        源法院の山門は、歴史ある石柱と豊かな緑に囲まれ、日本の深い精神性と伝統的な美しさを伝えています。
+                    {% elif lang == 'ko' %}
+                        겐포인 사원의 산문은 역사 깊은 석주와 풍부한 녹음에 둘러싸여 일본의 깊은 정신성과 전통적인 아름다움을 전합니다.
+                    {% elif lang == 'zh-cn' %}
+                        源法院的山门环绕在历史悠久的石柱与郁郁葱蔥的绿意中，传递着日本深邃的精神世界与传统美学。
+                    {% elif lang == 'zh-hant' %}
+                        源法院的山門環繞在歷史悠久的石柱與郁郁蔥蔥的綠意中，傳遞著日本深邃的精神世界與傳統美學。
+                    {% elif lang == 'th' %}
+                        ประตูวัดเกนโปอินล้อมรอบด้วยเสาหินเก่าแก่และพื้นที่สีเขียวขจี สื่อถึงจิตวิญญาณและความงามแบบดั้งเดิมที่ลึกซึ้งของญี่ปุ่น
+                    {% elif lang == 'vi' %}
+                        Cổng đền Genpou-in được bao quanh bởi những cột đá cổ kính và cây xanh mướt, truyền tải tinh thần sâu sắc và vẻ đẹp truyền thống của Nhật Bản.
+                    {% elif lang == 'de' %}
+                        Das Tempeltor von Genpou-in, umgeben von historischen Steinsäulen und sattem Grün, vermittelt die tiefe Spiritualität und traditionelle Schönheit Japans.
+                    {% elif lang == 'fr' %}
+                        La porte du temple Genpou-in, entourée de piliers de pierre historiques et d'une verdure luxuriante, témoigne de la profonde spiritualité et de la beauté traditionnelle du Japon.
+                    {% elif lang == 'it' %}
+                        Il portale del tempio Genpou-in, circondato da pilastri di pietra storici e una rigogliosa vegetazione, esprime la profonda spiritualità e la bellezza tradizionale del Giappone.
+                    {% elif lang == 'es-es' %}
+                        La puerta del templo Genpou-in, rodeada de pilares de piedra históricos y exuberante vegetazione, transmite la profunda espiritualidad y belleza tradicional de Japón.
+                    {% elif lang == 'es-mx' %}
+                        La puerta del templo Genpou-in, rodeada de pilares de piedra históricos y exuberante vegetazione, transmite la profunda espiritualidad y belleza tradicional de Japón.
+                    {% elif lang == 'pt' %}
+                        O portão do templo Genpou-in, cercado por pilares de pedra históricos e vegetação exuberante, transmite a profunda espiritualidade e beleza tradicional do Japão.
+                    {% elif lang == 'pt-br' %}
+                        O portão do templo Genpou-in, cercado por pilares de pedra históricos e vegetação exuberante, transmite a profunda espiritualidade e beleza tradicional do Japão.
+                    {% elif lang == 'en-in' %}
+                        The Genpou-in temple gate, surrounded by historic stone pillars and lush greenery, conveys Japan's deep spirituality and traditional beauty.
+                    {% else %}
+                        The Genpou-in temple gate, surrounded by historic stone pillars and lush greenery, conveys Japan's deep spirituality and traditional beauty.
+                    {% endif %}
+                </p>
+            </div>
+        </div>
+
+
+        <div class="btn-back-container" style="text-align:center; margin:60px 0 100px;">
+            <a class="btn-premium-gold" href="javascript:void(0);" onclick="goToCultureList()" style="
+                display: inline-block;
+                background: #0a0a0a;         
+                color: #d4af37;              
+                border: 2px solid #d4af37;   
+                padding: 14px 45px;
+                border-radius: 30px;
+                text-decoration: none;
+                font-weight: bold;
+                font-size: 1rem;
+                box-shadow: 0 10px 30px rgba(0,0,0,0.5); /* 強い影で浮かす */
+                transition: transform 0.2s;
+                " onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                ← 
+                {% if lang == 'ja' %}戻る
+                {% elif lang == 'ko' %}뒤로
+                {% elif lang == 'zh-cn' %}返回
+                {% elif lang == 'zh-hant' %}返回
+                {% elif lang == 'th' %}กลับ
+                {% elif lang == 'vi' %}Quay lại
+                {% elif lang == 'de' %}Zurück
+                {% elif lang == 'fr' %}Retour
+                {% elif lang == 'it' %}Indietro
+                {% elif lang == 'es-es' or lang == 'es-mx' %}Volver
+                {% elif lang == 'pt' or lang == 'pt-br' %}Voltar
+                {% elif lang == 'en-in' %}Back
+                {% else %}Back{% endif %}
+            </a>
+        </div>
+    </div>
+
+
+    <div id="modal" class="modal" style="
+    display: none;
+    position: fixed;
+    z-index: 10000;
+    left: 0; top: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    justify-content: center;
+    align-items: center;
+    ">
+  
+    <div class="modal-content" style="
+      background: #0a0a0a;
+      border: 2px solid #d4af37;
+      border-radius: 20px;
+      width: 92%;
+      max-width: 480px;
+      max-height: 85vh;
+      position: relative;
+      overflow-y: auto;
+      box-shadow: 0 0 30px rgba(212, 175, 55, 0.2);
+      animation: modalFadeUp 0.3s ease-out;
+    ">
+    
+    <span class="modal-close" style="
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        width: 35px;
+        height: 35px;
+        background: #d4af37;
+        color: #000;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 24px;
+        font-weight: bold;
+        cursor: pointer;
+        z-index: 10;
+        box-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+    ">&times;</span>
+
+    
+    <div class="modal-image-wrapper" style="width: 100%; border-bottom: 2px solid #d4af37; line-height: 0;">
+        <img id="modalImage" src="" alt="" style="width: 100%; height: auto; display: block;">
+    </div>
+
+    
+    <div class="modal-text-wrapper" style="padding: 25px; text-align: left;">
+        <p id="modalText" style="
+            color: #eee;
+            font-size: 1rem;
+            line-height: 1.8;
+            margin: 0;
+            font-family: 'Hiragino Mincho ProN', serif;
+        "></p>
+    </div>
+  </div>
 </div>
 
+<style>
+@keyframes modalFadeUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+</style>
 
-<!-- ===== モーダル部分 ===== -->
-<div id="modal" class="modal">
-  <div class="modal-content">
-    <span class="modal-close">&times;</span>
-    <img id="modalImage" src="" alt="">
-    <p id="modalText"></p>
-  </div>
-</div>
 
 {% if lang and lang != 'en' %}
     {% url 'prefecture_list_with_lang' lang_code=lang as culture_list_url %}
@@ -876,33 +893,38 @@ h1::after {
 
 
 <script>
-
 function goToCultureList() {
     window.location.href = "{{ culture_list_url }}";
 }
-
 
 const cards = document.querySelectorAll('.food-card');
 const modal = document.getElementById('modal');
 const modalImage = document.getElementById('modalImage');
 const modalText = document.getElementById('modalText');
-const closeBtn = document.querySelector('.modal-close');
+const scrollContainer = document.querySelector('.app-content-fix'); 
 
-// カードクリック → モーダル表示
 cards.forEach(card => {
   card.addEventListener('click', () => {
     const img = card.querySelector('img');
-    const text = card.querySelector('p');
+    const text = card.querySelector('p'); 
     modalImage.src = img.src;
-    modalText.textContent = text.textContent;
-    modal.classList.add('active');
+    modalText.innerText = text.innerText;
+    modal.style.display = 'flex'; 
+    setTimeout(() => modal.classList.add('active'), 10); 
+    
+    if (scrollContainer) scrollContainer.style.overflowY = 'hidden';
   });
 });
 
-// 閉じる
-closeBtn.addEventListener('click', () => modal.classList.remove('active'));
-modal.addEventListener('click', (e) => {
-  if (e.target === modal) modal.classList.remove('active');
-});
-</script>
+function closeModal() {
+    modal.classList.remove('active');
+    setTimeout(() => {
+        modal.style.display = 'none';
+        if (scrollContainer) scrollContainer.style.overflowY = 'auto';
+    }, 300); 
+}
 
+const closeBtn = document.querySelector('.modal-close');
+closeBtn.addEventListener('click', closeModal);
+modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+</script>
