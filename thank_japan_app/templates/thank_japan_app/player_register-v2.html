@@ -25,12 +25,12 @@
     margin: 0;
     padding: 0;
     height: 100%;
-    overflow: hidden; /* サイトっぽいバーを強制的に消す */
-    -ms-overflow-style: none; /* IE, Edge用 */
-    scrollbar-width: none;    /* Firefox用 */
+    overflow: hidden; 
+    -ms-overflow-style: none; 
+    scrollbar-width: none;    
   }
   body::-webkit-scrollbar {
-    display: none; /* Chrome, Safari用 */
+    display: none; 
   }
 
   body {
@@ -63,13 +63,13 @@
   backdrop-filter: blur(15px);
   border: 2px solid #d4af37;
   border-radius: 20px;
-  /* 下のパディング（30px）を少しだけ詰めてバランスを取ります */
+
   padding: 30px 25px 30px; 
   box-sizing: border-box;
   box-shadow: 0 20px 50px rgba(0,0,0,0.8);
   height: auto;
-  /* スクロールしきった時にメニューバーのすぐ上で止まるよう調整 */
-  margin-bottom: 100px; 
+  
+  margin-bottom: 80px; 
   }
 
   .app-content-fix::-webkit-scrollbar {
@@ -191,24 +191,18 @@
 
     <div class="inner-form-wrapper">
       
-      <!-- Google Login: 高級感のあるダークなボタンへ -->
+      
       <div style="margin-bottom: 25px; text-align: center;">
-        <a href="{% provider_login_url 'google' %}" style="
-          display: flex; align-items: center; justify-content: center;
-          background-color: rgba(255,255,255,0.05); color: #fff;
-          border: 1px solid rgba(212,175,55,0.4); border-radius: 8px;
-          padding: 10px 16px; text-decoration: none; font-weight: 500;
-          transition: 0.3s;" 
-          onmouseover="this.style.backgroundColor='rgba(255,255,255,0.1)'" 
-          onmouseout="this.style.backgroundColor='rgba(255,255,255,0.05)'">
-          <!-- Google Icon SVG (そのまま) -->
-          <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" viewBox="0 0 48 48" style="margin-right: 10px;">
-            <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"></path>
-            <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"></path>
-            <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"></path>
-            <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"></path>
-          </svg>
-          <span>
+        
+        <div style="margin-bottom: 30px; text-align: center;">
+          <a href="{% provider_login_url 'google' %}" style="display: flex; align-items: center; justify-content: center; background-color: #ffffff; color: #333333; border: 1px solid #ddd; border-radius: 10px; padding: 12px 16px; text-decoration: none; font-weight: bold; box-shadow: 0 2px 4px rgba(0,0,0,0.1); transition: 0.2s;">
+            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 48 48" style="margin-right: 12px;">
+              <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"></path>
+              <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"></path>
+              <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"></path>
+              <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"></path>
+            </svg>
+            <span>
             {% if lang_code == 'ja' %}Googleで登録
             {% elif lang_code == 'zh-hant' %}使用 Google 註冊
             {% elif lang_code == 'zh-cn' %}使用 Google 注册
@@ -222,19 +216,7 @@
             {% elif lang_code == 'th' %}ลงทะเบียนด้วย Google
             {% else %}Sign up with Google
             {% endif %}  
-          </span>
-        </a>
-
-        <!-- 区切り線 -->
-        <div style="margin-bottom: 30px; text-align: center;">
-          <a href="{% provider_login_url 'google' %}" style="display: flex; align-items: center; justify-content: center; background-color: #ffffff; color: #333333; border: 1px solid #ddd; border-radius: 10px; padding: 12px 16px; text-decoration: none; font-weight: bold; box-shadow: 0 2px 4px rgba(0,0,0,0.1); transition: 0.2s;">
-            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 48 48" style="margin-right: 12px;">
-              <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"></path>
-              <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"></path>
-              <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"></path>
-              <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"></path>
-            </svg>
-            <span>Google</span>
+            </span>
           </a>
 
           <div style="margin-top: 25px; display: flex; align-items: center; color: #888; font-size: 0.8rem;">
@@ -417,7 +399,7 @@
       </div>
 
       <!-- ホームに戻る -->
-      <div style="text-align:center; margin: 40px 0 0;">
+      <div style="text-align:center; margin: 30px 0 0;">
         <a class="btn-home" href="javascript:void(0);" onclick="goToTopPage()">
           {% if lang_code == 'ja' %}← ホームに戻る{% else %}← Back to Home{% endif %}
         </a>
