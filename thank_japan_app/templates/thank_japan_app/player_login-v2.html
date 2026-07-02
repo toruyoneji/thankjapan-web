@@ -1,0 +1,323 @@
+{% extends 'base/basecategory_top.html' %}
+{% load socialaccount %}
+
+{% block title %}
+    {% if lang_code == 'ja' %}ログイン(Login) | ThankJapan
+    {% elif lang_code == 'zh-hant' %}登入(Login) | ThankJapan
+    {% elif lang_code == 'zh-cn' %}登录(Login) | ThankJapan
+    {% elif lang_code == 'ko' %}로그인(Login) | ThankJapan
+    {% elif lang_code == 'fr' %}Connexion (Login) | ThankJapan
+    {% elif lang_code == 'th' %}เข้าสู่ระบบ (Login) | ThankJapan
+    {% elif lang_code == 'vi' %}Đăng nhập (Login) | ThankJapan
+    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Iniciar sesión (Login) | ThankJapan
+    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Entrar (Login) | ThankJapan
+    {% elif lang_code == 'de' %}Anmelden (Login) | ThankJapan
+    {% elif lang_code == 'it' %}Accedi (Login) | ThankJapan
+    {% elif lang_code == 'en-in' %}Login | ThankJapan
+    {% else %}Login | ThankJapan{% endif %}
+{% endblock %}
+
+{% block content %}
+
+<style>
+  html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: hidden;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  body::-webkit-scrollbar {
+    display: none;
+  }
+  body {
+    background: radial-gradient(circle at center, #2c2c2c 0%, #0a0a0a 100%) !important;
+    background-attachment: fixed !important;
+  }
+
+  #premium-auth-container {
+    font-family: 'Sawarabi Mincho', serif;
+    color: #eee;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    height: 100vh;
+    padding: 75px 0 0;
+    box-sizing: border-box;
+    overflow-y: scroll;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  #premium-auth-container::-webkit-scrollbar {
+    display: none;
+  }
+
+  .app-content-fix {
+    width: 92%;
+    max-width: 450px;
+    background: rgba(10, 10, 10, 0.85);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 2px solid #d4af37;
+    border-radius: 20px;
+    padding: 30px 25px;
+    box-sizing: border-box;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+    height: auto;
+    margin-bottom: 120px;
+  }
+
+  h2.premium-title {
+    text-align: center;
+    color: #ffffff;
+    font-size: 1.6rem;
+    margin-bottom: 25px;
+    letter-spacing: 2px;
+  }
+  h2.premium-title::after {
+    content: "";
+    display: block;
+    width: 50px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #d4af37, transparent);
+    margin: 10px auto 0;
+  }
+
+  form label {
+    display: block;
+    font-weight: 600;
+    color: #d4af37;
+    margin-bottom: 8px;
+    font-size: 0.95rem;
+    margin-top: 15px;
+  }
+
+  form input {
+    width: 100%;
+    padding: 14px 15px;
+    background: #ffffff !important;
+    border: 2px solid transparent !important;
+    border-radius: 10px !important;
+    color: #000000 !important;
+    font-size: 16px;
+    box-sizing: border-box;
+    transition: all 0.3s;
+  }
+
+  form input:focus {
+    outline: none;
+    border-color: #d4af37 !important;
+    box-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+  }
+
+  button[type="submit"] {
+    width: 100%;
+    padding: 16px;
+    margin-top: 30px;
+    background: linear-gradient(135deg, #d4af37 0%, #aa891c 100%);
+    border: none;
+    border-radius: 50px;
+    color: #000;
+    font-size: 1.2rem;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  }
+
+  .btn-home {
+    display: inline-block;
+    padding: 12px 30px;
+    background: #000;
+    color: #d4af37;
+    border: 1px solid #d4af37;
+    border-radius: 25px;
+    text-decoration: none;
+    font-size: 0.9rem;
+  }
+
+  .premium-nudge-box {
+    background: rgba(255, 215, 0, 0.05);
+    padding: 20px;
+    border-radius: 15px;
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    text-align: center;
+    margin-top: 40px;
+  }
+
+  .rank-table-card {
+    background: #ffffff;
+    border-radius: 15px;
+    overflow: hidden;
+    border: 2px solid #d4af37;
+    color: #333;
+    margin-top: 20px;
+  }
+
+  a { color: #d4af37; text-decoration: none; }
+  .error-msg { color: #ff6b6b; font-size: 0.85em; list-style: none; padding: 0; }
+</style>
+
+<div id="premium-auth-container">
+  <div class="app-content-fix">
+    
+    <h2 class="premium-title">
+      {% if lang_code == 'ja' %}ログイン
+      {% elif lang_code == 'zh-hant' %}登入
+      {% elif lang_code == 'zh-cn' %}登录
+      {% elif lang_code == 'ko' %}로그인
+      {% elif lang_code == 'de' %}Anmelden
+      {% elif lang_code == 'fr' %}Connexion
+      {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Iniciar sesión
+      {% elif lang_code == 'it' %}Accedi
+      {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Entrar
+      {% elif lang_code == 'vi' %}Đăng nhập
+      {% elif lang_code == 'th' %}เข้าสู่ระบบ
+      {% else %}Login
+      {% endif %}
+    </h2>
+
+    <div class="inner-form-wrapper">
+      
+      <!-- Google Login -->
+      <div style="margin-bottom: 30px; text-align: center;">
+        <a href="{% provider_login_url 'google' %}" style="display: flex; align-items: center; justify-content: center; background-color: #ffffff; color: #333333; border: 1px solid #ddd; border-radius: 10px; padding: 12px 16px; text-decoration: none; font-weight: bold;">
+          <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 48 48" style="margin-right: 12px;">
+            <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"></path>
+            <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"></path>
+            <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"></path>
+            <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"></path>
+          </svg>
+          <span>Google</span>
+        </a>
+        <div style="margin-top: 25px; display: flex; align-items: center; color: #666; font-size: 0.8rem;">
+          <div style="flex: 1; height: 1px; background: #444;"></div>
+          <div style="padding: 0 15px;">OR</div>
+          <div style="flex: 1; height: 1px; background: #444;"></div>
+        </div>
+      </div>
+
+      {% if messages %}
+      <ul class="error-msg">
+        {% for message in messages %}<li>{{ message }}</li>{% endfor %}
+      </ul>
+      {% endif %}
+
+      <form method="post" novalidate>
+        {% csrf_token %}
+        <input type="hidden" name="next" value="{{ next }}">
+        <input type="hidden" name="lang" value="{{ lang_code }}">
+        
+        <label for="id_username">
+          {% if lang_code == 'ja' %}ユーザー名
+          {% else %}Username{% endif %}
+        </label>
+        <input type="text" name="username" id="id_username" required placeholder="User_Name" value="{{ form.username.value|default:'' }}">
+
+        <label for="id_password">
+          {% if lang_code == 'ja' %}パスワード
+          {% else %}Password{% endif %}
+        </label>
+        <input type="password" name="password" id="id_password" required placeholder="********">
+
+        <div style="margin-top: 15px; text-align: right;">
+          <a href="{% url 'password_reset' %}?lang={{ lang_code }}" style="font-size: 0.85rem; color: #aaa; text-decoration: underline;">
+            {% if lang_code == 'ja' %}パスワードをお忘れですか？
+            {% else %}Forgot your password?{% endif %}
+          </a>
+        </div>
+        
+        <button type="submit">
+          {% if lang_code == 'ja' %}ログイン
+          {% else %}Sign In{% endif %}
+        </button>
+      </form>
+
+      <div style="margin-top: 25px; font-size: 0.8rem; color: #aaa; text-align: center; line-height: 1.6;">
+        {% if lang_code == 'ja' %}
+            ログインにより、Thank Japanの<a href="{% url 'riyoukiyakuja' %}">利用規約</a>および<a href="{% url 'privacy_policyja' %}">プライバシー規約</a>に同意したものとみなされます。
+        {% else %}
+            By signing in, you agree to Thank Japan's <a href="{% url 'riyoukiyaku' %}">Conditions of Use</a>.
+        {% endif %}
+      </div>
+
+      <!-- 新規登録誘導 -->
+      <div class="premium-nudge-box">
+        <p style="margin-bottom: 5px; font-weight: bold; color: #d4af37;">
+            {% if lang_code == 'ja' %}Thank Japanは初めてですか？
+            {% else %}New to ThankJapan?{% endif %}
+        </p>
+        <p style="margin-bottom: 15px; font-size: 0.85em; color: #bbb;">
+            {% if lang_code == 'ja' %}アカウントを作成して、スコアを保存しよう！
+            {% else %}Create an account to save your scores!{% endif %}
+        </p>
+        <a href="{% url 'player_register' %}?lang={{ lang_code }}" style="display: block; padding: 12px; background: #000; border: 1px solid #d4af37; border-radius: 10px; color: #d4af37; font-weight: bold;">
+            {% if lang_code == 'ja' %}無料で新規登録
+            {% else %}Sign Up for Free{% endif %}
+        </a>
+      </div>
+
+      <!-- 遊び方ガイド -->
+      <div style="text-align: center; margin-top: 40px;">
+        <p style="color: #bbb; font-size: 0.9rem;">
+          {% if lang_code == 'ja' %}👇 ゲームを極めてランクアップしよう！{% else %}👇 Master the Game & Rise Your Rank!{% endif %}
+        </p>
+        <button id="toggle-instruction" style="background: transparent; border: 2px solid #d4af37; color: #d4af37; width: auto; padding: 10px 30px; margin-top: 10px;">
+          {% if lang_code == 'ja' %}遊び方 ⚔️{% else %}How to Play ⚔️{% endif %}
+        </button>
+      </div>
+
+      <div id="game-instruction" style="display:none;">
+        <div class="rank-table-card">
+          <div style="background: #1a1a1a; color: #d4af37; padding: 10px; font-weight: bold; text-align: center; border-bottom: 2px solid #d4af37;">
+            🏆 {% if lang_code == 'ja' %}ランクシステム{% else %}Rank System{% endif %}
+          </div>
+          <div style="padding: 10px; font-size: 0.85rem;">
+            <!-- ランク表（そのまま） -->
+            <div style="display:flex; justify-content:space-between; border-bottom:1px solid #eee; padding:5px;"><span>🗾 伝説 Legend</span><span style="color:#d46a00; font-weight:bold;">2000~</span></div>
+            <div style="display:flex; justify-content:space-between; border-bottom:1px solid #eee; padding:5px;"><span>👑 大将軍 General</span><span style="color:#d46a00; font-weight:bold;">1200~</span></div>
+            <div style="display:flex; justify-content:space-between; border-bottom:1px solid #eee; padding:5px;"><span>🐎 将軍 Shogun</span><span style="color:#d46a00; font-weight:bold;">900~</span></div>
+            <div style="display:flex; justify-content:space-between; border-bottom:1px solid #eee; padding:5px;"><span>🏯 大名 Daimyo</span><span style="color:#d46a00; font-weight:bold;">650~</span></div>
+            <div style="display:flex; justify-content:space-between; border-bottom:1px solid #eee; padding:5px;"><span>🚩 旗本 Hatamoto</span><span style="color:#d46a00; font-weight:bold;">450~</span></div>
+            <div style="display:flex; justify-content:space-between; border-bottom:1px solid #eee; padding:5px;"><span>⚔️ 侍 Samurai</span><span style="color:#d46a00; font-weight:bold;">300~</span></div>
+            <div style="display:flex; justify-content:space-between; border-bottom:1px solid #eee; padding:5px;"><span>🥷 忍者 Ninja</span><span style="color:#d46a00; font-weight:bold;">200~</span></div>
+            <div style="display:flex; justify-content:space-between; border-bottom:1px solid #eee; padding:5px;"><span>🚣 浪人 Ronin</span><span style="color:#d46a00; font-weight:bold;">100~</span></div>
+            <div style="display:flex; justify-content:space-between; border-bottom:1px solid #eee; padding:5px;"><span>🎒 旅人 Traveler</span><span style="color:#d46a00; font-weight:bold;">50~</span></div>
+            <div style="display:flex; justify-content:space-between; padding:5px;"><span>🌾 村人 Villager</span><span style="color:#d46a00; font-weight:bold;">0~</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ホームに戻る -->
+      <div style="text-align:center; margin: 50px 0 0;">
+        <a class="btn-home" href="javascript:void(0);" onclick="goToTopPage()">
+          {% if lang_code == 'ja' %}← ホームに戻る{% else %}← Back to Home{% endif %}
+        </a>
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+<script>
+    function goToTopPage() {
+        const topUrl = localStorage.getItem('tj_top_url');
+        window.location.href = topUrl ? topUrl : "/";
+    }
+
+    document.addEventListener("DOMContentLoaded", function(){
+      const toggleBtn = document.getElementById("toggle-instruction");
+      const content = document.getElementById("game-instruction");
+      toggleBtn.addEventListener("click", function(){
+        if(content.style.display === "none" || content.style.display === ""){
+          content.style.display = "block";
+          toggleBtn.textContent = "Close Guide ❌";
+        } else {
+          content.style.display = "none";
+          toggleBtn.textContent = "How to Play ⚔️";
+        }
+      });
+    });
+</script>
+
+{% endblock %}

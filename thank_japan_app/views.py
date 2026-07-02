@@ -1156,7 +1156,7 @@ def player_login(request):
         else:
             messages.error(request, "Invalid username or password.", extra_tags="login_invalid")
             
-    return render(request, 'thank_japan_app/player_login.html', {
+    return render(request, 'thank_japan_app/player_login-v2.html', {
         'next': next_url,
         'lang_code': lang_code
     })
