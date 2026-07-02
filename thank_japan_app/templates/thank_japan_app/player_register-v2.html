@@ -980,6 +980,23 @@
         {% endif %}
       </div>
 
+
+      
+      <div style="margin-top: 25px; font-size: 0.9rem; color: #bbb; text-align: center; line-height: 1.6;">
+        {% if lang_code == 'ja' %}すでにアカウントをお持ちですか？ <a href="{% url 'player_login' %}?lang={{ lang_code }}" style="font-weight: bold; color: #d4af37;">ログインはこちら</a>
+        {% elif lang_code == 'zh-hant' %}已經有帳號了？ <a href="{% url 'player_login' %}?lang={{ lang_code }}" style="font-weight: bold; color: #d4af37;">在此登入</a>
+        {% elif lang_code == 'zh-cn' %}已经有账号了？ <a href="{% url 'player_login' %}?lang={{ lang_code }}" style="font-weight: bold; color: #d4af37;">在此登录</a>
+        {% elif lang_code == 'ko' %}이미 계정이 있으신가요? <a href="{% url 'player_login' %}?lang={{ lang_code }}" style="font-weight: bold; color: #d4af37;">여기서 로그인</a>
+        {% elif lang_code == 'de' %}Hast du schon ein Konto? <a href="{% url 'player_login' %}?lang={{ lang_code }}" style="font-weight: bold; color: #d4af37;">Hier anmelden</a>
+        {% elif lang_code == 'fr' %}Vous avez déjà un compte ? <a href="{% url 'player_login' %}?lang={{ lang_code }}" style="font-weight: bold; color: #d4af37;">Connectez-vous ici</a>
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}¿Ya tienes una cuenta? <a href="{% url 'player_login' %}?lang={{ lang_code }}" style="font-weight: bold; color: #d4af37;">Inicia sesión aquí</a>
+        {% elif lang_code == 'it' %}Hai già un account? <a href="{% url 'player_login' %}?lang={{ lang_code }}" style="font-weight: bold; color: #d4af37;">Accedi qui</a>
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Já tem uma conta? <a href="{% url 'player_login' %}?lang={{ lang_code }}" style="font-weight: bold; color: #d4af37;">Faça login aqui</a>
+        {% elif lang_code == 'vi' %}Bạn đã có tài khoản? <a href="{% url 'player_login' %}?lang={{ lang_code }}" style="font-weight: bold; color: #d4af37;">Đăng nhập tại đây</a>
+        {% elif lang_code == 'th' %}มีบัญชีอยู่แล้ว? <a href="{% url 'player_login' %}?lang={{ lang_code }}" style="font-weight: bold; color: #d4af37;">เข้าสู่ระบบที่นี่</a>
+        {% else %}Already have an account? <a href="{% url 'player_login' %}?lang={{ lang_code }}" style="font-weight: bold; color: #d4af37;">Login here</a>
+        {% endif %}
+      </div>
       
       <div style="text-align:center; margin: 30px 0 0;">
         <a class="btn-home" href="javascript:void(0);" onclick="goToTopPage()">
