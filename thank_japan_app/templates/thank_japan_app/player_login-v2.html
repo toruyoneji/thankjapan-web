@@ -241,21 +241,6 @@
         {% endif %}
       </div>
 
-      <!-- 新規登録誘導 -->
-      <div class="premium-nudge-box">
-        <p style="margin-bottom: 5px; font-weight: bold; color: #d4af37;">
-            {% if lang_code == 'ja' %}Thank Japanは初めてですか？
-            {% else %}New to ThankJapan?{% endif %}
-        </p>
-        <p style="margin-bottom: 15px; font-size: 0.85em; color: #bbb;">
-            {% if lang_code == 'ja' %}アカウントを作成して、スコアを保存しよう！
-            {% else %}Create an account to save your scores!{% endif %}
-        </p>
-        <a href="{% url 'player_register' %}?lang={{ lang_code }}" style="display: block; padding: 12px; background: #000; border: 1px solid #d4af37; border-radius: 10px; color: #d4af37; font-weight: bold;">
-            {% if lang_code == 'ja' %}無料で新規登録
-            {% else %}Sign Up for Free{% endif %}
-        </a>
-      </div>
 
       <!-- 遊び方ガイド -->
       <div style="text-align: center; margin-top: 40px;">
