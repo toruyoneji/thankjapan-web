@@ -105,37 +105,19 @@
         
         
         <h1 class="premium-title">
-            {% if lang == 'ja' %}
-                石川を巡る：伝統、自然、美食、そして日常の美
-            {% elif lang == 'ko' %}
-                이시카와 여행: 전통, 자연, 미식, 그리고 일상의 아름다움
-            {% elif lang == 'zh-cn' %}
-                探索石川：传统、自然、美食与日常之美
-            {% elif lang == 'zh-hant' %}
-                探索石川：傳統、自然、美食與日常之美
-            {% elif lang == 'th' %}
-                สำรวจอิชิกาวะ: ประเพณี ธรรมชาติ อาหารเลิศรส และความงามในชีวิตประจำวัน
-            {% elif lang == 'vi' %}
-                Khám phá Ishikawa: Truyền thống, Thiên nhiên, Ẩm thực & Vẻ đẹp thường nhật
-            {% elif lang == 'de' %}
-                Ishikawa entdecken: Tradition, Natur, Kulinarik und alltägliche Schönheit
-            {% elif lang == 'fr' %}
-                Découvrir Ishikawa : tradition, nature, gastronomie et beauté du quotidien
-            {% elif lang == 'it' %}
-                Scopri Ishikawa: tradizione, natura, gastronomia e bellezza quotidiana
-            {% elif lang == 'es-es' %}
-                Descubre Ishikawa: Tradición, Naturaleza, Gastronomía y Belleza Cotidiana
-            {% elif lang == 'es-mx' %}
-                Descubre Ishikawa: Tradición, Naturaleza, Gastronomía y Belleza Cotidiana
-            {% elif lang == 'pt' %}
-                Descubra Ishikawa: Tradição, Natureza, Gastronomia e a Beleza do Dia a Dia
-            {% elif lang == 'pt-br' %}
-                Descubra Ishikawa: Tradição, Natureza, Gastronomia e a Beleza do Dia a Dia
-            {% elif lang == 'en-in' %}
-                Explore Ishikawa: Tradition, Nature, Gastronomy & Everyday Beauty
-            {% else %}
-                Explore Ishikawa: Tradition, Nature, Gastronomy & Everyday Beauty
-            {% endif %}
+            {% if lang == 'ja' %}石川、伝統と美の探索
+            {% elif lang == 'ko' %}이시카와, 전통과 미의 탐구
+            {% elif lang == 'zh-cn' %}探索石川：传统与美
+            {% elif lang == 'zh-hant' %}探索石川：傳統與美
+            {% elif lang == 'th' %}สำรวจอิชิกาวะ: ประเพณีและความงาม
+            {% elif lang == 'vi' %}Khám phá Ishikawa: Truyền thống & Vẻ đẹp
+            {% elif lang == 'de' %}Ishikawa: Tradition & Schönheit
+            {% elif lang == 'fr' %}Ishikawa : Tradition & Beauté
+            {% elif lang == 'it' %}Ishikawa: Tradizione e Bellezza
+            {% elif lang == 'es-es' or lang == 'es-mx' %}Ishikawa: Tradición y Belleza
+            {% elif lang == 'pt' or lang == 'pt-br' %}Ishikawa: Tradição e Beleza
+            {% elif lang == 'en-in' %}Explore Ishikawa
+            {% else %}Explore Ishikawa{% endif %}
         </h1>
   
         <div class="food-grid">
@@ -782,7 +764,7 @@
         </div>
 
 
-        <div class="btn-back-container" style="text-align:center; margin:60px 0 100px;">
+        <div class="btn-back-container" style="width: 100%; display: block; text-align: center; margin: 60px 0 120px 0; clear: both;">
             <a class="btn-premium-gold" href="javascript:void(0);" onclick="goToCultureList()" style="
                 display: inline-block;
                 background: #0a0a0a;         
@@ -793,7 +775,7 @@
                 text-decoration: none;
                 font-weight: bold;
                 font-size: 1rem;
-                box-shadow: 0 10px 30px rgba(0,0,0,0.5); /* 強い影で浮かす */
+                box-shadow: 0 10px 30px rgba(0,0,0,0.5); 
                 transition: transform 0.2s;
                 " onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
                 ← 
