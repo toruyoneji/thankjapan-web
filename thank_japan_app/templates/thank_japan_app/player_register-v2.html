@@ -34,24 +34,34 @@
   color: #eee;
   display: flex;
   justify-content: center;
-  align-items: flex-start; 
+  align-items: flex-start;
   height: 100vh;
-  padding: 40px 0; 
+  padding: 40px 0;
   box-sizing: border-box;
+  /* スクロールを許可するがバーを隠す */
+  overflow-y: auto;
+  -ms-overflow-style: none; /* IE, Edge用 */
+  scrollbar-width: none;    /* Firefox用 */
+  }
+
+  #premium-auth-container::-webkit-scrollbar {
+  display: none;
   }
 
   .app-content-fix {
-    width: 92%;
-    max-width: 450px;
-    background: rgba(10, 10, 10, 0.85);
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
-    border: 2px solid #d4af37;
-    border-radius: 20px;
-    padding: 30px 25px 40px; 
-    box-sizing: border-box;
-    box-shadow: 0 20px 50px rgba(0,0,0,0.8);
-    height: auto; 
+  width: 92%;
+  max-width: 450px;
+  background: rgba(10, 10, 10, 0.85);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border: 2px solid #d4af37;
+  border-radius: 20px;
+  padding: 30px 25px;
+  box-sizing: border-box;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+  /* ★下部メニューバーに被らないよう、巨大な余白を作る */
+  margin-bottom: 120px; 
+  height: auto;
   }
 
   .app-content-fix::-webkit-scrollbar {
@@ -399,7 +409,7 @@
       </div>
 
       <!-- ホームに戻る -->
-      <div style="text-align:center; margin: 50px 0 30px;">
+      <div style="text-align:center; margin-top: 50px;">
         <a class="btn-home" href="javascript:void(0);" onclick="goToTopPage()">
           {% if lang_code == 'ja' %}← ホームに戻る{% else %}← Back to Home{% endif %}
         </a>
