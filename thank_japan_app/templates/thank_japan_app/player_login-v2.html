@@ -188,18 +188,138 @@
             <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"></path>
             <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"></path>
           </svg>
-          <span>Google</span>
+          <span>
+            {% if lang_code == 'ja' %}Googleでログイン
+            {% elif lang_code == 'zh-hant' %}使用 Google 登入
+            {% elif lang_code == 'zh-cn' %}使用 Google 登录
+            {% elif lang_code == 'ko' %}Google 계정으로 로그인
+            {% elif lang_code == 'de' %}Mit Google anmelden
+            {% elif lang_code == 'fr' %}Se connecter avec Google
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Iniciar sesión con Google
+            {% elif lang_code == 'it' %}Accedi con Google
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Entrar com Google
+            {% elif lang_code == 'vi' %}Đăng nhập bằng Google
+            {% elif lang_code == 'th' %}เข้าสู่ระบบด้วย Google
+            {% else %}Log in with Google
+            {% endif %}
+          </span>
         </a>
+
         <div style="margin-top: 25px; display: flex; align-items: center; color: #666; font-size: 0.8rem;">
           <div style="flex: 1; height: 1px; background: #444;"></div>
-          <div style="padding: 0 15px;">OR</div>
+          <div style="padding: 0 15px;">
+            {% if lang_code == 'ja' %}または
+            {% elif lang_code == 'zh-hant' %}或
+            {% elif lang_code == 'zh-cn' %}或
+            {% elif lang_code == 'ko' %}또는
+            {% elif lang_code == 'de' %}oder
+            {% elif lang_code == 'fr' %}ou
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}o
+            {% elif lang_code == 'it' %}o
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}ou
+            {% elif lang_code == 'vi' %}hoặc
+            {% elif lang_code == 'th' %}หรือ
+            {% else %}or
+            {% endif %}
+          </div>
           <div style="flex: 1; height: 1px; background: #444;"></div>
         </div>
       </div>
 
       {% if messages %}
       <ul class="error-msg">
-        {% for message in messages %}<li>{{ message }}</li>{% endfor %}
+        {% for message in messages %}
+          <li>
+            {# --- 1. ログイン失敗 (extra_tags="login_invalid" の場合) --- #}
+            {% if "login_invalid" in message.tags %}
+              {% if lang_code == 'ja' %}ユーザー名またはパスワードが正しくありません。
+              {% elif lang_code == 'zh-hant' %}使用者名稱或密碼不正確。
+              {% elif lang_code == 'zh-cn' %}用户名或密码不正确。
+              {% elif lang_code == 'ko' %}사용자 이름 또는 비밀번호가 올바르지 않습니다.
+              {% elif lang_code == 'de' %}Benutzername oder Passwort ist falsch.
+              {% elif lang_code == 'fr' %}Nom d’utilisateur ou mot de passe incorrect.
+              {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Nombre de usuario o contraseña incorrectos.
+              {% elif lang_code == 'it' %}Nome utente o password non corretti.
+              {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Nome de usuário ou senha incorretos.
+              {% elif lang_code == 'vi' %}Tên người dùng hoặc mật khẩu không đúng.
+              {% elif lang_code == 'th' %}ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง
+              {% else %}Invalid username or password.
+              {% endif %}
+
+            {# --- 2. その他のシステムメッセージ (ログアウト、登録完了など) --- #}
+            {% else %}
+              {% if lang_code == 'ja' %}
+                {% if "Logged out" in message.message %}ログアウトしました。
+                {% elif "Account created" in message.message %}アカウントが作成されました！ログインしてください。
+                {% elif "Please log in" in message.message %}続行するにはログインしてください。
+                {% else %}{{ message }}{% endif %}
+              {% elif lang_code == 'zh-hant' %}
+                {% if "Logged out" in message.message %}您已成功登出。
+                {% elif "Account created" in message.message %}帳號已建立！請登入。
+                {% elif "Please log in" in message.message %}請登入以繼續。
+                {% else %}{{ message }}{% endif %}
+              {% elif lang_code == 'zh-cn' %}
+                {% if "Logged out" in message.message %}您已成功登出。
+                {% elif "Account created" in message.message %}账号已建立！请登录。
+                {% elif "Please log in" in message.message %}请登录以继续。
+                {% else %}{{ message }}{% endif %}
+              {% elif lang_code == 'ko' %}
+                {% if "Logged out" in message.message %}성공적으로 로그아웃되었습니다.
+                {% elif "Account created" in message.message %}계정이 생성되었습니다! 로그인해 주세요.
+                {% elif "Please log in" in message.message %}계속하려면 로그인하세요.
+                {% else %}{{ message }}{% endif %}
+              {% elif lang_code == 'de' %}
+                {% if "Logged out" in message.message %}Erfolgreich abgemeldet.
+                {% elif "Account created" in message.message %}Konto erstellt! Bitte anmelden.
+                {% elif "Please log in" in message.message %}Bitte melden Sie sich an, um fortzufahren.
+                {% else %}{{ message }}{% endif %}
+              {% elif lang_code == 'fr' %}
+                {% if "Logged out" in message.message %}Déconnexion réussie.
+                {% elif "Account created" in message.message %}Compte créé ! Veuillez vous connecter.
+                {% elif "Please log in" in message.message %}Veuillez vous connecter pour continuer.
+                {% else %}{{ message }}{% endif %}
+              {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}
+                {% if "Logged out" in message.message %}Has cerrado sesión correctamente.
+                {% elif "Account created" in message.message %}¡Cuenta creada! Por favor, inicia sesión.
+                {% elif "Please log in" in message.message %}Inicia sesión para continuar.
+                {% else %}{{ message }}{% endif %}
+              {% elif lang_code == 'it' %}
+                {% if "Logged out" in message.message %}Disconnessione effettuata.
+                {% elif "Account created" in message.message %}Account creato! Effettua l'accesso.
+                {% elif "Please log in" in message.message %}Effettua l'accesso per continuare.
+                {% else %}{{ message }}{% endif %}
+              {% elif lang_code == 'pt' %}
+                {% if "Logged out" in message.message %}Sessão encerrada com sucesso.
+                {% elif "Account created" in message.message %}Conta criada! Por favor, inicie sessão.
+                {% elif "Please log in" in message.message %}Inicie sessão para continuar.
+                {% else %}{{ message }}{% endif %}
+              {% elif lang_code == 'pt-br' %}
+                {% if "Logged out" in message.message %}Você saiu com sucesso.
+                {% elif "Account created" in message.message %}Conta criada! Por favor, faça login.
+                {% elif "Please log in" in message.message %}Faça login para continuar.
+                {% else %}{{ message }}{% endif %}
+              {% elif lang_code == 'vi' %}
+                {% if "Logged out" in message.message %}Đăng xuất thành công.
+                {% elif "Account created" in message.message %}Tài khoản đã được tạo! Vui lòng đăng nhập.
+                {% elif "Please log in" in message.message %}Vui lòng đăng nhập để tiếp tục.
+                {% else %}{{ message }}{% endif %}
+              {% elif lang_code == 'th' %}
+                {% if "Logged out" in message.message %}ออกจากระบบเรียบร้อยแล้ว
+                {% elif "Account created" in message.message %}สร้างบัญชีเรียบร้อยแล้ว! กรุณาเข้าสู่ระบบ
+                {% elif "Please log in" in message.message %}กรุณาเข้าสู่ระบบเพื่อดำเนินการต่อ
+                {% else %}{{ message }}{% endif %}
+              {% elif lang_code == 'en-in' %}
+                {% if "Logged out" in message.message %}Logged out successfully.
+                {% elif "Account created" in message.message %}Account created! Please log in.
+                {% elif "Please log in" in message.message %}Please log in to continue.
+                {% else %}{{ message }}{% endif %}
+              {% else %}
+                {{ message }}
+              {% endif %}
+            {% endif %}
+
+          </li>
+        {% endfor %}
       </ul>
       {% endif %}
 
@@ -210,34 +330,104 @@
         
         <label for="id_username">
           {% if lang_code == 'ja' %}ユーザー名
-          {% else %}Username{% endif %}
+        {% elif lang_code == 'zh-hant' %}用戶名稱
+        {% elif lang_code == 'zh-cn' %}用户名
+        {% elif lang_code == 'ko' %}사용자 이름
+        {% elif lang_code == 'de' %}Benutzername
+        {% elif lang_code == 'fr' %}Nom d'utilisateur
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Nombre de usuario
+        {% elif lang_code == 'it' %}Nome utente
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Nome de usuário
+        {% elif lang_code == 'vi' %}Tên người dùng
+        {% elif lang_code == 'th' %}ชื่อผู้ใช้
+        {% else %}Username
+        {% endif %}
         </label>
-        <input type="text" name="username" id="id_username" required placeholder="User_Name" value="{{ form.username.value|default:'' }}">
+
+        <input type="text" name="username" id="id_username" required placeholder="{% if lang_code == 'ja' %}ユーザー名を入力{% elif lang_code == 'zh-hant' %}輸入用戶名稱{% elif lang_code == 'zh-cn' %}输入用户名{% elif lang_code == 'ko' %}사용자 이름 입력{% elif lang_code == 'de' %}Benutzername eingeben{% elif lang_code == 'fr' %}Entrez votre nom d'utilisateur{% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Introduce tu nombre de usuario{% elif lang_code == 'it' %}Inserisci il tuo nome utente{% elif lang_code == 'pt' or lang_code == 'pt-br' %}Digite seu nome de usuário{% elif lang_code == 'vi' %}Nhập tên người dùng{% elif lang_code == 'th' %}ป้อนชื่อผู้ใช้ของคุณ{% else %}Enter your username{% endif %}" value="{{ form.username.value|default:'' }}">
 
         <label for="id_password">
           {% if lang_code == 'ja' %}パスワード
-          {% else %}Password{% endif %}
+        {% elif lang_code == 'zh-hant' %}密碼
+        {% elif lang_code == 'zh-cn' %}密码
+        {% elif lang_code == 'ko' %}비밀번호
+        {% elif lang_code == 'de' %}Passwort
+        {% elif lang_code == 'fr' %}Mot de passe
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Contraseña
+        {% elif lang_code == 'it' %}Password
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Senha
+        {% elif lang_code == 'vi' %}Mật khẩu
+        {% elif lang_code == 'th' %}รหัสผ่าน
+        {% else %}Password
+        {% endif %}
         </label>
-        <input type="password" name="password" id="id_password" required placeholder="********">
+
+        <input type="password" name="password" id="id_password" required placeholder="{% if lang_code == 'ja' %}パスワードを入力{% elif lang_code == 'zh-hant' %}輸入密碼{% elif lang_code == 'zh-cn' %}输入密码{% elif lang_code == 'ko' %}비밀번호 입력{% elif lang_code == 'de' %}Passwort eingeben{% elif lang_code == 'fr' %}Entrez votre mot de passe{% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Introduce tu contraseña{% elif lang_code == 'it' %}Inserisci la password{% elif lang_code == 'pt' or lang_code == 'pt-br' %}Digite sua senha{% elif lang_code == 'vi' %}Nhập mật khẩu{% elif lang_code == 'th' %}ป้อนรหัสผ่านของคุณ{% else %}Enter your password{% endif %}">
 
         <div style="margin-top: 15px; text-align: right;">
           <a href="{% url 'password_reset' %}?lang={{ lang_code }}" style="font-size: 0.85rem; color: #aaa; text-decoration: underline;">
             {% if lang_code == 'ja' %}パスワードをお忘れですか？
+            {% elif lang_code == 'zh-hant' or lang_code == 'zh-cn' %}忘記密碼？
+            {% elif lang_code == 'ko' %}비밀번호를 잊으셨나요?
+            {% elif lang_code == 'de' %}Passwort vergessen?
+            {% elif lang_code == 'fr' %}Mot de passe oublié ?
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}¿Olvidaste tu contraseña?
+            {% elif lang_code == 'it' %}Password dimenticata?
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Esqueceu sua senha?
+            {% elif lang_code == 'vi' %}Quên mật khẩu?
+            {% elif lang_code == 'th' %}ลืมรหัสผ่านใช่ไหม?
             {% else %}Forgot your password?{% endif %}
           </a>
         </div>
         
         <button type="submit">
           {% if lang_code == 'ja' %}ログイン
-          {% else %}Sign In{% endif %}
+          {% elif lang_code == 'zh-hant' %}登入
+          {% elif lang_code == 'zh-cn' %}登录
+          {% elif lang_code == 'ko' %}로그인
+          {% elif lang_code == 'de' %}Anmelden
+          {% elif lang_code == 'fr' %}Connexion
+          {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Iniciar sesión
+          {% elif lang_code == 'it' %}Accedi
+          {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Entrar
+          {% elif lang_code == 'vi' %}Đăng nhập
+          {% elif lang_code == 'th' %}เข้าสู่ระบบ
+          {% else %}Sign In
+          {% endif %}
         </button>
       </form>
 
       <div style="margin-top: 25px; font-size: 0.8rem; color: #aaa; text-align: center; line-height: 1.6;">
         {% if lang_code == 'ja' %}
-            ログインにより、Thank Japanの<a href="{% url 'riyoukiyakuja' %}">利用規約</a>および<a href="{% url 'privacy_policyja' %}">プライバシー規約</a>に同意したものとみなされます。
+          ログインすることにより、Thank Japanの<a href="{% url 'riyoukiyakuja' %}">利用規約</a>および<a href="{% url 'privacy_policyja' %}">プライバシー規約</a>に同意したものとみなされます。
+        {% elif lang_code == 'zh-hant' %}
+          登入即表示您同意 Thank Japan 的<a href="{% url 'riyoukiyakuzhHANT' %}">使用條件</a>和<a href="{% url 'privacy_policyzhHANT' %}">隱私聲明</a>。
+        {% elif lang_code == 'zh-cn' %}
+          登录即表示您同意 Thank Japan 的<a href="{% url 'riyoukiyakuzhCN' %}">使用条件</a>和<a href="{% url 'privacy_policyzhCN' %}">隐私声明</a>。
+        {% elif lang_code == 'ko' %}
+          로그인함으로써 귀하는 Thank Japan의 <a href="{% url 'riyoukiyakuko' %}">이용 약관</a> 및 <a href="{% url 'privacy_policyko' %}">개인정보 처리방침</a>에 동의하게 됩니다.
+        {% elif lang_code == 'de' %}
+          Durch die Anmeldung stimmen Sie den <a href="{% url 'riyoukiyakude' %}">Nutzungsbedingungen</a> und der <a href="{% url 'privacy_policyde' %}">Datenschutzerklärung</a> von Thank Japan zu.
+        {% elif lang_code == 'fr' %}
+          En vous connectant, vous acceptez les <a href="{% url 'riyoukiyakufr' %}">Conditions d'utilisation</a> et la <a href="{% url 'privacy_policyfr' %}">Politique de confidentialité</a> de Thank Japan.
+        {% elif lang_code == 'es-es' %}
+          Al iniciar sesión, aceptas las <a href="{% url 'riyoukiyakuesES' %}">Condiciones de Uso</a> y el <a href="{% url 'privacy_policyesES' %}">Aviso de Privacidad</a> de Thank Japan.
+        {% elif lang_code == 'es-mx' %}
+          Al iniciar sesión, aceptas las <a href="{% url 'riyoukiyakuesMX' %}">Condiciones de Uso</a> y el <a href="{% url 'privacy_policyesMX' %}">Aviso de Privacidad</a> de Thank Japan.
+        {% elif lang_code == 'it' %}
+          Effettuando l'accesso, accetti le <a href="{% url 'riyoukiyakuit' %}">Condizioni d'uso</a> e l' <a href="{% url 'privacy_policyit' %}">Informativa sulla privacy</a> di Thank Japan.
+        {% elif lang_code == 'pt' %}
+          Ao fazer login, você concorda com as <a href="{% url 'riyoukiyakupt' %}">Condições de Uso</a> e a <a href="{% url 'privacy_policypt' %}">Notificação de Privacidade</a> do Thank Japan.
+        {% elif lang_code == 'pt-br' %}
+          Ao fazer login, você concorda com as <a href="{% url 'riyoukiyakuptBR' %}">Condições de Uso</a> e a <a href="{% url 'privacy_policyptBR' %}">Notificação de Privacidade</a> do Thank Japan.
+        {% elif lang_code == 'vi' %}
+          Bằng cách đăng nhập, bạn đồng ý với <a href="{% url 'riyoukiyakuvi' %}">Điều khoản sử dụng</a> và <a href="{% url 'privacy_policyvi' %}">Chính sách bảo mật</a> của Thank Japan.
+        {% elif lang_code == 'th' %}
+          การเข้าสู่ระบบแสดงว่าคุณยอมรับ<a href="{% url 'riyoukiyakuth' %}">เงื่อนไขการใช้งาน</a>และ<a href="{% url 'privacy_policyth' %}">ประกาศความเป็นส่วนตัว</a>ของ Thank Japan
+        {% elif lang_code == 'en-in' %}
+          By signing in, you agree to Thank Japan's <a href="{% url 'riyoukiyakuenIN' %}">Conditions of Use</a> and <a href="{% url 'privacy_policyenIN' %}">Privacy Notice</a>.
         {% else %}
-            By signing in, you agree to Thank Japan's <a href="{% url 'riyoukiyaku' %}">Conditions of Use</a>.
+          By signing in, you agree to Thank Japan's <a href="{% url 'riyoukiyaku' %}">Conditions of Use</a> and <a href="{% url 'privacy_policy' %}">Privacy Notice</a>.
         {% endif %}
       </div>
 
@@ -245,20 +435,95 @@
       <!-- 遊び方ガイド -->
       <div style="text-align: center; margin-top: 40px;">
         <p style="color: #bbb; font-size: 0.9rem;">
-          {% if lang_code == 'ja' %}👇 ゲームを極めてランクアップしよう！{% else %}👇 Master the Game & Rise Your Rank!{% endif %}
+          {% if lang_code == 'ja' %}
+            👇 ゲームを極めてランクアップしよう！
+          {% elif lang_code == 'zh-hant' %}
+            👇 精通遊戲，提升你的排名！
+          {% elif lang_code == 'zh-cn' %}
+            👇 精通游戏，提升你的排名！
+          {% elif lang_code == 'de' %}
+            👇 Meistere das Spiel und steigere deinen Rang!
+          {% elif lang_code == 'fr' %}
+            👇 Maîtrisez le jeu et améliorez votre rang !
+          {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}
+            👇 Domina el juego y sube de rango
+          {% elif lang_code == 'it' %}
+            👇 Padroneggia il gioco e sali di livello!
+          {% elif lang_code == 'ko' %}
+            👇 게임을 마스터하고 랭크를 올려보세요!
+          {% elif lang_code == 'pt' or lang_code == 'pt-br' %}
+            👇 Domine o jogo e suba de ranking!
+          {% elif lang_code == 'vi' %}
+            👇 Làm chủ trò chơi và tăng thứ hạng của bạn!
+          {% elif lang_code == 'th' %}
+            👇 เชี่ยวชาญเกมและไต่อันดับของคุณ!
+          {% else %}
+            👇 Master the Game & Rise Your Rank!
+          {% endif %}
+
         </p>
+
         <button id="toggle-instruction" style="background: transparent; border: 2px solid #d4af37; color: #d4af37; width: auto; padding: 10px 30px; margin-top: 10px;">
-          {% if lang_code == 'ja' %}遊び方 ⚔️{% else %}How to Play ⚔️{% endif %}
+          {% if lang_code == 'ja' %}
+            遊び方 ⚔️
+          {% elif lang_code == 'zh-hant' %}
+            遊戲玩法 ⚔️
+          {% elif lang_code == 'zh-cn' %}
+            游戏玩法 ⚔️
+          {% elif lang_code == 'de' %}
+            Spielanleitung ⚔️
+          {% elif lang_code == 'fr' %}
+            Comment jouer ⚔️
+          {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}
+            Cómo jugar ⚔️
+          {% elif lang_code == 'it' %}
+            Come giocare ⚔️
+          {% elif lang_code == 'ko' %}
+            플레이 방법 ⚔️
+          {% elif lang_code == 'pt' or lang_code == 'pt-br' %}
+            Como jogar ⚔️
+          {% elif lang_code == 'vi' %}
+            Cách chơi ⚔️
+          {% elif lang_code == 'th' %}
+            วิธีเล่น ⚔️
+          {% else %}
+            How to Play ⚔️
+          {% endif %}
+
         </button>
       </div>
 
       <div id="game-instruction" style="display:none;">
         <div class="rank-table-card">
           <div style="background: #1a1a1a; color: #d4af37; padding: 10px; font-weight: bold; text-align: center; border-bottom: 2px solid #d4af37;">
-            🏆 {% if lang_code == 'ja' %}ランクシステム{% else %}Rank System{% endif %}
+            {% if lang_code == 'ja' %}
+              🏆 ランクシステム
+            {% elif lang_code == 'zh-hant' %}
+              🏆 等級系統
+            {% elif lang_code == 'zh-cn' %}
+              🏆 等级系统
+            {% elif lang_code == 'de' %}
+              🏆 Rangsystem
+            {% elif lang_code == 'fr' %}
+              🏆 Système de classement
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}
+              🏆 Sistema de rangos
+            {% elif lang_code == 'it' %}
+              🏆 Sistema di livelli
+            {% elif lang_code == 'ko' %}
+              🏆 랭크 시스템
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}
+              🏆 Sistema de ranking
+            {% elif lang_code == 'vi' %}
+              🏆 Hệ thống xếp hạng
+            {% elif lang_code == 'th' %}
+              🏆 ระบบอันดับ
+            {% else %}
+              🏆 Rank System
+            {% endif %}
           </div>
           <div style="padding: 10px; font-size: 0.85rem;">
-            <!-- ランク表（そのまま） -->
+            
             <div style="display:flex; justify-content:space-between; border-bottom:1px solid #eee; padding:5px;"><span>🗾 伝説 Legend</span><span style="color:#d46a00; font-weight:bold;">2000~</span></div>
             <div style="display:flex; justify-content:space-between; border-bottom:1px solid #eee; padding:5px;"><span>👑 大将軍 General</span><span style="color:#d46a00; font-weight:bold;">1200~</span></div>
             <div style="display:flex; justify-content:space-between; border-bottom:1px solid #eee; padding:5px;"><span>🐎 将軍 Shogun</span><span style="color:#d46a00; font-weight:bold;">900~</span></div>
@@ -273,10 +538,21 @@
         </div>
       </div>
 
-      <!-- ホームに戻る -->
+      
       <div style="text-align:center; margin: 50px 0 0;">
         <a class="btn-home" href="javascript:void(0);" onclick="goToTopPage()">
-          {% if lang_code == 'ja' %}← ホームに戻る{% else %}← Back to Home{% endif %}
+        {% if lang_code == 'ja' %}← ホームに戻る
+        {% elif lang_code == 'zh-hant' %}← 返回首頁
+        {% elif lang_code == 'zh-cn' %}← 返回首页
+        {% elif lang_code == 'ko' %}← 홈으로 돌아가기
+        {% elif lang_code == 'de' %}← Zurück zur Startseite
+        {% elif lang_code == 'fr' %}← Retour à l'accueil
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}← Volver al inicio
+        {% elif lang_code == 'it' %}← Torna alla home
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}← Voltar para o início
+        {% elif lang_code == 'vi' %}← Quay lại trang chủ
+        {% elif lang_code == 'th' %}← กลับหน้าหลัก
+        {% else %}← Back to Home{% endif %}
         </a>
       </div>
       
@@ -287,7 +563,12 @@
 <script>
     function goToTopPage() {
         const topUrl = localStorage.getItem('tj_top_url');
-        window.location.href = topUrl ? topUrl : "/";
+        if (topUrl) {
+            window.location.href = topUrl;
+        } else {
+            let fallbackUrl = "{% if lang_code == 'ja' %}{% url 'toppageja' %}{% elif lang_code == 'zh-hant' %}{% url 'toppagezhHANT' %}{% elif lang_code == 'zh-cn' %}{% url 'toppagezhCN' %}{% elif lang_code == 'ko' %}{% url 'toppageko' %}{% elif lang_code == 'it' %}{% url 'toppageit' %}{% elif lang_code == 'fr' %}{% url 'toppagefr' %}{% elif lang_code == 'de' %}{% url 'toppagede' %}{% elif lang_code == 'es-mx' %}{% url 'toppageesMX' %}{% elif lang_code == 'es-es' %}{% url 'toppageesES' %}{% elif lang_code == 'pt' %}{% url 'toppagept' %}{% elif lang_code == 'pt-br' %}{% url 'toppageptBR' %}{% elif lang_code == 'vi' %}{% url 'toppagevi' %}{% elif lang_code == 'th' %}{% url 'toppageth' %}{% elif lang_code == 'en-in' %}{% url 'toppageenIN' %}{% else %}{% url 'toppage' %}{% endif %}";
+            window.location.href = fallbackUrl;
+        }
     }
 
     document.addEventListener("DOMContentLoaded", function(){

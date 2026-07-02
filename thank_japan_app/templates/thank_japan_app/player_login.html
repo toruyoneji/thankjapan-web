@@ -441,6 +441,7 @@
 
   
   <div class="legal-consent" style="margin-top: 15px; font-size: 0.75em; color: #555; line-height: 1.4;">
+    <div class="legal-consent" style="margin-top: 15px; font-size: 0.75em; color: #555; line-height: 1.4;">
     {% if lang_code == 'ja' %}
         ログインすることにより、Thank Japanの<a href="{% url 'riyoukiyakuja' %}">利用規約</a>および<a href="{% url 'privacy_policyja' %}">プライバシー規約</a>に同意したものとみなされます。
     {% elif lang_code == 'zh-hant' %}
@@ -472,6 +473,7 @@
     {% else %}
         By signing in, you agree to Thank Japan's <a href="{% url 'riyoukiyaku' %}">Conditions of Use</a> and <a href="{% url 'privacy_policy' %}">Privacy Notice</a>.
     {% endif %}
+    </div>
   </div>
 
   <div style="background: #fff9e6; padding: 20px; border-radius: 8px; border: 1px solid #fce8b2; text-align: center; margin-top: 30px; color: #111;">
