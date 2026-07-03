@@ -1,4 +1,6 @@
 from pathlib import Path
+from django.utils.translation import gettext_lazy as _
+
 import os
 import dj_database_url
 import cloudinary
@@ -98,6 +100,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -226,3 +229,22 @@ else:
     GOOGLE_PLAY_KEY_DICT = None
     
 APPEND_SLASH = False
+
+
+LANGUAGES = [
+    ('en', _('English')),
+    ('ja', _('Japanese')),
+    ('vi', _('Vietnamese')),
+    ('fr', _('French')),
+    ('it', _('Italian')),
+    ('pt', _('Portuguese')),
+    ('zh-hant', _('Traditional Chinese')),
+    ('zh-cn', _('Simplified Chinese')),
+    ('ko', _('Korean')),
+    ('es-es', _('Spanish (Spain)')),
+    ('de', _('German')),
+    ('th', _('Thai')),
+    ('pt-br', _('Portuguese (Brazil)')),
+    ('es-mx', _('Spanish (Mexico)')),
+    ('en-in', _('English (India)')),
+]

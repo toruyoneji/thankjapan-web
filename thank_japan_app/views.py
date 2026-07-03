@@ -985,8 +985,9 @@ class TopViewENIN(ListView):
     
 #manage_btn
 @login_required
+@login_required
 def account_settings_redirect(request):
-    lang = request.session.get('user_lang', 'en')
+    lang = request.session.get('tj_lang_code', 'en')
     
     mapping = {
         'en': 'account_settings',
@@ -1008,6 +1009,7 @@ def account_settings_redirect(request):
     
     url_name = mapping.get(lang, 'account_settings')
     return redirect(f"{reverse(url_name)}?from=result")
+
 
 
 def contact_view(request):
@@ -1051,8 +1053,7 @@ def player_register(request):
     if 'register' in str(next_url) or 'login' in str(next_url):
         next_url = 'toppage'
         
-        
-    lang_code = request.GET.get('lang') or request.POST.get('lang') or 'en'
+    lang_code = request.GET.get('lang') or request.POST.get('lang') or request.session.get('tj_lang_code') or 'en'
     guest_score = request.POST.get('guest_score') or request.GET.get('guest_score') or '0'
 
     if request.method == "POST":
@@ -1065,13 +1066,13 @@ def player_register(request):
 
             if User.objects.filter(username=username).exists() or Player.objects.filter(username=username).exists():
                 messages.error(request, "This username is already taken.")
-                return render(request, 'thank_japan_app/player_register.html', {
+                return render(request, 'thank_japan_app/player_register-v2.html', {
                     'form': form, 'next': next_url, 'lang_code': lang_code, 'guest_score': guest_score
                 })
 
             if User.objects.filter(email=email).exists() or Player.objects.filter(email=email).exists():
                 messages.error(request, "This email address is already registered.")
-                return render(request, 'thank_japan_app/player_register.html', {
+                return render(request, 'thank_japan_app/player_register-v2.html', {
                     'form': form, 'next': next_url, 'lang_code': lang_code, 'guest_score': guest_score
                 })
 
@@ -1090,6 +1091,8 @@ def player_register(request):
             for key in keys_to_clear:
                 request.session.pop(key, None)
             
+            request.session['tj_lang_code'] = lang_code
+            
             login_url = reverse('player_login')
             query_params = urlencode({'next': next_url, 'lang': lang_code})
             return redirect(f"{login_url}?{query_params}")
@@ -1102,12 +1105,12 @@ def player_register(request):
         'next': next_url, 
         'lang_code': lang_code, 
         'guest_score': guest_score
-    })        
-    
+    })
+        
 
 def player_login(request):
+    lang_code = request.GET.get('lang') or request.POST.get('lang') or request.session.get('tj_lang_code') or 'en'
     next_url = request.GET.get('next') or request.POST.get('next') or 'toppage'
-    lang_code = request.GET.get('lang') or 'en'
     
     if 'login' in str(next_url) or 'register' in str(next_url):
         next_url = 'toppage'
@@ -1126,6 +1129,9 @@ def player_login(request):
             
             auth_login(request, user)
             
+            request.session['tj_lang_code'] = lang_code
+            request.session['is_guest'] = False 
+            
             try:
                 profile = user.profile
                 profile.total_score += temp_guest_score
@@ -1139,8 +1145,6 @@ def player_login(request):
             except:
                 pass
 
-            request.session['is_guest'] = False 
-            
             if next_url == 'toppage':
                 lang_urls = {
                     'ja': 'toppageja', 'vi': 'toppagevi', 'fr': 'toppagefr',
@@ -1149,7 +1153,6 @@ def player_login(request):
                     'de': 'toppagede', 'th': 'toppageth', 'pt-br': 'toppageptBR',
                     'es-mx': 'toppageesMX', 'en-in': 'toppageenIN'
                 }
-                
                 return redirect(lang_urls.get(lang_code, 'toppage'))
             
             return redirect(next_url)
@@ -1159,11 +1162,10 @@ def player_login(request):
     return render(request, 'thank_japan_app/player_login-v2.html', {
         'next': next_url,
         'lang_code': lang_code
-    })
-        
+    })        
     
 def player_logout(request):
-    lang_code = request.GET.get('lang')
+    lang_code = request.GET.get('lang') or request.session.get('tj_lang_code')
     
     if not lang_code:
         referer = request.META.get('HTTP_REFERER', '')
@@ -1185,30 +1187,19 @@ def player_logout(request):
 
     auth_logout(request)
     
-    keys_to_clear = ['player_id', 'game_question_ids', 'game_current_index', 'game_score', 'game_message', 'last_question_info', 'game_difficulty']
-    for key in keys_to_clear:
-        request.session.pop(key, None)
-    
+    request.session['tj_lang_code'] = lang_code
     request.session['is_guest'] = True 
     messages.info(request, "Logged out successfully.")
 
-    if lang_code == 'ja': return redirect('toppageja')
-    elif lang_code == 'vi': return redirect('toppagevi')
-    elif lang_code == 'fr': return redirect('toppagefr')
-    elif lang_code == 'it': return redirect('toppageit')
-    elif lang_code == 'pt': return redirect('toppagept')
-    elif lang_code == 'zh-hant': return redirect('toppagezhHANT')
-    elif lang_code == 'zh-cn': return redirect('toppagezhCN')
-    elif lang_code == 'ko': return redirect('toppageko')
-    elif lang_code == 'es-es': return redirect('toppageesES')
-    elif lang_code == 'de': return redirect('toppagede')
-    elif lang_code == 'th': return redirect('toppageth')
-    elif lang_code == 'pt-br': return redirect('toppageptBR')
-    elif lang_code == 'es-mx': return redirect('toppageesMX')
-    elif lang_code == 'en-in': return redirect('toppageenIN')
+    lang_urls = {
+        'ja': 'toppageja', 'vi': 'toppagevi', 'fr': 'toppagefr',
+        'it': 'toppageit', 'pt': 'toppagept', 'zh-hant': 'toppagezhHANT',
+        'zh-cn': 'toppagezhCN', 'ko': 'toppageko', 'es-es': 'toppageesES',
+        'de': 'toppagede', 'th': 'toppageth', 'pt-br': 'toppageptBR',
+        'es-mx': 'toppageesMX', 'en-in': 'toppageenIN'
+    }
     
-    return redirect('toppage')
-
+    return redirect(lang_urls.get(lang_code, 'toppage'))
 
 
 def delete_player_confirm(request):
