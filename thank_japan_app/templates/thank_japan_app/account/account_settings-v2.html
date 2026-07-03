@@ -2,204 +2,190 @@
 {% block content %}
 
 <style>
+    /* --- 1. プレミアム・ベーススタイル（スクロール問題解消） --- */
+    html, body {
+        margin: 0; padding: 0; height: 100%; overflow: hidden;
+    }
+    body {
+        background: radial-gradient(circle at center, #2c2c2c 0%, #0a0a0a 100%) !important;
+        background-attachment: fixed !important;
+    }
+
+    #premium-account-container {
+        font-family: 'Zen Antique', 'Shippori Mincho', serif;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        height: 100vh;
+        padding: 80px 0 0; /* 上のヘッダーを避ける余白 */
+        box-sizing: border-box;
+        overflow-y: scroll;
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+    #premium-account-container::-webkit-scrollbar { display: none; }
+
+    .app-content-fix {
+        width: 92%;
+        max-width: 550px;
+        height: auto;
+        margin-bottom: 150px; /* 下部メニューに被らないための余白 */
+    }
+
+    /* --- 2. ティア別カードのデザイン（ご自身のロジックを継承） --- */
     :root {
         --tj-ink: #2a1d13;
         --tj-ink-soft: #5d4a35;
         --tj-tea-dark: #2a1d13;
         --tj-tea-mid: #3a2a1a;
-        --tj-tea-border: #5a3f24;
         --tj-washi: #f4ead1;
         --tj-washi-card: #fffaf0;
         --tj-gold: #d4af37;
         --tj-gold-light: #e8c968;
+        --tj-red: #a63737;
         --tj-matcha: #7c9473;
         --tj-matcha-dark: #4c6440;
-        --tj-red: #a63737;
     }
 
-    .settings-page { margin-top: 150px; padding: 40px 20px; font-family: 'Zen Antique', 'Shippori Mincho', serif; }
-    .settings-card { max-width: 550px; margin: 0 auto; padding: 32px; border-radius: 10px; text-align: center; position: relative; overflow: hidden; color: var(--tj-ink); }
+    .settings-card { 
+        padding: 32px; border-radius: 20px; text-align: center; position: relative; 
+        overflow: hidden; color: var(--tj-ink); 
+        box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+    }
 
-    /* ティア別カード外観 */
-    .card-paper   { background: var(--tj-washi-card); border: 2px solid #ddd0b0; box-shadow: 0 4px 14px rgba(0,0,0,0.06); }
-    .card-wood    { background: var(--tj-tea-mid); border: 8px solid #5d4037; color: var(--tj-washi); box-shadow: 0 10px 25px rgba(0,0,0,0.25); }
-    .card-wood h2, .card-wood p, .card-wood .stat-label, .card-wood .back-link { color: var(--tj-washi) !important; }
-    .card-silver  { background: linear-gradient(135deg,#f7f7f2,#e3e7e8); border: 5px solid #b9bfc2; box-shadow: 0 12px 30px rgba(120,130,135,0.2); }
-    .card-gold    { background: var(--tj-tea-mid); border: 6px solid var(--tj-gold); color: var(--tj-washi); box-shadow: 0 15px 35px rgba(212,175,55,0.35); }
-    .card-gold h2, .card-gold p, .card-gold .stat-label, .card-gold .back-link { color: var(--tj-washi) !important; }
-    .card-platinum{ background: var(--tj-tea-mid); border: 6px solid var(--tj-gold-light); color: var(--tj-washi); box-shadow: 0 18px 40px rgba(212,175,55,0.45), inset 0 0 25px rgba(212,175,55,0.08); }
-    .card-platinum h2, .card-platinum p, .card-platinum .stat-label, .card-platinum .back-link { color: var(--tj-washi) !important; }
-    .card-shogun  { background: var(--tj-tea-dark); border: 8px double var(--tj-gold); color: var(--tj-washi); box-shadow: 0 0 50px rgba(212,175,55,0.4), inset 0 0 30px rgba(212,175,55,0.12); }
+    .card-paper   { background: var(--tj-washi-card); border: 2px solid #ddd0b0; }
+    .card-wood    { background: var(--tj-tea-mid); border: 6px solid #5d4037; color: var(--tj-washi); }
+    .card-silver  { background: linear-gradient(135deg,#f7f7f2,#e3e7e8); border: 5px solid #b9bfc2; }
+    .card-gold    { background: var(--tj-tea-mid); border: 6px solid var(--tj-gold); color: var(--tj-washi); }
+    .card-platinum{ background: var(--tj-tea-mid); border: 6px solid var(--tj-gold-light); color: var(--tj-washi); }
+    .card-shogun  { background: var(--tj-tea-dark); border: 8px double var(--tj-gold); color: var(--tj-washi); }
+
+    /* 各種テキストカラー調整 */
+    .card-wood h2, .card-wood p, .card-wood .stat-label, .card-wood .back-link,
+    .card-gold h2, .card-gold p, .card-gold .stat-label, .card-gold .back-link,
+    .card-platinum h2, .card-platinum p, .card-platinum .stat-label, .card-platinum .back-link,
     .card-shogun h2, .card-shogun p, .card-shogun .stat-label, .card-shogun .back-link { color: var(--tj-washi) !important; }
 
-    /* 障子格子ヒーロー(アバター・ランク表示エリア) 全ティア共通実装 */
-    .rank-hero { position: relative; overflow: hidden; border-radius: 8px; padding: 28px 16px 22px; margin-bottom: 20px; }
+    /* ランク表示エリア */
+    .rank-hero { position: relative; overflow: hidden; border-radius: 12px; padding: 25px 15px; margin-bottom: 20px; }
     .rank-hero::before {
         content: ""; position: absolute; inset: 0; z-index: 0;
         background-color: var(--hero-fill, var(--tj-washi));
         background-image:
-            repeating-linear-gradient(0deg, var(--hero-line, rgba(93,64,55,0.15)) 0 2px, transparent 2px 40px),
-            repeating-linear-gradient(90deg, var(--hero-line, rgba(93,64,55,0.15)) 0 2px, transparent 2px 40px);
+            repeating-linear-gradient(0deg, var(--hero-line, rgba(93,64,55,0.1)) 0 2px, transparent 2px 40px),
+            repeating-linear-gradient(90deg, var(--hero-line, rgba(93,64,55,0.1)) 0 2px, transparent 2px 40px);
     }
     .rank-hero > * { position: relative; z-index: 1; }
 
-    .card-paper    .rank-hero { --hero-fill: #faf5e6; --hero-line: rgba(180,160,120,0.3); }
-    .card-wood     .rank-hero { --hero-fill: #4a3520; --hero-line: rgba(0,0,0,0.35); }
-    .card-silver   .rank-hero { --hero-fill: #eef1f2; --hero-line: rgba(150,160,165,0.35); }
+    .card-paper    .rank-hero { --hero-fill: #faf5e6; --hero-line: rgba(180,160,120,0.2); }
+    .card-wood     .rank-hero { --hero-fill: #4a3520; --hero-line: rgba(0,0,0,0.3); }
     .card-gold     .rank-hero { --hero-fill: var(--tj-gold); --hero-line: rgba(60,40,10,0.3); }
-    .card-platinum .rank-hero { --hero-fill: var(--tj-gold-light); --hero-line: rgba(60,40,10,0.3); }
     .card-shogun   .rank-hero { --hero-fill: var(--tj-gold); --hero-line: rgba(0,0,0,0.4); }
 
     .rank-avatar {
-        width: 60px; height: 60px; border-radius: 50%;
-        background: var(--tj-gold); color: var(--tj-ink);
-        border: 2px solid var(--tj-ink);
-        display: flex; align-items: center; justify-content: center;
-        font-size: 1.4rem; font-weight: bold; margin: 0 auto 10px;
+        width: 70px; height: 70px; border-radius: 50%; background: var(--tj-gold); color: #000;
+        border: 3px solid var(--tj-ink); display: flex; align-items: center; justify-content: center;
+        font-size: 1.8rem; font-weight: bold; margin: 0 auto 10px;
     }
-    .rank-username { font-size: 1.15rem; font-weight: bold; color: var(--tj-ink); }
-    .rank-badge-pill {
-        display: inline-flex; align-items: center; gap: 6px;
-        background: var(--tj-washi-card); border: 1px solid var(--tj-ink);
-        color: var(--tj-ink); border-radius: 20px; padding: 4px 14px;
-        font-size: 0.85rem; margin-top: 8px;
-    }
-    .card-wood .rank-avatar, .card-gold .rank-avatar, .card-platinum .rank-avatar, .card-shogun .rank-avatar { border-color: var(--tj-tea-dark); }
 
     .rank-progress-container {
-        background: var(--tj-tea-dark); border: 1px solid var(--tj-gold);
-        padding: 18px; border-radius: 10px; margin: 20px 0;
-        text-align: center; box-shadow: 0 0 15px rgba(212,175,55,0.15);
+        background: rgba(0,0,0,0.4); border: 1px solid var(--tj-gold);
+        padding: 15px; border-radius: 12px; margin: 20px 0;
     }
-    .pts-highlight { font-size: 1.2rem; color: var(--tj-matcha); font-weight: bold; }
 
     .stats-row { display: flex; gap: 12px; margin: 20px 0; }
     .stats-container {
-        flex: 1; background: var(--tj-washi-card); border: 1px solid var(--tj-gold);
-        border-radius: 10px; padding: 15px; text-align: center;
+        flex: 1; background: rgba(255,255,255,0.1); border: 1px solid var(--tj-gold);
+        border-radius: 10px; padding: 12px;
     }
-    .stat-value { font-size: 1.4rem; font-weight: bold; color: var(--tj-red); display: block; }
-    .stat-value.rank-value { color: var(--tj-matcha-dark); }
-    .stat-label { font-size: 0.75rem; color: #8a7862; letter-spacing: 0.05em; }
+    .stat-value { font-size: 1.4rem; font-weight: bold; color: var(--tj-gold-light); display: block; }
+    .stat-label { font-size: 0.7rem; color: #ccc; }
 
-    .status-badge { display: inline-block; padding: 5px 15px; border-radius: 20px; font-weight: bold; margin-top: 4px; font-size: 0.85rem; }
-    .status-free { background: var(--tj-washi-card); color: var(--tj-ink-soft); border: 1px solid #ddd0b0; }
-    .status-premium { background: linear-gradient(135deg, var(--tj-gold), var(--tj-gold-light)); color: var(--tj-ink); border: 1px solid #ffeb99; }
-
-    .action-group { display: flex; flex-direction: row; justify-content: center; gap: 15px; margin-top: 26px; flex-wrap: wrap; align-items: center; }
-    .action-group form { display: contents; }
-
-    .btn-manage { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 25px; border-radius: 30px; text-decoration: none; font-weight: bold; transition: 0.3s; border: none; cursor: pointer; font-size: 0.95rem; min-width: 220px; box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
-    .btn-upgrade { background: var(--tj-gold); color: var(--tj-ink); }
-    .btn-downgrade { background: transparent; color: var(--tj-red); border: 2px solid var(--tj-red); }
-    .btn-delete { background: transparent; color: var(--tj-red); border: 1px solid var(--tj-red); box-shadow: none; font-size: 0.85rem; padding: 10px 20px; }
-
-    .back-link { color: var(--tj-ink-soft); text-decoration: none; font-weight: bold; }
+    .btn-manage { 
+        display: flex; align-items: center; justify-content: center; width: 100%;
+        padding: 14px; border-radius: 50px; text-decoration: none; font-weight: bold; margin-bottom: 12px;
+    }
+    .btn-upgrade { background: linear-gradient(135deg, var(--tj-gold), #aa891c); color: #000; }
+    .btn-delete { background: transparent; color: var(--tj-red); border: 1px solid var(--tj-red); font-size: 0.8rem; }
 
     @media screen and (max-width: 600px) {
-        .action-group { flex-direction: column; width: 100%; }
-        .btn-manage { width: 100%; min-width: unset; }
         .stats-row { flex-direction: column; }
     }
 </style>
 
-<div class="settings-page">
-    <div class="settings-card 
-        {% if total_score < 50 %} card-paper
-        {% elif total_score < 100 %} card-wood
-        {% elif total_score < 200 %} card-silver
-        {% elif total_score < 500 %} card-gold
-        {% elif total_score < 1000 %} card-platinum
-        {% else %} card-shogun
-        {% endif %}">
+<div id="premium-account-container">
+    <div class="app-content-fix">
+        <div class="settings-card 
+            {% if total_score < 50 %} card-paper
+            {% elif total_score < 100 %} card-wood
+            {% elif total_score < 200 %} card-silver
+            {% elif total_score < 500 %} card-gold
+            {% elif total_score < 1000 %} card-platinum
+            {% else %} card-shogun
+            {% endif %}">
 
-        <div class="rank-hero">
-            <div class="rank-avatar">{{ user.username|slice:":1"|upper }}</div>
-            <div class="rank-username">{{ user.username }}</div>
-            <div class="rank-badge-pill">
-                {% with s=total_score %}
-                    {% if s >= 2000 %}🗾 伝説 (Legend)
-                    {% elif s >= 1200 %}👑 大将軍 (General)
-                    {% elif s >= 900 %}🐎 将軍 (Shogun)
-                    {% elif s >= 650 %}🏯 大名 (Daimyo)
-                    {% elif s >= 450 %}🚩 旗本 (Hatamoto)
-                    {% elif s >= 300 %}⚔️ 侍 (Samurai)
-                    {% elif s >= 200 %}🥷 忍者 (Ninja)
-                    {% elif s >= 100 %}🚣 浪人 (Ronin)
-                    {% elif s >= 50 %}🎒 旅人 (Traveler)
-                    {% else %}🌾 村人 (Villager)
-                    {% endif %}
-                {% endwith %}
+            <div class="rank-hero">
+                <div class="rank-avatar">{{ user.username|slice:":1"|upper }}</div>
+                <div class="rank-username" style="font-size: 1.3rem;">{{ user.username }}</div>
+                <div style="margin-top: 10px; font-weight: bold;">
+                    {% with s=total_score %}
+                        {% if s >= 2000 %}🗾 伝説 (Legend)
+                        {% elif s >= 1200 %}👑 大将軍 (General)
+                        {% elif s >= 900 %}🐎 将軍 (Shogun)
+                        {% elif s >= 650 %}🏯 大名 (Daimyo)
+                        {% elif s >= 450 %}🚩 旗本 (Hatamoto)
+                        {% elif s >= 300 %}⚔️ 侍 (Samurai)
+                        {% elif s >= 200 %}🥷 忍者 (Ninja)
+                        {% elif s >= 100 %}🚣 浪人 (Ronin)
+                        {% elif s >= 50 %}🎒 旅人 (Traveler)
+                        {% else %}🌾 村人 (Villager)
+                        {% endif %}
+                    {% endwith %}
+                </div>
             </div>
-        </div>
 
-        <div class="rank-progress-container">
-        {% if pts_to_next > 0 %}
-            <div style="margin-bottom: 6px; color: var(--tj-washi); font-size: 1rem;">
-                <span class="pts-highlight">{{ pts_to_next }}</span> pt until next rank
-            </div>
-            <div style="font-size: 0.8rem; color: #b39c7c;">
-                Current progress: {{ progress_percent|floatformat:0 }}%
-            </div>
-        {% else %}
-            <div style="color: var(--tj-gold); font-size: 1.15rem; font-weight: bold;">
-                👑 You have reached the top rank "Legend"! 🎉
-            </div>
-        {% endif %}
-        </div>
-
-        {% if user.profile.is_premium %}
-            <span class="status-badge status-premium">Premium Member 💎</span>
-        {% else %}
-            <span class="status-badge status-free">Free Plan</span>
-        {% endif %}
-
-        <div class="stats-row">
-            <div class="stats-container">
-                <span class="stat-label">TOTAL SCORE</span>
-                <span class="stat-value">{{ total_score }}</span>
-            </div>
-            <div class="stats-container">
-                <span class="stat-label">WORLD RANK</span>
-                <span class="stat-value rank-value">
-                    #{{ current_rank }} <span style="font-size: 0.7em; font-weight: normal; opacity: 0.7;">/ {{ total_registered }}</span>
-                </span>
-            </div>
-        </div>
-
-        <div class="action-group">
-            {% if not user.profile.is_premium %}
-                <a href="{% url 'premium_info' %}" class="btn-manage btn-upgrade">
-                    <i class="fas fa-crown"></i> Upgrade to Premium
-                </a>
+            <div class="rank-progress-container">
+            {% if pts_to_next > 0 %}
+                <div style="color: #fff;">
+                    <span style="color:var(--tj-gold-light); font-weight:bold;">{{ pts_to_next }}</span> pt until next rank
+                </div>
+                <div style="font-size: 0.8rem; color: #aaa; margin-top: 5px;">
+                    Progress: {{ progress_percent|floatformat:0 }}%
+                </div>
             {% else %}
-                {% if is_twa %}
-                    <p style="color: var(--tj-gold); font-size: 0.9rem; margin-bottom: 10px;">
-                        Thank you for being part of our Premium community!
-                    </p>
-                    <p style="font-size: 0.8rem; color: #b39c7c;">Manage your subscription in Google Play Store.</p>
-                {% else %}
-                    <form action="{% url 'downgrade_premium' %}" method="POST" onsubmit="return confirm('Switch to Free Plan?')">
-                        {% csrf_token %}
-                        <input type="hidden" name="downgrade_url_name" value="downgrade_success">
-                        <button type="submit" class="btn-manage btn-downgrade">Cancel Premium Subscription</button>
-                    </form>
-                {% endif %}
+                <div style="color: var(--tj-gold); font-weight: bold;">👑 Top Rank: Legend 🎉</div>
             {% endif %}
+            </div>
 
-            <form action="{% url 'delete_account' %}" method="POST" onsubmit="return confirm('DANGER: Delete account and all data permanently?')">
-                {% csrf_token %}
-                <input type="hidden" name="success_url_name" value="delete_success">
-                <button type="submit" class="btn-manage btn-delete">
-                    <i class="fas fa-trash-alt"></i> Delete My Account Permanently
-                </button>
-            </form>
-        </div>
+            <div class="stats-row">
+                <div class="stats-container">
+                    <span class="stat-label">TOTAL SCORE</span>
+                    <span class="stat-value">{{ total_score }}</span>
+                </div>
+                <div class="stats-container">
+                    <span class="stat-label">WORLD RANK</span>
+                    <span class="stat-value">#{{ current_rank }}</span>
+                </div>
+            </div>
 
-        <div style="margin-top: 26px;">
-            <a href="javascript:void(0);" onclick="smartBack()" class="back-link">
-                {% if request.GET.from == 'result' %}← Back to Results{% else %}← Back{% endif %}
-            </a>
+            <div style="margin-top: 30px;">
+                {% if not user.profile.is_premium %}
+                    <a href="{% url 'premium_info' %}" class="btn-manage btn-upgrade">Upgrade to Premium 💎</a>
+                {% else %}
+                    <p style="color: var(--tj-gold); font-size: 0.9rem;">Premium Member 💎</p>
+                {% endif %}
+
+                <form action="{% url 'delete_account' %}" method="POST" onsubmit="return confirm('Delete account permanently?')">
+                    {% csrf_token %}
+                    <button type="submit" class="btn-manage btn-delete">Delete Account</button>
+                </form>
+            </div>
+
+            <div style="margin-top: 26px;">
+                <a href="javascript:void(0);" onclick="smartBack()" style="color: var(--tj-ink-soft); font-weight: bold; text-decoration: none;">
+                    {% if request.GET.from == 'result' %}← Back to Results{% else %}← Back{% endif %}
+                </a>
+            </div>
         </div>
     </div>
 </div>
