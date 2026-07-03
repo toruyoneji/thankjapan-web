@@ -18,7 +18,7 @@
         justify-content: center;
         align-items: flex-start;
         height: 100vh;
-        padding: 80px 0 0;
+        padding: 60px 0 0;
         box-sizing: border-box;
         overflow-y: scroll;
         -ms-overflow-style: none;
@@ -29,138 +29,133 @@
     }
     .app-content-fix {
         width: 92%;
-        max-width: 500px;
+        max-width: 480px;
         height: auto;
-        padding-bottom: 180px; 
+        padding-bottom: 150px;
     }
     :root {
         --tj-ink: #2a1d13;
-        --tj-tea-border: #5a3f24;
-        --tj-washi: #fffaf0;
+        --tj-tea-dark: #2a1d13;
+        --tj-washi: #f4ead1;
         --tj-gold: #d4af37;
         --tj-gold-light: #e8c968;
         --tj-red: #a63737;
     }
     .settings-card { 
-        padding: 30px 20px;
         border-radius: 15px;
-        text-align: center;
-        position: relative; 
         overflow: hidden;
-        background: #ffffff !important;
-        color: var(--tj-ink) !important; 
+        border: 4px solid var(--tj-tea-dark);
         box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+        background: var(--tj-tea-dark);
     }
-    .card-paper { border: 4px solid #ddd0b0; }
-    .card-wood { border: 7px solid var(--tj-tea-border); }
-    .card-silver { border: 6px solid #b9bfc2; }
-    .card-gold { border: 6px solid var(--tj-gold); }
-    .card-platinum { border: 6px solid var(--tj-gold-light); }
-    .card-shogun { border: 8px double var(--tj-gold); }
-
     .rank-hero {
-        position: relative;
         background: var(--tj-washi);
-        border: 2px solid var(--tj-tea-border);
-        border-radius: 10px;
-        padding: 30px 15px;
-        margin-bottom: 25px;
+        padding: 40px 20px;
+        position: relative;
+        border-bottom: 4px solid var(--tj-tea-dark);
         background-image:
-            linear-gradient(var(--tj-tea-border) 2px, transparent 2px),
-            linear-gradient(90deg, var(--tj-tea-border) 2px, transparent 2px);
-        background-size: 45px 45px;
-        background-position: center center;
+            linear-gradient(var(--tj-tea-dark) 2px, transparent 2px),
+            linear-gradient(90deg, var(--tj-tea-dark) 2px, transparent 2px);
+        background-size: 50px 50px;
+        background-position: center;
     }
-    .rank-hero::after {
-        content: "";
-        position: absolute;
-        inset: 0;
-        border: 1px solid rgba(255,255,255,0.5);
-        pointer-events: none;
+    .hero-inner-frame {
+        border: 2px solid var(--tj-tea-dark);
+        margin: 0 auto;
+        padding: 20px;
+        display: inline-block;
+        background: var(--tj-washi);
+        position: relative;
     }
     .rank-avatar {
-        width: 75px;
-        height: 75px;
+        width: 80px;
+        height: 80px;
         border-radius: 50%;
-        background: var(--tj-gold);
-        color: #000;
-        border: 3px solid var(--tj-tea-border);
-        box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        background: var(--tj-tea-dark);
+        color: var(--tj-gold);
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 2rem;
+        font-size: 2.2rem;
         font-weight: bold;
         margin: 0 auto 15px;
+        border: 2px solid var(--tj-gold);
     }
     .rank-username {
-        font-size: 1.4rem;
+        font-size: 1.5rem;
         font-weight: bold;
         color: var(--tj-ink);
-        background: rgba(255,255,255,0.8);
-        display: inline-block;
-        padding: 2px 15px;
-        border-radius: 5px;
+        display: block;
+        margin-bottom: 10px;
     }
-
+    .rank-details {
+        background: var(--tj-tea-dark);
+        padding: 25px 20px;
+    }
     .rank-progress-container {
-        background: var(--tj-tea-border);
-        padding: 20px 15px;
-        border-radius: 10px;
-        margin: 20px 0;
-        color: #fff;
-        box-shadow: inset 0 2px 5px rgba(0,0,0,0.3);
+        border: 1px solid rgba(212, 175, 55, 0.3);
+        padding: 15px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        text-align: left;
     }
-
+    .progress-bar-bg {
+        width: 100%;
+        height: 8px;
+        background: rgba(255,255,255,0.1);
+        border-radius: 4px;
+        margin-top: 10px;
+        overflow: hidden;
+    }
+    .progress-bar-fill {
+        height: 100%;
+        background: var(--tj-gold);
+        box-shadow: 0 0 10px var(--tj-gold);
+    }
     .stats-row {
         display: flex;
         gap: 10px;
-        margin: 20px 0;
+        margin-bottom: 20px;
     }
     .stats-container {
         flex: 1;
-        background: #fff;
-        border: 2px solid var(--tj-tea-border);
-        border-radius: 8px;
+        border: 1px solid rgba(212, 175, 55, 0.3);
         padding: 15px 5px;
+        border-radius: 4px;
     }
     .stat-label {
         font-size: 0.7rem;
-        color: #666;
+        color: #888;
         display: block;
         margin-bottom: 5px;
-        font-weight: bold;
     }
     .stat-value {
-        font-size: 1.5rem;
+        font-size: 1.6rem;
         font-weight: bold;
-        color: var(--tj-tea-border);
+        color: #fff;
     }
-
     .btn-manage { 
         display: flex;
         align-items: center;
         justify-content: center;
         width: 100%;
         padding: 16px;
-        border-radius: 50px;
+        border-radius: 10px;
         text-decoration: none;
         font-weight: bold;
         margin-bottom: 15px;
-        box-sizing: border-box;
         font-size: 1.1rem;
+        box-sizing: border-box;
     }
     .btn-upgrade {
-        background: linear-gradient(135deg, var(--tj-gold) 0%, #aa891c 100%);
-        color: #000;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        background: var(--tj-gold);
+        color: var(--tj-tea-dark);
     }
     .btn-delete {
         background: transparent;
         color: var(--tj-red);
         border: 1px solid var(--tj-red);
         font-size: 0.85rem;
-        opacity: 0.6;
     }
     .back-link {
         color: #ffffff !important;
@@ -170,10 +165,8 @@
         margin-top: 30px;
         font-size: 1rem;
     }
-    @media screen and (max-width: 600px) {
-        .stats-row { flex-direction: column; }
-    }
 </style>
+
 
 
 <div id="premium-account-container">
@@ -207,51 +200,52 @@
                 </div>
             </div>
 
-            <div class="rank-progress-container">
-            {% if pts_to_next > 0 %}
-                <div style="color: #fff;">
-                    <span style="color:var(--tj-gold-light); font-weight:bold;">{{ pts_to_next }}</span> pt until next rank
-                </div>
-                <div style="font-size: 0.8rem; color: #aaa; margin-top: 5px;">
-                    Progress: {{ progress_percent|floatformat:0 }}%
-                </div>
-            {% else %}
-                <div style="color: var(--tj-gold); font-weight: bold;">👑 Top Rank: Legend 🎉</div>
-            {% endif %}
-            </div>
-
-            <div class="stats-row">
-                <div class="stats-container">
-                    <span class="stat-label">TOTAL SCORE</span>
-                    <span class="stat-value">{{ total_score }}</span>
-                </div>
-                <div class="stats-container">
-                    <span class="stat-label">WORLD RANK</span>
-                    <span class="stat-value">#{{ current_rank }}</span>
-                </div>
-            </div>
-
-            <div style="margin-top: 30px;">
-                {% if not user.profile.is_premium %}
-                    <a href="{% url 'premium_info' %}" class="btn-manage btn-upgrade">Upgrade to Premium 💎</a>
+            <div class="rank-details">
+                <div class="rank-progress-container">
+                {% if pts_to_next > 0 %}
+                    <div style="color: #fff;">
+                        <span style="color:var(--tj-gold-light); font-weight:bold;">{{ pts_to_next }}</span> pt until next rank
+                    </div>
+                    <div style="font-size: 0.8rem; color: #aaa; margin-top: 5px;">
+                        Progress: {{ progress_percent|floatformat:0 }}%
+                    </div>
                 {% else %}
-                    <p style="color: var(--tj-gold); font-size: 0.9rem;">Premium Member 💎</p>
+                    <div style="color: var(--tj-gold); font-weight: bold;">👑 Top Rank: Legend 🎉</div>
                 {% endif %}
+                </div>
 
-                <form action="{% url 'delete_account' %}" method="POST" onsubmit="return confirm('Delete account permanently?')">
-                    {% csrf_token %}
-                    <button type="submit" class="btn-manage btn-delete">Delete Account</button>
-                </form>
-            </div>
+                <div class="stats-row">
+                    <div class="stats-container">
+                        <span class="stat-label">TOTAL SCORE</span>
+                        <span class="stat-value">{{ total_score }}</span>
+                    </div>
+                    <div class="stats-container">
+                        <span class="stat-label">WORLD RANK</span>
+                        <span class="stat-value">#{{ current_rank }}</span>
+                    </div>
+                </div>
 
-            <div style="margin-top: 26px;">
-                <a href="javascript:void(0);" onclick="smartBack()" style="color: var(--tj-ink-soft); font-weight: bold; text-decoration: none;">
-                    {% if request.GET.from == 'result' %}← Back to Results{% else %}← Back{% endif %}
-                </a>
+                <div style="margin-top: 30px;">
+                    {% if not user.profile.is_premium %}
+                        <a href="{% url 'premium_info' %}" class="btn-manage btn-upgrade">Upgrade to Premium 💎</a>
+                    {% else %}
+                        <p style="color: var(--tj-gold); font-size: 0.9rem;">Premium Member 💎</p>
+                    {% endif %}
+
+                    <form action="{% url 'delete_account' %}" method="POST" onsubmit="return confirm('Delete account permanently?')">
+                        {% csrf_token %}
+                        <button type="submit" class="btn-manage btn-delete">Delete Account</button>
+                    </form>
+                </div>
+
+                <div style="margin-top: 26px;">
+                    <a href="javascript:void(0);" onclick="smartBack()" style="color: var(--tj-ink-soft); font-weight: bold; text-decoration: none;">
+                        {% if request.GET.from == 'result' %}← Back to Results{% else %}← Back{% endif %}
+                    </a>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
 <script>
 function smartBack() {
