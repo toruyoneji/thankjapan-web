@@ -2570,7 +2570,7 @@ def account_settingsZHCN(request):
         'total_registered': total_registered,
         'is_twa': is_android_twa(request) 
     }
-    return render(request, 'thank_japan_app/account/account_settings_zh_cn.html', context)
+    return render(request, 'thank_japan_app/account/account_settings_zh_cn-v2.html', context)
 
 
 @login_required
@@ -2612,7 +2612,7 @@ def account_settingsZHHANT(request):
         'total_registered': total_registered,
         'is_twa': is_android_twa(request) 
     }
-    return render(request, 'thank_japan_app/account/account_settings_zh_hant.html', context)
+    return render(request, 'thank_japan_app/account/account_settings_zh_hant-v2.html', context)
 
 
 @login_required
@@ -2654,7 +2654,7 @@ def account_settingsVI(request):
         'total_registered': total_registered,
         'is_twa': is_android_twa(request) 
     }
-    return render(request, 'thank_japan_app/account/account_settings_vi.html', context)
+    return render(request, 'thank_japan_app/account/account_settings_vi-v2.html', context)
 
 
 @login_required
@@ -2696,7 +2696,7 @@ def account_settingsTH(request):
         'total_registered': total_registered,
         'is_twa': is_android_twa(request) 
     }
-    return render(request, 'thank_japan_app/account/account_settings_th.html', context)
+    return render(request, 'thank_japan_app/account/account_settings_th-v2.html', context)
 
 
 @login_required
@@ -2738,7 +2738,7 @@ def account_settingsPT(request):
         'total_registered': total_registered,
         'is_twa': is_android_twa(request) 
     }
-    return render(request, 'thank_japan_app/account/account_settings_pt.html', context)
+    return render(request, 'thank_japan_app/account/account_settings_pt-v2.html', context)
 
 
 @login_required
@@ -2780,7 +2780,7 @@ def account_settingsPTBR(request):
         'total_registered': total_registered,
         'is_twa': is_android_twa(request) 
     }
-    return render(request, 'thank_japan_app/account/account_settings_pt_br.html', context)
+    return render(request, 'thank_japan_app/account/account_settings_pt_br-v2.html', context)
 
 
 @login_required
@@ -2822,7 +2822,7 @@ def account_settingsKO(request):
         'total_registered': total_registered,
         'is_twa': is_android_twa(request) 
     }
-    return render(request, 'thank_japan_app/account/account_settings_ko.html', context)
+    return render(request, 'thank_japan_app/account/account_settings_ko-v2.html', context)
 
 
 @login_required
@@ -2863,7 +2863,7 @@ def account_settingsJA(request):
         'total_registered': total_registered,
         'is_twa': is_android_twa(request) 
     }
-    return render(request, 'thank_japan_app/account/account_settings_ja.html', context)
+    return render(request, 'thank_japan_app/account/account_settings_ja-v2.html', context)
 
 
 @login_required
@@ -2905,7 +2905,7 @@ def account_settingsIT(request):
         'total_registered': total_registered,
         'is_twa': is_android_twa(request) 
     }
-    return render(request, 'thank_japan_app/account/account_settings_it.html', context)
+    return render(request, 'thank_japan_app/account/account_settings_it-v2.html', context)
 
 
 @login_required
@@ -2947,7 +2947,7 @@ def account_settingsFR(request):
         'total_registered': total_registered,
         'is_twa': is_android_twa(request) 
     }
-    return render(request, 'thank_japan_app/account/account_settings_fr.html', context)
+    return render(request, 'thank_japan_app/account/account_settings_fr-v2.html', context)
 
 
 @login_required
@@ -2989,7 +2989,7 @@ def account_settingsESMX(request):
         'total_registered': total_registered,
         'is_twa': is_android_twa(request)  
     }
-    return render(request, 'thank_japan_app/account/account_settings_es_mx.html', context)
+    return render(request, 'thank_japan_app/account/account_settings_es_mx-v2.html', context)
 
 
 @login_required
@@ -3031,7 +3031,7 @@ def account_settingsESES(request):
         'total_registered': total_registered,
         'is_twa': is_android_twa(request)  
     }
-    return render(request, 'thank_japan_app/account/account_settings_es_es.html', context)
+    return render(request, 'thank_japan_app/account/account_settings_es_es-v2.html', context)
 
 
 @login_required
@@ -3073,7 +3073,7 @@ def account_settingsENIN(request):
         'total_registered': total_registered,
         'is_twa': is_android_twa(request)  
     }
-    return render(request, 'thank_japan_app/account/account_settings_en_in.html', context)
+    return render(request, 'thank_japan_app/account/account_settings_en_in-v2.html', context)
 
 
 @login_required
@@ -3115,7 +3115,7 @@ def account_settingsDE(request):
         'total_registered': total_registered,
         'is_twa': is_android_twa(request)  
     }
-    return render(request, 'thank_japan_app/account/account_settings_de.html', context)
+    return render(request, 'thank_japan_app/account/account_settings_de-v2.html', context)
 
 
 #subscription

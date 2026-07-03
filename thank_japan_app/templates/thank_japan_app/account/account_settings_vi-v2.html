@@ -1,0 +1,283 @@
+{% extends 'base/base_top.html' %}
+{% block content %}
+
+<style>
+    html, body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        overflow: hidden;
+    }
+    body {
+        background: radial-gradient(circle at center, #2c2c2c 0%, #0a0a0a 100%) !important;
+        background-attachment: fixed !important;
+    }
+    #premium-account-container {
+        font-family: 'Zen Antique', 'Shippori Mincho', serif;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        height: 100vh;
+        padding: 60px 0 0;
+        box-sizing: border-box;
+        overflow-y: scroll;
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+    #premium-account-container::-webkit-scrollbar {
+        display: none;
+    }
+    .app-content-fix {
+        width: 92%;
+        max-width: 480px;
+        height: auto;
+        padding-bottom: 150px;
+    }
+    :root {
+        --tj-ink: #2a1d13;
+        --tj-tea-dark: #2a1d13;
+        --tj-washi: #f4ead1;
+        --tj-gold: #d4af37;
+        --tj-gold-light: #e8c968;
+        --tj-red: #a63737;
+    }
+    .settings-card { 
+        border-radius: 15px;
+        overflow: hidden;
+        border: 4px solid var(--tj-tea-dark);
+        box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+        background: var(--tj-tea-dark);
+    }
+    .rank-hero {
+        background: var(--tj-washi);
+        padding: 40px 20px;
+        position: relative;
+        border-bottom: 4px solid var(--tj-tea-dark);
+        background-image:
+            linear-gradient(rgba(90,63,36,0.15) 2px, transparent 2px),
+            linear-gradient(90deg, rgba(90,63,36,0.15) 2px, transparent 2px);
+        background-size: 50px 50px;
+        background-position: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+    .hero-inner-frame {
+        border: 2px solid var(--tj-tea-dark);
+        margin: 0 auto;
+        padding: 20px;
+        display: inline-block;
+        background: var(--tj-washi);
+        position: relative;
+    }
+    .rank-avatar {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        background: var(--tj-tea-dark);
+        color: var(--tj-gold);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2.2rem;
+        font-weight: bold;
+        margin: 0 auto 15px;
+        border: 2px solid var(--tj-gold);
+    }
+    .rank-username {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: var(--tj-ink);
+        display: block;
+        margin-bottom: 10px;
+    }
+    .rank-details {
+        background: var(--tj-tea-dark);
+        padding: 25px 20px;
+    }
+    .rank-progress-container {
+        border: 1px solid rgba(212, 175, 55, 0.3);
+        padding: 15px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        text-align: left;
+    }
+    .progress-bar-bg {
+        width: 100%;
+        height: 8px;
+        background: rgba(255,255,255,0.1);
+        border-radius: 4px;
+        margin-top: 10px;
+        overflow: hidden;
+    }
+    .progress-bar-fill {
+        height: 100%;
+        background: var(--tj-gold);
+        box-shadow: 0 0 10px var(--tj-gold);
+    }
+    .stats-row {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 20px;
+    }
+    .stats-container {
+        flex: 1;
+        border: 1px solid rgba(212, 175, 55, 0.3);
+        padding: 15px 5px;
+        border-radius: 4px;
+    }
+    .stat-label {
+        font-size: 0.7rem;
+        color: #888;
+        display: block;
+        margin-bottom: 5px;
+    }
+    .stat-value {
+        font-size: 1.6rem;
+        font-weight: bold;
+        color: #fff;
+    }
+    .btn-manage { 
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        padding: 16px;
+        border-radius: 10px;
+        text-decoration: none;
+        font-weight: bold;
+        margin-bottom: 15px;
+        font-size: 1.1rem;
+        box-sizing: border-box;
+    }
+    .btn-upgrade {
+        background: var(--tj-gold);
+        color: var(--tj-tea-dark);
+    }
+    .btn-delete {
+        background: transparent;
+        color: var(--tj-red);
+        border: 1px solid var(--tj-red);
+        font-size: 0.85rem;
+    }
+    .back-link {
+        color: #ffffff !important;
+        font-weight: bold;
+        text-decoration: none;
+        display: inline-block;
+        margin-top: 0px !important;
+        font-size: 1rem;
+    }
+</style>
+
+<div id="premium-account-container">
+    <div class="app-content-fix">
+        <div class="settings-card 
+            {% if total_score < 50 %} card-paper
+            {% elif total_score < 100 %} card-wood
+            {% elif total_score < 200 %} card-silver
+            {% elif total_score < 500 %} card-gold
+            {% elif total_score < 1000 %} card-platinum
+            {% else %} card-shogun
+            {% endif %}">
+
+            <div class="rank-hero">
+                <div class="hero-inner-frame" style="border: 2px solid var(--tj-tea-dark); padding: 20px; background: var(--tj-washi);">
+                    <div class="rank-avatar">{{ user.username|slice:":1"|upper }}</div>
+                    <span class="rank-username">{{ user.username }}</span>
+                    <div style="border: 1px solid var(--tj-tea-dark); padding: 4px 10px; border-radius: 4px; display: inline-block; font-size: 0.8rem; background: #fff; color: var(--tj-tea-dark); font-weight: bold; margin-top: 10px;">
+                        {% with s=total_score %}
+                            {% if s >= 2000 %}🗾 伝説 (Legend)
+                            {% elif s >= 1200 %}👑 大将軍 (General)
+                            {% elif s >= 900 %}🐎 将軍 (Shogun)
+                            {% elif s >= 650 %}🏯 大名 (Daimyo)
+                            {% elif s >= 450 %}🚩 旗本 (Hatamoto)
+                            {% elif s >= 300 %}⚔️ 侍 (Samurai)
+                            {% elif s >= 200 %}🥷 忍者 (Ninja)
+                            {% elif s >= 100 %}🚣 浪人 (Ronin)
+                            {% elif s >= 50 %}🎒 旅人 (Traveler)
+                            {% else %}🌾 村人 (Villager)
+                            {% endif %}
+                        {% endwith %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="rank-details">
+                <div class="rank-progress-container">
+                {% if pts_to_next > 0 %}
+                    <div style="color: #fff; font-size: 1rem;">
+                        Cần thêm <span style="color:var(--tj-gold-light); font-weight:bold;">{{ pts_to_next }}</span> pt để lên cấp tiếp theo
+                    </div>
+                    <div style="font-size: 0.8rem; color: #aaa; margin-top: 5px;">
+                        Tiến độ hiện tại: {{ progress_percent|floatformat:0 }}%
+                    </div>
+                {% else %}
+                    <div style="color: var(--tj-gold); font-size: 1.1rem; font-weight: bold;">
+                        👑 Đã đạt cấp bậc cao nhất "Huyền thoại"! 🎉
+                    </div>
+                {% endif %}
+                </div>
+
+                <div class="stats-row" style="display: flex; justify-content: space-around; margin-top: 20px; gap: 10px;">
+                    <div class="stats-container" style="flex: 1; background: rgba(0,0,0,0.3); padding: 10px; border-radius: 8px; border: 1px solid rgba(212,175,55,0.3);">
+                        <span class="stat-label" style="display: block; font-size: 0.7rem; color: #aaa;">TỔNG ĐIỂM</span>
+                        <span class="stat-value" style="font-size: 1.2rem; color: var(--tj-gold-light); font-weight: bold;">{{ total_score }}</span>
+                    </div>
+                    <div class="stats-container" style="flex: 1; background: rgba(0,0,0,0.3); padding: 10px; border-radius: 8px; border: 1px solid rgba(212,175,55,0.3);">
+                        <span class="stat-label" style="display: block; font-size: 0.7rem; color: #aaa;">XẾP HẠNG</span>
+                        <span class="stat-value" style="font-size: 1.2rem; color: #00bcd4; font-weight: bold;">#{{ current_rank }}</span>
+                    </div>
+                </div>
+
+                <div class="action-group" style="margin-top: 30px;">
+                    {% if not user.profile.is_premium %}
+                        <a href="{% url 'premium_infovi' %}?lang={{ lang_code }}" class="btn-manage btn-upgrade" style="display: block; background: linear-gradient(135deg, #d4af37, #f9f1b0); color: #000; padding: 12px; border-radius: 8px; text-decoration: none; font-weight: bold; margin-bottom: 15px;">
+                            Nâng cấp lên Premium 💎
+                        </a>
+                    {% else %}
+                        <div class="status-badge status-premium" style="color: var(--tj-gold); margin-bottom: 15px; font-weight: bold;">
+                            Thành viên Premium 💎
+                        </div>
+                        {% if is_twa %}
+                            <p style="font-size: 0.8rem; color: #888;">Quản lý đăng ký của bạn trong Google Play Store.</p>
+                        {% else %}
+                            <form action="{% url 'downgrade_premium' %}?lang=vi" method="POST" onsubmit="return confirm('Chuyển sang Gói miễn phí?')">
+                                {% csrf_token %}
+                                <input type="hidden" name="downgrade_url_name" value="downgrade_successvi">
+                                <button type="submit" class="btn-manage btn-downgrade" style="background: none; border: 1px solid #555; color: #888; padding: 8px 15px; border-radius: 5px; font-size: 0.8rem; cursor: pointer; margin-bottom: 15px;">
+                                    Hủy đăng ký Premium
+                                </button>
+                            </form>
+                        {% endif %}
+                    {% endif %}
+
+                    <form action="{% url 'delete_account' %}?lang={{ lang_code }}" method="POST" onsubmit="return confirm('NGUY HIỂM: Xóa tài khoản và tất cả dữ liệu vĩnh viễn?')">
+                        {% csrf_token %}
+                        <input type="hidden" name="success_url_name" value="delete_successvi">
+                        <button type="submit" class="btn-manage btn-delete" style="background: none; border: none; color: #6610f2; font-size: 0.8rem; text-decoration: underline; cursor: pointer;">
+                            Xóa tài khoản của tôi vĩnh viễn
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div style="text-align:center; margin-top: 20px;">
+            <a href="javascript:void(0);" onclick="smartBack()" class="back-link" style="color: var(--tj-gold-light); text-decoration: none; font-size: 0.9rem;">
+                {% if request.GET.from == 'result' %}← Quay lại kết quả{% else %}← Quay lại{% endif %}
+            </a>
+        </div>
+    </div>
+</div>
+
+<script>
+function smartBack() {
+    if (document.referrer && document.referrer.includes(window.location.hostname)) {
+        history.back();
+    } else {
+        window.location.href = "{% url 'toppagevi' %}";
+    }
+}
+</script>
