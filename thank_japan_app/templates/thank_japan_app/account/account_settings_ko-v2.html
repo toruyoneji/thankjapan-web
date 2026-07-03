@@ -256,7 +256,7 @@
                     <form action="{% url 'delete_account' %}?lang={{ lang_code }}" method="POST" onsubmit="return confirm('주의: 계정과 모든 데이터가 영구적으로 삭제됩니다. 계속하시겠습니까?')">
                         {% csrf_token %}
                         <input type="hidden" name="success_url_name" value="delete_successko">
-                        <button type="submit" class="btn-manage btn-delete" style="background: none; border: none; color: #6610f2; font-size: 0.8rem; text-decoration: underline; cursor: pointer;">
+                        <button type="submit" class="btn-manage btn-delete">
                             계정 영구 삭제
                         </button>
                     </form>

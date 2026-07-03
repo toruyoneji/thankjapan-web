@@ -256,7 +256,7 @@
                     <form action="{% url 'delete_account' %}?lang={{ lang_code }}" method="POST" onsubmit="return confirm('危险：将永久删除账户及所有数据。确定要继续吗？')">
                         {% csrf_token %}
                         <input type="hidden" name="success_url_name" value="delete_successzhCN">
-                        <button type="submit" class="btn-manage btn-delete" style="background: none; border: none; color: #6610f2; font-size: 0.8rem; text-decoration: underline; cursor: pointer;">
+                        <button type="submit" class="btn-manage btn-delete">
                             永久删除我的账户
                         </button>
                     </form>
