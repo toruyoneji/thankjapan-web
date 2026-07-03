@@ -54,10 +54,14 @@
         position: relative;
         border-bottom: 4px solid var(--tj-tea-dark);
         background-image:
-            linear-gradient(var(--tj-tea-dark) 2px, transparent 2px),
-            linear-gradient(90deg, var(--tj-tea-dark) 2px, transparent 2px);
+            linear-gradient(rgba(90,63,36,0.15) 2px, transparent 2px),
+            linear-gradient(90deg, rgba(90,63,36,0.15) 2px, transparent 2px);
         background-size: 50px 50px;
         background-position: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
     }
     .hero-inner-frame {
         border: 2px solid var(--tj-tea-dark);
@@ -181,24 +185,28 @@
             {% endif %}">
 
             <div class="rank-hero">
-                <div class="rank-avatar">{{ user.username|slice:":1"|upper }}</div>
-                <div class="rank-username" style="font-size: 1.3rem;">{{ user.username }}</div>
-                <div style="margin-top: 10px; font-weight: bold;">
-                    {% with s=total_score %}
-                        {% if s >= 2000 %}🗾 伝説 (Legend)
-                        {% elif s >= 1200 %}👑 大将軍 (General)
-                        {% elif s >= 900 %}🐎 将軍 (Shogun)
-                        {% elif s >= 650 %}🏯 大名 (Daimyo)
-                        {% elif s >= 450 %}🚩 旗本 (Hatamoto)
-                        {% elif s >= 300 %}⚔️ 侍 (Samurai)
-                        {% elif s >= 200 %}🥷 忍者 (Ninja)
-                        {% elif s >= 100 %}🚣 浪人 (Ronin)
-                        {% elif s >= 50 %}🎒 旅人 (Traveler)
-                        {% else %}🌾 村人 (Villager)
-                        {% endif %}
-                    {% endwith %}
+                <div class="hero-inner-frame" style="border: 2px solid var(--tj-tea-dark); padding: 20px; background: var(--tj-washi);">
+                    <div class="rank-avatar">{{ user.username|slice:":1"|upper }}</div>
+                    <span class="rank-username">{{ user.username }}</span>
+                    <div style="border: 1px solid var(--tj-tea-dark); padding: 4px 10px; border-radius: 4px; display: inline-block; font-size: 0.8rem; background: #fff; color: var(--tj-tea-dark); font-weight: bold;">
+                        {% with s=total_score %}
+                            {% if s >= 2000 %}🗾 伝説 (Legend)
+                            {% elif s >= 1200 %}👑 大将軍 (General)
+                            {% elif s >= 900 %}🐎 将軍 (Shogun)
+                            {% elif s >= 650 %}🏯 大名 (Daimyo)
+                            {% elif s >= 450 %}🚩 旗本 (Hatamoto)
+                            {% elif s >= 300 %}⚔️ 侍 (Samurai)
+                            {% elif s >= 200 %}🥷 忍者 (Ninja)
+                            {% elif s >= 100 %}🚣 浪人 (Ronin)
+                            {% elif s >= 50 %}🎒 旅人 (Traveler)
+                            {% else %}🌾 村人 (Villager)
+                            {% endif %}
+                        {% endwith %}
+
+                    </div>
                 </div>
             </div>
+
 
             <div class="rank-details">
                 <div class="rank-progress-container">
@@ -238,13 +246,14 @@
                     </form>
                 </div>
             </div>
+        </div>
 
                 <div style="text-align:center; margin-top: 30px;">
                     <a href="javascript:void(0);" onclick="smartBack()" class="back-link">
                         {% if request.GET.from == 'result' %}← Back to Results{% else %}← Back{% endif %}
                     </a>
                 </div>
-        </div>
+        
     </div>
 </div>
 
