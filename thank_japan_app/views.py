@@ -2528,7 +2528,7 @@ def account_settings(request):
         'total_registered': total_registered,
         'is_twa': is_android_twa(request)  
     }
-    return render(request, 'thank_japan_app/account/account_settings.html', context)
+    return render(request, 'thank_japan_app/account/account_settings-v2.html', context)
 
 
 @login_required
