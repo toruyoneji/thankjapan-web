@@ -2483,6 +2483,30 @@ def thank_youDE(request):
 #account_settings
 @login_required
 def account_settings(request):
+    lang = request.GET.get('lang') or request.session.get('tj_lang_code')
+    
+    if lang and lang != 'en':
+        mapping = {
+            'ja': 'account_settingsja',
+            'vi': 'account_settingsvi',
+            'fr': 'account_settingsfr',
+            'it': 'account_settingsit',
+            'pt': 'account_settingspt',
+            'zh-hant': 'account_settingszhHANT',
+            'zh-cn': 'account_settingszhCN',
+            'ko': 'account_settingsko',
+            'es-es': 'account_settingsesES',
+            'de': 'account_settingsde',
+            'th': 'account_settingsth',
+            'pt-br': 'account_settingsptBR',
+            'es-mx': 'account_settingsesMX',
+            'en-in': 'account_settingsenIN',
+        }
+        if lang in mapping:
+            url = reverse(mapping[lang])
+            query = request.GET.urlencode()
+            return redirect(f"{url}?{query}" if query else url)
+
     profile = request.user.profile
     s = profile.total_score
     
@@ -2503,7 +2527,6 @@ def account_settings(request):
         current_min = 2000
         next_max = 2000
 
-    
     pts_to_next = next_max - s if s < 2000 else 0
     
     if next_max > current_min:
