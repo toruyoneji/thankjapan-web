@@ -237,16 +237,17 @@
                         <button type="submit" class="btn-manage btn-delete">Delete Account</button>
                     </form>
                 </div>
+        </div>
 
-                <div style="margin-top: 26px;">
-                    <a href="javascript:void(0);" onclick="smartBack()" style="color: var(--tj-ink-soft); font-weight: bold; text-decoration: none;">
+                <div style="text-align:center; margin-top: 30px;">
+                    <a href="javascript:void(0);" onclick="smartBack()" class="back-link">
                         {% if request.GET.from == 'result' %}← Back to Results{% else %}← Back{% endif %}
                     </a>
                 </div>
-            </div>
-        </div>
+            
     </div>
 </div>
+
 
 <script>
 function smartBack() {
