@@ -1343,7 +1343,7 @@ def game_play(request):
         request.session['choice_index_check'] = index
 
     db_answer = extract_base_name(question.name).lower()
-    return render(request, 'thank_japan_app/game_play.html', {
+    return render(request, 'thank_japan_app/game_play-v2.html', {
         'object': question,
         'choices': choices,
         'seconds_left': seconds_left,
@@ -1410,7 +1410,7 @@ def game_answer(request, pk):
     game_end_time = request.session.get('game_end_time', current_time)
     seconds_left = int(game_end_time - current_time)
 
-    return render(request, 'thank_japan_app/game_play.html', {
+    return render(request, 'thank_japan_app/game_play-v2.html', {
         'object': question,
         'choices': choices,
         'user_input': user_input,
