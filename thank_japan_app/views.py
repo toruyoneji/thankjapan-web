@@ -50,6 +50,7 @@ Disallow: /login/
 Disallow: /register/
 Disallow: /account/
 Disallow: /thank-you/
+Disallow: /verify-android-subscription/
 
 Sitemap: https://www.thankjapan.com/sitemap.xml
 """
