@@ -161,6 +161,18 @@
         border: 1px solid var(--tj-red);
         font-size: 0.85rem;
     }
+
+    .btn-downgrade {
+        background: transparent;
+        color: var(--tj-gold-light);
+        border: 1px solid rgba(212, 175, 55, 0.6); 
+        font-size: 0.8rem;
+        padding: 8px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+
     .back-link {
         color: #ffffff !important;
         font-weight: bold;
@@ -222,27 +234,46 @@
                 {% endif %}
                 </div>
 
-                <div class="stats-row">
-                    <div class="stats-container">
-                        <span class="stat-label">TOTAL SCORE</span>
-                        <span class="stat-value">{{ total_score }}</span>
+
+                <div class="stats-row" style="display: flex; justify-content: space-around; margin-top: 20px; gap: 10px;">
+                    <div class="stats-container" style="flex: 1; background: rgba(0,0,0,0.3); padding: 10px; border-radius: 8px; border: 1px solid rgba(212,175,55,0.3);">
+                        <span class="stat-label" style="display: block; font-size: 0.7rem; color: #aaa;">TOTAL SCORE</span>
+                        <span class="stat-value" style="font-size: 1.2rem; color: var(--tj-gold-light); font-weight: bold;">{{ total_score }}</span>
                     </div>
-                    <div class="stats-container">
-                        <span class="stat-label">WORLD RANK</span>
-                        <span class="stat-value">#{{ current_rank }}</span>
+                    <div class="stats-container" style="flex: 1; background: rgba(0,0,0,0.3); padding: 10px; border-radius: 8px; border: 1px solid rgba(212,175,55,0.3);">
+                        <span class="stat-label" style="display: block; font-size: 0.7rem; color: #aaa;">WORLD RANK</span>
+                        <span class="stat-value" style="font-size: 1.2rem; color: #00bcd4; font-weight: bold;">#{{ current_rank }}</span>
                     </div>
                 </div>
 
-                <div style="margin-top: 30px;">
+                <div class="action-group" style="margin-top: 30px;">
                     {% if not user.profile.is_premium %}
-                        <a href="{% url 'premium_info' %}" class="btn-manage btn-upgrade">Upgrade to Premium 💎</a>
+                        <a href="{% url 'premium_info' %}?lang={{ lang_code }}" class="btn-manage btn-upgrade" style="display: block; background: linear-gradient(135deg, #d4af37, #f9f1b0); color: #000; padding: 12px; border-radius: 8px; text-decoration: none; font-weight: bold; margin-bottom: 15px;">
+                            Upgrade to Premium 💎
+                        </a>
                     {% else %}
-                        <p style="color: var(--tj-gold); font-size: 0.9rem;">Premium Member 💎</p>
+                        <div class="status-badge status-premium" style="color: var(--tj-gold); margin-bottom: 15px; font-weight: bold;">
+                            Premium Member 💎
+                        </div>
+                        {% if is_twa %}
+                            <p style="font-size: 0.8rem; color: #888;">Manage your subscription in Google Play Store.</p>
+                        {% else %}
+                            <form action="{% url 'downgrade_premium' %}?lang=en" method="POST" onsubmit="return confirm('Switch to Free Plan?')">
+                                {% csrf_token %}
+                                <input type="hidden" name="downgrade_url_name" value="downgrade_successen_in">
+                                <button type="submit" class="btn-manage btn-downgrade" style="background: none; border: 1px solid #555; color: #888; padding: 8px 15px; border-radius: 5px; font-size: 0.8rem; cursor: pointer; margin-bottom: 15px;">
+                                    Cancel Premium Subscription
+                                </button>
+                            </form>
+                        {% endif %}
                     {% endif %}
 
-                    <form action="{% url 'delete_account' %}" method="POST" onsubmit="return confirm('Delete account permanently?')">
+                    <form action="{% url 'delete_account' %}?lang={{ lang_code }}" method="POST" onsubmit="return confirm('DANGER: Delete account and all data permanently?')">
                         {% csrf_token %}
-                        <button type="submit" class="btn-manage btn-delete">Delete Account</button>
+                        <input type="hidden" name="success_url_name" value="delete_successenIN">
+                        <button type="submit" class="btn-manage btn-delete">
+                            Delete My Account Permanently
+                        </button>
                     </form>
                 </div>
             </div>
