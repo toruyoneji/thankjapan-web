@@ -277,6 +277,7 @@ img:hover { transform: scale(1.02); }
 .sound-toggle-container {
     display: flex;
     justify-content: flex-end;
+    margin-top: 15px; 
     margin-bottom: 10px;
 }
 
@@ -421,7 +422,7 @@ img:hover { transform: scale(1.02); }
     border-radius: 16px;
 }
 
-/* 元は暗い背景前提の白文字だった箇所を、明るい背景用に上書き */
+
 .result-section h2 { color: var(--ink) !important; text-shadow: none !important; font-size: 1.7em !important; }
 .result-section p { color: var(--ink) !important; text-shadow: none !important; }
 #time-left { color: var(--gold-dark); }
@@ -447,10 +448,10 @@ img:hover { transform: scale(1.02); }
         box-shadow: none !important;
     }
 
-    h1 { font-size: 1.2rem !important; margin: 0 !important; padding: 0 !important; border: none !important; }
-    h2 { font-size: 0.9rem !important; margin: 5px 0 !important; opacity: 0.8; }
+    h1 { font-size: 1rem !important; margin: 0 !important; }
+    h2 { font-size: 0.8rem !important; margin: 0 !important; }
 
-    #timer-container { margin: 5px 0 !important; }
+    #timer-container { margin: 2px 0 !important; }
     #time-left { font-size: 1.2rem !important; }
 
     .question-visual-area { 
@@ -458,7 +459,7 @@ img:hover { transform: scale(1.02); }
         margin-bottom: 10px !important; 
     }
     .question-image, .kanji-question-box { 
-        height: 20vh !important; 
+        height: 15vh !important; 
         max-height: 160px !important; 
         width: auto !important; 
         margin: 5px auto !important; 
@@ -483,7 +484,14 @@ img:hover { transform: scale(1.02); }
         font-size: 0.75rem !important; 
     }
     
-    .sound-toggle-container { margin-bottom: 5px !important; }
+    .sound-toggle-container { 
+        margin-top: 20px !important; 
+        margin-bottom: 5px !important;
+     }
+
+     .result-section div[style*="font-size: 8rem"] {
+        font-size: 4rem !important;
+    }
 }
 
 @media (max-width: 480px) {
@@ -919,22 +927,7 @@ img:hover { transform: scale(1.02); }
                     {% else %}🏁 See Game Results
                     {% endif %}
                 </a>
-            {% else %}
-                <a href="{% url 'game_next_question' %}" class="next-btn btn-game-next" style="display: inline-block; background: #00e5ff; color: #000; padding: 15px 30px; border-radius: 30px; text-decoration: none; font-weight: bold;">
-                    {% if lang_code == 'ja' %}次の問題へ ➔
-                    {% elif lang_code == 'zh-hant' %}下一題 ➔
-                    {% elif lang_code == 'zh-cn' %}下一题 ➔
-                    {% elif lang_code == 'de' %}Nächste Frage ➔
-                    {% elif lang_code == 'fr' %}Question suivante ➔
-                    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Siguiente pregunta ➔
-                    {% elif lang_code == 'it' %}Domanda successiva ➔
-                    {% elif lang_code == 'ko' %}다음 문제 ➔
-                    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Próxima pergunta ➔
-                    {% elif lang_code == 'vi' %}Câu hỏi tiếp theo ➔
-                    {% elif lang_code == 'th' %}คำถามถัดไป ➔
-                    {% else %}Next Question ➔
-                    {% endif %}
-                </a>
+            
             {% endif %}
         {% endif %}
     </div>
