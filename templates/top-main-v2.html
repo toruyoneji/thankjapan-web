@@ -54,18 +54,24 @@
 
 .welcome-greeting {
     font-family: 'Poppins', 'Noto Sans JP', sans-serif !important;
-    font-size: 1.5rem; 
-    margin-top: 40px;
-    margin-bottom: 20px;
-    font-weight: bold;
+    font-size: 1.6rem; 
+    margin-top: 45px;  
+    margin-bottom: 25px;
+    font-weight: 800;  
     display: inline-block; 
-    background: linear-gradient(135deg, #ffffff 30%, #ff4d4d 100%);
+    color: #ffffff;    
+    letter-spacing: 0.02em; 
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.8)) drop-shadow(0 0 10px rgba(0,0,0,0.3));
+}
+
+.username-accent {
+    
+    background: linear-gradient(135deg, #ffffff 0%, #ff4d4d 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.5));
+    padding: 0 2px;
 }
-
 .hero-description-list {
     background: rgba(0, 0, 0, 0.3) !important; 
     backdrop-filter: blur(8px) !important; 
@@ -203,18 +209,18 @@
         {% else %}
             
             <div class="welcome-greeting">
-                {% if lang_code == 'ja' %}お帰りなさい、{{ user.username }}さん！
-                {% elif lang_code == 'ko' %}{{ user.username }}님, 환영합니다!
-                {% elif lang_code == 'zh-cn' %}欢迎回来，{{ user.username }}！
-                {% elif lang_code == 'zh-hant' %}歡迎回來，{{ user.username }}！
-                {% elif lang_code == 'th' %}ยินดีต้อนรับกลับมา {{ user.username }}!
-                {% elif lang_code == 'vi' %}Chào mừng quay trở lại, {{ user.username }}!
-                {% elif lang_code == 'fr' %}Bon retour, {{ user.username }} !
-                {% elif lang_code == 'de' %}Willkommen zurück, {{ user.username }}!
-                {% elif lang_code == 'it' %}Bentornato, {{ user.username }}!
-                {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}¡Bienvenido de nuevo, {{ user.username }}!
-                {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Bem-vindo de volta, {{ user.username }}!
-                {% else %}Welcome back, {{ user.username }}!{% endif %}
+                {% if lang_code == 'ja' %}お帰りなさい、<span class="username-accent">{{ user.username }}</span>さん！
+                {% elif lang_code == 'ko' %}<span class="username-accent">{{ user.username }}</span>님, 환영합니다!
+                {% elif lang_code == 'zh-cn' %}欢迎回来，<span class="username-accent">{{ user.username }}</span>！
+                {% elif lang_code == 'zh-hant' %}歡迎回來，<span class="username-accent">{{ user.username }}</span>！
+                {% elif lang_code == 'th' %}ยินดีต้อนรับกลับมา <span class="username-accent">{{ user.username }}</span>!
+                {% elif lang_code == 'vi' %}Chào mừng quay trở lại, <span class="username-accent">{{ user.username }}</span>!
+                {% elif lang_code == 'fr' %}Bon retour, <span class="username-accent">{{ user.username }}</span> !
+                {% elif lang_code == 'de' %}Willkommen zurück, <span class="username-accent">{{ user.username }}</span>!
+                {% elif lang_code == 'it' %}Bentornato, <span class="username-accent">{{ user.username }}</span>!
+                {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}¡Bienvenido de nuevo, <span class="username-accent">{{ user.username }}</span>!
+                {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Bem-vindo de volta, <span class="username-accent">{{ user.username }}</span>!
+                {% else %}Welcome back, <span class="username-accent">{{ user.username }}</span>!{% endif %}
             </div>
 
             <div class="hero-buttons">
