@@ -1,4 +1,4 @@
-{% extends 'base/basecategory_top.html' %}
+{% extends 'base/base_gameplay.html' %}
 {% load category_filters %}
 
 {% block title %}
@@ -17,7 +17,7 @@
     {% else %}Question {{ current_index }} | ThankJapan{% endif %}
 {% endblock %}
 
-{% block content %}
+{% block game_main %}
 <script src="https://unpkg.com/wanakana"></script>
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 <script src="https://unpkg.com/htmx.org@1.9.10"></script>
@@ -55,16 +55,43 @@ body {
   margin: 0; padding: 0;
 }
 
+
+#premium-auth-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100dvh; 
+    background-color: var(--washi); 
+    overflow: hidden; 
+    display: flex;
+    flex-direction: column;
+}
+
+
+.app-content-fix {
+    flex: 1;
+    width: 100%;
+    overflow-y: auto; 
+    padding-bottom: 80px; 
+    -ms-overflow-style: none;  
+    scrollbar-width: none;     
+}
+
+
+.app-content-fix::-webkit-scrollbar {
+    display: none;
+}
+
 .main2 {
   max-width: 900px;
-  margin: 40px auto;
-  padding: 40px;
+  margin: 10px auto !important; 
+  padding: 20px !important;    
   background: var(--washi-card);
   border-radius: 24px;
   border: 1px solid var(--wood-border);
   border-top: 6px solid var(--gold);
   box-shadow: 0 10px 30px rgba(42,29,19,0.08);
-  animation: fadeIn 0.5s ease-in-out;
   box-sizing: border-box;
   width: 95%;
   position: relative;
@@ -410,16 +437,53 @@ img:hover { transform: scale(1.02); }
 }
 
 @media (max-width: 768px) {
-    .main2 { margin: 5px auto !important; padding: 10px !important; width: 98% !important; }
-    h1 { font-size: 1.1rem !important; margin: 0 !important; padding: 0 !important; border: none !important; }
-    h2 { font-size: 0.9rem !important; margin: 5px 0 !important; }
-    .question-visual-area { min-height: auto !important; margin-bottom: 5px !important; }
-    .question-image, .kanji-question-box { height: 25vh !important; width: auto !important; margin: 5px auto !important; }
-    .kanji-text { font-size: 3.5rem !important; }
-    .choice-btn { padding: 10px !important; font-size: 1.1rem !important; margin-bottom: 0 !important; }
-    .choices-container { gap: 8px !important; }
-    .sound-toggle-container { margin-bottom: 0 !important; }
-    .footer-note { margin-top: 10px !important; font-size: 0.7rem !important; }
+    
+    .main2 { 
+        margin: 0 auto !important; 
+        padding: 15px 12px !important; 
+        width: 100% !important; 
+        border-radius: 0 !important; 
+        border-top: none !important;
+        box-shadow: none !important;
+    }
+
+    h1 { font-size: 1.2rem !important; margin: 0 !important; padding: 0 !important; border: none !important; }
+    h2 { font-size: 0.9rem !important; margin: 5px 0 !important; opacity: 0.8; }
+
+    #timer-container { margin: 5px 0 !important; }
+    #time-left { font-size: 1.2rem !important; }
+
+    .question-visual-area { 
+        min-height: auto !important; 
+        margin-bottom: 10px !important; 
+    }
+    .question-image, .kanji-question-box { 
+        height: 20vh !important; 
+        max-height: 160px !important; 
+        width: auto !important; 
+        margin: 5px auto !important; 
+        border-radius: 12px !important;
+    }
+    .kanji-text { font-size: 3rem !important; letter-spacing: 2px !important; }
+
+    .choices-container { gap: 10px !important; }
+    .choice-btn { 
+        padding: 14px 15px !important; 
+        font-size: 1.1rem !important; 
+        margin-bottom: 0 !important; 
+        border-radius: 12px !important;
+        border-bottom-width: 3px !important;
+    }
+
+    #hint-btn { padding: 6px 15px !important; font-size: 0.9rem !important; }
+
+    .footer-note { 
+        margin-top: 20px !important; 
+        padding-bottom: 40px !important; 
+        font-size: 0.75rem !important; 
+    }
+    
+    .sound-toggle-container { margin-bottom: 5px !important; }
 }
 
 @media (max-width: 480px) {
