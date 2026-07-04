@@ -7,13 +7,14 @@
     font-family: 'Inter', 'Noto Sans JP', sans-serif !important;
     position: relative;
     width: 100%;
-    height: calc(100vh - 140px); 
+    min-height: calc(100dvh - 140px);  
+    height: auto !important; 
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    overflow: hidden;
-    padding: 10px;
+    overflow: visible; 
+    padding: 20px 10px;
     background-color: #111; 
     z-index: 1; 
 }
@@ -144,6 +145,49 @@
 
 
 .categories, .game-call-to-action, footer { display: none; }
+
+
+@media (orientation: landscape) {
+    .hero {
+        padding-top: 20px !important;
+        padding-bottom: 100px !important; 
+    }
+
+    .hero-container {
+        gap: 25px !important; 
+        margin-top: 10px !important;
+    }
+
+    .welcome-greeting {
+        margin-top: 10px !important;
+        margin-bottom: 10px !important;
+        font-size: 1.4rem !important; 
+    }
+
+    .hero-description-list {
+        padding: 10px 25px !important;
+        margin-bottom: 10px !important;
+        width: 80% !important; 
+    }
+
+    
+    .hero-buttons {
+        flex-direction: row !important; 
+        gap: 20px !important; 
+        width: 100%;
+        justify-content: center;
+        flex-wrap: wrap; 
+    }
+
+    .explore-btn {
+        width: 40% !important; 
+        min-width: 200px;     
+        padding: 12px 0 !important;
+        font-size: 0.9rem !important;
+    }
+}
+
+
 </style>
 
 <section class="hero" id="hero-slider">
