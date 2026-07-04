@@ -1276,7 +1276,7 @@ def game_start(request):
     
     premium_url_name, lang_code = get_lang_info(request)
 
-    return render(request, 'thank_japan_app/game_start.html', {
+    return render(request, 'thank_japan_app/game_start-v2.html', {
         'player': player, 
         'is_guest': is_guest,
         'lang_code': lang_code,
