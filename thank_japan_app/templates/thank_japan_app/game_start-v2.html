@@ -210,6 +210,48 @@ body::before, body::after { display: none; }
 .premium-locked .difficulty-info p { color: var(--locked-text) !important; }
 .premium-locked:hover { transform: none !important; }
 
+/* N5 = 若葉・翡翠系(初心者・旅) */
+.premium-options .difficulty-card:nth-child(2).premium-gold {
+    background: #5a8a86 !important;
+    border-bottom-color: #446b68 !important;
+}
+.premium-options .difficulty-card:nth-child(2).premium-locked {
+    background: #d8e4e2 !important;
+    border-bottom-color: #b9c9c6 !important;
+}
+.premium-options .difficulty-card:nth-child(2).premium-locked .difficulty-info h3,
+.premium-options .difficulty-card:nth-child(2).premium-locked .difficulty-info p {
+    color: #6f8582 !important;
+}
+
+/* N4 = 葡萄・小豆系(生活者) */
+.premium-options .difficulty-card:nth-child(3).premium-gold {
+    background: #8a5a6e !important;
+    border-bottom-color: #6b4455 !important;
+}
+.premium-options .difficulty-card:nth-child(3).premium-locked {
+    background: #e4d8dd !important;
+    border-bottom-color: #c9b3bc !important;
+}
+.premium-options .difficulty-card:nth-child(3).premium-locked .difficulty-info h3,
+.premium-options .difficulty-card:nth-child(3).premium-locked .difficulty-info p {
+    color: #8a6f78 !important;
+}
+
+/* N3 = 藍系(ビジネス) */
+.premium-options .difficulty-card:nth-child(4).premium-gold {
+    background: #4a5a7a !important;
+    border-bottom-color: #38445e !important;
+}
+.premium-options .difficulty-card:nth-child(4).premium-locked {
+    background: #dadfe6 !important;
+    border-bottom-color: #b7c0cc !important;
+}
+.premium-options .difficulty-card:nth-child(4).premium-locked .difficulty-info h3,
+.premium-options .difficulty-card:nth-child(4).premium-locked .difficulty-info p {
+    color: #6f7a8a !important;
+}
+
 .lock-overlay {
     position: absolute;
     top: 8px;
@@ -699,7 +741,7 @@ body::before, body::after { display: none; }
             </a>
         </div>
 
-        <div class="difficulty-options">
+        <div class="difficulty-options premium-options">
             <a href="{% url 'game_restart' %}?difficulty=sample_premium" class="difficulty-card sample-card">
                 <span class="emoji">🎁</span>
                 <div class="difficulty-info">
