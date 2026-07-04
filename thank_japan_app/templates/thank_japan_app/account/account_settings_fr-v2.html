@@ -258,7 +258,7 @@
                             <form action="{% url 'downgrade_premium' %}?lang=fr" method="POST" onsubmit="return confirm('Passer au plan gratuit ?')">
                                 {% csrf_token %}
                                 <input type="hidden" name="downgrade_url_name" value="downgrade_successfr">
-                                <button type="submit" class="btn-manage btn-downgrade" style="background: none; border: 1px solid #555; color: #888; padding: 8px 15px; border-radius: 5px; font-size: 0.8rem; cursor: pointer; margin-bottom: 15px;">
+                                <button type="submit" class="btn-manage btn-downgrade">
                                     Annuler l'abonnement Premium
                                 </button>
                             </form>
