@@ -277,7 +277,7 @@ img:hover { transform: scale(1.02); }
 .sound-toggle-container {
     display: flex;
     justify-content: flex-end;
-    margin-top: 25px; 
+    margin-top: 40px; 
     margin-bottom: 10px;
 }
 
@@ -429,6 +429,18 @@ img:hover { transform: scale(1.02); }
 #timer-container span:not(#time-left) { color: var(--ink) !important; }
 #english-hint-text { color: var(--azuki-dark) !important; }
 
+@media (min-width: 1025px) {
+    .mobile-mini-nav {
+        display: flex !important; 
+        justify-content: flex-end; 
+        padding: 10px 20px;
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: auto;
+    }
+}
+
 @media (max-width: 1024px) {
   .main2 { padding: 20px 10px; margin: 90px auto 20px auto !important; width: 95%; }
   h1 { font-size: 1.6rem; border-bottom-width: 2px; }
@@ -485,7 +497,7 @@ img:hover { transform: scale(1.02); }
     }
     
     .sound-toggle-container { 
-        margin-top: 28px !important; 
+        margin-top: 35px !important; 
         margin-bottom: 5px !important;
      }
 
