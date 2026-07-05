@@ -1,0 +1,849 @@
+{% extends 'base/basecategory_top.html' %}
+{% load category_filters %}
+
+{% block title %}
+    {% if lang_code == 'ja' %}ゲーム結果(Game Result) | ThankJapan - 知識に挑戦！
+    {% elif lang_code == 'zh-hant' %}遊戲結果(Game Result) | ThankJapan - 挑戰您的知識！
+    {% elif lang_code == 'zh-cn' %}游戏结果(Game Result) | ThankJapan - 挑战您的知识！
+    {% elif lang_code == 'ko' %}게임 결과(Game Result) | ThankJapan - 지식에 도전하세요!
+    {% elif lang_code == 'fr' %}Résultat du jeu (Game Result) | ThankJapan - Relevez le défi !
+    {% elif lang_code == 'th' %}ผลการเกม (Game Result) | ThankJapan - ท้าทายความรู้ของคุณ!
+    {% elif lang_code == 'vi' %}Kết quả trò chơi (Game Result) | ThankJapan - Thử thách kiến thức của bạn!
+    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Resultado del juego (Game Result) | ThankJapan - ¡Desafía tu conocimiento!
+    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Resultado do jogo (Game Result) | ThankJapan - Desafie seu conhecimento!
+    {% elif lang_code == 'de' %}Spielergebnis (Game Result) | ThankJapan - Testen Sie Ihr Wissen!
+    {% elif lang_code == 'it' %}Risultato del gioco (Game Result) | ThankJapan - Sfida la tua conoscenza!
+    {% elif lang_code == 'en-in' %}Game Result | ThankJapan - Challenge your knowledge!
+    {% else %}Game Result | ThankJapan - Challenge your knowledge!{% endif %}
+{% endblock %}
+
+{% block meta %}
+<meta name="description" content="Check your game result and see the top 20 players on ThankJapan! Test your knowledge about Japan.">
+<meta property="og:title" content="Game Result | ThankJapan">
+<meta property="og:description" content="Did you rank among the top 20? Check your score now!">
+<meta property="og:image" content="https://res.cloudinary.com/dotekofm5/image/upload/v1768385674/thankjapan/backgrounds/gx8xbypllgs1qogcsvak.jpg">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.thankjapan.com/game/result/">
+<meta name="twitter:card" content="summary_large_image">
+
+{% endblock %}
+
+{% block content %}
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "name": "ThankJapan Top 20 Players Ranking",
+  "itemListElement": [
+    {% for r in ranking %}
+    {
+      "@type": "ListItem",
+      "position": {{ forloop.counter }},
+      "name": "{{ r.username|escapejs }}",
+      "url": "https://www.thankjapan.com/",
+      "description": "Score: {{ r.total_score }}, Country: {{ r.country|default:'Unknown'|escapejs }}"
+    }{% if not forloop.last %},{% endif %}
+    {% endfor %}
+  ]
+}
+</script>
+
+<style>
+:root {
+    --washi: #faf6ec;
+    --washi-card: #ffffff;
+    --wood-border: #e8dfc8;
+    --ink: #2a1d13;
+    --ink-soft: #8a7862;
+    --gold: #cda23f;
+    --gold-dark: #a97c1f;
+    --matcha: #7c9473;
+    --matcha-dark: #5e7458;
+    --azuki: #a5533f;
+    --azuki-dark: #833f2f;
+}
+
+/* ---- 1画面完結の骨組み ---- */
+#premium-auth-container {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100vh;
+    height: 100dvh;
+    background-color: var(--washi);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+.app-content-fix {
+    flex: 1;
+    width: 100%;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: calc(40px + env(safe-area-inset-bottom));
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+.app-content-fix::-webkit-scrollbar { display: none; }
+
+body {
+    font-family: 'Zen Antique', 'Shippori Mincho', 'Noto Serif JP', serif;
+    margin: 0;
+    color: var(--ink);
+}
+
+.main2 {
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: center;
+    padding: 24px 18px 10px;
+}
+
+h1 {
+    font-size: 1.4rem;
+    color: var(--ink);
+    border-bottom: 2px solid var(--gold);
+    display: inline-block;
+    padding-bottom: 8px;
+    margin: 8px 0 20px;
+    font-weight: 700;
+}
+
+h2 {
+    font-size: 1.1rem;
+    color: var(--ink);
+    margin-top: 10px;
+    margin-bottom: 14px;
+    font-weight: 700;
+}
+
+.score-box {
+    background: var(--washi-card);
+    padding: 20px 16px;
+    margin: 0 auto 14px;
+    border-radius: 20px;
+    border: 1px solid var(--wood-border);
+    max-width: 500px;
+}
+.score-box p { color: var(--ink) !important; }
+.score-number { color: var(--matcha-dark) !important; font-size: 2.2rem !important; }
+
+/* ---- 主要アクション：シェア＞もう一度プレイ ---- */
+.primary-actions { display: flex; flex-direction: column; gap: 9px; margin: 14px auto 18px; max-width: 400px; }
+
+.twitter-share-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--ink);
+    color: #fff;
+    font-weight: bold;
+    text-decoration: none;
+    padding: 13px;
+    border-radius: 16px;
+    font-size: 1rem;
+    border: none;
+    border-bottom: 4px solid #000;
+    box-shadow: none;
+    transition: transform 0.1s;
+}
+.twitter-share-btn:hover { background-color: var(--ink); transform: translateY(2px); border-bottom-width: 2px; }
+.x-icon { fill: #fff; width: 18px; height: 18px; margin-right: 8px; }
+
+.button-group { display: flex; flex-direction: column; gap: 9px; margin: 0; }
+.neon-button {
+    background: var(--gold);
+    color: var(--ink);
+    padding: 13px;
+    font-size: 1rem;
+    font-weight: 700;
+    border: none;
+    border-bottom: 4px solid var(--gold-dark);
+    border-radius: 16px;
+    cursor: pointer;
+    transition: transform 0.1s;
+    text-decoration: none;
+    display: flex; align-items: center; justify-content: center;
+    max-width: 400px; margin: 0 auto; width: 100%;
+    font-family: 'Noto Sans JP', sans-serif;
+}
+.neon-button:hover { transform: translateY(2px); border-bottom-width: 2px; background: var(--gold); color: var(--ink); }
+.neon-button.secondary {
+    background: transparent;
+    color: var(--ink-soft);
+    border: 1px solid var(--wood-border);
+    border-bottom: 1px solid var(--wood-border);
+    box-shadow: none;
+}
+.neon-button.secondary:hover { transform: none; background: #f4ede0; }
+
+hr { margin: 24px auto; border: none; height: 1px; background: var(--wood-border); max-width: 500px; }
+
+/* ---- ランキング（折りたたみ共通） ---- */
+.rank-card { margin: 14px auto; max-width: 450px; background: var(--washi-card); border: 1px solid var(--wood-border); border-radius: 16px; overflow: hidden; font-family: 'Noto Sans JP', sans-serif; }
+.rank-card-header { background: var(--ink); color: var(--gold); padding: 9px; text-align: center; font-weight: bold; font-size: 0.95rem; }
+
+table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+.table-wrapper { max-width: 500px; margin: 0 auto; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+thead th { background: #f4ede0; color: var(--ink-soft); padding: 8px; font-size: 0.75rem; font-weight: 700; border: none; border-bottom: 1px solid var(--wood-border); }
+tbody tr { background: var(--washi-card); border-bottom: 1px solid #f0e9d8; }
+tbody td { padding: 8px; border: none; font-size: 0.82rem; color: var(--ink); }
+.highlight { background: #eaf3e4 !important; color: var(--matcha-dark) !important; font-weight: bold; }
+
+.rank-row-hidden { display: none; }
+.rank-toggle-btn {
+    width: 100%; background: #f4ede0; border: none; border-top: 1px solid #f0e9d8;
+    color: var(--gold-dark); padding: 9px; font-size: 0.78rem; font-weight: 700; cursor: pointer;
+}
+
+/* ---- 復習セクション（折りたたみ） ---- */
+.review-toggle-btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: var(--washi-card); border: 1px solid var(--wood-border);
+    color: var(--ink); padding: 10px 20px; border-radius: 999px;
+    font-size: 0.9rem; font-weight: 700; cursor: pointer; margin: 6px auto 14px;
+}
+.review-section { display: none; text-align: left; margin: 10px auto; max-width: 500px; }
+.review-section.open { display: block; }
+.section-title { text-align: center; margin-bottom: 12px; font-size: 1rem; color: var(--ink); border-bottom: 1px dashed var(--wood-border); display: inline-block; padding-bottom: 4px; }
+.review-list { display: flex; flex-direction: column; gap: 10px; }
+.review-card { display: flex; align-items: center; background: var(--washi-card); border: 1px solid var(--wood-border); border-radius: 12px; padding: 10px; }
+.review-card.correct { border-left: 4px solid var(--matcha); }
+.review-card.wrong { border-left: 4px solid var(--azuki); }
+.review-img-wrapper { flex-shrink: 0; width: 56px; height: 56px; margin-right: 10px; }
+.review-img-wrapper img { width: 100%; height: 100%; object-fit: cover; border-radius: 8px; }
+.review-info { flex-grow: 1; min-width: 0; }
+.review-header { display: flex; gap: 8px; font-size: 0.68rem; color: var(--ink-soft); margin-bottom: 3px; }
+.q-label { font-weight: bold; color: var(--gold-dark); }
+.answer-title { margin: 0 0 3px 0; font-size: 0.95rem; color: var(--ink); }
+.status-text { margin: 0; font-weight: bold; font-size: 0.78rem; }
+.status-text.correct { color: var(--matcha-dark); }
+.status-text.wrong { color: var(--azuki-dark); }
+.user-input { margin: 0; font-size: 0.72rem; color: var(--ink-soft); }
+.user-input span { color: var(--azuki-dark); text-decoration: underline; }
+.review-action { margin-left: 8px; }
+.study-btn { display: inline-block; background: var(--ink); color: #fff; text-decoration: none; padding: 6px 12px; border-radius: 999px; font-weight: bold; font-size: 0.72rem; white-space: nowrap; }
+
+/* ---- 登録/プロフィール誘導 ---- */
+.appeal-section {
+    margin: 16px auto; padding: 20px 16px; background: #fff9e6;
+    border: 2px solid var(--gold); border-radius: 16px; max-width: 450px; text-align: center;
+}
+.appeal-section p { color: var(--ink) !important; font-size: 0.95rem; margin-bottom: 14px; line-height: 1.6; }
+.appeal-section strong { color: var(--azuki-dark); }
+.appeal-section .btn, .btn-manage-account {
+    display: inline-block; background: var(--gold); color: var(--ink) !important;
+    padding: 11px 28px; border-radius: 999px; text-decoration: none; font-weight: bold;
+    font-size: 0.95rem; border-bottom: 4px solid var(--gold-dark);
+}
+
+.btn-more {
+    display: inline-block; background: transparent; color: var(--ink-soft);
+    padding: 8px; text-decoration: underline; font-weight: 600; margin-top: 6px; font-size: 0.85rem;
+}
+
+@media (max-width: 600px) {
+  h1 { font-size: 1.2rem; }
+  .score-number { font-size: 1.9rem !important; }
+}
+</style>
+
+
+<div id="premium-auth-container">
+  <div class="app-content-fix">
+    <div class="main2">
+
+      <h1>
+        {% if lang_code == 'ja' %}🎉 ゲーム結果 🎉
+        {% elif lang_code == 'zh-hant' %}🎉 遊戲結果 🎉
+        {% elif lang_code == 'zh-cn' %}🎉 游戏结果 🎉
+        {% elif lang_code == 'de' %}🎉 Spielergebnis 🎉
+        {% elif lang_code == 'fr' %}🎉 Résultat du jeu 🎉
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}🎉 Resultado del juego 🎉
+        {% elif lang_code == 'it' %}🎉 Risultato del gioco 🎉
+        {% elif lang_code == 'ko' %}🎉 게임 결과 🎉
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}🎉 Resultado do jogo 🎉
+        {% elif lang_code == 'vi' %}🎉 Kết quả trò chơi 🎉
+        {% elif lang_code == 'th' %}🎉 ผลลัพธ์เกม 🎉
+        {% else %}🎉 Game Result 🎉
+        {% endif %}
+      </h1>
+
+      <div class="score-box" style="color: #000000;">
+        {% if player %}
+            <p style="font-size:1.5rem; color: #000000;">
+                {% if lang_code == 'ja' %}プレイヤー
+                {% elif lang_code == 'zh-hant' %}玩家
+                {% elif lang_code == 'zh-cn' %}玩家
+                {% elif lang_code == 'de' %}Spieler
+                {% elif lang_code == 'fr' %}Joueur
+                {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Jugador
+                {% elif lang_code == 'it' %}Giocatore
+                {% elif lang_code == 'ko' %}플레이어
+                {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Jogador
+                {% elif lang_code == 'vi' %}Người chơi
+                {% elif lang_code == 'th' %}ผู้เล่น
+                {% else %}Player
+                {% endif %}
+                {{ player.username }} ({{ player.country|default:"Unknown" }})</p>
+        {% else %}
+            <p style="font-size:1.5rem; color: #000000;">
+                {% if lang_code == 'ja' %}プレイヤー: ゲスト
+                {% elif lang_code == 'zh-hant' %}玩家: 訪客
+                {% elif lang_code == 'zh-cn' %}玩家: 游客
+                {% elif lang_code == 'de' %}Spieler: Gast
+                {% elif lang_code == 'fr' %}Joueur: Invité
+                {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Jugador: Invitado
+                {% elif lang_code == 'it' %}Giocatore: Ospite
+                {% elif lang_code == 'ko' %}플레이어: 게스트
+                {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Jogador: Convidado
+                {% elif lang_code == 'vi' %}Người chơi: Khách
+                {% elif lang_code == 'th' %}ผู้เล่น: แขก
+                {% else %}Player: Guest
+                {% endif %}
+            </p>
+        {% endif %}
+        <div style="margin: 15px 0; border-top: 1px solid #eee; padding-top: 15px;">
+            <p style="font-size: 1.1rem; color: #666; margin-bottom: 5px; font-weight: bold;">
+                ⏱ 60s Challenge
+            </p>
+            <p style="font-size: 2.2rem; font-weight: bold; color: #333; margin: 0;">
+                <span class="score-number" id="score" style="color: #4caf50;">{{ score }}</span>
+                <span style="font-size: 1.2rem; color: #999;"> / {{ total_played }}</span>
+                <span style="font-size: 1.2rem; margin-left: 5px;">
+                    {% if lang_code == 'ja' %}正解!
+                    {% elif lang_code == 'zh-hant' %}正確!
+                    {% elif lang_code == 'zh-cn' %}正确!
+                    {% elif lang_code == 'de' %}Richtig!
+                    {% elif lang_code == 'fr' %}Correct !
+                    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}¡Correcto!
+                    {% elif lang_code == 'it' %}Corretto!
+                    {% elif lang_code == 'ko' %}정답!
+                    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Correto!
+                    {% elif lang_code == 'vi' %}Chính xác!
+                    {% elif lang_code == 'th' %}ถูกต้อง!
+                    {% else %}Correct!{% endif %}
+                </span>
+            </p>
+            <p style="font-size: 1rem; color: #888;">+{{ score }} pts added to your Total Exp</p>
+        </div>
+      </div>
+
+      {% if not is_guest and current_rank %}
+        <div style="margin-top: 10px; border-top: 1px dashed #ddd; padding-top: 10px;">
+            <p style="font-size: 0.9rem; color: #666; margin-bottom: 5px; font-weight: bold;">
+                {% if lang_code == 'ja' %}現在の順位:
+                {% elif lang_code == 'zh-hant' or lang_code == 'zh-cn' %}目前排名:
+                {% elif lang_code == 'ko' %}현재 순위:
+                {% elif lang_code == 'de' %}Aktueller Rang:
+                {% elif lang_code == 'fr' %}Classement actuel :
+                {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Clasificación actual:
+                {% elif lang_code == 'it' %}Classifica attuale:
+                {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Classificação atual:
+                {% elif lang_code == 'vi' %}Xếp hạng hiện tại:
+                {% elif lang_code == 'th' %}อันดับปัจจุบัน:
+                {% else %}Current World Rank:{% endif %}
+            </p>
+            <p style="font-size: 1.2rem; color: #333; margin: 0;">
+                <span style="font-weight: bold; color: #b7282e; font-size: 1.8rem;">{{ current_rank }}</span>
+                <span style="font-size: 1rem;">
+                    {% if lang_code == 'ja' %}位
+                    {% elif lang_code == 'zh-hant' or lang_code == 'zh-cn' %}名
+                    {% elif lang_code == 'ko' %}위
+                    {% elif lang_code == 'th' %}อันดับ
+                    {% elif lang_code == 'de' %}.
+                    {% elif lang_code == 'fr' %}e
+                    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}º
+                    {% elif lang_code == 'it' %}º
+                    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}º
+                    {% elif lang_code == 'vi' %}
+                    {% else %}th{% endif %}
+                </span>
+                <span style="color: #999; margin: 0 8px;">/</span>
+                <span style="font-size: 1.1rem;">{{ total_registered }}</span>
+                <span style="font-size: 0.9rem; color: #666;">
+                    {% if lang_code == 'ja' %}人中
+                    {% elif lang_code == 'zh-hant' or lang_code == 'zh-cn' %}人中
+                    {% elif lang_code == 'ko' %}명 중
+                    {% elif lang_code == 'fr' %}joueurs
+                    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}jugadores
+                    {% elif lang_code == 'de' %}Spieler
+                    {% elif lang_code == 'it' %}giocatori
+                    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}jogadores
+                    {% elif lang_code == 'vi' %}người
+                    {% elif lang_code == 'th' %}คน
+                    {% else %}players{% endif %}
+                </span>
+            </p>
+        </div>
+      {% endif %}
+
+      <div class="primary-actions">
+        <a href="https://twitter.com/intent/tweet?text=I%20solved%20{{ score|default:0 }}%20words%20in%20the%2060-Second%20Challenge%20on%20ThankJapan!%20🇯🇵%20{% if current_rank %}World%20Rank:%20%23{{ current_rank }}%2F{{ total_registered }}{% else %}Rank:%20{{ player.rank|default:'Villager' }}{% endif %}.%20Can%20you%20beat%20me?%20🎮&url=https://www.thankjapan.com&hashtags=LearnJapanese,JapanQuiz,ThankJapan"
+            target="_blank"
+            class="twitter-share-btn">
+            <svg viewBox="0 0 24 24" aria-hidden="true" class="x-icon">
+                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path>
+            </svg>
+            {% if lang_code == 'ja' %}Xでシェア
+            {% elif lang_code == 'zh-hant' %}在 X 分享
+            {% elif lang_code == 'zh-cn' %}在 X 分享
+            {% elif lang_code == 'de' %}Auf X teilen
+            {% elif lang_code == 'fr' %}Partager sur X
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Compartir en X
+            {% elif lang_code == 'it' %}Condividi su X
+            {% elif lang_code == 'ko' %}X에 공유
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Compartilhar no X
+            {% elif lang_code == 'vi' %}Chia sẻ trên X
+            {% elif lang_code == 'th' %}แชร์บน X
+            {% else %}Share on X
+            {% endif %}
+        </a>
+
+        <div class="button-group">
+          {% if is_guest %}
+              <a href="{% url 'game_start' %}" class="neon-button">
+                  {% if lang_code == 'ja' %}メニューに戻る
+                  {% elif lang_code == 'zh-hant' %}返回選單
+                  {% elif lang_code == 'zh-cn' %}返回菜单
+                  {% elif lang_code == 'de' %}Zurück zum Menü
+                  {% elif lang_code == 'fr' %}Retour au menu
+                  {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Volver al menú
+                  {% elif lang_code == 'it' %}Torna al menu
+                  {% elif lang_code == 'ko' %}메뉴로 돌아가기
+                  {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Voltar ao menu
+                  {% elif lang_code == 'vi' %}Quay lại Menu
+                  {% elif lang_code == 'th' %}กลับไปที่เมนู
+                  {% else %}Back to Menu
+                  {% endif %}
+              </a>
+          {% else %}
+              <a href="{% url 'game_restart' %}?difficulty={{ difficulty }}" class="neon-button">
+                  {% if lang_code == 'ja' %}🔁 もう一度プレイ
+                  {% elif lang_code == 'zh-hant' %}🔁 再次遊玩
+                  {% elif lang_code == 'zh-cn' %}🔁 再次游玩
+                  {% elif lang_code == 'de' %}🔁 Nochmal spielen
+                  {% elif lang_code == 'fr' %}🔁 Rejouer
+                  {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}🔁 Jugar de nuevo
+                  {% elif lang_code == 'it' %}🔁 Gioca di nuovo
+                  {% elif lang_code == 'ko' %}🔁 다시 플레이
+                  {% elif lang_code == 'pt' or lang_code == 'pt-br' %}🔁 Jogar novamente
+                  {% elif lang_code == 'vi' %}🔁 Chơi lại
+                  {% elif lang_code == 'th' %}🔁 เล่นอีกครั้ง
+                  {% else %}🔁 Play Again
+                  {% endif %}
+              </a>
+              <a href="{% url 'game_start' %}" class="neon-button secondary">
+                  {% if lang_code == 'ja' %}メニューに戻る
+                  {% elif lang_code == 'zh-hant' %}返回選單
+                  {% elif lang_code == 'zh-cn' %}返回菜单
+                  {% elif lang_code == 'de' %}Zurück zum Menü
+                  {% elif lang_code == 'fr' %}Retour au menu
+                  {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Volver al menú
+                  {% elif lang_code == 'it' %}Torna al menu
+                  {% elif lang_code == 'ko' %}메뉴로 돌아가기
+                  {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Voltar ao menu
+                  {% elif lang_code == 'vi' %}Quay lại Menu
+                  {% elif lang_code == 'th' %}กลับไปที่เมนู
+                  {% else %}Back to Menu
+                  {% endif %}
+              </a>
+          {% endif %}
+        </div>
+      </div>
+
+      <hr>
+
+      <div class="rank-card">
+        <div class="rank-card-header">
+            {% if lang_code == 'ja' %}🏆 今週のトップ10
+            {% elif lang_code == 'zh-hant' %}🏆 本週前 10 名
+            {% elif lang_code == 'zh-cn' %}🏆 本周前 10 名
+            {% elif lang_code == 'ko' %}🏆 이번 주 TOP 10
+            {% elif lang_code == 'de' %}🏆 Wöchentliche Top 10
+            {% elif lang_code == 'fr' %}🏆 Top 10 de la semaine
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}🏆 Top 10 de la semana
+            {% elif lang_code == 'it' %}🏆 Top 10 della settimana
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}🏆 Top 10 da semana
+            {% elif lang_code == 'vi' %}🏆 Top 10 trong tuần
+            {% elif lang_code == 'th' %}🏆 10 อันดับสูงสุดประจำสัปดาห์
+            {% else %}🏆 Weekly Top 10{% endif %}
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th style="text-align: left;">
+                        {% if lang_code == 'ja' %}ユーザー
+                        {% elif lang_code == 'zh-hant' %}使用者
+                        {% elif lang_code == 'zh-cn' %}用户
+                        {% elif lang_code == 'ko' %}사용자
+                        {% elif lang_code == 'de' %}Benutzer
+                        {% elif lang_code == 'fr' %}Utilisateur
+                        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Usuario
+                        {% elif lang_code == 'it' %}Utente
+                        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Usuário
+                        {% elif lang_code == 'vi' %}Người dùng
+                        {% elif lang_code == 'th' %}ผู้ใช้
+                        {% else %}User{% endif %}
+                    </th>
+                    <th>Pts</th>
+                    <th style="text-align: left;">
+                        {% if lang_code == 'ja' %}国
+                        {% elif lang_code == 'zh-hant' %}國家
+                        {% elif lang_code == 'zh-cn' %}国家
+                        {% elif lang_code == 'ko' %}국가
+                        {% elif lang_code == 'de' %}Land
+                        {% elif lang_code == 'fr' %}Pays
+                        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}País
+                        {% elif lang_code == 'it' %}Paese
+                        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}País
+                        {% elif lang_code == 'vi' %}Quốc gia
+                        {% elif lang_code == 'th' %}ประเทศ
+                        {% else %}Country{% endif %}
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for r in weekly_ranking %}
+                <tr class="{% if not is_guest and r.user == request.user %}highlight{% endif %}{% if forloop.counter > 2 %} rank-row-hidden weekly-more{% endif %}">
+                    <td style="text-align: center; color: #888;">{{ r.display_rank }}</td>
+                    <td>{{ r.user.username }}</td>
+                    <td style="text-align: center; color: #d46a00; font-weight: bold;">{{ r.score }}</td>
+                    <td>{{ r.country|default:"-" }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        {% if weekly_ranking|length > 2 %}
+        <button type="button" class="rank-toggle-btn" onclick="toggleMore('weekly-more', this)">もっと見る（TOP10） ▼</button>
+        {% endif %}
+
+        {% if is_guest %}
+        <a href="{% url 'player_register' %}?guest_score={{ score }}&lang={{ lang_code }}" style="display:block; background:#fff9e6; padding:11px 14px; text-align:center; border-top:1px dashed var(--gold); text-decoration:none;">
+            <span style="font-size:11px; color:var(--azuki-dark); font-weight:700;">
+                {% if lang_code == 'ja' %}今のスコアを保存しよう！無料で登録してランキングに参加！
+                {% elif lang_code == 'zh-hant' %}保存您的分數！免費註冊並加入排名！
+                {% elif lang_code == 'zh-cn' %}保存您的分数！免费注册并加入排名！
+                {% elif lang_code == 'ko' %}지금 점수를 저장하세요! 무료 가입하고 랭킹에 도전!
+                {% elif lang_code == 'de' %}Speichere dein Ergebnis! Kostenlos registrieren und die Rangliste stürmen!
+                {% elif lang_code == 'fr' %}Sauvegardez votre score ! Inscrivez-vous gratuitement et rejoignez le classement !
+                {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}¡Guarda tu puntuación! ¡Regístrate gratis y únete al ranking!
+                {% elif lang_code == 'it' %}Salva il tuo punteggio! Registrati gratis e scala la classifica!
+                {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Salve sua pontuação! Cadastre-se grátis e entre no ranking!
+                {% elif lang_code == 'vi' %}Lưu điểm của bạn! Đăng ký miễn phí và tham gia xếp hạng!
+                {% elif lang_code == 'th' %}บันทึกคะแนนของคุณ! สมัครฟรีเพื่อร่วมการจัดอันดับ!
+                {% else %}Save your progress! Join for free to keep your points and rankings!{% endif %}
+            </span>
+        </a>
+        {% endif %}
+      </div>
+
+      <hr>
+
+      <h2>
+        {% if lang_code == 'ja' %}🏆 世界ランキング トップ20プレイヤー
+        {% elif lang_code == 'zh-hant' %}🏆 全球排名 前20名玩家
+        {% elif lang_code == 'zh-cn' %}🏆 全球排名 前20名玩家
+        {% elif lang_code == 'de' %}🏆 Globale Rangliste Top 20 Spieler
+        {% elif lang_code == 'fr' %}🏆 Classement mondial Top 20 joueurs
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}🏆 Ranking Global Top 20 jugadores
+        {% elif lang_code == 'it' %}🏆 Classifica globale Top 20 giocatori
+        {% elif lang_code == 'ko' %}🏆 글로벌 랭킹 상위 20명
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}🏆 Ranking Global Top 20 jogadores
+        {% elif lang_code == 'vi' %}🏆 Bảng xếp hạng toàn cầu Top 20 người chơi
+        {% elif lang_code == 'th' %}🏆 อันดับโลก 20 ผู้เล่นสูงสุด
+        {% else %}🏆 Global Ranking Top 20 Players
+        {% endif %}
+      </h2>
+
+      <div class="rank-card">
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>
+                    {% if lang_code == 'ja' %}ユーザー名
+                    {% elif lang_code == 'zh-hant' %}使用者名稱
+                    {% elif lang_code == 'zh-cn' %}用户名
+                    {% elif lang_code == 'de' %}Benutzername
+                    {% elif lang_code == 'fr' %}Nom d’utilisateur
+                    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Nombre de usuario
+                    {% elif lang_code == 'it' %}Nome utente
+                    {% elif lang_code == 'ko' %}사용자 이름
+                    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Nome de usuário
+                    {% elif lang_code == 'vi' %}Tên người dùng
+                    {% elif lang_code == 'th' %}ชื่อผู้ใช้
+                    {% else %}Username
+                    {% endif %}
+                </th>
+                <th>
+                    {% if lang_code == 'ja' %}ポイント
+                    {% elif lang_code == 'zh-hant' %}點數
+                    {% elif lang_code == 'zh-cn' %}积分
+                    {% elif lang_code == 'de' %}Punkte
+                    {% elif lang_code == 'fr' %}Points
+                    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Puntos
+                    {% elif lang_code == 'it' %}Punti
+                    {% elif lang_code == 'ko' %}점수
+                    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Pontos
+                    {% elif lang_code == 'vi' %}Điểm
+                    {% elif lang_code == 'th' %}คะแนน
+                    {% else %}Points
+                    {% endif %}
+                </th>
+                <th>
+                    {% if lang_code == 'ja' %}国
+                    {% elif lang_code == 'zh-hant' %}國家
+                    {% elif lang_code == 'zh-cn' %}国家
+                    {% elif lang_code == 'de' %}Land
+                    {% elif lang_code == 'fr' %}Pays
+                    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}País
+                    {% elif lang_code == 'it' %}Paese
+                    {% elif lang_code == 'ko' %}국가
+                    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}País
+                    {% elif lang_code == 'vi' %}Quốc gia
+                    {% elif lang_code == 'th' %}ประเทศ
+                    {% else %}Country
+                    {% endif %}
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for r in ranking %}
+              <tr class="{% if player and r.username == player.username %}highlight{% endif %}{% if forloop.counter > 3 %} rank-row-hidden world-more{% endif %}">
+                <td>{{ forloop.counter }}</td>
+                <td>{{ r.username }}</td>
+                <td>{{ r.total_score }}</td>
+                <td>{{ r.country|default:"-" }}</td>
+              </tr>
+              {% empty %}
+              <tr><td colspan="4">
+                  {% if lang_code == 'ja' %}まだランキングはありません。
+                  {% elif lang_code == 'zh-hant' %}尚無排名。
+                  {% elif lang_code == 'zh-cn' %}尚无排名。
+                  {% elif lang_code == 'de' %}Noch keine Rangliste vorhanden.
+                  {% elif lang_code == 'fr' %}Pas encore de classement.
+                  {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Aún no hay clasificaciones.
+                  {% elif lang_code == 'it' %}Nessuna classifica ancora.
+                  {% elif lang_code == 'ko' %}아직 순위가 없습니다.
+                  {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Ainda não há classificações.
+                  {% elif lang_code == 'vi' %}Chưa có bảng xếp hạng.
+                  {% elif lang_code == 'th' %}ยังไม่มีการจัดอันดับ
+                  {% else %}No rankings yet.
+                  {% endif %}
+              </td></tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        {% if ranking|length > 3 %}
+        <button type="button" class="rank-toggle-btn" onclick="toggleMore('world-more', this)">もっと見る（TOP20） ▼</button>
+        {% endif %}
+      </div>
+
+      <hr>
+
+      {% if review_data %}
+        <button type="button" class="review-toggle-btn" onclick="toggleReview()">
+            📝 <span id="review-arrow">▼</span>
+            {% if lang_code == 'ja' %}回答を確認する
+            {% elif lang_code == 'zh-hant' %}查看你的答案
+            {% elif lang_code == 'zh-cn' %}查看你的答案
+            {% elif lang_code == 'de' %}Überprüfe deine Antworten
+            {% elif lang_code == 'fr' %}Révisez vos réponses
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Revisa tus respuestas
+            {% elif lang_code == 'it' %}Controlla le tue risposte
+            {% elif lang_code == 'ko' %}답변 검토
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Reveja suas respostas
+            {% elif lang_code == 'vi' %}Xem lại câu trả lời của bạn
+            {% elif lang_code == 'th' %}ตรวจสอบคำตอบของคุณ
+            {% else %}Review Your Answers
+            {% endif %}
+        </button>
+
+        <div class="review-section" id="review-section">
+            <div class="review-list">
+                {% for item in review_data %}
+                    <div class="review-card {% if item.is_correct %}correct{% else %}wrong{% endif %}">
+                        <div class="review-img-wrapper">
+                            {% if item.object.image %}
+                                <img src="{{ item.object.image.url }}" alt="Review Image">
+                            {% else %}
+                                <div class="no-image">No Image</div>
+                            {% endif %}
+                        </div>
+                        <div class="review-info">
+                            <div class="review-header">
+                                <span class="q-label">Q{{ forloop.counter }}</span>
+                                <span class="category-badge">{{ item.object.category|format_category:lang_code }}</span>
+                            </div>
+                            <h3 class="answer-title" style="line-height: 1.8;">
+                                {% if item.object.kanji_name %}
+                                    {{ item.object.kanji_name|ruby_smart:item.object.jpname }}
+                                {% else %}
+                                    {{ item.object.jpname }}
+                                {% endif %}
+                                <span style="font-size: 0.8em; color: #888; font-weight: normal; margin-left: 5px;">
+                                    ({{ item.object.name|title }})
+                                </span>
+                            </h3>
+                            {% if item.is_correct %}
+                                <p class="status-text correct">
+                                    {% if lang_code == 'ja' %}✅ 正解！
+                                    {% elif lang_code == 'zh-hant' %}✅ 正確！
+                                    {% elif lang_code == 'zh-cn' %}✅ 正确！
+                                    {% elif lang_code == 'de' %}✅ Richtig!
+                                    {% elif lang_code == 'fr' %}✅ Correct !
+                                    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}✅ ¡Correcto!
+                                    {% elif lang_code == 'it' %}✅ Corretto!
+                                    {% elif lang_code == 'ko' %}✅ 정답!
+                                    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}✅ Correto!
+                                    {% elif lang_code == 'vi' %}✅ Chính xác!
+                                    {% elif lang_code == 'th' %}✅ ถูกต้อง!
+                                    {% else %}✅ Correct!
+                                    {% endif %}
+                                </p>
+                            {% else %}
+                                <p class="status-text wrong">
+                                    {% if lang_code == 'ja' %}❌ 不正解
+                                    {% elif lang_code == 'zh-hant' %}❌ 錯誤
+                                    {% elif lang_code == 'zh-cn' %}❌ 错误
+                                    {% elif lang_code == 'de' %}❌ Falsch
+                                    {% elif lang_code == 'fr' %}❌ Incorrect
+                                    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}❌ Incorrecto
+                                    {% elif lang_code == 'it' %}❌ Sbagliato
+                                    {% elif lang_code == 'ko' %}❌ 틀렸습니다
+                                    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}❌ Incorreto
+                                    {% elif lang_code == 'vi' %}❌ Sai
+                                    {% elif lang_code == 'th' %}❌ ไม่ถูกต้อง
+                                    {% else %}❌ Incorrect
+                                    {% endif %}
+                                </p>
+                                <p class="user-input">
+                                    {% if lang_code == 'ja' %}あなたが入力した:
+                                    {% elif lang_code == 'zh-hant' %}你輸入了:
+                                    {% elif lang_code == 'zh-cn' %}你输入了:
+                                    {% elif lang_code == 'de' %}Du hast eingegeben:
+                                    {% elif lang_code == 'fr' %}Vous avez tapé :
+                                    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Escribiste:
+                                    {% elif lang_code == 'it' %}Hai digitato:
+                                    {% elif lang_code == 'ko' %}입력한 내용:
+                                    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Você digitou:
+                                    {% elif lang_code == 'vi' %}Bạn đã nhập:
+                                    {% elif lang_code == 'th' %}คุณพิมพ์:
+                                    {% else %}You typed:
+                                    {% endif %}
+                                     <span>"{{ item.user_input }}"</span></p>
+                            {% endif %}
+                        </div>
+                        <div class="review-action">
+                          {% if is_premium_mode %}
+                            <a href="{% url 'detail_premium' category=item.object.category slug=item.object.slug %}" class="study-btn">
+                                {% if lang_code == 'ja' %}📖 学ぶ
+                                {% elif lang_code == 'zh-hant' %}📖 學習
+                                {% elif lang_code == 'zh-cn' %}📖 学习
+                                {% elif lang_code == 'de' %}📖 Lernen
+                                {% elif lang_code == 'fr' %}📖 Étudier
+                                {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}📖 Estudiar
+                                {% elif lang_code == 'it' %}📖 Studia
+                                {% elif lang_code == 'ko' %}📖 공부하기
+                                {% elif lang_code == 'pt' or lang_code == 'pt-br' %}📖 Estudar
+                                {% elif lang_code == 'vi' %}📖 Học
+                                {% elif lang_code == 'th' %}📖 ศึกษา
+                                {% else %}📖 Study
+                                {% endif %}
+                            </a>
+                          {% else %}
+                            <a href="{% url 'category_detail' category=item.object.category slug=item.object.slug %}" class="study-btn">
+                                {% if lang_code == 'ja' %}📖 学ぶ
+                                {% elif lang_code == 'zh-hant' %}📖 學習
+                                {% elif lang_code == 'zh-cn' %}📖 学习
+                                {% elif lang_code == 'de' %}📖 Lernen
+                                {% elif lang_code == 'fr' %}📖 Étudier
+                                {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}📖 Estudiar
+                                {% elif lang_code == 'it' %}📖 Studia
+                                {% elif lang_code == 'ko' %}📖 공부하기
+                                {% elif lang_code == 'pt' or lang_code == 'pt-br' %}📖 Estudar
+                                {% elif lang_code == 'vi' %}📖 Học
+                                {% elif lang_code == 'th' %}📖 ศึกษา
+                                {% else %}📖 Study
+                                {% endif %}
+                            </a>
+                          {% endif %}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <hr>
+      {% endif %}
+
+      <div style="text-align:center; margin:30px 0 10px;">
+        <a class="btn-more" href="javascript:void(0);" onclick="goToTopPage()">
+            {% if lang_code == 'ja' %}← ホームに戻る
+            {% elif lang_code == 'zh-hant' %}← 返回首頁
+            {% elif lang_code == 'zh-cn' %}← 返回首页
+            {% elif lang_code == 'de' %}← Zur Startseite
+            {% elif lang_code == 'fr' %}← Retour à l’accueil
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}← Volver al inicio
+            {% elif lang_code == 'it' %}← Torna alla Home
+            {% elif lang_code == 'ko' %}← 홈으로 돌아가기
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}← Voltar para a página inicial
+            {% elif lang_code == 'vi' %}← Quay về Trang Chủ
+            {% elif lang_code == 'th' %}← กลับไปหน้าแรก
+            {% else %}← Back to Home
+            {% endif %}
+        </a>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+{{ score|default:0|json_script:"score-data" }}
+<script>
+function goToTopPage() {
+    const topUrl = localStorage.getItem('tj_top_url');
+    window.location.href = topUrl ? topUrl : "{% url 'toppage' %}";
+}
+
+function toggleMore(className, btn) {
+    const rows = document.querySelectorAll('.' + className);
+    const isHidden = rows[0]?.classList.contains('rank-row-hidden');
+    rows.forEach(r => r.classList.toggle('rank-row-hidden', !isHidden));
+    btn.textContent = isHidden ? '閉じる ▲' : btn.textContent.replace('閉じる ▲', 'もっと見る ▼');
+}
+
+function toggleReview() {
+    const section = document.getElementById('review-section');
+    const arrow = document.getElementById('review-arrow');
+    const open = section.classList.toggle('open');
+    arrow.textContent = open ? '▲' : '▼';
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    const scoreElement = document.getElementById('score');
+    if (scoreElement) {
+        const finalScore = JSON.parse(document.getElementById('score-data').textContent);
+        let current = 0;
+        const interval = setInterval(() => {
+            if (current < finalScore) {
+                current += Math.max(1, Math.floor(finalScore / 20));
+                if (current > finalScore) current = finalScore;
+                scoreElement.textContent = current;
+            } else {
+                scoreElement.textContent = finalScore;
+                clearInterval(interval);
+            }
+        }, 50);
+    }
+});
+</script>
+
+{% endblock %}

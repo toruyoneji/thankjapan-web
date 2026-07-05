@@ -1601,7 +1601,7 @@ def game_result(request):
         weekly_ranking.append(r)
         last_score = r.score
 
-    return render(request, 'thank_japan_app/game_result.html', {
+    return render(request, 'thank_japan_app/game_result-v2.html', {
         'lang_code': lang_code,
         'player': player, 
         'score': score, 
