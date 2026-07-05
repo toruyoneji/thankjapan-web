@@ -757,16 +757,20 @@ tbody td { padding: 8px; border: none; font-size: 0.82rem; color: var(--ink); }
                         </div>
                         <div class="review-action">
     
-                            {% if is_premium_mode %}
-                                {% url 'detail_premium' category=item.object.category slug=item.object.slug as study_url %}
+                            {% if item.object.category and item.object.slug %}
+                                {% if is_premium_mode %}
+                                    {% url 'detail_premium' category=item.object.category slug=item.object.slug as study_url %}
+                                {% else %}
+                                    {% url 'category_detail' category=item.object.category slug=item.object.slug as study_url %}
+                                {% endif %}
                             {% else %}
-                                {% url 'category_detail' category=item.object.category slug=item.object.slug as study_url %}
+                                {% set study_url = "" %}
                             {% endif %}
 
-                            {% if study_url %}
-                                <a href="javascript:void(0);"
-                                    onclick="openDetailModal('{{ study_url|escapejs }}?lang={{ lang_code }}')"
-                                    class="study-btn">
+                            {% if study_url and study_url != "/game/result/" %}
+                                <a href="javascript:void(0);" 
+                                onclick="openDetailModal('{{ study_url|escapejs }}?lang={{ lang_code }}')" 
+                                class="study-btn">
                                     📖 
                                     {% if lang_code == 'ja' %}学ぶ
                                     {% elif lang_code == 'zh-hant' %}學習
@@ -782,6 +786,8 @@ tbody td { padding: 8px; border: none; font-size: 0.82rem; color: var(--ink); }
                                     {% else %}Study
                                     {% endif %}
                                 </a>
+                            {% else %}
+                                <span style="font-size:10px; color:red;">Link Error</span>
                             {% endif %}
                         </div>
                     </div>
@@ -886,15 +892,26 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 function openDetailModal(url) {
+    // ガード：URLが空、または自分自身（result）を指していたら中止する
+    if (!url || url === "" || url.includes('/game/result/')) {
+        console.error("Invalid URL detected:", url);
+        return; 
+    }
+
     const modal = document.getElementById('detailModal');
     const modalBody = document.getElementById('modalBody');
 
+    if (!modal || !modalBody) return;
+
     modal.style.display = 'block';
     document.body.style.overflow = 'hidden';
-    modalBody.innerHTML = '<div style="text-align:center;padding:100px;color:#d4af37;font-weight:bold;">Loading...</div>';
+    modalBody.innerHTML = '<div style="text-align:center;padding:100px;color:#d4af37;">Loading...</div>';
 
     fetch(url)
-        .then(response => response.text())
+        .then(response => {
+            if (!response.ok) throw new Error('HTTP error ' + response.status);
+            return response.text();
+        })
         .then(html => {
             const parser = new DOMParser();
             const doc = parser.parseFromString(html, 'text/html');
@@ -903,18 +920,19 @@ function openDetailModal(url) {
             if (detailContent) {
                 detailContent.classList.remove('main2');
                 detailContent.classList.add('modal-detail-wrapper');
-
                 modalBody.innerHTML = '';
                 modalBody.appendChild(detailContent);
-
                 modal.scrollTop = 0;
-
-                if (!window.location.hash) {
-                    history.pushState({ modal: true }, "");
-                }
+            } else {
+                modalBody.innerHTML = '<div style="padding:20px;color:white;">Content not found.</div>';
             }
+        })
+        .catch(err => {
+            console.error("Fetch failed:", err);
+            modalBody.innerHTML = '<div style="padding:20px;color:white;">Load error.</div>';
         });
 }
+
 
 function closeDetailModal() {
     const modal = document.getElementById('detailModal');
