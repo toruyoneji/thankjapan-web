@@ -755,37 +755,7 @@ tbody td { padding: 8px; border: none; font-size: 0.82rem; color: var(--ink); }
                                      <span>"{{ item.user_input }}"</span></p>
                             {% endif %}
                         </div>
-                        <div class="review-action">
-    
-                            {% if item.object.category and item.object.slug %}
-                                {% if is_premium_mode %}
-                                    {% url 'detail_premium' category=item.object.category slug=item.object.slug as study_url %}
-                                {% else %}
-                                    {% url 'category_detail' category=item.object.category slug=item.object.slug as study_url %}
-                                {% endif %}
-                            {% endif %}
-
-                            {% if study_url and study_url != "/game/result/" %}
-                                <a href="javascript:void(0);" 
-                                onclick="openDetailModal('{{ study_url|escapejs }}?lang={{ lang_code }}')" 
-                                class="study-btn">
-                                    📖 
-                                    {% if lang_code == 'ja' %}学ぶ
-                                    {% elif lang_code == 'zh-hant' %}學習
-                                    {% elif lang_code == 'zh-cn' %}学习
-                                    {% elif lang_code == 'de' %}Lernen
-                                    {% elif lang_code == 'fr' %}Étudier
-                                    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Estudiar
-                                    {% elif lang_code == 'it' %}Studia
-                                    {% elif lang_code == 'ko' %}공부하기
-                                    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Estudar
-                                    {% elif lang_code == 'vi' %}Học
-                                    {% elif lang_code == 'th' %}ศึกษา
-                                    {% else %}Study
-                                    {% endif %}
-                                </a>
-                            {% endif %}
-                        </div>
+                        
                     </div>
                 {% endfor %}
             </div>
@@ -819,30 +789,6 @@ tbody td { padding: 8px; border: none; font-size: 0.82rem; color: var(--ink); }
 </div>
 
 
-<div id="detailModal" class="full-screen-modal">
-    <div class="modal-body-content">
-        <div class="modal-nav">
-            <button onclick="closeDetailModal()" class="modal-close-btn">
-                <span style="font-size: 0.7rem; font-weight: bold; letter-spacing: 1px;">
-                    {% if lang_code == 'ja' %}閉じる
-                    {% elif lang_code == 'zh-hant' %}關閉
-                    {% elif lang_code == 'zh-cn' %}关闭
-                    {% elif lang_code == 'ko' %}닫기
-                    {% elif lang_code == 'fr' %}Fermer
-                    {% elif lang_code == 'th' %}ปิด
-                    {% elif lang_code == 'vi' %}Đóng
-                    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Cerrar
-                    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Fechar
-                    {% elif lang_code == 'de' %}Schließen
-                    {% elif lang_code == 'it' %}Chiudi
-                    {% else %}CLOSE{% endif %}
-                </span>
-                <span style="font-size: 1.1rem; font-weight: bold;">✕</span>
-            </button>
-        </div>
-        <div id="modalBody"></div>
-    </div>
-</div>
 
 
 {{ score|default:0|json_script:"score-data" }}
@@ -887,68 +833,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 
-function openDetailModal(url) {
-    // ガード：URLが空、または自分自身（result）を指していたら中止する
-    if (!url || url === "" || url.includes('/game/result/')) {
-        console.error("Invalid URL detected:", url);
-        return; 
-    }
 
-    const modal = document.getElementById('detailModal');
-    const modalBody = document.getElementById('modalBody');
-
-    if (!modal || !modalBody) return;
-
-    modal.style.display = 'block';
-    document.body.style.overflow = 'hidden';
-    modalBody.innerHTML = '<div style="text-align:center;padding:100px;color:#d4af37;">Loading...</div>';
-
-    fetch(url)
-        .then(response => {
-            if (!response.ok) throw new Error('HTTP error ' + response.status);
-            return response.text();
-        })
-        .then(html => {
-            const parser = new DOMParser();
-            const doc = parser.parseFromString(html, 'text/html');
-            const detailContent = doc.querySelector('.main2');
-
-            if (detailContent) {
-                detailContent.classList.remove('main2');
-                detailContent.classList.add('modal-detail-wrapper');
-                modalBody.innerHTML = '';
-                modalBody.appendChild(detailContent);
-                modal.scrollTop = 0;
-            } else {
-                modalBody.innerHTML = '<div style="padding:20px;color:white;">Content not found.</div>';
-            }
-        })
-        .catch(err => {
-            console.error("Fetch failed:", err);
-            modalBody.innerHTML = '<div style="padding:20px;color:white;">Load error.</div>';
-        });
-}
-
-
-function closeDetailModal() {
-    const modal = document.getElementById('detailModal');
-    if (modal) {
-        modal.style.display = 'none';
-        document.body.style.overflow = '';
-        document.getElementById('modalBody').innerHTML = '';
-    }
-}
-
-window.onpopstate = function() {
-    closeDetailModal();
-};
-
-window.onclick = function(event) {
-    const modal = document.getElementById('detailModal');
-    if (event.target == modal) {
-        closeDetailModal();
-    }
-};
 </script>
 
 {% endblock %}
