@@ -764,8 +764,8 @@ tbody td { padding: 8px; border: none; font-size: 0.82rem; color: var(--ink); }
                             {% endif %}
 
                             {% if study_url %}
-                                <a href="javascript:void(0);" 
-                                    onclick="openStudyModal('{{ study_url|escapejs }}?lang={{ lang_code }}')" 
+                                <a href="javascript:void(0);"
+                                    onclick="openDetailModal('{{ study_url|escapejs }}?lang={{ lang_code }}')"
                                     class="study-btn">
                                     📖 
                                     {% if lang_code == 'ja' %}学ぶ
@@ -814,54 +814,33 @@ tbody td { padding: 8px; border: none; font-size: 0.82rem; color: var(--ink); }
   </div>
 </div>
 
-<!-- 詳細表示用プレミアムモーダル -->
-<div id="study-modal" class="premium-modal">
-    <div class="modal-header">
-        <button class="modal-close-x" onclick="closeStudyModal()">✕</button>
-    </div>
-    <div class="modal-body">
-        <iframe id="study-frame" src="" frameborder="0"></iframe>
-    </div>
 </div>
 
-<style>
 
-.premium-modal {
-    display: none;
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%;
-    height: 100dvh;
-    background: #0a0a0a;
-    z-index: 10000; 
-}
-.modal-header {
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    z-index: 10001;
-}
-.modal-close-x {
-    background: rgba(212, 175, 55, 0.9); 
-    color: #000;
-    border: none;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    font-size: 20px;
-    font-weight: bold;
-    cursor: pointer;
-    box-shadow: 0 0 15px rgba(212, 175, 55, 0.5);
-}
-.modal-body {
-    width: 100%;
-    height: 100%;
-}
-#study-frame {
-    width: 100%;
-    height: 100%;
-}
-</style>
+<div id="detailModal" class="full-screen-modal">
+    <div class="modal-body-content">
+        <div class="modal-nav">
+            <button onclick="closeDetailModal()" class="modal-close-btn">
+                <span style="font-size: 0.7rem; font-weight: bold; letter-spacing: 1px;">
+                    {% if lang_code == 'ja' %}閉じる
+                    {% elif lang_code == 'zh-hant' %}關閉
+                    {% elif lang_code == 'zh-cn' %}关闭
+                    {% elif lang_code == 'ko' %}닫기
+                    {% elif lang_code == 'fr' %}Fermer
+                    {% elif lang_code == 'th' %}ปิด
+                    {% elif lang_code == 'vi' %}Đóng
+                    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Cerrar
+                    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Fechar
+                    {% elif lang_code == 'de' %}Schließen
+                    {% elif lang_code == 'it' %}Chiudi
+                    {% else %}CLOSE{% endif %}
+                </span>
+                <span style="font-size: 1.1rem; font-weight: bold;">✕</span>
+            </button>
+        </div>
+        <div id="modalBody"></div>
+    </div>
+</div>
 
 
 {{ score|default:0|json_script:"score-data" }}
@@ -873,11 +852,11 @@ function goToTopPage() {
 
 function toggleMore(className, btn) {
     const rows = document.querySelectorAll('.' + className);
-    const isHidden = rows[0]?.classList.contains('rank-row-hidden');
+    if (rows.length === 0) return;
+    const isHidden = rows[0].classList.contains('rank-row-hidden');
     rows.forEach(r => r.classList.toggle('rank-row-hidden', !isHidden));
     btn.textContent = isHidden ? btn.dataset.close : btn.dataset.more;
 }
-
 
 function toggleReview() {
     const section = document.getElementById('review-section');
@@ -886,17 +865,7 @@ function toggleReview() {
     arrow.textContent = open ? '▲' : '▼';
 }
 
-function toggleMore(className, btn) {
-    const rows = document.querySelectorAll('.' + className);
-    const isHidden = rows[0]?.classList.contains('rank-row-hidden');
-    rows.forEach(r => r.classList.toggle('rank-row-hidden', !isHidden));
-    btn.textContent = isHidden ? btn.dataset.close : btn.dataset.more;
-}
-
-
-
 document.addEventListener('DOMContentLoaded', function() {
-    
     const scoreElement = document.getElementById('score');
     const scoreDataTag = document.getElementById('score-data');
     if (scoreElement && scoreDataTag) {
@@ -916,38 +885,56 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 
-function toggleMore(className, btn) {
-    const rows = document.querySelectorAll('.' + className);
-    if (rows.length === 0) return;
-    
-    const isHidden = rows[0].classList.contains('rank-row-hidden');
-    
-    rows.forEach(r => {
-        if (isHidden) {
-            r.classList.remove('rank-row-hidden');
-        } else {
-            r.classList.add('rank-row-hidden');
-        }
-    });
-    
-    btn.textContent = isHidden ? btn.dataset.close : btn.dataset.more;
-}
+function openDetailModal(url) {
+    const modal = document.getElementById('detailModal');
+    const modalBody = document.getElementById('modalBody');
 
-function openStudyModal(url) {
-    const modal = document.getElementById('study-modal');
-    const frame = document.getElementById('study-frame');
-    const modalUrl = url + (url.includes('?') ? '&' : '?') + 'modal=1';
-    frame.src = modalUrl;
     modal.style.display = 'block';
+    document.body.style.overflow = 'hidden';
+    modalBody.innerHTML = '<div style="text-align:center;padding:100px;color:#d4af37;font-weight:bold;">Loading...</div>';
+
+    fetch(url)
+        .then(response => response.text())
+        .then(html => {
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, 'text/html');
+            const detailContent = doc.querySelector('.main2');
+
+            if (detailContent) {
+                detailContent.classList.remove('main2');
+                detailContent.classList.add('modal-detail-wrapper');
+
+                modalBody.innerHTML = '';
+                modalBody.appendChild(detailContent);
+
+                modal.scrollTop = 0;
+
+                if (!window.location.hash) {
+                    history.pushState({ modal: true }, "");
+                }
+            }
+        });
 }
 
-function closeStudyModal() {
-    const modal = document.getElementById('study-modal');
-    const frame = document.getElementById('study-frame');
-    modal.style.display = 'none';
-    frame.src = ''; 
+function closeDetailModal() {
+    const modal = document.getElementById('detailModal');
+    if (modal) {
+        modal.style.display = 'none';
+        document.body.style.overflow = '';
+        document.getElementById('modalBody').innerHTML = '';
+    }
 }
 
+window.onpopstate = function() {
+    closeDetailModal();
+};
+
+window.onclick = function(event) {
+    const modal = document.getElementById('detailModal');
+    if (event.target == modal) {
+        closeDetailModal();
+    }
+};
 </script>
 
 {% endblock %}
