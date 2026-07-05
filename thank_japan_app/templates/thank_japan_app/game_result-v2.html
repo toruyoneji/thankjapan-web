@@ -756,43 +756,38 @@ tbody td { padding: 8px; border: none; font-size: 0.82rem; color: var(--ink); }
                             {% endif %}
                         </div>
                         <div class="review-action">
-                          {% if is_premium_mode %}
+                            {% if is_premium_mode %}
+                                {% url 'detail_premium' category=item.object.category slug=item.object.slug as base_study_url %}
+                            {% else %}
+                                {% url 'category_detail' category=item.object.category slug=item.object.slug as base_study_url %}
+                            {% endif %}
+
+                            {% if base_study_url %}
+                                {% set_var base_study_url|add:"?lang="|add:lang_code as study_url %}
+                            {% else %}
+                                {% set_var base_study_url as study_url %}
+                            {% endif %}
+
+                            {% if study_url %}
                             <a href="javascript:void(0);" 
                                 onclick="openStudyModal('{{ study_url|escapejs }}')" 
                                 class="study-btn">
-                                {% if lang_code == 'ja' %}📖 学ぶ
-                                {% elif lang_code == 'zh-hant' %}📖 學習
-                                {% elif lang_code == 'zh-cn' %}📖 学习
-                                {% elif lang_code == 'de' %}📖 Lernen
-                                {% elif lang_code == 'fr' %}📖 Étudier
-                                {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}📖 Estudiar
-                                {% elif lang_code == 'it' %}📖 Studia
-                                {% elif lang_code == 'ko' %}📖 공부하기
-                                {% elif lang_code == 'pt' or lang_code == 'pt-br' %}📖 Estudar
-                                {% elif lang_code == 'vi' %}📖 Học
-                                {% elif lang_code == 'th' %}📖 ศึกษา
-                                {% else %}📖 Study
+                                📖 
+                                {% if lang_code == 'ja' %}学ぶ
+                                {% elif lang_code == 'zh-hant' %}學習
+                                {% elif lang_code == 'zh-cn' %}学习
+                                {% elif lang_code == 'de' %}Lernen
+                                {% elif lang_code == 'fr' %}Étudier
+                                {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Estudiar
+                                {% elif lang_code == 'it' %}Studia
+                                {% elif lang_code == 'ko' %}공부하기
+                                {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Estudar
+                                {% elif lang_code == 'vi' %}Học
+                                {% elif lang_code == 'th' %}ศึกษา
+                                {% else %}Study
                                 {% endif %}
                             </a>
-                          {% else %}
-                            <a href="javascript:void(0);" 
-                                onclick="openStudyModal('{{ study_url|escapejs }}')" 
-                                class="study-btn">
-                                {% if lang_code == 'ja' %}📖 学ぶ
-                                {% elif lang_code == 'zh-hant' %}📖 學習
-                                {% elif lang_code == 'zh-cn' %}📖 学习
-                                {% elif lang_code == 'de' %}📖 Lernen
-                                {% elif lang_code == 'fr' %}📖 Étudier
-                                {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}📖 Estudiar
-                                {% elif lang_code == 'it' %}📖 Studia
-                                {% elif lang_code == 'ko' %}📖 공부하기
-                                {% elif lang_code == 'pt' or lang_code == 'pt-br' %}📖 Estudar
-                                {% elif lang_code == 'vi' %}📖 Học
-                                {% elif lang_code == 'th' %}📖 ศึกษา
-                                {% else %}📖 Study
-                                {% endif %}
-                            </a>
-                          {% endif %}
+                            {% endif %}
                         </div>
                     </div>
                 {% endfor %}
@@ -873,11 +868,6 @@ tbody td { padding: 8px; border: none; font-size: 0.82rem; color: var(--ink); }
 }
 </style>
 
-{% if is_premium_mode %}
-    {% url 'detail_premium' category=item.object.category slug=item.object.slug as study_url %}
-{% else %}
-    {% url 'category_detail' category=item.object.category slug=item.object.slug as study_url %}
-{% endif %}
 
 {{ score|default:0|json_script:"score-data" }}
 <script>
