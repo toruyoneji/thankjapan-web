@@ -76,15 +76,19 @@
     display: flex;
     flex-direction: column;
 }
+
 .app-content-fix {
     flex: 1;
     width: 100%;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
-    padding-bottom: calc(40px + env(safe-area-inset-bottom));
+    padding-top: 70px; 
+    padding-bottom: 120px; 
+    padding-bottom: calc(80px + env(safe-area-inset-bottom)); 
     -ms-overflow-style: none;
     scrollbar-width: none;
 }
+
 .app-content-fix::-webkit-scrollbar { display: none; }
 
 body {
@@ -549,19 +553,18 @@ tbody td { padding: 8px; border: none; font-size: 0.82rem; color: var(--ink); }
       <hr>
 
       <h2>
-        {% if lang_code == 'ja' %}🏆 世界ランキング トップ20プレイヤー
-        {% elif lang_code == 'zh-hant' %}🏆 全球排名 前20名玩家
-        {% elif lang_code == 'zh-cn' %}🏆 全球排名 前20名玩家
-        {% elif lang_code == 'de' %}🏆 Globale Rangliste Top 20 Spieler
-        {% elif lang_code == 'fr' %}🏆 Classement mondial Top 20 joueurs
-        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}🏆 Ranking Global Top 20 jugadores
-        {% elif lang_code == 'it' %}🏆 Classifica globale Top 20 giocatori
-        {% elif lang_code == 'ko' %}🏆 글로벌 랭킹 상위 20명
-        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}🏆 Ranking Global Top 20 jogadores
-        {% elif lang_code == 'vi' %}🏆 Bảng xếp hạng toàn cầu Top 20 người chơi
-        {% elif lang_code == 'th' %}🏆 อันดับโลก 20 ผู้เล่นสูงสุด
-        {% else %}🏆 Global Ranking Top 20 Players
-        {% endif %}
+        {% if lang_code == 'ja' %}🏆 世界ランキング トップ20
+        {% elif lang_code == 'ko' %}🏆 글로벌 랭킹 TOP 20
+        {% elif lang_code == 'zh-cn' or lang_code == 'zh-hant' %}🏆 全球排名 TOP 20
+        {% elif lang_code == 'th' %}🏆 อันดับโลก 20 อันดับแรก
+        {% elif lang_code == 'vi' %}🏆 Bảng xếp hạng thế giới TOP 20
+        {% elif lang_code == 'fr' %}🏆 Classement mondial TOP 20
+        {% elif lang_code == 'de' %}🏆 Weltrangliste TOP 20
+        {% elif lang_code == 'it' %}🏆 Classifica mondiale TOP 20
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}🏆 Ranking mundial TOP 20
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}🏆 Ranking mundial TOP 20
+        {% else %}🏆 Global Ranking TOP 20{% endif %}
+      
       </h2>
 
       <div class="rank-card">
@@ -646,7 +649,12 @@ tbody td { padding: 8px; border: none; font-size: 0.82rem; color: var(--ink); }
           </table>
         </div>
         {% if ranking|length > 3 %}
-        <button type="button" class="rank-toggle-btn" onclick="toggleMore('world-more', this)">もっと見る（TOP20） ▼</button>
+        <button type="button" class="rank-toggle-btn" 
+            id="rank-toggle-world"
+            data-more="{% if lang_code == 'ja' %}もっと見る（TOP20） ▼{% elif lang_code == 'ko' %}더보기（TOP20） ▼{% elif lang_code == 'zh-cn' or lang_code == 'zh-hant' %}查看更多（TOP20） ▼{% else %}See More（TOP20） ▼{% endif %}"
+            data-close="{% if lang_code == 'ja' %}閉じる ▲{% elif lang_code == 'ko' %}닫기 ▲{% elif lang_code == 'zh-cn' or lang_code == 'zh-hant' %}关闭 ▲{% else %}Close ▲{% endif %}"
+            onclick="toggleMore('world-more', this)">
+        </button>
         {% endif %}
       </div>
 
@@ -824,11 +832,6 @@ function toggleMore(className, btn) {
     btn.textContent = isHidden ? btn.dataset.close : btn.dataset.more;
 }
 
-document.addEventListener('DOMContentLoaded', function() {
-    document.querySelectorAll('[data-more]').forEach(btn => {
-        btn.textContent = btn.dataset.more;
-    });
-});
 
 function toggleReview() {
     const section = document.getElementById('review-section');
@@ -847,22 +850,38 @@ function toggleMore(className, btn) {
 
 
 document.addEventListener('DOMContentLoaded', function() {
+    
     const scoreElement = document.getElementById('score');
-    if (scoreElement) {
-        const finalScore = JSON.parse(document.getElementById('score-data').textContent);
+    const scoreDataTag = document.getElementById('score-data');
+    
+    if (scoreElement && scoreDataTag) {
+        const finalScore = JSON.parse(scoreDataTag.textContent);
         let current = 0;
-        const interval = setInterval(() => {
-            if (current < finalScore) {
-                current += Math.max(1, Math.floor(finalScore / 20));
-                if (current > finalScore) current = finalScore;
-                scoreElement.textContent = current;
-            } else {
-                scoreElement.textContent = finalScore;
-                clearInterval(interval);
-            }
-        }, 50);
+        
+        if (finalScore > 0) {
+            const interval = setInterval(() => {
+                if (current < finalScore) {
+                    current += Math.max(1, Math.floor(finalScore / 20));
+                    if (current > finalScore) current = finalScore;
+                    scoreElement.textContent = current;
+                } else {
+                    scoreElement.textContent = finalScore;
+                    clearInterval(interval);
+                }
+            }, 50);
+        } else {
+            scoreElement.textContent = 0;
+        }
     }
+
+    const toggleButtons = document.querySelectorAll('.rank-toggle-btn, #rank-toggle-weekly, #rank-toggle-world');
+    toggleButtons.forEach(btn => {
+        if (btn.dataset.more) {
+            btn.textContent = btn.dataset.more;
+        }
+    });
 });
+
 </script>
 
 {% endblock %}
