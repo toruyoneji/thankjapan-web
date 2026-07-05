@@ -1,0 +1,36 @@
+{% extends 'base/basecategory_top.html' %}
+
+{% block content %}
+<div id="premium-auth-container">
+    <div class="app-content-fix">
+        {% block detail_main %}{% endblock %}
+    </div>
+</div>
+
+<style>
+
+#premium-auth-container {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100dvh;
+    background: #0a0a0a; 
+    overflow: hidden;
+}
+
+.app-content-fix {
+    width: 100%;
+    height: 100%;
+    overflow-y: auto; 
+    -webkit-overflow-scrolling: touch;
+    padding-top: 70px;    
+    padding-bottom: 120px; 
+}
+
+
+.app-content-fix::-webkit-scrollbar {
+    display: none;
+}
+
+</style>
+{% endblock %}

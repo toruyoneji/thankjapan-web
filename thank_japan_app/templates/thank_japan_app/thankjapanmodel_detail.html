@@ -1,4 +1,4 @@
-{% extends 'base/basecategory_top.html' %}
+{% extends 'base/base_detail.html' %}
 {% load category_filters %}
 {% block title %}{{ object.englishname }} | ThankJapan{% endblock %}
 
@@ -21,9 +21,8 @@
     <meta property="og:type" content="article" />
 {% endblock %}
 
-{% block content %}
+{% block detail_main %}
 {% load static %}
-
 
 
 <div class="main2" id="detail-page-wrapper">

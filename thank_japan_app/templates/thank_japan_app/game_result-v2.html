@@ -64,7 +64,7 @@
     --azuki-dark: #833f2f;
 }
 
-/* ---- 1画面完結の骨組み ---- */
+
 #premium-auth-container {
     position: fixed;
     top: 0; left: 0;
@@ -133,7 +133,7 @@ h2 {
 .score-box p { color: var(--ink) !important; }
 .score-number { color: var(--matcha-dark) !important; font-size: 2.2rem !important; }
 
-/* ---- 主要アクション：シェア＞もう一度プレイ ---- */
+
 .primary-actions { display: flex; flex-direction: column; gap: 9px; margin: 14px auto 18px; max-width: 400px; }
 
 .twitter-share-btn {
@@ -184,7 +184,7 @@ h2 {
 
 hr { margin: 24px auto; border: none; height: 1px; background: var(--wood-border); max-width: 500px; }
 
-/* ---- ランキング（折りたたみ共通） ---- */
+
 .rank-card { margin: 14px auto; max-width: 450px; background: var(--washi-card); border: 1px solid var(--wood-border); border-radius: 16px; overflow: hidden; font-family: 'Noto Sans JP', sans-serif; }
 .rank-card-header { background: var(--ink); color: var(--gold); padding: 9px; text-align: center; font-weight: bold; font-size: 0.95rem; }
 
@@ -201,7 +201,7 @@ tbody td { padding: 8px; border: none; font-size: 0.82rem; color: var(--ink); }
     color: var(--gold-dark); padding: 9px; font-size: 0.78rem; font-weight: 700; cursor: pointer;
 }
 
-/* ---- 復習セクション（折りたたみ） ---- */
+
 .review-toggle-btn {
     display: inline-flex; align-items: center; gap: 6px;
     background: var(--washi-card); border: 1px solid var(--wood-border);
@@ -229,7 +229,7 @@ tbody td { padding: 8px; border: none; font-size: 0.82rem; color: var(--ink); }
 .review-action { margin-left: 8px; }
 .study-btn { display: inline-block; background: var(--ink); color: #fff; text-decoration: none; padding: 6px 12px; border-radius: 999px; font-weight: bold; font-size: 0.72rem; white-space: nowrap; }
 
-/* ---- 登録/プロフィール誘導 ---- */
+
 .appeal-section {
     margin: 16px auto; padding: 20px 16px; background: #fff9e6;
     border: 2px solid var(--gold); border-radius: 16px; max-width: 450px; text-align: center;
@@ -680,7 +680,7 @@ tbody td { padding: 8px; border: none; font-size: 0.82rem; color: var(--ink); }
             {% endif %}
         </button>
 
-        <!-- <div class="review-section" id="review-section">
+        <div class="review-section" id="review-section">
             <div class="review-list">
                 {% for item in review_data %}
                     <div class="review-card {% if item.is_correct %}correct{% else %}wrong{% endif %}">
@@ -793,7 +793,7 @@ tbody td { padding: 8px; border: none; font-size: 0.82rem; color: var(--ink); }
                     </div>
                 {% endfor %}
             </div>
-        </div> -->
+        </div>
 
         <hr>
       {% endif %}
