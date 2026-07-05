@@ -137,6 +137,15 @@
             padding-bottom: env(safe-area-inset-bottom) !important; 
         }
 
+        html.modal-embed header.app-header,
+        html.modal-embed nav.bottom-nav {
+            display: none !important;
+        }
+
+        html.modal-embed .app-content {
+            padding-bottom: 0 !important;
+        }
+
 
         .app-content {
             flex: 1;
@@ -275,6 +284,15 @@
 </head>
 
 <body>
+
+<script>
+(function() {
+    if (new URLSearchParams(window.location.search).get('modal') === '1') {
+        document.documentElement.classList.add('modal-embed');
+    }
+})();
+</script>
+
 <div class="app-wrapper">
         
         <header class="app-header">

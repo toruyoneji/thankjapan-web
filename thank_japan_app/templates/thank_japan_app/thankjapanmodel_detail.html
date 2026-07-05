@@ -713,14 +713,6 @@
     </footer>
 </div>
 
-{% if request.GET.modal == '1' %}
-    <input type="hidden" id="modal-mode-check" value="modal-mode">
-    <style>
-        header.app-header { display: none !important; }
-        nav.bottom-nav { display: none !important; }
-        .app-content-fix { padding-top: 20px !important; }
-    </style>
-{% endif %}
 
 <script>
 function speakJapanese(text) {
