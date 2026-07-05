@@ -763,8 +763,6 @@ tbody td { padding: 8px; border: none; font-size: 0.82rem; color: var(--ink); }
                                 {% else %}
                                     {% url 'category_detail' category=item.object.category slug=item.object.slug as study_url %}
                                 {% endif %}
-                            {% else %}
-                                {% set study_url = "" %}
                             {% endif %}
 
                             {% if study_url and study_url != "/game/result/" %}
@@ -786,8 +784,6 @@ tbody td { padding: 8px; border: none; font-size: 0.82rem; color: var(--ink); }
                                     {% else %}Study
                                     {% endif %}
                                 </a>
-                            {% else %}
-                                <span style="font-size:10px; color:red;">Link Error</span>
                             {% endif %}
                         </div>
                     </div>
