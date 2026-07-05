@@ -523,7 +523,7 @@ tbody td { padding: 8px; border: none; font-size: 0.82rem; color: var(--ink); }
         </table>
 
         {% if weekly_ranking|length > 2 %}
-        <button type="button" id="rank-toggle-weekly"
+        <button type="button" id="rank-toggle-weekly" class="rank-toggle-btn"
             data-more="{% if lang_code == 'ja' %}もっと見る（TOP10） ▼{% elif lang_code == 'zh-hant' %}查看更多（TOP10） ▼{% elif lang_code == 'zh-cn' %}查看更多（TOP10） ▼{% elif lang_code == 'ko' %}더보기（TOP10） ▼{% elif lang_code == 'de' %}Mehr anzeigen（TOP10） ▼{% elif lang_code == 'fr' %}Voir plus（TOP10） ▼{% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Ver más（TOP10） ▼{% elif lang_code == 'it' %}Vedi altro（TOP10） ▼{% elif lang_code == 'pt' or lang_code == 'pt-br' %}Ver mais（TOP10） ▼{% elif lang_code == 'vi' %}Xem thêm（TOP10） ▼{% elif lang_code == 'th' %}ดูเพิ่มเติม（TOP10） ▼{% else %}See More（TOP10） ▼{% endif %}"
             data-close="{% if lang_code == 'ja' %}閉じる ▲{% elif lang_code == 'zh-hant' %}關閉 ▲{% elif lang_code == 'zh-cn' %}关闭 ▲{% elif lang_code == 'ko' %}닫기 ▲{% elif lang_code == 'de' %}Schließen ▲{% elif lang_code == 'fr' %}Fermer ▲{% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Cerrar ▲{% elif lang_code == 'it' %}Chiudi ▲{% elif lang_code == 'pt' or lang_code == 'pt-br' %}Fechar ▲{% elif lang_code == 'vi' %}Đóng ▲{% elif lang_code == 'th' %}ปิด ▲{% else %}Close ▲{% endif %}"
             onclick="toggleMore('weekly-more', this)">
