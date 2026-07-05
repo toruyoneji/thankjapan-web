@@ -1,4 +1,4 @@
-
+{% extends 'base/basecategory_top.html' %}
 {% load category_filters %}
 
 {% block title %}
@@ -519,7 +519,11 @@ tbody td { padding: 8px; border: none; font-size: 0.82rem; color: var(--ink); }
         </table>
 
         {% if weekly_ranking|length > 2 %}
-        <button type="button" class="rank-toggle-btn" onclick="toggleMore('weekly-more', this)">もっと見る（TOP10） ▼</button>
+        <button type="button" id="rank-toggle-weekly"
+            data-more="{% if lang_code == 'ja' %}もっと見る（TOP10） ▼{% elif lang_code == 'zh-hant' %}查看更多（TOP10） ▼{% elif lang_code == 'zh-cn' %}查看更多（TOP10） ▼{% elif lang_code == 'ko' %}더보기（TOP10） ▼{% elif lang_code == 'de' %}Mehr anzeigen（TOP10） ▼{% elif lang_code == 'fr' %}Voir plus（TOP10） ▼{% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Ver más（TOP10） ▼{% elif lang_code == 'it' %}Vedi altro（TOP10） ▼{% elif lang_code == 'pt' or lang_code == 'pt-br' %}Ver mais（TOP10） ▼{% elif lang_code == 'vi' %}Xem thêm（TOP10） ▼{% elif lang_code == 'th' %}ดูเพิ่มเติม（TOP10） ▼{% else %}See More（TOP10） ▼{% endif %}"
+            data-close="{% if lang_code == 'ja' %}閉じる ▲{% elif lang_code == 'zh-hant' %}關閉 ▲{% elif lang_code == 'zh-cn' %}关闭 ▲{% elif lang_code == 'ko' %}닫기 ▲{% elif lang_code == 'de' %}Schließen ▲{% elif lang_code == 'fr' %}Fermer ▲{% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Cerrar ▲{% elif lang_code == 'it' %}Chiudi ▲{% elif lang_code == 'pt' or lang_code == 'pt-br' %}Fechar ▲{% elif lang_code == 'vi' %}Đóng ▲{% elif lang_code == 'th' %}ปิด ▲{% else %}Close ▲{% endif %}"
+            onclick="toggleMore('weekly-more', this)">
+        </button>
         {% endif %}
 
         {% if is_guest %}
@@ -666,7 +670,7 @@ tbody td { padding: 8px; border: none; font-size: 0.82rem; color: var(--ink); }
             {% endif %}
         </button>
 
-        <div class="review-section" id="review-section">
+        <!-- <div class="review-section" id="review-section">
             <div class="review-list">
                 {% for item in review_data %}
                     <div class="review-card {% if item.is_correct %}correct{% else %}wrong{% endif %}">
@@ -779,7 +783,7 @@ tbody td { padding: 8px; border: none; font-size: 0.82rem; color: var(--ink); }
                     </div>
                 {% endfor %}
             </div>
-        </div>
+        </div> -->
 
         <hr>
       {% endif %}
@@ -817,8 +821,14 @@ function toggleMore(className, btn) {
     const rows = document.querySelectorAll('.' + className);
     const isHidden = rows[0]?.classList.contains('rank-row-hidden');
     rows.forEach(r => r.classList.toggle('rank-row-hidden', !isHidden));
-    btn.textContent = isHidden ? '閉じる ▲' : btn.textContent.replace('閉じる ▲', 'もっと見る ▼');
+    btn.textContent = isHidden ? btn.dataset.close : btn.dataset.more;
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('[data-more]').forEach(btn => {
+        btn.textContent = btn.dataset.more;
+    });
+});
 
 function toggleReview() {
     const section = document.getElementById('review-section');
@@ -826,6 +836,15 @@ function toggleReview() {
     const open = section.classList.toggle('open');
     arrow.textContent = open ? '▲' : '▼';
 }
+
+function toggleMore(className, btn) {
+    const rows = document.querySelectorAll('.' + className);
+    const isHidden = rows[0]?.classList.contains('rank-row-hidden');
+    rows.forEach(r => r.classList.toggle('rank-row-hidden', !isHidden));
+    btn.textContent = isHidden ? btn.dataset.close : btn.dataset.more;
+}
+
+
 
 document.addEventListener('DOMContentLoaded', function() {
     const scoreElement = document.getElementById('score');
