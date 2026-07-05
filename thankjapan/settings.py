@@ -248,3 +248,6 @@ LANGUAGES = [
     ('es-mx', _('Spanish (Mexico)')),
     ('en-in', _('English (India)')),
 ]
+
+
+X_FRAME_OPTIONS = 'SAMEORIGIN'
