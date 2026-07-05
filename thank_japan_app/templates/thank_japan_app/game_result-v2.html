@@ -757,7 +757,9 @@ tbody td { padding: 8px; border: none; font-size: 0.82rem; color: var(--ink); }
                         </div>
                         <div class="review-action">
                           {% if is_premium_mode %}
-                            <a href="{% url 'detail_premium' category=item.object.category slug=item.object.slug %}" class="study-btn">
+                            <a href="javascript:void(0);" 
+                                onclick="openStudyModal('{{ study_url|escapejs }}')" 
+                                class="study-btn">
                                 {% if lang_code == 'ja' %}📖 学ぶ
                                 {% elif lang_code == 'zh-hant' %}📖 學習
                                 {% elif lang_code == 'zh-cn' %}📖 学习
@@ -773,7 +775,9 @@ tbody td { padding: 8px; border: none; font-size: 0.82rem; color: var(--ink); }
                                 {% endif %}
                             </a>
                           {% else %}
-                            <a href="{% url 'category_detail' category=item.object.category slug=item.object.slug %}" class="study-btn">
+                            <a href="javascript:void(0);" 
+                                onclick="openStudyModal('{{ study_url|escapejs }}')" 
+                                class="study-btn">
                                 {% if lang_code == 'ja' %}📖 学ぶ
                                 {% elif lang_code == 'zh-hant' %}📖 學習
                                 {% elif lang_code == 'zh-cn' %}📖 学习
@@ -819,6 +823,61 @@ tbody td { padding: 8px; border: none; font-size: 0.82rem; color: var(--ink); }
     </div>
   </div>
 </div>
+
+<!-- 詳細表示用プレミアムモーダル -->
+<div id="study-modal" class="premium-modal">
+    <div class="modal-header">
+        <button class="modal-close-x" onclick="closeStudyModal()">✕</button>
+    </div>
+    <div class="modal-body">
+        <iframe id="study-frame" src="" frameborder="0"></iframe>
+    </div>
+</div>
+
+<style>
+
+.premium-modal {
+    display: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100dvh;
+    background: #0a0a0a;
+    z-index: 10000; 
+}
+.modal-header {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    z-index: 10001;
+}
+.modal-close-x {
+    background: rgba(212, 175, 55, 0.9); 
+    color: #000;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 0 15px rgba(212, 175, 55, 0.5);
+}
+.modal-body {
+    width: 100%;
+    height: 100%;
+}
+#study-frame {
+    width: 100%;
+    height: 100%;
+}
+</style>
+
+{% if is_premium_mode %}
+    {% url 'detail_premium' category=item.object.category slug=item.object.slug as study_url %}
+{% else %}
+    {% url 'category_detail' category=item.object.category slug=item.object.slug as study_url %}
+{% endif %}
 
 {{ score|default:0|json_script:"score-data" }}
 <script>
@@ -887,6 +946,21 @@ function toggleMore(className, btn) {
     });
     
     btn.textContent = isHidden ? btn.dataset.close : btn.dataset.more;
+}
+
+function openStudyModal(url) {
+    const modal = document.getElementById('study-modal');
+    const frame = document.getElementById('study-frame');
+    const modalUrl = url + (url.includes('?') ? '&' : '?') + 'modal=1';
+    frame.src = modalUrl;
+    modal.style.display = 'block';
+}
+
+function closeStudyModal() {
+    const modal = document.getElementById('study-modal');
+    const frame = document.getElementById('study-frame');
+    modal.style.display = 'none';
+    frame.src = ''; 
 }
 
 </script>
