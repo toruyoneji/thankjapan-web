@@ -524,9 +524,11 @@ tbody td { padding: 8px; border: none; font-size: 0.82rem; color: var(--ink); }
 
         {% if weekly_ranking|length > 2 %}
         <button type="button" id="rank-toggle-weekly" class="rank-toggle-btn"
-            data-more="{% if lang_code == 'ja' %}もっと見る（TOP10） ▼{% elif lang_code == 'zh-hant' %}查看更多（TOP10） ▼{% elif lang_code == 'zh-cn' %}查看更多（TOP10） ▼{% elif lang_code == 'ko' %}더보기（TOP10） ▼{% elif lang_code == 'de' %}Mehr anzeigen（TOP10） ▼{% elif lang_code == 'fr' %}Voir plus（TOP10） ▼{% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Ver más（TOP10） ▼{% elif lang_code == 'it' %}Vedi altro（TOP10） ▼{% elif lang_code == 'pt' or lang_code == 'pt-br' %}Ver mais（TOP10） ▼{% elif lang_code == 'vi' %}Xem thêm（TOP10） ▼{% elif lang_code == 'th' %}ดูเพิ่มเติม（TOP10） ▼{% else %}See More（TOP10） ▼{% endif %}"
-            data-close="{% if lang_code == 'ja' %}閉じる ▲{% elif lang_code == 'zh-hant' %}關閉 ▲{% elif lang_code == 'zh-cn' %}关闭 ▲{% elif lang_code == 'ko' %}닫기 ▲{% elif lang_code == 'de' %}Schließen ▲{% elif lang_code == 'fr' %}Fermer ▲{% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Cerrar ▲{% elif lang_code == 'it' %}Chiudi ▲{% elif lang_code == 'pt' or lang_code == 'pt-br' %}Fechar ▲{% elif lang_code == 'vi' %}Đóng ▲{% elif lang_code == 'th' %}ปิด ▲{% else %}Close ▲{% endif %}"
+            data-more="{% if lang_code == 'ja' %}もっと見る（TOP10） ▼{% elif lang_code == 'ko' %}더보기（TOP10） ▼{% elif lang_code == 'zh-cn' or lang_code == 'zh-hant' %}查看更多（TOP10） ▼{% else %}See More（TOP10） ▼{% endif %}"
+            data-close="{% if lang_code == 'ja' %}閉じる ▲{% elif lang_code == 'ko' %}닫기 ▲{% elif lang_code == 'zh-cn' or lang_code == 'zh-hant' %}关闭 ▲{% else %}Close ▲{% endif %}"
             onclick="toggleMore('weekly-more', this)">
+    
+            {% if lang_code == 'ja' %}もっと見る（TOP10） ▼{% elif lang_code == 'ko' %}더보기（TOP10） ▼{% elif lang_code == 'zh-cn' or lang_code == 'zh-hant' %}查看更多（TOP10） ▼{% else %}See More（TOP10） ▼{% endif %}
         </button>
         {% endif %}
 
@@ -649,11 +651,12 @@ tbody td { padding: 8px; border: none; font-size: 0.82rem; color: var(--ink); }
           </table>
         </div>
         {% if ranking|length > 3 %}
-        <button type="button" class="rank-toggle-btn" 
-            id="rank-toggle-world"
+        <button type="button" class="rank-toggle-btn" id="rank-toggle-world"
             data-more="{% if lang_code == 'ja' %}もっと見る（TOP20） ▼{% elif lang_code == 'ko' %}더보기（TOP20） ▼{% elif lang_code == 'zh-cn' or lang_code == 'zh-hant' %}查看更多（TOP20） ▼{% else %}See More（TOP20） ▼{% endif %}"
             data-close="{% if lang_code == 'ja' %}閉じる ▲{% elif lang_code == 'ko' %}닫기 ▲{% elif lang_code == 'zh-cn' or lang_code == 'zh-hant' %}关闭 ▲{% else %}Close ▲{% endif %}"
             onclick="toggleMore('world-more', this)">
+    
+            {% if lang_code == 'ja' %}もっと見る（TOP20） ▼{% elif lang_code == 'ko' %}더보기（TOP20） ▼{% elif lang_code == 'zh-cn' or lang_code == 'zh-hant' %}查看更多（TOP20） ▼{% else %}See More（TOP20） ▼{% endif %}
         </button>
         {% endif %}
       </div>
@@ -853,34 +856,39 @@ document.addEventListener('DOMContentLoaded', function() {
     
     const scoreElement = document.getElementById('score');
     const scoreDataTag = document.getElementById('score-data');
-    
     if (scoreElement && scoreDataTag) {
         const finalScore = JSON.parse(scoreDataTag.textContent);
         let current = 0;
-        
-        if (finalScore > 0) {
-            const interval = setInterval(() => {
-                if (current < finalScore) {
-                    current += Math.max(1, Math.floor(finalScore / 20));
-                    if (current > finalScore) current = finalScore;
-                    scoreElement.textContent = current;
-                } else {
-                    scoreElement.textContent = finalScore;
-                    clearInterval(interval);
-                }
-            }, 50);
-        } else {
-            scoreElement.textContent = 0;
-        }
+        const interval = setInterval(() => {
+            if (current < finalScore) {
+                current += Math.max(1, Math.floor(finalScore / 20));
+                if (current > finalScore) current = finalScore;
+                scoreElement.textContent = current;
+            } else {
+                scoreElement.textContent = finalScore;
+                clearInterval(interval);
+            }
+        }, 50);
     }
+});
 
-    const toggleButtons = document.querySelectorAll('.rank-toggle-btn, #rank-toggle-weekly, #rank-toggle-world');
-    toggleButtons.forEach(btn => {
-        if (btn.dataset.more) {
-            btn.textContent = btn.dataset.more;
+
+function toggleMore(className, btn) {
+    const rows = document.querySelectorAll('.' + className);
+    if (rows.length === 0) return;
+    
+    const isHidden = rows[0].classList.contains('rank-row-hidden');
+    
+    rows.forEach(r => {
+        if (isHidden) {
+            r.classList.remove('rank-row-hidden');
+        } else {
+            r.classList.add('rank-row-hidden');
         }
     });
-});
+    
+    btn.textContent = isHidden ? btn.dataset.close : btn.dataset.more;
+}
 
 </script>
 
