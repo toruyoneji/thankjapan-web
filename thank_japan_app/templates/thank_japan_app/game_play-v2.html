@@ -596,12 +596,13 @@ img:hover { transform: scale(1.02); }
 
   {% if not show_result %}
     <div id="timer-container" style="text-align: center; margin: 10px 0;">
-        <div style="width: 80%; height: 8px; background: #ecdfc0; border-radius: 4px; margin: 0 auto 5px; overflow: hidden; border: 1px solid #e8dfc8;">
-            <div id="timer-bar-fill" style="width: 100%; height: 100%; background: #cda23f;"></div>
+        <div style="width: 80%; height: 10px; background: rgba(255,255,255,0.1); border-radius: 5px; margin: 0 auto 8px; overflow: hidden; border: 1px solid rgba(255,255,255,0.2);">
+            <div id="timer-bar-fill" style="width: 100%; height: 100%; background: #2ecc71; transition: width 1s linear, background-color 0.3s ease;"></div>
         </div>
-        <div style="display: flex; justify-content: center; align-items: center; gap: 20px;">
-            <span id="time-left" style="font-size: 1.5rem; font-weight: bold; color: #a97c1f;">01:00</span>
-            <span style="font-size: 1.1rem; color: #2a1d13; font-weight: bold;">Score: {{ score }}</span>
+
+        <div style="display: flex; justify-content: center; align-items: center; gap: 30px;">
+            <span id="time-left" style="font-size: 1.8rem; font-weight: 800; color: #2ecc71; font-family: 'Courier New', Courier, monospace; transition: color 0.3s ease;">01:00</span>
+            <span style="font-size: 1.2rem; color: #fff; font-weight: bold; background: rgba(212, 175, 55, 0.2); padding: 4px 12px; border-radius: 20px; border: 1px solid #d4af37;">Score: {{ score }}</span>
         </div>
     </div>
   {% endif %}
@@ -1258,13 +1259,31 @@ document.addEventListener('DOMContentLoaded', function() {
         timeLeft--;
         if (timeLeft >= 0) {
             if (tDisp) {
+                
                 tDisp.textContent = String(Math.floor(timeLeft / 60)).padStart(2, '0') + ":" + String(timeLeft % 60).padStart(2, '0');
-                if (timeLeft <= 10) tDisp.style.color = "#a5533f";
+
+                let timerColor;
+                if (timeLeft > 30) {
+                    timerColor = "#2ecc71"; 
+                } else if (timeLeft > 10) {
+                    timerColor = "#f1c40f"; 
+                } else {
+                    timerColor = "#e74c3c"; 
+                }
+
+                tDisp.style.color = timerColor;
+                if (tBar) tBar.style.backgroundColor = timerColor;
             }
-            if (tBar) tBar.style.width = (timeLeft / 60 * 100) + "%";
+
+            if (tBar) {
+                tBar.style.width = (timeLeft / 60 * 100) + "%";
+            }
         } else {
             clearInterval(timerInterval);
-            if (!navDone) { navDone = true; window.location.href = rUrl; }
+            if (!navDone) {
+                navDone = true;
+                window.location.href = rUrl;
+            }
         }
     }, 1000);
 });
