@@ -31,15 +31,14 @@
 
 <style>
 :root {
-    --page-bg: #fafaf8;
-    --card-bg: #ffffff;
-    --ink: #2a2a2a;
-    --ink-soft: #767676;
-    --ink-faint: #a3a09a;
-    --border: #e8e6e0;
-    --accent: #4c6440;
-    --accent-dark: #3a4d30;
-    --accent-bg: #eef2ea;
+    --page-bg: #111111;    
+    --card-bg: #1c1c1c;    
+    --ink: #ffffff;
+    --ink-soft: #b0b0b0;
+    --ink-faint: #888888;
+    --border: rgba(212, 175, 55, 0.3); 
+    --accent: #d4af37;     
+    --accent-bg: rgba(212, 175, 55, 0.1);
 }
 
 #premium-auth-container {
@@ -66,7 +65,8 @@
 .app-content-fix::-webkit-scrollbar { display: none; }
 
 .premium-page {
-    max-width: 420px;
+    max-width: 800px; 
+    width: 95%;      
     margin: 0 auto;
     color: var(--ink);
     font-family: 'Inter', 'Noto Sans JP', sans-serif;
@@ -129,13 +129,12 @@
 .plan-card {
     background: var(--card-bg);
     border: 1px solid var(--border);
-    border-radius: 20px;
+    border-radius: 24px;
     width: 100%;
-    padding: 24px 20px;
+    max-width: 450px; 
+    padding: 40px 30px; 
+    margin: 0 auto;
     text-align: center;
-    box-shadow: none;
-    display: flex;
-    flex-direction: column;
 }
 
 .plan-card.featured {
@@ -219,10 +218,13 @@
 }
 
 .google-play-btn {
-    background: var(--ink);
-    color: #fff;
-    border-bottom: 4px solid #000;
-    width: 100%;
+    background: linear-gradient(135deg, #ffd700, #d4af37) !important; 
+    color: #000 !important;
+    font-size: 1.1rem !important;
+    padding: 16px !important;
+    border-radius: 50px !important; 
+    border: none !important;
+    box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
 }
 .google-play-btn:active { transform: translateY(2px); border-bottom-width: 2px; }
 
@@ -298,7 +300,7 @@
 
       {% if not is_twa %}
 
-      <span class="social-proof">🌍 Trusted by 38,000+ learners in 52 countries</span>
+      <span class="social-proof">🌍 Empowering learners across 50+ countries</span>
 
       {% if user.is_authenticated %}
           {% if not user.profile.is_premium %}
