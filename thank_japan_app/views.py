@@ -2302,7 +2302,7 @@ def premium_info(request):
         'paypal_plan_id': settings.PAYPAL_PLAN_ID,
         'is_twa': is_android_twa(request),
     }
-    return render(request, 'thank_japan_app/premium/premium_info.html', context)
+    return render(request, 'thank_japan_app/premium/premium_info-v2.html', context)
 
 def premium_infoZHCN(request):
     context = {
