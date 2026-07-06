@@ -1,0 +1,532 @@
+
+<!DOCTYPE html>
+<html lang="{{ lang_code|default:'en' }}" translate="no"> 
+<head>
+    <meta charset="UTF-8">
+    <meta name="google" content="notranslate"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    
+    <title>프리미엄으로 업그레이드 | 일본어 마스터 | ThankJapan</title>
+
+    <meta name="description" content="고급 일본어 강의를 잠금 해제하세요. 프리미엄 액세스로 비즈니스 일본어와 일상 회화를 마스터하세요.">
+    <meta name="robots" content="index,follow">
+    
+    <link rel="alternate" hreflang="en" href="https://www.thankjapan.com/premium/">
+    <link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/premium/ja/">
+    <link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/premium/vi/">
+    <link rel="alternate" hreflang="en-IN" href="https://www.thankjapan.com/premium/en-in/">
+    <link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/premium/fr/">
+    <link rel="alternate" hreflang="it" href="https://www.thankjapan.com/premium/it/">
+    <link rel="alternate" hreflang="pt-PT" href="https://www.thankjapan.com/premium/pt/">
+    <link rel="alternate" hreflang="pt-BR" href="https://www.thankjapan.com/premium/pt-br/">
+    <link rel="alternate" hreflang="zh-Hant" href="https://www.thankjapan.com/premium/zh-hant/">
+    <link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/premium/ko/">
+    <link rel="alternate" hreflang="es-ES" href="https://www.thankjapan.com/premium/es-es/">
+    <link rel="alternate" hreflang="es-MX" href="https://www.thankjapan.com/premium/es-mx/">
+    <link rel="alternate" hreflang="de" href="https://www.thankjapan.com/premium/de/">
+    <link rel="alternate" hreflang="th" href="https://www.thankjapan.com/premium/th/">
+    <link rel="alternate" hreflang="zh-cn" href="https://www.thankjapan.com/premium/zh-cn/">
+    <link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/premium/">
+
+
+<style>
+:root {
+    --page-bg: linear-gradient(135deg, #0f0f0f 0%, #1a1a2e 50%, #2d1b2d 100%);
+    --card-bg: rgba(255, 255, 255, 0.05); 
+    --ink: #ffffff;
+    --ink-soft: #e0e0e0;
+    --border: rgba(212, 175, 55, 0.4);
+    --accent: #d4af37;
+    --accent-bg: rgba(212, 175, 55, 0.2);
+}
+
+
+#premium-auth-container {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100% !important;
+    height: 100dvh;
+    background: radial-gradient(circle at top right, #2d1b2d, #0f0f0f 60%), 
+                radial-gradient(circle at bottom left, #1a1a2e, #0f0f0f 60%) !important;
+    overflow: hidden;
+    z-index: 1;
+}
+
+
+.app-content-fix {
+    width: 100%;
+    height: 100%;
+    overflow-y: scroll !important; 
+    -webkit-overflow-scrolling: touch; 
+    padding-top: 40px; 
+    padding-bottom: 250px; 
+}
+
+
+.app-content-fix::-webkit-scrollbar { display: none; }
+
+.premium-page {
+    max-width: 800px; 
+    width: 95%;      
+    margin: 0 auto;
+    color: var(--ink);
+    font-family: 'Inter', 'Noto Sans JP', sans-serif;
+}
+
+.premium-header {
+    text-align: center;
+    margin-bottom: 16px;
+}
+
+.premium-header h1 {
+    font-size: 1.4rem;
+    color: var(--ink);
+    font-family: 'Zen Antique', serif;
+    margin-bottom: 6px;
+}
+
+.premium-header p {
+    font-size: 0.85rem;
+    color: var(--ink-soft);
+}
+
+
+.current-plan-tag {
+    display: block;
+    width: fit-content;
+    margin: 0 auto 16px;
+    background: rgba(255, 255, 255, 0.9) !important;
+    color: #111111 !important; 
+    font-size: 0.75rem;
+    font-weight: 800; 
+    padding: 6px 16px;
+    border-radius: 999px;
+    text-align: center;
+    border: 1px solid var(--accent); 
+}
+
+
+.current-plan-tag.guest a {
+    color: #000000 !important;
+    font-weight: 800;
+    text-decoration: underline;
+}
+
+.social-proof {
+    display: block;
+    width: fit-content;
+    margin: 0 auto 18px;
+    background: var(--accent-bg);
+    color: var(--accent);
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 5px 14px;
+    border-radius: 999px;
+    text-align: center;
+}
+
+.pricing-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.plan-card {
+    background: rgba(20, 20, 25, 0.85) !important;
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 2px solid rgba(212, 175, 55, 0.5); 
+    border-radius: 30px;
+    width: 92%; 
+    max-width: 480px; 
+    padding: 50px 30px; 
+    margin: 0 auto;
+    text-align: center;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+}
+
+.plan-card.featured {
+    border-color: var(--border);
+    background: var(--card-bg);
+    box-shadow: none;
+}
+
+.plan-badge {
+    display: none; 
+}
+
+.plan-name {
+    font-size: 1.05rem;
+    font-weight: 700;
+    margin-bottom: 6px;
+    color: var(--ink);
+}
+
+.plan-price {
+    font-size: 1.9rem;
+    font-weight: 800;
+    margin-bottom: 4px;
+    color: var(--ink);
+}
+
+.plan-price span {
+    font-size: 0.8rem;
+    color: var(--ink-soft);
+    font-weight: 400;
+}
+
+.plan-subtext {
+    font-size: 0.75rem;
+    color: var(--ink-faint);
+    margin-bottom: 18px;
+}
+
+.plan-features {
+    list-style: none;
+    margin: 20px 0 30px 0;
+    padding: 15px 20px;
+    text-align: left;
+    background: rgba(255, 255, 255, 0.05) !important;
+    
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    
+    border: 1px solid rgba(212, 175, 55, 0.2);
+    border-radius: 20px; 
+}
+
+.plan-features li {
+    padding: 12px 0; 
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    color: #ffffff;
+    line-height: 1.4;
+}
+
+
+
+.plan-features li::before {
+    content: "✦"; 
+    margin-right: 12px;
+    color: #d4af37;
+    font-size: 1.1rem;
+    filter: drop-shadow(0 0 5px rgba(212, 175, 55, 0.5));
+}
+
+.plan-btn {
+    display: block;
+    padding: 13px;
+    text-decoration: none;
+    font-weight: 700;
+    border-radius: 12px;
+    transition: transform 0.1s;
+    font-size: 0.95rem;
+    text-align: center;
+    border: none;
+    cursor: pointer;
+}
+
+.free-btn {
+    background: var(--card-bg);
+    color: var(--ink-soft);
+    border: 1px solid var(--border);
+}
+
+.google-play-btn {
+    background: linear-gradient(135deg, #ffd700, #d4af37) !important; 
+    color: #000 !important;
+    font-size: 1.1rem !important;
+    padding: 16px !important;
+    border-radius: 50px !important; 
+    border: none !important;
+    box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+}
+.google-play-btn:active { transform: translateY(2px); border-bottom-width: 2px; }
+
+#paypal-button-container {
+    min-height: 150px;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 10px;
+}
+
+.agreement-text {
+    font-size: 0.68rem;
+    color: var(--ink-faint);
+    margin-top: 4px;
+    margin-bottom: 12px;
+    line-height: 1.5;
+    text-align: center;
+}
+.agreement-text a {
+    color: var(--ink-soft);
+    text-decoration: underline;
+}
+
+.bottom-nav-zone {
+    margin-top: 50px;
+    padding-bottom: 60px; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+.btn-manage-account {
+    display: inline-block;
+    color: #d4af37 !important; 
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 0.9rem;
+    padding: 10px 20px;
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    border-radius: 50px;
+    background: rgba(212, 175, 55, 0.05);
+    transition: all 0.3s;
+}
+
+.btn-manage-account:active {
+    background: rgba(212, 175, 55, 0.2);
+    transform: scale(0.95);
+}
+
+.btn-back-home {
+    display: inline-block;
+    color: #b0b0b0 !important; 
+    text-decoration: underline;
+    font-weight: 600;
+    font-size: 0.85rem;
+    margin-top: 10px;
+    padding: 5px;
+    opacity: 0.8;
+}
+
+
+.premium-success-box {
+    margin-top: 20px;
+    padding: 16px;
+    background: var(--accent-bg);
+    border-radius: 12px;
+    color: var(--accent);
+    font-weight: 700;
+    font-size: 0.9rem;
+}
+</style>
+
+</head>
+
+<body>
+<div id="premium-auth-container">
+  <div class="app-content-fix">
+    <div class="premium-page">
+
+      <div class="premium-header">
+          <h1>ThankJapan Premium 💎</h1>
+          <p>일본에서의 업무와 생활을 위한 실전 일본어를 마스터하세요.</p>
+      </div>
+
+      {% if not is_twa %}
+      <!-- 웹 버전 (PayPal 결제) -->
+      <span class="social-proof">🌍 전 세계 50개국 이상의 학습자와 함께하세요</span>
+
+      {% if user.is_authenticated %}
+          {% if not user.profile.is_premium %}
+              <span class="current-plan-tag">현재 플랜: 무료</span>
+          {% endif %}
+      {% else %}
+          <span class="current-plan-tag guest">
+              <a href="{% url 'player_register' %}?lang=ko">무료 회원가입</a>으로 학습 진행 상황을 저장하세요
+          </span>
+      {% endif %}
+
+      <div class="pricing-container">
+          <div class="plan-card featured">
+              <div class="plan-name">Premium</div>
+              <div class="plan-price">$5.00 <span>/ 월</span></div>
+              <div class="plan-subtext">언제든지 취소 가능 · 숨겨진 수수료 없음</div>
+
+              <ul class="plan-features">
+                    <li><strong>회화</strong>&nbsp;마스터</li>
+                    <li><strong>비즈니스</strong>&nbsp;일본어</li>
+                    <li>일본&nbsp;<strong>매너와 예절</strong></li>
+                    <li>광고&nbsp;없는&nbsp;체험</li>
+                    <li>향후&nbsp;<strong>모든 업데이트</strong></li>
+              </ul>
+
+              <p class="agreement-text">
+                  구독하면 당사의 
+                  <a href="{% url 'riyoukiyakuko' %}" target="_blank">이용 약관</a> 및 
+                  <a href="{% url 'privacy_policyko' %}" target="_blank">개인정보 처리방침</a>에 동의하게 됩니다.
+              </p>
+
+              <div id="paypal-button-container"></div>
+
+              <p class="agreement-text" style="margin-top:10px;">
+                  🔒 결제는 안전하게 암호화되어 처리됩니다.
+              </p>
+          </div>
+      </div>
+
+      {% else %}
+      <!-- TWA 버전 (Google Play 결제) -->
+      <span class="social-proof">🌍 전 세계 50개국 이상의 학습자와 함께하세요</span>
+
+      <div class="pricing-container">
+          <div class="plan-card featured">
+              <div class="plan-name">Premium</div>
+              <div class="plan-price">₩8,500 <span>/ 월</span></div>
+              <div class="plan-subtext">ThankJapan의 모든 전문 기능을 이용해 보세요.</div>
+
+              <ul class="plan-features">
+                    <li><strong>회화</strong>&nbsp;마스터</li>
+                    <li><strong>비즈니스</strong>&nbsp;일본어</li>
+                    <li>일본&nbsp;<strong>매너와 예절</strong></li>
+                    <li>광고&nbsp;없는&nbsp;경험</li>
+                    <li>향후&nbsp;<strong>모든 업데이트</strong></li>
+              </ul>
+
+              {% if user.is_authenticated %}
+                  {% if user.profile.is_premium %}
+                      <div class="premium-success-box">
+                          🎉 프리미엄 회원입니다!
+                      </div>
+                  {% else %}
+                      <button id="google-play-sub-button" class="plan-btn google-play-btn">
+                          ▶ Google Play로 구독하기
+                      </button>
+                      <p id="billing-status" style="margin-top: 10px; font-size: 0.78rem; color: #888;"></p>
+                  {% endif %}
+              {% else %}
+                  <a href="{% url 'player_register' %}?lang=ko" class="plan-btn google-play-btn">로그인 후 구독하기</a>
+              {% endif %}
+
+              <p class="agreement-text" style="margin-top: 14px;">
+                  Google Play 결제 서비스에서 관리됩니다. Play 스토어 설정에서 언제든지 해지할 수 있습니다.
+              </p>
+          </div>
+      </div>
+
+      <script>
+      document.getElementById('google-play-sub-button')?.addEventListener('click', async () => {
+          const statusElement = document.getElementById('billing-status');
+
+          if (!window.getDigitalGoodsService) {
+              alert("이 환경은 Google Play 결제를 지원하지 않습니다.");
+              return;
+          }
+
+          try {
+              statusElement.innerText = "Google Play에 연결 중...";
+              const service = await window.getDigitalGoodsService('https://play.google.com/billing');
+
+              const paymentMethods = [{
+                  supportedMethods: 'https://play.google.com/billing',
+                  data: { sku: 'thankjapan_premium_monthly' }
+              }];
+
+              const paymentDetails = {
+                  total: { label: 'Total', amount: { currency: 'KRW', value: '8500' } }
+              };
+
+              const request = new PaymentRequest(paymentMethods, paymentDetails);
+              const paymentResponse = await request.show();
+              const {purchaseToken} = paymentResponse.details;
+
+              if (purchaseToken) {
+                  statusElement.innerText = "구매 확인 중...";
+
+                  const response = await fetch("{% url 'verify_android_subscription' %}", {
+                      method: 'POST',
+                      headers: {
+                          'Content-Type': 'application/json',
+                          'X-CSRFToken': '{{ csrf_token }}'
+                      },
+                      body: JSON.stringify({ purchaseToken: purchaseToken })
+                  });
+
+                  const result = await response.json();
+
+                  if (result.status === 'success') {
+                      paymentResponse.complete('success');
+                      alert("성공! 프리미엄 회원이 되신 것을 환영합니다!");
+                      window.location.reload();
+                  } else {
+                      paymentResponse.complete('fail');
+                      alert("확인 실패: " + result.message);
+                  }
+              }
+          } catch (e) {
+              console.error(e);
+              statusElement.innerText = "";
+              alert("결제가 취소되었거나 오류가 발생했습니다.");
+          }
+      });
+      </script>
+
+      {% endif %}
+
+      <div class="bottom-nav-zone">
+          {% if user.is_authenticated %}
+              <a href="{% url 'account_settingsko' %}" class="btn-manage-account">
+                  프로필 관리 / 계정 설정 ⚙️
+              </a>
+          {% endif %}
+          <a href="{% url 'toppageko' %}" class="btn-back-home">
+              ← 홈으로 돌아가기
+          </a>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+{% if not is_twa %}
+<script src="https://www.paypal.com/sdk/js?client-id={{ paypal_client_id }}&vault=true&intent=subscription&currency=USD"></script>
+
+<script>
+    paypal.Buttons({
+        style: {
+            shape: 'rect',
+            color: 'gold',
+            layout: 'vertical',
+            label: 'subscribe'
+        },
+        createSubscription: function(data, actions) {
+            return actions.subscription.create({
+                'plan_id': '{{ paypal_plan_id }}'
+            });
+        },
+        onApprove: function(data, actions) {
+            document.getElementById('paypal-button-container').innerHTML = '<p style="color: #d4af37; font-weight: bold; padding: 20px;">계정 정보 업데이트 중...<br>잠시만 기다려 주세요.</p>';
+            
+            fetch("{% url 'update_premium_status' %}", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                body: JSON.stringify({
+                    subscriptionID: data.subscriptionID
+                })
+            }).then(response => {
+                if (response.ok) {
+                    setTimeout(function() {
+                        window.location.href = "{% url 'thank_youko' %}";
+                    }, 3000);
+                }
+            });
+        },
+        onError: function (err) {
+            alert('PayPal 오류가 발생했습니다.');
+        }
+    }).render('#paypal-button-container');
+</script>
+{% endif %}
+</body>
+
+
+</html>
+

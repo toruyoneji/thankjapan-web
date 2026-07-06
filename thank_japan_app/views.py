@@ -2327,7 +2327,7 @@ def premium_infoVI(request):
         'paypal_plan_id': settings.PAYPAL_PLAN_ID,
         'is_twa': is_android_twa(request),
     }
-    return render(request, 'thank_japan_app/premium/premium_info_vi.html', context)
+    return render(request, 'thank_japan_app/premium/premium_info_vi-v2.html', context)
 
 def premium_infoTH(request):
     context = {
@@ -2335,7 +2335,7 @@ def premium_infoTH(request):
         'paypal_plan_id': settings.PAYPAL_PLAN_ID,
         'is_twa': is_android_twa(request),
     }
-    return render(request, 'thank_japan_app/premium/premium_info_th.html', context)
+    return render(request, 'thank_japan_app/premium/premium_info_th-v2.html', context)
 
 def premium_infoPT(request):
     context = {
@@ -2343,7 +2343,7 @@ def premium_infoPT(request):
         'paypal_plan_id': settings.PAYPAL_PLAN_ID,
         'is_twa': is_android_twa(request),
     }
-    return render(request, 'thank_japan_app/premium/premium_info_pt.html', context)
+    return render(request, 'thank_japan_app/premium/premium_info_pt-v2.html', context)
 
 def premium_infoPTBR(request):
     context = {
@@ -2351,7 +2351,7 @@ def premium_infoPTBR(request):
         'paypal_plan_id': settings.PAYPAL_PLAN_ID,
         'is_twa': is_android_twa(request),
     }
-    return render(request, 'thank_japan_app/premium/premium_info_pt_br.html', context)
+    return render(request, 'thank_japan_app/premium/premium_info_pt_br-v2.html', context)
 
 def premium_infoKO(request):
     context = {
@@ -2359,7 +2359,7 @@ def premium_infoKO(request):
         'paypal_plan_id': settings.PAYPAL_PLAN_ID,
         'is_twa': is_android_twa(request),
     }
-    return render(request, 'thank_japan_app/premium/premium_info_ko.html', context)
+    return render(request, 'thank_japan_app/premium/premium_info_ko-v2.html', context)
 
 def premium_infoJA(request):
     context = {
@@ -2367,7 +2367,7 @@ def premium_infoJA(request):
         'paypal_plan_id': settings.PAYPAL_PLAN_ID,
         'is_twa': is_android_twa(request),
     }
-    return render(request, 'thank_japan_app/premium/premium_info_ja.html', context)
+    return render(request, 'thank_japan_app/premium/premium_info_ja-v2.html', context)
 
 def premium_infoIT(request):
     context = {
@@ -2375,7 +2375,7 @@ def premium_infoIT(request):
         'paypal_plan_id': settings.PAYPAL_PLAN_ID,
         'is_twa': is_android_twa(request),
     }
-    return render(request, 'thank_japan_app/premium/premium_info_it.html', context)
+    return render(request, 'thank_japan_app/premium/premium_info_it-v2.html', context)
 
 def premium_infoFR(request):
     context = {
@@ -2383,7 +2383,7 @@ def premium_infoFR(request):
         'paypal_plan_id': settings.PAYPAL_PLAN_ID,
         'is_twa': is_android_twa(request),
     }
-    return render(request, 'thank_japan_app/premium/premium_info_fr.html', context)
+    return render(request, 'thank_japan_app/premium/premium_info_fr-v2.html', context)
 
 def premium_infoESMX(request):
     context = {
@@ -2391,7 +2391,7 @@ def premium_infoESMX(request):
         'paypal_plan_id': settings.PAYPAL_PLAN_ID,
         'is_twa': is_android_twa(request),
     }
-    return render(request, 'thank_japan_app/premium/premium_info_es_mx.html', context)
+    return render(request, 'thank_japan_app/premium/premium_info_es_mx-v2.html', context)
 
 def premium_infoESES(request):
     context = {
@@ -2399,7 +2399,7 @@ def premium_infoESES(request):
         'paypal_plan_id': settings.PAYPAL_PLAN_ID,
         'is_twa': is_android_twa(request),
     }
-    return render(request, 'thank_japan_app/premium/premium_info_es_es.html', context)
+    return render(request, 'thank_japan_app/premium/premium_info_es_es-v2.html', context)
 
 def premium_infoENIN(request):
     context = {
@@ -2407,7 +2407,7 @@ def premium_infoENIN(request):
         'paypal_plan_id': settings.PAYPAL_PLAN_ID,
         'is_twa': is_android_twa(request),
     }
-    return render(request, 'thank_japan_app/premium/premium_info_en_in.html', context)
+    return render(request, 'thank_japan_app/premium/premium_info_en_in-v2.html', context)
 
 def premium_infoDE(request):
     context = {
@@ -2415,7 +2415,7 @@ def premium_infoDE(request):
         'paypal_plan_id': settings.PAYPAL_PLAN_ID,
         'is_twa': is_android_twa(request),
     }
-    return render(request, 'thank_japan_app/premium/premium_info_de.html', context)
+    return render(request, 'thank_japan_app/premium/premium_info_de-v2.html', context)
 
 
 #thankyou
