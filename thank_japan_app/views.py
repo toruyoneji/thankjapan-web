@@ -2310,7 +2310,7 @@ def premium_infoZHCN(request):
         'paypal_plan_id': settings.PAYPAL_PLAN_ID,
         'is_twa': is_android_twa(request),
     }
-    return render(request, 'thank_japan_app/premium/premium_info_zh_cn.html', context)
+    return render(request, 'thank_japan_app/premium/premium_info_zh_cn-v2.html', context)
 
 
 def premium_infoZHHANT(request):
@@ -2319,7 +2319,7 @@ def premium_infoZHHANT(request):
         'paypal_plan_id': settings.PAYPAL_PLAN_ID,
         'is_twa': is_android_twa(request),
     }
-    return render(request, 'thank_japan_app/premium/premium_info_zh_hant.html', context)
+    return render(request, 'thank_japan_app/premium/premium_info_zh_hant-v2.html', context)
 
 def premium_infoVI(request):
     context = {

@@ -6,9 +6,9 @@
     <meta name="google" content="notranslate"> 
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     
-    <title>Upgrade to Premium | ThankJapan</title>
+    <title>升級至 Premium | 精通日語 | ThankJapan</title>
 
-    <meta name="description" content="Unlock advanced Japanese lessons. Master Business Japanese and daily conversation with Premium access.">
+    <meta name="description" content="解鎖高級日語課程。透過 Premium 權限精通商務日語和日常會話。">
     <meta name="robots" content="index,follow">
     
     <link rel="alternate" hreflang="en" href="https://www.thankjapan.com/premium/">
@@ -324,86 +324,86 @@
 
       <div class="premium-header">
           <h1>ThankJapan Premium 💎</h1>
-          <p>Master Japanese for your work and life in Japan.</p>
+          <p>為您在日本的工作與生活掌握實用日語</p>
       </div>
 
       {% if not is_twa %}
-
-      <span class="social-proof">🌍 Empowering learners across 50+ countries</span>
+      <!-- Web版 (PayPal決済) -->
+      <span class="social-proof">🌍 賦予全球 50 多個國家的學習者力量</span>
 
       {% if user.is_authenticated %}
           {% if not user.profile.is_premium %}
-              <span class="current-plan-tag">Current Plan: Free</span>
+              <span class="current-plan-tag">目前方案：免費版</span>
           {% endif %}
       {% else %}
           <span class="current-plan-tag guest">
-              <a href="{% url 'player_register' %}?lang=en">Sign up free</a> to save your progress
+              <a href="{% url 'player_register' %}?lang=zh-hant">免費註冊</a> 以儲存您的學習進度
           </span>
       {% endif %}
 
       <div class="pricing-container">
           <div class="plan-card featured">
               <div class="plan-name">Premium</div>
-              <div class="plan-price">$5.00 <span>/ month</span></div>
-              <div class="plan-subtext">Cancel anytime · No hidden fees</div>
+              <div class="plan-price">$5.00 <span>/ 每月</span></div>
+              <div class="plan-subtext">隨時取消 · 無隱藏費用</div>
 
               <ul class="plan-features">
-                    <li><strong>Conversation</strong>&nbsp;Mastery</li>
-                    <li><strong>Business</strong>&nbsp;Japanese</li>
-                    <li>Japanese&nbsp;<strong>Etiquette</strong></li>
-                    <li>Ad-Free&nbsp;Experience</li>
-                    <li>All&nbsp;Future&nbsp;Updates</li>
+                    <li><strong>日常會話</strong>&nbsp;精通</li>
+                    <li><strong>商務</strong>&nbsp;日語學習</li>
+                    <li>日本&nbsp;<strong>禮儀作法</strong></li>
+                    <li>無廣告&nbsp;流暢體驗</li>
+                    <li>未來&nbsp;<strong>所有更新</strong></li>
               </ul>
 
               <p class="agreement-text">
-                  By subscribing, you agree to our
-                  <a href="{% url 'riyoukiyaku' %}" target="_blank">Terms of Use</a> and
-                  <a href="{% url 'privacy_policy' %}" target="_blank">Privacy Policy</a>.
+                  訂閱即表示您同意我們的
+                  <a href="{% url 'riyoukiyakuzhHANT' %}" target="_blank">使用條款</a> 和
+                  <a href="{% url 'privacy_policyzhHANT' %}" target="_blank">隱私權政策</a>。
               </p>
 
               <div id="paypal-button-container"></div>
 
               <p class="agreement-text" style="margin-top:10px;">
-                  🔒 Payments are securely processed and encrypted.
+                  🔒 支付過程經過安全加密處理。
               </p>
           </div>
       </div>
 
       {% else %}
-
-      <span class="social-proof">🌍 Empowering learners across 50+ countries</span>
+      <!-- TWA版 (Google Play決済) -->
+      <span class="social-proof">🌍 賦予全球 50 多個國家的學習者力量</span>
 
       <div class="pricing-container">
           <div class="plan-card featured">
               <div class="plan-name">Premium</div>
-              <div class="plan-price">$4.99 <span>/ month</span></div>
-              <div class="plan-subtext">Unlock all professional Japanese lessons.</div>
+              <div class="plan-price">NT$ 170.00 <span>/ 每月</span></div>
+              <div class="plan-subtext">解鎖 ThankJapan 的所有專業日語課程。</div>
 
               <ul class="plan-features">
-                  <li><strong>Conversation</strong>&nbsp;Mastery</li>
-                    <li><strong>Business</strong>&nbsp;Japanese</li>
-                    <li>Japanese&nbsp;<strong>Etiquette</strong></li>
-                    <li>Ad-Free&nbsp;Experience</li>
-                    <li>All&nbsp;Future&nbsp;Updates</li>
+                  <li><strong>日常會話</strong>&nbsp;精通</li>
+                    <li><strong>商務</strong>&nbsp;日語學習</li>
+                    <li>日本&nbsp;<strong>禮儀作法</strong></li>
+                    <li>無廣告&nbsp;流暢體驗</li>
+                    <li>未來&nbsp;<strong>所有更新</strong></li>
               </ul>
 
               {% if user.is_authenticated %}
                   {% if user.profile.is_premium %}
                       <div class="premium-success-box">
-                          🎉 You are a Premium Member!
+                          🎉 您已是 Premium 高級會員！
                       </div>
                   {% else %}
                       <button id="google-play-sub-button" class="plan-btn google-play-btn">
-                          ▶ Subscribe via Google Play
+                          ▶ 透過 Google Play 訂閱
                       </button>
-                      <p id="billing-status" style="margin-top: 10px; font-size: 0.78rem; color: var(--ink-faint);"></p>
+                      <p id="billing-status" style="margin-top: 10px; font-size: 0.78rem; color: #888;"></p>
                   {% endif %}
               {% else %}
-                  <a href="{% url 'player_register' %}?lang=en" class="plan-btn google-play-btn">Login to Subscribe</a>
+                  <a href="{% url 'player_register' %}?lang=zh-hant" class="plan-btn google-play-btn">登錄並訂閱</a>
               {% endif %}
 
               <p class="agreement-text" style="margin-top: 14px;">
-                  Managed by Google Play Billing. You can cancel anytime in your Play Store settings.
+                  由 Google Play 結算管理。您隨時可以在 Play 商店設定中取消訂閱。
               </p>
           </div>
       </div>
@@ -413,12 +413,12 @@
           const statusElement = document.getElementById('billing-status');
 
           if (!window.getDigitalGoodsService) {
-              alert("This environment does not support Google Play Billing.");
+              alert("此環境不支持 Google Play 結算。");
               return;
           }
 
           try {
-              statusElement.innerText = "Connecting to Google Play...";
+              statusElement.innerText = "正在連接 Google Play...";
               const service = await window.getDigitalGoodsService('https://play.google.com/billing');
 
               const paymentMethods = [{
@@ -427,7 +427,7 @@
               }];
 
               const paymentDetails = {
-                  total: { label: 'Total', amount: { currency: 'USD', value: '4.99' } }
+                  total: { label: 'Total', amount: { currency: 'TWD', value: '170.00' } }
               };
 
               const request = new PaymentRequest(paymentMethods, paymentDetails);
@@ -435,7 +435,7 @@
               const {purchaseToken} = paymentResponse.details;
 
               if (purchaseToken) {
-                  statusElement.innerText = "Verifying your purchase...";
+                  statusElement.innerText = "正在驗證您的購買...";
 
                   const response = await fetch("{% url 'verify_android_subscription' %}", {
                       method: 'POST',
@@ -450,17 +450,17 @@
 
                   if (result.status === 'success') {
                       paymentResponse.complete('success');
-                      alert("Success! Welcome to Premium!");
+                      alert("成功！歡迎加入 Premium 會員！");
                       window.location.reload();
                   } else {
                       paymentResponse.complete('fail');
-                      alert("Verification failed: " + result.message);
+                      alert("驗證失敗：" + result.message);
                   }
               }
           } catch (e) {
               console.error(e);
               statusElement.innerText = "";
-              alert("Billing cancelled or error occurred.");
+              alert("結算已取消或發生錯誤。");
           }
       });
       </script>
@@ -469,12 +469,12 @@
 
       <div class="bottom-nav-zone">
           {% if user.is_authenticated %}
-              <a href="{% url 'account_settings' %}" class="btn-manage-account">
-                  Manage Profile / Account Settings ⚙️
+              <a href="{% url 'account_settingszhHANT' %}" class="btn-manage-account">
+                  管理個人資料 / 帳戶設定 ⚙️
               </a>
           {% endif %}
-          <a href="{% url 'toppage' %}" class="btn-back-home">
-              ← Back To Home
+          <a href="{% url 'toppagezhHANT' %}" class="btn-back-home">
+              ← 返回首頁
           </a>
       </div>
 
@@ -484,7 +484,6 @@
 
 
 {% if not is_twa %}
-
 <script src="https://www.paypal.com/sdk/js?client-id={{ paypal_client_id }}&vault=true&intent=subscription&currency=USD"></script>
 
 <script>
@@ -501,7 +500,7 @@
             });
         },
         onApprove: function(data, actions) {
-            document.getElementById('paypal-button-container').innerHTML = '<p style="color: #d4af37; font-weight: bold; padding: 20px;">Updating your account...<br>Please wait a moment.</p>';
+            document.getElementById('paypal-button-container').innerHTML = '<p style="color: #d4af37; font-weight: bold; padding: 20px;">正在更新您的帳戶...<br>請稍候。</p>';
             
             fetch("{% url 'update_premium_status' %}", {
                 method: 'POST',
@@ -515,19 +514,18 @@
             }).then(response => {
                 if (response.ok) {
                     setTimeout(function() {
-                        window.location.href = "{% url 'thank_you' %}";
+                        window.location.href = "{% url 'thank_youzhHANT' %}";
                     }, 3000);
                 }
             });
         },
         onError: function (err) {
-            alert('PayPal Error occurred.');
+            alert('PayPal 發生錯誤。');
         }
     }).render('#paypal-button-container');
 </script>
-
 {% endif %}
-
 </body>
+
 </html>
 
