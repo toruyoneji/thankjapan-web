@@ -542,7 +542,8 @@ img:hover { transform: scale(1.02); }
 </div>
 
 <div class="main2" 
-     hx-boost="true" 
+     hx-boost="false" 
+     target="_top"
      hx-target=".main2" 
      hx-swap="outerHTML show:window:top" 
      data-hint-length="{{ hint_length }}" 
@@ -1012,7 +1013,7 @@ img:hover { transform: scale(1.02); }
         {% else %}Guest
         {% endif %}
     {% endif %}!</p>
-    <p><a href="{% url 'game_result' %}">
+    <p><a href="{% url 'game_result' %}" hx-boost="false" target="_top">
         {% if lang_code == 'ja' %}終了して結果を見る
         {% elif lang_code == 'zh-hant' %}退出並查看結果
         {% elif lang_code == 'zh-cn' %}退出并查看结果
@@ -1282,7 +1283,7 @@ document.addEventListener('DOMContentLoaded', function() {
             clearInterval(timerInterval);
             if (!navDone) {
                 navDone = true;
-                window.location.href = rUrl;
+                window.location.replace(rUrl);
             }
         }
     }, 1000);
