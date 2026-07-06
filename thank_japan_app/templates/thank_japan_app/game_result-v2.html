@@ -67,22 +67,27 @@
 
 #premium-auth-container {
     position: fixed;
-    top: 0; left: 0;
+    top: 0; 
+    left: 0;
     width: 100% !important; 
     height: 100dvh;
     background-color: var(--washi, #faf6ec) !important; 
-    overflow: hidden;
+    overflow: hidden; 
     z-index: 1;
+    display: flex;
+    flex-direction: column;
 }
 
 .app-content-fix {
-    flex: 1;
+    flex: 1; 
+    height: 100%; 
     width: 100%;
-    overflow-y: auto;
+    overflow-y: auto; 
     -webkit-overflow-scrolling: touch;
-    padding-top: 70px; 
+    
+    padding-top: 20px; 
     padding-bottom: 120px; 
-    padding-bottom: calc(80px + env(safe-area-inset-bottom)); 
+    padding-bottom: calc(100px + env(safe-area-inset-bottom)); 
     -ms-overflow-style: none;
     scrollbar-width: none;
 }
