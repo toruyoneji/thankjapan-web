@@ -59,7 +59,7 @@
     overflow-y: scroll !important; 
     -webkit-overflow-scrolling: touch; 
     padding-top: 40px; 
-    padding-bottom: 150px; 
+    padding-bottom: 250px; 
 }
 
 
@@ -133,10 +133,16 @@
 
 .plan-card {
     background: rgba(20, 20, 25, 0.85) !important;
-    backdrop-filter: blur(15px); 
+    backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
-    border: 1px solid rgba(212, 175, 55, 0.5);
-    border-radius: 28px;
+    /* 枠線を少し太くし、かつ少しだけ外側に広げるイメージで余裕を持たせる */
+    border: 2px solid rgba(212, 175, 55, 0.5); 
+    border-radius: 30px;
+    width: 92%; 
+    max-width: 480px; 
+    padding: 50px 30px; 
+    margin: 0 auto;
+    text-align: center;
     box-shadow: 0 20px 50px rgba(0,0,0,0.6);
 }
 
@@ -178,8 +184,8 @@
 
 .plan-features {
     list-style: none;
-    padding: 20px 24px; 
-    margin: 0 0 25px 0;
+    margin: 20px 0 30px 0;
+    padding: 15px 20px;
     text-align: left;
     background: rgba(255, 255, 255, 0.05) !important;
     
@@ -191,12 +197,12 @@
 }
 
 .plan-features li {
-    padding: 8px 0;
-    font-size: 0.95rem; 
+    padding: 12px 0; 
+    font-size: 1rem;
     display: flex;
     align-items: center;
     color: #ffffff;
-    font-weight: 500;
+    line-height: 1.4;
 }
 
 
@@ -261,30 +267,43 @@
 }
 
 .bottom-nav-zone {
-    margin-top: 28px;
-    padding-top: 18px;
-    border-top: 1px dashed var(--border);
+    margin-top: 50px;
+    padding-bottom: 60px; 
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 10px;
+    gap: 12px;
 }
 
 .btn-manage-account {
     display: inline-block;
-    color: var(--ink-faint);
+    color: #d4af37 !important; 
     text-decoration: none;
-    font-weight: 600;
-    font-size: 0.78rem;
+    font-weight: 700;
+    font-size: 0.9rem;
+    padding: 10px 20px;
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    border-radius: 50px;
+    background: rgba(212, 175, 55, 0.05);
+    transition: all 0.3s;
+}
+
+.btn-manage-account:active {
+    background: rgba(212, 175, 55, 0.2);
+    transform: scale(0.95);
 }
 
 .btn-back-home {
     display: inline-block;
-    color: var(--ink-faint);
+    color: #b0b0b0 !important; 
     text-decoration: underline;
     font-weight: 600;
-    font-size: 0.78rem;
+    font-size: 0.85rem;
+    margin-top: 10px;
+    padding: 5px;
+    opacity: 0.8;
 }
+
 
 .premium-success-box {
     margin-top: 20px;
@@ -333,7 +352,7 @@
                   <li><strong>Conversation</strong> Mastery</li>
                   <li><strong>Business</strong> Japanese</li>
                   <li>Japanese <strong>Etiquette</strong></li>
-                  <li>Ad-Free Experience</li>
+                  <li>Ad Free Experience</li>
                   <li>All Future Updates</li>
               </ul>
 
