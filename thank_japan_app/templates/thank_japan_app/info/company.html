@@ -17,32 +17,32 @@
     --gold-dark: #a97c1f;
 }
 
+* { outline: none !important; -webkit-tap-highlight-color: transparent; }
+
+
 /* スクロールを復活させるための外枠設定 */
 #premium-auth-container {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
+    top: 0; left: 0;
+    width: 100vw !important;
     height: 100dvh;
     background-color: var(--washi) !important;
     overflow: hidden;
-    display: flex;
-    flex-direction: column;
+    display: flex;         /* これを追加 */
+    flex-direction: column; /* これを追加 */
+    border: none !important; /* これを追加 */
 }
 
+/* ③ スクロールを動かし、緑の線を消す（内枠） */
 .app-content-fix {
-    flex: 1;
+    flex: 1;               /* これを追加 */
     width: 100%;
     height: 100%;
-    overflow-y: auto !important;
-    -webkit-overflow-scrolling: touch;
-    padding-top: 80px;
-    /* 下までスクロールしきれるように余白を多めに確保 */
-    padding-bottom: calc(120px + env(safe-area-inset-bottom));
-    background: var(--washi) !important;
-    -ms-overflow-style: none;
-    scrollbar-width: none;
+    overflow-y: auto !important; /* これを auto に */
+    border: none !important;     /* これを追加 */
+    padding-bottom: 120px; 
 }
+
 .app-content-fix::-webkit-scrollbar { display: none; }
 
 .main2 {
@@ -166,7 +166,7 @@ a.anchor:active {
 }
 </style>
 
-<!-- V2 Sandwich 構造で全体を包む -->
+
 <div id="premium-auth-container">
   <div class="app-content-fix">
     <div class="main2">
