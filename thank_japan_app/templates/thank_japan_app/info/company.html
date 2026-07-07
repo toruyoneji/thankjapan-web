@@ -3,29 +3,11 @@
 
 {% block title %}Company Information{% endblock %}
 
-{% block hreflang_tags %}
-     <link rel="alternate" hreflang="en" href="https://www.thankjapan.com/infomation/">
-    <link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/infomation/ja/">
-    <link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/infomation/vi/">
-    <link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/infomation/fr/">
-    <link rel="alternate" hreflang="it" href="https://www.thankjapan.com/infomation/it/">
-    <link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/infomation/pt/">
-    <link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/infomation/zh-hant/">
-    <link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/infomation/ko/">
-    <link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/infomation/es-es/">
-    <link rel="alternate" hreflang="de" href="https://www.thankjapan.com/infomation/de/">
-    <link rel="alternate" hreflang="th" href="https://www.thankjapan.com/infomation/th/">
-    <link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/infomation/pt-br/">
-    <link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/infomation/es-mx/">
-    <link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/infomation/en-in/">
-    <link rel="alternate" hreflang="zh-cn" href="https://www.thankjapan.com/infomation/zh-cn/">
-    <link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/infomation/">
-
-{% endblock %}
-
 {% block content %}
 <style>
+/* ブラウザのダークモード強制を解除 */
 :root {
+    color-scheme: light !important;
     --washi: #faf6ec;
     --washi-card: #ffffff;
     --wood-border: #e8dfc8;
@@ -35,14 +17,29 @@
     --gold-dark: #a97c1f;
 }
 
+/* スクロールを復活させるための外枠設定 */
+#premium-auth-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100dvh;
+    background-color: var(--washi) !important;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
 .app-content-fix {
-    height: 100%;
+    flex: 1;
     width: 100%;
-    overflow-y: auto;
+    height: 100%;
+    overflow-y: auto !important;
     -webkit-overflow-scrolling: touch;
     padding-top: 80px;
-    padding-bottom: calc(90px + env(safe-area-inset-bottom));
-    background: var(--washi);
+    /* 下までスクロールしきれるように余白を多めに確保 */
+    padding-bottom: calc(120px + env(safe-area-inset-bottom));
+    background: var(--washi) !important;
     -ms-overflow-style: none;
     scrollbar-width: none;
 }
@@ -54,165 +51,173 @@
     font-family: 'Inter', 'Noto Sans JP', sans-serif;
     color: var(--ink);
     background: transparent;
-    padding: 0 20px;
+    padding: 0 24px; /* 左右の余白を少し広げた */
     box-shadow: none;
 }
 
+/* タイトルを大きく */
 .main2 h1 {
     font-family: 'Zen Antique', serif;
-    font-size: 1.6rem;
+    font-size: 2.2rem; /* 1.6 -> 2.2 */
     font-weight: 700;
     color: var(--ink);
     margin-bottom: 8px;
-    padding-top: 0;
+    padding-top: 10px;
     text-align: center;
-    text-shadow: none;
 }
 
 .title-underline {
-    width: 44px;
-    height: 2px;
+    width: 60px;
+    height: 3px;
     background: var(--gold);
-    margin: 0 auto 24px;
+    margin: 0 auto 30px;
 }
 
 hr {
     border: none;
     border-top: 1px solid var(--wood-border);
-    margin: 20px 0;
+    margin: 30px 0;
     opacity: 1;
 }
 
+/* 見出しを大きく */
 .section-heading {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
     margin-top: 4px;
-    margin-bottom: 12px;
+    margin-bottom: 16px;
 }
 .section-heading .bar {
-    width: 3px;
-    height: 16px;
+    width: 4px;
+    height: 20px;
     background: var(--gold);
 }
 .section-heading span {
-    font-size: 0.95rem;
+    font-size: 1.2rem; /* 0.95 -> 1.2 */
     font-weight: 700;
     color: var(--ink);
 }
 
+/* 情報テーブルの文字を大きく */
 .info-card {
     background: var(--washi-card);
     border: 1px solid var(--wood-border);
-    border-radius: 14px;
-    padding: 14px 16px;
+    border-radius: 16px;
+    padding: 16px 20px;
 }
 .info-row {
     display: flex;
     justify-content: space-between;
-    padding: 6px 0;
+    padding: 12px 0; /* 行間を広げた */
     border-bottom: 1px solid #f0e9d8;
-    font-size: 0.85rem;
+    font-size: 1.05rem; /* 0.85 -> 1.05 */
 }
 .info-row:last-child { border-bottom: none; }
 .info-row .label { color: var(--ink-soft); }
-.info-row .value { color: var(--ink); font-weight: 700; }
+.info-row .value { color: var(--ink); font-weight: 700; text-align: right; margin-left: 10px; }
 
+/* 本文を大きく */
 p {
-    font-size: 0.9rem;
-    line-height: 1.8;
-    color: #5a4f3f;
+    font-size: 1.1rem; /* 0.9 -> 1.1 */
+    line-height: 1.9;
+    color: #4a4034;
     margin: 0;
 }
 
+/* 注意書き */
 .cookie-note {
-    font-size: 0.78rem;
+    font-size: 0.95rem; /* 0.78 -> 0.95 */
     color: var(--ink-soft);
-    line-height: 1.7;
+    line-height: 1.8;
     background: var(--washi-card);
     border: 1px solid var(--wood-border);
     border-radius: 12px;
-    padding: 12px 14px;
+    padding: 16px;
 }
 
 .link-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 10px;
+    gap: 12px;
 }
 
+/* リンクボタンを大きく */
 a.anchor {
     display: block;
     background: var(--washi-card);
     border: 1px solid var(--wood-border);
-    border-radius: 12px;
-    padding: 14px 10px;
+    border-radius: 14px;
+    padding: 18px 10px;
     text-align: center;
     color: var(--ink);
     font-weight: 600;
-    font-size: 0.85rem;
+    font-size: 1.05rem; /* 0.85 -> 1.05 */
     text-decoration: none;
-    transition: transform 0.1s ease;
+    transition: all 0.2s ease;
 }
 a.anchor:hover {
     color: var(--gold-dark);
     border-color: var(--gold);
+    background: #fffdf9;
 }
 a.anchor:active {
     transform: translateY(2px);
 }
 </style>
 
-<div class="app-content-fix">
-  <div class="main2">
+<!-- V2 Sandwich 構造で全体を包む -->
+<div id="premium-auth-container">
+  <div class="app-content-fix">
+    <div class="main2">
 
-    <h1>Company Information</h1>
-    <div class="title-underline"></div>
+      <h1>Company Information</h1>
+      <div class="title-underline"></div>
 
-    <div class="section-heading">
-        <div class="bar"></div>
-        <span>Company</span>
+      <div class="section-heading">
+          <div class="bar"></div>
+          <span>Company</span>
+      </div>
+      <div class="info-card">
+          <div class="info-row">
+              <span class="label">Company Name</span>
+              <span class="value">ThankJapan</span>
+          </div>
+          <div class="info-row">
+              <span class="label">Company Address</span>
+              <span class="value">Kanazawa, Ishikawa, Japan</span>
+          </div>
+      </div>
+
+      <hr>
+
+      <div class="section-heading">
+          <div class="bar"></div>
+          <span>Introduction</span>
+      </div>
+      <p>ThankJapan is a global platform dedicated to sharing the beauty and spirit of Japan with the world. Our unique approach focuses not only on traditional Japanese culture but also on how universal concepts are expressed in the Japanese language.</p>
+      <p style="margin-top: 18px;">We offer premium learning experiences for those seeking professional business skills and practical life insights in Japan. ThankJapan is your guide to experiencing Japan through a truly global lens.</p>
+
+      <hr>
+
+      <div class="cookie-note">
+          We use cookies to ensure secure payments, maintain your progress, and improve your experience. By continuing to browse, you agree to our use of cookies.
+      </div>
+
+      <hr>
+
+      <div class="section-heading">
+          <div class="bar"></div>
+          <span>Legal</span>
+      </div>
+      <div class="link-grid">
+          <a class="anchor" href="{% url 'riyoukiyaku' %}">Terms</a>
+          <a class="anchor" href="{% url 'legal_notice' %}">Legal</a>
+          <a class="anchor" href="{% url 'privacy_policy' %}">Privacy</a>
+          <a class="anchor" href="{% url 'contact' %}">Contact</a>
+      </div>
+
     </div>
-    <div class="info-card">
-        <div class="info-row">
-            <span class="label">Company Name</span>
-            <span class="value">ThankJapan</span>
-        </div>
-        <div class="info-row">
-            <span class="label">Company Address</span>
-            <span class="value">Kanazawa-shi, Ishikawa-ken, Japan</span>
-        </div>
-    </div>
-
-    <hr>
-
-    <div class="section-heading">
-        <div class="bar"></div>
-        <span>Company Introduction</span>
-    </div>
-    <p>ThankJapan is a global platform dedicated to sharing the beauty and spirit of Japan with the world. Our unique approach focuses not only on traditional Japanese culture but also on how universal concepts are expressed in the Japanese language. We believe that by understanding these connections, you can gain deeper insights into Japan, enhancing your language skills and cross cultural appreciation.</p>
-    <p style="margin-top: 14px;">Join us to explore everything from everyday objects to business etiquette. We offer premium learning experiences for those seeking professional business skills and practical life insights in Japan. ThankJapan is your guide to experiencing Japan through a truly global lens.</p>
-
-    <hr>
-
-    <div class="cookie-note">
-        We use cookies to ensure secure payments, maintain your learning progress, and improve your experience. By continuing to browse, you agree to our use of cookies.
-    </div>
-
-    <hr>
-
-    <div class="section-heading">
-        <div class="bar"></div>
-        <span>More Information</span>
-    </div>
-    <div class="link-grid">
-        <a class="anchor" href="{% url 'riyoukiyaku' %}">Terms of Use</a>
-        <a class="anchor" href="{% url 'legal_notice' %}">Legal Notice</a>
-        <a class="anchor" href="{% url 'privacy_policy' %}">Privacy Policy</a>
-        <a class="anchor" href="{% url 'contact' %}">Contact</a>
-    </div>
-
   </div>
 </div>
-
 {% endblock %}
