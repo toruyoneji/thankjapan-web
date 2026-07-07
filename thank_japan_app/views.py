@@ -303,46 +303,46 @@ class CompanyFormView(TemplateView):
      template_name = 'thank_japan_app/info/company.html'
      
 class CompanyFormZHCNView(TemplateView):
-     template_name = 'thank_japan_app/info/company_zh_cn.html'
+     template_name = 'thank_japan_app/info/company_zh_cn-v2.html'
      
 class CompanyFormZHHANTView(TemplateView):
-     template_name = 'thank_japan_app/info/company_zh_hant.html'
+     template_name = 'thank_japan_app/info/company_zh_hant-v2.html'
      
 class CompanyFormVIView(TemplateView):
-     template_name = 'thank_japan_app/info/company_vi.html'
+     template_name = 'thank_japan_app/info/company_vi-v2.html'
      
 class CompanyFormTHView(TemplateView):
-     template_name = 'thank_japan_app/info/company_th.html'
+     template_name = 'thank_japan_app/info/company_th-v2.html'
      
 class CompanyFormPTView(TemplateView):
-     template_name = 'thank_japan_app/info/company_pt.html'
+     template_name = 'thank_japan_app/info/company_pt-v2.html'
      
 class CompanyFormPTBRView(TemplateView):
-     template_name = 'thank_japan_app/info/company_pt_br.html'
+     template_name = 'thank_japan_app/info/company_pt_br-v2.html'
      
 class CompanyFormKOView(TemplateView):
-     template_name = 'thank_japan_app/info/company_ko.html'
+     template_name = 'thank_japan_app/info/company_ko-v2.html'
      
 class CompanyFormJAView(TemplateView):
-     template_name = 'thank_japan_app/info/company_ja.html'
+     template_name = 'thank_japan_app/info/company_ja-v2.html'
      
 class CompanyFormITView(TemplateView):
-     template_name = 'thank_japan_app/info/company_it.html'
+     template_name = 'thank_japan_app/info/company_it-v2.html'
      
 class CompanyFormFRView(TemplateView):
-     template_name = 'thank_japan_app/info/company_fr.html'
+     template_name = 'thank_japan_app/info/company_fr-v2.html'
      
 class CompanyFormESMXView(TemplateView):
-     template_name = 'thank_japan_app/info/company_es_mx.html'
+     template_name = 'thank_japan_app/info/company_es_mx-v2.html'
      
 class CompanyFormESESView(TemplateView):
-     template_name = 'thank_japan_app/info/company_es_es.html'
+     template_name = 'thank_japan_app/info/company_es_es-v2.html'
      
 class CompanyFormENINView(TemplateView):
-     template_name = 'thank_japan_app/info/company_en_in.html'
+     template_name = 'thank_japan_app/info/company_en_in-v2.html'
      
 class CompanyFormDEView(TemplateView):
-     template_name = 'thank_japan_app/info/company_de.html'
+     template_name = 'thank_japan_app/info/company_de-v2.html'
      
      
      

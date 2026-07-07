@@ -1,0 +1,256 @@
+{% extends 'base/base_top.html' %}
+{% load static %}
+
+{% block title %}회사 정보{% endblock %}
+
+{% block content %}
+<style>
+
+:root {
+    color-scheme: light !important;
+    --washi: #faf6ec;
+    --washi-card: #ffffff;
+    --wood-border: #e8dfc8;
+    --ink: #2a1d13;
+    --ink-soft: #8a7862;
+    --gold: #cda23f;
+    --gold-dark: #a97c1f;
+}
+
+html, body {
+    background-color: var(--washi) !important;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+}
+
+#premium-auth-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw !important;
+    height: 100dvh;
+    background-color: var(--washi) !important;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    z-index: 1;
+    border: none !important;
+    outline: none !important;
+}
+
+.app-content-fix {
+    flex: 1;
+    width: 100%;
+    height: 100%;
+    background-color: var(--washi) !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch;
+    padding-top: 100px;
+    padding-bottom: calc(180px + env(safe-area-inset-bottom));
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    border: none !important;
+    outline: none !important;
+}
+
+.app-content-fix::-webkit-scrollbar {
+    display: none;
+}
+
+* {
+    outline: none !important;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.main2 {
+    max-width: 640px;
+    margin: 0 auto;
+    font-family: 'Inter', 'Noto Sans JP', sans-serif;
+    color: var(--ink);
+    padding: 0 24px;
+    background-color: transparent !important;
+}
+
+.main2 h1 {
+    font-family: 'Zen Antique', serif;
+    font-size: 2.4rem;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 8px;
+    text-align: center;
+}
+
+.title-underline {
+    width: 60px;
+    height: 4px;
+    background: var(--gold) !important;
+    margin: 0 auto 30px;
+}
+
+hr {
+    border: none !important;
+    border-top: 1px solid var(--wood-border) !important;
+    margin: 30px 0;
+    opacity: 1;
+}
+
+.section-heading {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 4px;
+    margin-bottom: 16px;
+}
+
+.section-heading .bar {
+    width: 4px;
+    height: 22px;
+    background: var(--gold) !important;
+}
+
+.section-heading span {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--ink);
+}
+
+.info-card {
+    background: var(--washi-card) !important;
+    border: 1px solid var(--wood-border) !important;
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0 4px 12px rgba(42,29,19,0.05);
+}
+
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 0;
+    border-bottom: 1px solid #f0e9d8 !important;
+    font-size: 1.1rem;
+}
+
+.info-row:last-child {
+    border-bottom: none !important;
+}
+
+.info-row .label {
+    color: var(--ink-soft);
+}
+
+.info-row .value {
+    color: var(--ink);
+    font-weight: 700;
+    text-align: right;
+    margin-left: 10px;
+}
+
+p {
+    font-size: 1.2rem;
+    line-height: 1.9;
+    color: #4a4034;
+    margin: 0;
+}
+
+.cookie-note {
+    font-size: 1.0rem;
+    color: var(--ink-soft);
+    line-height: 1.8;
+    background: var(--washi-card) !important;
+    border: 1px solid var(--wood-border) !important;
+    border-radius: 12px;
+    padding: 18px;
+}
+
+.link-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 40px;
+    margin-bottom: 60px;
+}
+
+a.anchor {
+    display: block;
+    background: var(--washi-card) !important;
+    border: 1px solid var(--wood-border) !important;
+    border-radius: 14px;
+    padding: 20px 10px;
+    text-align: center;
+    color: var(--ink);
+    font-weight: 600;
+    font-size: 1.1rem;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 6px rgba(42,29,19,0.04);
+}
+
+a.anchor:hover {
+    color: var(--gold-dark);
+    border-color: var(--gold) !important;
+    background: #fffdf9 !important;
+}
+
+a.anchor:active {
+    transform: translateY(2px);
+}
+
+</style>
+
+<div id="premium-auth-container">
+  <div class="app-content-fix">
+    <div class="main2">
+
+      <h1>회사 정보</h1>
+      <div class="title-underline"></div>
+
+      <div class="section-heading">
+          <div class="bar"></div>
+          <span>회사</span>
+      </div>
+      <div class="info-card">
+          <div class="info-row">
+              <span class="label">회사 이름</span>
+              <span class="value">ThankJapan</span>
+          </div>
+          <div class="info-row">
+              <span class="label">회사 주소</span>
+              <span class="value">일본 이시카와현 가나자와시</span>
+          </div>
+      </div>
+
+      <hr>
+
+      <div class="section-heading">
+          <div class="bar"></div>
+          <span>회사 소개</span>
+      </div>
+      <p>ThankJapan은 일본의 아름다움과 정신을 세계와 공유하는 데 전념하는 글로벌 학습 플랫폼입니다. 우리의 독특한 접근 방식은 전통적인 일본 문화뿐만 아니라 보편적인 개념이 일본어로 어떻게 표현되는지에도 초점을 맞춥니다. 이러한 연결 고리를 이해함으로써 일본에 대한 깊은 통찰력을 얻고, 언어 능력과 상호 문화적 이해를 높일 수 있다고 믿습니다.</p>
+      <p style="margin-top: 18px;">일상적인 사물부터 비즈니스 매너까지 모든 것을 탐구해 보세요. 우리는 전문적인 비즈니스 기술과 일본에서의 실전 생활 지식을 원하는 분들을 위해 프리미엄 학습 경험을 제공합니다. ThankJapan은 글로벌한 시각으로 일본을 체험할 수 있도록 돕는 가이드입니다.</p>
+
+      <hr>
+
+      <div class="cookie-note">
+          당사는 안전한 결제 보장, 학습 진행 상황 유지 및 사용자 경험 개선을 위해 쿠키를 사용합니다. 계속 탐색하면 쿠키 사용에 동의하는 것으로 간주됩니다.
+      </div>
+
+      <hr>
+
+      <div class="section-heading">
+          <div class="bar"></div>
+          <span>추가 정보</span>
+      </div>
+      <div class="link-grid">
+          <a class="anchor" href="{% url 'riyoukiyakuko' %}">이용 약관</a>
+          <a class="anchor" href="{% url 'legal_noticeko' %}">법적 고지</a>
+          <a class="anchor" href="{% url 'privacy_policyko' %}">개인정보처리방침</a>
+          <a class="anchor" href="{% url 'contact' %}">문의하기</a>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+{% endblock %}

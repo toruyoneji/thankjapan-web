@@ -1,0 +1,258 @@
+{% extends 'base/base_top.html' %}
+{% load static %}
+
+{% block title %}公司信息{% endblock %}
+
+{% block content %}
+<style>
+
+:root {
+    color-scheme: light !important;
+    --washi: #faf6ec;
+    --washi-card: #ffffff;
+    --wood-border: #e8dfc8;
+    --ink: #2a1d13;
+    --ink-soft: #8a7862;
+    --gold: #cda23f;
+    --gold-dark: #a97c1f;
+}
+
+html, body {
+    background-color: var(--washi) !important;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+}
+
+#premium-auth-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw !important;
+    height: 100dvh;
+    background-color: var(--washi) !important;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    z-index: 1;
+    border: none !important;
+    outline: none !important;
+}
+
+.app-content-fix {
+    flex: 1;
+    width: 100%;
+    height: 100%;
+    background-color: var(--washi) !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch;
+    padding-top: 100px;
+    padding-bottom: calc(180px + env(safe-area-inset-bottom));
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    border: none !important;
+    outline: none !important;
+}
+
+.app-content-fix::-webkit-scrollbar {
+    display: none;
+}
+
+* {
+    outline: none !important;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.main2 {
+    max-width: 640px;
+    margin: 0 auto;
+    font-family: 'Inter', 'Noto Sans JP', sans-serif;
+    color: var(--ink);
+    padding: 0 24px;
+    background-color: transparent !important;
+}
+
+.main2 h1 {
+    font-family: 'Zen Antique', serif;
+    font-size: 2.4rem;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 8px;
+    text-align: center;
+}
+
+.title-underline {
+    width: 60px;
+    height: 4px;
+    background: var(--gold) !important;
+    margin: 0 auto 30px;
+}
+
+hr {
+    border: none !important;
+    border-top: 1px solid var(--wood-border) !important;
+    margin: 30px 0;
+    opacity: 1;
+}
+
+.section-heading {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 4px;
+    margin-bottom: 16px;
+}
+
+.section-heading .bar {
+    width: 4px;
+    height: 22px;
+    background: var(--gold) !important;
+}
+
+.section-heading span {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--ink);
+}
+
+.info-card {
+    background: var(--washi-card) !important;
+    border: 1px solid var(--wood-border) !important;
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0 4px 12px rgba(42,29,19,0.05);
+}
+
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 0;
+    border-bottom: 1px solid #f0e9d8 !important;
+    font-size: 1.1rem;
+}
+
+.info-row:last-child {
+    border-bottom: none !important;
+}
+
+.info-row .label {
+    color: var(--ink-soft);
+}
+
+.info-row .value {
+    color: var(--ink);
+    font-weight: 700;
+    text-align: right;
+    margin-left: 10px;
+}
+
+p {
+    font-size: 1.2rem;
+    line-height: 1.9;
+    color: #4a4034;
+    margin: 0;
+}
+
+.cookie-note {
+    font-size: 1.0rem;
+    color: var(--ink-soft);
+    line-height: 1.8;
+    background: var(--washi-card) !important;
+    border: 1px solid var(--wood-border) !important;
+    border-radius: 12px;
+    padding: 18px;
+}
+
+.link-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 40px;
+    margin-bottom: 60px;
+}
+
+a.anchor {
+    display: block;
+    background: var(--washi-card) !important;
+    border: 1px solid var(--wood-border) !important;
+    border-radius: 14px;
+    padding: 20px 10px;
+    text-align: center;
+    color: var(--ink);
+    font-weight: 600;
+    font-size: 1.1rem;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 6px rgba(42,29,19,0.04);
+}
+
+a.anchor:hover {
+    color: var(--gold-dark);
+    border-color: var(--gold) !important;
+    background: #fffdf9 !important;
+}
+
+a.anchor:active {
+    transform: translateY(2px);
+}
+
+</style>
+
+<div id="premium-auth-container">
+  <div class="app-content-fix">
+    <div class="main2">
+
+      <h1>公司信息</h1>
+      <div class="title-underline"></div>
+
+      <div class="section-heading">
+          <div class="bar"></div>
+          <span>公司</span>
+      </div>
+      <div class="info-card">
+          <div class="info-row">
+              <span class="label">公司名称</span>
+              <span class="value">ThankJapan</span>
+          </div>
+          <div class="info-row">
+              <span class="label">公司地址</span>
+              <span class="value">日本石川县金泽市</span>
+          </div>
+      </div>
+
+      <hr>
+
+      <div class="section-heading">
+          <div class="bar"></div>
+          <span>公司简介</span>
+      </div>
+      <p>ThankJapan 是一个致力于向世界分享日本之美与精神的全球学习平台。我们独特的方法不仅关注传统日本文化，还关注普遍概念如何在日语中表达。我们相信通过理解这些联系，您可以获得对日本更深层的洞察，提升语言技能并增进跨文化欣赏。</p>
+      <p style="margin-top: 18px;">加入我们，探索从日常物品到商务礼仪的一切内容。我们为寻求专业商务技能和日本实用生活见解的人士提供优质的学习体验。ThankJapan 是您通过全球视角体验日本的指南。</p>
+
+      <hr>
+
+      <div class="cookie-note">
+          我们使用 Cookie 来确保安全支付、记录您的学习进度并改善您的体験。继续浏览即表示您同意我们使用 Cookie。
+          <br><br>
+          本网站为个人运营的日语学习与日本文化介绍平台，不涉及政治、新闻、宗教或任何敏感内容。
+      </div>
+
+      <hr>
+
+      <div class="section-heading">
+          <div class="bar"></div>
+          <span>更多信息</span>
+      </div>
+      <div class="link-grid">
+          <a class="anchor" href="{% url 'riyoukiyakuzhCN' %}">使用条款</a>
+          <a class="anchor" href="{% url 'legal_noticezhCN' %}">法律声明</a>
+          <a class="anchor" href="{% url 'privacy_policyzhCN' %}">隐私政策</a>
+          <a class="anchor" href="{% url 'contact' %}">联系我们</a>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+{% endblock %}
