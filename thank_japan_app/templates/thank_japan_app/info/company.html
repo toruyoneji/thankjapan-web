@@ -5,23 +5,20 @@
 
 {% block content %}
 <style>
+
 :root {
     color-scheme: light !important;
-    --washi: #faf6ec;
-    --washi-card: #ffffff;
-    --wood-border: #e8dfc8;
-    --ink: #2a1d13;
-    --ink-soft: #8a7862;
-    --gold: #cda23f;
-    --gold-dark: #a97c1f;
 }
 
-* {
-    outline: none !important;
-    border: none !important;
-    box-shadow: none !important;
-    -webkit-tap-highlight-color: transparent;
+
+html, body {
+    background-color: #faf6ec !important;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
 }
+
 
 #premium-auth-container {
     position: fixed;
@@ -29,46 +26,60 @@
     left: 0;
     width: 100vw !important;
     height: 100dvh;
-    background-color: var(--washi) !important;
+    background-color: #faf6ec !important;
     overflow: hidden;
     display: flex;
     flex-direction: column;
     z-index: 1;
+    border: none !important;
+    outline: none !important;
 }
+
 
 .app-content-fix {
     flex: 1;
     width: 100%;
     height: 100%;
+    background-color: #faf6ec !important;
     overflow-y: auto !important;
     -webkit-overflow-scrolling: touch;
-    background-color: var(--washi) !important;
     padding-top: 130px;
     padding-bottom: calc(100px + env(safe-area-inset-bottom));
     -ms-overflow-style: none;
     scrollbar-width: none;
+    border: none !important;
+    outline: none !important;
 }
 
 .app-content-fix::-webkit-scrollbar {
     display: none;
 }
 
+
+* {
+    outline: none !important;
+    border-color: transparent !important;
+    -webkit-tap-highlight-color: transparent;
+}
+
 .main2 {
     max-width: 640px;
     margin: 0 auto;
     font-family: 'Inter', 'Noto Sans JP', sans-serif;
-    color: var(--ink);
+    color: #2a1d13;
     padding: 0 24px;
+    background-color: #faf6ec !important;
 }
 
 .main2 h1 {
     font-family: 'Zen Antique', serif;
     font-size: 2.2rem;
     font-weight: 700;
-    color: var(--ink);
+    color: #2a1d13;
     margin-bottom: 8px;
     text-align: center;
 }
+
 
 .title-underline {
     width: 60px;
