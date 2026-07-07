@@ -1,4 +1,4 @@
-{% extends 'base/base.html' %}
+{% extends 'base/base_top.html' %}
 {% load static %}
 
 {% block title %}Company Information{% endblock %}
@@ -25,110 +25,194 @@
 
 {% block content %}
 <style>
-  .main2 {
-    max-width: 800px;
-    margin: 40px auto;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    color: #222;
-    background: #fff;
-    padding: 30px 40px;
-    border-radius: 14px;
-    box-shadow: 0 8px 30px rgba(0,0,0,0.1);
-  }
+:root {
+    --washi: #faf6ec;
+    --washi-card: #ffffff;
+    --wood-border: #e8dfc8;
+    --ink: #2a1d13;
+    --ink-soft: #8a7862;
+    --gold: #cda23f;
+    --gold-dark: #a97c1f;
+}
 
-  .main2 h1 {
-    font-size: 2.8rem;
-    font-weight: 700;
-    color: #f27a54;
-    margin-bottom: 0.4em;
-    padding-top: 50px;
-    text-align: center;
-    text-shadow: 1px 1px 3px rgba(242, 122, 84, 0.5);
-  }
+.app-content-fix {
+    height: 100%;
+    width: 100%;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-top: 80px;
+    padding-bottom: calc(90px + env(safe-area-inset-bottom));
+    background: var(--washi);
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+.app-content-fix::-webkit-scrollbar { display: none; }
 
-  hr {
-    border: none;
-    border-top: 2px solid #f27a54;
-    margin: 1.8em 0;
-    opacity: 0.7;
-  }
+.main2 {
+    max-width: 640px;
+    margin: 0 auto;
+    font-family: 'Inter', 'Noto Sans JP', sans-serif;
+    color: var(--ink);
+    background: transparent;
+    padding: 0 20px;
+    box-shadow: none;
+}
 
-  h2 {
-    color: #f27a54;
-    font-weight: 700;
-    margin-top: 1.8em;
-    margin-bottom: 0.6em;
-    border-left: 6px solid #f27a54;
-    padding-left: 12px;
+.main2 h1 {
+    font-family: 'Zen Antique', serif;
     font-size: 1.6rem;
-  }
-
-  ul {
-    list-style-type: square;
-    padding-left: 20px;
-    color: #444;
-    font-size: 1.1rem;
-  }
-
-  ul li {
-    margin-bottom: 0.5em;
-  }
-
-  p {
-    font-size: 1.15rem;
-    line-height: 1.6;
-    color: #555;
-  }
-
-  a.anchor {
-    color: #f27a54;
     font-weight: 700;
-    text-decoration: none;
-    transition: color 0.3s ease;
-  }
+    color: var(--ink);
+    margin-bottom: 8px;
+    padding-top: 0;
+    text-align: center;
+    text-shadow: none;
+}
 
-  a.anchor:hover {
-    color: yellowgreen;
-    text-decoration: underline;
-  }
+.title-underline {
+    width: 44px;
+    height: 2px;
+    background: var(--gold);
+    margin: 0 auto 24px;
+}
 
-  /* Legal Notice h3 styling */
-  h2 a h3 {
-    display: inline-block;
+hr {
+    border: none;
+    border-top: 1px solid var(--wood-border);
+    margin: 20px 0;
+    opacity: 1;
+}
+
+.section-heading {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 4px;
+    margin-bottom: 12px;
+}
+.section-heading .bar {
+    width: 3px;
+    height: 16px;
+    background: var(--gold);
+}
+.section-heading span {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--ink);
+}
+
+.info-card {
+    background: var(--washi-card);
+    border: 1px solid var(--wood-border);
+    border-radius: 14px;
+    padding: 14px 16px;
+}
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 0;
+    border-bottom: 1px solid #f0e9d8;
+    font-size: 0.85rem;
+}
+.info-row:last-child { border-bottom: none; }
+.info-row .label { color: var(--ink-soft); }
+.info-row .value { color: var(--ink); font-weight: 700; }
+
+p {
+    font-size: 0.9rem;
+    line-height: 1.8;
+    color: #5a4f3f;
     margin: 0;
-    font-size: 1.4rem;
+}
+
+.cookie-note {
+    font-size: 0.78rem;
+    color: var(--ink-soft);
+    line-height: 1.7;
+    background: var(--washi-card);
+    border: 1px solid var(--wood-border);
+    border-radius: 12px;
+    padding: 12px 14px;
+}
+
+.link-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+a.anchor {
+    display: block;
+    background: var(--washi-card);
+    border: 1px solid var(--wood-border);
+    border-radius: 12px;
+    padding: 14px 10px;
+    text-align: center;
+    color: var(--ink);
     font-weight: 600;
-    color: inherit;
-  }
+    font-size: 0.85rem;
+    text-decoration: none;
+    transition: transform 0.1s ease;
+}
+a.anchor:hover {
+    color: var(--gold-dark);
+    border-color: var(--gold);
+}
+a.anchor:active {
+    transform: translateY(2px);
+}
 </style>
 
-<div class="main2">
+<div class="app-content-fix">
+  <div class="main2">
+
     <h1>Company Information</h1>
+    <div class="title-underline"></div>
+
+    <div class="section-heading">
+        <div class="bar"></div>
+        <span>Company</span>
+    </div>
+    <div class="info-card">
+        <div class="info-row">
+            <span class="label">Company Name</span>
+            <span class="value">ThankJapan</span>
+        </div>
+        <div class="info-row">
+            <span class="label">Company Address</span>
+            <span class="value">Kanazawa-shi, Ishikawa-ken, Japan</span>
+        </div>
+    </div>
+
     <hr>
 
-    <h2>Company</h2>
-    <ul>
-        <li><strong>Company Name:</strong> ThankJapan</li>      
-        <li><strong>Company Address:</strong> Kanazawa-shi, Ishikawa-ken, Japan</li>
-    </ul>
+    <div class="section-heading">
+        <div class="bar"></div>
+        <span>Company Introduction</span>
+    </div>
+    <p>ThankJapan is a global platform dedicated to sharing the beauty and spirit of Japan with the world. Our unique approach focuses not only on traditional Japanese culture but also on how universal concepts are expressed in the Japanese language. We believe that by understanding these connections, you can gain deeper insights into Japan, enhancing your language skills and cross cultural appreciation.</p>
+    <p style="margin-top: 14px;">Join us to explore everything from everyday objects to business etiquette. We offer premium learning experiences for those seeking professional business skills and practical life insights in Japan. ThankJapan is your guide to experiencing Japan through a truly global lens.</p>
+
     <hr>
 
-    <h2>Company Introduction</h2>
-    <p>ThankJapan is a global platform dedicated to sharing the beauty and spirit of Japan with the world. Our unique approach focuses not only on traditional Japanese culture but also on how universal concepts are expressed in the Japanese language. We believe that by understanding these connections, you can gain deeper insights into Japan, enhancing your language skills and cross-cultural appreciation.</p>
-    <p>Join us to explore everything from everyday objects to business etiquette. We offer premium learning experiences for those seeking professional business skills and practical life insights in Japan. ThankJapan is your guide to experiencing Japan through a truly global lens.</p>
-    <hr>
-    <p>We use cookies to ensure secure payments, maintain your learning progress, and improve your experience. By continuing to browse, you agree to our use of cookies.</p>
+    <div class="cookie-note">
+        We use cookies to ensure secure payments, maintain your learning progress, and improve your experience. By continuing to browse, you agree to our use of cookies.
+    </div>
+
     <hr>
 
-    <h2><a class="anchor" href="{% url 'riyoukiyaku' %}">Terms of Use</a></h2>
-    <hr>
+    <div class="section-heading">
+        <div class="bar"></div>
+        <span>More Information</span>
+    </div>
+    <div class="link-grid">
+        <a class="anchor" href="{% url 'riyoukiyaku' %}">Terms of Use</a>
+        <a class="anchor" href="{% url 'legal_notice' %}">Legal Notice</a>
+        <a class="anchor" href="{% url 'privacy_policy' %}">Privacy Policy</a>
+        <a class="anchor" href="{% url 'contact' %}">Contact</a>
+    </div>
 
-    <h2><a class="anchor" href="{% url 'legal_notice' %}">Legal Notice</a></h2>
-    <hr>
-
-    <h2><a class="anchor" href="{% url 'privacy_policy' %}">Privacy Policy</a></h2>
-    <hr>
-
-    <h2><a class="anchor" href="{% url 'contact' %}">Contact</a></h2>
+  </div>
 </div>
+
 {% endblock %}
