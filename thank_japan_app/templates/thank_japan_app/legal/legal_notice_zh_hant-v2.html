@@ -1,0 +1,265 @@
+{% extends 'base/base_top.html' %}
+
+{% block title %}法律聲明 | Japan Introduction{% endblock %}
+
+{% block hreflang_tags %}
+    <link rel="alternate" hreflang="en" href="https://www.thankjapan.com/legal-notice/">
+    <link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/legal-notice/ja/">
+    <link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/legal-notice/vi/">
+    <link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/legal-notice/fr/">
+    <link rel="alternate" hreflang="it" href="https://www.thankjapan.com/legal-notice/it/">
+    <link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/legal-notice/pt/">
+    <link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/legal-notice/zh-hant/">
+    <link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/legal-notice/ko/">
+    <link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/legal-notice/es-es/">
+    <link rel="alternate" hreflang="de" href="https://www.thankjapan.com/legal-notice/de/">
+    <link rel="alternate" hreflang="th" href="https://www.thankjapan.com/legal-notice/th/">
+    <link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/legal-notice/pt-br/">
+    <link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/legal-notice/es-mx/">
+    <link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/legal-notice/en-in/">
+    <link rel="alternate" hreflang="zh-cn" href="https://www.thankjapan.com/legal-notice/zh-cn/">
+    <link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/legal-notice/">
+
+{% endblock %}
+
+
+{% block content %}
+<style>
+:root {
+    color-scheme: light !important;
+    --washi: #faf6ec;
+    --washi-card: #ffffff;
+    --wood-border: #e8dfc8;
+    --ink: #2a1d13;
+    --ink-soft: #8a7862;
+    --gold: #cda23f;
+    --gold-dark: #a97c1f;
+    --azuki-bg: #fdf3ee;
+    --azuki-border: #e8d3c8;
+}
+
+
+
+#premium-auth-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100dvh;
+    overflow: hidden; 
+    background-color: var(--washi) !important;
+    z-index: 100;
+}
+
+
+.app-content-fix {
+    height: 100%;
+    width: 100%;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    background-color: var(--washi); 
+}
+
+
+.main2 {
+    min-height: 100.1dvh; 
+    width: 100%;
+    max-width: 640px;
+    margin: 0 auto;
+    padding-top: 50px;
+    padding-bottom: 120px; 
+    background-color: var(--washi);
+}
+
+.app-content-fix::-webkit-scrollbar { display: none; }
+
+.legal-container {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 0 20px;
+    color: var(--ink);
+    line-height: 1.9;
+    font-family: 'Inter', 'Noto Sans JP', sans-serif;
+}
+
+.legal-container h2 {
+    font-family: 'Zen Antique', serif;
+    text-align: center;
+    color: var(--ink);
+    font-size: 1.3rem;
+    margin-top: 20px; 
+    margin-bottom: 6px;
+    border-left: none;
+    padding-left: 0;
+}
+
+.legal-title-underline {
+    width: 44px;
+    height: 2px;
+    background: var(--gold);
+    margin: 0 auto 22px;
+}
+
+.legal-container section {
+    background: var(--washi-card);
+    border: 1px solid var(--wood-border);
+    border-radius: 14px;
+    padding: 14px 16px;
+    transition: none;
+}
+.legal-container section:hover {
+    background: var(--washi-card);
+    transform: none;
+    box-shadow: none;
+}
+
+.legal-row {
+    padding: 8px 0;
+    border-bottom: 1px solid #f0e9d8;
+}
+.legal-row:last-child { border-bottom: none; }
+
+.legal-container p { margin: 0; }
+
+.legal-label {
+    font-size: 0.7rem;
+    color: var(--ink-soft);
+    margin-bottom: 2px;
+}
+
+.legal-value {
+    font-size: 0.82rem;
+    color: var(--ink);
+    line-height: 1.7;
+}
+
+.legal-note {
+    font-size: 0.68rem;
+    color: #a89c80;
+    margin-top: 3px;
+}
+
+.legal-container a {
+    color: #a5533f;
+    word-break: break-all;
+}
+
+
+.legal-caution {
+    background: var(--azuki-bg);
+    border: 1px solid var(--azuki-border);
+    border-radius: 14px;
+    padding: 14px 16px;
+    margin-top: 14px;
+}
+.legal-caution .legal-value { color: #5a4f3f; }
+
+.back-home-btn {
+    display: block;
+    width: fit-content;
+    margin: 28px auto 0;
+    background: var(--gold);
+    color: var(--ink);
+    border: none;
+    border-bottom: 4px solid var(--gold-dark);
+    border-radius: 999px;
+    padding: 12px 32px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: transform 0.1s ease;
+}
+.back-home-btn:active {
+    transform: translateY(2px);
+    border-bottom-width: 2px;
+}
+
+@media (max-width: 600px) {
+    .legal-container { padding: 0 16px; }
+}
+</style>
+
+
+<div id="premium-auth-container">
+  <div class="app-content-fix">
+    <div class="main2">
+        <div class="legal-container">
+
+            <h2>法律公告（特定商業交易法）</h2>
+            <div class="legal-title-underline"></div>
+
+            <section>
+                <div class="legal-row">
+                    <div class="legal-label">營業者</div>
+                    <div class="legal-value">Japan Introduction (ThankJapan)</div>
+                </div>
+                <div class="legal-row">
+                    <div class="legal-label">代表人</div>
+                    <div class="legal-value">Toru Yonejima</div>
+                </div>
+                <div class="legal-row">
+                    <div class="legal-label">營業地址</div>
+                    <div class="legal-value">Moroemachi Nakacho, Kanazawa City, Ishikawa 920-0016, Japan</div>
+                </div>
+                <div class="legal-row">
+                    <div class="legal-label">電話號碼</div>
+                    <div class="legal-value">+81 80-8699-7640</div>
+                    <div class="legal-note">※如有查詢，請透過電子郵件與我們聯繫，以便快速回覆。</div>
+                </div>
+                <div class="legal-row">
+                    <div class="legal-label">電子郵件</div>
+                    <div class="legal-value">yonetoru0@gmail.com</div>
+                </div>
+                <div class="legal-row">
+                    <div class="legal-label">銷售價格</div>
+                    <div class="legal-value">如方案選擇頁面所示（含稅）。</div>
+                </div>
+                <div class="legal-row">
+                    <div class="legal-label">額外費用</div>
+                    <div class="legal-value">無（網路連線費用由用戶負擔）。</div>
+                </div>
+                <div class="legal-row">
+                    <div class="legal-label">服務提供時間</div>
+                    <div class="legal-value">支付/註冊流程完成後，服務立即生效。</div>
+                </div>
+                <div class="legal-row">
+                    <div class="legal-label">付款方式</div>
+                    <div class="legal-value">
+                        {% if is_twa %}
+                            Google Play 結帳系統
+                        {% else %}
+                            信用卡 / 簽帳金融卡 (透過 PayPal)
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="legal-row">
+                    <div class="legal-label">支付時間</div>
+                    <div class="legal-value">首次支付在訂閱時立即處理。後續支付將在每月的同一日期自動扣款。</div>
+                </div>
+            </section>
+
+            <div class="legal-caution">
+                <div class="legal-row" style="border-bottom: 1px solid #f0ddd0;">
+                    <div class="legal-label">退貨 / 取消政策</div>
+                    <div class="legal-value">由於數位服務的性質，我們不接受付款後的退款。您可以隨時透過「帳戶設定」頁面取消訂閱。取消將於下一個計費週期生效。</div>
+                </div>
+                <div class="legal-row" style="border-bottom: none; padding-bottom: 0;">
+                    <div class="legal-label">爭議解決</div>
+                    <div class="legal-value">
+                        歐盟委員會提供了一個在線爭議解決（ODR）平台，您可以在以下網址找到：
+                        <a href="https://ec.europa.eu/consumers/odr/" target="_blank">https://ec.europa.eu/consumers/odr/</a>。
+                        我們既無意願也無義務參與消費者仲裁委員會の爭議解決程序。
+                    </div>
+                </div>
+            </div>
+
+            <div style="text-align:center;">
+                <a href="{% url 'toppagezhHANT' %}" class="back-home-btn">← 返回首頁</a>
+            </div>
+
+        </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

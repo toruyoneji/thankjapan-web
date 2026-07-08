@@ -1,0 +1,265 @@
+{% extends 'base/base_top.html' %}
+
+{% block title %}Rechtliche Hinweise | Japan Introduction{% endblock %}
+
+{% block hreflang_tags %}
+    <link rel="alternate" hreflang="en" href="https://www.thankjapan.com/legal-notice/">
+    <link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/legal-notice/ja/">
+    <link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/legal-notice/vi/">
+    <link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/legal-notice/fr/">
+    <link rel="alternate" hreflang="it" href="https://www.thankjapan.com/legal-notice/it/">
+    <link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/legal-notice/pt/">
+    <link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/legal-notice/zh-hant/">
+    <link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/legal-notice/ko/">
+    <link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/legal-notice/es-es/">
+    <link rel="alternate" hreflang="de" href="https://www.thankjapan.com/legal-notice/de/">
+    <link rel="alternate" hreflang="th" href="https://www.thankjapan.com/legal-notice/th/">
+    <link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/legal-notice/pt-br/">
+    <link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/legal-notice/es-mx/">
+    <link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/legal-notice/en-in/">
+    <link rel="alternate" hreflang="zh-cn" href="https://www.thankjapan.com/legal-notice/zh-cn/">
+    <link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/legal-notice/">
+
+{% endblock %}
+
+
+{% block content %}
+<style>
+:root {
+    color-scheme: light !important;
+    --washi: #faf6ec;
+    --washi-card: #ffffff;
+    --wood-border: #e8dfc8;
+    --ink: #2a1d13;
+    --ink-soft: #8a7862;
+    --gold: #cda23f;
+    --gold-dark: #a97c1f;
+    --azuki-bg: #fdf3ee;
+    --azuki-border: #e8d3c8;
+}
+
+
+
+#premium-auth-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100dvh;
+    overflow: hidden; 
+    background-color: var(--washi) !important;
+    z-index: 100;
+}
+
+
+.app-content-fix {
+    height: 100%;
+    width: 100%;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    background-color: var(--washi); 
+}
+
+
+.main2 {
+    min-height: 100.1dvh; 
+    width: 100%;
+    max-width: 640px;
+    margin: 0 auto;
+    padding-top: 50px;
+    padding-bottom: 120px; 
+    background-color: var(--washi);
+}
+
+.app-content-fix::-webkit-scrollbar { display: none; }
+
+.legal-container {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 0 20px;
+    color: var(--ink);
+    line-height: 1.9;
+    font-family: 'Inter', 'Noto Sans JP', sans-serif;
+}
+
+.legal-container h2 {
+    font-family: 'Zen Antique', serif;
+    text-align: center;
+    color: var(--ink);
+    font-size: 1.3rem;
+    margin-top: 20px; 
+    margin-bottom: 6px;
+    border-left: none;
+    padding-left: 0;
+}
+
+.legal-title-underline {
+    width: 44px;
+    height: 2px;
+    background: var(--gold);
+    margin: 0 auto 22px;
+}
+
+.legal-container section {
+    background: var(--washi-card);
+    border: 1px solid var(--wood-border);
+    border-radius: 14px;
+    padding: 14px 16px;
+    transition: none;
+}
+.legal-container section:hover {
+    background: var(--washi-card);
+    transform: none;
+    box-shadow: none;
+}
+
+.legal-row {
+    padding: 8px 0;
+    border-bottom: 1px solid #f0e9d8;
+}
+.legal-row:last-child { border-bottom: none; }
+
+.legal-container p { margin: 0; }
+
+.legal-label {
+    font-size: 0.7rem;
+    color: var(--ink-soft);
+    margin-bottom: 2px;
+}
+
+.legal-value {
+    font-size: 0.82rem;
+    color: var(--ink);
+    line-height: 1.7;
+}
+
+.legal-note {
+    font-size: 0.68rem;
+    color: #a89c80;
+    margin-top: 3px;
+}
+
+.legal-container a {
+    color: #a5533f;
+    word-break: break-all;
+}
+
+
+.legal-caution {
+    background: var(--azuki-bg);
+    border: 1px solid var(--azuki-border);
+    border-radius: 14px;
+    padding: 14px 16px;
+    margin-top: 14px;
+}
+.legal-caution .legal-value { color: #5a4f3f; }
+
+.back-home-btn {
+    display: block;
+    width: fit-content;
+    margin: 28px auto 0;
+    background: var(--gold);
+    color: var(--ink);
+    border: none;
+    border-bottom: 4px solid var(--gold-dark);
+    border-radius: 999px;
+    padding: 12px 32px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: transform 0.1s ease;
+}
+.back-home-btn:active {
+    transform: translateY(2px);
+    border-bottom-width: 2px;
+}
+
+@media (max-width: 600px) {
+    .legal-container { padding: 0 16px; }
+}
+</style>
+
+<div id="premium-auth-container">
+  <div class="app-content-fix">
+    <div class="main2">
+        <div class="legal-container">
+
+            <h2>Impressum & Rechtliche Hinweise</h2>
+            <div class="legal-title-underline"></div>
+
+            <section>
+                <div class="legal-row">
+                    <div class="legal-label">Geschäftsinhaber</div>
+                    <div class="legal-value">Japan Introduction (ThankJapan)</div>
+                </div>
+                <div class="legal-row">
+                    <div class="legal-label">Vertretungsberechtigter</div>
+                    <div class="legal-value">Toru Yonejima</div>
+                </div>
+                <div class="legal-row">
+                    <div class="legal-label">Geschäftsadresse</div>
+                    <div class="legal-value">Moroemachi Nakacho, Kanazawa City, Ishikawa 920-0016, Japan</div>
+                </div>
+                <div class="legal-row">
+                    <div class="legal-label">Telefonnummer</div>
+                    <div class="legal-value">+81 80-8699-7640</div>
+                    <div class="legal-note">※Für Anfragen kontaktieren Sie uns bitte per E-Mail für eine schnellere Antwort.</div>
+                </div>
+                <div class="legal-row">
+                    <div class="legal-label">E-Mail-Adresse</div>
+                    <div class="legal-value">yonetoru0@gmail.com</div>
+                </div>
+                <div class="legal-row">
+                    <div class="legal-label">Verkaufspreis</div>
+                    <div class="legal-value">Wie auf der Planauswahlseite angezeigt (inkl. MwSt.).</div>
+                </div>
+                <div class="legal-row">
+                    <div class="legal-label">Zusätzliche Gebühren</div>
+                    <div class="legal-value">Keine (Internetverbindungskosten gehen zu Lasten des Nutzers).</div>
+                </div>
+                <div class="legal-row">
+                    <div class="legal-label">Lieferzeitpunkt</div>
+                    <div class="legal-value">Der Dienst ist sofort nach Abschluss des Zahlungs-/Registrierungsvorgangs verfügbar.</div>
+                </div>
+                <div class="legal-row">
+                    <div class="legal-label">Zahlungsmethode</div>
+                    <div class="legal-value">
+                        {% if is_twa %}
+                            Google Play-Abrechnungssystem
+                        {% else %}
+                            Kreditkarte / Debitkarte (via PayPal)
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="legal-row">
+                    <div class="legal-label">Zahlungszeitpunkt</div>
+                    <div class="legal-value">Die erste Zahlung wird sofort bei Abschluss des Abonnements verarbeitet. Folgezahlungen werden monatlich am gleichen Tag automatisch abgerechnet.</div>
+                </div>
+            </section>
+
+            <div class="legal-caution">
+                <div class="legal-row" style="border-bottom: 1px solid #f0ddd0;">
+                    <div class="legal-label">Rückgabe- / Stornierungsbedingungen</div>
+                    <div class="legal-value">Aufgrund der Art digitaler Dienste akzeptieren wir keine Rückerstattungen nach der Zahlung. Sie können Ihr Abonnement jederzeit über die Seite „Kontoeinstellungen“ kündigen. Die Kündigung wird zum nächsten Abrechnungszeitraum wirksam.</div>
+                </div>
+                <div class="legal-row" style="border-bottom: none; padding-bottom: 0;">
+                    <div class="legal-label">Streitbeilegung</div>
+                    <div class="legal-value">
+                        Die Europäische Kommission stellt eine Plattform zur Online-Streitbeilegung (OS) bereit: 
+                        <a href="https://ec.europa.eu/consumers/odr/" target="_blank">https://ec.europa.eu/consumers/odr/</a>. 
+                        Wir sind nicht bereit oder verpflichtet, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen.
+                    </div>
+                </div>
+            </div>
+
+            <div style="text-align:center;">
+                <a href="{% url 'toppagede' %}" class="back-home-btn">← Zur Startseite</a>
+            </div>
+
+        </div>
+    </div>
+  </div>
+</div>
+
+
+{% endblock %}

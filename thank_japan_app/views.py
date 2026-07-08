@@ -357,7 +357,7 @@ class LegalNoticeView(TemplateView):
         return context
     
 class LegalNoticeZHCNView(TemplateView):
-    template_name = "thank_japan_app/legal/legal_notice_zh_cn.html"
+    template_name = "thank_japan_app/legal/legal_notice_zh_cn-v2.html"
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -365,7 +365,7 @@ class LegalNoticeZHCNView(TemplateView):
         return context
      
 class LegalNoticeZHHANTView(TemplateView):
-    template_name = "thank_japan_app/legal/legal_notice_zh_hant.html"
+    template_name = "thank_japan_app/legal/legal_notice_zh_hant-v2.html"
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -373,7 +373,7 @@ class LegalNoticeZHHANTView(TemplateView):
         return context
     
 class LegalNoticeVIView(TemplateView):
-    template_name = "thank_japan_app/legal/legal_notice_vi.html"
+    template_name = "thank_japan_app/legal/legal_notice_vi-v2.html"
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -381,7 +381,7 @@ class LegalNoticeVIView(TemplateView):
         return context
     
 class LegalNoticeTHView(TemplateView):
-    template_name = "thank_japan_app/legal/legal_notice_th.html"
+    template_name = "thank_japan_app/legal/legal_notice_th-v2.html"
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -389,7 +389,7 @@ class LegalNoticeTHView(TemplateView):
         return context
     
 class LegalNoticePTView(TemplateView):
-    template_name = "thank_japan_app/legal/legal_notice_pt.html"
+    template_name = "thank_japan_app/legal/legal_notice_pt-v2.html"
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -397,7 +397,7 @@ class LegalNoticePTView(TemplateView):
         return context
     
 class LegalNoticePTBRView(TemplateView):
-    template_name = "thank_japan_app/legal/legal_notice_pt_br.html"
+    template_name = "thank_japan_app/legal/legal_notice_pt_br-v2.html"
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -405,7 +405,7 @@ class LegalNoticePTBRView(TemplateView):
         return context
     
 class LegalNoticeKOView(TemplateView):
-    template_name = "thank_japan_app/legal/legal_notice_ko.html"
+    template_name = "thank_japan_app/legal/legal_notice_ko-v2.html"
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -413,7 +413,7 @@ class LegalNoticeKOView(TemplateView):
         return context
     
 class LegalNoticeJAView(TemplateView):
-    template_name = "thank_japan_app/legal/legal_notice_ja.html"
+    template_name = "thank_japan_app/legal/legal_notice_ja-v2.html"
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -421,7 +421,7 @@ class LegalNoticeJAView(TemplateView):
         return context
     
 class LegalNoticeITView(TemplateView):
-    template_name = "thank_japan_app/legal/legal_notice_it.html"
+    template_name = "thank_japan_app/legal/legal_notice_it-v2.html"
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -429,7 +429,7 @@ class LegalNoticeITView(TemplateView):
         return context
     
 class LegalNoticeFRView(TemplateView):
-    template_name = "thank_japan_app/legal/legal_notice_fr.html"
+    template_name = "thank_japan_app/legal/legal_notice_fr-v2.html"
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -437,7 +437,7 @@ class LegalNoticeFRView(TemplateView):
         return context
     
 class LegalNoticeESMXView(TemplateView):
-    template_name = "thank_japan_app/legal/legal_notice_es_mx.html"
+    template_name = "thank_japan_app/legal/legal_notice_es_mx-v2.html"
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -445,7 +445,7 @@ class LegalNoticeESMXView(TemplateView):
         return context
     
 class LegalNoticeESESView(TemplateView):
-    template_name = "thank_japan_app/legal/legal_notice_es_es.html"
+    template_name = "thank_japan_app/legal/legal_notice_es_es-v2.html"
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -453,7 +453,7 @@ class LegalNoticeESESView(TemplateView):
         return context
     
 class LegalNoticeENINView(TemplateView):
-    template_name = "thank_japan_app/legal/legal_notice_en_in.html"
+    template_name = "thank_japan_app/legal/legal_notice_en_in-v2.html"
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -461,7 +461,7 @@ class LegalNoticeENINView(TemplateView):
         return context
     
 class LegalNoticeDEView(TemplateView):
-    template_name = "thank_japan_app/legal/legal_notice_de.html"
+    template_name = "thank_japan_app/legal/legal_notice_de-v2.html"
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

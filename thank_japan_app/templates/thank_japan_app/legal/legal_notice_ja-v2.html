@@ -1,0 +1,265 @@
+{% extends 'base/base_top.html' %}
+
+{% block title %}特定商取引法に基づく表記 | Japan Introduction{% endblock %}
+
+{% block hreflang_tags %}
+    <link rel="alternate" hreflang="en" href="https://www.thankjapan.com/legal-notice/">
+    <link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/legal-notice/ja/">
+    <link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/legal-notice/vi/">
+    <link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/legal-notice/fr/">
+    <link rel="alternate" hreflang="it" href="https://www.thankjapan.com/legal-notice/it/">
+    <link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/legal-notice/pt/">
+    <link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/legal-notice/zh-hant/">
+    <link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/legal-notice/ko/">
+    <link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/legal-notice/es-es/">
+    <link rel="alternate" hreflang="de" href="https://www.thankjapan.com/legal-notice/de/">
+    <link rel="alternate" hreflang="th" href="https://www.thankjapan.com/legal-notice/th/">
+    <link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/legal-notice/pt-br/">
+    <link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/legal-notice/es-mx/">
+    <link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/legal-notice/en-in/">
+    <link rel="alternate" hreflang="zh-cn" href="https://www.thankjapan.com/legal-notice/zh-cn/">
+    <link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/legal-notice/">
+
+{% endblock %}
+
+
+{% block content %}
+<style>
+:root {
+    color-scheme: light !important;
+    --washi: #faf6ec;
+    --washi-card: #ffffff;
+    --wood-border: #e8dfc8;
+    --ink: #2a1d13;
+    --ink-soft: #8a7862;
+    --gold: #cda23f;
+    --gold-dark: #a97c1f;
+    --azuki-bg: #fdf3ee;
+    --azuki-border: #e8d3c8;
+}
+
+
+
+#premium-auth-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100dvh;
+    overflow: hidden; 
+    background-color: var(--washi) !important;
+    z-index: 100;
+}
+
+
+.app-content-fix {
+    height: 100%;
+    width: 100%;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    background-color: var(--washi); 
+}
+
+
+.main2 {
+    min-height: 100.1dvh; 
+    width: 100%;
+    max-width: 640px;
+    margin: 0 auto;
+    padding-top: 50px;
+    padding-bottom: 120px; 
+    background-color: var(--washi);
+}
+
+.app-content-fix::-webkit-scrollbar { display: none; }
+
+.legal-container {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 0 20px;
+    color: var(--ink);
+    line-height: 1.9;
+    font-family: 'Inter', 'Noto Sans JP', sans-serif;
+}
+
+.legal-container h2 {
+    font-family: 'Zen Antique', serif;
+    text-align: center;
+    color: var(--ink);
+    font-size: 1.3rem;
+    margin-top: 20px; 
+    margin-bottom: 6px;
+    border-left: none;
+    padding-left: 0;
+}
+
+.legal-title-underline {
+    width: 44px;
+    height: 2px;
+    background: var(--gold);
+    margin: 0 auto 22px;
+}
+
+.legal-container section {
+    background: var(--washi-card);
+    border: 1px solid var(--wood-border);
+    border-radius: 14px;
+    padding: 14px 16px;
+    transition: none;
+}
+.legal-container section:hover {
+    background: var(--washi-card);
+    transform: none;
+    box-shadow: none;
+}
+
+.legal-row {
+    padding: 8px 0;
+    border-bottom: 1px solid #f0e9d8;
+}
+.legal-row:last-child { border-bottom: none; }
+
+.legal-container p { margin: 0; }
+
+.legal-label {
+    font-size: 0.7rem;
+    color: var(--ink-soft);
+    margin-bottom: 2px;
+}
+
+.legal-value {
+    font-size: 0.82rem;
+    color: var(--ink);
+    line-height: 1.7;
+}
+
+.legal-note {
+    font-size: 0.68rem;
+    color: #a89c80;
+    margin-top: 3px;
+}
+
+.legal-container a {
+    color: #a5533f;
+    word-break: break-all;
+}
+
+
+.legal-caution {
+    background: var(--azuki-bg);
+    border: 1px solid var(--azuki-border);
+    border-radius: 14px;
+    padding: 14px 16px;
+    margin-top: 14px;
+}
+.legal-caution .legal-value { color: #5a4f3f; }
+
+.back-home-btn {
+    display: block;
+    width: fit-content;
+    margin: 28px auto 0;
+    background: var(--gold);
+    color: var(--ink);
+    border: none;
+    border-bottom: 4px solid var(--gold-dark);
+    border-radius: 999px;
+    padding: 12px 32px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: transform 0.1s ease;
+}
+.back-home-btn:active {
+    transform: translateY(2px);
+    border-bottom-width: 2px;
+}
+
+@media (max-width: 600px) {
+    .legal-container { padding: 0 16px; }
+}
+</style>
+
+<div id="premium-auth-container">
+  <div class="app-content-fix">
+    <div class="main2">
+        <div class="legal-container">
+
+            <h2>特定商取引法に基づく表記</h2>
+            <div class="legal-title-underline"></div>
+
+            <section>
+                <div class="legal-row">
+                    <div class="legal-label">販売事業者名</div>
+                    <div class="legal-value">Japan Introduction (ThankJapan)</div>
+                </div>
+                <div class="legal-row">
+                    <div class="legal-label">代表者名</div>
+                    <div class="legal-value">米島 徹</div>
+                </div>
+                <div class="legal-row">
+                    <div class="legal-label">所在地</div>
+                    <div class="legal-value">〒920-0016 石川県金沢市諸江町中丁</div>
+                </div>
+                <div class="legal-row">
+                    <div class="legal-label">電話番号</div>
+                    <div class="legal-value">080-8699-7640</div>
+                    <div class="legal-note">※お問い合わせはメールにてお願いいたします。</div>
+                </div>
+                <div class="legal-row">
+                    <div class="legal-label">メールアドレス</div>
+                    <div class="legal-value">yonetoru0@gmail.com</div>
+                </div>
+                <div class="legal-row">
+                    <div class="legal-label">販売価格</div>
+                    <div class="legal-value">購入ページに表示された金額（消費税込）</div>
+                </div>
+                <div class="legal-row">
+                    <div class="legal-label">商品代金以外の必要料金</div>
+                    <div class="legal-value">なし（サイト閲覧時の通信料はユーザー負担となります）</div>
+                </div>
+                <div class="legal-row">
+                    <div class="legal-label">役務の提供時期</div>
+                    <div class="legal-value">決済完了後、直ちにご利用いただけます。</div>
+                </div>
+                <div class="legal-row">
+                    <div class="legal-label">お支払い方法</div>
+                    <div class="legal-value">
+                        {% if is_twa %}
+                            Google Play決済
+                        {% else %}
+                            クレジットカード / デビットカード (PayPal経由)
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="legal-row">
+                    <div class="legal-label">代金の支払時期</div>
+                    <div class="legal-value">初回は登録時に即時決済。以降は毎月同日に自動的に決済が行われます。</div>
+                </div>
+            </section>
+
+            <div class="legal-caution">
+                <div class="legal-row" style="border-bottom: 1px solid #f0ddd0;">
+                    <div class="legal-label">返品・キャンセルについて</div>
+                    <div class="legal-value">デジタルコンテンツの性質上、決済完了後の返金・返品は受け付けておりません。定期購読の解約は「アカウント設定」画面よりいつでも可能です。解約は次回請求分から適用されます。</div>
+                </div>
+                <div class="legal-row" style="border-bottom: none; padding-bottom: 0;">
+                    <div class="legal-label">紛争解決について</div>
+                    <div class="legal-value">
+                        欧州委員会はオンライン紛争解決（ODR）のためのプラットフォームを提供しています。詳細は 
+                        <a href="https://ec.europa.eu/consumers/odr/" target="_blank">https://ec.europa.eu/consumers/odr/</a> 
+                        をご覧ください。当社は、消費者仲裁委員会による紛争解決手続きに参加する意思および義務を負いません。
+                    </div>
+                </div>
+            </div>
+
+            <div style="text-align:center;">
+                <a href="{% url 'toppageja' %}" class="back-home-btn">← ホームに戻る</a>
+            </div>
+
+        </div>
+    </div>
+  </div>
+</div>
+
+
+{% endblock %}
