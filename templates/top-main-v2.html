@@ -128,8 +128,11 @@
     box-shadow: none !important;
 }
 
-.btn-red:hover {
-    background: rgba(255, 255, 255, 0.2) !important;
+.btn-red:active, .btn-red:hover {
+    background: rgba(255, 255, 255, 0.15) !important;
+    border: 1px solid rgba(212, 175, 55, 0.8) !important; 
+    box-shadow: 0 0 12px rgba(212, 175, 55, 0.3) !important; 
+    transform: translateY(-1px);
 }
 
 .btn-gold {
@@ -273,18 +276,18 @@
             <div class="hero-buttons">
                 
                 <a href="{% url 'category_list' %}?lang={{ lang_code }}" class="explore-btn btn-red">
-                    {% if lang_code == 'ja' %}学習を続ける 📖
-                    {% elif lang_code == 'ko' %}학습 계속하기 📖
-                    {% elif lang_code == 'zh-cn' %}继续学习 📖
-                    {% elif lang_code == 'zh-hant' %}繼續學習 📖
-                    {% elif lang_code == 'th' %}เรียนรู้ต่อ 📖
-                    {% elif lang_code == 'vi' %}Tiếp tục học 📖
-                    {% elif lang_code == 'fr' %}Continuer à apprendre 📖
-                    {% elif lang_code == 'de' %}Weiterlernen 📖
-                    {% elif lang_code == 'it' %}Continua a imparare 📖
-                    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Continuar aprendiendo 📖
-                    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Continuar aprendendo 📖
-                    {% else %}Continue Learning 📖{% endif %}
+                    {% if lang_code == 'ja' %}攻略ガイド 📖
+                    {% elif lang_code == 'ko' %}공략 가이드 📖
+                    {% elif lang_code == 'zh-cn' %}攻略指南 📖
+                    {% elif lang_code == 'zh-hant' %}攻略指南 📖
+                    {% elif lang_code == 'th' %}คู่มือพิชิตเกม 📖
+                    {% elif lang_code == 'vi' %}Bí kíp chiến thắng 📖
+                    {% elif lang_code == 'fr' %}Guide Stratégique 📖
+                    {% elif lang_code == 'de' %}Strategie-Guide 📖
+                    {% elif lang_code == 'it' %}Guida Strategica 📖
+                    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Guía de Estrategia 📖
+                    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Guia de Estratégia 📖
+                    {% else %}Strategy Guide 📖{% endif %}
                 </a>
                 <a href="{% url 'game_start' %}?lang={{ lang_code }}" class="explore-btn btn-green">
                     {% if lang_code == 'ja' %}クイズで遊ぶ 🎮
