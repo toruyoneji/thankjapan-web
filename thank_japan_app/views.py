@@ -1437,7 +1437,7 @@ def game_next_question(request):
     return redirect('game_play')    
 
 
-import random
+
 
 def game_restart(request):
     difficulty = request.GET.get('difficulty', 'normal')
@@ -2425,60 +2425,60 @@ def thank_you(request):
 
 @login_required
 def thank_youZHCN(request):
-    return render(request, 'thank_japan_app/thankyou/thank_you_zh_cn.html')
+    return render(request, 'thank_japan_app/thankyou/thank_you_zh_cn-v2.html')
 
 
 @login_required
 def thank_youZHHANT(request):
-    return render(request, 'thank_japan_app/thankyou/thank_you_zh_hant.html')
+    return render(request, 'thank_japan_app/thankyou/thank_you_zh_hant-v2.html')
 
 @login_required
 def thank_youVI(request):
-    return render(request, 'thank_japan_app/thankyou/thank_you_vi.html')
+    return render(request, 'thank_japan_app/thankyou/thank_you_vi-v2.html')
 
 @login_required
 def thank_youTH(request):
-    return render(request, 'thank_japan_app/thankyou/thank_you_th.html')
+    return render(request, 'thank_japan_app/thankyou/thank_you_th-v2.html')
 
 @login_required
 def thank_youPT(request):
-    return render(request, 'thank_japan_app/thankyou/thank_you_pt.html')
+    return render(request, 'thank_japan_app/thankyou/thank_you_pt-v2.html')
 
 @login_required
 def thank_youPTBR(request):
-    return render(request, 'thank_japan_app/thankyou/thank_you_pt_br.html')
+    return render(request, 'thank_japan_app/thankyou/thank_you_pt_br-v2.html')
 
 @login_required
 def thank_youKO(request):
-    return render(request, 'thank_japan_app/thankyou/thank_you_ko.html')
+    return render(request, 'thank_japan_app/thankyou/thank_you_ko-v2.html')
 
 @login_required
 def thank_youJA(request):
-    return render(request, 'thank_japan_app/thankyou/thank_you_ja.html')
+    return render(request, 'thank_japan_app/thankyou/thank_you_ja-v2.html')
 
 @login_required
 def thank_youIT(request):
-    return render(request, 'thank_japan_app/thankyou/thank_you_it.html')
+    return render(request, 'thank_japan_app/thankyou/thank_you_it-v2.html')
 
 @login_required
 def thank_youFR(request):
-    return render(request, 'thank_japan_app/thankyou/thank_you_fr.html')
+    return render(request, 'thank_japan_app/thankyou/thank_you_fr-v2.html')
 
 @login_required
 def thank_youESMX(request):
-    return render(request, 'thank_japan_app/thankyou/thank_you_es_mx.html')
+    return render(request, 'thank_japan_app/thankyou/thank_you_es_mx-v2.html')
 
 @login_required
 def thank_youESES(request):
-    return render(request, 'thank_japan_app/thankyou/thank_you_es_es.html')
+    return render(request, 'thank_japan_app/thankyou/thank_you_es_es-v2.html')
 
 @login_required
 def thank_youENIN(request):
-    return render(request, 'thank_japan_app/thankyou/thank_you_en_in.html')
+    return render(request, 'thank_japan_app/thankyou/thank_you_en_in-v2.html')
 
 @login_required
 def thank_youDE(request):
-    return render(request, 'thank_japan_app/thankyou/thank_you_de.html')
+    return render(request, 'thank_japan_app/thankyou/thank_you_de-v2.html')
 
 
 #account_settings
