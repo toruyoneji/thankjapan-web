@@ -138,6 +138,20 @@
     box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
 }
 
+.btn-green {
+    background: #3ca55c !important;
+    color: #fff !important;
+    border-bottom: 4px solid #2d7d45 !important;
+    box-shadow: none !important;
+    transition: transform 0.1s ease;
+}
+
+.btn-green:hover,
+.btn-green:active {
+    transform: translateY(2px);
+    border-bottom-width: 2px !important;
+}
+
 .btn-yellow {
     background: linear-gradient(to bottom, #f18e04, #ff8c00) !important;
     color: #fff !important;
@@ -203,20 +217,21 @@
                 </ul>
             </div>
             <div class="hero-buttons">
-                <a href="{% url 'category_list' %}?lang={{ lang_code }}" class="explore-btn btn-red">
-                    {% if lang_code == 'ja' %}日本語の語彙をマスターする 📖
-                    {% elif lang_code == 'ko' %}일본어 어휘 마스터하기 📖
-                    {% elif lang_code == 'zh-cn' %}掌握日语词汇 📖
-                    {% elif lang_code == 'zh-hant' %}掌握日語詞彙 📖
-                    {% elif lang_code == 'th' %}มาสเตอร์คำศัพท์ภาษาญี่ปุ่น 📖
-                    {% elif lang_code == 'vi' %}Nắm vững từ vựng tiếng Nhật 📖
-                    {% elif lang_code == 'fr' %}Maîtrisez le vocabulaire japonais 📖
-                    {% elif lang_code == 'de' %}Japanische Vokabeln meistern 📖
-                    {% elif lang_code == 'it' %}Padroneggia i vocaboli giapponesi 📖
-                    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Domina el vocabulario japonés 📖
-                    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Domine o vocabulário japonês 📖
-                    {% else %}Master Japanese Vocab 📖{% endif %}
+                <a href="{% url 'game_start' %}?lang={{ lang_code }}" class="explore-btn btn-green">
+                    {% if lang_code == 'ja' %}クイズで遊ぶ 🎮
+                    {% elif lang_code == 'ko' %}퀴즈 풀기 🎮
+                    {% elif lang_code == 'zh-cn' %}玩词汇测验 🎮
+                    {% elif lang_code == 'zh-hant' %}玩詞彙測驗 🎮
+                    {% elif lang_code == 'th' %}เล่นควิซคำศัพท์ 🎮
+                    {% elif lang_code == 'vi' %}Chơi đố vui từ vựng 🎮
+                    {% elif lang_code == 'fr' %}Jouer au quiz 🎮
+                    {% elif lang_code == 'de' %}Quiz spielen 🎮
+                    {% elif lang_code == 'it' %}Gioca al quiz 🎮
+                    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Jugar al quiz 🎮
+                    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Jogar o quiz 🎮
+                    {% else %}Play Vocab Quiz 🎮{% endif %}
                 </a>
+
                 <a href="{% url 'player_register' %}?lang={{ lang_code }}" class="explore-btn btn-yellow">
                   {% if lang_code == 'ja' %}無料で参加してポイントを貯める
                   {% elif lang_code == 'ko' %}무료로 가입하고 포인트를 받으세요
@@ -266,7 +281,7 @@
                     {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Continuar aprendendo 📖
                     {% else %}Continue Learning 📖{% endif %}
                 </a>
-                <a href="{% url 'game_start' %}?lang={{ lang_code }}" class="explore-btn btn-gold">
+                <a href="{% url 'game_start' %}?lang={{ lang_code }}" class="explore-btn btn-green">
                     {% if lang_code == 'ja' %}クイズで遊ぶ 🎮
                     {% elif lang_code == 'ko' %}퀴즈 풀기 🎮
                     {% elif lang_code == 'zh-cn' %}玩词汇测验 🎮
