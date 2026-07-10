@@ -101,16 +101,28 @@ button[type="submit"] {
 
 .btn-more {
     display: inline-block !important;
-    background: transparent !important;
-    color: var(--ink) !important;
-    border: 1px solid var(--wood-border) !important;
-    padding: 12px 24px !important;
+    background: var(--ink) !important; 
+    color: #ffffff !important; 
+    border: none !important;
+    padding: 14px 32px !important;
     border-radius: 50px !important;
     text-decoration: none !important;
-    font-weight: 600 !important;
-    margin-top: 30px !important;
+    font-weight: 700 !important;
+    font-size: 1rem !important;
+    margin-top: 40px !important;
+    box-shadow: 0 4px 12px rgba(42, 29, 19, 0.15) !important;
+    transition: all 0.3s ease !important;
 }
 
+.btn-more:hover {
+    background: #000000 !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2) !important;
+}
+
+.btn-more:active {
+    transform: translateY(0px) !important;
+}
 .error {
     color: #d32f2f;
     font-size: 0.9rem;
