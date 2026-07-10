@@ -1,0 +1,123 @@
+{% extends 'base/base_top.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+
+:root {
+    color-scheme: light !important;
+    --washi: #faf6ec;
+    --washi-card: #ffffff;
+    --ink: #2a1d13;
+    --gold: #d4af37;
+    --wood-border: #e8dfc8;
+}
+
+
+#premium-auth-container {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100dvh;
+    background-color: var(--washi) !important;
+    overflow: hidden;
+    z-index: 100;
+}
+
+.app-content-fix {
+    width: 100%;
+    height: 100%;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch;
+    padding-top: 100px;
+    padding-bottom: 180px;
+}
+
+.main2 {
+    max-width: 500px; 
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+
+h2 {
+    text-align: center;
+    font-family: 'Zen Antique', serif;
+    font-size: 2rem;
+    color: var(--ink);
+    margin-bottom: 30px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 700;
+    color: var(--ink);
+    font-size: 1rem;
+}
+
+input, textarea {
+    width: 100% !important;
+    padding: 14px 16px !important;
+    border-radius: 12px !important;
+    border: 1px solid var(--wood-border) !important;
+    background: var(--washi-card) !important;
+    font-size: 1.1rem !important;
+    color: var(--ink) !important;
+    margin-bottom: 20px;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
+}
+
+input:focus, textarea:focus {
+    border-color: var(--gold) !important;
+    outline: none !important;
+    box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1) !important;
+}
+
+
+button[type="submit"] {
+    background: var(--ink) !important;
+    color: #fff !important;
+    border: none !important;
+    padding: 16px !important;
+    width: 100% !important;
+    border-radius: 50px !important;
+    font-size: 1.1rem !important;
+    font-weight: 700 !important;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 10px;
+}
+
+button[type="submit"]:hover {
+    background: #000 !important;
+    transform: translateY(-2px);
+}
+
+
+.btn-more {
+    display: inline-block !important;
+    background: transparent !important;
+    color: var(--ink) !important;
+    border: 1px solid var(--wood-border) !important;
+    padding: 12px 24px !important;
+    border-radius: 50px !important;
+    text-decoration: none !important;
+    font-weight: 600 !important;
+    margin-top: 30px !important;
+}
+
+.error { color: #d32f2f; font-size: 0.9rem; margin-top: -15px; margin-bottom: 15px; }
+
+
+* { outline: none !important; }
+</style>
+
+<div id="premium-auth-container">
+    <div class="app-content-fix">
+        <div class="main2">
+            {% block contact_content %}{% endblock %}
+        </div>
+    </div>
+</div>
+{% endblock %}
