@@ -1,4 +1,4 @@
-{% extends 'base/base.html' %}
+{% extends 'base/base_privacy.html' %}
 {% load static %}
 
 {% block title %}Privacy Policy | ThankJapan{% endblock %}
@@ -24,88 +24,9 @@
 {% endblock %}
 
 
-{% block content %}
 
-    <style>
 
-    body {
-        background-color: #fffaf5;
-        font-family: 'Noto Sans JP', 'Poppins', sans-serif;
-        color: #fff;
-    }
-
-    .main2 {
-        max-width: 900px;
-        margin: 80px auto 100px;
-        padding: 0 20px;
-    }
-
-    .category-header {
-        text-align: center;
-        padding: 30px 20px;
-        background: linear-gradient(135deg, #ffe8d6 0%, #fffaf5 100%);
-        border-radius: 0 0 40px 40px;
-        margin-bottom: 40px;
-        color: #000;
-    }
-
-    h2 {
-        margin-top: 30px;
-        font-size: 1.2rem;
-        color: #ffd6a5;
-    }
-
-    p, li {
-        font-size: 1rem;
-        line-height: 1.6;
-        color: #fff;
-    }
-
-    ul {
-        margin-left: 20px;
-        margin-top: 10px;
-    }
-
-    a.anchor {
-        color: #ffb347;
-        text-decoration: none;
-    }
-    a.anchor:hover {
-        text-decoration: underline;
-    }
-
-    hr {
-        border: 0;
-        border-top: 1px solid #ffd6a5;
-        margin: 20px 0;
-    }
-
-    .btn-more {
-            display: inline-block;
-            background: #ffb347;
-            color: white;
-            padding: 10px 24px;
-            border-radius: 25px;
-            text-decoration: none;
-            font-weight: 600;
-            margin-top: 20px;
-            transition: background 0.3s;
-        }
-        .btn-more:hover {
-            background: #ff9642;
-        }
-
-    @media (max-width: 600px) {
-        .main2 {
-            margin: 50px 0px 50px;
-            padding: 0;
-        }
-
-        .category-header {
-            padding-top: 120px;
-        }
-    }
-    </style>
+{% block privacy_content %}
 
 <div class="main2">
     <h1 class="category-header">Privacy Policy</h1>
