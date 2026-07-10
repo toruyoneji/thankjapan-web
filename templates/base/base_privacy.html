@@ -1,0 +1,138 @@
+{% extends 'base/base_top.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+
+:root {
+    color-scheme: light !important;
+    --washi: #faf6ec;
+    --washi-card: #ffffff;
+    --ink: #2a1d13;
+    --ink-soft: #4a4034;
+    --gold: #d4af37;
+    --wood-border: #e8dfc8;
+}
+
+
+#premium-auth-container {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100dvh;
+    background-color: var(--washi) !important;
+    overflow: hidden;
+    z-index: 100;
+}
+
+.app-content-fix {
+    width: 100%;
+    height: 100%;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch;
+    padding-top: 100px;
+    padding-bottom: 180px;
+}
+
+.app-content-fix::-webkit-scrollbar { display: none; }
+
+
+.main2 {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 0 24px;
+    background: transparent !important;
+}
+
+
+.category-header {
+    text-align: center !important;
+    background: transparent !important;
+    color: var(--ink) !important;
+    font-size: 2.2rem !important;
+    font-family: 'Zen Antique', serif;
+    margin-bottom: 40px !important;
+    padding: 0 !important;
+}
+
+
+h2 {
+    font-size: 1.3rem !important;
+    font-weight: 700 !important;
+    color: var(--ink) !important;
+    margin-top: 45px !important;
+    margin-bottom: 15px !important;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+
+h2::before {
+    content: '';
+    display: inline-block;
+    width: 4px;
+    height: 1.3rem;
+    background: var(--gold);
+    flex-shrink: 0;
+}
+
+
+p, li {
+    font-size: 1.15rem !important;
+    line-height: 1.9 !important;
+    color: var(--ink-soft) !important;
+    margin-bottom: 12px;
+}
+
+ul {
+    padding-left: 20px !important;
+    margin-top: 10px !important;
+    list-style-type: disc !important;
+}
+
+
+a {
+    color: var(--gold) !important;
+    text-decoration: underline !important;
+}
+
+
+hr {
+    border: none !important;
+    border-top: 1px solid var(--wood-border) !important;
+    margin: 40px 0 !important;
+}
+
+
+.btn-more {
+    display: inline-block !important;
+    background: var(--ink) !important;
+    color: #fff !important;
+    padding: 16px 40px !important;
+    border-radius: 50px !important;
+    text-decoration: none !important;
+    font-weight: 600 !important;
+    margin-top: 40px !important;
+}
+
+
+p[style*="font-size:0.8rem"] {
+    font-size: 1.0rem !important;
+    color: var(--ink-soft) !important;
+    opacity: 0.7;
+    text-align: center;
+}
+
+
+* { border: none !important; outline: none !important; }
+</style>
+
+<div id="premium-auth-container">
+  <div class="app-content-fix">
+    <div class="main2">
+        {% block privacy_content %}{% endblock %}
+    </div>
+  </div>
+</div>
+{% endblock %}
