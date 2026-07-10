@@ -3,7 +3,6 @@
 
 {% block content %}
 <style>
-
 :root {
     color-scheme: light !important;
     --washi: #faf6ec;
@@ -13,32 +12,46 @@
     --wood-border: #e8dfc8;
 }
 
+html, body {
+    background-color: var(--washi) !important;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
 
 #premium-auth-container {
     position: fixed;
-    top: 0; left: 0;
-    width: 100%;
+    top: 0;
+    left: 0;
+    width: 100vw;
     height: 100dvh;
     background-color: var(--washi) !important;
     overflow: hidden;
-    z-index: 100;
+    z-index: 1;
 }
 
 .app-content-fix {
     width: 100%;
     height: 100%;
+    background-color: var(--washi) !important;
     overflow-y: auto !important;
     -webkit-overflow-scrolling: touch;
     padding-top: 100px;
     padding-bottom: 180px;
 }
 
-.main2 {
-    max-width: 500px; 
-    margin: 0 auto;
-    padding: 0 24px;
+.app-content-fix::-webkit-scrollbar {
+    display: none;
 }
 
+.main2 {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 0 24px;
+    background-color: transparent !important;
+}
 
 h2 {
     text-align: center;
@@ -65,15 +78,13 @@ input, textarea {
     font-size: 1.1rem !important;
     color: var(--ink) !important;
     margin-bottom: 20px;
-    box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
+    box-sizing: border-box;
 }
 
 input:focus, textarea:focus {
     border-color: var(--gold) !important;
     outline: none !important;
-    box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1) !important;
 }
-
 
 button[type="submit"] {
     background: var(--ink) !important;
@@ -85,15 +96,8 @@ button[type="submit"] {
     font-size: 1.1rem !important;
     font-weight: 700 !important;
     cursor: pointer;
-    transition: all 0.3s ease;
     margin-top: 10px;
 }
-
-button[type="submit"]:hover {
-    background: #000 !important;
-    transform: translateY(-2px);
-}
-
 
 .btn-more {
     display: inline-block !important;
@@ -107,10 +111,17 @@ button[type="submit"]:hover {
     margin-top: 30px !important;
 }
 
-.error { color: #d32f2f; font-size: 0.9rem; margin-top: -15px; margin-bottom: 15px; }
+.error {
+    color: #d32f2f;
+    font-size: 0.9rem;
+    margin-top: -15px;
+    margin-bottom: 15px;
+}
 
-
-* { outline: none !important; }
+* {
+    -webkit-tap-highlight-color: transparent;
+    outline: none !important;
+}
 </style>
 
 <div id="premium-auth-container">
