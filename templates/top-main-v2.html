@@ -230,18 +230,18 @@
             </div>
             <div class="hero-buttons">
                 <a href="{% url 'game_start' %}?lang={{ lang_code }}" class="explore-btn btn-green">
-                    {% if lang_code == 'ja' %}クイズで遊ぶ 🎮
-                    {% elif lang_code == 'ko' %}퀴즈 풀기 🎮
-                    {% elif lang_code == 'zh-cn' %}玩词汇测验 🎮
-                    {% elif lang_code == 'zh-hant' %}玩詞彙測驗 🎮
-                    {% elif lang_code == 'th' %}เล่นควิซคำศัพท์ 🎮
-                    {% elif lang_code == 'vi' %}Chơi đố vui từ vựng 🎮
-                    {% elif lang_code == 'fr' %}Jouer au quiz 🎮
-                    {% elif lang_code == 'de' %}Quiz spielen 🎮
-                    {% elif lang_code == 'it' %}Gioca al quiz 🎮
-                    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Jugar al quiz 🎮
-                    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Jogar o quiz 🎮
-                    {% else %}Play Vocab Quiz 🎮{% endif %}
+                    {% if lang_code == 'ja' %}クイズに挑戦してみよう 🎮
+                    {% elif lang_code == 'ko' %}퀴즈에 도전해 보세요 🎮
+                    {% elif lang_code == 'zh-cn' %}尝试词汇挑战 🎮
+                    {% elif lang_code == 'zh-hant' %}嘗試詞彙挑戰 🎮
+                    {% elif lang_code == 'th' %}มาลองท้าทายควิซกัน 🎮
+                    {% elif lang_code == 'vi' %}Thử thách giải đố ngay 🎮
+                    {% elif lang_code == 'fr' %}Relevez le défi du quiz 🎮
+                    {% elif lang_code == 'de' %}Fordere dich im Quiz heraus 🎮
+                    {% elif lang_code == 'it' %}Accetta la sfida del quiz 🎮
+                    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}¡Acepta el desafío del quiz! 🎮
+                    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Desafie-se no quiz 🎮
+                    {% else %}Take the Quiz Challenge 🎮{% endif %}
                 </a>
 
                 <a href="{% url 'player_register' %}?lang={{ lang_code }}" class="explore-btn btn-yellow">
