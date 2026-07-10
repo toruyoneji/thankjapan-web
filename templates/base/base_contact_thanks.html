@@ -1,0 +1,105 @@
+{% extends 'base/base_top.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+:root {
+    color-scheme: light !important;
+    --washi: #faf6ec;
+    --washi-card: #ffffff;
+    --ink: #2a1d13;
+    --gold: #d4af37;
+    --wood-border: #e8dfc8;
+}
+
+html, body {
+    background-color: var(--washi) !important;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+#premium-auth-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100dvh;
+    background-color: var(--washi) !important;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.app-content-fix {
+    width: 100%;
+    height: 100%;
+    background-color: var(--washi) !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 50px;
+}
+
+.main2 {
+    max-width: 500px;
+    width: 90%;
+    margin: 0 auto;
+    text-align: center;
+    background: var(--washi-card) !important;
+    padding: 40px 30px;
+    border-radius: 20px;
+    border: 1px solid var(--wood-border) !important;
+    box-shadow: 0 10px 30px rgba(42, 29, 19, 0.05);
+}
+
+h2 {
+    font-family: 'Zen Antique', serif;
+    font-size: 1.8rem;
+    color: var(--ink);
+    margin-bottom: 20px;
+    line-height: 1.4;
+}
+
+p {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: #4a4034;
+    margin-bottom: 30px;
+}
+
+.btn-more {
+    display: inline-block !important;
+    background: var(--ink) !important;
+    color: #ffffff !important;
+    border: none !important;
+    padding: 16px 40px !important;
+    border-radius: 50px !important;
+    text-decoration: none !important;
+    font-weight: 700 !important;
+    font-size: 1.1rem !important;
+    transition: all 0.3s ease !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+}
+
+.btn-more:hover {
+    background: #000000 !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2) !important;
+}
+
+* {
+    outline: none !important;
+    -webkit-tap-highlight-color: transparent;
+}
+</style>
+
+<div id="premium-auth-container">
+    <div class="app-content-fix">
+        <div class="main2">
+            {% block thanks_content %}{% endblock %}
+        </div>
+    </div>
+</div>
+{% endblock %}

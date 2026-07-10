@@ -1,8 +1,7 @@
-<!DOCTYPE html>
-<html lang="{{ lang_code }}">
-<head>
-    <meta charset="UTF-8">
-    <title>
+{% extends 'base/base_contact_thanks.html' %}
+{% load static %}
+
+    {% block title %}
         {% if lang_code == 'ja' %}送信完了 | ThankJapan
         {% elif lang_code == 'ko' %}전송 완료 | ThankJapan
         {% elif lang_code == 'zh-cn' %}发送成功 | ThankJapan
@@ -15,32 +14,10 @@
         {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Mensaje enviado | ThankJapan
         {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Mensagem enviada | ThankJapan
         {% else %}Message Sent | ThankJapan{% endif %}
-    </title>
+    {% endblock %}
     
-    <style>
-        body { font-family: Arial, sans-serif; background: #f4f4f4; padding: 30px; text-align: center; }
-        .container { max-width: 500px; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1);}
-        a { color: #0070ba; text-decoration: none; }
-
-        .btn-more {
-            display: inline-block;
-            background: #ffb347;
-            color: white;
-            padding: 10px 24px;
-            border-radius: 25px;
-            text-decoration: none;
-            font-weight: 600;
-            margin-top: 20px;
-            transition: background 0.3s;
-        }
-        .btn-more:hover {
-            background: #ff9642;
-        }
     
-    </style>
-</head>
-<body>
-    <div class="container">
+    {% block thanks_content %}
         <h2>
             {% if lang_code == 'ja' %}ありがとうございます、{{ name }}さん！
             {% elif lang_code == 'zh-hant' %}謝謝您，{{ name }}！
@@ -89,6 +66,4 @@
                 {% endif %}
             </a>
         </div>
-    </div>
-</body>
-</html>
+    {% endblock %}   
