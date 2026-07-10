@@ -87,8 +87,8 @@ input:focus, textarea:focus {
 }
 
 button[type="submit"] {
-    background: var(--ink) !important;
-    color: #fff !important;
+    background: #0070ba !important;
+    color: #ffffff !important;
     border: none !important;
     padding: 16px !important;
     width: 100% !important;
@@ -97,7 +97,20 @@ button[type="submit"] {
     font-weight: 700 !important;
     cursor: pointer;
     margin-top: 10px;
+    box-shadow: 0 4px 12px rgba(0, 112, 186, 0.2) !important;
+    transition: all 0.3s ease !important;
 }
+
+button[type="submit"]:hover {
+    background: #005ea6 !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 6px 15px rgba(0, 112, 186, 0.3) !important;
+}
+
+button[type="submit"]:active {
+    transform: translateY(0px) !important;
+}
+
 
 .btn-more {
     display: inline-block !important;
