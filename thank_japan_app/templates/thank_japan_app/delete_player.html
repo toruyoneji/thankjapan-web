@@ -1,5 +1,19 @@
 {% extends "base/base.html" %}
-{% block title %}Delete Account | ThankJapan{% endblock %}
+
+{% block title %}
+    {% if lang_code == 'ja' %}アカウント削除 | ThankJapan
+    {% elif lang_code == 'ko' %}계정 삭제 | ThankJapan
+    {% elif lang_code == 'it' %}Elimina Account | ThankJapan
+    {% elif lang_code == 'fr' %}Supprimer le compte | ThankJapan
+    {% elif lang_code == 'de' %}Konto löschen | ThankJapan
+    {% elif lang_code == 'vi' %}Xóa tài khoản | ThankJapan
+    {% elif lang_code == 'th' %}ลบบัญชี | ThankJapan
+    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Eliminar cuenta | ThankJapan
+    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Excluir conta | ThankJapan
+    {% elif lang_code == 'zh-cn' %}删除账户 | ThankJapan
+    {% elif lang_code == 'zh-hant' %}刪除帳戶 | ThankJapan
+    {% else %}Delete Account | ThankJapan{% endif %}
+{% endblock %}
 
 {% block content %}
 
@@ -109,9 +123,35 @@
 </style>
 
 <div class="main2">
-  <h2>Delete Your Account</h2>
+  <h2>
+    {% if lang_code == 'ja' %}アカウントの削除
+    {% elif lang_code == 'ko' %}계정 삭제
+    {% elif lang_code == 'it' %}Elimina il tuo account
+    {% elif lang_code == 'fr' %}Supprimer votre compte
+    {% elif lang_code == 'de' %}Ihr Konto löschen
+    {% elif lang_code == 'vi' %}Xóa tài khoản của bạn
+    {% elif lang_code == 'th' %}ลบบัญชีของคุณ
+    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Eliminar tu cuenta
+    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Excluir sua conta
+    {% elif lang_code == 'zh-cn' %}删除您的账户
+    {% elif lang_code == 'zh-hant' %}刪除您的帳戶
+    {% else %}Delete Your Account{% endif %}
+  </h2>
 
-  <p>⚠️ This action is <strong>irreversible</strong>.<br>Please enter your password to confirm deletion.</p>
+  <p>
+    {% if lang_code == 'ja' %}⚠️ この操作は<strong>取り消せません</strong>。<br>削除を確認するためにパスワードを入力してください。
+    {% elif lang_code == 'ko' %}⚠️ 이 작업은 <strong>취소할 수 없습니다</strong>.<br>삭제를 확인하려면 비밀번호를 입력해 주세요.
+    {% elif lang_code == 'it' %}⚠️ Questa azione è <strong>irreversibile</strong>.<br>Inserisci la tua password per confermare l'eliminazione.
+    {% elif lang_code == 'fr' %}⚠️ Cette azione est <strong>irréversible</strong>.<br>Veuillez entrer votre mot de passe pour confirmer la suppression.
+    {% elif lang_code == 'de' %}⚠️ Diese Aktion kann <strong>nicht rückgängig</strong> gemacht werden.<br>Bitte geben Sie Ihr Passwort ein, um die Löschung zu bestätigen.
+    {% elif lang_code == 'vi' %}⚠️ Hành động này <strong>không thể hoàn tác</strong>.<br>Vui lòng nhập mật khẩu của bạn để xác nhận xóa.
+    {% elif lang_code == 'th' %}⚠️ การดำเนินการนี้<strong>ไม่สามารถย้อนกลับได้</strong><br>โปรดป้อนรหัสผ่านของคุณเพื่อยืนยันการลบ
+    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}⚠️ Esta acción es <strong>irreversible</strong>.<br>Por favor, introduce tu contraseña para confirmar la eliminación.
+    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}⚠️ Esta ação é <strong>irreversível</strong>.<br>Por favor, insira sua senha para confirmar a exclusão.
+    {% elif lang_code == 'zh-cn' %}⚠️ 此操作是<strong>不可逆的</strong>。<br>请输入您的密码以确认删除。
+    {% elif lang_code == 'zh-hant' %}⚠️ 此操作は<strong>不可逆的</strong>。<br>請輸入您的密碼以確認刪除。
+    {% else %}⚠️ This action is <strong>irreversible</strong>.<br>Please enter your password to confirm deletion.{% endif %}
+  </p>
 
   {% if messages %}
     <ul>
@@ -123,13 +163,53 @@
 
   <form method="post" action="{% url 'delete_player' %}">
     {% csrf_token %}
-    <label for="id_password">Password:</label>
+    <label for="id_password">
+      {% if lang_code == 'ja' %}パスワード:
+      {% elif lang_code == 'ko' %}비밀번호:
+      {% elif lang_code == 'it' %}Password:
+      {% elif lang_code == 'fr' %}Mot de passe :
+      {% elif lang_code == 'de' %}Passwort:
+      {% elif lang_code == 'vi' %}Mật khẩu:
+      {% elif lang_code == 'th' %}รหัสผ่าน:
+      {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Contraseña:
+      {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Senha:
+      {% elif lang_code == 'zh-cn' %}密码:
+      {% elif lang_code == 'zh-hant' %}密碼:
+      {% else %}Password:{% endif %}
+    </label>
+
     <input type="password" name="password" id="id_password" required>
 
-    <button type="submit">🗑️ Delete My Account</button>
+    <button type="submit">
+      {% if lang_code == 'ja' %}🗑️ アカウントを削除する
+      {% elif lang_code == 'ko' %}🗑️ 내 계정 삭제
+      {% elif lang_code == 'it' %}🗑️ Elimina il mio account
+      {% elif lang_code == 'fr' %}🗑️ Supprimer mon compte
+      {% elif lang_code == 'de' %}🗑️ Mein Konto löschen
+      {% elif lang_code == 'vi' %}🗑️ Xóa tài khoản của tôi
+      {% elif lang_code == 'th' %}🗑️ ลบบัญชีของฉัน
+      {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}🗑️ Eliminar mi cuenta
+      {% elif lang_code == 'pt' or lang_code == 'pt-br' %}🗑️ Excluir minha conta
+      {% elif lang_code == 'zh-cn' %}🗑️ 删除我的账户
+      {% elif lang_code == 'zh-hant' %}🗑️ 刪除我的帳戶
+      {% else %}🗑️ Delete My Account{% endif %}
+    </button>
   </form>
 
-  <p><a href="{% url 'game_result' %}">🚫 Cancel and go back</a></p>
+  <p><a href="{% url 'game_result' %}">
+    {% if lang_code == 'ja' %}🚫 キャンセルして戻る
+    {% elif lang_code == 'ko' %}🚫 취소하고 돌아가기
+    {% elif lang_code == 'it' %}🚫 Annulla e torna indietro
+    {% elif lang_code == 'fr' %}🚫 Annuler et revenir
+    {% elif lang_code == 'de' %}🚫 Abbrechen und zurück
+    {% elif lang_code == 'vi' %}🚫 Hủy và quay lại
+    {% elif lang_code == 'th' %}🚫 ยกเลิกและกลับไป
+    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}🚫 Cancelar y volver
+    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}🚫 Cancelar e voltar
+    {% elif lang_code == 'zh-cn' %}🚫 取消并返回
+    {% elif lang_code == 'zh-hant' %}🚫 取消並返回
+    {% else %}🚫 Cancel and go back{% endif %}
+  </a></p>
 </div>
 
 {% endblock %}
