@@ -743,22 +743,35 @@ body::before, body::after { display: none; }
 
         <div class="difficulty-options premium-options">
             <a href="{% url 'game_restart' %}?difficulty=sample_premium" class="difficulty-card sample-card">
-                <span class="emoji">🎁</span>
+                <span class="emoji">📝</span>
                 <div class="difficulty-info">
-                    <h3>FREE SAMPLE</h3>
+                    <h3>
+                        {% if lang_code == 'ja' %}JLPT実力診断
+                        {% elif lang_code == 'ko' %}JLPT 실력 테스트
+                        {% elif lang_code == 'zh-hant' %}JLPT 實力測試
+                        {% elif lang_code == 'zh-cn' %}JLPT 实力测试
+                        {% elif lang_code == 'th' %}แบบทดสอบทักษะ JLPT
+                        {% elif lang_code == 'vi' %}Kiểm tra năng lực JLPT
+                        {% elif lang_code == 'fr' %}Test de compétences JLPT
+                        {% elif lang_code == 'de' %}JLPT-Kompetenztest
+                        {% elif lang_code == 'it' %}Test di abilità JLPT
+                        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Test de nivel JLPT
+                        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Teste de habilidades JLPT
+                        {% else %}JLPT Skill Test{% endif %}
+                    </h3>
                     <p>
-                        {% if lang_code == 'ja' %}プレミアムお試し
-                        {% elif lang_code == 'zh-hant' %}體驗高級短語
-                        {% elif lang_code == 'zh-cn' %}体验高级短语
-                        {% elif lang_code == 'ko' %}프리미엄 체험
-                        {% elif lang_code == 'de' %}Premium testen
-                        {% elif lang_code == 'fr' %}Essai Premium
-                        {% elif lang_code == 'it' %}Prova Premium
-                        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Prueba Premium
-                        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Amostra Premium
-                        {% elif lang_code == 'vi' %}Thử Premium
-                        {% elif lang_code == 'th' %}ทดลองใช้พรีเมียม
-                        {% else %}Try Premium!{% endif %}
+                        {% if lang_code == 'ja' %}JLPTの腕試しに挑戦！
+                        {% elif lang_code == 'ko' %}JLPT 실력 테스트 도전!
+                        {% elif lang_code == 'zh-hant' %}JLPT 實力測試挑戰！
+                        {% elif lang_code == 'zh-cn' %}JLPT 实力测试挑战！
+                        {% elif lang_code == 'th' %}ทดสอบระดับ JLPT ของคุณ!
+                        {% elif lang_code == 'vi' %}Thử sức với bài kiểm tra JLPT!
+                        {% elif lang_code == 'fr' %}Testez votre niveau JLPT !
+                        {% elif lang_code == 'de' %}JLPT-Einstufungstest machen!
+                        {% elif lang_code == 'it' %}Metti alla prova il tuo JLPT!
+                        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}¡Pon a prueba tu nivel de JLPT!
+                        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Teste suas habilidades no JLPT!
+                        {% else %}Test Your JLPT Skills!{% endif %}
                     </p>
                 </div>
                 <span class="free-badge">TRY</span>
