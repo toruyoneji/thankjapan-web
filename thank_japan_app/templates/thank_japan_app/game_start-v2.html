@@ -764,13 +764,8 @@ body::before, body::after { display: none; }
                 <span class="free-badge">TRY</span>
             </a>
 
-            <!-- LEVEL N5 -->
-            {% if user.is_authenticated and user.profile.is_premium %}
-                <a href="{% url 'game_restart' %}?difficulty=n5_premium" class="difficulty-card premium-gold">
-            {% else %}
-                <a href="{% url premium_url_name %}?next={{ request.path }}" class="difficulty-card premium-locked">
-                <div class="lock-overlay">🔒</div>
-            {% endif %}
+            <!-- LEVEL N5 -->    
+            <a href="{% url 'game_restart' %}?difficulty=n5_premium" class="difficulty-card premium-gold">
                 <span class="emoji">🌱</span>
                 <div class="difficulty-info">
                     <h3>LEVEL N5</h3>
@@ -792,12 +787,7 @@ body::before, body::after { display: none; }
             </a>
 
             <!-- LEVEL N4 -->
-            {% if user.is_authenticated and user.profile.is_premium %}
-                <a href="{% url 'game_restart' %}?difficulty=n4_premium" class="difficulty-card premium-gold">
-            {% else %}
-                <a href="{% url premium_url_name %}?next={{ request.path }}" class="difficulty-card premium-locked">
-                <div class="lock-overlay">🔒</div>
-            {% endif %}
+            <a href="{% url 'game_restart' %}?difficulty=n4_premium" class="difficulty-card premium-gold">
                 <span class="emoji">🏠</span>
                 <div class="difficulty-info">
                     <h3>LEVEL N4</h3>
@@ -819,12 +809,7 @@ body::before, body::after { display: none; }
             </a>
 
             <!-- LEVEL N3 -->
-            {% if user.is_authenticated and user.profile.is_premium %}
-                <a href="{% url 'game_restart' %}?difficulty=n3_premium" class="difficulty-card premium-gold">
-            {% else %}
-                <a href="{% url premium_url_name %}?next={{ request.path }}" class="difficulty-card premium-locked">
-                <div class="lock-overlay">🔒</div>
-            {% endif %}
+            <a href="{% url 'game_restart' %}?difficulty=n3_premium" class="difficulty-card premium-gold">
                 <span class="emoji">💼</span>
                 <div class="difficulty-info">
                     <h3>LEVEL N3</h3>

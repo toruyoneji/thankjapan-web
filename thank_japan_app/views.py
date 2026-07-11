@@ -1474,11 +1474,11 @@ def game_restart(request):
         selected_question_ids = [question.id]
         difficulty = 'single'
     else:
-        premium_only = ['n5_premium', 'n4_premium', 'n3_premium']
-        if difficulty in premium_only:
-            if not is_premium:
-                url_name, _ = get_lang_info(request)
-                return redirect(url_name)
+        # premium_only = ['n5_premium', 'n4_premium', 'n3_premium']
+        # if difficulty in premium_only:
+        #     if not is_premium:
+        #         url_name, _ = get_lang_info(request)
+        #         return redirect(url_name)
 
         current_settings = DIFFICULTY_SETTINGS.get(difficulty, DIFFICULTY_SETTINGS['normal'])
         is_premium_mode = current_settings.get('model_type') == 'premium'
