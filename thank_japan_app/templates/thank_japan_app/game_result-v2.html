@@ -385,6 +385,22 @@ tbody td { padding: 8px; border: none; font-size: 0.82rem; color: var(--ink); }
     padding: 8px; text-decoration: underline; font-weight: 600; margin-top: 6px; font-size: 0.85rem;
 }
 
+.study-more-btn {
+    display: inline-block;
+    margin-top: 8px;
+    color: var(--gold-dark);
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-decoration: none;
+    border-bottom: 1px solid var(--gold-dark);
+    padding-bottom: 1px;
+}
+.study-more-btn:hover,
+.study-more-btn:active {
+    color: var(--ink);
+    border-bottom-color: var(--ink);
+}
+
 @media (max-width: 600px) {
   h1 { font-size: 1.2rem; }
   .score-number { font-size: 1.9rem !important; }
@@ -892,6 +908,28 @@ tbody td { padding: 8px; border: none; font-size: 0.82rem; color: var(--ink); }
                                     {% endif %}
                                      <span>"{{ item.user_input }}"</span></p>
                             {% endif %}
+
+
+                            {% if is_premium_mode %}
+                                {% url 'detail_premium' category=item.object.category slug=item.object.slug as study_url %}
+                            {% else %}
+                                {% url 'category_detail' category=item.object.category slug=item.object.slug as study_url %}
+                            {% endif %}
+
+                            <a href="{{ study_url }}?lang={{ lang_code }}{% if not item.is_correct %}&from=game{% endif %}" class="study-more-btn">
+                                {% if lang_code == 'ja' %}もっと詳しく知る →
+                                {% elif lang_code == 'zh-hant' %}深入了解 →
+                                {% elif lang_code == 'zh-cn' %}深入了解 →
+                                {% elif lang_code == 'ko' %}더 알아보기 →
+                                {% elif lang_code == 'de' %}Mehr erfahren →
+                                {% elif lang_code == 'fr' %}En savoir plus →
+                                {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Saber más →
+                                {% elif lang_code == 'it' %}Scopri di più →
+                                {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Saiba mais →
+                                {% elif lang_code == 'vi' %}Tìm hiểu thêm →
+                                {% elif lang_code == 'th' %}เรียนรู้เพิ่มเติม →
+                                {% else %}Learn More →{% endif %}
+                            </a>
                         </div>
                         
                     </div>
