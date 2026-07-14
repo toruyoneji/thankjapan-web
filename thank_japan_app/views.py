@@ -19,11 +19,12 @@ from django.contrib.auth import authenticate, logout, login as auth_login, logou
 from django.views.decorators.csrf import csrf_exempt
 from django.utils import timezone
 from django.utils.http import urlencode
-from django.contrib.auth.views import PasswordResetView
+from django.contrib.auth.views import PasswordResetView, PasswordResetConfirmView
 from .context_processors import language_context
 from .models import WeeklyScore
 from google.oauth2 import service_account
 from googleapiclient.discovery import build
+from django.urls import reverse
 import logging
 import random
 import re, itertools
@@ -271,17 +272,21 @@ def update_policy_agreement(request):
 
 #password send
 
+
 class CustomPasswordResetView(PasswordResetView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        
         lang_info = language_context(self.request)
         context['lang_code'] = lang_info['lang_code']
         return context
 
+    def get_success_url(self):
+        lang = self.request.GET.get('lang') or self.request.session.get('tj_lang_code', 'en')
+        return reverse('password_reset_done') + f"?lang={lang}"
+
     def form_valid(self, form):
-    
         lang = language_context(self.request)['lang_code']
-            
         opts = {
             'use_https': self.request.is_secure(),
             'token_generator': self.token_generator,
@@ -290,13 +295,18 @@ class CustomPasswordResetView(PasswordResetView):
             'subject_template_name': self.subject_template_name,
             'request': self.request,
             'html_email_template_name': self.html_email_template_name,
-            'extra_email_context': {'lang_code': lang}, 
+            'extra_email_context': {'lang_code': lang}, # メール内リンク用
         }
-        
-
         form.save(**opts)
-        
-        return redirect(self.get_success_url())        
+        return redirect(self.get_success_url())
+
+
+class CustomPasswordResetConfirmView(PasswordResetConfirmView):
+    def get_success_url(self):
+        lang = self.request.GET.get('lang') or self.request.session.get('tj_lang_code', 'en')
+        return reverse('password_reset_complete') + f"?lang={lang}"
+    
+    
     
 #company infomation
 class CompanyFormView(TemplateView):
