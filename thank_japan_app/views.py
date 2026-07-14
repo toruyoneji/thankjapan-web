@@ -276,17 +276,20 @@ def update_policy_agreement(request):
 class CustomPasswordResetView(PasswordResetView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        
-        lang_info = language_context(self.request)
-        context['lang_code'] = lang_info['lang_code']
+        # URLパラメータから取得、なければセッション、なければ en
+        lang = self.request.GET.get('lang') or self.request.session.get('tj_lang_code', 'en')
+        context['lang_code'] = lang
         return context
 
     def get_success_url(self):
+        # 次の画面（Done画面）への遷移時にも言語を確実に引き継ぐ
         lang = self.request.GET.get('lang') or self.request.session.get('tj_lang_code', 'en')
         return reverse('password_reset_done') + f"?lang={lang}"
 
     def form_valid(self, form):
-        lang = language_context(self.request)['lang_code']
+        # 重要：メールの内容（extra_email_context）に渡す言語をここで確定させる
+        lang = self.request.GET.get('lang') or self.request.session.get('tj_lang_code', 'en')
+            
         opts = {
             'use_https': self.request.is_secure(),
             'token_generator': self.token_generator,
@@ -295,11 +298,16 @@ class CustomPasswordResetView(PasswordResetView):
             'subject_template_name': self.subject_template_name,
             'request': self.request,
             'html_email_template_name': self.html_email_template_name,
-            'extra_email_context': {'lang_code': lang}, # メール内リンク用
+            'extra_email_context': {
+                'lang_code': lang,  
+                'site_name': 'Thank Japan'
+            }, 
         }
         form.save(**opts)
+        
         return redirect(self.get_success_url())
-
+    
+    
 
 class CustomPasswordResetConfirmView(PasswordResetConfirmView):
     def get_success_url(self):
