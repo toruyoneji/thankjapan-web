@@ -3239,7 +3239,7 @@ def downgrade_success_v2(request):
 
 def delete_success_v2(request):
    
-    return render(request, 'thank_japan_app/registration/delete_success_v2.html')
+    return render(request, 'thank_japan_app/delete/delete_success_v2.html')
 
 
 
