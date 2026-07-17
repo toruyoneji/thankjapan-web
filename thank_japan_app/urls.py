@@ -38,9 +38,7 @@ from .views import (TopView, TopViewFR, TopViewIT, TopViewPT, TopViewZHHANT,TopV
                     account_settingsESMX, account_settingsFR, account_settingsIT, account_settingsJA,
                     account_settingsKO, account_settingsPT, account_settingsPTBR, account_settingsTH,
                     account_settingsVI, account_settingsZHHANT, account_settingsZHCN,
-                    delete_success, delete_successDE, delete_successENIN, delete_successESES, delete_successZHCN,
-                    delete_successESMX, delete_successFR, delete_successIT, delete_successJA, delete_successKO,
-                    delete_successPT, delete_successPTBR, delete_successTH, delete_successVI, delete_successZHHANT,
+                    delete_success_v2, 
                     downgrade_success_v2, update_policy_agreement, paypal_webhook,
                     CustomPasswordResetView, CustomPasswordResetConfirmView, verify_android_subscription) 
 
@@ -136,21 +134,7 @@ urlpatterns = [
     path('account/settings/zh-cn/', account_settingsZHCN, name='account_settingszhCN'),
     
     #delete-success
-    path('account/delete-success/', delete_success, name='delete_success'),
-    path('account/delete-success/de/', delete_successDE, name='delete_successde'),
-    path('account/delete-success/en-in/', delete_successENIN, name='delete_successenIN'),
-    path('account/delete-success/es-es/', delete_successESES, name='delete_successesES'),
-    path('account/delete-success/es-mx/', delete_successESMX, name='delete_successesMX'),
-    path('account/delete-success/fr/', delete_successFR, name='delete_successfr'),
-    path('account/delete-success/it/', delete_successIT, name='delete_successit'),
-    path('account/delete-success/ja/', delete_successJA, name='delete_successja'),
-    path('account/delete-success/ko/', delete_successKO, name='delete_successko'),
-    path('account/delete-success/pt-br/', delete_successPTBR, name='delete_successptBR'),
-    path('account/delete-success/pt/', delete_successPT, name='delete_successpt'),
-    path('account/delete-success/th/', delete_successTH, name='delete_successth'),
-    path('account/delete-success/vi/', delete_successVI, name='delete_successvi'),
-    path('account/delete-success/zh-hant/', delete_successZHHANT, name='delete_successzhHANT'),
-    path('account/delete-success/zh-cn/', delete_successZHCN, name='delete_successzhCN'),
+    path('account/delete-success/', delete_success_v2, name='delete_success'),
     
     #downgrade
     path('account/downgrade-success/', downgrade_success_v2, name='downgrade_success'),

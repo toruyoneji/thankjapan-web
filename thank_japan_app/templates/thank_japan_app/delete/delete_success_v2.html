@@ -1,0 +1,90 @@
+{% extends 'base/base_contact_thanks.html' %}
+{% load static %}
+
+{% block title %}
+    {% if lang_code == 'ja' %}削除完了 | ThankJapan
+    {% elif lang_code == 'ko' %}삭제 완료 | ThankJapan
+    {% elif lang_code == 'it' %}Eliminazione completata | ThankJapan
+    {% elif lang_code == 'fr' %}Suppression terminée | ThankJapan
+    {% elif lang_code == 'de' %}Löschung abgeschlossen | ThankJapan
+    {% elif lang_code == 'vi' %}Xóa hoàn tất | ThankJapan
+    {% elif lang_code == 'th' %}ลบบัญชีเรียบร้อยแล้ว | ThankJapan
+    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Eliminación completata | ThankJapan
+    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Exclusão concluída | ThankJapan
+    {% elif lang_code == 'zh-cn' %}删除完成 | ThankJapan
+    {% elif lang_code == 'zh-hant' %}刪除完成 | ThankJapan
+    {% else %}Deletion Complete | ThankJapan{% endif %}
+{% endblock %}
+
+{% block thanks_content %}
+    <h2 style="color: var(--ink);">
+        {% if lang_code == 'ja' %}アカウントを削除しました
+        {% elif lang_code == 'ko' %}계정이 삭제되었습니다
+        {% elif lang_code == 'vi' %}Tài khoản đã bị xóa
+        {% elif lang_code == 'zh-hant' %}帳戶已刪除
+        {% elif lang_code == 'zh-cn' %}账户已删除
+        {% elif lang_code == 'th' %}บัญชีของคุณถูกลบแล้ว
+        {% elif lang_code == 'fr' %}Compte supprimé
+        {% elif lang_code == 'de' %}Konto gelöscht
+        {% elif lang_code == 'it' %}Account eliminato
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Cuenta eliminada
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Conta excluída
+        {% else %}Account Deleted{% endif %}
+    </h2>
+
+    <p>
+        {% if lang_code == 'ja' %}全てのデータが削除されました。またのご利用をお待ちしております。
+        {% elif lang_code == 'ko' %}모든 데이터가 삭제되었습니다. 다음에 다시 뵙기를 바랍니다.
+        {% elif lang_code == 'vi' %}Tất cả dữ liệu đã được xóa. Hẹn gặp lại bạn.
+        {% elif lang_code == 'zh-hant' %}您的所有數據已刪除。期待再次見到您！
+        {% elif lang_code == 'zh-cn' %}您的所有数据已删除。期待再次见到您！
+        {% elif lang_code == 'th' %}ข้อมูลทั้งหมดของคุณถูกลบออกแล้ว หวังว่าจะได้พบคุณอีกครั้ง!
+        {% elif lang_code == 'fr' %}Toutes vos données ont été supprimées. Nous espérons vous revoir bientôt !
+        {% elif lang_code == 'de' %}Alle Ihre Daten wurden entfernt. Wir hoffen, Sie bald wiederzusehen!
+        {% elif lang_code == 'it' %}Tutti i tuoi dati sono stati rimossi. Speriamo di rivederti presto!
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Todos tus datos han sido eliminados. ¡Esperamos volver a verte pronto!
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Todos os seus dados foram removidos. Esperamos ver você novamente em breve!
+        {% else %}All your data has been removed. We hope to see you again!{% endif %}
+    </p>
+
+    
+    <p style="font-size: 0.9rem; color: var(--ink-soft); margin-top: 20px; opacity: 0.8;">
+        {% if lang_code == 'ja' %}数秒後にホーム画面へ戻ります...
+        {% elif lang_code == 'ko' %}잠시 후 홈 화면으로 이동합니다...
+        {% elif lang_code == 'vi' %}Đang quay lại trang chủ trong giây lát...
+        {% elif lang_code == 'zh-hant' %}幾秒後將返回首頁...
+        {% elif lang_code == 'zh-cn' %}几秒后将返回首页...
+        {% elif lang_code == 'th' %}กำลังกลับไปยังหน้าหลักในอีกสักครู่...
+        {% elif lang_code == 'fr' %}Retour à l'accueil dans quelques secondes...
+        {% elif lang_code == 'de' %}In wenigen Sekunden werden Sie zur Startseite weitergeleitet...
+        {% elif lang_code == 'it' %}Ritorno alla home page tra pochi secondi...
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Volviendo a la página de inicio en unos segundos...
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Voltando para a página inicial em alguns segundos...
+        {% else %}Returning to home page in a few seconds...{% endif %}
+    </p>
+
+    
+    <div style="margin-top: 30px;">
+        <a class="btn-more" href="{% url 'toppage' %}?lang={{ lang_code }}">
+            {% if lang_code == 'ja' %}ホームに戻る
+            {% elif lang_code == 'ko' %}홈으로 돌아가기
+            {% elif lang_code == 'zh-hant' %}返回首頁
+            {% elif lang_code == 'zh-cn' %}返回首页
+            {% elif lang_code == 'vi' %}Quay lại trang chủ
+            {% elif lang_code == 'th' %}กลับหน้าหลัก
+            {% elif lang_code == 'fr' %}Retour à l'accueil
+            {% elif lang_code == 'de' %}Zurück zur Startseite
+            {% elif lang_code == 'it' %}Torna alla home
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Volver al inicio
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Voltar para o início
+            {% else %}Back to Home{% endif %}
+        </a>
+    </div>
+
+    
+    <script>
+        setTimeout(function() {
+            window.location.href = "{% url 'toppage' %}?lang={{ lang_code }}";
+        }, 4000);
+    </script>
+{% endblock %}

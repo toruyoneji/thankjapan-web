@@ -3237,50 +3237,10 @@ def downgrade_success_v2(request):
 
 #delete_success
 
-def delete_success(request):
-    return render(request, 'thank_japan_app/delete/delete_success.html')
+def delete_success_v2(request):
+   
+    return render(request, 'thank_japan_app/registration/delete_success_v2.html')
 
-def delete_successZHCN(request):
-    return render(request, 'thank_japan_app/delete/delete_success_zh_cn.html')
-
-def delete_successZHHANT(request):
-    return render(request, 'thank_japan_app/delete/delete_success_zh_hant.html')
-
-def delete_successVI(request):
-    return render(request, 'thank_japan_app/delete/delete_success_vi.html')
-
-def delete_successTH(request):
-    return render(request, 'thank_japan_app/delete/delete_success_th.html')
-
-def delete_successPT(request):
-    return render(request, 'thank_japan_app/delete/delete_success_pt.html')
-
-def delete_successPTBR(request):
-    return render(request, 'thank_japan_app/delete/delete_success_pt_br.html')
-
-def delete_successKO(request):
-    return render(request, 'thank_japan_app/delete/delete_success_ko.html')
-
-def delete_successJA(request):
-    return render(request, 'thank_japan_app/delete/delete_success_ja.html')
-
-def delete_successIT(request):
-    return render(request, 'thank_japan_app/delete/delete_success_it.html')
-
-def delete_successFR(request):
-    return render(request, 'thank_japan_app/delete/delete_success_fr.html')
-
-def delete_successESMX(request):
-    return render(request, 'thank_japan_app/delete/delete_success_es_mx.html')
-
-def delete_successESES(request):
-    return render(request, 'thank_japan_app/delete/delete_success_es_es.html')
-
-def delete_successENIN(request):
-    return render(request, 'thank_japan_app/delete/delete_success_en_in.html')
-
-def delete_successDE(request):
-    return render(request, 'thank_japan_app/delete/delete_success_de.html')
 
 
 #free-category
