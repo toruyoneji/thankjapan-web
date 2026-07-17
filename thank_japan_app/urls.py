@@ -41,10 +41,7 @@ from .views import (TopView, TopViewFR, TopViewIT, TopViewPT, TopViewZHHANT,TopV
                     delete_success, delete_successDE, delete_successENIN, delete_successESES, delete_successZHCN,
                     delete_successESMX, delete_successFR, delete_successIT, delete_successJA, delete_successKO,
                     delete_successPT, delete_successPTBR, delete_successTH, delete_successVI, delete_successZHHANT,
-                    downgrade_success, downgrade_successDE, downgrade_successENIN, downgrade_successESES,
-                    downgrade_successESMX, downgrade_successFR, downgrade_successIT, downgrade_successJA, downgrade_successZHCN,
-                    downgrade_successKO, downgrade_successPT, downgrade_successPTBR, downgrade_successTH,
-                    downgrade_successVI, downgrade_successZHHANT, update_policy_agreement, paypal_webhook,
+                    downgrade_success_v2, update_policy_agreement, paypal_webhook,
                     CustomPasswordResetView, CustomPasswordResetConfirmView, verify_android_subscription) 
 
 
@@ -156,21 +153,7 @@ urlpatterns = [
     path('account/delete-success/zh-cn/', delete_successZHCN, name='delete_successzhCN'),
     
     #downgrade
-    path('account/downgrade-success/', downgrade_success, name='downgrade_success'),
-    path('account/downgrade-success/de/', downgrade_successDE, name='downgrade_successde'),
-    path('account/downgrade-success/en-in/', downgrade_successENIN, name='downgrade_successenIN'),
-    path('account/downgrade-success/es-es/', downgrade_successESES, name='downgrade_successesES'),
-    path('account/downgrade-success/es-mx/', downgrade_successESMX, name='downgrade_successesMX'),
-    path('account/downgrade-success/fr/', downgrade_successFR, name='downgrade_successfr'),
-    path('account/downgrade-success/it/', downgrade_successIT, name='downgrade_successit'),
-    path('account/downgrade-success/ja/', downgrade_successJA, name='downgrade_successja'),
-    path('account/downgrade-success/ko/', downgrade_successKO, name='downgrade_successko'),
-    path('account/downgrade-success/pt-br/', downgrade_successPTBR, name='downgrade_successptbr'),
-    path('account/downgrade-success/pt/', downgrade_successPT, name='downgrade_successpt'),
-    path('account/downgrade-success/th/', downgrade_successTH, name='downgrade_successth'),
-    path('account/downgrade-success/vi/', downgrade_successVI, name='downgrade_successvi'),
-    path('account/downgrade-success/zh-hant/', downgrade_successZHHANT, name='downgrade_successzhHANT'),
-    path('account/downgrade-success/zh-cn/', downgrade_successZHCN, name='downgrade_successzhCN'),
+    path('account/downgrade-success/', downgrade_success_v2, name='downgrade_success'),
     
     
     #premium-status

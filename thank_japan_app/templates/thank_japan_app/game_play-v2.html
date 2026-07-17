@@ -1225,7 +1225,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (!isSoundOn) return;
             const w = document.getElementById(isCorrect ? 'correct-flag' : 'incorrect-flag')?.getAttribute('data-word');
             if (isCorrect) playChime();
-            if (w) setTimeout(() => speakJapanese(w, true), 300);
+            if (w) setTimeout(() => speakJapanese(w, true), 200);
         };
 
         const onceInteraction = () => {
@@ -1246,7 +1246,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (config.getAttribute('data-difficulty') !== 'single' && nextUrl) {
             setTimeout(() => {
                 if (!navDone) { navDone = true; window.location.href = nextUrl; }
-            }, isCorrect ? 4000 : 8000);
+            }, isCorrect ? 2000 : 3500);
         }
         return;
     }

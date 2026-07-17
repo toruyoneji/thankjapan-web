@@ -1,0 +1,90 @@
+{% extends 'base/base_contact_thanks.html' %}
+{% load static %}
+
+{% block title %}
+    {% if lang_code == 'ja' %}解約完了 | ThankJapan
+    {% elif lang_code == 'ko' %}해지 완료 | ThankJapan
+    {% elif lang_code == 'it' %}Abbonamento annullato | ThankJapan
+    {% elif lang_code == 'fr' %}Abonnement annulé | ThankJapan
+    {% elif lang_code == 'de' %}Abonnement gekündigt | ThankJapan
+    {% elif lang_code == 'vi' %}Hủy gói hoàn tất | ThankJapan
+    {% elif lang_code == 'th' %}ยกเลิกการสมัครสมาชิกแล้ว | ThankJapan
+    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Suscripción cancelada | ThankJapan
+    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Assinatura cancelada | ThankJapan
+    {% elif lang_code == 'zh-cn' %}订阅已取消 | ThankJapan
+    {% elif lang_code == 'zh-hant' %}訂閱已取消 | ThankJapan
+    {% else %}Subscription Canceled | ThankJapan{% endif %}
+{% endblock %}
+
+{% block thanks_content %}
+    <h2 style="color: var(--ink);">
+        {% if lang_code == 'ja' %}サブスクリプションを解約しました
+        {% elif lang_code == 'ko' %}구독이 취소되었습니다
+        {% elif lang_code == 'zh-hant' %}訂閱已取消
+        {% elif lang_code == 'zh-cn' %}订阅已取消
+        {% elif lang_code == 'vi' %}Đã hủy đăng ký gói Premium
+        {% elif lang_code == 'th' %}ยกเลิกการสมัครสมาชิกแล้ว
+        {% elif lang_code == 'fr' %}Abonnement annulé
+        {% elif lang_code == 'de' %}Abonnement gekündigt
+        {% elif lang_code == 'it' %}Abbonamento annullato
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Suscripción cancelada
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Assinatura cancelada
+        {% else %}Subscription Canceled{% endif %}
+    </h2>
+
+    <p>
+        {% if lang_code == 'ja' %}フリープランへの切り替えが完了しました。
+        {% elif lang_code == 'ko' %}무료 플랜으로 전환되었습니다.
+        {% elif lang_code == 'it' %}Sei passato con successo al Piano Gratuito.
+        {% elif lang_code == 'fr' %}Vous êtes passé avec succès au forfait gratuit.
+        {% elif lang_code == 'de' %}Sie haben erfolgreich zum kostenlosen Plan gewechselt.
+        {% elif lang_code == 'vi' %}Bạn đã chuyển sang Gói Miễn phí thành công.
+        {% elif lang_code == 'th' %}คุณได้เปลี่ยนไปใช้แพ็กเกจฟรีเรียบร้อยแล้ว
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Has cambiado con éxito al Plan Gratuito.
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Alterou com sucesso para o Plano Gratuito.
+        {% elif lang_code == 'zh-cn' %}您已成功切换至免费方案。
+        {% elif lang_code == 'zh-hant' %}您已成功切換至免費方案。
+        {% else %}You have successfully switched to the Free Plan.{% endif %}
+    </p>
+
+    
+    <p style="font-size: 0.9rem; color: var(--ink-soft); margin-top: 20px; opacity: 0.8;">
+        {% if lang_code == 'ja' %}数秒後にホーム画面へ戻ります...
+        {% elif lang_code == 'ko' %}잠시 후 홈 화면으로 이동합니다...
+        {% elif lang_code == 'it' %}Ritorno alla home page tra pochi secondi...
+        {% elif lang_code == 'fr' %}Retour à l'accueil dans quelques secondes...
+        {% elif lang_code == 'de' %}In wenigen Sekunden werden Sie zur Startseite weitergeleitet...
+        {% elif lang_code == 'vi' %}Đang quay lại trang chủ trong giây lát...
+        {% elif lang_code == 'th' %}กำลังกลับไปยังหน้าหลักในอีกสักครู่...
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Volviendo a la página de inicio en unos segundos...
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Voltando para a página inicial em alguns segundos...
+        {% elif lang_code == 'zh-cn' %}几秒后将返回首页...
+        {% elif lang_code == 'zh-hant' %}幾秒後將返回首頁...
+        {% else %}Returning to home page in a few seconds...{% endif %}
+    </p>    
+
+
+    <div style="margin-top: 30px;">
+        <a class="btn-more" href="{% url 'toppage' %}?lang={{ lang_code }}">
+        {% if lang_code == 'ja' %}ホームに戻る
+        {% elif lang_code == 'ko' %}홈으로 돌아가기
+        {% elif lang_code == 'zh-hant' %}返回首頁
+        {% elif lang_code == 'zh-cn' %}返回首页
+        {% elif lang_code == 'th' %}กลับหน้าหลัก
+        {% elif lang_code == 'vi' %}Quay lại trang chủ
+        {% elif lang_code == 'fr' %}Retour à l'accueil
+        {% elif lang_code == 'de' %}Zurück zur Startseite
+        {% elif lang_code == 'it' %}Torna alla home
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Volver al inicio
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Voltar para o início
+        {% else %}Back to Home{% endif %}
+        </a>
+    </div>
+
+    
+    <script>
+        setTimeout(function() {
+            window.location.href = "{% url 'toppage' %}?lang={{ lang_code }}";
+        }, 4000); 
+    </script>
+{% endblock %}
