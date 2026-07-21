@@ -1628,7 +1628,7 @@ def game_result(request):
         higher_scores_count = registered_players.filter(total_score__gt=player.total_score).count()
         current_rank = higher_scores_count + 1
     
-    history = request.session.get('game_history', [])
+    
     model = ThankJapanPremium if is_premium_mode else ThankJapanModel
     played_ids = [h['question_id'] for h in history]
     played_questions = model.objects.in_bulk(played_ids)

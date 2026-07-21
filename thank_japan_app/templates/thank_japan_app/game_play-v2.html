@@ -1369,9 +1369,17 @@ function unlockAudio() {
 }
 
 
+let answerSubmitted = false;  // ← ページ内フラグを追加
+
 function selectCard(el, value) {
+    if (answerSubmitted) return;  // ← 2回目以降のタップを即ブロック
+    answerSubmitted = true;
+
     const allCards = document.querySelectorAll('.karuta-board .choice-btn');
-    allCards.forEach(btn => btn.disabled = true);  
+    allCards.forEach(btn => {
+        btn.disabled = true;
+        btn.style.pointerEvents = 'none';  
+    });
     el.classList.add('card-selected');
     submitChoice(value);
 }
