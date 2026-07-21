@@ -42,6 +42,7 @@
     --matcha-dark: #5e7458;
     --azuki: #a5533f;
     --azuki-dark: #833f2f;
+    --ink-on-green: #f3ead6;
 }
 
 html, body { background-color: var(--washi) !important; }
@@ -89,7 +90,15 @@ body {
   max-width: 900px;
   margin: 10px auto !important; 
   padding: 20px !important;    
-  background: linear-gradient(135deg, #7c9473, #5e7458) !important;
+  background: 
+    repeating-linear-gradient(
+        0deg,
+        rgba(255,255,255,0.05) 0px,
+        rgba(255,255,255,0.05) 2px,
+        transparent 2px,
+        transparent 36px
+    ),
+    linear-gradient(135deg, #7c9473, #5e7458) !important;
   border-radius: 24px;
   border: 1px solid var(--wood-border);
   border-top: 6px solid var(--gold);
@@ -110,7 +119,7 @@ h1 {
 }
 
 h2 {
-  color: var(--ink-soft);
+   color: var(--ink-on-green);
   font-weight: 600;
   margin: 20px 0;
   font-size: 1.2rem;
@@ -272,9 +281,10 @@ img:hover { transform: scale(1.02); }
 @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0; } 100% { opacity: 1; } }
 @keyframes fadeIn { 0% { opacity: 0; transform: translateY(20px); } 100% { opacity: 1; transform: translateY(0); } }
 
-.footer-note { font-size: 0.85rem; color: var(--ink-soft); margin-top: 40px; opacity: 0.9; }
-.footer-note a { color: var(--gold-dark); text-decoration: none; border-bottom: 1px dotted var(--gold-dark); }
-.footer-note a:hover { text-decoration: none; border-bottom: 1px solid var(--gold-dark); }
+.footer-note { font-size: 0.85rem; color: var(--ink-on-green); margin-top: 40px; opacity: 0.95; }
+.footer-note a { color: var(--gold); text-decoration: none; border-bottom: 1px dotted var(--gold); font-weight: bold; }
+.footer-note a:hover { text-decoration: none; border-bottom: 1px solid var(--gold); }
+
 
 .sound-toggle-container {
     display: flex;
@@ -378,6 +388,10 @@ img:hover { transform: scale(1.02); }
 }
 .choice-btn ruby { ruby-align: center; }
 .choice-btn rt { font-size: 0.6rem; color: var(--ink-soft); font-weight: normal; letter-spacing: 0.05em; }
+
+p[style*="color: var(--ink-soft)"] {
+    color: var(--ink-on-green) !important;
+}
 
 .karuta-board {
     display: grid;
@@ -639,6 +653,35 @@ img:hover { transform: scale(1.02); }
     }
     .hint-area span[style*="font-size: 0.9rem"] {
         font-size: 0.75rem !important;
+    }
+
+    .question-visual-area {
+        min-height: auto !important;
+        margin-bottom: 8px !important;
+    }
+    .question-image, .kanji-question-box {
+        height: 18vh !important;
+        max-height: 130px !important;
+        margin: 4px auto !important;
+    }
+    #timer-container {
+        margin: 2px 0 !important;
+    }
+    .hint-area {
+        margin: 8px 0 !important;
+    }
+    #hint-btn {
+        padding: 5px 14px !important;
+        font-size: 0.85rem !important;
+    }
+    .karuta-board {
+        margin: 8px auto 0 !important;
+        max-width: 320px !important;
+        gap: 5px !important;
+    }
+    h1 {
+        margin-bottom: 6px !important;
+        padding-bottom: 4px !important;
     }
     
 }

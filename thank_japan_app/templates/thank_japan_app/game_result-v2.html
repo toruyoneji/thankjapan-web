@@ -512,6 +512,23 @@ tbody td { padding: 8px; border: none; font-size: 0.82rem; color: var(--ink); }
             </p>
             {% endif %}
 
+            <p style="font-size: 1.6rem; font-weight: bold; color: #a97c1f; margin: 10px 0 4px;">
+                🏆
+                {% if lang_code == 'ja' %}獲得スコア
+                {% elif lang_code == 'zh-hant' %}獲得分數
+                {% elif lang_code == 'zh-cn' %}获得分数
+                {% elif lang_code == 'ko' %}획득 점수
+                {% elif lang_code == 'fr' %}Score obtenu
+                {% elif lang_code == 'de' %}Erzielte Punkte
+                {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Puntuación obtenida
+                {% elif lang_code == 'it' %}Punteggio ottenuto
+                {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Pontuação obtida
+                {% elif lang_code == 'vi' %}Điểm đạt được
+                {% elif lang_code == 'th' %}คะแนนที่ได้
+                {% else %}Score Earned
+                {% endif %}
+                : {{ score }}
+            </p>
             
             <p style="font-size: 1rem; color: #888;">+{{ score }} pts added to your Total Exp</p>
         </div>
