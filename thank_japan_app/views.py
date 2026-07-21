@@ -1420,13 +1420,16 @@ def game_answer(request, pk):
         'user_input': user_input,
         'correct_answer': question.name,
         'reaction_time': reaction_time,
+        'points': points,
     })
     request.session['game_history'] = history
-
+    
+    
+    points = 0
     if correct_flag:
-        if reaction_time is not None and reaction_time < 1:
+        if reaction_time is not None and reaction_time < 2:
             points = 3
-        elif reaction_time is not None and reaction_time < 3:
+        elif reaction_time is not None and reaction_time < 4:
             points = 2
         else:
             points = 1
@@ -1559,6 +1562,11 @@ def game_restart(request):
 def game_result(request):
     _, lang_code = get_lang_info(request)
     score = int(request.session.get('game_score', 0))
+    history = request.session.get('game_history', [])
+    time_bonus_total = sum(
+        (h.get('points', 1) - 1) for h in history if h.get('is_correct')
+    )
+    
     player, is_guest = get_current_player_info(request)
     is_premium_mode = request.session.get('is_premium_mode', False)
     difficulty = request.session.get('game_difficulty')
@@ -1635,6 +1643,7 @@ def game_result(request):
         'lang_code': lang_code,
         'player': player, 
         'score': score, 
+        'time_bonus_total': time_bonus_total, 
         'total_played': len(history),
         'is_guest': is_guest, 
         'review_data': review_data, 
@@ -1643,7 +1652,8 @@ def game_result(request):
         'ranking': ranking,
         'weekly_ranking': weekly_ranking,
         'current_rank': current_rank,         
-        'total_registered': total_registered  
+        'total_registered': total_registered,
+        
     })    
                             
 #category select view

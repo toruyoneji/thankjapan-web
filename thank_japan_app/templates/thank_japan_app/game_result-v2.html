@@ -491,6 +491,28 @@ tbody td { padding: 8px; border: none; font-size: 0.82rem; color: var(--ink); }
                     {% else %}Correct!{% endif %}
                 </span>
             </p>
+
+            {% if time_bonus_total > 0 %}
+            <p style="font-size: 1rem; color: #d4af37; font-weight: bold; margin: 5px 0 0;">
+                ⚡
+                {% if lang_code == 'ja' %}タイムボーナス
+                {% elif lang_code == 'zh-hant' %}時間獎勵
+                {% elif lang_code == 'zh-cn' %}时间奖励
+                {% elif lang_code == 'ko' %}타임 보너스
+                {% elif lang_code == 'fr' %}Bonus de rapidité
+                {% elif lang_code == 'de' %}Zeitbonus
+                {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Bono de tiempo
+                {% elif lang_code == 'it' %}Bonus tempo
+                {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Bônus de tempo
+                {% elif lang_code == 'vi' %}Thưởng tốc độ
+                {% elif lang_code == 'th' %}โบนัสเวลา
+                {% else %}Time Bonus
+                {% endif %}
+                : +{{ time_bonus_total }}
+            </p>
+            {% endif %}
+
+            
             <p style="font-size: 1rem; color: #888;">+{{ score }} pts added to your Total Exp</p>
         </div>
       </div>

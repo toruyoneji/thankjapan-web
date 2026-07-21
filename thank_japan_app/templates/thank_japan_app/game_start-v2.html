@@ -535,66 +535,96 @@ body::before, body::after { display: none; }
         </div>
 
         <p class="rule-caption">
-        {% if lang_code == 'ja' %}
-            60秒以内に正しい日本語を選んでください！<br>
-            ・3つの選択肢から1つをタップ<br>
-            <span style="font-size: 0.9em; color: #00bcd4; font-weight: bold;">⏱ タイムアタック：何問解けるか挑戦！</span>
+            {% if lang_code == 'ja' %}
+                60秒以内に正しい日本語を選んでください！<br>
+                ・6枚の札から1つをタップ<br>
+                <span style="font-size: 0.9em; color: #00bcd4; font-weight: bold;">⏱ タイムアタック：何問解けるか挑戦！</span><br>
+                <span style="font-size: 0.85em; color: #d4af37; font-weight: bold;">⚡ 2秒未満で正解:+3点 / 3秒未満:+2点 / それ以上:+1点</span>
 
-        {% elif lang_code == 'zh-hant' %}
-            請在 60 秒内選擇正確的日文！<br>
-            ・從 3 個選項中點擊一個<br>
-            <span style="font-size: 0.9em; color: #00bcd4; font-weight: bold;">⏱ 限時挑戰：看看你能答對多少題！</span>
+            {% elif lang_code == 'zh-hant' %}
+                請在 60 秒内選擇正確的日文！<br>
+                ・從 6 張卡牌中點擊一個<br>
+                <span style="font-size: 0.9em; color: #00bcd4; font-weight: bold;">⏱ 限時挑戰：看看你能答對多少題！</span><br>
+                <span style="font-size: 0.85em; color: #d4af37; font-weight: bold;">⚡ 2秒內答對:+3分 / 3秒內:+2分 / 更慢:+1分</span>
 
-        {% elif lang_code == 'zh-cn' %}
-            请在 60 秒内选择正確的日文！<br>
-            ・从 3 个选项中点击一个<br>
-            <span style="font-size: 0.9em; color: #00bcd4; font-weight: bold;">⏱ 限时挑战：看看你能答对多少题！</span>
+            {% elif lang_code == 'zh-cn' %}
+                请在 60 秒内选择正确的日文！<br>
+                ・从 6 张卡牌中点击一个<br>
+                <span style="font-size: 0.9em; color: #00bcd4; font-weight: bold;">⏱ 限时挑战：看看你能答对多少题！</span><br>
+                <span style="font-size: 0.85em; color: #d4af37; font-weight: bold;">⚡ 2秒内答对:+3分 / 3秒内:+2分 / 更慢:+1分</span>
 
-        {% elif lang_code == 'de' %}
-            Wähle den richtigen japanischen Namen innerhalb von 60 Sek.!<br>
-            - Tippe auf eine der 3 Optionen<br>
-            <span style="font-size: 0.9em; color: #00bcd4; font-weight: bold;">⏱ Time Attack: Wie viele schaffst du?</span>
+            {% elif lang_code == 'de' %}
+                Wähle den richtigen japanischen Namen innerhalb von 60 Sek.!<br>
+                - Tippe auf eine der 6 Karten<br>
+                <span style="font-size: 0.9em; color: #00bcd4; font-weight: bold;">⏱ Time Attack: Wie viele schaffst du?</span><br>
+                <span style="font-size: 0.85em; color: #d4af37; font-weight: bold;">⚡ Unter 2s: +3 Pkt / Unter 3s: +2 Pkt / Langsamer: +1 Pkt</span>
 
-        {% elif lang_code == 'fr' %}
-            Choisis le bon nom japonais en moins de 60 secondes !<br>
-            - Appuie sur l'une des 3 options<br>
-            <span style="font-size: 0.9em; color: #00bcd4; font-weight: bold;">⏱ Time Attack : Combien peux-tu en résoudre ?</span>
+            {% elif lang_code == 'fr' %}
+                Choisis le bon nom japonais en moins de 60 secondes !<br>
+                - Appuie sur l'une des 6 cartes<br>
+                <span style="font-size: 0.9em; color: #00bcd4; font-weight: bold;">⏱ Time Attack : Combien peux-tu en résoudre ?</span><br>
+                <span style="font-size: 0.85em; color: #d4af37; font-weight: bold;">⚡ Moins de 2s : +3 pts / Moins de 3s : +2 pts / Plus lent : +1 pt</span>
 
-        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}
-            ¡Elige el nombre japonés correcto en menos de 60 segundos!<br>
-            - Toca una de las 3 opciones<br>
-            <span style="font-size: 0.9em; color: #00bcd4; font-weight: bold;">⏱ Contrarreloj: ¿Cuántas puedes resolver?</span>
+            {% elif lang_code == 'es-es' %}
+                ¡Elige el nombre japonés correcto en menos de 60 segundos!<br>
+                - Toca una de las 6 cartas<br>
+                <span style="font-size: 0.9em; color: #00bcd4; font-weight: bold;">⏱ Contrarreloj: ¿Cuántas puedes resolver?</span><br>
+                <span style="font-size: 0.85em; color: #d4af37; font-weight: bold;">⚡ Menos de 2s: +3 pts / Menos de 3s: +2 pts / Más lento: +1 pt</span>
 
-        {% elif lang_code == 'it' %}
-            Scegli il nome giapponese corretto entro 60 secondi!<br>
-            - Tocca una delle 3 opzioni<br>
-            <span style="font-size: 0.9em; color: #00bcd4; font-weight: bold;">⏱ Time Attack: Quante ne puoi indovinare?</span>
+            {% elif lang_code == 'es-mx' %}
+                ¡Elige el nombre japonés correcto en menos de 60 segundos!<br>
+                - Toca una de las 6 cartas<br>
+                <span style="font-size: 0.9em; color: #00bcd4; font-weight: bold;">⏱ Contrarreloj: ¿Cuántas puedes resolver?</span><br>
+                <span style="font-size: 0.85em; color: #d4af37; font-weight: bold;">⚡ Menos de 2s: +3 pts / Menos de 3s: +2 pts / Más lento: +1 pt</span>
 
-        {% elif lang_code == 'ko' %}
-            60초 안에 올바른 일본어 이름을 선택하세요!<br>
-            ・3가지 선택지 중 하나를 터치<br>
-            <span style="font-size: 0.9em; color: #00bcd4; font-weight: bold;">⏱ 타임어택: 몇 문제나 맞힐 수 있을까요?</span>
+            {% elif lang_code == 'it' %}
+                Scegli il nome giapponese corretto entro 60 secondi!<br>
+                - Tocca una delle 6 carte<br>
+                <span style="font-size: 0.9em; color: #00bcd4; font-weight: bold;">⏱ Time Attack: Quante ne puoi indovinare?</span><br>
+                <span style="font-size: 0.85em; color: #d4af37; font-weight: bold;">⚡ Meno di 2s: +3 pt / Meno di 3s: +2 pt / Più lento: +1 pt</span>
 
-        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}
-            Escolha o nome japonês correto em até 60 segundos!<br>
-            - Toque em uma das 3 opções<br>
-            <span style="font-size: 0.9em; color: #00bcd4; font-weight: bold;">⏱ Time Attack: Quantas você consegue resolver?</span>
+            {% elif lang_code == 'ko' %}
+                60초 안에 올바른 일본어 이름을 선택하세요!<br>
+                ・6장의 카드 중 하나를 터치<br>
+                <span style="font-size: 0.9em; color: #00bcd4; font-weight: bold;">⏱ 타임어택: 몇 문제나 맞힐 수 있을까요?</span><br>
+                <span style="font-size: 0.85em; color: #d4af37; font-weight: bold;">⚡ 2초 미만:+3점 / 3초 미만:+2점 / 그 이상:+1점</span>
 
-        {% elif lang_code == 'vi' %}
-            Chọn tên tiếng Nhật đúng trong vòng 60 giây!<br>
-            - Chạm vào 1 trong 3 lựa chọn<br>
-            <span style="font-size: 0.9em; color: #00bcd4; font-weight: bold;">⏱ Thử thách thời gian: Bạn giải được bao nhiêu câu?</span>
+            {% elif lang_code == 'pt' %}
+                Escolha o nome japonês correto em até 60 segundos!<br>
+                - Toque em uma das 6 cartas<br>
+                <span style="font-size: 0.9em; color: #00bcd4; font-weight: bold;">⏱ Time Attack: Quantas você consegue resolver?</span><br>
+                <span style="font-size: 0.85em; color: #d4af37; font-weight: bold;">⚡ Menos de 2s: +3 pts / Menos de 3s: +2 pts / Mais lento: +1 pt</span>
 
-        {% elif lang_code == 'th' %}
-            เลือกชื่อภาษาญี่ปุ่นที่ถูกต้องภายใน 60 วินาที!<br>
-            - แตะหนึ่งใน 3 ตัวเลือก<br>
-            <span style="font-size: 0.9em; color: #00bcd4; font-weight: bold;">⏱ Time Attack: มาดูกันว่าคุณจะทำได้กี่ข้อ!</span>
+            {% elif lang_code == 'pt-br' %}
+                Escolha o nome japonês correto em até 60 segundos!<br>
+                - Toque em uma das 6 cartas<br>
+                <span style="font-size: 0.9em; color: #00bcd4; font-weight: bold;">⏱ Time Attack: Quantas você consegue resolver?</span><br>
+                <span style="font-size: 0.85em; color: #d4af37; font-weight: bold;">⚡ Menos de 2s: +3 pts / Menos de 3s: +2 pts / Mais lento: +1 pt</span>
 
-        {% else %}
-            Pick the correct Japanese name within 60 seconds!<br>
-            - Tap one of the 3 choices<br>
-            <span style="font-size: 0.9em; color: #00bcd4; font-weight: bold;">⏱ Time Attack: How many can you solve?</span>
-        {% endif %}
+            {% elif lang_code == 'vi' %}
+                Chọn tên tiếng Nhật đúng trong vòng 60 giây!<br>
+                - Chạm vào 1 trong 6 thẻ bài<br>
+                <span style="font-size: 0.9em; color: #00bcd4; font-weight: bold;">⏱ Thử thách thời gian: Bạn giải được bao nhiêu câu?</span><br>
+                <span style="font-size: 0.85em; color: #d4af37; font-weight: bold;">⚡ Dưới 2 giây: +3 điểm / Dưới 3 giây: +2 điểm / Chậm hơn: +1 điểm</span>
+
+            {% elif lang_code == 'th' %}
+                เลือกชื่อภาษาญี่ปุ่นที่ถูกต้องภายใน 60 วินาที!<br>
+                - แตะหนึ่งใน 6 การ์ด<br>
+                <span style="font-size: 0.9em; color: #00bcd4; font-weight: bold;">⏱ Time Attack: มาดูกันว่าคุณจะทำได้กี่ข้อ!</span><br>
+                <span style="font-size: 0.85em; color: #d4af37; font-weight: bold;">⚡ ต่ำกว่า 2 วิ: +3 คะแนน / ต่ำกว่า 3 วิ: +2 คะแนน / ช้ากว่านั้น: +1 คะแนน</span>
+
+            {% elif lang_code == 'en-in' %}
+                Pick the correct Japanese name within 60 seconds!<br>
+                - Tap one of the 6 cards<br>
+                <span style="font-size: 0.9em; color: #00bcd4; font-weight: bold;">⏱ Time Attack: How many can you solve?</span><br>
+                <span style="font-size: 0.85em; color: #d4af37; font-weight: bold;">⚡ Under 2s: +3pts / Under 3s: +2pts / Slower: +1pt</span>
+
+            {% else %}
+                Pick the correct Japanese name within 60 seconds!<br>
+                - Tap one of the 6 cards<br>
+                <span style="font-size: 0.9em; color: #00bcd4; font-weight: bold;">⏱ Time Attack: How many can you solve?</span><br>
+                <span style="font-size: 0.85em; color: #d4af37; font-weight: bold;">⚡ Under 2s: +3pts / Under 3s: +2pts / Slower: +1pt</span>
+            {% endif %}
         </p>
     </div>
 
