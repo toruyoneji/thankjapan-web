@@ -393,41 +393,34 @@ p[style*="color: var(--ink-soft)"] {
     color: var(--ink-on-green) !important;
 }
 
+
 .karuta-board {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 16px;
+    gap: 12px; 
     width: 100%;
-    max-width: 420px;
-    margin: 15px auto 0;
+    max-width: 360px; 
+    margin: 10px auto 0;
+    padding: 10px;
+    box-sizing: border-box;
 }
 
 .karuta-board .choice-btn {
     width: 100%;
     aspect-ratio: 3 / 4;
-    border-radius: 8px;
-    padding: 4px 2px;
-    font-size: 0.95rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    background: #fdf8ee;
-    border: 2px solid var(--gold);
-    box-shadow: 0 3px 6px rgba(0,0,0,0.25);
+    transition: transform 0.2s ease, background 0.1s ease;
+    position: relative;
+    overflow: visible !important;
 }
+
+
+
 
 .karuta-board .choice-btn:disabled {
     opacity: 0.6;
     cursor: not-allowed;
 }
 
-.karuta-board .choice-btn:nth-child(1) { top: 4%;  left: 2%;  transform: rotate(-6deg); }
-.karuta-board .choice-btn:nth-child(2) { top: 1%;  left: 35%; transform: rotate(4deg); }
-.karuta-board .choice-btn:nth-child(3) { top: 7%;  left: 68%; transform: rotate(-3deg); }
-.karuta-board .choice-btn:nth-child(4) { top: 55%; left: 0%;  transform: rotate(5deg); }
-.karuta-board .choice-btn:nth-child(5) { top: 58%; left: 34%; transform: rotate(-5deg); }
-.karuta-board .choice-btn:nth-child(6) { top: 52%; left: 67%; transform: rotate(3deg); }
 
 
 .choice-btn.card-selected {
@@ -1369,10 +1362,10 @@ function unlockAudio() {
 }
 
 
-let answerSubmitted = false;  // ← ページ内フラグを追加
+let answerSubmitted = false;  
 
 function selectCard(el, value) {
-    if (answerSubmitted) return;  // ← 2回目以降のタップを即ブロック
+    if (answerSubmitted) return;  
     answerSubmitted = true;
 
     const allCards = document.querySelectorAll('.karuta-board .choice-btn');
@@ -1423,6 +1416,19 @@ function showHint() {
 
 document.addEventListener('DOMContentLoaded', function() {
     const config = document.getElementById('game-config');
+
+    const cards = document.querySelectorAll('.karuta-board .choice-btn');
+    cards.forEach(card => {
+    
+    const rotate = (Math.random() * 12 - 6).toFixed(2); 
+    const scale = (Math.random() * 0.05 + 0.85).toFixed(2); 
+    const translateX = (Math.random() * 4 - 2).toFixed(2); 
+    const translateY = (Math.random() * 4 - 2).toFixed(2); 
+    
+    card.style.transform = `rotate(${rotate}deg) scale(${scale}) translate(${translateX}px, ${translateY}px)`;
+    });
+
+
     if (!config) return;
 
     const sBtn = document.getElementById('sound-toggle-btn');
