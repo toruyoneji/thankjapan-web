@@ -417,6 +417,10 @@ p[style*="color: var(--ink-soft)"] {
     box-shadow: 0 3px 6px rgba(0,0,0,0.25);
 }
 
+.karuta-board .choice-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
 
 .karuta-board .choice-btn:nth-child(1) { top: 4%;  left: 2%;  transform: rotate(-6deg); }
 .karuta-board .choice-btn:nth-child(2) { top: 1%;  left: 35%; transform: rotate(4deg); }
@@ -683,6 +687,26 @@ p[style*="color: var(--ink-soft)"] {
     h1 {
         margin-bottom: 6px !important;
         padding-bottom: 4px !important;
+    }
+
+    @media (max-width: 380px) {
+    .karuta-board {
+        max-width: 100% !important;
+        gap: 6px !important;
+    }
+    .karuta-board .choice-btn {
+        font-size: 0.7rem !important;
+        padding: 2px !important;
+    }
+    .question-image, .kanji-question-box {
+        height: 14vh !important;
+        max-height: 110px !important;
+    }
+    h1 { font-size: 1.1rem !important; }
+    #time-left { font-size: 1rem !important; }
+    .hint-area p, .hint-area span { font-size: 0.7rem !important; }
+    #hint-btn { padding: 4px 10px !important; font-size: 0.75rem !important; }
+    .main2 { padding: 8px 6px !important; }
     }
     
 }
@@ -1344,6 +1368,8 @@ function unlockAudio() {
 
 
 function selectCard(el, value) {
+    const allCards = document.querySelectorAll('.karuta-board .choice-btn');
+    allCards.forEach(btn => btn.disabled = true);  
     el.classList.add('card-selected');
     submitChoice(value);
 }
