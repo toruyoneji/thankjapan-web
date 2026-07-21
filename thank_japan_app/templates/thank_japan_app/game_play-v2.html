@@ -377,6 +377,24 @@ img:hover { transform: scale(1.02); }
 .choice-btn ruby { ruby-align: center; }
 .choice-btn rt { font-size: 0.6rem; color: var(--ink-soft); font-weight: normal; letter-spacing: 0.05em; }
 
+.karuta-grid {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+}
+.karuta-grid .choice-btn {
+    max-width: none;
+    width: 100%;
+    padding: 14px 8px;
+    font-size: 1.1rem;
+    aspect-ratio: 3 / 4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 @media (hover: hover) {
     .choice-btn:hover {
         background: #eaf3e4;
@@ -528,6 +546,9 @@ img:hover { transform: scale(1.02); }
     .kanji-text { font-size: 4rem; letter-spacing: 5px; }
     .kanji-question-box { height: 200px; }
     .mobile-mini-nav { display: flex !important; }
+
+    .karuta-grid { gap: 8px; }
+    .karuta-grid .choice-btn { font-size: 0.95rem; padding: 8px 4px; }
 }
 </style>
 
@@ -607,6 +628,26 @@ img:hover { transform: scale(1.02); }
         </div>
     </div>
   {% endif %}
+
+  <p style="font-size: 1rem; color: var(--ink-soft); font-weight: bold; margin-bottom: 8px; letter-spacing: 2px;">
+    {% if lang_code == 'ja' %}よみふだ
+    {% elif lang_code == 'zh-hant' %}讀牌
+    {% elif lang_code == 'zh-cn' %}读牌
+    {% elif lang_code == 'ko' %}읽기 카드
+    {% elif lang_code == 'fr' %}Carte à lire
+    {% elif lang_code == 'th' %}การ์ดอ่าน
+    {% elif lang_code == 'vi' %}Thẻ đọc
+    {% elif lang_code == 'es-es' %}Carta de lectura
+    {% elif lang_code == 'es-mx' %}Carta de lectura
+    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Carta de leitura
+    {% elif lang_code == 'de' %}Lesekarte
+    {% elif lang_code == 'it' %}Carta da leggere
+    {% elif lang_code == 'en-in' %}Question Card
+    {% else %}Question Card
+    {% endif %}
+</p>
+
+<div class="question-visual-area" style="min-height: 250px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
     
     <div class="question-visual-area" style="min-height: 250px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
         {% if is_kanji_mode %}
@@ -704,7 +745,7 @@ img:hover { transform: scale(1.02); }
 
     
     <p id="english-hint-text" style="display: none; font-size: 1.2rem; color: #833f2f; margin-top: 10px; font-family: 'Poppins', sans-serif;">
-        <!-- （既存の Meaning 表記ロジックをそのまま使用） -->
+        
         {% if lang_code == 'ja' %}意味:
         {% elif lang_code == 'zh-hant' %}意思:
         {% elif lang_code == 'zh-cn' %}含义:
@@ -960,10 +1001,28 @@ img:hover { transform: scale(1.02); }
   {% else %}
 
     <div class="quiz-section" style="margin-top: 20px;">
+         <p style="font-size: 0.95rem; color: var(--ink-soft); margin-bottom: 15px;">
+            {% if lang_code == 'ja' %}この絵に合う「とりふだ」を素早く取ろう
+            {% elif lang_code == 'zh-hant' %}快速選出符合圖片的「取牌」吧
+            {% elif lang_code == 'zh-cn' %}快速选出符合图片的“取牌”吧
+            {% elif lang_code == 'ko' %}이 그림에 맞는 "받는 카드"를 빨리 찾아보세요
+            {% elif lang_code == 'fr' %}Trouve vite la carte qui correspond à l'image !
+            {% elif lang_code == 'th' %}รีบหยิบการ์ดที่ตรงกับภาพนี้
+            {% elif lang_code == 'vi' %}Nhanh tay chọn thẻ khớp với hình này
+            {% elif lang_code == 'es-es' %}¡Elige rápido la carta que coincide con esta imagen!
+            {% elif lang_code == 'es-mx' %}¡Elige rápido la carta que coincida con esta imagen!
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Escolha rapidamente a carta que combina com esta imagem!
+            {% elif lang_code == 'de' %}Wähle schnell die passende Karte zu diesem Bild!
+            {% elif lang_code == 'it' %}Scegli velocemente la carta che corrisponde a questa immagine!
+            {% elif lang_code == 'en-in' %}Quickly pick the card that matches this picture!
+            {% else %}Quickly pick the card that matches this picture!
+            {% endif %}
+        </p>
+        
         <form method="post" action="{% url 'game_answer' object.id %}" id="answer-form" hx-post="{% url 'game_answer' object.id %}">
             {% csrf_token %}
             <input type="hidden" name="answer" id="answer-input">
-            <div class="choices-container" style="display: flex; flex-direction: column; gap: 15px; align-items: center;">
+            <div class="choices-container karuta-grid">
                 {% for choice in choices %}
                     <button type="button" class="choice-btn" onclick="submitChoice('{{ choice.name }}')">
                         {% if is_kanji_mode %}

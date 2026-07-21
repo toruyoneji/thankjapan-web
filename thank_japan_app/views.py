@@ -1344,15 +1344,16 @@ def game_play(request):
         choice_ids = request.session.get('current_choices')
         choices = [get_object_or_404(model, id=cid) for cid in choice_ids]
     else:
+        KARUTA_DUMMY_COUNT = 5
         dummy_pool = model.objects.filter(category=question.category).exclude(id=question.id).exclude(jpname=question.jpname)
         if is_kanji_mode:
             dummy_pool = dummy_pool.filter(kanji_name__regex=r'[一-龠]')
-        if dummy_pool.count() < 2:
+        if dummy_pool.count() < KARUTA_DUMMY_COUNT:
             dummy_pool = model.objects.exclude(id=question.id).exclude(jpname=question.jpname)
             if is_kanji_mode:
                 dummy_pool = dummy_pool.filter(kanji_name__regex=r'[一-龠]')
         
-        num_to_sample = min(dummy_pool.count(), 2)
+        num_to_sample = min(dummy_pool.count(), KARUTA_DUMMY_COUNT)
         dummies = random.sample(list(dummy_pool), num_to_sample)
         choice_objects = [question] + dummies
         random.shuffle(choice_objects)
@@ -1361,6 +1362,7 @@ def game_play(request):
         request.session['choice_index_check'] = index
 
     db_answer = extract_base_name(question.name).lower()
+    request.session['question_start_time'] = time.time()
     return render(request, 'thank_japan_app/game_play-v2.html', {
         'object': question,
         'choices': choices,
@@ -1397,6 +1399,12 @@ def game_answer(request, pk):
 
     user_input = request.POST.get('answer', '').strip().lower()
     
+    question_start_time = request.session.get('question_start_time')
+    if question_start_time:
+        reaction_time = round(time.time() - question_start_time, 1)
+    else:
+        reaction_time = None
+    
     client_seconds_left = request.POST.get('seconds_left')
     if client_seconds_left:
         request.session['frozen_seconds_left'] = int(client_seconds_left)
@@ -1411,11 +1419,18 @@ def game_answer(request, pk):
         'is_correct': correct_flag,
         'user_input': user_input,
         'correct_answer': question.name,
+        'reaction_time': reaction_time,
     })
     request.session['game_history'] = history
 
     if correct_flag:
-        request.session['game_score'] = request.session.get('game_score', 0) + 1
+        if reaction_time is not None and reaction_time < 1:
+            points = 3
+        elif reaction_time is not None and reaction_time < 3:
+            points = 2
+        else:
+            points = 1
+        request.session['game_score'] = request.session.get('game_score', 0) + points
 
     index = request.session.get('game_current_index', 0)
     ids = request.session.get('game_question_ids', [])
@@ -1433,6 +1448,7 @@ def game_answer(request, pk):
         'choices': choices,
         'user_input': user_input,
         'is_correct': correct_flag,
+        'reaction_time': reaction_time,
         'show_result': True,
         'is_last_question': is_last_question,
         'current_index': index + 1,
@@ -1492,11 +1508,7 @@ def game_restart(request):
         selected_question_ids = [question.id]
         difficulty = 'single'
     else:
-        # premium_only = ['n5_premium', 'n4_premium', 'n3_premium']
-        # if difficulty in premium_only:
-        #     if not is_premium:
-        #         url_name, _ = get_lang_info(request)
-        #         return redirect(url_name)
+        
 
         current_settings = DIFFICULTY_SETTINGS.get(difficulty, DIFFICULTY_SETTINGS['normal'])
         is_premium_mode = current_settings.get('model_type') == 'premium'
