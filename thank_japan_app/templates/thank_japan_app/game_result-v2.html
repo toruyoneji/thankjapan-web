@@ -473,8 +473,9 @@ tbody td { padding: 8px; border: none; font-size: 0.82rem; color: var(--ink); }
             <p style="font-size: 1.1rem; color: #666; margin-bottom: 5px; font-weight: bold;">
                 ⏱ 60s Challenge
             </p>
+
             <p style="font-size: 2.2rem; font-weight: bold; color: #333; margin: 0;">
-                <span class="score-number" id="score" style="color: #4caf50;">{{ score }}</span>
+                <span class="score-number" id="score" style="color: #4caf50;">{{ correct_count }}</span>
                 <span style="font-size: 1.2rem; color: #999;"> / {{ total_played }}</span>
                 <span style="font-size: 1.2rem; margin-left: 5px;">
                     {% if lang_code == 'ja' %}正解!
@@ -529,7 +530,7 @@ tbody td { padding: 8px; border: none; font-size: 0.82rem; color: var(--ink); }
                 {% endif %}
                 : {{ score }}
             </p>
-            
+
             <p style="font-size: 1rem; color: #888;">+{{ score }} pts added to your Total Exp</p>
         </div>
       </div>

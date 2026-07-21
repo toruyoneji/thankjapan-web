@@ -1565,6 +1565,7 @@ def game_result(request):
     time_bonus_total = sum(
         (h.get('points', 1) - 1) for h in history if h.get('is_correct')
     )
+    correct_count = sum(1 for h in history if h.get('is_correct'))
     
     player, is_guest = get_current_player_info(request)
     is_premium_mode = request.session.get('is_premium_mode', False)
@@ -1642,7 +1643,8 @@ def game_result(request):
         'lang_code': lang_code,
         'player': player, 
         'score': score, 
-        'time_bonus_total': time_bonus_total, 
+        'time_bonus_total': time_bonus_total,
+        'correct_count': correct_count, 
         'total_played': len(history),
         'is_guest': is_guest, 
         'review_data': review_data, 
