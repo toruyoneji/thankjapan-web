@@ -1412,6 +1412,16 @@ def game_answer(request, pk):
     user_answer_cleaned = extract_base_name(user_input).lower()
     db_answer_cleaned = extract_base_name(question.name).lower()
     correct_flag = (user_answer_cleaned == db_answer_cleaned)
+    
+    points = 0
+    if correct_flag:
+        if reaction_time is not None and reaction_time < 2:
+            points = 3
+        elif reaction_time is not None and reaction_time < 4:
+            points = 2
+        else:
+            points = 1
+        request.session['game_score'] = request.session.get('game_score', 0) + points
 
     history = request.session.get('game_history', [])
     history.append({
@@ -1424,17 +1434,6 @@ def game_answer(request, pk):
     })
     request.session['game_history'] = history
     
-    
-    points = 0
-    if correct_flag:
-        if reaction_time is not None and reaction_time < 2:
-            points = 3
-        elif reaction_time is not None and reaction_time < 4:
-            points = 2
-        else:
-            points = 1
-        request.session['game_score'] = request.session.get('game_score', 0) + points
-
     index = request.session.get('game_current_index', 0)
     ids = request.session.get('game_question_ids', [])
     is_last_question = (index + 1) >= len(ids)
