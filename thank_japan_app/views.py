@@ -1386,6 +1386,8 @@ def game_answer(request, pk):
     if request.method != 'POST':
         return redirect('game_play')
 
+    index = request.session.get('game_current_index', 0)
+
     player, is_guest = get_current_player_info(request)
     is_premium_mode = request.session.get('is_premium_mode', False)
     premium_url_name, lang_code = get_lang_info(request)
@@ -1396,6 +1398,40 @@ def game_answer(request, pk):
     difficulty = request.session.get('game_difficulty', 'normal')
     settings = DIFFICULTY_SETTINGS.get(difficulty, {})
     is_kanji_mode = settings.get('is_kanji_mode', False)
+
+    ids = request.session.get('game_question_ids', [])
+    is_last_question = (index + 1) >= len(ids)
+    choice_ids = request.session.get('current_choices', [])
+    choices = [get_object_or_404(model, id=cid) for cid in choice_ids]
+    current_time = time.time()
+    game_end_time = request.session.get('game_end_time', current_time)
+    seconds_left = int(game_end_time - current_time)
+
+    
+    if request.session.get('last_answered_index') == index:
+        history = request.session.get('game_history', [])
+        last_entry = history[-1] if history else {}
+        return render(request, 'thank_japan_app/game_play-v2.html', {
+            'object': question,
+            'choices': choices,
+            'user_input': last_entry.get('user_input', ''),
+            'is_correct': last_entry.get('is_correct', False),
+            'reaction_time': last_entry.get('reaction_time'),
+            'show_result': True,
+            'is_last_question': is_last_question,
+            'current_index': index + 1,
+            'total_questions': len(ids),
+            'score': request.session.get('game_score', 0),
+            'player': player,
+            'is_guest': is_guest,
+            'seconds_left': seconds_left,
+            'difficulty': difficulty,
+            'is_premium_mode': is_premium_mode,
+            'is_kanji_mode': is_kanji_mode,
+            'lang_code': lang_code,
+        })
+    request.session['last_answered_index'] = index
+    
 
     user_input = request.POST.get('answer', '').strip().lower()
     
@@ -1433,17 +1469,6 @@ def game_answer(request, pk):
         'points': points,
     })
     request.session['game_history'] = history
-    
-    index = request.session.get('game_current_index', 0)
-    ids = request.session.get('game_question_ids', [])
-    is_last_question = (index + 1) >= len(ids)
-
-    choice_ids = request.session.get('current_choices', [])
-    choices = [get_object_or_404(model, id=cid) for cid in choice_ids]
-
-    current_time = time.time()
-    game_end_time = request.session.get('game_end_time', current_time)
-    seconds_left = int(game_end_time - current_time)
 
     return render(request, 'thank_japan_app/game_play-v2.html', {
         'object': question,
@@ -1464,7 +1489,6 @@ def game_answer(request, pk):
         'is_kanji_mode': is_kanji_mode,  
         'lang_code': lang_code,
     })    
-    
                 
 def game_next_question(request):
     request.session['game_current_index'] = request.session.get('game_current_index', 0) + 1
