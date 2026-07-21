@@ -1567,7 +1567,7 @@ def game_restart(request):
     keys_to_clear = [
         'game_question_ids', 'game_current_index', 'game_score', 'game_difficulty', 
         'game_history', 'score_saved', 'is_premium_mode', 
-        'game_end_time', 'current_choices', 'choice_index_check'
+        'game_end_time', 'current_choices', 'choice_index_check','last_answered_index',
     ]
     for key in keys_to_clear: request.session.pop(key, None)
 
