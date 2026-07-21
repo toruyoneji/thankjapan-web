@@ -45,6 +45,8 @@
 }
 
 html, body { background-color: var(--washi) !important; }
+html, body { overflow-x: hidden !important; }
+.main2 { overflow-x: hidden; }
 
 body {
   background-color: var(--washi);
@@ -377,24 +379,39 @@ img:hover { transform: scale(1.02); }
 .choice-btn ruby { ruby-align: center; }
 .choice-btn rt { font-size: 0.6rem; color: var(--ink-soft); font-weight: normal; letter-spacing: 0.05em; }
 
-.karuta-grid {
-    display: grid !important;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
+.karuta-board {
+    position: relative;
     width: 100%;
     max-width: 500px;
-    margin: 0 auto;
+    aspect-ratio: 4 / 3;
+    margin: 20px auto;
+    background: linear-gradient(135deg, #7c9473, #5e7458) !important;
+    border-radius: 16px;
+    border: 3px solid #a97c1f;
+    overflow: hidden;
+    box-sizing: border-box;
 }
-.karuta-grid .choice-btn {
-    max-width: none;
-    width: 100%;
-    padding: 14px 8px;
-    font-size: 1.1rem;
-    aspect-ratio: 3 / 4;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+
+.karuta-board .choice-btn {
+    position: absolute;
+    width: 30%;
+    max-width: 140px;
+    padding: 10px 4px;
+    font-size: 1rem;
+    box-sizing: border-box;
+    text-align: center;
+    margin: 0;
+    background: #fff !important;
 }
+
+.karuta-board .choice-btn:nth-child(1) { top: 4%;  left: 2%;  transform: rotate(-6deg); }
+.karuta-board .choice-btn:nth-child(2) { top: 1%;  left: 35%; transform: rotate(4deg); }
+.karuta-board .choice-btn:nth-child(3) { top: 7%;  left: 68%; transform: rotate(-3deg); }
+.karuta-board .choice-btn:nth-child(4) { top: 55%; left: 0%;  transform: rotate(5deg); }
+.karuta-board .choice-btn:nth-child(5) { top: 58%; left: 34%; transform: rotate(-5deg); }
+.karuta-board .choice-btn:nth-child(6) { top: 52%; left: 67%; transform: rotate(3deg); }
+
+
 @media (hover: hover) {
     .choice-btn:hover {
         background: #eaf3e4;
@@ -546,9 +563,8 @@ img:hover { transform: scale(1.02); }
     .kanji-text { font-size: 4rem; letter-spacing: 5px; }
     .kanji-question-box { height: 200px; }
     .mobile-mini-nav { display: flex !important; }
-
-    .karuta-grid { gap: 8px; }
-    .karuta-grid .choice-btn { font-size: 0.95rem; padding: 8px 4px; }
+    .karuta-board .choice-btn { font-size: 0.85rem; padding: 8px 3px; }
+    
 }
 </style>
 
@@ -1018,11 +1034,11 @@ img:hover { transform: scale(1.02); }
             {% else %}Quickly pick the card that matches this picture!
             {% endif %}
         </p>
-        
+
         <form method="post" action="{% url 'game_answer' object.id %}" id="answer-form" hx-post="{% url 'game_answer' object.id %}">
             {% csrf_token %}
             <input type="hidden" name="answer" id="answer-input">
-            <div class="choices-container karuta-grid">
+            <div class="choices-container karuta-board">
                 {% for choice in choices %}
                     <button type="button" class="choice-btn" onclick="submitChoice('{{ choice.name }}')">
                         {% if is_kanji_mode %}
