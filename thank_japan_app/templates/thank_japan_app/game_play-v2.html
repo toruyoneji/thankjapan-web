@@ -89,7 +89,7 @@ body {
   max-width: 900px;
   margin: 10px auto !important; 
   padding: 20px !important;    
-  background: var(--washi-card);
+  background: linear-gradient(135deg, #7c9473, #5e7458) !important;
   border-radius: 24px;
   border: 1px solid var(--wood-border);
   border-top: 6px solid var(--gold);
@@ -624,10 +624,21 @@ img:hover { transform: scale(1.02); }
     .result-section p[style*="font-size: 1.8em"] {
         font-size: 1em !important;
     }
+    
+    .result-section {
+        margin-top: 0 !important;
+    }
     #voice-play-btn {
-        width: 48px !important;
-        height: 48px !important;
-        font-size: 1.5rem !important;
+        width: 44px !important;
+        height: 44px !important;
+        font-size: 1.3rem !important;
+        margin-bottom: 0 !important;
+    }
+    .hint-area > div[style*="flex-direction: column"] {
+        gap: 2px !important;
+    }
+    .hint-area span[style*="font-size: 0.9rem"] {
+        font-size: 0.75rem !important;
     }
     
 }
@@ -866,8 +877,7 @@ img:hover { transform: scale(1.02); }
     {% if is_correct %}
         
         <div id="correct-flag" data-word="{{ object.jpname }}"></div>
-        <div style="font-size: 8rem; line-height: 1;">✅</div>
-
+        
         <h2 style="color: #5e7458; font-size: 1.8em; text-shadow: none;">
             {% if lang_code == 'ja' %}✅ 正解！
             {% elif lang_code == 'zh-hant' %}✅ 正確！
@@ -916,7 +926,6 @@ img:hover { transform: scale(1.02); }
     {% else %}
         
         <div id="incorrect-flag" data-word="{{ object.jpname }}"></div>
-        <div style="font-size: 8rem; line-height: 1;">❌</div>
 
         <h2 style="color: #833f2f; font-size: 1.8em; text-shadow: none;">
             {% if lang_code == 'ja' %}❌ 不正解...
