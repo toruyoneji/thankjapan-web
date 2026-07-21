@@ -387,7 +387,8 @@ img:hover { transform: scale(1.02); }
     text-shadow: none;
 }
 .choice-btn ruby { ruby-align: center; }
-.choice-btn rt { font-size: 0.6rem; color: var(--ink-soft); font-weight: normal; letter-spacing: 0.05em; }
+.choice-btn rt { font-size: 0.55rem !important; color: var(--ink-soft); font-weight: normal; letter-spacing: 0.05em; transform: scale(0.9);
+}
 
 p[style*="color: var(--ink-soft)"] {
     color: var(--ink-on-green) !important;
@@ -398,11 +399,10 @@ p[style*="color: var(--ink-soft)"] {
 .karuta-board {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 12px; 
+    gap: 5px !important; 
     width: 100%;
-    max-width: 360px; 
+    max-width: 320px;
     margin: 15px auto 0;
-
     background: #4a5d3f !important; 
     
     background-image: 
@@ -419,17 +419,14 @@ p[style*="color: var(--ink-soft)"] {
 .karuta-board .choice-btn {
     width: 100%;
     aspect-ratio: 3 / 4;
-    
     background: linear-gradient(135deg, #ffffff 0%, #fdf8ee 100%) !important;
     
     border: 2.5px solid #d4af37 !important;
-    border-radius: 4px !important; 
-    
+    border-radius: 4px !important;    
     box-shadow: 2px 3px 6px rgba(0,0,0,0.35) !important;
-    
     color: #2a1d13 !important;
     font-weight: 800 !important;
-    font-size: 0.95rem;
+    font-size: 0.85rem !important;
     
     display: flex;
     align-items: center;
@@ -1456,11 +1453,11 @@ document.addEventListener('DOMContentLoaded', function() {
     const cards = document.querySelectorAll('.karuta-board .choice-btn');
     cards.forEach(card => {
     
-    const rotate = (Math.random() * 12 - 6).toFixed(2); 
-    const scale = (Math.random() * 0.05 + 0.85).toFixed(2); 
-    const translateX = (Math.random() * 4 - 2).toFixed(2); 
-    const translateY = (Math.random() * 4 - 2).toFixed(2); 
-    
+    const rotate = (Math.random() * 10 - 5).toFixed(2);
+    const scale = (Math.random() * 0.10 + 0.75).toFixed(2);
+    const translateX = (Math.random() * 4 - 2).toFixed(2);
+    const translateY = (Math.random() * 4 - 2).toFixed(2);
+
     card.style.transform = `rotate(${rotate}deg) scale(${scale}) translate(${translateX}px, ${translateY}px)`;
     });
 
