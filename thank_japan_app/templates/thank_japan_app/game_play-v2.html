@@ -395,6 +395,7 @@ p[style*="color: var(--ink-soft)"] {
 .karuta-board {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
+    align-items: start !important;
     gap: 6px !important;
     width: 95% !important;
     max-width: 280px !important;
@@ -412,52 +413,63 @@ p[style*="color: var(--ink-soft)"] {
 
 .karuta-board .choice-btn {
     width: 100% !important;
-    height: 130px !important;
+    min-height: 130px !important;
     background: linear-gradient(135deg, #ffffff 0%, #fdf8ee 100%) !important;
     border: 2px solid #d4af37 !important;
     border-radius: 4px !important;
     box-shadow: 2px 3px 6px rgba(0,0,0,0.3) !important;
     color: #2a1d13 !important;
     font-weight: 800 !important;
-    
+
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
-    
-    font-size: 0.85rem !important;
-    padding: 10px 4px !important;
-    line-height: 1.2 !important;
+
     letter-spacing: 0.05em !important;
     line-break: strict !important;
     overflow-wrap: normal !important;
-    
+
     position: relative;
     overflow: hidden !important;
     transition: transform 0.2s ease, background 0.1s ease;
 }
 
-
 .choice-btn rt {
     display: none !important;
 }
 
+.karuta-board .choice-btn.overflow-tall {
+    height: auto !important;
+    overflow: visible !important;
+}
 
-.karuta-board .choice-btn .card-text {
-    writing-mode: vertical-rl;   
+.karuta-board .choice-btn.vertical-card .card-text {
+    writing-mode: vertical-rl;
     text-orientation: upright;
     display: inline-block;
-    max-height: 100%;            
+    max-height: 100%;
+    font-size: 0.85rem;
+}
+
+.karuta-board .choice-btn.horizontal-card .card-text {
+    writing-mode: horizontal-tb;
+    display: block;
+    width: 100%;
+    text-align: center;
+    word-break: keep-all;
+    overflow-wrap: break-word;
+    padding: 4px;
+    box-sizing: border-box;
 }
 
 .choice-btn.card-selected {
     background: #d4af37 !important;
     color: #ffffff !important;
     border-color: #ffffff !important;
-    transform: scale(1.1) rotate(0deg) !important; 
+    transform: scale(1.1) rotate(0deg) !important;
     box-shadow: 0 10px 20px rgba(0,0,0,0.5) !important;
     z-index: 10;
 }
-
 
 
 .karuta-board .choice-btn:disabled {
@@ -1467,45 +1479,57 @@ function showHint() {
     if (b && t) { t.style.display = 'block'; b.style.display = 'none'; }
 }
 
-function fitVerticalText(card) {
-    const maxFontSize = 0.85;
-    const minFontSize = 0.45;
-    const step = 0.02;
-    const maxColumns = 3;
-
+function fitCardText(card) {
     let textSpan = card.querySelector('.card-text');
-    if (!textSpan) {
-        const originalText = card.innerText;
-        card.innerHTML = '';
-        textSpan = document.createElement('span');
-        textSpan.className = 'card-text';
-        textSpan.innerText = originalText;
-        card.appendChild(textSpan);
-        card.dataset.originalText = originalText;
-    }
-    const originalText = card.dataset.originalText;
-    textSpan.innerText = originalText;
+    const freshText = textSpan ? textSpan.innerText : card.innerText;
 
-    let fontSize = maxFontSize;
+    card.innerHTML = '';
+    textSpan = document.createElement('span');
+    textSpan.className = 'card-text';
+    textSpan.innerText = freshText;
+    card.appendChild(textSpan);
 
-    function getColumns() {
-        const lineHeightPx = parseFloat(getComputedStyle(textSpan).lineHeight);
-        const spread = Math.max(textSpan.scrollWidth, textSpan.offsetWidth);
-        return Math.ceil(spread / lineHeightPx);
-    }
+    const charCount = freshText.replace(/\s+/g, '').length;
+    card.style.height = "130px"; 
+    card.classList.remove('overflow-tall');
 
-    while (fontSize > minFontSize) {
-        card.style.fontSize = fontSize + "rem";
-        if (getColumns() <= maxColumns) break;
-        fontSize -= step;
+    if (charCount <= 6) {
+        
+        card.classList.add('vertical-card');
+        card.classList.remove('horizontal-card');
+        textSpan.style.fontSize = "0.85rem";
+        return;
     }
-    card.style.fontSize = fontSize + "rem";
 
     
-    let text = originalText;
-    while (getColumns() > maxColumns && text.length > 2) {
-        text = text.slice(0, -1);
-        textSpan.innerText = text + "…";
+    card.classList.add('horizontal-card');
+    card.classList.remove('vertical-card');
+
+    const maxFontSize = 0.75;
+    const minFontSize = 0.42;
+    const step = 0.02;
+    const innerHeight = () => card.clientHeight - 16; 
+
+    let fontSize = maxFontSize;
+    textSpan.style.fontSize = fontSize + "rem";
+    textSpan.style.lineHeight = "1.4";
+
+    while (fontSize > minFontSize) {
+        textSpan.style.fontSize = fontSize + "rem";
+        if (textSpan.scrollHeight <= innerHeight()) break;
+        fontSize -= step;
+    }
+    textSpan.style.fontSize = fontSize + "rem";
+
+    
+    if (textSpan.scrollHeight > innerHeight()) {
+        textSpan.style.lineHeight = "1.2";
+    }
+
+    
+    if (textSpan.scrollHeight > innerHeight()) {
+        card.classList.add('overflow-tall');
+        card.style.height = "auto";
     }
 }
 
@@ -1516,7 +1540,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const cards = document.querySelectorAll('.karuta-board .choice-btn');
     cards.forEach(card => {
         card.style.transform = "scale(0.85) rotate(0deg)";
-        fitVerticalText(card);
+        fitCardText(card);
     });
 
 
