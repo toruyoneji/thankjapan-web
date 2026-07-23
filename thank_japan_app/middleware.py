@@ -11,3 +11,13 @@ class RedirectToWwwMiddleware:
             new_url = request.build_absolute_uri().replace('thankjapan.com', 'www.thankjapan.com')
             return HttpResponsePermanentRedirect(new_url)
         return self.get_response(request)
+
+
+class EnsureLangCodeMiddleware:
+    def __init__(self, get_response):
+        self.get_response = get_response
+
+    def __call__(self, request):
+        if 'tj_lang_code' not in request.session:
+            request.session['tj_lang_code'] = 'en'
+        return self.get_response(request)
