@@ -207,13 +207,32 @@ class ThankJapanPremium(models.Model):
 
 
 class ThankJapanBackgroundModel(models.Model):
+    PAGE_CHOICES = [
+        ('top', 'トップ画面'),
+        ('quiz_menu', 'クイズ選択画面'),
+        ('game', 'ゲーム画面'),
+        ('result', '結果画面'),
+        ('study', '学習詳細画面'),
+        ('region', '地域探索画面'),
+    ]
+
+    page_type = models.CharField(max_length=20, choices=PAGE_CHOICES, blank=True, null=True)
     background_image = CloudinaryField('background_image', folder='thankjapan/backgrounds/', blank=True, null=True)
+    sound = CloudinaryField(
+        'sound',
+        folder='thankjapan/sounds/',
+        resource_type='video',  
+        blank=True,
+        null=True,
+    )
 
     def __str__(self):
         if self.background_image:
             return str(self.background_image.url)
         return "No Background Image"
-
+    
+    
+    
 class Player(models.Model):
     username = models.CharField(max_length=50, unique=True)
     email = models.EmailField(max_length=255, unique=True, null=True, blank=True) 
