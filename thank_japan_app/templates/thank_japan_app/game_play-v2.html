@@ -431,7 +431,8 @@ p[style*="color: var(--ink-soft)"] {
     padding: 10px 4px !important;
     line-height: 1.2 !important;
     letter-spacing: 0.05em !important;
-    word-break: break-all !important;
+    line-break: strict !important;
+    overflow-wrap: normal !important;
     
     position: relative;
     overflow: hidden !important;
@@ -1461,24 +1462,56 @@ function showHint() {
     if (b && t) { t.style.display = 'block'; b.style.display = 'none'; }
 }
 
+function fitVerticalText(card) {
+    const maxFontSize = 0.85; 
+    const minFontSize = 0.45; 
+    const step = 0.02;
+    const maxColumns = 3; 
+
+    const originalText = card.dataset.originalText || card.innerText;
+    card.dataset.originalText = originalText; 
+
+    let fontSize = maxFontSize;
+    card.style.overflow = "visible";
+    card.innerText = originalText;
+
+    function estimateColumns(fs) {
+        const remPx = fs * 16;
+        return Math.ceil(card.scrollWidth / remPx);
+    }
+
+    
+    while (fontSize > minFontSize) {
+        card.style.fontSize = fontSize + "rem";
+        const fitsWidth = card.scrollWidth <= card.clientWidth;
+        const fitsColumns = estimateColumns(fontSize) <= maxColumns;
+
+        if (fitsWidth && fitsColumns) break;
+        fontSize -= step;
+    }
+
+    card.style.fontSize = fontSize + "rem";
+
+    
+    let text = originalText;
+    while ((card.scrollWidth > card.clientWidth || estimateColumns(fontSize) > maxColumns) && text.length > 4) {
+        text = text.slice(0, -1);
+        card.innerText = text + "…";
+    }
+
+    card.style.overflow = "hidden";
+}
+
+
 document.addEventListener('DOMContentLoaded', function() {
     const config = document.getElementById('game-config');
 
     const cards = document.querySelectorAll('.karuta-board .choice-btn');
-cards.forEach(card => {
-    
-    card.style.transform = "scale(0.85) rotate(0deg)";
-
-    const textLength = card.innerText.replace(/\s+/g, '').length;
-
-    if (textLength > 12) {
-        card.style.fontSize = "0.6rem"; 
-    } else if (textLength > 8) {
-        card.style.fontSize = "0.7rem"; 
-    } else {
-        card.style.fontSize = "0.85rem"; 
-    }
+    cards.forEach(card => {
+        card.style.transform = "scale(0.85) rotate(0deg)";
+        fitVerticalText(card);
     });
+
 
     if (!config) return;
 
