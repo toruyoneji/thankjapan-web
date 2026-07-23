@@ -32,7 +32,8 @@ class ThankJapanPremiumAdmin(admin.ModelAdmin):
     
     
 class ThankJapanBackgroundAdmin(admin.ModelAdmin):
-    list_display = ('id', 'background_image')
+    list_display = ('page_type', 'background_image', 'sound')
+    list_filter = ('page_type',)
     
     def save_model(self, request, obj, form, change):
         try:
