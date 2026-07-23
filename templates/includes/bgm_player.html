@@ -1,0 +1,12 @@
+{% if bgm_url %}
+<audio id="bgm-player" src="{{ bgm_url }}" loop autoplay muted></audio>
+<script>
+  document.addEventListener('click', function once() {
+    const audio = document.getElementById('bgm-player');
+    if (audio) {
+      audio.muted = false;
+    }
+    document.removeEventListener('click', once);
+  }, { once: true });
+</script>
+{% endif %}

@@ -21,7 +21,7 @@ from django.utils import timezone
 from django.utils.http import urlencode
 from django.contrib.auth.views import PasswordResetView, PasswordResetConfirmView
 from .context_processors import language_context
-from .models import WeeklyScore
+from .models import WeeklyScore, ThankJapanBackgroundModel
 from google.oauth2 import service_account
 from googleapiclient.discovery import build
 from django.urls import reverse
@@ -772,12 +772,33 @@ def apply_login_bonus(request):
             request.session['show_bonus_toast'] = True
     else:
         request.session['show_guest_bonus_alert'] = True
+        
+def get_bgm_url(page_type):
+    
+    try:
+        record = ThankJapanBackgroundModel.objects.filter(
+            page_type=page_type, sound__isnull=False
+        ).first()
+        return record.sound.url if record else None
+    except AttributeError:
+        return None
             
 
-#country page
-class TopView(ListView): 
+#country top page
+
+class BGMContextMixin:
+    bgm_page_type = None  
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if self.bgm_page_type:
+            context['bgm_url'] = get_bgm_url(self.bgm_page_type)
+        return context
+
+class TopView(BGMContextMixin, ListView): 
     template_name = "thank_japan_app/toppage/toppage.html"
     model = ThankJapanModel
+    bgm_page_type = 'top'
 
     def get(self, request, *args, **kwargs):
         request.session['tj_lang_code'] = 'en'
@@ -791,9 +812,10 @@ class TopView(ListView):
         return context
     
         
-class TopViewJA(ListView):
+class TopViewJA(BGMContextMixin, ListView):
     template_name = "thank_japan_app/toppage/toppage_ja.html"
     model = ThankJapanModel
+    bgm_page_type = 'top'
     def get(self, request, *args, **kwargs):
         request.session['tj_lang_code'] = 'ja'
         apply_login_bonus(request)
@@ -806,9 +828,10 @@ class TopViewJA(ListView):
         return context
     
     
-class TopViewVI(ListView):
+class TopViewVI(BGMContextMixin, ListView):
     template_name = "thank_japan_app/toppage/toppage_vi.html"
     model = ThankJapanModel
+    bgm_page_type = 'top'
     def get(self, request, *args, **kwargs):
         request.session['tj_lang_code'] = 'vi'
         apply_login_bonus(request)
@@ -821,9 +844,10 @@ class TopViewVI(ListView):
         return context
     
     
-class TopViewFR(ListView):
+class TopViewFR(BGMContextMixin, ListView):
     template_name = "thank_japan_app/toppage/toppage_fr.html"
     model = ThankJapanModel
+    bgm_page_type = 'top'
     def get(self, request, *args, **kwargs):
         request.session['tj_lang_code'] = 'fr'
         apply_login_bonus(request)
@@ -836,9 +860,10 @@ class TopViewFR(ListView):
         return context
     
     
-class TopViewIT(ListView):
+class TopViewIT(BGMContextMixin, ListView):
     template_name = "thank_japan_app/toppage/toppage_it.html"
     model = ThankJapanModel
+    bgm_page_type = 'top'
     def get(self, request, *args, **kwargs):
         request.session['tj_lang_code'] = 'it'
         apply_login_bonus(request)
@@ -851,9 +876,10 @@ class TopViewIT(ListView):
         return context
     
     
-class TopViewPT(ListView):
+class TopViewPT(BGMContextMixin, ListView):
     template_name = "thank_japan_app/toppage/toppage_pt.html"
     model = ThankJapanModel
+    bgm_page_type = 'top'
     def get(self, request, *args, **kwargs):
         request.session['tj_lang_code'] = 'pt'
         apply_login_bonus(request)
@@ -866,9 +892,10 @@ class TopViewPT(ListView):
         return context
     
     
-class TopViewZHCN(ListView):
+class TopViewZHCN(BGMContextMixin, ListView):
     template_name = "thank_japan_app/toppage/toppage_zh_cn.html"
     model = ThankJapanModel
+    bgm_page_type = 'top'
     def get(self, request, *args, **kwargs):
         request.session['tj_lang_code'] = 'zh-cn'
         apply_login_bonus(request)
@@ -881,9 +908,10 @@ class TopViewZHCN(ListView):
         return context
     
     
-class TopViewZHHANT(ListView):
+class TopViewZHHANT(BGMContextMixin, ListView):
     template_name = "thank_japan_app/toppage/toppage_zh_hant.html"
     model = ThankJapanModel
+    bgm_page_type = 'top'
     def get(self, request, *args, **kwargs):
         request.session['tj_lang_code'] = 'zh-hant'
         apply_login_bonus(request)
@@ -896,9 +924,10 @@ class TopViewZHHANT(ListView):
         return context
     
     
-class TopViewKO(ListView):
+class TopViewKO(BGMContextMixin, ListView):
     template_name = "thank_japan_app/toppage/toppage_ko.html"
     model = ThankJapanModel
+    bgm_page_type = 'top'
     def get(self, request, *args, **kwargs):
         request.session['tj_lang_code'] = 'ko'
         apply_login_bonus(request)
@@ -911,9 +940,10 @@ class TopViewKO(ListView):
         return context
     
 
-class TopViewESES(ListView):
+class TopViewESES(BGMContextMixin, ListView):
     template_name = "thank_japan_app/toppage/toppage_es_es.html"
     model = ThankJapanModel
+    bgm_page_type = 'top'
     def get(self, request, *args, **kwargs):
         request.session['tj_lang_code'] = 'es-es'
         apply_login_bonus(request)
@@ -926,9 +956,10 @@ class TopViewESES(ListView):
         return context
     
     
-class TopViewDE(ListView):
+class TopViewDE(BGMContextMixin, ListView):
     template_name = "thank_japan_app/toppage/toppage_de.html"
     model = ThankJapanModel
+    bgm_page_type = 'top'
     def get(self, request, *args, **kwargs):
         request.session['tj_lang_code'] = 'de'
         apply_login_bonus(request)
@@ -941,9 +972,10 @@ class TopViewDE(ListView):
         return context
     
     
-class TopViewTH(ListView):
+class TopViewTH(BGMContextMixin, ListView):
     template_name = "thank_japan_app/toppage/toppage_th.html"
     model = ThankJapanModel
+    bgm_page_type = 'top'
     def get(self, request, *args, **kwargs):
         request.session['tj_lang_code'] = 'th'
         apply_login_bonus(request)
@@ -956,9 +988,10 @@ class TopViewTH(ListView):
         return context
     
     
-class TopViewPTBR(ListView):
+class TopViewPTBR(BGMContextMixin, ListView):
     template_name = "thank_japan_app/toppage/toppage_pt_br.html"
     model = ThankJapanModel
+    bgm_page_type = 'top'
     def get(self, request, *args, **kwargs):
         request.session['tj_lang_code'] = 'pt-br'
         apply_login_bonus(request)
@@ -971,9 +1004,10 @@ class TopViewPTBR(ListView):
         return context
     
     
-class TopViewESMX(ListView):
+class TopViewESMX(BGMContextMixin, ListView):
     template_name = "thank_japan_app/toppage/toppage_es_mx.html"
     model = ThankJapanModel
+    bgm_page_type = 'top'
     def get(self, request, *args, **kwargs):
         request.session['tj_lang_code'] = 'es-mx'
         apply_login_bonus(request)
@@ -986,9 +1020,10 @@ class TopViewESMX(ListView):
         return context
     
     
-class TopViewENIN(ListView):
+class TopViewENIN(BGMContextMixin, ListView):
     template_name = "thank_japan_app/toppage/toppage_en_in.html"
     model = ThankJapanModel
+    bgm_page_type = 'top'
     def get(self, request, *args, **kwargs):
         request.session['tj_lang_code'] = 'en-in'
         apply_login_bonus(request)
@@ -1299,7 +1334,8 @@ def game_start(request):
         'is_guest': is_guest,
         'lang_code': lang_code,
         'premium_url_name': premium_url_name,
-        'is_twa': is_android_twa(request)
+        'is_twa': is_android_twa(request),
+        'bgm_url': get_bgm_url('quiz_menu'),
     })
 
 
@@ -1379,6 +1415,7 @@ def game_play(request):
         'is_premium_mode': is_premium_mode,
         'is_kanji_mode': is_kanji_mode,
         'lang_code': lang_code,
+        'bgm_url': get_bgm_url('game'),
     })
          
 
@@ -1429,6 +1466,7 @@ def game_answer(request, pk):
             'is_premium_mode': is_premium_mode,
             'is_kanji_mode': is_kanji_mode,
             'lang_code': lang_code,
+            'bgm_url': get_bgm_url('game'),
         })
     request.session['last_answered_index'] = index
     
@@ -1678,6 +1716,7 @@ def game_result(request):
         'weekly_ranking': weekly_ranking,
         'current_rank': current_rank,         
         'total_registered': total_registered,
+        'bgm_url': get_bgm_url('result'),
         
     })    
                             
@@ -1692,6 +1731,7 @@ def category_list(request):
     return render(request, 'thank_japan_app/category/category_list.html', {
         'is_premium': is_premium,
         'lang_code': lang_code,
+        'bgm_url': get_bgm_url('study'),
     })
     
 
@@ -1704,6 +1744,7 @@ def category_list_zhcn(request):
     return render(request, 'thank_japan_app/category/category_list_zh_cn.html', {
         'is_premium': is_premium,
         'lang_code': lang_code,
+        'bgm_url': get_bgm_url('study'),
     })
      
 
@@ -1716,6 +1757,7 @@ def category_list_zhhant(request):
     return render(request, 'thank_japan_app/category/category_list_zh_hant.html', {
         'is_premium': is_premium,
         'lang_code': lang_code,
+        'bgm_url': get_bgm_url('study'),
     })
     
 
@@ -1728,6 +1770,7 @@ def category_list_vi(request):
     return render(request, 'thank_japan_app/category/category_list_vi.html', {
         'is_premium': is_premium,
         'lang_code': lang_code,
+        'bgm_url': get_bgm_url('study'),
     })
     
 
@@ -1740,6 +1783,7 @@ def category_list_th(request):
     return render(request, 'thank_japan_app/category/category_list_th.html', {
         'is_premium': is_premium,
         'lang_code': lang_code,
+        'bgm_url': get_bgm_url('study'),
     })
     
     
@@ -1752,6 +1796,7 @@ def category_list_pt(request):
     return render(request, 'thank_japan_app/category/category_list_pt.html', {
         'is_premium': is_premium,
         'lang_code': lang_code,
+        'bgm_url': get_bgm_url('study'),
     })
     
     
@@ -1765,6 +1810,7 @@ def category_list_pt_br(request):
     return render(request, 'thank_japan_app/category/category_list_pt_br.html', {
         'is_premium': is_premium,
         'lang_code': lang_code,
+        'bgm_url': get_bgm_url('study'),
     })
     
     
@@ -1778,6 +1824,7 @@ def category_list_ko(request):
     return render(request, 'thank_japan_app/category/category_list_ko.html', {
         'is_premium': is_premium,
         'lang_code': lang_code,
+        'bgm_url': get_bgm_url('study'),
     })
     
      
@@ -1791,6 +1838,7 @@ def category_list_ja(request):
     return render(request, 'thank_japan_app/category/category_list_ja.html', {
         'is_premium': is_premium,
         'lang_code': lang_code,
+        'bgm_url': get_bgm_url('study'),
     })
     
     
@@ -1804,6 +1852,7 @@ def category_list_it(request):
     return render(request, 'thank_japan_app/category/category_list_it.html', {
         'is_premium': is_premium,
         'lang_code': lang_code,
+        'bgm_url': get_bgm_url('study'),
     })
     
     
@@ -1817,6 +1866,7 @@ def category_list_fr(request):
     return render(request, 'thank_japan_app/category/category_list_fr.html', {
         'is_premium': is_premium,
         'lang_code': lang_code,
+        'bgm_url': get_bgm_url('study'),
     })
     
     
@@ -1830,6 +1880,7 @@ def category_list_es_mx(request):
     return render(request, 'thank_japan_app/category/category_list_es_mx.html', {
         'is_premium': is_premium,
         'lang_code': lang_code,
+        'bgm_url': get_bgm_url('study'),
     })
     
     
@@ -1843,6 +1894,7 @@ def category_list_es_es(request):
     return render(request, 'thank_japan_app/category/category_list_es_es.html', {
         'is_premium': is_premium,
         'lang_code': lang_code,
+        'bgm_url': get_bgm_url('study'),
     })
     
     
@@ -1856,6 +1908,7 @@ def category_list_en_in(request):
     return render(request, 'thank_japan_app/category/category_list_en_in.html', {
         'is_premium': is_premium,
         'lang_code': lang_code,
+        'bgm_url': get_bgm_url('study'),
     })
     
     
@@ -1869,6 +1922,7 @@ def category_list_de(request):
     return render(request, 'thank_japan_app/category/category_list_de.html', {
         'is_premium': is_premium,
         'lang_code': lang_code,
+        'bgm_url': get_bgm_url('study'),
     })
     
     
@@ -1876,9 +1930,10 @@ def category_list_de(request):
  
 #category view
                             
-class FoodView(ListView):
+class FoodView(BGMContextMixin, ListView):
     template_name = "thank_japan_app/food.html"
     paginate_by = 200
+    bgm_page_type = 'study'
     
     def get_queryset(self):
         return ThankJapanModel.objects.filter(category="food").order_by('-timestamp')
@@ -1895,9 +1950,10 @@ class FoodView(ListView):
         context['seo_og_description'] = context['seo_description']
         return context
 
-class NatureView(ListView):
+class NatureView(BGMContextMixin, ListView):
     template_name = "thank_japan_app/nature.html"
     paginate_by = 200
+    bgm_page_type = 'study'
     
     def get_queryset(self):
         return ThankJapanModel.objects.filter(category="nature").order_by('-timestamp')
@@ -1914,9 +1970,10 @@ class NatureView(ListView):
         context['seo_og_description'] = context['seo_description']
         return context
 
-class FashionView(ListView):
+class FashionView(BGMContextMixin, ListView):
     template_name = "thank_japan_app/fashion.html"
     paginate_by = 200
+    bgm_page_type = 'study'
     
     def get_queryset(self):
         return ThankJapanModel.objects.filter(category="fashion").order_by('-timestamp')
@@ -1933,9 +1990,10 @@ class FashionView(ListView):
         context['seo_og_description'] = context['seo_description']
         return context
 
-class CultureView(ListView):
+class CultureView(BGMContextMixin, ListView):
     template_name = "thank_japan_app/culture.html"
     paginate_by = 200
+    bgm_page_type = 'study'
     
     def get_queryset(self):
         return ThankJapanModel.objects.filter(category="culture").order_by('-timestamp')
@@ -1952,9 +2010,10 @@ class CultureView(ListView):
         context['seo_og_description'] = context['seo_description']
         return context
     
-class CookView(ListView):
+class CookView(BGMContextMixin, ListView):
     template_name = "thank_japan_app/cook.html"
     paginate_by = 200
+    bgm_page_type = 'study'
     
     def get_queryset(self):
         return ThankJapanModel.objects.filter(category="cook").order_by('-timestamp')
@@ -1971,9 +2030,10 @@ class CookView(ListView):
         context['seo_og_description'] = context['seo_description']
         return context
     
-class AppliancesView(ListView):
+class AppliancesView(BGMContextMixin, ListView):
     template_name = "thank_japan_app/appliances.html"
     paginate_by = 200
+    bgm_page_type = 'study'
     
     def get_queryset(self):
         return ThankJapanModel.objects.filter(category="appliances").order_by('-timestamp')
@@ -1990,9 +2050,10 @@ class AppliancesView(ListView):
         context['seo_og_description'] = context['seo_description']
         return context
 
-class AnimalView(ListView):
+class AnimalView(BGMContextMixin, ListView):
     template_name = "thank_japan_app/animal.html"
     paginate_by = 200
+    bgm_page_type = 'study'
     
     def get_queryset(self):
         return ThankJapanModel.objects.filter(category="animal").order_by('-timestamp')
@@ -2009,9 +2070,10 @@ class AnimalView(ListView):
         context['seo_og_description'] = context['seo_description']
         return context
 
-class BuildingView(ListView):
+class BuildingView(BGMContextMixin, ListView):
     template_name = "thank_japan_app/building.html"
     paginate_by = 200
+    bgm_page_type = 'study'
     
     def get_queryset(self):
         return ThankJapanModel.objects.filter(category="building").order_by('-timestamp')
@@ -2028,9 +2090,10 @@ class BuildingView(ListView):
         context['seo_og_description'] = context['seo_description']
         return context
 
-class FlowerView(ListView):
+class FlowerView(BGMContextMixin, ListView):
     template_name = "thank_japan_app/flower.html"
     paginate_by = 200
+    bgm_page_type = 'study'
     
     def get_queryset(self):
         return ThankJapanModel.objects.filter(category="flower").order_by('-timestamp')
@@ -2047,9 +2110,10 @@ class FlowerView(ListView):
         context['seo_og_description'] = context['seo_description']
         return context
 
-class HouseholdItemsView(ListView):
+class HouseholdItemsView(BGMContextMixin, ListView):
     template_name = "thank_japan_app/householditems.html"
     paginate_by = 200
+    bgm_page_type = 'study'
     
     def get_queryset(self):
         return ThankJapanModel.objects.filter(category="householditems").order_by('-timestamp')
@@ -2066,9 +2130,10 @@ class HouseholdItemsView(ListView):
         context['seo_og_description'] = context['seo_description']
         return context
 
-class SportsView(ListView):
+class SportsView(BGMContextMixin, ListView):
     template_name = "thank_japan_app/sports.html"
     paginate_by = 200
+    bgm_page_type = 'study'
     
     def get_queryset(self):
         return ThankJapanModel.objects.filter(category="sports").order_by('-timestamp')
@@ -2085,9 +2150,10 @@ class SportsView(ListView):
         context['seo_og_description'] = context['seo_description']
         return context
     
-class WorkView(ListView):
+class WorkView(BGMContextMixin, ListView):
     template_name = "thank_japan_app/work.html"
     paginate_by = 200
+    bgm_page_type = 'study'
     
     def get_queryset(self):
         return ThankJapanModel.objects.filter(category="work").order_by('-timestamp')
@@ -2104,9 +2170,10 @@ class WorkView(ListView):
         context['seo_og_description'] = context['seo_description']
         return context
     
-class LiveView(ListView):
+class LiveView(BGMContextMixin, ListView):
     template_name = "thank_japan_app/live.html"
     paginate_by = 200
+    bgm_page_type = 'study'
     
     def get_queryset(self):
         return ThankJapanModel.objects.filter(category="live").order_by('-timestamp')
@@ -2124,9 +2191,10 @@ class LiveView(ListView):
         return context
     
 
-class BodyView(ListView):
+class BodyView(BGMContextMixin, ListView):
     template_name = "thank_japan_app/body.html"
     paginate_by = 200
+    bgm_page_type = 'study'
     
     def get_queryset(self):
         return ThankJapanModel.objects.filter(category="body").order_by('-timestamp')
@@ -2144,9 +2212,10 @@ class BodyView(ListView):
         return context
 
     
-class DailyactionsView(ListView):
+class DailyactionsView(BGMContextMixin, ListView):
     template_name = "thank_japan_app/dailyactions.html"
     paginate_by = 200
+    bgm_page_type = 'study'
     
     def get_queryset(self):
         return ThankJapanModel.objects.filter(category="dailyactions").order_by('-timestamp')
@@ -2167,8 +2236,10 @@ class DailyactionsView(ListView):
     
 #japan food
 
-class JapanFoodView(TemplateView):
+class JapanFoodView(BGMContextMixin, TemplateView):
     template_name = "thank_japan_app/japan/japanfoodpage.html"
+    bgm_page_type = 'region'
+
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -2184,8 +2255,10 @@ class JapanFoodView(TemplateView):
         return context
     
 
-class PrefectureListView(TemplateView):
+class PrefectureListView(BGMContextMixin, TemplateView):
     template_name = "thank_japan_app/japan/prefecture_list_page.html"
+    bgm_page_type = 'region'
+
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -2202,8 +2275,10 @@ class PrefectureListView(TemplateView):
     
             
 
-class IshikawaView(TemplateView):
+class IshikawaView(BGMContextMixin, TemplateView):
     template_name = "thank_japan_app/japan/ishikawapage.html"
+    bgm_page_type = 'region'
+
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -2218,8 +2293,10 @@ class IshikawaView(TemplateView):
         return context    
 
 
-class ToyamaView(TemplateView):
+class ToyamaView(BGMContextMixin, TemplateView):
     template_name = "thank_japan_app/japan/toyamapage.html"
+    bgm_page_type = 'region'
+
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -2235,8 +2312,10 @@ class ToyamaView(TemplateView):
     
     
 
-class FukuiView(TemplateView):
+class FukuiView(BGMContextMixin, TemplateView):
     template_name = "thank_japan_app/japan/fukuipage.html"
+    bgm_page_type = 'region'
+
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -3292,9 +3371,10 @@ def delete_success_v2(request):
 
 #free-category
 
-class DailyConversationView(ListView):
+class DailyConversationView(BGMContextMixin, ListView):
     template_name = "thank_japan_app/dairy_conversation.html"
     paginate_by = 200
+    bgm_page_type = 'study'
     
     def get_queryset(self):
         return ThankJapanPremium.objects.filter(category="DailyConversation").order_by('timestamp')
@@ -3306,9 +3386,10 @@ class DailyConversationView(ListView):
         return context 
     
     
-class TourismEtiquetteView(ListView):
+class TourismEtiquetteView(BGMContextMixin, ListView):
     template_name = "thank_japan_app/tourism_etiquette.html"
     paginate_by = 200
+    bgm_page_type = 'study'
     
     def get_queryset(self):
         return ThankJapanPremium.objects.filter(category="TourismEtiquette").order_by('timestamp')
@@ -3320,9 +3401,10 @@ class TourismEtiquetteView(ListView):
         return context
     
 
-class EntertainmentView(ListView):
+class EntertainmentView(BGMContextMixin, ListView):
     template_name = "thank_japan_app/entertainment.html"
     paginate_by = 200
+    bgm_page_type = 'study'
     
     def get_queryset(self):
         return ThankJapanPremium.objects.filter(category="Entertainment").order_by('timestamp')
@@ -3336,9 +3418,10 @@ class EntertainmentView(ListView):
  
       
 
-class SlangView(ListView):
+class SlangView(BGMContextMixin, ListView):
     template_name = "thank_japan_app/slang.html"
     paginate_by = 200
+    bgm_page_type = 'study'
     
     def get_queryset(self):
         return ThankJapanPremium.objects.filter(category="slang").order_by('timestamp')
@@ -3354,8 +3437,10 @@ class SlangView(ListView):
 #premium-category
    
     
-class BusinessJapaneseView(ListView):
+class BusinessJapaneseView(BGMContextMixin, ListView):
     template_name = "thank_japan_app/business_japanese.html"
+    paginate_by = 200
+    bgm_page_type = 'study'
     
     def dispatch(self, request, *args, **kwargs):
         is_premium = request.user.is_authenticated and getattr(request.user.profile, 'is_premium', False)
@@ -3387,9 +3472,10 @@ class BusinessJapaneseView(ListView):
             context['is_locked'] = False
         return context
 
-class LivingInJapanView(ListView):
+class LivingInJapanView(BGMContextMixin, ListView):
     template_name = "thank_japan_app/living_in_japan.html"
-    paginate_by = 24
+    paginate_by = 200
+    bgm_page_type = 'study'
     
     def dispatch(self, request, *args, **kwargs):
         is_premium = request.user.is_authenticated and getattr(request.user.profile, 'is_premium', False)
@@ -3421,9 +3507,10 @@ class LivingInJapanView(ListView):
             context['is_locked'] = False
         return context
 
-class MedicalEmergencyView(ListView):
+class MedicalEmergencyView(BGMContextMixin, ListView):
     template_name = "thank_japan_app/medical_emergency.html"
-    paginate_by = 24
+    paginate_by = 200
+    bgm_page_type = 'study'
     
     def dispatch(self, request, *args, **kwargs):
         is_premium = request.user.is_authenticated and getattr(request.user.profile, 'is_premium', False)
@@ -3455,9 +3542,10 @@ class MedicalEmergencyView(ListView):
             context['is_locked'] = False
         return context
 
-class RealestateRulesView(ListView):
+class RealestateRulesView(BGMContextMixin, ListView):
     template_name = "thank_japan_app/realestate_rules.html"
-    paginate_by = 24
+    paginate_by = 200
+    bgm_page_type = 'study'
     
     def dispatch(self, request, *args, **kwargs):
         is_premium = request.user.is_authenticated and getattr(request.user.profile, 'is_premium', False)
@@ -3489,9 +3577,10 @@ class RealestateRulesView(ListView):
             context['is_locked'] = False
         return context
 
-class PrefectureView(ListView):
+class PrefectureView(BGMContextMixin, ListView):
     template_name = "thank_japan_app/prefecture.html"
-    paginate_by = 24
+    paginate_by = 200
+    bgm_page_type = 'study'
     
     def dispatch(self, request, *args, **kwargs):
         is_premium = request.user.is_authenticated and getattr(request.user.profile, 'is_premium', False)
