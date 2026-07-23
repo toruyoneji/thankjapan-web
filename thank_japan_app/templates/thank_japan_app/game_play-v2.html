@@ -443,12 +443,25 @@ p[style*="color: var(--ink-soft)"] {
     overflow: visible !important;
 }
 
-.karuta-board .choice-btn.vertical-card .card-text {
+/* .karuta-board .choice-btn.vertical-card .card-text {
     writing-mode: vertical-rl;
     text-orientation: upright;
     display: inline-block;
     max-height: 100%;
     font-size: 0.85rem;
+} */
+
+.karuta-board .choice-btn.vertical-card {
+    height: 130px !important;
+    width: auto !important;
+    min-width: 100%;
+}
+
+.karuta-board .choice-btn.vertical-card .card-text {
+    writing-mode: vertical-rl;
+    text-orientation: upright;
+    display: inline-block;
+    height: 100%;
 }
 
 .karuta-board .choice-btn.horizontal-card .card-text {
