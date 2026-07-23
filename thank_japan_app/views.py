@@ -1716,7 +1716,7 @@ def game_result(request):
         'weekly_ranking': weekly_ranking,
         'current_rank': current_rank,         
         'total_registered': total_registered,
-        'bgm_url': get_bgm_url('result'),
+        'bgm_url': get_bgm_url('top'),
         
     })    
                             
