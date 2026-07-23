@@ -420,9 +420,6 @@ p[style*="color: var(--ink-soft)"] {
     color: #2a1d13 !important;
     font-weight: 800 !important;
     
-    
-    writing-mode: vertical-rl !important;
-    text-orientation: upright !important;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
@@ -444,6 +441,14 @@ p[style*="color: var(--ink-soft)"] {
     display: none !important;
 }
 
+
+.karuta-board .choice-btn .card-text {
+    writing-mode: vertical-rl;   
+    text-orientation: upright;
+    display: inline-block;
+    max-height: 100%;            
+}
+
 .choice-btn.card-selected {
     background: #d4af37 !important;
     color: #ffffff !important;
@@ -451,13 +456,6 @@ p[style*="color: var(--ink-soft)"] {
     transform: scale(1.1) rotate(0deg) !important; 
     box-shadow: 0 10px 20px rgba(0,0,0,0.5) !important;
     z-index: 10;
-}
-
-.karuta-board .choice-btn .card-text {
-    writing-mode: vertical-rl;
-    text-orientation: upright;
-    display: inline-block;
-    white-space: nowrap; 
 }
 
 
@@ -1470,46 +1468,42 @@ function showHint() {
 }
 
 function fitVerticalText(card) {
-    const maxFontSize = 0.85; // rem
-    const minFontSize = 0.45; // rem
+    const maxFontSize = 0.85;
+    const minFontSize = 0.45;
     const step = 0.02;
     const maxColumns = 3;
 
-    // 初回のみ:中身をspanでラップして、テキスト自体の幅を独立して測れるようにする
     let textSpan = card.querySelector('.card-text');
     if (!textSpan) {
         const originalText = card.innerText;
         card.innerHTML = '';
         textSpan = document.createElement('span');
         textSpan.className = 'card-text';
-        textSpan.style.display = 'inline-block';
         textSpan.innerText = originalText;
         card.appendChild(textSpan);
         card.dataset.originalText = originalText;
     }
-
     const originalText = card.dataset.originalText;
     textSpan.innerText = originalText;
 
     let fontSize = maxFontSize;
 
-    function estimateColumns(fs) {
-        const remPx = fs * 16;
-        return Math.ceil(textSpan.scrollWidth / remPx);
+    function getColumns() {
+        const lineHeightPx = parseFloat(getComputedStyle(textSpan).lineHeight);
+        const spread = Math.max(textSpan.scrollWidth, textSpan.offsetWidth);
+        return Math.ceil(spread / lineHeightPx);
     }
 
     while (fontSize > minFontSize) {
         card.style.fontSize = fontSize + "rem";
-        const fitsColumns = estimateColumns(fontSize) <= maxColumns;
-        if (fitsColumns) break;
+        if (getColumns() <= maxColumns) break;
         fontSize -= step;
     }
-
     card.style.fontSize = fontSize + "rem";
 
     
     let text = originalText;
-    while (estimateColumns(fontSize) > maxColumns && text.length > 4) {
+    while (getColumns() > maxColumns && text.length > 2) {
         text = text.slice(0, -1);
         textSpan.innerText = text + "…";
     }
