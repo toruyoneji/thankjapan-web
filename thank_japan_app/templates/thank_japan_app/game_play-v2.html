@@ -453,6 +453,13 @@ p[style*="color: var(--ink-soft)"] {
     z-index: 10;
 }
 
+.karuta-board .choice-btn .card-text {
+    writing-mode: vertical-rl;
+    text-orientation: upright;
+    display: inline-block;
+    white-space: nowrap; 
+}
+
 
 
 .karuta-board .choice-btn:disabled {
@@ -1463,30 +1470,38 @@ function showHint() {
 }
 
 function fitVerticalText(card) {
-    const maxFontSize = 0.85; 
-    const minFontSize = 0.45; 
+    const maxFontSize = 0.85; // rem
+    const minFontSize = 0.45; // rem
     const step = 0.02;
-    const maxColumns = 3; 
+    const maxColumns = 3;
 
-    const originalText = card.dataset.originalText || card.innerText;
-    card.dataset.originalText = originalText; 
+    // 初回のみ:中身をspanでラップして、テキスト自体の幅を独立して測れるようにする
+    let textSpan = card.querySelector('.card-text');
+    if (!textSpan) {
+        const originalText = card.innerText;
+        card.innerHTML = '';
+        textSpan = document.createElement('span');
+        textSpan.className = 'card-text';
+        textSpan.style.display = 'inline-block';
+        textSpan.innerText = originalText;
+        card.appendChild(textSpan);
+        card.dataset.originalText = originalText;
+    }
+
+    const originalText = card.dataset.originalText;
+    textSpan.innerText = originalText;
 
     let fontSize = maxFontSize;
-    card.style.overflow = "visible";
-    card.innerText = originalText;
 
     function estimateColumns(fs) {
         const remPx = fs * 16;
-        return Math.ceil(card.scrollWidth / remPx);
+        return Math.ceil(textSpan.scrollWidth / remPx);
     }
 
-    
     while (fontSize > minFontSize) {
         card.style.fontSize = fontSize + "rem";
-        const fitsWidth = card.scrollWidth <= card.clientWidth;
         const fitsColumns = estimateColumns(fontSize) <= maxColumns;
-
-        if (fitsWidth && fitsColumns) break;
+        if (fitsColumns) break;
         fontSize -= step;
     }
 
@@ -1494,12 +1509,10 @@ function fitVerticalText(card) {
 
     
     let text = originalText;
-    while ((card.scrollWidth > card.clientWidth || estimateColumns(fontSize) > maxColumns) && text.length > 4) {
+    while (estimateColumns(fontSize) > maxColumns && text.length > 4) {
         text = text.slice(0, -1);
-        card.innerText = text + "…";
+        textSpan.innerText = text + "…";
     }
-
-    card.style.overflow = "hidden";
 }
 
 
