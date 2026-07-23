@@ -639,93 +639,114 @@ p[style*="color: var(--ink-soft)"] {
         width: 100% !important;
         border-top: none !important;
         border-radius: 0 !important;
-        padding: 5px 8px !important;
+        padding: 4px 6px !important;
     }
 
     .question-visual-area {
         min-height: auto !important;
-        margin-bottom: 5px !important;
+        margin-bottom: 2px !important;
     }
 
     .question-image, .kanji-question-box {
-        height: 18vh !important;
-        max-height: 130px !important;
+        height: 16vh !important;
+        max-height: 120px !important;
         width: auto !important;
-        margin: 4px auto !important;
+        margin: 2px auto !important;
         border-radius: 12px !important;
     }
 
     .kanji-text {
-        font-size: 3.5rem !important;
-        letter-spacing: 2px !important;
+        font-size: 3rem !important;
+        letter-spacing: 1px !important;
     }
 
     h1 {
-        font-size: 1.2rem !important;
-        margin-bottom: 4px !important;
-        padding-bottom: 2px !important;
+        font-size: 1.1rem !important;
+        margin-bottom: 2px !important;
+        padding-bottom: 0 !important;
     }
 
     .main2 h2 {
-        font-size: 0.9rem !important;
-        margin: 2px 0 !important;
+        font-size: 0.85rem !important;
+        margin: 1px 0 !important;
     }
 
     .hint-area {
-        margin: 4px 0 !important;
+        margin: 2px 0 !important;
     }
 
     #hint-btn {
-        padding: 4px 14px !important;
-        font-size: 0.8rem !important;
+        padding: 3px 12px !important;
+        font-size: 0.75rem !important;
     }
 
     .quiz-section p {
-        margin-bottom: 4px !important;
-        font-size: 0.85rem !important;
+        margin-bottom: 2px !important;
+        font-size: 0.8rem !important;
     }
 
     .karuta-board {
-        max-width: 300px !important;
-        gap: 6px !important;
-        padding: 12px !important;
-        margin: 5px auto 0 !important;
+        max-width: 290px !important;
+        gap: 5px !important;
+        padding: 12px 10px !important;
+        margin: 2px auto 0 !important;
         box-sizing: border-box !important;
         overflow: visible !important;
+        background: #4a5d3f !important;
     }
 
     .karuta-board .choice-btn {
-        font-size: 0.8rem !important;
-        padding: 2px !important;
-        aspect-ratio: 3 / 3.8 !important;
+        font-size: 0.72rem !important;
+        line-height: 1.1 !important;
+        padding: 4px 2px !important;
+        aspect-ratio: 3 / 4 !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: center !important;
+        align-items: center !important;
+        white-space: normal !important;
+        word-break: break-all !important;
+        text-align: center !important;
+    }
+
+    .choice-btn ruby {
+        display: flex !important;
+        flex-direction: column-reverse !important;
+        align-items: center !important;
+    }
+
+    .choice-btn rt {
+        font-size: 0.5rem !important;
+        line-height: 1 !important;
+        margin-bottom: 1px !important;
     }
 
     .mobile-mini-nav { display: flex !important; }
 
-    .result-section div[style*="font-size: 8rem"] { font-size: 3.5rem !important; margin-bottom: 8px !important; line-height: 1 !important; }
-    .result-section h2 { font-size: 1.3rem !important; margin: 8px 0 !important; }
-    .result-section p[style*="font-size: 2.4em"] { font-size: 1.4em !important; line-height: 1.3 !important; }
+    .result-section div[style*="font-size: 8rem"] { font-size: 3rem !important; margin-bottom: 4px !important; }
+    .result-section h2 { font-size: 1.2rem !important; margin: 4px 0 !important; }
 }
 
 @media (max-width: 380px) {
     .question-image, .kanji-question-box {
-        height: 15vh !important;
-        max-height: 110px !important;
+        height: 14vh !important;
+        max-height: 100px !important;
     }
 
     .karuta-board {
-        max-width: 280px !important;
+        max-width: 270px !important;
         gap: 4px !important;
-        padding: 10px !important;
+        padding: 10px 8px !important;
     }
 
     .karuta-board .choice-btn {
-        font-size: 0.75rem !important;
+        font-size: 0.68rem !important;
     }
 
-    h1 { font-size: 1.1rem !important; }
-    #time-left { font-size: 1rem !important; }
+    h1 { font-size: 1rem !important; }
+    #time-left { font-size: 0.9rem !important; }
 }
+
 
 </style>
 
@@ -1446,9 +1467,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const cards = document.querySelectorAll('.karuta-board .choice-btn');
     cards.forEach(card => {
-   
-    const rotate = (Math.random() * 6 - 3).toFixed(2);
-    const scale = 0.82; 
+    
+    const rotate = (Math.random() * 4 - 2).toFixed(2);
+    const scale = 0.80; 
     const translateX = 0;
     const translateY = 0;
 
