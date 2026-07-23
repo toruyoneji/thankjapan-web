@@ -386,9 +386,25 @@ img:hover { transform: scale(1.02); }
     box-shadow: none;
     text-shadow: none;
 }
-.choice-btn ruby { ruby-align: center; }
-.choice-btn rt { font-size: 0.55rem !important; color: var(--ink-soft); font-weight: normal; letter-spacing: 0.05em; transform: scale(0.9);
+
+.choice-btn ruby {
+    ruby-align: center;
+    ruby-position: over !important; 
 }
+
+
+.choice-btn rt {
+    
+    font-size: 0.5rem !important; 
+    color: var(--ink-soft);
+    font-weight: normal;
+      
+    line-height: 1 !important;
+    letter-spacing: 0 !important;
+    transform: none !important; 
+    margin-right: 0.1em; 
+}
+
 
 p[style*="color: var(--ink-soft)"] {
     color: var(--ink-on-green) !important;
@@ -420,23 +436,30 @@ p[style*="color: var(--ink-soft)"] {
     width: 100%;
     aspect-ratio: 3 / 4;
     background: linear-gradient(135deg, #ffffff 0%, #fdf8ee 100%) !important;
-    
     border: 2.5px solid #d4af37 !important;
     border-radius: 4px !important;    
     box-shadow: 2px 3px 6px rgba(0,0,0,0.35) !important;
     color: #2a1d13 !important;
     font-weight: 800 !important;
-    font-size: 0.8rem !important;
+    font-size: clamp(0.65rem, 4vw, 0.85rem) !important;
+
+    writing-mode: vertical-rl !important;
+    text-orientation: upright !important;
     
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 2px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    
+    padding: 10px 4px !important;
+    line-height: 1.1 !important;
+    letter-spacing: 0.05em !important;
+    white-space: nowrap !important;
+
     position: relative;
-    overflow: visible !important;
+    overflow: hidden;
     transition: transform 0.2s ease, background 0.1s ease;
 }
+
 
 
 .choice-btn.card-selected {
