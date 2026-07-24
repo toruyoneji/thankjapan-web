@@ -786,29 +786,7 @@ p[style*="color: var(--ink-soft)"] {
      data-hint-length="{{ hint_length }}" 
      data-total-questions="{{ total_questions }}">
 
-    <div class="mobile-mini-nav" style="display: none; justify-content: space-between; align-items: center; padding: 10px 5px; width: 100%;">
     
-  
-        <div class="sound-toggle-container">
-            <button id="sound-toggle-btn" class="sound-toggle-btn" title="Toggle Sound">
-                <span id="sound-icon">🔊</span> 
-                    {% if lang_code == 'ja' %}音設定
-                    {% elif lang_code == 'zh-hant' %}聲音設定
-                    {% elif lang_code == 'zh-cn' %}声音设置
-                    {% elif lang_code == 'de' %}Ton
-                    {% elif lang_code == 'fr' %}Son
-                    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Sonido
-                    {% elif lang_code == 'it' %}Suono
-                    {% elif lang_code == 'ko' %}소리
-                    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Som
-                    {% elif lang_code == 'vi' %}Âm thanh
-                    {% elif lang_code == 'th' %}เสียง
-                    {% else %}Sound{% endif %}: <span id="sound-status">OFF</span>
-            </button>
-        </div>
-
-    </div>
-
   <h1>
     {% if lang_code == 'ja' %}問題
     {% elif lang_code == 'zh-hant' %}題目
@@ -918,39 +896,7 @@ p[style*="color: var(--ink-soft)"] {
         </button>
     {% else %}
         
-        <div style="display: flex; flex-direction: column; align-items: center; gap: 5px;">
-            <button type="button" id="voice-play-btn" onclick="manualPlay()" style="
-                background: #fff; 
-                border: 3px solid #7b942e; 
-                color: #7b942e; 
-                width: 65px; 
-                height: 65px; 
-                border-radius: 50%; 
-                font-size: 2rem; 
-                cursor: pointer; 
-                display: flex; 
-                align-items: center; 
-                justify-content: center; 
-                transition: all 0.2s ease; 
-                box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-                padding: 0;">
-                🔊
-            </button>
-            <span style="font-size: 0.9rem; font-weight: bold; color: #7b942e; font-family: sans-serif;">
-                {% if lang_code == 'ja' %}音声を聞く
-                {% elif lang_code == 'zh-hant' %}聆聽語音
-                {% elif lang_code == 'zh-cn' %}聆听语音
-                {% elif lang_code == 'de' %}Hören
-                {% elif lang_code == 'fr' %}Écouter
-                {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Escuchar
-                {% elif lang_code == 'it' %}Ascolta
-                {% elif lang_code == 'ko' %}듣기
-                {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Ouvir
-                {% elif lang_code == 'vi' %}Nghe
-                {% elif lang_code == 'th' %}ฟังเสียง
-                {% else %}Listen{% endif %}
-            </span>
-        </div>
+        
     {% endif %}
 
     
@@ -1320,27 +1266,6 @@ function initSound() {
 }
 initSound();
 
-function manualPlay() {
-    
-    unlockAudio();
-    
-    const config = document.getElementById('game-config');
-    const isCorrect = config.getAttribute('data-is-correct') === 'true';
-    
-    
-    const flagId = isCorrect ? 'correct-flag' : 'incorrect-flag';
-    const word = document.getElementById(flagId)?.getAttribute('data-word');
-
-    if (isCorrect) {
-        
-        playChime();
-
-        if (word) setTimeout(() => { speakJapanese(word); }, 600);
-    } else {
-        
-        if (word) speakJapanese(word);
-    }
-}
 
 function speakJapanese(text, isAuto = false) {
     if (isAuto && !isSoundOn) return;
@@ -1542,57 +1467,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
     if (!config) return;
 
-    const sBtn = document.getElementById('sound-toggle-btn');
-    const sIcon = document.getElementById('sound-icon');
-    const sStatus = document.getElementById('sound-status');
-
-    const updateUI = () => {
-        if (sIcon && sStatus) {
-            sIcon.textContent = isSoundOn ? '🔊' : '🔇';
-            sStatus.textContent = isSoundOn ? 'ON' : 'OFF';
-        }
-    };
-    updateUI();
-
-    if (sBtn) {
-        sBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-            isSoundOn = !isSoundOn;
-            localStorage.setItem('thankjapan_sound', isSoundOn ? 'on' : 'off');
-            updateUI();
-            if (isSoundOn) {
-                unlockAudio();
-                setTimeout(playChime, 100);
-            }
-        });
-    }
 
     const showResult = config.getAttribute('data-show-result') === 'true';
     const isCorrect = config.getAttribute('data-is-correct') === 'true';
 
     if (showResult) {
         if (isCorrect) confetti({ particleCount: 120, spread: 80, origin: { y: 0.6 }, colors: ['#cda23f', '#7c9473', '#faf6ec', '#a5533f'] });
-
-        const triggerSound = () => {
-            if (!isSoundOn) return;
-            const w = document.getElementById(isCorrect ? 'correct-flag' : 'incorrect-flag')?.getAttribute('data-word');
-            if (isCorrect) playChime();
-            if (w) setTimeout(() => speakJapanese(w, true), 200);
-        };
-
-        const onceInteraction = () => {
-            if (isSoundOn) {
-                unlockAudio();
-                triggerSound();
-            }
-            document.removeEventListener('touchstart', onceInteraction);
-            document.removeEventListener('mousedown', onceInteraction);
-        };
-        
-        document.addEventListener('touchstart', onceInteraction);
-        document.addEventListener('mousedown', onceInteraction);
-        
-        setTimeout(triggerSound, 200);
 
         const nextUrl = config.getAttribute('data-next-url');
         if (config.getAttribute('data-difficulty') !== 'single' && nextUrl) {
