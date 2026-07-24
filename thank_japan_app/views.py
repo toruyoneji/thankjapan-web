@@ -1933,7 +1933,7 @@ def category_list_de(request):
 class FoodView(BGMContextMixin, ListView):
     template_name = "thank_japan_app/food.html"
     paginate_by = 200
-    bgm_page_type = 'study'
+    bgm_page_type = 'study_select'
     
     def get_queryset(self):
         return ThankJapanModel.objects.filter(category="food").order_by('-timestamp')
@@ -1953,7 +1953,7 @@ class FoodView(BGMContextMixin, ListView):
 class NatureView(BGMContextMixin, ListView):
     template_name = "thank_japan_app/nature.html"
     paginate_by = 200
-    bgm_page_type = 'study'
+    bgm_page_type = 'study_select'
     
     def get_queryset(self):
         return ThankJapanModel.objects.filter(category="nature").order_by('-timestamp')
@@ -1973,7 +1973,7 @@ class NatureView(BGMContextMixin, ListView):
 class FashionView(BGMContextMixin, ListView):
     template_name = "thank_japan_app/fashion.html"
     paginate_by = 200
-    bgm_page_type = 'study'
+    bgm_page_type = 'study_select'
     
     def get_queryset(self):
         return ThankJapanModel.objects.filter(category="fashion").order_by('-timestamp')
@@ -1993,7 +1993,7 @@ class FashionView(BGMContextMixin, ListView):
 class CultureView(BGMContextMixin, ListView):
     template_name = "thank_japan_app/culture.html"
     paginate_by = 200
-    bgm_page_type = 'study'
+    bgm_page_type = 'study_select'
     
     def get_queryset(self):
         return ThankJapanModel.objects.filter(category="culture").order_by('-timestamp')
@@ -2013,7 +2013,7 @@ class CultureView(BGMContextMixin, ListView):
 class CookView(BGMContextMixin, ListView):
     template_name = "thank_japan_app/cook.html"
     paginate_by = 200
-    bgm_page_type = 'study'
+    bgm_page_type = 'study_select'
     
     def get_queryset(self):
         return ThankJapanModel.objects.filter(category="cook").order_by('-timestamp')
@@ -2033,7 +2033,7 @@ class CookView(BGMContextMixin, ListView):
 class AppliancesView(BGMContextMixin, ListView):
     template_name = "thank_japan_app/appliances.html"
     paginate_by = 200
-    bgm_page_type = 'study'
+    bgm_page_type = 'study_select'
     
     def get_queryset(self):
         return ThankJapanModel.objects.filter(category="appliances").order_by('-timestamp')
@@ -2053,7 +2053,7 @@ class AppliancesView(BGMContextMixin, ListView):
 class AnimalView(BGMContextMixin, ListView):
     template_name = "thank_japan_app/animal.html"
     paginate_by = 200
-    bgm_page_type = 'study'
+    bgm_page_type = 'study_select'
     
     def get_queryset(self):
         return ThankJapanModel.objects.filter(category="animal").order_by('-timestamp')
@@ -2073,7 +2073,7 @@ class AnimalView(BGMContextMixin, ListView):
 class BuildingView(BGMContextMixin, ListView):
     template_name = "thank_japan_app/building.html"
     paginate_by = 200
-    bgm_page_type = 'study'
+    bgm_page_type = 'study_select'
     
     def get_queryset(self):
         return ThankJapanModel.objects.filter(category="building").order_by('-timestamp')
@@ -2093,7 +2093,7 @@ class BuildingView(BGMContextMixin, ListView):
 class FlowerView(BGMContextMixin, ListView):
     template_name = "thank_japan_app/flower.html"
     paginate_by = 200
-    bgm_page_type = 'study'
+    bgm_page_type = 'study_select'
     
     def get_queryset(self):
         return ThankJapanModel.objects.filter(category="flower").order_by('-timestamp')
@@ -2113,7 +2113,7 @@ class FlowerView(BGMContextMixin, ListView):
 class HouseholdItemsView(BGMContextMixin, ListView):
     template_name = "thank_japan_app/householditems.html"
     paginate_by = 200
-    bgm_page_type = 'study'
+    bgm_page_type = 'study_select'
     
     def get_queryset(self):
         return ThankJapanModel.objects.filter(category="householditems").order_by('-timestamp')
@@ -2133,7 +2133,7 @@ class HouseholdItemsView(BGMContextMixin, ListView):
 class SportsView(BGMContextMixin, ListView):
     template_name = "thank_japan_app/sports.html"
     paginate_by = 200
-    bgm_page_type = 'study'
+    bgm_page_type = 'study_select'
     
     def get_queryset(self):
         return ThankJapanModel.objects.filter(category="sports").order_by('-timestamp')
@@ -2153,7 +2153,7 @@ class SportsView(BGMContextMixin, ListView):
 class WorkView(BGMContextMixin, ListView):
     template_name = "thank_japan_app/work.html"
     paginate_by = 200
-    bgm_page_type = 'study'
+    bgm_page_type = 'study_select'
     
     def get_queryset(self):
         return ThankJapanModel.objects.filter(category="work").order_by('-timestamp')
@@ -2173,7 +2173,7 @@ class WorkView(BGMContextMixin, ListView):
 class LiveView(BGMContextMixin, ListView):
     template_name = "thank_japan_app/live.html"
     paginate_by = 200
-    bgm_page_type = 'study'
+    bgm_page_type = 'study_select'
     
     def get_queryset(self):
         return ThankJapanModel.objects.filter(category="live").order_by('-timestamp')
@@ -2194,7 +2194,7 @@ class LiveView(BGMContextMixin, ListView):
 class BodyView(BGMContextMixin, ListView):
     template_name = "thank_japan_app/body.html"
     paginate_by = 200
-    bgm_page_type = 'study'
+    bgm_page_type = 'study_select'
     
     def get_queryset(self):
         return ThankJapanModel.objects.filter(category="body").order_by('-timestamp')
@@ -2215,7 +2215,7 @@ class BodyView(BGMContextMixin, ListView):
 class DailyactionsView(BGMContextMixin, ListView):
     template_name = "thank_japan_app/dailyactions.html"
     paginate_by = 200
-    bgm_page_type = 'study'
+    bgm_page_type = 'study_select'
     
     def get_queryset(self):
         return ThankJapanModel.objects.filter(category="dailyactions").order_by('-timestamp')
@@ -3374,7 +3374,7 @@ def delete_success_v2(request):
 class DailyConversationView(BGMContextMixin, ListView):
     template_name = "thank_japan_app/dairy_conversation.html"
     paginate_by = 200
-    bgm_page_type = 'study'
+    bgm_page_type = 'study_select'
     
     def get_queryset(self):
         return ThankJapanPremium.objects.filter(category="DailyConversation").order_by('timestamp')
@@ -3389,7 +3389,7 @@ class DailyConversationView(BGMContextMixin, ListView):
 class TourismEtiquetteView(BGMContextMixin, ListView):
     template_name = "thank_japan_app/tourism_etiquette.html"
     paginate_by = 200
-    bgm_page_type = 'study'
+    bgm_page_type = 'study_select'
     
     def get_queryset(self):
         return ThankJapanPremium.objects.filter(category="TourismEtiquette").order_by('timestamp')
@@ -3404,7 +3404,7 @@ class TourismEtiquetteView(BGMContextMixin, ListView):
 class EntertainmentView(BGMContextMixin, ListView):
     template_name = "thank_japan_app/entertainment.html"
     paginate_by = 200
-    bgm_page_type = 'study'
+    bgm_page_type = 'study_select'
     
     def get_queryset(self):
         return ThankJapanPremium.objects.filter(category="Entertainment").order_by('timestamp')
@@ -3421,7 +3421,7 @@ class EntertainmentView(BGMContextMixin, ListView):
 class SlangView(BGMContextMixin, ListView):
     template_name = "thank_japan_app/slang.html"
     paginate_by = 200
-    bgm_page_type = 'study'
+    bgm_page_type = 'study_select'
     
     def get_queryset(self):
         return ThankJapanPremium.objects.filter(category="slang").order_by('timestamp')
@@ -3440,7 +3440,7 @@ class SlangView(BGMContextMixin, ListView):
 class BusinessJapaneseView(BGMContextMixin, ListView):
     template_name = "thank_japan_app/business_japanese.html"
     paginate_by = 200
-    bgm_page_type = 'study'
+    bgm_page_type = 'study_select'
     
     def dispatch(self, request, *args, **kwargs):
         is_premium = request.user.is_authenticated and getattr(request.user.profile, 'is_premium', False)
@@ -3475,7 +3475,7 @@ class BusinessJapaneseView(BGMContextMixin, ListView):
 class LivingInJapanView(BGMContextMixin, ListView):
     template_name = "thank_japan_app/living_in_japan.html"
     paginate_by = 200
-    bgm_page_type = 'study'
+    bgm_page_type = 'study_select'
     
     def dispatch(self, request, *args, **kwargs):
         is_premium = request.user.is_authenticated and getattr(request.user.profile, 'is_premium', False)
@@ -3510,7 +3510,7 @@ class LivingInJapanView(BGMContextMixin, ListView):
 class MedicalEmergencyView(BGMContextMixin, ListView):
     template_name = "thank_japan_app/medical_emergency.html"
     paginate_by = 200
-    bgm_page_type = 'study'
+    bgm_page_type = 'study_select'
     
     def dispatch(self, request, *args, **kwargs):
         is_premium = request.user.is_authenticated and getattr(request.user.profile, 'is_premium', False)
@@ -3545,7 +3545,7 @@ class MedicalEmergencyView(BGMContextMixin, ListView):
 class RealestateRulesView(BGMContextMixin, ListView):
     template_name = "thank_japan_app/realestate_rules.html"
     paginate_by = 200
-    bgm_page_type = 'study'
+    bgm_page_type = 'study_select'
     
     def dispatch(self, request, *args, **kwargs):
         is_premium = request.user.is_authenticated and getattr(request.user.profile, 'is_premium', False)
@@ -3580,7 +3580,7 @@ class RealestateRulesView(BGMContextMixin, ListView):
 class PrefectureView(BGMContextMixin, ListView):
     template_name = "thank_japan_app/prefecture.html"
     paginate_by = 200
-    bgm_page_type = 'study'
+    bgm_page_type = 'study_select'
     
     def dispatch(self, request, *args, **kwargs):
         is_premium = request.user.is_authenticated and getattr(request.user.profile, 'is_premium', False)
