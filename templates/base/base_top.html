@@ -378,6 +378,7 @@
         <header class="app-header">
             <a class="logo-link" href="{% url 'toppage' %}?lang={{ lang_code }}">ThankJapan</a>
             <div class="header-right">
+                {% include 'includes/sound_toggle.html' %}
                 <a href="#" class="header-score-badge">
                     <span class="score-text">💎 {{ user.profile.total_score|default:0 }}<small>pt</small></span>
                 </a>
