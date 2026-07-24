@@ -212,6 +212,7 @@ class ThankJapanBackgroundModel(models.Model):
         ('quiz_menu', 'クイズ選択画面'),
         ('game', 'ゲーム画面'),
         ('result', '結果画面'),
+        ('study_select', '学習選択画面'),
         ('study', '学習詳細画面'),
         ('region', '地域探索画面'),
     ]
