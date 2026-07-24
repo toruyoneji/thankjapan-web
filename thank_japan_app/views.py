@@ -793,6 +793,7 @@ class BGMContextMixin:
         context = super().get_context_data(**kwargs)
         if self.bgm_page_type:
             context['bgm_url'] = get_bgm_url(self.bgm_page_type)
+            context['bgm_page_type'] = self.bgm_page_type
         return context
 
 class TopView(BGMContextMixin, ListView): 
@@ -1336,6 +1337,7 @@ def game_start(request):
         'premium_url_name': premium_url_name,
         'is_twa': is_android_twa(request),
         'bgm_url': get_bgm_url('quiz_menu'),
+        'bgm_page_type': 'quiz_menu',
     })
 
 
@@ -1416,6 +1418,7 @@ def game_play(request):
         'is_kanji_mode': is_kanji_mode,
         'lang_code': lang_code,
         'bgm_url': get_bgm_url('game'),
+        'bgm_page_type': 'game',
     })
          
 
@@ -1467,6 +1470,7 @@ def game_answer(request, pk):
             'is_kanji_mode': is_kanji_mode,
             'lang_code': lang_code,
             'bgm_url': get_bgm_url('game'),
+            'bgm_page_type': 'game',
         })
     request.session['last_answered_index'] = index
     
@@ -1526,6 +1530,8 @@ def game_answer(request, pk):
         'is_premium_mode': is_premium_mode,
         'is_kanji_mode': is_kanji_mode,  
         'lang_code': lang_code,
+        'bgm_url': get_bgm_url('game'),
+        'bgm_page_type': 'game',
     })    
                 
 def game_next_question(request):
@@ -1717,6 +1723,7 @@ def game_result(request):
         'current_rank': current_rank,         
         'total_registered': total_registered,
         'bgm_url': get_bgm_url('top'),
+        'bgm_page_type': 'top',
         
     })    
                             
@@ -1732,6 +1739,7 @@ def category_list(request):
         'is_premium': is_premium,
         'lang_code': lang_code,
         'bgm_url': get_bgm_url('study'),
+        'bgm_page_type': 'study', 
     })
     
 
@@ -1745,6 +1753,7 @@ def category_list_zhcn(request):
         'is_premium': is_premium,
         'lang_code': lang_code,
         'bgm_url': get_bgm_url('study'),
+        'bgm_page_type': 'study', 
     })
      
 
@@ -1758,6 +1767,7 @@ def category_list_zhhant(request):
         'is_premium': is_premium,
         'lang_code': lang_code,
         'bgm_url': get_bgm_url('study'),
+        'bgm_page_type': 'study', 
     })
     
 
@@ -1771,6 +1781,7 @@ def category_list_vi(request):
         'is_premium': is_premium,
         'lang_code': lang_code,
         'bgm_url': get_bgm_url('study'),
+        'bgm_page_type': 'study', 
     })
     
 
@@ -1784,6 +1795,7 @@ def category_list_th(request):
         'is_premium': is_premium,
         'lang_code': lang_code,
         'bgm_url': get_bgm_url('study'),
+        'bgm_page_type': 'study', 
     })
     
     
@@ -1797,6 +1809,7 @@ def category_list_pt(request):
         'is_premium': is_premium,
         'lang_code': lang_code,
         'bgm_url': get_bgm_url('study'),
+        'bgm_page_type': 'study', 
     })
     
     
@@ -1811,6 +1824,7 @@ def category_list_pt_br(request):
         'is_premium': is_premium,
         'lang_code': lang_code,
         'bgm_url': get_bgm_url('study'),
+        'bgm_page_type': 'study', 
     })
     
     
@@ -1825,6 +1839,7 @@ def category_list_ko(request):
         'is_premium': is_premium,
         'lang_code': lang_code,
         'bgm_url': get_bgm_url('study'),
+        'bgm_page_type': 'study', 
     })
     
      
@@ -1839,6 +1854,7 @@ def category_list_ja(request):
         'is_premium': is_premium,
         'lang_code': lang_code,
         'bgm_url': get_bgm_url('study'),
+        'bgm_page_type': 'study', 
     })
     
     
@@ -1853,6 +1869,7 @@ def category_list_it(request):
         'is_premium': is_premium,
         'lang_code': lang_code,
         'bgm_url': get_bgm_url('study'),
+        'bgm_page_type': 'study', 
     })
     
     
@@ -1867,6 +1884,7 @@ def category_list_fr(request):
         'is_premium': is_premium,
         'lang_code': lang_code,
         'bgm_url': get_bgm_url('study'),
+        'bgm_page_type': 'study', 
     })
     
     
@@ -1881,6 +1899,7 @@ def category_list_es_mx(request):
         'is_premium': is_premium,
         'lang_code': lang_code,
         'bgm_url': get_bgm_url('study'),
+        'bgm_page_type': 'study', 
     })
     
     
@@ -1895,6 +1914,7 @@ def category_list_es_es(request):
         'is_premium': is_premium,
         'lang_code': lang_code,
         'bgm_url': get_bgm_url('study'),
+        'bgm_page_type': 'study', 
     })
     
     
@@ -1909,6 +1929,7 @@ def category_list_en_in(request):
         'is_premium': is_premium,
         'lang_code': lang_code,
         'bgm_url': get_bgm_url('study'),
+        'bgm_page_type': 'study', 
     })
     
     
@@ -1923,6 +1944,7 @@ def category_list_de(request):
         'is_premium': is_premium,
         'lang_code': lang_code,
         'bgm_url': get_bgm_url('study'),
+        'bgm_page_type': 'study', 
     })
     
     

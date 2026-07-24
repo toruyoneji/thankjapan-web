@@ -1,12 +1,41 @@
 {% if bgm_url %}
 <audio id="bgm-player" src="{{ bgm_url }}" loop autoplay muted></audio>
 <script>
-  document.addEventListener('click', function once() {
+(function() {
     const audio = document.getElementById('bgm-player');
-    if (audio) {
-      audio.muted = false;
+    if (!audio) return;
+
+    const storageKey = 'thankjapan_bgm_pos_{{ bgm_page_type|default:"" }}';
+
+    
+    const savedPos = sessionStorage.getItem(storageKey);
+    if (savedPos) {
+        audio.addEventListener('loadedmetadata', function() {
+            const pos = parseFloat(savedPos);
+            if (!isNaN(pos) && audio.duration > 0) {
+                audio.currentTime = pos % audio.duration;
+            }
+        }, { once: true });
     }
-    document.removeEventListener('click', once);
-  }, { once: true });
+
+    
+    const saveInterval = setInterval(() => {
+        if (!audio.paused) {
+            sessionStorage.setItem(storageKey, audio.currentTime);
+        }
+    }, 500);
+
+    
+    window.addEventListener('pagehide', () => {
+        sessionStorage.setItem(storageKey, audio.currentTime);
+    });
+
+    
+    document.addEventListener('click', function once() {
+        const savedSound = localStorage.getItem('thankjapan_sound');
+        audio.muted = (savedSound === 'off');
+        document.removeEventListener('click', once);
+    }, { once: true });
+})();
 </script>
 {% endif %}
