@@ -1535,11 +1535,11 @@ def game_answer(request, pk):
     })    
                 
 def game_next_question(request):
+    _, lang_code = get_lang_info(request)
     request.session['game_current_index'] = request.session.get('game_current_index', 0) + 1
     if request.session['game_current_index'] >= len(request.session.get('game_question_ids', [])):
-        return redirect('game_result')
-    return redirect('game_play')    
-
+        return redirect(f"{reverse('game_result')}?lang={lang_code}")
+    return redirect(f"{reverse('game_play')}?lang={lang_code}")
 
 
 
@@ -1622,7 +1622,8 @@ def game_restart(request):
     request.session['is_premium_mode'] = is_premium_mode
     request.session['game_history'] = []
     
-    return redirect('game_play')
+    _, lang_code = get_lang_info(request)
+    return redirect(f"{reverse('game_play')}?lang={lang_code}")
 
 
 

@@ -629,7 +629,7 @@ body::before, body::after { display: none; }
     </div>
 
         <div class="difficulty-options">
-            <a href="{% url 'game_restart' %}?difficulty=easy" class="difficulty-card easy">
+            <a href="{% url 'game_restart' %}?difficulty=easy&lang={{ lang_code }}" class="difficulty-card easy">
                 <span class="emoji">🙂</span>
                 <div class="difficulty-info">
                     <h3>EASY</h3>
@@ -650,7 +650,7 @@ body::before, body::after { display: none; }
                 </div>
             </a>
 
-            <a href="{% url 'game_restart' %}?difficulty=normal" class="difficulty-card normal">
+            <a href="{% url 'game_restart' %}?difficulty=normal&lang={{ lang_code }}" class="difficulty-card normal">
                 <span class="emoji">😐</span>
                 <div class="difficulty-info">
                     <h3>NORMAL</h3>
@@ -670,7 +670,7 @@ body::before, body::after { display: none; }
                 </div>
             </a>
 
-            <a href="{% url 'game_restart' %}?difficulty=hard" class="difficulty-card hard">
+            <a href="{% url 'game_restart' %}?difficulty=hard&lang={{ lang_code }}" class="difficulty-card hard">
                 <span class="emoji">😡</span>
                 <div class="difficulty-info">
                     <h3>HARD</h3>
@@ -692,7 +692,7 @@ body::before, body::after { display: none; }
             </a>
     
             {% if player and player.total_score >= 300 %}
-            <a href="{% url 'game_restart' %}?difficulty=super_hard" class="difficulty-card super-hard">
+            <a href="{% url 'game_restart' %}?difficulty=super_hard&lang={{ lang_code }}" class="difficulty-card super-hard">
                 <span class="emoji">👹</span>
                 <div class="difficulty-info">
                     <h3>MANIA</h3>
@@ -720,14 +720,14 @@ body::before, body::after { display: none; }
                         </p>
                     </div>
                     {% if not player %}
-                        <a href="{% url 'player_register' %}?next={{ request.path }}" style="position:absolute; top:0; left:0; width:100%; height:100%; z-index:10;"></a>
+                        <a href="{% url 'player_register' %}?next={{ request.path }}%3Flang%3D{{ lang_code }}" style="position:absolute; top:0; left:0; width:100%; height:100%; z-index:10;"></a>
                     {% endif %}
                 </div>
             {% endif %}
         </div>
 
         <div class="difficulty-options">
-            <a href="{% url 'game_restart' %}?difficulty=kanji1" class="difficulty-card easy">
+            <a href="{% url 'game_restart' %}?difficulty=kanji1&lang={{ lang_code }}" class="difficulty-card easy">
                 <span class="emoji">🉐</span>
                 <div class="difficulty-info">
                     <h3>KANJI: LEVEL 1</h3>
@@ -749,7 +749,7 @@ body::before, body::after { display: none; }
             </a>
 
 
-            <a href="{% url 'game_restart' %}?difficulty=kanji2" class="difficulty-card normal">
+            <a href="{% url 'game_restart' %}?difficulty=kanji2&lang={{ lang_code }}" class="difficulty-card normal">
                 <span class="emoji">🈴</span>
                 <div class="difficulty-info">
                     <h3>KANJI: LEVEL 2</h3>
@@ -772,7 +772,7 @@ body::before, body::after { display: none; }
         </div>
 
         <div class="difficulty-options premium-options">
-            <a href="{% url 'game_restart' %}?difficulty=sample_premium" class="difficulty-card sample-card">
+            <a href="{% url 'game_restart' %}?difficulty=sample_premium&lang={{ lang_code }}" class="difficulty-card sample-card">
                 <span class="emoji">📝</span>
                 <div class="difficulty-info">
                     <h3>
@@ -808,7 +808,7 @@ body::before, body::after { display: none; }
             </a>
 
             <!-- LEVEL N5 -->    
-            <a href="{% url 'game_restart' %}?difficulty=n5_premium" class="difficulty-card premium-gold">
+            <a href="{% url 'game_restart' %}?difficulty=n5_premium&lang={{ lang_code }}" class="difficulty-card premium-gold">
                 <span class="emoji">🌱</span>
                 <div class="difficulty-info">
                     <h3>LEVEL N5</h3>
@@ -830,7 +830,7 @@ body::before, body::after { display: none; }
             </a>
 
             <!-- LEVEL N4 -->
-            <a href="{% url 'game_restart' %}?difficulty=n4_premium" class="difficulty-card premium-gold">
+            <a href="{% url 'game_restart' %}?difficulty=n4_premium&lang={{ lang_code }}" class="difficulty-card premium-gold">
                 <span class="emoji">🏠</span>
                 <div class="difficulty-info">
                     <h3>LEVEL N4</h3>
@@ -852,7 +852,7 @@ body::before, body::after { display: none; }
             </a>
 
             <!-- LEVEL N3 -->
-            <a href="{% url 'game_restart' %}?difficulty=n3_premium" class="difficulty-card premium-gold">
+            <a href="{% url 'game_restart' %}?difficulty=n3_premium&lang={{ lang_code }}" class="difficulty-card premium-gold">
                 <span class="emoji">💼</span>
                 <div class="difficulty-info">
                     <h3>LEVEL N3</h3>
