@@ -1011,10 +1011,35 @@ tbody td { padding: 8px; border: none; font-size: 0.82rem; color: var(--ink); }
 
 {{ score|default:0|json_script:"score-data" }}
 <script>
+
+const topPageUrls = {
+    'ja': "{% url 'toppageja' %}",
+    'en': "{% url 'toppage' %}",
+    'en-in': "{% url 'toppageenIN' %}",
+    'ko': "{% url 'toppageko' %}",
+    'zh-cn': "{% url 'toppagezhCN' %}",
+    'zh-hant': "{% url 'toppagezhHANT' %}",
+    'fr': "{% url 'toppagefr' %}",
+    'de': "{% url 'toppagede' %}",
+    'it': "{% url 'toppageit' %}",
+    'es-es': "{% url 'toppageesES' %}",
+    'es-mx': "{% url 'toppageesMX' %}",
+    'pt': "{% url 'toppagept' %}",
+    'pt-br': "{% url 'toppageptBR' %}",
+    'vi': "{% url 'toppagevi' %}",
+    'th': "{% url 'toppageth' %}",
+};
+
 function goToTopPage() {
     const topUrl = localStorage.getItem('tj_top_url');
-    window.location.href = topUrl ? topUrl : "{% url 'toppage' %}";
+    if (topUrl) {
+        window.location.href = topUrl;
+        return;
+    }
+    const lang = "{{ lang_code }}";
+    window.location.href = topPageUrls[lang] || topPageUrls['en'];
 }
+
 
 function toggleMore(className, btn) {
     const rows = document.querySelectorAll('.' + className);
