@@ -3476,7 +3476,7 @@ class BusinessJapaneseView(BGMContextMixin, ListView):
         qs = ThankJapanPremium.objects.filter(category="BusinessJapanese").order_by('timestamp')
         is_premium = self.request.user.is_authenticated and getattr(self.request.user.profile, 'is_premium', False)
         if not is_premium:
-            return qs[:6]
+            return qs[:12]
         return qs
 
     def get_context_data(self, **kwargs):
@@ -3490,7 +3490,7 @@ class BusinessJapaneseView(BGMContextMixin, ListView):
         context['is_twa'] = is_android_twa(self.request)
         if not is_premium:
             context['is_locked'] = True
-            context['hidden_count'] = max(0, total_count - 6)
+            context['hidden_count'] = max(0, total_count - 12)
         else:
             context['is_locked'] = False
         return context
@@ -3511,7 +3511,7 @@ class LivingInJapanView(BGMContextMixin, ListView):
         qs = ThankJapanPremium.objects.filter(category="LivingInJapan").order_by('timestamp')
         is_premium = self.request.user.is_authenticated and getattr(self.request.user.profile, 'is_premium', False)
         if not is_premium:
-            return qs[:6]
+            return qs[:12]
         return qs
 
     def get_context_data(self, **kwargs):
@@ -3525,7 +3525,7 @@ class LivingInJapanView(BGMContextMixin, ListView):
         context['is_twa'] = is_android_twa(self.request)
         if not is_premium:
             context['is_locked'] = True
-            context['hidden_count'] = max(0, total_count - 6)
+            context['hidden_count'] = max(0, total_count - 12)
         else:
             context['is_locked'] = False
         return context
@@ -3546,7 +3546,7 @@ class MedicalEmergencyView(BGMContextMixin, ListView):
         qs = ThankJapanPremium.objects.filter(category="MedicalEmergency").order_by('timestamp')
         is_premium = self.request.user.is_authenticated and getattr(self.request.user.profile, 'is_premium', False)
         if not is_premium:
-            return qs[:6]
+            return qs[:12]
         return qs
 
     def get_context_data(self, **kwargs):
@@ -3560,7 +3560,7 @@ class MedicalEmergencyView(BGMContextMixin, ListView):
         context['is_twa'] = is_android_twa(self.request)
         if not is_premium:
             context['is_locked'] = True
-            context['hidden_count'] = max(0, total_count - 6)
+            context['hidden_count'] = max(0, total_count - 12)
         else:
             context['is_locked'] = False
         return context
@@ -3581,7 +3581,7 @@ class RealestateRulesView(BGMContextMixin, ListView):
         qs = ThankJapanPremium.objects.filter(category="RealEstateRules").order_by('timestamp')
         is_premium = self.request.user.is_authenticated and getattr(self.request.user.profile, 'is_premium', False)
         if not is_premium:
-            return qs[:6]
+            return qs[:12]
         return qs
 
     def get_context_data(self, **kwargs):
@@ -3595,7 +3595,7 @@ class RealestateRulesView(BGMContextMixin, ListView):
         context['is_twa'] = is_android_twa(self.request)
         if not is_premium:
             context['is_locked'] = True
-            context['hidden_count'] = max(0, total_count - 6)
+            context['hidden_count'] = max(0, total_count - 12)
         else:
             context['is_locked'] = False
         return context
@@ -3616,7 +3616,7 @@ class PrefectureView(BGMContextMixin, ListView):
         qs = ThankJapanPremium.objects.filter(category="Prefectures").order_by('timestamp')
         is_premium = self.request.user.is_authenticated and getattr(self.request.user.profile, 'is_premium', False)
         if not is_premium:
-            return qs[:6]
+            return qs[:12]
         return qs
 
     def get_context_data(self, **kwargs):
@@ -3630,7 +3630,7 @@ class PrefectureView(BGMContextMixin, ListView):
         context['is_twa'] = is_android_twa(self.request)
         if not is_premium:
             context['is_locked'] = True
-            context['hidden_count'] = max(0, total_count - 6)
+            context['hidden_count'] = max(0, total_count - 12)
         else:
             context['is_locked'] = False
         return context    
@@ -3716,7 +3716,7 @@ class ImgPremiumDetailView(DetailView):
         if obj.category not in ["DailyConversation", "slang", "TourismEtiquette" ,"Entertainment"] and not is_premium:
             free_sample_ids = ThankJapanPremium.objects.filter(
                 category__iexact=obj.category
-            ).order_by('timestamp').values_list('id', flat=True)[:6]
+            ).order_by('timestamp').values_list('id', flat=True)[:12]
             if obj.id not in free_sample_ids:
                 raise Http404
         return obj
@@ -3774,7 +3774,7 @@ class ImgPremiumDetailView(DetailView):
         else:
             context['free_sample_ids'] = ThankJapanPremium.objects.filter(
                 category=current_item.category
-            ).order_by('timestamp').values_list('id', flat=True)[:6]
+            ).order_by('timestamp').values_list('id', flat=True)[:12]
         context['related_items'] = ThankJapanPremium.objects.filter(
             category=current_item.category
         ).exclude(id=current_item.id).order_by('?')[:6]
@@ -3799,7 +3799,7 @@ def sitemap_view(request):
     other_categories = ThankJapanPremium.objects.exclude(category__in=["DailyConversation", "slang", "TourismEtiquette" ,"Entertainment"]).values_list('category', flat=True).distinct()
     
     for cat in other_categories:
-        samples = ThankJapanPremium.objects.filter(category=cat).order_by('timestamp')[:6]
+        samples = ThankJapanPremium.objects.filter(category=cat).order_by('timestamp')[:12]
         public_premium_items.extend(list(samples))
         
     prefectures = ['ishikawa', 'toyama', 'fukui'] 
