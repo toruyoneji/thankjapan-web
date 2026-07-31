@@ -557,6 +557,17 @@ p[style*="color: var(--ink-soft)"] {
 
 .result-section h2 { color: var(--ink) !important; text-shadow: none !important; font-size: 1.7em !important; }
 .result-section p { color: var(--ink) !important; text-shadow: none !important; }
+.result-image {
+    width: 100%;
+    max-width: 320px;
+    height: auto;
+    border-radius: 16px;
+    margin: 0 auto 15px;
+    display: block;
+    border: 2px solid var(--gold);
+    box-shadow: 0 4px 15px rgba(42,29,19,0.12);
+}
+
 #time-left { color: var(--gold-dark); }
 #timer-container span:not(#time-left) { color: var(--ink) !important; }
 #english-hint-text { color: var(--azuki-dark) !important; }
@@ -996,6 +1007,9 @@ p[style*="color: var(--ink-soft)"] {
         </h2>
 
         <div style="margin: 20px 0;">
+            {% if object.image %}
+                <img src="{{ object.image.url }}" alt="{{ object.jpname }}" class="result-image">
+            {% endif %}
             <p style="font-size: 2.4em; color: #2a1d13; line-height: 1.8;">
                 {% if object.kanji_name %}
                     {{ object.kanji_name|ruby_smart:object.jpname }}
@@ -1045,6 +1059,7 @@ p[style*="color: var(--ink-soft)"] {
         </h2>
 
         <div style="margin: 20px 0;">
+            
             <p style="font-size: 1.6em; color: #2a1d13; line-height: 1.8;">
                 {% if lang_code == 'ja' %}正解:
                 {% elif lang_code == 'zh-hant' %}正確:
@@ -1058,6 +1073,10 @@ p[style*="color: var(--ink-soft)"] {
                 {% elif lang_code == 'vi' %}Đáp án đúng:
                 {% elif lang_code == 'th' %}คำตอบที่ถูกต้อง:
                 {% else %}Correct:
+                {% endif %}
+
+                {% if object.image %}
+                    <img src="{{ object.image.url }}" alt="{{ object.jpname }}" class="result-image">
                 {% endif %}
                 <strong>
                     {% if object.kanji_name %}
