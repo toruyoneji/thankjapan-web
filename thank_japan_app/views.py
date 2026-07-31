@@ -1504,6 +1504,7 @@ def game_answer(request, pk):
     history = request.session.get('game_history', [])
     history.append({
         'question_id': question.id,
+        'index': index,
         'is_correct': correct_flag,
         'user_input': user_input,
         'correct_answer': question.name,
@@ -1631,6 +1632,12 @@ def game_result(request):
     _, lang_code = get_lang_info(request)
     score = int(request.session.get('game_score', 0))
     history = request.session.get('game_history', [])
+    
+    deduped = {}
+    for h in history:
+        deduped[h.get('index')] = h
+    history = list(deduped.values())
+    
     time_bonus_total = sum(
         (h.get('points', 1) - 1) for h in history if h.get('is_correct')
     )
