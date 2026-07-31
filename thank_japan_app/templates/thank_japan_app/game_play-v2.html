@@ -1010,13 +1010,6 @@ p[style*="color: var(--ink-soft)"] {
             {% if object.image %}
                 <img src="{{ object.image.url }}" alt="{{ object.jpname }}" class="result-image">
             {% endif %}
-            <p style="font-size: 2.4em; color: #2a1d13; line-height: 1.8;">
-                {% if object.kanji_name %}
-                    {{ object.kanji_name|ruby_smart:object.jpname }}
-                {% else %}
-                    {{ object.jpname }}
-                {% endif %}
-            </p>
             
 
             <p style="font-size: 1.8em; color: #5e7458; font-weight: bold; text-shadow: none;">
@@ -1078,13 +1071,7 @@ p[style*="color: var(--ink-soft)"] {
                 {% if object.image %}
                     <img src="{{ object.image.url }}" alt="{{ object.jpname }}" class="result-image">
                 {% endif %}
-                <strong>
-                    {% if object.kanji_name %}
-                        {{ object.kanji_name|ruby_smart:object.jpname }}
-                    {% else %}
-                        {{ object.jpname }}
-                    {% endif %}
-                </strong>
+                
             </p>
             
             <p style="font-size: 1.6em; color: #2a1d13; font-family: 'Poppins', sans-serif;">
