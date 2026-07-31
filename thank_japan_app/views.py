@@ -1632,11 +1632,12 @@ def game_result(request):
     _, lang_code = get_lang_info(request)
     
     raw_history = request.session.get('game_history', [])
-    deduped = {h.get('index'): h for h in raw_history}
-    history = list(deduped.values()) 
+    
+    deduped_dict = {h.get('index'): h for h in raw_history}
+    history = list(deduped_dict.values()) 
 
-    total_played = len(history)
-    correct_count = sum(1 for h in history if h.get('is_correct'))
+    total_played = len(history) 
+    correct_count = sum(1 for h in history if h.get('is_correct')) 
     
     time_bonus_total = sum((h.get('points', 1) - 1) for h in history if h.get('is_correct'))
     score = sum(h.get('points', 0) for h in history) 
@@ -1651,21 +1652,12 @@ def game_result(request):
             profile.total_score += score
             profile.last_score = score
             profile.save()
-
             player.total_score = profile.total_score
-            player.last_score = score
-            player.country = profile.country
             player.save()
-            
             week_start = WeeklyScore.get_current_week_start()
-            weekly_record, created = WeeklyScore.objects.get_or_create(
-                user=request.user,
-                week_start=week_start
-            )
+            weekly_record, _ = WeeklyScore.objects.get_or_create(user=request.user, week_start=week_start)
             weekly_record.score += score
-            weekly_record.country = profile.country 
             weekly_record.save()
-        
         request.session['score_saved'] = True
         
     player_global_rank = None
@@ -1679,33 +1671,17 @@ def game_result(request):
     model = ThankJapanPremium if is_premium_mode else ThankJapanModel
     played_ids = [h['question_id'] for h in history]
     played_questions = model.objects.in_bulk(played_ids)
-
-    review_data = []
-    for h in history:
-        q = played_questions.get(h['question_id'])
-        if q: 
-            review_data.append({
-                'object': q, 
-                'is_correct': h['is_correct'], 
-                'user_input': h['user_input'], 
-                'correct_answer': h.get('correct_answer', q.name)
-            })
+    review_data = [{'object': played_questions.get(h['question_id']), 'is_correct': h['is_correct'], 'user_input': h['user_input'], 'correct_answer': h.get('correct_answer')} for h in history if played_questions.get(h['question_id'])]
 
     ranking = Player.objects.exclude(username__icontains="Guest").order_by('-total_score')[:20]
-    
     current_week = WeeklyScore.get_current_week_start()
-    raw_weekly_ranking = WeeklyScore.objects.filter(
-        week_start=current_week
-    ).order_by('-score')[:10]
+    raw_weekly_ranking = WeeklyScore.objects.filter(week_start=current_week).order_by('-score')[:10]
     
     weekly_ranking = []
-    last_score = None
-    display_rank = 0
-
+    last_score, rank_val = None, 0
     for i, r in enumerate(raw_weekly_ranking, 1):
-        if r.score != last_score:
-            display_rank = i  
-        r.display_rank = display_rank
+        if r.score != last_score: rank_val = i  
+        r.display_rank = rank_val
         weekly_ranking.append(r)
         last_score = r.score
 
@@ -1719,15 +1695,13 @@ def game_result(request):
         'is_guest': is_guest, 
         'review_data': review_data, 
         'difficulty': difficulty,
-        'is_premium_mode': is_premium_mode,
         'ranking': ranking,
         'weekly_ranking': weekly_ranking,
         'current_rank': player_global_rank,
         'total_registered': total_registered,
         'bgm_url': get_bgm_url('top'),
         'bgm_page_type': 'top',
-    })
-    
+    })    
     
     
                                 
