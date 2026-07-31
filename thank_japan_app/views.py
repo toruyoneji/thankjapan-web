@@ -1630,18 +1630,16 @@ def game_restart(request):
 
 def game_result(request):
     _, lang_code = get_lang_info(request)
-    score = int(request.session.get('game_score', 0))
-    history = request.session.get('game_history', [])
     
-    deduped = {}
-    for h in history:
-        deduped[h.get('index')] = h
-    history = list(deduped.values())
-    
-    time_bonus_total = sum(
-        (h.get('points', 1) - 1) for h in history if h.get('is_correct')
-    )
+    raw_history = request.session.get('game_history', [])
+    deduped = {h.get('index'): h for h in raw_history}
+    history = list(deduped.values()) 
+
+    total_played = len(history)
     correct_count = sum(1 for h in history if h.get('is_correct'))
+    
+    time_bonus_total = sum((h.get('points', 1) - 1) for h in history if h.get('is_correct'))
+    score = sum(h.get('points', 0) for h in history) 
     
     player, is_guest = get_current_player_info(request)
     is_premium_mode = request.session.get('is_premium_mode', False)
@@ -1670,16 +1668,13 @@ def game_result(request):
         
         request.session['score_saved'] = True
         
-    current_rank = None
+    player_global_rank = None
     total_registered = 0
     if not is_guest:
-        
         registered_players = Player.objects.exclude(username__icontains="Guest")
         total_registered = registered_players.count()
-        
         higher_scores_count = registered_players.filter(total_score__gt=player.total_score).count()
-        current_rank = higher_scores_count + 1
-    
+        player_global_rank = higher_scores_count + 1
     
     model = ThankJapanPremium if is_premium_mode else ThankJapanModel
     played_ids = [h['question_id'] for h in history]
@@ -1705,13 +1700,12 @@ def game_result(request):
     
     weekly_ranking = []
     last_score = None
-    current_rank = 0
+    display_rank = 0
 
     for i, r in enumerate(raw_weekly_ranking, 1):
         if r.score != last_score:
-            current_rank = i  
-        
-        r.display_rank = current_rank
+            display_rank = i  
+        r.display_rank = display_rank
         weekly_ranking.append(r)
         last_score = r.score
 
@@ -1721,20 +1715,22 @@ def game_result(request):
         'score': score, 
         'time_bonus_total': time_bonus_total,
         'correct_count': correct_count, 
-        'total_played': len(history),
+        'total_played': total_played,
         'is_guest': is_guest, 
         'review_data': review_data, 
         'difficulty': difficulty,
         'is_premium_mode': is_premium_mode,
         'ranking': ranking,
         'weekly_ranking': weekly_ranking,
-        'current_rank': current_rank,         
+        'current_rank': player_global_rank,
         'total_registered': total_registered,
         'bgm_url': get_bgm_url('top'),
         'bgm_page_type': 'top',
-        
-    })    
-                            
+    })
+    
+    
+    
+                                
 #category select view
 
 def category_list(request):
