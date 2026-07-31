@@ -1382,7 +1382,7 @@ def game_play(request):
         choice_ids = request.session.get('current_choices')
         choices = [get_object_or_404(model, id=cid) for cid in choice_ids]
     else:
-        KARUTA_DUMMY_COUNT = 5
+        KARUTA_DUMMY_COUNT = 1
         dummy_pool = model.objects.filter(category=question.category).exclude(id=question.id).exclude(jpname=question.jpname)
         if is_kanji_mode:
             dummy_pool = dummy_pool.filter(kanji_name__regex=r'[一-龠]')

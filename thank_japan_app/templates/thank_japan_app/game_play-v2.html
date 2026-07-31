@@ -396,11 +396,11 @@ p[style*="color: var(--ink-soft)"] {
 
 .karuta-board {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
     align-items: start !important;
     gap: 6px !important;
     width: 95% !important;
-    max-width: 280px !important;
+    max-width: 420px !important;
     margin: 5px auto !important;
     background: #4a5d3f !important;
     background-image: 
@@ -415,13 +415,14 @@ p[style*="color: var(--ink-soft)"] {
 
 .karuta-board .choice-btn {
     width: 100% !important;
-    min-height: 130px !important;
+    min-height: 220px !important;
     background: linear-gradient(135deg, #ffffff 0%, #fdf8ee 100%) !important;
     border: 2px solid #d4af37 !important;
     border-radius: 4px !important;
     box-shadow: 2px 3px 6px rgba(0,0,0,0.3) !important;
     color: #2a1d13 !important;
     font-weight: 800 !important;
+    font-size: 1.5rem !important;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
@@ -443,7 +444,7 @@ p[style*="color: var(--ink-soft)"] {
 }
 
 .karuta-board .choice-btn.vertical-card .card-text {
-    writing-mode: vertical-rl;
+    writing-mode: vertical-lr;
     text-orientation: upright;
     display: inline-block;
     max-height: 100%;
