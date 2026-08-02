@@ -315,6 +315,15 @@
 }
 </style>
 
+
+<script async src="https://www.googletagmanager.com/gtag/js?id={{ GA_TRACKING_ID }}"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', '{{ GA_TRACKING_ID }}');
+</script>
+
 </head>
 
 <body>
@@ -412,6 +421,17 @@
       document.getElementById('google-play-sub-button')?.addEventListener('click', async () => {
           const statusElement = document.getElementById('billing-status');
 
+          gtag('event', 'begin_checkout', {
+              currency: 'JPY',
+              value: 800,
+              items: [{
+                  item_id: 'thankjapan_premium_monthly_gplay',
+                  item_name: 'ThankJapan Premium Monthly',
+                  price: 800,
+                  quantity: 1
+              }]
+          });
+
           if (!window.getDigitalGoodsService) {
               alert("この環境はGoogle Play決済をサポートしていません。");
               return;
@@ -449,6 +469,18 @@
                   const result = await response.json();
 
                   if (result.status === 'success') {
+                      gtag('event', 'purchase', {
+                          transaction_id: purchaseToken,
+                          currency: 'JPY',
+                          value: 800,
+                          items: [{
+                              item_id: 'thankjapan_premium_monthly_gplay',
+                              item_name: 'ThankJapan Premium Monthly',
+                              price: 800,
+                              quantity: 1
+                          }]
+                      });
+
                       paymentResponse.complete('success');
                       alert("ありがとうございます！プレミアム会員になりました！");
                       window.location.reload();
@@ -464,6 +496,7 @@
           }
       });
       </script>
+
 
       {% endif %}
 
@@ -494,6 +527,19 @@
             layout: 'vertical',
             label: 'subscribe'
         },
+        onClick: function(data, actions) {
+            gtag('event', 'begin_checkout', {
+                currency: 'USD',
+                value: 5.00,
+                items: [{
+                    item_id: 'thankjapan_premium_monthly_paypal',
+                    item_name: 'ThankJapan Premium Monthly',
+                    price: 5.00,
+                    quantity: 1
+                }]
+            });
+            return actions.resolve();
+        },
         createSubscription: function(data, actions) {
             return actions.subscription.create({
                 'plan_id': '{{ paypal_plan_id }}'
@@ -513,6 +559,18 @@
                 })
             }).then(response => {
                 if (response.ok) {
+                    gtag('event', 'purchase', {
+                        transaction_id: data.subscriptionID,
+                        currency: 'USD',
+                        value: 5.00,
+                        items: [{
+                            item_id: 'thankjapan_premium_monthly_paypal',
+                            item_name: 'ThankJapan Premium Monthly',
+                            price: 5.00,
+                            quantity: 1
+                        }]
+                    });
+
                     setTimeout(function() {
                         window.location.href = "{% url 'thank_youja' %}";
                     }, 3000);
@@ -524,7 +582,23 @@
         }
     }).render('#paypal-button-container');
 </script>
+
+
 {% endif %}
+
+<script>
+gtag('event', 'view_item', {
+    currency: '{% if is_twa %}JPY{% else %}USD{% endif %}',
+    value: parseFloat('{% if is_twa %}800{% else %}5.00{% endif %}'),
+    items: [{
+        item_id: '{% if is_twa %}thankjapan_premium_monthly_gplay{% else %}thankjapan_premium_monthly_paypal{% endif %}',
+        item_name: 'ThankJapan Premium Monthly',
+        price: parseFloat('{% if is_twa %}800{% else %}5.00{% endif %}'),
+        quantity: 1
+    }]
+});
+</script>
+
 </body>
 
 </html>
