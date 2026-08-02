@@ -421,6 +421,17 @@
       document.getElementById('google-play-sub-button')?.addEventListener('click', async () => {
           const statusElement = document.getElementById('billing-status');
 
+          gtag('event', 'begin_checkout', {
+              currency: 'EUR',
+              value: 4.99,
+              items: [{
+                  item_id: 'thankjapan_premium_monthly_gplay',
+                  item_name: 'ThankJapan Premium Monthly',
+                  price: 4.99,
+                  quantity: 1
+              }]
+          });
+
           if (!window.getDigitalGoodsService) {
               alert("Este entorno no es compatible con la facturación de Google Play.");
               return;
@@ -458,6 +469,18 @@
                   const result = await response.json();
 
                   if (result.status === 'success') {
+                      gtag('event', 'purchase', {
+                          transaction_id: purchaseToken,
+                          currency: 'EUR',
+                          value: 4.99,
+                          items: [{
+                              item_id: 'thankjapan_premium_monthly_gplay',
+                              item_name: 'ThankJapan Premium Monthly',
+                              price: 4.99,
+                              quantity: 1
+                          }]
+                      });
+
                       paymentResponse.complete('success');
                       alert("¡Éxito! ¡Bienvenido a Premium!");
                       window.location.reload();
@@ -473,6 +496,7 @@
           }
       });
       </script>
+
 
       {% endif %}
 
@@ -503,6 +527,19 @@
             layout: 'vertical',
             label: 'subscribe'
         },
+        onClick: function(data, actions) {
+            gtag('event', 'begin_checkout', {
+                currency: 'USD',
+                value: 5.00,
+                items: [{
+                    item_id: 'thankjapan_premium_monthly_paypal',
+                    item_name: 'ThankJapan Premium Monthly',
+                    price: 5.00,
+                    quantity: 1
+                }]
+            });
+            return actions.resolve();
+        },
         createSubscription: function(data, actions) {
             return actions.subscription.create({
                 'plan_id': '{{ paypal_plan_id }}'
@@ -522,6 +559,18 @@
                 })
             }).then(response => {
                 if (response.ok) {
+                    gtag('event', 'purchase', {
+                        transaction_id: data.subscriptionID,
+                        currency: 'USD',
+                        value: 5.00,
+                        items: [{
+                            item_id: 'thankjapan_premium_monthly_paypal',
+                            item_name: 'ThankJapan Premium Monthly',
+                            price: 5.00,
+                            quantity: 1
+                        }]
+                    });
+
                     setTimeout(function() {
                         window.location.href = "{% url 'thank_youesES' %}";
                     }, 3000);
@@ -533,7 +582,23 @@
         }
     }).render('#paypal-button-container');
 </script>
+
+
 {% endif %}
+
+<script>
+gtag('event', 'view_item', {
+    currency: '{% if is_twa %}EUR{% else %}USD{% endif %}',
+    value: parseFloat('{% if is_twa %}4.99{% else %}5.00{% endif %}'),
+    items: [{
+        item_id: '{% if is_twa %}thankjapan_premium_monthly_gplay{% else %}thankjapan_premium_monthly_paypal{% endif %}',
+        item_name: 'ThankJapan Premium Monthly',
+        price: parseFloat('{% if is_twa %}4.99{% else %}5.00{% endif %}'),
+        quantity: 1
+    }]
+});
+</script>
+
 </body>
 
 
