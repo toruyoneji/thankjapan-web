@@ -276,18 +276,18 @@ def update_policy_agreement(request):
 class CustomPasswordResetView(PasswordResetView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # URLパラメータから取得、なければセッション、なければ en
+        
         lang = self.request.GET.get('lang') or self.request.session.get('tj_lang_code', 'en')
         context['lang_code'] = lang
         return context
 
     def get_success_url(self):
-        # 次の画面（Done画面）への遷移時にも言語を確実に引き継ぐ
+       
         lang = self.request.GET.get('lang') or self.request.session.get('tj_lang_code', 'en')
         return reverse('password_reset_done') + f"?lang={lang}"
 
     def form_valid(self, form):
-        # 重要：メールの内容（extra_email_context）に渡す言語をここで確定させる
+        
         lang = self.request.GET.get('lang') or self.request.session.get('tj_lang_code', 'en')
             
         opts = {
@@ -773,13 +773,22 @@ def apply_login_bonus(request):
     else:
         request.session['show_guest_bonus_alert'] = True
         
+        
+#bgm
+      
 def get_bgm_url(page_type):
-    
     try:
         record = ThankJapanBackgroundModel.objects.filter(
             page_type=page_type, sound__isnull=False
         ).first()
-        return record.sound.url if record else None
+        
+        if record and record.sound:
+            url = record.sound.url
+            
+            if url and url.startswith('http://'):
+                url = url.replace('http://', 'https://', 1)
+            return url
+        return None
     except AttributeError:
         return None
             
