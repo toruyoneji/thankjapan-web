@@ -21,10 +21,11 @@ from django.utils import timezone
 from django.utils.http import urlencode
 from django.contrib.auth.views import PasswordResetView, PasswordResetConfirmView
 from .context_processors import language_context
-from .models import WeeklyScore, ThankJapanBackgroundModel
+from .models import WeeklyScore, ThankJapanBackgroundModel, FCMDevice
 from google.oauth2 import service_account
 from googleapiclient.discovery import build
 from django.urls import reverse
+from django.views.decorators.csrf import csrf_exempt
 import logging
 import random
 import re, itertools
@@ -793,7 +794,7 @@ def get_bgm_url(page_type):
         return None
             
 
-#country top page
+
 
 class BGMContextMixin:
     bgm_page_type = None  
@@ -804,6 +805,35 @@ class BGMContextMixin:
             context['bgm_url'] = get_bgm_url(self.bgm_page_type)
             context['bgm_page_type'] = self.bgm_page_type
         return context
+    
+    
+    
+#google firebase
+
+
+@csrf_exempt
+def save_fcm_token(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            token = data.get('token')
+            lang = data.get('lang', 'ja')
+            user = request.user if request.user.is_authenticated else None
+            
+            FCMDevice.objects.update_or_create(
+                token=token,
+                defaults={'user': user, 'lang': lang}
+            )
+            return JsonResponse({'status': 'success'})
+        except Exception as e:
+            return JsonResponse({'status': 'error', 'message': str(e)}, status=400)
+    return JsonResponse({'status': 'method not allowed'}, status=405)
+
+
+
+
+#country top page
+
 
 class TopView(BGMContextMixin, ListView): 
     template_name = "thank_japan_app/toppage/toppage.html"

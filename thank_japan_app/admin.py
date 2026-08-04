@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.models import User
 from .models import ThankJapanModel, ThankJapanBackgroundModel, Player, Profile, ThankJapanPremium
+from .models import FCMDevice
 import logging
 from django.core.exceptions import ValidationError
 
@@ -45,6 +46,18 @@ class ThankJapanBackgroundAdmin(admin.ModelAdmin):
             
 class PlayerAdmin(admin.ModelAdmin):
     list_display = ('username', 'country', 'last_score')
+    
+    
+
+
+@admin.register(FCMDevice)
+class FCMDeviceAdmin(admin.ModelAdmin):
+    list_display = ('user', 'lang', 'created_at', 'token_snippet')
+    list_filter = ('lang', 'created_at')
+    search_fields = ('user__username', 'token')
+
+    def token_snippet(self, obj):
+        return obj.token[:20] + "..." 
 
 admin.site.unregister(User)
 admin.site.register(User, UserAdmin)

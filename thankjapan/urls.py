@@ -5,7 +5,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from thank_japan_app.views import robots_txt
 from django.views.generic import TemplateView
-from thank_japan_app.views import sitemap_view
+from thank_japan_app.views import sitemap_view, sitemap_view, save_fcm_token
 from django.http import JsonResponse
 from django.http import HttpResponse
 import json
@@ -39,6 +39,7 @@ app_name = "thank_japan_app"
 urlpatterns = [
     path('manifest.json', TemplateView.as_view(template_name='manifest.json', content_type='application/json')),
     path('sw.js', TemplateView.as_view(template_name='sw.js', content_type='application/javascript')),
+    path('api/save-fcm-token/', save_fcm_token, name='save_fcm_token'),
     
     re_path('.well-known/assetlinks.json', assetlinks_view),
     

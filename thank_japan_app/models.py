@@ -5,6 +5,8 @@ from django.utils.text import slugify
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.conf import settings
+
 
 class ThankJapanModel(models.Model):
     name = models.CharField(max_length=100, unique=True)
@@ -311,4 +313,15 @@ class WeeklyScore(models.Model):
         import datetime
         today = timezone.now().date()
         return today - datetime.timedelta(days=today.weekday())
+    
+    
+
+class FCMDevice(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True)
+    token = models.TextField(unique=True)
+    lang = models.CharField(max_length=10, default='ja')
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.user} ({self.lang})"
 
