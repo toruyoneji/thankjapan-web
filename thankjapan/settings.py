@@ -125,6 +125,7 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'thank_japan_app.context_processors.google_analytics',
                 'thank_japan_app.context_processors.language_context',
+                'thank_japan_app.context_processors.firebase_keys',
             ],
         },
     },

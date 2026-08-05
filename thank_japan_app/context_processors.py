@@ -1,6 +1,8 @@
 # thank_japan_app/context_processors.py
 
 from django.conf import settings
+import os
+
 
 def google_analytics(request):
     return {
@@ -40,4 +42,14 @@ def language_context(request):
             
     return {
         'lang_code': lang 
+    }
+    
+
+def firebase_keys(request):
+    return {
+        'FIREBASE_API_KEY': os.environ.get('FIREBASE_API_KEY', ''),
+        'FIREBASE_PROJECT_ID': os.environ.get('FIREBASE_PROJECT_ID', ''),
+        'FIREBASE_MESSAGING_SENDER_ID': os.environ.get('FIREBASE_MESSAGING_SENDER_ID', ''),
+        'FIREBASE_APP_ID': os.environ.get('FIREBASE_APP_ID', ''),
+        'FIREBASE_VAPID_KEY': os.environ.get('FIREBASE_VAPID_KEY', ''),
     }

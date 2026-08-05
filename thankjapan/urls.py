@@ -9,6 +9,7 @@ from thank_japan_app.views import sitemap_view, sitemap_view, save_fcm_token
 from django.http import JsonResponse
 from django.http import HttpResponse
 import json
+import os
 
 
 def assetlinks_view(request):
@@ -38,7 +39,18 @@ def assetlinks_view(request):
 app_name = "thank_japan_app"
 urlpatterns = [
     path('manifest.json', TemplateView.as_view(template_name='manifest.json', content_type='application/json')),
-    path('sw.js', TemplateView.as_view(template_name='sw.js', content_type='application/javascript')),
+    
+    path('sw.js', TemplateView.as_view(
+    template_name='sw.js', 
+    content_type='application/javascript',
+    extra_context={
+        'FIREBASE_API_KEY': os.environ.get('FIREBASE_API_KEY'),
+        'FIREBASE_PROJECT_ID': os.environ.get('FIREBASE_PROJECT_ID'),
+        'FIREBASE_MESSAGING_SENDER_ID': os.environ.get('FIREBASE_MESSAGING_SENDER_ID'),
+        'FIREBASE_APP_ID': os.environ.get('FIREBASE_APP_ID'),
+    }
+), name='sw.js'),
+    
     path('api/save-fcm-token/', save_fcm_token, name='save_fcm_token'),
     
     re_path('.well-known/assetlinks.json', assetlinks_view),
