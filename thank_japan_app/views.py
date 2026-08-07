@@ -26,6 +26,7 @@ from google.oauth2 import service_account
 from googleapiclient.discovery import build
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
+from firebase_admin import credentials, messaging
 import logging
 import random
 import re, itertools
@@ -34,6 +35,12 @@ import paypalrestsdk
 import requests
 import time
 import json
+import os
+import firebase_admin
+
+
+
+
 
 
 
@@ -810,7 +817,6 @@ class BGMContextMixin:
     
 #google firebase
 
-
 @csrf_exempt
 def save_fcm_token(request):
     if request.method == 'POST':
@@ -832,8 +838,51 @@ def save_fcm_token(request):
 
 
 
-#country top page
 
+# Firebase Admin SDKの初期化
+if not firebase_admin._apps:
+    cred_json = os.environ.get('FIREBASE_SERVICE_ACCOUNT')
+    if cred_json:
+        try:
+            cred_dict = json.loads(cred_json)
+            cred = credentials.Certificate(cred_dict)
+            firebase_admin.initialize_app(cred)
+        except Exception as e:
+            print(f"Firebase initialization error: {e}")
+
+def send_test_notification(request):
+    
+    if not request.user.is_authenticated:
+        return JsonResponse({'error': 'Login required'}, status=403)
+
+    
+    devices = FCMDevice.objects.filter(user=request.user)
+    
+    if not devices.exists():
+        return JsonResponse({'error': 'No device token found. Please enable notifications first.'})
+
+    success_count = 0
+    for device in devices:
+        message = messaging.Message(
+            notification=messaging.Notification(
+                title='ThankJapan 接続成功！',
+                body='DjangoからFirebase経由で通知が届きました。',
+            ),
+            token=device.token,
+        )
+        try:
+            messaging.send(message)
+            success_count += 1
+        except Exception as e:
+            print(f"Error: {e}")
+
+    return JsonResponse({'status': f'Successfully sent {success_count} notifications!'})
+
+
+
+
+
+#country top page
 
 class TopView(BGMContextMixin, ListView): 
     template_name = "thank_japan_app/toppage/toppage.html"

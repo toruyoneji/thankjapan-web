@@ -40,7 +40,8 @@ from .views import (TopView, TopViewFR, TopViewIT, TopViewPT, TopViewZHHANT,TopV
                     account_settingsVI, account_settingsZHHANT, account_settingsZHCN,
                     delete_success_v2, 
                     downgrade_success_v2, update_policy_agreement, paypal_webhook,
-                    CustomPasswordResetView, CustomPasswordResetConfirmView, verify_android_subscription) 
+                    CustomPasswordResetView, CustomPasswordResetConfirmView, verify_android_subscription, 
+                    send_test_notification) 
 
 
 urlpatterns = [
@@ -63,6 +64,7 @@ urlpatterns = [
     
     path('account/settings-redirect/', account_settings_redirect, name='account_settings_redirect'),
     path('verify-android-subscription/', verify_android_subscription, name='verify_android_subscription'),
+    path('api/send-test-push/', send_test_notification, name='send_test_push'),
     
     #premium
     path('premium/', premium_info, name='premium_info'),
