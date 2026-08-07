@@ -850,88 +850,50 @@ if not firebase_admin._apps:
         except Exception as e:
             print(f"Firebase initialization error: {e}")
 
-def send_test_notification(request):
-    
-    if not request.user.is_authenticated:
-        return JsonResponse({'error': 'Login required'}, status=403)
-
-    
-    devices = FCMDevice.objects.filter(user=request.user)
-    
-    if not devices.exists():
-        return JsonResponse({'error': 'No device token found. Please enable notifications first.'})
-
-    success_count = 0
-    for device in devices:
-        message = messaging.Message(
-            notification=messaging.Notification(
-                title='ThankJapan 接続成功！',
-                body='DjangoからFirebase経由で通知が届きました。',
-            ),
-            token=device.token,
-        )
-        try:
-            messaging.send(message)
-            success_count += 1
-        except Exception as e:
-            print(f"Error: {e}")
-
-    return JsonResponse({'status': f'Successfully sent {success_count} notifications!'})
 
 
 NOTIFICATION_MESSAGES = {
     'daily_growth': {
-        'ja': {'title': '今日も一つ、言の葉を。', 'body': 'その一歩が、あなたの位（ランク）をまた一つ上げます。'},
-        'en': {'title': 'Learn just one word today.', 'body': 'One more step toward your next level.'},
-        'vi': {'title': 'Học thêm một từ hôm nay.', 'body': 'Bạn sẽ tiến thêm một bước lên cấp độ mới.'},
+        'ja': {'title': '今日も一つ、単語を覚えてみよう。', 'body': 'あなたはまた一つ、レベルが上がります。'},
+        'en': {'title': 'Let\'s learn one word today.', 'body': 'Your level is about to go up once more.'},
+        'vi': {'title': 'Hôm nay hãy học một từ mới nhé.', 'body': 'Cấp độ của bạn sẽ tăng thêm một bậc nữa.'},
         'th': {'title': 'วันนี้มาเรียนรู้คำศัพท์ใหม่กันเถอะ', 'body': 'เลเวลของคุณกำลังจะเพิ่มขึ้นอีกขั้นแล้ว'},
         'ko': {'title': '오늘도 단어 하나를 익혀보세요.', 'body': '당신의 레벨이 한 단계 더 올라갈 것입니다.'},
-        'zh-hant': {'title': '今天也來記一個詞吧。', 'body': '這將讓你的等級再次提升。'},
-        'zh-cn': {'title': '今天也来记一个词吧。', 'body': '这将让你的等级再次提升。'},
-        'fr': {'title': 'Apprenez un mot aujourd\'hui.', 'body': 'Franchissez une étape de plus vers le niveau supérieur.'},
-        'it': {'title': 'Impara una parola oggi.', 'body': 'Fai un altro passo verso il livello successivo.'},
-        'es-es': {'title': 'Aprende una palabra hoy.', 'body': 'Un paso más hacia tu siguiente nivel.'},
-        'es-mx': {'title': 'Aprende una palabra hoy.', 'body': 'Estás a un paso de subir de nivel.'},
-        'de': {'title': 'Lerne heute ein Wort.', 'body': 'Ein weiterer Schritt zu deinem nächsten Level.'},
-        'pt': {'title': 'Aprende uma palavra hoje.', 'body': 'Dá mais um passo rumo ao próximo nível.'},
-        'pt-br': {'title': 'Aprenda uma palavra hoje.', 'body': 'Dê mais um passo rumo ao próximo nível.'},
-        'en-in': {'title': 'Learn one word today.', 'body': 'Take one more step toward the next level.'},
+        'zh-hant': {'title': '今天也來記一個單詞吧。', 'body': '你的等級將會再次提升。'},
+        'zh-cn': {'title': '今天也来记一个单词吧。', 'body': '你的等级将会再次提升。'},
+        'fr': {'title': 'Apprenons un mot aujourd\'hui.', 'body': 'Votre niveau est sur le point d\'augmenter.'},
+        'it': {'title': 'Impariamo una parola oggi.', 'body': 'Il tuo livello sta per salire di nuovo.'},
+        'es-es': {'title': 'Aprendamos una palabra hoy.', 'body': 'Tu nivel está a punto de subir de nuevo.'},
+        'es-mx': {'title': 'Aprendamos una palabra hoy.', 'body': 'Tu nivel está a punto de subir de nuevo.'},
+        'de': {'title': 'Lass uns heute ein Wort lernen.', 'body': 'Dein Level wird bald wieder steigen.'},
+        'pt': {'title': 'Vamos aprender uma palavra hoje.', 'body': 'O teu nível está prestes a subir novamente.'},
+        'pt-br': {'title': 'Vamos aprender uma palavra hoje.', 'body': 'Seu nível está prestes a subir novamente.'},
+        'en-in': {'title': 'Let\'s learn one word today.', 'body': 'Your level is about to go up once more.'},
     }
 }
 
 
-
-
 def broadcast_daily_message(request):
-    
     if not request.user.is_staff:
         return JsonResponse({'status': 'denied'})
 
     devices = FCMDevice.objects.all()
-    
+    success_count = 0
     for device in devices:
-        
         lang = device.lang if device.lang in NOTIFICATION_MESSAGES['daily_growth'] else 'en'
         content = NOTIFICATION_MESSAGES['daily_growth'][lang]
-
         message = messaging.Message(
-            notification=messaging.Notification(
-                title=content['title'],
-                body=content['body'],
-            ),
+            notification=messaging.Notification(title=content['title'], body=content['body']),
             token=device.token,
-            
             data={'url': f'/?lang={lang}'} 
         )
-        
         try:
             messaging.send(message)
-        except Exception as e:
-           
-            print(f"Error sending to {device.id}: {e}")
+            success_count += 1
+        except Exception:
+            device.delete() 
 
-    return JsonResponse({'status': 'Success!'})
-
+    return JsonResponse({'status': f'Sent {success_count} messages!'})
 
 
 
