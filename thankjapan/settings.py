@@ -252,3 +252,11 @@ LANGUAGES = [
 ]
 
 
+if google_play_key_json_str:
+    try:
+        GOOGLE_PLAY_KEY_DICT = json.loads(google_play_key_json_str)
+    except Exception: 
+        GOOGLE_PLAY_KEY_DICT = None
+else:
+    GOOGLE_PLAY_KEY_DICT = None
+
