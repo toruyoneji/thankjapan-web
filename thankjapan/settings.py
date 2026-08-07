@@ -16,7 +16,7 @@ GA_TRACKING_ID = os.environ.get('GA_TRACKING_ID', '')
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
 
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = [
     'www.thankjapan.com',
@@ -252,6 +252,7 @@ LANGUAGES = [
 ]
 
 
+
 if google_play_key_json_str:
     try:
         GOOGLE_PLAY_KEY_DICT = json.loads(google_play_key_json_str)
@@ -259,4 +260,3 @@ if google_play_key_json_str:
         GOOGLE_PLAY_KEY_DICT = None
 else:
     GOOGLE_PLAY_KEY_DICT = None
-
