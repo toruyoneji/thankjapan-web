@@ -996,49 +996,48 @@
 <script>
 
 async function setupNotifications() {
-    console.log("--- FCM Debug Start ---");
-    
-    // 1. 環境変数のチェック
-    const vapidKey = "{{ FIREBASE_VAPID_KEY }}";
-    console.log("VAPID KEY check:", vapidKey ? "OK (Exists)" : "NG (Empty!)");
-    
+    console.log("Starting notification setup...");
     try {
-        // 2. SWの登録確認
-        console.log("Registering Service Worker...");
-        const registration = await navigator.serviceWorker.register('/sw.js');
-        console.log("SW Registered. Scope:", registration.scope);
+        // 1. Service Workerがブラウザでサポートされているか確認
+        if (!('serviceWorker' in navigator) || !('PushManager' in window)) {
+            console.warn("Push messaging is not supported in this browser.");
+            return;
+        }
 
-        // 3. 許可リクエスト直前
-        console.log("Calling Notification.requestPermission()...");
+        // 2. 登録完了ではなく「準備完了(ready)」を待つ（ここが重要）
+        const registration = await navigator.serviceWorker.ready;
+        console.log("Service Worker is ready:", registration);
+
+        // 3. 通知の許可を求める
         const permission = await Notification.requestPermission();
-        console.log("Permission Result:", permission);
+        console.log("Permission result:", permission);
 
         if (permission === 'granted') {
-            console.log("Getting FCM Token...");
+            // 4. トークン取得
             const token = await messaging.getToken({
-                vapidKey: vapidKey,
+                vapidKey: "{{ FIREBASE_VAPID_KEY }}",
                 serviceWorkerRegistration: registration
             });
-            console.log("Token obtained:", token);
-            
-            // 4. 送信処理
-            const currentLang = "{{ lang_code }}";
-            console.log("Sending to Django... Lang:", currentLang);
-            const response = await fetch('/api/save-fcm-token/', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({token: token, lang: currentLang})
-            });
-            const resData = await response.json();
-            console.log("Django response:", resData);
-        } else {
-            console.warn("Permission was not granted (User closed or ignored it).");
+
+            if (token) {
+                const currentLang = "{{ lang_code }}";
+                await fetch('/api/save-fcm-token/', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({token: token, lang: currentLang})
+                });
+                console.log("FCM Token saved successfully.");
+            }
         }
     } catch (error) {
-        console.error("--- FCM DEBUG ERROR ---");
-        console.error(error);
+        // pushManagerエラーなどが発生した場合、ここでキャッチして詳細を表示
+        console.error("Detailed Error:", error);
     }
 }
+
+
+
+
 
 window.addEventListener('load', () => {
     console.log("Page loaded. Waiting 3s...");
