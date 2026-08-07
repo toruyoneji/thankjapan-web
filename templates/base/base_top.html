@@ -995,59 +995,43 @@
 
 <script>
 
-let isFcmProcessing = false;
-
 async function setupNotifications() {
-    if (isFcmProcessing) return;
-    isFcmProcessing = true;
-
     try {
-        if (!('serviceWorker' in navigator) || !('PushManager' in window)) {
+        if (!('serviceWorker' in navigator)) {
+            alert("SW not supported");
             return;
         }
 
         const registration = await navigator.serviceWorker.ready;
-
-        if (!registration.pushManager) {
-            return;
-        }
-
-        const messaging = firebase.messaging();
+        
+        // iPhoneでダイアログを出すための「おまじない」
         const permission = await Notification.requestPermission();
+        alert("Permission result: " + permission);
 
         if (permission === 'granted') {
+            const messaging = firebase.messaging();
             const token = await messaging.getToken({
                 vapidKey: "{{ FIREBASE_VAPID_KEY }}",
                 serviceWorkerRegistration: registration
             });
 
             if (token) {
+                alert("Token obtained!");
                 const currentLang = "{{ lang_code }}";
                 await fetch('/api/save-fcm-token/', {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        token: token,
-                        lang: currentLang
-                    })
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({token: token, lang: currentLang})
                 });
             }
         }
     } catch (error) {
-        if (error.message && !error.message.includes('pushManager')) {
-            console.error(error);
-        }
-    } finally {
-        isFcmProcessing = false;
+        alert("Error: " + error);
     }
 }
 
-window.addEventListener('load', () => {
-    setTimeout(setupNotifications, 3000);
-});
 
+window.addEventListener('click', setupNotifications, { once: true });
 
 
 
