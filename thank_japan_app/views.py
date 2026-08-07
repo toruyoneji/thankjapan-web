@@ -879,6 +879,60 @@ def send_test_notification(request):
     return JsonResponse({'status': f'Successfully sent {success_count} notifications!'})
 
 
+NOTIFICATION_MESSAGES = {
+    'daily_growth': {
+        'ja': {'title': '今日も一つ、言の葉を。', 'body': 'その一歩が、あなたの位（ランク）をまた一つ上げます。'},
+        'en': {'title': 'Learn just one word today.', 'body': 'One more step toward your next level.'},
+        'vi': {'title': 'Học thêm một từ hôm nay.', 'body': 'Bạn sẽ tiến thêm một bước lên cấp độ mới.'},
+        'th': {'title': 'วันนี้มาเรียนรู้คำศัพท์ใหม่กันเถอะ', 'body': 'เลเวลของคุณกำลังจะเพิ่มขึ้นอีกขั้นแล้ว'},
+        'ko': {'title': '오늘도 단어 하나를 익혀보세요.', 'body': '당신의 레벨이 한 단계 더 올라갈 것입니다.'},
+        'zh-hant': {'title': '今天也來記一個詞吧。', 'body': '這將讓你的等級再次提升。'},
+        'zh-cn': {'title': '今天也来记一个词吧。', 'body': '这将让你的等级再次提升。'},
+        'fr': {'title': 'Apprenez un mot aujourd\'hui.', 'body': 'Franchissez une étape de plus vers le niveau supérieur.'},
+        'it': {'title': 'Impara una parola oggi.', 'body': 'Fai un altro passo verso il livello successivo.'},
+        'es-es': {'title': 'Aprende una palabra hoy.', 'body': 'Un paso más hacia tu siguiente nivel.'},
+        'es-mx': {'title': 'Aprende una palabra hoy.', 'body': 'Estás a un paso de subir de nivel.'},
+        'de': {'title': 'Lerne heute ein Wort.', 'body': 'Ein weiterer Schritt zu deinem nächsten Level.'},
+        'pt': {'title': 'Aprende uma palavra hoje.', 'body': 'Dá mais um passo rumo ao próximo nível.'},
+        'pt-br': {'title': 'Aprenda uma palavra hoje.', 'body': 'Dê mais um passo rumo ao próximo nível.'},
+        'en-in': {'title': 'Learn one word today.', 'body': 'Take one more step toward the next level.'},
+    }
+}
+
+
+
+
+def broadcast_daily_message(request):
+    
+    if not request.user.is_staff:
+        return JsonResponse({'status': 'denied'})
+
+    devices = FCMDevice.objects.all()
+    
+    for device in devices:
+        
+        lang = device.lang if device.lang in NOTIFICATION_MESSAGES['daily_growth'] else 'en'
+        content = NOTIFICATION_MESSAGES['daily_growth'][lang]
+
+        message = messaging.Message(
+            notification=messaging.Notification(
+                title=content['title'],
+                body=content['body'],
+            ),
+            token=device.token,
+            
+            data={'url': f'/?lang={lang}'} 
+        )
+        
+        try:
+            messaging.send(message)
+        except Exception as e:
+           
+            print(f"Error sending to {device.id}: {e}")
+
+    return JsonResponse({'status': 'Success!'})
+
+
 
 
 
