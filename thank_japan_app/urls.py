@@ -342,4 +342,6 @@ urlpatterns = [
     path('<str:category>/<slug:slug>/', CategoryDetailView.as_view(), name='category_detail'),
     path('premium-content/<str:category>/<slug:slug>/', ImgPremiumDetailView.as_view(), name='detail_premium'),
     
+    path('<str:lang>/<str:category>/<slug:slug>/', CategoryDetailView.as_view(), name='category_detail_with_lang'),
+    path('<str:lang>/premium-content/<str:category>/<slug:slug>/', ImgPremiumDetailView.as_view(), name='detail_premium_with_lang'),
 ]

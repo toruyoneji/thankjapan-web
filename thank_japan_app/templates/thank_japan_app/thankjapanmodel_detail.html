@@ -1,4 +1,4 @@
-{% extends 'base/base_detail.html' %}
+{% extends is_modal|yesno:",base/base_detail.html" %}
 {% load category_filters %}
 {% block title %}{{ object.englishname }} | ThankJapan{% endblock %}
 

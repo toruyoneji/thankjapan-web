@@ -3724,9 +3724,12 @@ class CategoryDetailView(DetailView):
     slug_field = "slug"
     slug_url_kwarg = "slug"
 
-    def get(self, request, *args, **kwargs):
+    def get(self, request, lang=None, *args, **kwargs): 
         category = self.kwargs.get('category')
         slug = self.kwargs.get('slug')
+        
+        
+        self.is_modal = request.headers.get('x-requested-with') == 'XMLHttpRequest'
 
         try:
             self.object = ThankJapanModel.objects.get(category__iexact=category, slug=slug)
@@ -3763,6 +3766,8 @@ class CategoryDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         current_item = self.object
+        
+        context['is_modal'] = self.is_modal 
         
         _, lang_code = get_lang_info(self.request)
         context['lang_code'] = lang_code
@@ -3802,9 +3807,11 @@ class ImgPremiumDetailView(DetailView):
                 raise Http404
         return obj
 
-    def dispatch(self, request, *args, **kwargs):
+    def dispatch(self, request, lang=None, *args, **kwargs):
         category = self.kwargs.get('category')
         slug = self.kwargs.get('slug')
+        
+        self.is_modal = request.headers.get('x-requested-with') == 'XMLHttpRequest'
         is_premium = request.user.is_authenticated and getattr(request.user.profile, 'is_premium', False)
         try:
             return super().dispatch(request, *args, **kwargs)
@@ -3836,6 +3843,7 @@ class ImgPremiumDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['is_modal'] = self.is_modal
         current_item = self.object
         url_name, lang_code = get_lang_info(self.request)
         context['premium_url_name'] = url_name
