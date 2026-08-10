@@ -219,12 +219,24 @@
     }
 
     #detail-page-wrapper .related-card-item {
-        background: rgba(255, 255, 255, 0.05) !important;
-        border: 1px solid rgba(212, 175, 55, 0.2) !important;
-        border-radius: 12px !important;
-        overflow: hidden !important;
-        display: block !important;
-        text-decoration: none !important;
+    background: rgba(255, 255, 255, 0.05) !important;
+    border: 1px solid rgba(212, 175, 55, 0.2) !important;
+    border-radius: 12px !important;
+    overflow: hidden !important;
+    display: block !important;
+    text-decoration: none !important; 
+    transition: transform 0.2s !important;
+    color: #ffffff !important;
+    }
+
+    #detail-page-wrapper .related-card-text {
+    color: #ffffff !important; 
+    font-size: 0.7rem !important;
+    padding: 8px 4px !important;
+    text-align: center !important;
+    display: block !important;
+    font-weight: 500 !important;
+    text-decoration: none !important;
     }
 
     #detail-page-wrapper .related-card-item img {
@@ -233,6 +245,13 @@
         object-fit: cover !important;
         opacity: 0.8 !important;
     }
+
+    #detail-page-wrapper .related-card-item:hover,
+    #detail-page-wrapper .related-card-item:active,
+    #detail-page-wrapper .related-card-item:visited {
+    color: #ffffff !important;
+    text-decoration: none !important;
+    }   
 
     @media screen and (max-width: 768px) {
         #detail-page-wrapper .jpname-text { 
