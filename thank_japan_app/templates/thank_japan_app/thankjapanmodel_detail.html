@@ -27,37 +27,56 @@
 
 <div class="main2" id="detail-page-wrapper">
     
-    <style>
-    
-     #detail-page-wrapper.main2 {
-    background: #0a0a0a !important;
-    color: #ffffff !important; 
-    padding: 0 0 120px !important; 
-    text-align: center !important;
-    width: 100% !important;
-    max-width: 100% !important;
-    margin: 0 auto !important; 
-    display: block !important;
-}
+   <style>
+    #detail-page-wrapper.main2 {
+        background: #0a0a0a !important;
+        color: #ffffff !important;
+        padding: 20px 15px 120px !important;
+        text-align: center !important;
+        width: 100% !important;
+        display: block !important;
+        margin: 0 auto !important;
+    }
 
     #detail-page-wrapper .jpname-text,
     #detail-page-wrapper .detaildt,
     #detail-page-wrapper .card,
-    #detail-page-wrapper li {
+    #detail-page-wrapper li,
+    #detail-page-wrapper .romaji-text {
         color: #ffffff !important;
     }
 
-    
     #detail-page-wrapper .image-wrapper {
         width: 100% !important;
-        border-radius: 20px !important;
+        height: auto !important;
+        border-radius: 15px !important;
         overflow: hidden !important;
+        margin-bottom: 25px !important;
         border: 1px solid rgba(212, 175, 55, 0.4) !important;
-        margin-bottom: 20px !important;
         box-shadow: 0 10px 30px rgba(0,0,0,0.5) !important;
     }
 
-    
+    .detailgazou {
+        width: 100% !important;
+        display: block !important;
+        object-fit: cover !important;
+    }
+
+    #premium-auth-container.direct-layout .detailgazou {
+        height: 350px !important;
+    }
+
+    @media screen and (min-width: 768px) {
+        #premium-auth-container.direct-layout .detailgazou {
+            height: 500px !important;
+        }
+    }
+
+    #premium-auth-container.modal-layout .detailgazou {
+        height: 350px !important;
+        min-height: 300px !important;
+    }
+
     #detail-page-wrapper .detaildt {
         color: #d4af37 !important;
         font-size: 1rem !important;
@@ -66,7 +85,6 @@
         margin: 15px 0 5px !important;
     }
 
-    
     #detail-page-wrapper .jpname-container {
         display: flex !important;
         flex-direction: column !important;
@@ -87,15 +105,15 @@
         letter-spacing: 1px !important;
     }
 
-    
-    #detail-page-wrapper .voice-btn {
+    #detail-page-wrapper .voice-btn, 
+    #detail-page-wrapper .voice-btn-modern {
         background: rgba(212, 175, 55, 0.1) !important;
         border: 1px solid rgba(212, 175, 55, 0.6) !important;
         color: #d4af37 !important;
         width: 46px !important;
         height: 46px !important;
         border-radius: 50% !important;
-        display: flex !important;
+        display: inline-flex !important;
         align-items: center !important;
         justify-content: center !important;
         cursor: pointer !important;
@@ -103,17 +121,9 @@
         transition: 0.3s !important;
         padding: 0 !important;
         outline: none !important;
+        margin-left: 10px !important;
     }
 
-    
-    #detail-page-wrapper .romaji-text {
-        color: rgba(255,255,255,0.4) !important;
-        font-size: 1.2rem !important;
-        font-style: italic !important;
-        margin-top: 5px !important;
-    }
-
-    
     #detail-page-wrapper .card {
         background: rgba(255, 255, 255, 0.05) !important;
         backdrop-filter: blur(10px) !important;
@@ -134,52 +144,6 @@
         margin-bottom: 15px !important;
     }
 
-    
-    #detail-page-wrapper .related-card-wrapper {
-        background: rgba(255,255,255,0.05) !important;
-        border: 1px solid rgba(255,255,255,0.1) !important;
-        border-radius: 12px !important;
-        overflow: hidden !important;
-        text-align: center !important;
-    }
-
-    #detail-page-wrapper .jpname-container {
-        display: flex !important;
-        flex-direction: column !important;
-        align-items: center !important;
-        width: 100% !important;
-    }
-
-    
-    #detail-page-wrapper .jpname-wrapper {
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        gap: 15px !important;
-    }
-
-    
-    #detail-page-wrapper .voice-btn {
-        background: rgba(212, 175, 55, 0.15) !important;
-        border: 1px solid #d4af37 !important;
-        color: #d4af37 !important;
-        border-radius: 50% !important;
-        width: 44px !important;
-        height: 44px !important;
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        padding: 0 !important;
-    }
-
-    
-    #detail-page-wrapper .romaji-container {
-        width: 100% !important;
-        text-align: center !important;
-        margin-top: 10px !important;
-    }
-
-    
     #detail-page-wrapper .game-invite-box {
         width: 100% !important;
         background: linear-gradient(135deg, rgba(212, 175, 55, 0.1), rgba(0,0,0,0.5)) !important;
@@ -189,30 +153,7 @@
         box-sizing: border-box !important;
     }
 
-    
-    #detail-page-wrapper .x-icon-white {
-        fill: #ffffff !important;
-        width: 16px !important;
-        height: 16px !important;
-        margin-right: 10px !important;
-    }
-
-    #detail-page-wrapper .voice-btn, .voice-btn-modern {
-        background: rgba(212, 175, 55, 0.1) !important;
-        border: 1px solid #d4af37 !important;
-        border-radius: 50% !important;
-        width: 44px !important;
-        height: 44px !important;
-        display: inline-flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        cursor: pointer !important;
-        padding: 0 !important;
-        margin-left: 10px !important;
-        outline: none !important;
-    }
-
-    #detail-page-wrapper .game-invite-btn, .game-btn-gold {
+    #detail-page-wrapper .game-invite-btn {
         display: inline-block !important;
         background: #d4af37 !important; 
         color: #000 !important; 
@@ -224,8 +165,7 @@
         box-shadow: 0 4px 10px rgba(212, 175, 55, 0.3) !important;
     }
 
-    
-    #detail-page-wrapper .twitter-share-btn-white, .x-share-btn {
+    #detail-page-wrapper .twitter-share-btn-white {
         display: inline-flex !important;
         align-items: center !important;
         justify-content: center !important;
@@ -237,7 +177,6 @@
         font-size: 0.9rem !important;
     }
 
-    
     #detail-page-wrapper .related-card-item {
         background: rgba(255, 255, 255, 0.05) !important;
         border: 1px solid rgba(212, 175, 55, 0.2) !important;
@@ -248,13 +187,6 @@
         transition: transform 0.2s !important;
     }
 
-    
-    #detail-page-wrapper .related-card-item:active {
-        transform: scale(0.95) !important;
-        background: rgba(212, 175, 55, 0.1) !important;
-    }
-
-    
     #detail-page-wrapper .related-card-item img {
         width: 100% !important;
         height: 70px !important;
@@ -263,51 +195,12 @@
         display: block !important;
     }
 
-    
-    #detail-page-wrapper .related-card-text {
-        color: rgba(255, 255, 255, 0.8) !important;
-        font-size: 0.7rem !important;
-        padding: 8px 4px !important;
-        text-align: center !important;
-        display: block !important;
-        font-weight: 500 !important;
-        white-space: nowrap !important;
-        overflow: hidden !important;
-        text-overflow: ellipsis !important; 
-    }
-
-    
-    :has(input[value="modal-mode"]) #premium-auth-container {
-        padding-top: 0;
-    }
-
-
-    #detail-page-wrapper .main2 {
-        background: #0a0a0a !important; 
-        padding: 20px 15px 120px !important; 
-    }
-
-
-    .detailgazou {
-        max-height: 40vh;
-        object-fit: cover;
-        border-radius: 15px;
-    }
-
-     @media screen and (max-width: 768px) {
-        #detail-page-wrapper .modal-body-content .jpname-text { 
+    @media screen and (max-width: 768px) {
+        #detail-page-wrapper .jpname-text { 
             font-size: 2.5rem !important; 
         }
-        #detail-page-wrapper .modal-body-content .card { 
-            padding: 20px !important; 
-        }
-        #detail-page-wrapper .modal-body-content .image-wrapper {
-            margin-bottom: 15px !important;
-        }
     }
-
-    </style>
-
+</style>
 
 
     <div class="image-wrapper">
