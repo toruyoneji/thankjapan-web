@@ -1,4 +1,4 @@
-{% extends is_modal|yesno:",base/base_detail.html" %}
+{% extends is_modal|yesno:",base/base_detail_premium.html" %}
 {% load category_filters %}
 
 {% block title %}
@@ -44,26 +44,57 @@
 <div class="main2" id="detail-page-wrapper">
 
     <style>
-    
-    #detail-page-wrapper .main2 {
-        background: #0f0f0f !important;
-        color: #fff !important;
-        padding: 20px 15px 100px !important;
+    #detail-page-wrapper.main2 {
+        background: #0a0a0a !important;
+        color: #ffffff !important;
+        padding: 20px 15px 120px !important;
         text-align: center !important;
-        font-family: 'Inter', 'Poppins', sans-serif !important;
+        width: 100% !important;
+        display: block !important;
+        margin: 0 auto !important;
     }
 
-    
+    #detail-page-wrapper .jpname-text,
+    #detail-page-wrapper .detaildt,
+    #detail-page-wrapper .card,
+    #detail-page-wrapper li,
+    #detail-page-wrapper .romaji-text,
+    #detail-page-wrapper p {
+        color: #ffffff !important;
+    }
+
     #detail-page-wrapper .image-wrapper {
         width: 100% !important;
-        border-radius: 20px !important;
+        height: auto !important;
+        border-radius: 15px !important;
         overflow: hidden !important;
+        margin-bottom: 25px !important;
         border: 1px solid rgba(212, 175, 55, 0.4) !important;
-        margin-bottom: 20px !important;
         box-shadow: 0 10px 30px rgba(0,0,0,0.5) !important;
+        position: relative !important;
     }
 
-    
+    .detailgazou {
+        width: 100% !important;
+        display: block !important;
+        object-fit: cover !important;
+    }
+
+    #premium-auth-container.direct-layout .detailgazou {
+        height: 300px !important;
+    }
+
+    @media screen and (min-width: 768px) {
+        #premium-auth-container.direct-layout .detailgazou {
+            height: 420px !important;
+        }
+    }
+
+    #premium-auth-container.modal-layout .detailgazou {
+        height: 280px !important;
+        min-height: 250px !important;
+    }
+
     #detail-page-wrapper .detaildt {
         color: #d4af37 !important;
         font-size: 1rem !important;
@@ -72,19 +103,10 @@
         margin: 15px 0 5px !important;
     }
 
-    
-    #detail-page-wrapper .jpname-container {
-        display: flex !important;
-        flex-direction: column !important;
-        align-items: center !important;
-        margin-bottom: 30px !important;
-    }
-
     #detail-page-wrapper .jpname-text {
         font-size: 3.2rem !important;
         font-weight: 700 !important;
         line-height: 1.2 !important;
-        margin: 10px 0 !important;
     }
 
     #detail-page-wrapper .jpname-text ruby rt {
@@ -93,33 +115,22 @@
         letter-spacing: 1px !important;
     }
 
-    
-    #detail-page-wrapper .voice-btn {
+    #detail-page-wrapper .voice-btn, 
+    #detail-page-wrapper .voice-btn-modern {
         background: rgba(212, 175, 55, 0.1) !important;
         border: 1px solid rgba(212, 175, 55, 0.6) !important;
         color: #d4af37 !important;
-        width: 46px !important;
-        height: 46px !important;
+        width: 44px !important;
+        height: 44px !important;
         border-radius: 50% !important;
-        display: flex !important;
+        display: inline-flex !important;
         align-items: center !important;
         justify-content: center !important;
         cursor: pointer !important;
-        font-size: 1.1rem !important;
-        transition: 0.3s !important;
-        padding: 0 !important;
+        margin-left: 10px !important;
         outline: none !important;
     }
 
-    
-    #detail-page-wrapper .romaji-text {
-        color: rgba(255,255,255,0.4) !important;
-        font-size: 1.2rem !important;
-        font-style: italic !important;
-        margin-top: 5px !important;
-    }
-
-    
     #detail-page-wrapper .card {
         background: rgba(255, 255, 255, 0.05) !important;
         backdrop-filter: blur(10px) !important;
@@ -140,149 +151,6 @@
         margin-bottom: 15px !important;
     }
 
-    
-    #detail-page-wrapper .related-card-wrapper {
-        background: rgba(255,255,255,0.05) !important;
-        border: 1px solid rgba(255,255,255,0.1) !important;
-        border-radius: 12px !important;
-        overflow: hidden !important;
-        text-align: center !important;
-    }
-
-    #detail-page-wrapper .jpname-container {
-        display: flex !important;
-        flex-direction: column !important;
-        align-items: center !important;
-        width: 100% !important;
-    }
-
-    
-    #detail-page-wrapper .jpname-wrapper {
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        gap: 15px !important;
-    }
-
-    
-    #detail-page-wrapper .voice-btn {
-        background: rgba(212, 175, 55, 0.15) !important;
-        border: 1px solid #d4af37 !important;
-        color: #d4af37 !important;
-        border-radius: 50% !important;
-        width: 44px !important;
-        height: 44px !important;
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        padding: 0 !important;
-    }
-
-    
-    #detail-page-wrapper .romaji-container {
-        width: 100% !important;
-        text-align: center !important;
-        margin-top: 10px !important;
-    }
-
-    
-    #detail-page-wrapper .game-invite-box {
-        width: 100% !important;
-        background: linear-gradient(135deg, rgba(212, 175, 55, 0.1), rgba(0,0,0,0.5)) !important;
-        border: 1px solid rgba(212, 175, 55, 0.3) !important;
-        border-radius: 20px !important;
-        padding: 30px 20px !important;
-        box-sizing: border-box !important;
-    }
-
-    
-    #detail-page-wrapper .x-icon-white {
-        fill: #ffffff !important;
-        width: 16px !important;
-        height: 16px !important;
-        margin-right: 10px !important;
-    }
-
-    #detail-page-wrapper .voice-btn, .voice-btn-modern {
-        background: rgba(212, 175, 55, 0.1) !important;
-        border: 1px solid #d4af37 !important;
-        border-radius: 50% !important;
-        width: 44px !important;
-        height: 44px !important;
-        display: inline-flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        cursor: pointer !important;
-        padding: 0 !important;
-        margin-left: 10px !important;
-        outline: none !important;
-    }
-
-    #detail-page-wrapper .game-invite-btn, .game-btn-gold {
-        display: inline-block !important;
-        background: #d4af37 !important; 
-        color: #000 !important; 
-        padding: 12px 30px !important;
-        border-radius: 50px !important;
-        text-decoration: none !important; 
-        font-weight: bold !important;
-        margin-top: 15px !important;
-        box-shadow: 0 4px 10px rgba(212, 175, 55, 0.3) !important;
-    }
-
-    
-    #detail-page-wrapper .twitter-share-btn-white, .x-share-btn {
-        display: inline-flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        color: #ffffff !important; 
-        text-decoration: none !important; 
-        border: 1px solid rgba(255, 255, 255, 0.3) !important;
-        padding: 8px 20px !important;
-        border-radius: 50px !important;
-        font-size: 0.9rem !important;
-    }
-
-    
-    #detail-page-wrapper .related-card-item {
-        background: rgba(255, 255, 255, 0.05) !important;
-        border: 1px solid rgba(212, 175, 55, 0.2) !important;
-        border-radius: 12px !important;
-        overflow: hidden !important;
-        text-decoration: none !important; 
-        display: block !important;
-        transition: transform 0.2s !important;
-    }
-
-    
-    #detail-page-wrapper .related-card-item:active {
-        transform: scale(0.95) !important;
-        background: rgba(212, 175, 55, 0.1) !important;
-    }
-
-    
-    #detail-page-wrapper .related-card-item img {
-        width: 100% !important;
-        height: 70px !important;
-        object-fit: cover !important;
-        opacity: 0.8 !important;
-        display: block !important;
-    }
-
-    
-    #detail-page-wrapper .related-card-text {
-        color: rgba(255, 255, 255, 0.8) !important;
-        font-size: 0.7rem !important;
-        padding: 8px 4px !important;
-        text-align: center !important;
-        display: block !important;
-        font-weight: 500 !important;
-        white-space: nowrap !important;
-        overflow: hidden !important;
-        text-overflow: ellipsis !important; 
-    }
-
-    
     #detail-page-wrapper .jlpt-tag {
         background: linear-gradient(135deg, #d4af37, #b8860b) !important;
         color: #000 !important;
@@ -296,9 +164,27 @@
         letter-spacing: 1px !important;
     }
 
-    
+    #detail-page-wrapper .twitter-share-btn-white {
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        color: #ffffff !important;
+        text-decoration: none !important;
+        border: 1px solid rgba(255, 255, 255, 0.3) !important;
+        padding: 10px 24px !important;
+        border-radius: 50px !important;
+        background: rgba(255, 255, 255, 0.05) !important;
+    }
+
+    #detail-page-wrapper .x-icon-white {
+        fill: #ffffff !important;
+        width: 16px !important;
+        height: 16px !important;
+        margin-right: 10px !important;
+    }
+
     #detail-page-wrapper .blurred-img {
-        filter: blur(5px) grayscale(90%) !important;
+        filter: blur(8px) grayscale(90%) !important;
         opacity: 0.4 !important;
     }
 
@@ -307,42 +193,54 @@
         top: 50% !important;
         left: 50% !important;
         transform: translate(-50%, -50%) !important;
-        font-size: 1.5rem !important;
+        font-size: 2rem !important;
         color: #d4af37 !important;
         text-shadow: 0 0 15px rgba(0,0,0,1) !important;
         z-index: 5 !important;
     }
 
-    :has(input[value="modal-mode"]) #premium-auth-container {
-        padding-top: 0;
+    #detail-page-wrapper .game-invite-box {
+        width: 100% !important;
+        background: linear-gradient(135deg, rgba(212, 175, 55, 0.1), rgba(0,0,0,0.5)) !important;
+        border: 1px solid rgba(212, 175, 55, 0.3) !important;
+        border-radius: 20px !important;
+        padding: 30px 20px !important;
     }
 
-
-    #detail-page-wrapper .main2 {
-        background: #0a0a0a !important; 
-        padding: 20px 15px 120px !important; 
+    #detail-page-wrapper .game-invite-btn {
+        display: inline-block !important;
+        background: #d4af37 !important; 
+        color: #000 !important; 
+        padding: 12px 30px !important;
+        border-radius: 50px !important;
+        font-weight: bold !important;
+        box-shadow: 0 4px 10px rgba(212, 175, 55, 0.3) !important;
+        text-decoration: none !important;
     }
 
-
-    .detailgazou {
-        max-height: 40vh;
-        object-fit: cover;
-        border-radius: 15px;
+    #detail-page-wrapper .related-card-item {
+        background: rgba(255, 255, 255, 0.05) !important;
+        border: 1px solid rgba(212, 175, 55, 0.2) !important;
+        border-radius: 12px !important;
+        overflow: hidden !important;
+        display: block !important;
+        text-decoration: none !important;
     }
 
-     @media screen and (max-width: 768px) {
-        #detail-page-wrapper .modal-body-content .jpname-text { 
+    #detail-page-wrapper .related-card-item img {
+        width: 100% !important;
+        height: 70px !important;
+        object-fit: cover !important;
+        opacity: 0.8 !important;
+    }
+
+    @media screen and (max-width: 768px) {
+        #detail-page-wrapper .jpname-text { 
             font-size: 2.5rem !important; 
         }
-        #detail-page-wrapper .modal-body-content .card { 
-            padding: 20px !important; 
-        }
-        #detail-page-wrapper .modal-body-content .image-wrapper {
-            margin-bottom: 15px !important;
-        }
     }
+</style>
 
-    </style>
 
     <div class="image-wrapper">
         {% if object.jlpt_level %}

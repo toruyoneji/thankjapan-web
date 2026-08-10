@@ -1,41 +1,87 @@
 {% extends 'base/basecategory_top.html' %}
 
 {% block content %}
-<div id="premium-auth-container">
+
+{% if not is_modal %}
+<style>
+    html, body { 
+        overflow: auto !important; 
+        height: auto !important; 
+        min-height: 100vh !important;
+        background-color: #0a0a0a !important;
+    }
+    .app-wrapper { 
+        display: block !important;
+        height: auto !important; 
+        min-height: 100vh !important;
+        overflow: visible !important;
+    }
+    .app-header {
+        position: relative !important;
+        background: #000 !important;
+    }
+    .app-content { 
+        height: auto !important; 
+        overflow: visible !important;
+        display: block !important;
+        padding-bottom: 0 !important;
+    }
+    .bottom-nav {
+        display: none !important;
+    }
+</style>
+{% endif %}
+
+<div id="premium-auth-container" class="{% if is_modal %}modal-layout{% else %}direct-layout{% endif %}">
     <div class="app-content-fix">
         {% block detail_premium_main %}{% endblock %}
     </div>
 </div>
 
 <style>
+.app-content-fix {
+    width: 100%;
+    max-width: 700px;
+    margin: 0 auto;
+    -webkit-overflow-scrolling: touch;
+}
 
-#premium-auth-container {
+#premium-auth-container.modal-layout {
     position: fixed;
     top: 0; left: 0;
     width: 100%;
     height: 100dvh;
     background: #0a0a0a; 
     overflow: hidden;
+    z-index: 9999;
 }
-
-.app-content-fix {
-    width: 100%;
+#premium-auth-container.modal-layout .app-content-fix {
     height: 100%;
-    overflow-y: auto; 
-    -webkit-overflow-scrolling: touch;
-    padding-top: 70px;    
-    padding-bottom: 120px; 
+    overflow-y: auto;
+    padding-top: 20px;    
+    padding-bottom: 50px;
 }
 
-
-.app-content-fix::-webkit-scrollbar {
-    display: none;
+#premium-auth-container.direct-layout {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    background: #0a0a0a;
+    display: block;
+}
+#premium-auth-container.direct-layout .app-content-fix {
+    height: auto;
+    overflow-y: visible;
+    padding-top: 80px;    
+    padding-bottom: 120px;
 }
 
-html.modal-embed .app-content-fix {
-    padding-top: 20px !important;
-    padding-bottom: 24px !important;
+@media screen and (max-width: 768px) {
+    #premium-auth-container.direct-layout .app-content-fix {
+        padding-top: 20px !important;
+    }
 }
 
+.app-content-fix::-webkit-scrollbar { display: none; }
 </style>
 {% endblock %}
