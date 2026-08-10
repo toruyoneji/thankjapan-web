@@ -1,6 +1,26 @@
 {% extends 'base/basecategory_top.html' %}
 
 {% block content %}
+
+
+{% if not is_modal %}
+<style>
+    
+    html, body { 
+        overflow: auto !important; 
+        height: auto !important; 
+        min-height: 100vh !important;
+        position: relative !important;
+        background-color: #0a0a0a !important;
+    }
+    
+    .app-wrapper, .app-content { 
+        height: auto !important; 
+        overflow: visible !important; 
+    }
+</style>
+{% endif %}
+
 <div id="premium-auth-container" class="{% if is_modal %}modal-layout{% else %}direct-layout{% endif %}">
     <div class="app-content-fix">
         {% block detail_main %}{% endblock %}
@@ -8,6 +28,16 @@
 </div>
 
 <style>
+
+.app-content-fix {
+    width: 100%;
+    max-width: 800px;
+    -webkit-overflow-scrolling: touch;
+    padding-top: 70px;    
+    padding-bottom: 120px; 
+}
+.app-content-fix::-webkit-scrollbar { display: none; }
+
 
 #premium-auth-container.modal-layout {
     position: fixed;
@@ -18,6 +48,10 @@
     overflow: hidden;
     z-index: 9999;
 }
+#premium-auth-container.modal-layout .app-content-fix {
+    height: 100%;
+    overflow-y: auto;
+}
 
 
 #premium-auth-container.direct-layout {
@@ -26,26 +60,18 @@
     min-height: 100vh;
     background: #0a0a0a;
     display: flex;
-    justify-content: center; 
+    justify-content: center;
+    left: 0;
+}
+#premium-auth-container.direct-layout .app-content-fix {
+    height: auto;
+    overflow-y: visible;
 }
 
-
-.app-content-fix {
-    width: 100%;
-    max-width: 800px; 
-    height: 100%;
-    overflow-y: auto; 
-    -webkit-overflow-scrolling: touch;
-    padding-top: 70px;    
-    padding-bottom: 120px; 
-}
-
-.app-content-fix::-webkit-scrollbar { display: none; }
 
 html.modal-embed .app-content-fix {
     padding-top: 20px !important;
     padding-bottom: 24px !important;
 }
-
 </style>
 {% endblock %}
