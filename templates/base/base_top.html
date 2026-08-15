@@ -359,7 +359,11 @@
             border: 1px solid #333;
         }
 
-        
+        .modal-title {
+            word-wrap: break-word; 
+            line-height: 1.2;      
+            padding: 0 10px;      
+        }
 
     </style>
 
@@ -623,8 +627,19 @@
 
     
     <div id="learnModal" class="lang-modal">
-        <h3 style="color:#d4af37; text-align:center; margin-bottom:20px;">
-            {% if lang_code == 'ja' %}冒険を選ぼう{% else %}Choose Your Path{% endif %}
+        <h3 class="modal-title" style="color:#d4af37; text-align:center; margin-bottom:20px;">
+            {% if lang_code == 'ja' %}ここから、まだ知らない日本が始まる
+            {% elif lang_code == 'ko' %}여기서부터, 아직 모르는 일본이 시작된다
+            {% elif lang_code == 'zh-cn' %}从这里开始，探索你未曾见过的日本
+            {% elif lang_code == 'zh-hant' %}從這裡開始，探索你未曾見過的日本
+            {% elif lang_code == 'th' %}เริ่มต้นที่นี่... กับญี่ปุ่นที่คุณยังไม่เคยรู้จัก
+            {% elif lang_code == 'vi' %}Từ đây, một Nhật Bản bạn chưa từng biết sẽ bắt đầu
+            {% elif lang_code == 'fr' %}Ici commence le Japon que vous ne connaissez pas encore
+            {% elif lang_code == 'de' %}Hier beginnt das Japan, das Sie noch nicht kennen
+            {% elif lang_code == 'it' %}Qui inizia il Giappone che ancora non conosci
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}¡Aquí comienza el Japón que aún no conoces
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Aqui começa o Japão que você ainda tidak conhece
+            {% else %}Japan Starts Here. Discover the Unknown{% endif %}
         </h3>
     
         <div style="display: flex; flex-direction: column; gap: 15px;">
