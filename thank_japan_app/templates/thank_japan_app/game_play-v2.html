@@ -1516,6 +1516,14 @@ document.addEventListener('DOMContentLoaded', function() {
             setTimeout(() => {
                 if (!navDone) { navDone = true; window.location.href = nextUrl; }
             }, isCorrect ? 1500 : 2000);
+
+        document.addEventListener('click', function() {
+                if (!navDone) {
+                    navDone = true;
+                    clearTimeout(autoNavTimer); 
+                    window.location.href = nextUrl; 
+                }
+            }, { once: true });
         }
         return;
     }
