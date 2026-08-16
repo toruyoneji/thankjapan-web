@@ -1513,7 +1513,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         const nextUrl = config.getAttribute('data-next-url');
         if (config.getAttribute('data-difficulty') !== 'single' && nextUrl) {
-            setTimeout(() => {
+            const autoNavTimer = setTimeout(() => {
                 if (!navDone) { navDone = true; window.location.href = nextUrl; }
             }, isCorrect ? 1500 : 2000);
 
