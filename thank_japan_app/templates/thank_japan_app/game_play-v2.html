@@ -1281,6 +1281,12 @@ p[style*="color: var(--ink-soft)"] {
   </div>
 </div>
 
+
+<div id="game-config" 
+     data-next-img1="{% if next_question %}{{ next_question.image_1.url }}{% endif %}"
+     data-next-img2="{% if next_question %}{{ next_question.image_2.url }}{% endif %}" >
+</div>
+
 <script>
 let timerInterval;
 let timeLeft;
@@ -1489,9 +1495,28 @@ function fitCardText(card) {
     }
 }
 
+function preloadImages(urls) {
+    urls.forEach((url) => {
+        if (url && url !== "" && url !== "None") {
+            const img = new Image();
+            img.src = url;
+        }
+    });
+}
 
 document.addEventListener('DOMContentLoaded', function() {
+
     const config = document.getElementById('game-config');
+
+    if (!config) return;
+
+    
+    const img1 = config.getAttribute('data-next-img1');
+    const img2 = config.getAttribute('data-next-img2');
+
+    if (img1 && img1 !== "") {
+        preloadImages([img1, img2]);
+    }
 
     const cards = document.querySelectorAll('.karuta-board .choice-btn');
     cards.forEach(card => {
