@@ -27,6 +27,7 @@ from googleapiclient.discovery import build
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 from firebase_admin import credentials, messaging
+from datetime import date, timedelta
 import logging
 import random
 import re, itertools
@@ -758,16 +759,31 @@ class KiyakuDEView(ListView):
 #login_bonus
 
 
-
 def apply_login_bonus(request):
     if request.user.is_authenticated:
         profile = request.user.profile
         today = timezone.now().date()
+        yesterday = today - timedelta(days=1)
 
-        
+       
         if profile.last_bonus_date != today:
             
-            profile.total_score += 1
+            
+            if profile.last_bonus_date == yesterday:
+                
+                profile.streak_count += 1
+            else:
+                
+                profile.streak_count = 1
+
+            
+            if profile.streak_count % 7 == 0:
+                bonus_points = 5 
+            else:
+                bonus_points = 1  
+            
+            
+            profile.total_score += bonus_points
             profile.last_bonus_date = today
             profile.save()
 
@@ -778,9 +794,40 @@ def apply_login_bonus(request):
             
             
             request.session['show_bonus_toast'] = True
+            
+            request.session['earned_points'] = bonus_points 
+            
     else:
-        request.session['show_guest_bonus_alert'] = True
         
+        request.session['show_guest_bonus_alert'] = True        
+        
+        
+
+def update_login_streak(profile):
+    today = date.today()
+    yesterday = today - timedelta(days=1)
+    
+    if profile.last_bonus_date == today:
+        return 0
+    
+    if profile.last_bonus_date == yesterday:
+        profile.streak_count += 1
+    else:
+        
+        profile.streak_count = 1
+
+    
+    if profile.streak_count % 7 == 0:
+        bonus = 5
+    else:
+        bonus = 1
+
+    
+    profile.total_score += bonus
+    profile.last_bonus_date = today
+    profile.save()
+
+    return bonus        
         
 #bgm
       
@@ -914,6 +961,7 @@ class TopView(BGMContextMixin, ListView):
         context = super().get_context_data(**kwargs)
         context['bonus_received'] = self.request.session.pop('show_bonus_toast', False)
         context['show_guest_alert'] = self.request.session.pop('show_guest_bonus_alert', False)
+        context['earned_points'] = self.request.session.pop('earned_points', 0)
         return context
     
         
@@ -930,6 +978,7 @@ class TopViewJA(BGMContextMixin, ListView):
         context = super().get_context_data(**kwargs)
         context['bonus_received'] = self.request.session.pop('show_bonus_toast', False)
         context['show_guest_alert'] = self.request.session.pop('show_guest_bonus_alert', False)
+        context['earned_points'] = self.request.session.pop('earned_points', 0)
         return context
     
     
@@ -946,6 +995,7 @@ class TopViewVI(BGMContextMixin, ListView):
         context = super().get_context_data(**kwargs)
         context['bonus_received'] = self.request.session.pop('show_bonus_toast', False)
         context['show_guest_alert'] = self.request.session.pop('show_guest_bonus_alert', False)
+        context['earned_points'] = self.request.session.pop('earned_points', 0)
         return context
     
     
@@ -962,6 +1012,7 @@ class TopViewFR(BGMContextMixin, ListView):
         context = super().get_context_data(**kwargs)
         context['bonus_received'] = self.request.session.pop('show_bonus_toast', False)
         context['show_guest_alert'] = self.request.session.pop('show_guest_bonus_alert', False)
+        context['earned_points'] = self.request.session.pop('earned_points', 0)
         return context
     
     
@@ -978,6 +1029,7 @@ class TopViewIT(BGMContextMixin, ListView):
         context = super().get_context_data(**kwargs)
         context['bonus_received'] = self.request.session.pop('show_bonus_toast', False)
         context['show_guest_alert'] = self.request.session.pop('show_guest_bonus_alert', False)
+        context['earned_points'] = self.request.session.pop('earned_points', 0)
         return context
     
     
@@ -994,6 +1046,7 @@ class TopViewPT(BGMContextMixin, ListView):
         context = super().get_context_data(**kwargs)
         context['bonus_received'] = self.request.session.pop('show_bonus_toast', False)
         context['show_guest_alert'] = self.request.session.pop('show_guest_bonus_alert', False)
+        context['earned_points'] = self.request.session.pop('earned_points', 0)
         return context
     
     
@@ -1010,6 +1063,7 @@ class TopViewZHCN(BGMContextMixin, ListView):
         context = super().get_context_data(**kwargs)
         context['bonus_received'] = self.request.session.pop('show_bonus_toast', False)
         context['show_guest_alert'] = self.request.session.pop('show_guest_bonus_alert', False)
+        context['earned_points'] = self.request.session.pop('earned_points', 0)
         return context
     
     
@@ -1026,6 +1080,7 @@ class TopViewZHHANT(BGMContextMixin, ListView):
         context = super().get_context_data(**kwargs)
         context['bonus_received'] = self.request.session.pop('show_bonus_toast', False)
         context['show_guest_alert'] = self.request.session.pop('show_guest_bonus_alert', False)
+        context['earned_points'] = self.request.session.pop('earned_points', 0)
         return context
     
     
@@ -1042,6 +1097,7 @@ class TopViewKO(BGMContextMixin, ListView):
         context = super().get_context_data(**kwargs)
         context['bonus_received'] = self.request.session.pop('show_bonus_toast', False)
         context['show_guest_alert'] = self.request.session.pop('show_guest_bonus_alert', False)
+        context['earned_points'] = self.request.session.pop('earned_points', 0)
         return context
     
 
@@ -1058,6 +1114,7 @@ class TopViewESES(BGMContextMixin, ListView):
         context = super().get_context_data(**kwargs)
         context['bonus_received'] = self.request.session.pop('show_bonus_toast', False)
         context['show_guest_alert'] = self.request.session.pop('show_guest_bonus_alert', False)
+        context['earned_points'] = self.request.session.pop('earned_points', 0)
         return context
     
     
@@ -1074,6 +1131,7 @@ class TopViewDE(BGMContextMixin, ListView):
         context = super().get_context_data(**kwargs)
         context['bonus_received'] = self.request.session.pop('show_bonus_toast', False)
         context['show_guest_alert'] = self.request.session.pop('show_guest_bonus_alert', False)
+        context['earned_points'] = self.request.session.pop('earned_points', 0)
         return context
     
     
@@ -1090,6 +1148,7 @@ class TopViewTH(BGMContextMixin, ListView):
         context = super().get_context_data(**kwargs)
         context['bonus_received'] = self.request.session.pop('show_bonus_toast', False)
         context['show_guest_alert'] = self.request.session.pop('show_guest_bonus_alert', False)
+        context['earned_points'] = self.request.session.pop('earned_points', 0)
         return context
     
     
@@ -1106,6 +1165,7 @@ class TopViewPTBR(BGMContextMixin, ListView):
         context = super().get_context_data(**kwargs)
         context['bonus_received'] = self.request.session.pop('show_bonus_toast', False)
         context['show_guest_alert'] = self.request.session.pop('show_guest_bonus_alert', False)
+        context['earned_points'] = self.request.session.pop('earned_points', 0)
         return context
     
     
@@ -1122,6 +1182,7 @@ class TopViewESMX(BGMContextMixin, ListView):
         context = super().get_context_data(**kwargs)
         context['bonus_received'] = self.request.session.pop('show_bonus_toast', False)
         context['show_guest_alert'] = self.request.session.pop('show_guest_bonus_alert', False)
+        context['earned_points'] = self.request.session.pop('earned_points', 0)
         return context
     
     
@@ -1138,6 +1199,7 @@ class TopViewENIN(BGMContextMixin, ListView):
         context = super().get_context_data(**kwargs)
         context['bonus_received'] = self.request.session.pop('show_bonus_toast', False)
         context['show_guest_alert'] = self.request.session.pop('show_guest_bonus_alert', False)
+        context['earned_points'] = self.request.session.pop('earned_points', 0)
         return context
     
     

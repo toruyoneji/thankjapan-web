@@ -262,6 +262,7 @@ class Profile(models.Model):
     total_score = models.PositiveIntegerField(default=0)
     last_score = models.PositiveIntegerField(default=0)
     last_bonus_date = models.DateField(null=True, blank=True)
+    streak_count = models.IntegerField(default=0)
 
     def __str__(self):
         return f"{self.user.username}'s Profile"

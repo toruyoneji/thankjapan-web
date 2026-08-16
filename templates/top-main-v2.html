@@ -277,6 +277,25 @@
                 {% else %}Welcome back, <span class="username-accent">{{ user.username }}</span>!{% endif %}
             </div>
 
+            {% if user.profile.streak_count > 0 %}
+            <div class="streak-badge" style="color: gold; font-weight: bold; margin-top: 5px; font-size: 1.1rem;">
+                <span class="fire-icon">🔥</span>
+                {% if lang_code == 'ja' %}{{ user.profile.streak_count }} 日連続プレイ中！
+                {% elif lang_code == 'ko' %}{{ user.profile.streak_count }}일 연속 플레이 중!
+                {% elif lang_code == 'zh-cn' %}已连续运行 {{ user.profile.streak_count }} 天！
+                {% elif lang_code == 'zh-hant' %}已連續運行 {{ user.profile.streak_count }} 天！
+                {% elif lang_code == 'th' %}ล็อกอินต่อเนื่อง {{ user.profile.streak_count }} วันแล้ว!
+                {% elif lang_code == 'vi' %}{{ user.profile.streak_count }} ngày liên tiếp!
+                {% elif lang_code == 'fr' %}{{ user.profile.streak_count }} jours consécutifs !
+                {% elif lang_code == 'de' %}{{ user.profile.streak_count }} Tage in Folge!
+                {% elif lang_code == 'it' %}{{ user.profile.streak_count }} giorni consecutivi!
+                {% elif lang_code == 'es-es' or lang_code == 'es-mx' or lang_code == 'es' %}¡Racha de {{ user.profile.streak_count }} días!
+                {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Sequência de {{ user.profile.streak_count }} dias!
+                {% else %}{{ user.profile.streak_count }} Day Streak!{% endif %}
+            </div>
+            {% endif %}
+
+
             <div class="hero-buttons">
                 
                 <a href="{% url 'category_list' %}?lang={{ lang_code }}" class="explore-btn btn-red">
