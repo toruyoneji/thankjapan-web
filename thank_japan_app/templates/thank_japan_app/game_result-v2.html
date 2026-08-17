@@ -533,6 +533,55 @@ tbody td { padding: 8px; border: none; font-size: 0.82rem; color: var(--ink); }
             </p>
 
             <p style="font-size: 1rem; color: #888;">+{{ score }} pts added to your Total Exp</p>
+
+            {% if is_guest %}
+            <div class="guest-registration-nudge" style="margin-top: 25px; padding: 20px; border: 1px solid #a97c1f; border-radius: 15px; background: rgba(169, 124, 31, 0.05); text-align: center;">
+    
+            <p style="font-size: 1.1rem; color: #d4af37; margin-bottom: 12px; font-weight: bold;">
+                {% if lang_code == 'ja' %}このスコアを保存してランクアップしませんか？
+                {% elif lang_code == 'ko' %}이 점수를 저장하고 랭크를 올리시겠습니까?
+                {% elif lang_code == 'zh-cn' or lang_code == 'zh-hant' %}想要保存分数并提升等级吗？
+                {% elif lang_code == 'th' %}ต้องการบันทึกคะแนนและเพิ่มระดับของคุณหรือไม่?
+                {% elif lang_code == 'vi' %}Bạn có muốn lưu điểm và tăng hạng không?
+                {% elif lang_code == 'fr' %}Enregistrez votre score et montez en grade !
+                {% elif lang_code == 'de' %}Möchtest du Punkte speichern und im Rang aufsteigen?
+                {% elif lang_code == 'it' %}Vuoi salvare il punteggio e salire di livello?
+                {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}¿Quieres guardar tu puntuación y subir de rango?
+                {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Quer salvar sua pontuação e subir de nível?
+                {% else %}Save your score and Rank Up!{% endif %}
+            </p>
+
+    
+            <a href="{% url 'player_register' %}?lang={{ lang_code }}" style="display: inline-block; background: #a97c1f; color: #fff; padding: 12px 30px; border-radius: 50px; text-decoration: none; font-weight: bold; box-shadow: 0 4px 15px rgba(0,0,0,0.3); transition: transform 0.2s;">
+                {% if lang_code == 'ja' %}無料で会員登録する
+                {% elif lang_code == 'ko' %}무료 회원가입
+                {% elif lang_code == 'zh-cn' or lang_code == 'zh-hant' %}免费注册
+                {% elif lang_code == 'th' %}สมัครสมาชิกฟรี
+                {% elif lang_code == 'vi' %}Đăng ký miễn phí
+                {% elif lang_code == 'fr' %}S'inscrire gratuitement
+                {% elif lang_code == 'de' %}Kostenlos registrieren
+                {% elif lang_code == 'it' %}Registrati gratuitamente
+                {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Registrarse gratis
+                {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Cadastre-se grátis
+                {% else %}Sign Up for Free{% endif %}
+            </a>        
+    
+            <p style="font-size: 0.85rem; color: #888; margin-top: 10px;">
+                {% if lang_code == 'ja' %}※登録すると「将軍」や「侍」の称号が保存されます
+                {% elif lang_code == 'ko' %}*등록하면 '쇼군'이나 '사무라이' 같은 칭호가 저장됩니다
+                {% elif lang_code == 'zh-cn' or lang_code == 'zh-hant' %}*注册以保存“将军”或“武士”等称号
+                {% elif lang_code == 'th' %}*ลงทะเบียนเพื่อบันทึกฉายา เช่น "โชกุน" หรือ "ซามูไร"
+                {% elif lang_code == 'vi' %}*Đăng ký để lưu các danh hiệu như "Shogun" hoặc "Samurai"
+                {% elif lang_code == 'fr' %}*Enregistrez-vous pour conserver vos titres comme « Shogun » ou « Samouraï »
+                {% elif lang_code == 'de' %}*Registrierte Nutzer speichern Titel wie „Shogun“ oder „Samurai“
+                {% elif lang_code == 'it' %}*Registrati per salvare titoli come "Shogun" or "Samurai"
+                {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}*Regístrate para guardar títulos como "Shogún" o "Samurái"
+                {% elif lang_code == 'pt' or lang_code == 'pt-br' %}*Registre-se para salvar títulos como "Shogun" ou "Samurai"
+                {% else %}*Register to save titles like "Shogun" or "Samurai"{% endif %}
+            </p>
+            </div>
+            {% endif %}
+            
         </div>
       </div>
 
