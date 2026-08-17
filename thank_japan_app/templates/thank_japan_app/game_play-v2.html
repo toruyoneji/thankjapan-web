@@ -1220,7 +1220,7 @@ p[style*="color: var(--ink-soft)"] {
             <input type="hidden" name="answer" id="answer-input">
                 <div class="choices-container karuta-board">
                     {% for choice in choices %}
-                        <button type="button" class="choice-btn" onclick="selectCard(this, '{{ choice.name }}')">
+                        <button type="button" class="choice-btn" onclick="selectCard(this, '{{ choice.id }}')">
                             {% if choice.image %}
                                 <img src="{{ choice.image.url }}" alt="{{ choice.jpname }}" class="choice-card-image">
                             {% endif %}

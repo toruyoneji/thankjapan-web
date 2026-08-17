@@ -1641,7 +1641,7 @@ def game_answer(request, pk):
     request.session['last_answered_index'] = index
     
 
-    user_input = request.POST.get('answer', '').strip().lower()
+    user_input = request.POST.get('answer')
     
     question_start_time = request.session.get('question_start_time')
     if question_start_time:
@@ -1653,9 +1653,7 @@ def game_answer(request, pk):
     if client_seconds_left:
         request.session['frozen_seconds_left'] = int(client_seconds_left)
 
-    user_answer_cleaned = extract_base_name(user_input).lower()
-    db_answer_cleaned = extract_base_name(question.name).lower()
-    correct_flag = (user_answer_cleaned == db_answer_cleaned)
+    correct_flag = (str(user_input) == str(question.id))
     
     points = 0
     if correct_flag:
@@ -1672,7 +1670,7 @@ def game_answer(request, pk):
         'question_id': question.id,
         'index': index,
         'is_correct': correct_flag,
-        'user_input': user_input,
+        'user_input': question.name if correct_flag else "Wrong",
         'correct_answer': question.name,
         'reaction_time': reaction_time,
         'points': points,
