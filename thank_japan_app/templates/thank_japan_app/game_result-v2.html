@@ -535,6 +535,31 @@ tbody td { padding: 8px; border: none; font-size: 0.82rem; color: var(--ink); }
             <p style="font-size: 1rem; color: #888;">+{{ score }} pts added to your Total Exp</p>
 
             {% if is_guest %}
+
+            <style>
+        
+            @keyframes finger-bounce {
+                0%, 100% { transform: translateX(0); }
+                50% { transform: translateX(12px); } /* 右に12px動く */
+                }
+            .pointing-finger {
+                display: inline-block;
+                font-size: 1.8rem;
+                vertical-align: middle;
+                margin-left: 10px;
+                animation: finger-bounce 0.8s infinite ease-in-out;
+                cursor: pointer;
+                }
+        
+            .cta-wrapper {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-bottom: 5px;
+                }
+            </style>
+
+            
             <div class="guest-registration-nudge" style="margin-top: 25px; padding: 20px; border: 1px solid #a97c1f; border-radius: 15px; background: rgba(169, 124, 31, 0.05); text-align: center;">
     
             <p style="font-size: 1.1rem; color: #d4af37; margin-bottom: 12px; font-weight: bold;">
@@ -551,7 +576,7 @@ tbody td { padding: 8px; border: none; font-size: 0.82rem; color: var(--ink); }
                 {% else %}Save your score and Rank Up!{% endif %}
             </p>
 
-    
+            <div class="cta-wrapper">
             <a href="{% url 'player_register' %}?lang={{ lang_code }}" style="display: inline-block; background: #a97c1f; color: #fff; padding: 12px 30px; border-radius: 50px; text-decoration: none; font-weight: bold; box-shadow: 0 4px 15px rgba(0,0,0,0.3); transition: transform 0.2s;">
                 {% if lang_code == 'ja' %}無料で会員登録する
                 {% elif lang_code == 'ko' %}무료 회원가입
@@ -565,7 +590,12 @@ tbody td { padding: 8px; border: none; font-size: 0.82rem; color: var(--ink); }
                 {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Cadastre-se grátis
                 {% else %}Sign Up for Free{% endif %}
             </a>        
+
+            <span class="pointing-finger" >👈</span>
     
+            </div>
+
+
             <p style="font-size: 0.85rem; color: #888; margin-top: 10px;">
                 {% if lang_code == 'ja' %}※登録すると「将軍」や「侍」の称号が保存されます
                 {% elif lang_code == 'ko' %}*등록하면 '쇼군'이나 '사무라이' 같은 칭호가 저장됩니다
