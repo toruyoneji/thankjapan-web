@@ -338,59 +338,6 @@
             </ul>
         </div>
 
-        <div class="card">
-            <h2>
-                {% if lang_code == 'ja' %}歴史
-                {% elif lang_code == 'zh-hant' %}歷史
-                {% elif lang_code == 'zh-cn' %}历史
-                {% elif lang_code == 'de' %}Geschichte
-                {% elif lang_code == 'fr' %}Histoire
-                {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Historia
-                {% elif lang_code == 'it' %}Storia
-                {% elif lang_code == 'ko' %}역사
-                {% elif lang_code == 'pt' or lang_code == 'pt-br' %}História
-                {% elif lang_code == 'vi' %}Lịch sử
-                {% elif lang_code == 'th' %}ประวัติศาสตร์
-                {% else %}History
-                {% endif %}
-            </h2>
-
-            <ul>
-                {% if lang_code == 'ja' and object.history_ja %}
-                    {% for line in object.history_ja.splitlines %}<li>{{ line }}</li>{% endfor %}
-                {% elif lang_code == 'en-in' and object.history_en_in %}
-                    {% for line in object.history_en_in.splitlines %}<li>{{ line }}</li>{% endfor %}
-                {% elif lang_code == 'zh-cn' and object.history_zh_cn %}
-                    {% for line in object.history_zh_cn.splitlines %}<li>{{ line }}</li>{% endfor %}
-                {% elif lang_code == 'zh-hant' and object.history_zh_hant %}
-                    {% for line in object.history_zh_hant.splitlines %}<li>{{ line }}</li>{% endfor %}
-                {% elif lang_code == 'ko' and object.history_ko %}
-                    {% for line in object.history_ko.splitlines %}<li>{{ line }}</li>{% endfor %}
-                {% elif lang_code == 'fr' and object.history_fr %}
-                    {% for line in object.history_fr.splitlines %}<li>{{ line }}</li>{% endfor %}
-                {% elif lang_code == 'de' and object.history_de %}
-                    {% for line in object.history_de.splitlines %}<li>{{ line }}</li>{% endfor %}
-                {% elif lang_code == 'it' and object.history_it %}
-                    {% for line in object.history_it.splitlines %}<li>{{ line }}</li>{% endfor %}
-                {% elif lang_code == 'es-es' and object.history_es_es %}
-                    {% for line in object.history_es_es.splitlines %}<li>{{ line }}</li>{% endfor %}
-                {% elif lang_code == 'es-mx' and object.history_es_mx %}
-                    {% for line in object.history_es_mx.splitlines %}<li>{{ line }}</li>{% endfor %}
-                {% elif lang_code == 'pt' and object.history_pt %}
-                    {% for line in object.history_pt.splitlines %}<li>{{ line }}</li>{% endfor %}
-                {% elif lang_code == 'pt-br' and object.history_pt_br %}
-                    {% for line in object.history_pt_br.splitlines %}<li>{{ line }}</li>{% endfor %}
-                {% elif lang_code == 'th' and object.history_th %}
-                    {% for line in object.history_th.splitlines %}<li>{{ line }}</li>{% endfor %}
-                {% elif lang_code == 'vi' and object.history_vi %}
-                    {% for line in object.history_vi.splitlines %}<li>{{ line }}</li>{% endfor %}
-                {% else %}
-                    {% for line in object.history.splitlines %}<li>{{ line }}</li>{% endfor %}
-                {% endif %}
-            </ul>
-        </div>
-
-
         {% if object.example_sentence_ja %}
         <div class="card">
             <h2>
@@ -509,40 +456,40 @@
         <p class="rule-caption" style="color: rgba(255,255,255,0.6); font-size: 0.85rem; margin-bottom: 25px;">
             {% if lang_code == 'ja' %}
                 正しい日本語を選んでください！<br>
-                ・3つの選択肢から1つをタップ
+                ・2つの画像から1つをタップ
             {% elif lang_code == 'zh-hant' %}
                 請選擇正確的日文！<br>
-                ・從 3 個選項中點擊一個
+                ・從 2 張圖片中點擊一個
             {% elif lang_code == 'zh-cn' %}
-                请选择正確的日文！<br>
-                ・从 3 个选项中点击一个
+                请选择正确的日文！<br>
+                ・从 2 张图片中点击一个
             {% elif lang_code == 'de' %}
                 Wähle das richtige Japanisch!<br>
-                - Tippe auf eine der 3 Optionen
+                - Tippe auf eines der 2 Bilder
             {% elif lang_code == 'fr' %}
                 Choisissez le bon japonais !<br>
-                - Appuyez sur l'une des 3 options
+                - Appuyez sur l'une des 2 images
             {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}
                 ¡Elige el japonés correcto!<br>
-                - Toca una de las 3 opciones
+                - Toca una de las 2 imágenes
             {% elif lang_code == 'it' %}
                 Scegli il giapponese corretto!<br>
-                - Tocca una delle 3 opzioni
+                - Tocca una delle 2 immagini
             {% elif lang_code == 'ko' %}
                 올바른 일본어를 선택하세요!<br>
-                ・3가지 선택지 중 하나를 터치
+                ・2개의 이미지 중 하나를 터치
             {% elif lang_code == 'pt' or lang_code == 'pt-br' %}
                 Escolha o japonês correto!<br>
-                - Toque em uma das 3 opções
+                - Toque em uma das 2 imagens
             {% elif lang_code == 'vi' %}
                 Chọn tiếng Nhật đúng!<br>
-                - Chạm vào 1 trong 3 lựa chọn
+                - Chạm vào 1 trong 2 hình ảnh
             {% elif lang_code == 'th' %}
                 เลือกภาษาญี่ปุ่นที่ถูกต้อง!<br>
-                - แตะหนึ่งใน 3 ตัวเลือก
+                - แตะหนึ่งใน 2 รูปภาพ
             {% else %}
                 Choose the correct Japanese!<br>
-                - Tap one of the 3 choices
+                - Tap one of the 2 images
             {% endif %}
         </p>
         
