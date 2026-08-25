@@ -27,7 +27,8 @@ from google.oauth2 import service_account
 from googleapiclient.discovery import build
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
-from firebase_admin import credentials, messaging
+from firebase_admin import messaging
+from .firebase_utils import get_firebase_credentials
 from datetime import date, timedelta
 import logging
 import random
@@ -932,14 +933,12 @@ def save_fcm_token(request):
 
 # Firebase Admin SDKの初期化
 if not firebase_admin._apps:
-    cred_json = os.environ.get('FIREBASE_SERVICE_ACCOUNT')
-    if cred_json:
-        try:
-            cred_dict = json.loads(cred_json)
-            cred = credentials.Certificate(cred_dict)
+    try:
+        cred = get_firebase_credentials()
+        if cred:
             firebase_admin.initialize_app(cred)
-        except Exception as e:
-            print(f"Firebase initialization error: {e}")
+    except Exception as e:
+        print(f"Firebase initialization error: {e}")
 
 
 

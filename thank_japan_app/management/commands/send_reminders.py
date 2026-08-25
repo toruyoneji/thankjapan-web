@@ -4,9 +4,7 @@ from datetime import timedelta
 from thank_japan_app.models import FCMDevice, Profile
 from firebase_admin import messaging
 import firebase_admin
-import os
-import json
-from firebase_admin import credentials
+from thank_japan_app.firebase_utils import get_firebase_credentials
 
 class Command(BaseCommand):
     help = '休眠期間（2日、7日、30日）に合わせて通知を送り分ける'
@@ -14,9 +12,8 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         # Firebase初期化
         if not firebase_admin._apps:
-            cred_json = os.environ.get('FIREBASE_SERVICE_ACCOUNT')
-            if cred_json:
-                cred = credentials.Certificate(json.loads(cred_json))
+            cred = get_firebase_credentials()
+            if cred:
                 firebase_admin.initialize_app(cred)
 
         # メッセージ定義
