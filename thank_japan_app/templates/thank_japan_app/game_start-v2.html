@@ -26,8 +26,10 @@
     --wood-border: #e8dfc8;
     --ink: #2a1d13;
     --ink-soft: #8a7862;
-    --gold: #cda23f;
-    --gold-dark: #a97c1f;
+    --gold: #C9A227;
+    --gold-dark: #90741C;
+    --gold-light: #E3C567;
+    --gold-deep: #8A6A1A;
     --matcha: #7c9473;
     --matcha-dark: #5e7458;
     --azuki: #a5533f;
@@ -36,6 +38,11 @@
     --locked-bg: #e5ddc7;
     --locked-border: #d0c5a5;
     --locked-text: #9a8f74;
+    --card-bg: #1E1E1E;
+    --card-bg-dark: #1A1A1A;
+    --deep-green: #4A5D42;
+    --deep-green-dark: #3B4A35;
+    --red-accent: #B23A2F;
 }
 
 body {
@@ -159,17 +166,24 @@ body::before, body::after { display: none; }
     text-align: center;
 }
 
-.easy { background-color: var(--matcha); border-bottom-color: var(--matcha-dark); }
-.normal { background-color: var(--gold); border-bottom-color: var(--gold-dark); }
-.hard { background-color: var(--azuki); border-bottom-color: var(--azuki-dark); }
+.easy { background-color: var(--card-bg); border-bottom-color: var(--gold-light); }
+.normal { background-color: var(--card-bg); border-bottom-color: var(--gold); }
+.hard { background-color: var(--card-bg); border-bottom-color: var(--gold-deep); }
+
+.easy .difficulty-info h3 { color: var(--gold-light); }
+.easy .difficulty-info p { color: rgba(255,255,255,0.75); }
+.normal .difficulty-info h3 { color: var(--gold); }
+.normal .difficulty-info p { color: rgba(255,255,255,0.75); }
+.hard .difficulty-info h3 { color: var(--gold-deep); }
+.hard .difficulty-info p { color: rgba(255,255,255,0.75); }
 
 .super-hard {
-    background-color: var(--charcoal);
-    border-bottom-color: #000;
+    background-color: var(--card-bg-dark);
+    border-bottom-color: var(--red-accent);
 }
-.super-hard .difficulty-info h3 { color: var(--gold); }
-.super-hard .difficulty-info p { color: #d9c98a; }
-.super-hard:hover { background-color: var(--charcoal); }
+.super-hard .difficulty-info h3 { color: var(--gold-light); }
+.super-hard .difficulty-info p { color: rgba(255,255,255,0.75); }
+.super-hard:hover { background-color: var(--card-bg-dark); }
 
 .difficulty-card.locked {
     background-color: var(--locked-bg);
@@ -183,21 +197,21 @@ body::before, body::after { display: none; }
 
 /* premium */
 .difficulty-card.sample-card {
-    background: #eaf3e4 !important;
-    border-bottom: 5px solid var(--matcha) !important;
+    background: var(--card-bg) !important;
+    border-bottom: 5px solid var(--deep-green) !important;
     position: relative;
 }
-.sample-card .difficulty-info h3 { color: var(--matcha-dark) !important; }
-.sample-card .difficulty-info p { color: var(--matcha-dark) !important; }
-.sample-card .free-badge { background: var(--matcha); }
+.sample-card .difficulty-info h3 { color: var(--gold) !important; }
+.sample-card .difficulty-info p { color: rgba(255,255,255,0.75) !important; }
+.sample-card .free-badge { background: var(--deep-green); }
 
 .difficulty-card.premium-gold {
-    background: var(--gold) !important;
-    border-bottom: 5px solid var(--gold-dark) !important;
+    background: var(--card-bg) !important;
+    border-bottom: 5px solid var(--gold) !important;
     position: relative;
 }
-.premium-gold .difficulty-info h3 { color: #fff !important; font-weight: 800; }
-.premium-gold .difficulty-info p { color: rgba(255,255,255,0.9) !important; font-weight: 600; }
+.premium-gold .difficulty-info h3 { color: var(--gold) !important; font-weight: 800; }
+.premium-gold .difficulty-info p { color: rgba(255,255,255,0.75) !important; font-weight: 600; }
 
 .difficulty-card.premium-locked {
     background: var(--locked-bg) !important;
@@ -210,11 +224,12 @@ body::before, body::after { display: none; }
 .premium-locked .difficulty-info p { color: var(--locked-text) !important; }
 .premium-locked:hover { transform: none !important; }
 
-/* N5 = 若葉・翡翠系(初心者・旅) */
+/* N5 = 金(明るめ)・初心者・旅 */
 .premium-options .difficulty-card:nth-child(2).premium-gold {
-    background: #5a8a86 !important;
-    border-bottom-color: #446b68 !important;
+    background: var(--card-bg) !important;
+    border-bottom-color: var(--gold-light) !important;
 }
+.premium-options .difficulty-card:nth-child(2).premium-gold .difficulty-info h3 { color: var(--gold-light) !important; }
 .premium-options .difficulty-card:nth-child(2).premium-locked {
     background: #d8e4e2 !important;
     border-bottom-color: #b9c9c6 !important;
@@ -224,11 +239,12 @@ body::before, body::after { display: none; }
     color: #6f8582 !important;
 }
 
-/* N4 = 葡萄・小豆系(生活者) */
+/* N4 = 金(基準)・生活者 */
 .premium-options .difficulty-card:nth-child(3).premium-gold {
-    background: #8a5a6e !important;
-    border-bottom-color: #6b4455 !important;
+    background: var(--card-bg) !important;
+    border-bottom-color: var(--gold) !important;
 }
+.premium-options .difficulty-card:nth-child(3).premium-gold .difficulty-info h3 { color: var(--gold) !important; }
 .premium-options .difficulty-card:nth-child(3).premium-locked {
     background: #e4d8dd !important;
     border-bottom-color: #c9b3bc !important;
@@ -238,11 +254,12 @@ body::before, body::after { display: none; }
     color: #8a6f78 !important;
 }
 
-/* N3 = 藍系(ビジネス) */
+/* N3 = 金(暗め)・ビジネス */
 .premium-options .difficulty-card:nth-child(4).premium-gold {
-    background: #4a5a7a !important;
-    border-bottom-color: #38445e !important;
+    background: var(--card-bg) !important;
+    border-bottom-color: var(--gold-deep) !important;
 }
+.premium-options .difficulty-card:nth-child(4).premium-gold .difficulty-info h3 { color: var(--gold-deep) !important; }
 .premium-options .difficulty-card:nth-child(4).premium-locked {
     background: #dadfe6 !important;
     border-bottom-color: #b7c0cc !important;
