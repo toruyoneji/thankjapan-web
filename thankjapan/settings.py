@@ -7,7 +7,8 @@ import dj_database_url
 import cloudinary
 import cloudinary_storage
 import paypalrestsdk
-import json
+
+from thank_japan_app.env_utils import load_b64_json_env
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -246,17 +247,12 @@ GOOGLE_PLAY_PRODUCT_ID = os.environ.get('GOOGLE_PLAY_PRODUCT_ID')
 PACKAGE_NAME = 'com.thankjapan.www.twa' 
 
 
-google_play_key_json_str = os.environ.get('GOOGLE_PLAY_KEY_JSON')
-
-if google_play_key_json_str:
-    try:
-        GOOGLE_PLAY_KEY_DICT = json.loads(google_play_key_json_str)
-    except json.JSONDecodeError:
-        print("Error: GOOGLE_PLAY_KEY_JSON is not a valid JSON format.")
-        GOOGLE_PLAY_KEY_DICT = None
-else:
+try:
+    GOOGLE_PLAY_KEY_DICT = load_b64_json_env('GOOGLE_PLAY_KEY_JSON_B64')
+except Exception:
+    print("Error: GOOGLE_PLAY_KEY_JSON_B64 is not a valid Base64/JSON format.")
     GOOGLE_PLAY_KEY_DICT = None
-    
+
 APPEND_SLASH = False
 
 
@@ -280,10 +276,3 @@ LANGUAGES = [
 
 
 
-if google_play_key_json_str:
-    try:
-        GOOGLE_PLAY_KEY_DICT = json.loads(google_play_key_json_str)
-    except Exception: 
-        GOOGLE_PLAY_KEY_DICT = None
-else:
-    GOOGLE_PLAY_KEY_DICT = None

@@ -1,16 +1,12 @@
-import base64
-import json
-import os
-
 from firebase_admin import credentials
+
+from .env_utils import load_b64_json_env
 
 
 def get_firebase_credentials():
     """Base64エンコードされた環境変数からFirebaseサービスアカウント認証情報を読み込む"""
-    encoded = os.environ.get('FIREBASE_SERVICE_ACCOUNT_B64')
-    if not encoded:
+    firebase_dict = load_b64_json_env('FIREBASE_SERVICE_ACCOUNT_B64')
+    if not firebase_dict:
         return None
 
-    decoded_json = base64.b64decode(encoded).decode('utf-8')
-    firebase_dict = json.loads(decoded_json)
     return credentials.Certificate(firebase_dict)
