@@ -2,19 +2,35 @@
 {% load category_filters %}
 
 {% block title %}
-    {% if lang_code == 'ja' %}第 {{ current_index }} 問 | ThankJapan
-    {% elif lang_code == 'zh-hant' %}第 {{ current_index }} 題 | ThankJapan
-    {% elif lang_code == 'zh-cn' %}第 {{ current_index }} 题 | ThankJapan
-    {% elif lang_code == 'ko' %}제 {{ current_index }} 문 | ThankJapan
-    {% elif lang_code == 'fr' %}Question {{ current_index }} | ThankJapan
-    {% elif lang_code == 'th' %}ข้อที่ {{ current_index }} | ThankJapan
-    {% elif lang_code == 'vi' %}Câu {{ current_index }} | ThankJapan
-    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Pregunta {{ current_index }} | ThankJapan
-    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Pergunta {{ current_index }} | ThankJapan
-    {% elif lang_code == 'de' %}Frage {{ current_index }} | ThankJapan
-    {% elif lang_code == 'it' %}Domanda {{ current_index }} | ThankJapan
-    {% elif lang_code == 'en-in' %}Question {{ current_index }} | ThankJapan
-    {% else %}Question {{ current_index }} | ThankJapan{% endif %}
+    {% if difficulty == 'single' %}
+        {% if lang_code == 'ja' %}復習: {{ object.kanji_name|default:object.jpname }} | ThankJapan
+        {% elif lang_code == 'zh-hant' %}復習: {{ object.kanji_name|default:object.jpname }} | ThankJapan
+        {% elif lang_code == 'zh-cn' %}复习: {{ object.kanji_name|default:object.jpname }} | ThankJapan
+        {% elif lang_code == 'ko' %}복습: {{ object.kanji_name|default:object.jpname }} | ThankJapan
+        {% elif lang_code == 'fr' %}Révision : {{ object.kanji_name|default:object.jpname }} | ThankJapan
+        {% elif lang_code == 'th' %}ทบทวน: {{ object.kanji_name|default:object.jpname }} | ThankJapan
+        {% elif lang_code == 'vi' %}Ôn tập: {{ object.kanji_name|default:object.jpname }} | ThankJapan
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Repaso: {{ object.kanji_name|default:object.jpname }} | ThankJapan
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Revisão: {{ object.kanji_name|default:object.jpname }} | ThankJapan
+        {% elif lang_code == 'de' %}Wiederholung: {{ object.kanji_name|default:object.jpname }} | ThankJapan
+        {% elif lang_code == 'it' %}Ripasso: {{ object.kanji_name|default:object.jpname }} | ThankJapan
+        {% elif lang_code == 'en-in' %}Review: {{ object.kanji_name|default:object.jpname }} | ThankJapan
+        {% else %}Review: {{ object.kanji_name|default:object.jpname }} | ThankJapan{% endif %}
+    {% else %}
+        {% if lang_code == 'ja' %}第 {{ current_index }} 問 | ThankJapan
+        {% elif lang_code == 'zh-hant' %}第 {{ current_index }} 題 | ThankJapan
+        {% elif lang_code == 'zh-cn' %}第 {{ current_index }} 题 | ThankJapan
+        {% elif lang_code == 'ko' %}제 {{ current_index }} 문 | ThankJapan
+        {% elif lang_code == 'fr' %}Question {{ current_index }} | ThankJapan
+        {% elif lang_code == 'th' %}ข้อที่ {{ current_index }} | ThankJapan
+        {% elif lang_code == 'vi' %}Câu {{ current_index }} | ThankJapan
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Pregunta {{ current_index }} | ThankJapan
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Pergunta {{ current_index }} | ThankJapan
+        {% elif lang_code == 'de' %}Frage {{ current_index }} | ThankJapan
+        {% elif lang_code == 'it' %}Domanda {{ current_index }} | ThankJapan
+        {% elif lang_code == 'en-in' %}Question {{ current_index }} | ThankJapan
+        {% else %}Question {{ current_index }} | ThankJapan{% endif %}
+    {% endif %}
 {% endblock %}
 
 {% block game_main %}
@@ -832,19 +848,34 @@ p[style*="color: var(--ink-soft)"] {
 
     
   <h1>
-    {% if lang_code == 'ja' %}問題
-    {% elif lang_code == 'zh-hant' %}題目
-    {% elif lang_code == 'zh-cn' %}题目
-    {% elif lang_code == 'de' %}Frage
-    {% elif lang_code == 'fr' %}Question
-    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Pregunta
-    {% elif lang_code == 'it' %}Domanda
-    {% elif lang_code == 'ko' %}문제
-    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Pergunta
-    {% elif lang_code == 'vi' %}Câu hỏi
-    {% elif lang_code == 'th' %}คำถาม
-    {% else %}Question{% endif %} 
-    {{ current_index }} 
+    {% if difficulty == 'single' %}
+        {% if lang_code == 'ja' %}復習
+        {% elif lang_code == 'zh-hant' %}復習
+        {% elif lang_code == 'zh-cn' %}复习
+        {% elif lang_code == 'de' %}Wiederholung
+        {% elif lang_code == 'fr' %}Révision
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Repaso
+        {% elif lang_code == 'it' %}Ripasso
+        {% elif lang_code == 'ko' %}복습
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Revisão
+        {% elif lang_code == 'vi' %}Ôn tập
+        {% elif lang_code == 'th' %}ทบทวน
+        {% else %}Review{% endif %}
+    {% else %}
+        {% if lang_code == 'ja' %}問題
+        {% elif lang_code == 'zh-hant' %}題目
+        {% elif lang_code == 'zh-cn' %}题目
+        {% elif lang_code == 'de' %}Frage
+        {% elif lang_code == 'fr' %}Question
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Pregunta
+        {% elif lang_code == 'it' %}Domanda
+        {% elif lang_code == 'ko' %}문제
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Pergunta
+        {% elif lang_code == 'vi' %}Câu hỏi
+        {% elif lang_code == 'th' %}คำถาม
+        {% else %}Question{% endif %}
+        {{ current_index }}
+    {% endif %}
   </h1>
 
   
