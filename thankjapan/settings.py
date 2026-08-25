@@ -2,6 +2,7 @@ from pathlib import Path
 from django.utils.translation import gettext_lazy as _
 
 import os
+import sys
 import dj_database_url
 import cloudinary
 import cloudinary_storage
@@ -22,8 +23,33 @@ ALLOWED_HOSTS = [
     'www.thankjapan.com',
     'thankjapan.com',
     'thankjapan-4c187061757b.herokuapp.com',
-    
+
 ]
+
+# Send app-level logging (logger.info/warning/error) to stdout so it shows up
+# in `heroku logs` under app[web.1]. Without this, Django's default logging
+# config has no handler for INFO-level messages from app loggers.
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'simple': {
+            'format': '{levelname} {name}: {message}',
+            'style': '{',
+        },
+    },
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+            'stream': sys.stdout,
+            'formatter': 'simple',
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'INFO',
+    },
+}
 
 
 

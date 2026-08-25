@@ -236,7 +236,14 @@ def verify_android_subscription(request):
 #android google play
 def is_android_twa(request):
 
-    return request.META.get('HTTP_X_REQUESTED_WITH') == settings.PACKAGE_NAME
+    x_requested_with = request.META.get('HTTP_X_REQUESTED_WITH')
+    result = x_requested_with == settings.PACKAGE_NAME
+
+    debug_line = f"[TWA-CHECK] path={request.path} X-Requested-With={x_requested_with!r} expected={settings.PACKAGE_NAME!r} result={result} UA={request.META.get('HTTP_USER_AGENT', '')!r}"
+    print(debug_line, flush=True)
+    logger.info(debug_line)
+
+    return result
 
 
 #in-app review prompt: cumulative distinct word-detail view counter
