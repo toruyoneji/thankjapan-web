@@ -263,6 +263,9 @@ class Profile(models.Model):
     last_score = models.PositiveIntegerField(default=0)
     last_bonus_date = models.DateField(null=True, blank=True)
     streak_count = models.IntegerField(default=0)
+    viewed_word_count = models.PositiveIntegerField(default=0)
+    review_prompt_completed = models.BooleanField(default=False)
+    review_prompt_dismissed_until = models.DateField(null=True, blank=True)
 
     def __str__(self):
         return f"{self.user.username}'s Profile"

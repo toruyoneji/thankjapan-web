@@ -41,8 +41,8 @@ from .views import (TopView, TopViewFR, TopViewIT, TopViewPT, TopViewZHHANT,TopV
                     delete_success_v2, 
                     downgrade_success_v2, update_policy_agreement, paypal_webhook,
                     CustomPasswordResetView, CustomPasswordResetConfirmView, verify_android_subscription,
-                    broadcast_daily_message,
-                    ) 
+                    broadcast_daily_message, update_review_prompt_status,
+                    )
 
 
 urlpatterns = [
@@ -294,7 +294,11 @@ urlpatterns = [
     
     #update-privacypolicy
     path('update-policy-agreement/', update_policy_agreement, name='update_policy_agreement'),
-    
+
+    #in-app review prompt
+    path('api/review-prompt-status/', update_review_prompt_status, name='update_review_prompt_status'),
+
+
     #privacypolicy
     path('privacy-policy/', PrivacyPolicy.as_view(), name="privacy_policy"),
     path('privacy-policy/de/', PrivacyPolicyDE.as_view(), name="privacy_policyde"),

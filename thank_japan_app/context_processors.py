@@ -1,6 +1,7 @@
 # thank_japan_app/context_processors.py
 
 from django.conf import settings
+from django.utils import timezone
 import os
 
 
@@ -44,6 +45,30 @@ def language_context(request):
         'lang_code': lang 
     }
     
+
+def review_prompt_status(request):
+    """Standing eligibility for the 'reviewed 10 words' in-app review prompt trigger.
+    The score/accuracy trigger is handled separately per-request in the game_result view."""
+    from .views import is_android_twa
+
+    WORD_COUNT_THRESHOLD = 10
+
+    if not is_android_twa(request):
+        return {'review_prompt_wordcount_ready': False}
+
+    if request.user.is_authenticated:
+        profile = getattr(request.user, 'profile', None)
+        if not profile:
+            return {'review_prompt_wordcount_ready': False}
+        if profile.review_prompt_completed:
+            return {'review_prompt_wordcount_ready': False}
+        if profile.review_prompt_dismissed_until and profile.review_prompt_dismissed_until > timezone.localdate():
+            return {'review_prompt_wordcount_ready': False}
+        return {'review_prompt_wordcount_ready': profile.viewed_word_count >= WORD_COUNT_THRESHOLD}
+
+    viewed_count = len(request.session.get('viewed_word_ids', []))
+    return {'review_prompt_wordcount_ready': viewed_count >= WORD_COUNT_THRESHOLD}
+
 
 def firebase_keys(request):
     return {

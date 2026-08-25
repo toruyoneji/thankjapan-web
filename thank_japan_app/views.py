@@ -3,6 +3,7 @@ from django.views import View
 from django.views.generic import ListView, DetailView, FormView, TemplateView
 from django.views.generic.edit import FormView
 from .models import ThankJapanModel, Player, Profile, ThankJapanPremium
+from django.db.models import F
 from django.contrib import messages
 from django.core.mail import send_mail
 from django.conf import settings
@@ -234,10 +235,46 @@ def verify_android_subscription(request):
 
 #android google play
 def is_android_twa(request):
-    
-    ua = request.META.get('HTTP_USER_AGENT', '').lower()
-    
-    return 'android' in ua or 'twa' in ua
+
+    return request.META.get('HTTP_X_REQUESTED_WITH') == settings.PACKAGE_NAME
+
+
+#in-app review prompt: cumulative distinct word-detail view counter
+def track_word_view(request, model_type, object_id):
+    session_key = 'viewed_word_ids'
+    viewed_ids = request.session.get(session_key, [])
+    word_key = f"{model_type}:{object_id}"
+    if word_key not in viewed_ids:
+        viewed_ids.append(word_key)
+        request.session[session_key] = viewed_ids
+        request.session.modified = True
+        if request.user.is_authenticated:
+            Profile.objects.filter(pk=request.user.profile.pk).update(
+                viewed_word_count=F('viewed_word_count') + 1
+            )
+    if request.user.is_authenticated:
+        request.user.profile.refresh_from_db(fields=['viewed_word_count'])
+        return request.user.profile.viewed_word_count
+    return len(viewed_ids)
+
+
+@login_required
+@require_POST
+def update_review_prompt_status(request):
+    profile = request.user.profile
+    try:
+        action = json.loads(request.body or '{}').get('action')
+    except (ValueError, TypeError):
+        action = None
+
+    if action == 'completed':
+        profile.review_prompt_completed = True
+        profile.save(update_fields=['review_prompt_completed'])
+    elif action == 'dismiss':
+        profile.review_prompt_dismissed_until = timezone.localdate() + timedelta(days=14)
+        profile.save(update_fields=['review_prompt_dismissed_until'])
+
+    return JsonResponse({'status': 'success'})
 
 #category: urls:
 CATEGORY_URL_MAP = {
@@ -1844,20 +1881,26 @@ def game_result(request):
     weekly_ranking = []
     last_score, rank_val = None, 0
     for i, r in enumerate(raw_weekly_ranking, 1):
-        if r.score != last_score: rank_val = i  
+        if r.score != last_score: rank_val = i
         r.display_rank = rank_val
         weekly_ranking.append(r)
         last_score = r.score
 
+    accuracy = (correct_count / total_played) if total_played else 0
+    trigger_review_score = (
+        is_android_twa(request) and difficulty != 'single' and total_played > 0 and
+        (score >= 5 or accuracy >= 0.8)
+    )
+
     return render(request, 'thank_japan_app/game_result-v2.html', {
         'lang_code': lang_code,
-        'player': player, 
-        'score': score, 
+        'player': player,
+        'score': score,
         'time_bonus_total': time_bonus_total,
-        'correct_count': correct_count, 
+        'correct_count': correct_count,
         'total_played': total_played,
-        'is_guest': is_guest, 
-        'review_data': review_data, 
+        'is_guest': is_guest,
+        'review_data': review_data,
         'difficulty': difficulty,
         'ranking': ranking,
         'weekly_ranking': weekly_ranking,
@@ -1865,7 +1908,8 @@ def game_result(request):
         'total_registered': total_registered,
         'bgm_url': get_bgm_url('top'),
         'bgm_page_type': 'top',
-    })    
+        'trigger_review_score': trigger_review_score,
+    })
     
     
                                 
@@ -3827,10 +3871,12 @@ class CategoryDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         current_item = self.object
         
-        context['is_modal'] = self.is_modal 
-        
+        context['is_modal'] = self.is_modal
+
         _, lang_code = get_lang_info(self.request)
         context['lang_code'] = lang_code
+        context['is_twa'] = is_android_twa(self.request)
+        track_word_view(self.request, 'free', current_item.id)
 
         context['related_items'] = ThankJapanModel.objects.filter(
             category=current_item.category
@@ -3909,6 +3955,7 @@ class ImgPremiumDetailView(DetailView):
         context['premium_url_name'] = url_name
         context['lang_code'] = lang_code
         context['is_twa'] = is_android_twa(self.request)
+        track_word_view(self.request, 'premium', current_item.id)
         is_premium = self.request.user.is_authenticated and getattr(self.request.user.profile, 'is_premium', False)
         url_target_name = CATEGORY_URL_MAP.get(current_item.category, 'toppage')
         try:
