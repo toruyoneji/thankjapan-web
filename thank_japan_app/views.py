@@ -3834,11 +3834,13 @@ class CategoryDetailView(DetailView):
     slug_field = "slug"
     slug_url_kwarg = "slug"
 
-    def get(self, request, lang=None, *args, **kwargs): 
+    def get(self, request, lang=None, *args, **kwargs):
         category = self.kwargs.get('category')
         slug = self.kwargs.get('slug')
-        
-        
+
+        if slug == 'null':
+            raise Http404
+
         self.is_modal = request.headers.get('x-requested-with') == 'XMLHttpRequest'
 
         try:
@@ -3922,7 +3924,10 @@ class ImgPremiumDetailView(DetailView):
     def dispatch(self, request, lang=None, *args, **kwargs):
         category = self.kwargs.get('category')
         slug = self.kwargs.get('slug')
-        
+
+        if slug == 'null':
+            raise Http404
+
         self.is_modal = request.headers.get('x-requested-with') == 'XMLHttpRequest'
         is_premium = request.user.is_authenticated and getattr(request.user.profile, 'is_premium', False)
         try:
