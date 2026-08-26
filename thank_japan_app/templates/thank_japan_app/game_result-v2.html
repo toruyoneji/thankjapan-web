@@ -1091,6 +1091,19 @@ tbody td { padding: 8px; border: none; font-size: 0.82rem; color: var(--ink); }
 
 {{ score|default:0|json_script:"score-data" }}
 <script>
+    if (typeof gtag === 'function') {
+        gtag('event', 'game_complete', {
+            platform: '{{ ga_platform }}',
+            difficulty: '{{ difficulty }}',
+            is_premium: {{ is_premium_mode|yesno:"true,false" }},
+            score: {{ score|default:0 }},
+            correct_count: {{ correct_count|default:0 }},
+            total_played: {{ total_played|default:0 }}
+        });
+    }
+</script>
+
+<script>
 
 const topPageUrls = {
     'ja': "{% url 'toppageja' %}",

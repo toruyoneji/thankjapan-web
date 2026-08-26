@@ -84,6 +84,12 @@ def review_prompt_status(request):
     }
 
 
+def ga_platform(request):
+    """'twa' vs 'web', for tagging GA4 events so drop-off can be split by channel."""
+    from .views import is_android_twa
+    return {'ga_platform': 'twa' if is_android_twa(request) else 'web'}
+
+
 def firebase_keys(request):
     return {
         'FIREBASE_API_KEY': os.environ.get('FIREBASE_API_KEY', ''),

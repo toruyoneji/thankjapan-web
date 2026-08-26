@@ -24,6 +24,12 @@
 {% block detail_main %}
 {% load static %}
 
+<script>
+    if (typeof gtag === 'function') {
+        gtag('event', 'word_detail_view', { platform: '{{ ga_platform }}', category: '{{ object.category }}', is_premium: false });
+    }
+</script>
+
 
 <div class="main2" id="detail-page-wrapper">
     

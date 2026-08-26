@@ -1358,7 +1358,8 @@ def player_register(request):
             request.session['tj_lang_code'] = lang_code
             
             login_url = reverse('player_login')
-            query_params = urlencode({'next': next_url, 'lang': lang_code})
+            # 'registered=1' lets the login page fire the GA4 'sign_up' event once.
+            query_params = urlencode({'next': next_url, 'lang': lang_code, 'registered': '1'})
             return redirect(f"{login_url}?{query_params}")
 
     else:
@@ -1610,6 +1611,7 @@ def game_play(request):
 
     db_answer = extract_base_name(question.name).lower()
     request.session['question_start_time'] = time.time()
+    fire_game_start_event = request.session.pop('ga_fire_game_start', False)
     return render(request, 'thank_japan_app/game_play-v2.html', {
         'object': question,
         'choices': choices,
@@ -1628,6 +1630,7 @@ def game_play(request):
         'lang_code': lang_code,
         'bgm_url': get_bgm_url('game'),
         'bgm_page_type': 'game',
+        'fire_game_start_event': fire_game_start_event,
     })
          
 
@@ -1700,12 +1703,15 @@ def game_answer(request, pk):
     
     points = 0
     if correct_flag:
+        # Base point for a correct answer: 1 for free-category questions, 2 for
+        # premium-category questions. The speed bonus on top is the same for both.
+        base_points = 2 if is_premium_mode else 1
         if reaction_time is not None and reaction_time < 2:
-            points = 3
+            points = base_points + 2
         elif reaction_time is not None and reaction_time < 4:
-            points = 2
+            points = base_points + 1
         else:
-            points = 1
+            points = base_points
         request.session['game_score'] = request.session.get('game_score', 0) + points
 
     history = request.session.get('game_history', [])
@@ -1829,7 +1835,10 @@ def game_restart(request):
     request.session['game_difficulty'] = difficulty
     request.session['is_premium_mode'] = is_premium_mode
     request.session['game_history'] = []
-    
+    # Consumed once by game_play to fire the GA4 'game_start' event, so it fires
+    # exactly once per new game rather than on every question fetch.
+    request.session['ga_fire_game_start'] = True
+
     _, lang_code = get_lang_info(request)
     return redirect(f"{reverse('game_play')}?lang={lang_code}")
 
@@ -1843,14 +1852,15 @@ def game_result(request):
     deduped_dict = {h.get('index'): h for h in raw_history}
     history = list(deduped_dict.values()) 
 
-    total_played = len(history) 
-    correct_count = sum(1 for h in history if h.get('is_correct')) 
-    
-    time_bonus_total = sum((h.get('points', 1) - 1) for h in history if h.get('is_correct'))
-    score = sum(h.get('points', 0) for h in history) 
-    
-    player, is_guest = get_current_player_info(request)
+    total_played = len(history)
+    correct_count = sum(1 for h in history if h.get('is_correct'))
+
     is_premium_mode = request.session.get('is_premium_mode', False)
+    base_points = 2 if is_premium_mode else 1
+    time_bonus_total = sum((h.get('points', base_points) - base_points) for h in history if h.get('is_correct'))
+    score = sum(h.get('points', 0) for h in history)
+
+    player, is_guest = get_current_player_info(request)
     difficulty = request.session.get('game_difficulty')
 
     if not request.session.get('score_saved', False) and score > 0:
@@ -1918,6 +1928,7 @@ def game_result(request):
         'total_registered': total_registered,
         'bgm_url': get_bgm_url('top'),
         'bgm_page_type': 'top',
+        'is_premium_mode': is_premium_mode,
     })
     
     

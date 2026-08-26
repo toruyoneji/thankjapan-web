@@ -355,6 +355,9 @@
 </div>
 
 <script>
+    if (typeof gtag === 'function') {
+        gtag('event', 'category_list_view', { platform: '{{ ga_platform }}' });
+    }
     localStorage.setItem('tj_category_menu_url', window.location.href);
     function goToTopPage() {
         const topUrl = localStorage.getItem('tj_top_url');

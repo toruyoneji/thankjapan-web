@@ -561,6 +561,12 @@
 </div>
 
 <script>
+    {% if request.GET.registered == '1' %}
+    if (typeof gtag === 'function') {
+        gtag('event', 'sign_up', { platform: '{{ ga_platform }}', method: 'ThankJapan' });
+    }
+    {% endif %}
+
     function goToTopPage() {
         const topUrl = localStorage.getItem('tj_top_url');
         if (topUrl) {

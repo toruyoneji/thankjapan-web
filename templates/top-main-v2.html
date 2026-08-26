@@ -1,5 +1,11 @@
 {% load static %}
 
+<script>
+    if (typeof gtag === 'function') {
+        gtag('event', 'view_top_page', { platform: '{{ ga_platform }}' });
+    }
+</script>
+
 <style>
 
 

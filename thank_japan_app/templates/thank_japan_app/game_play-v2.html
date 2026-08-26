@@ -1318,6 +1318,13 @@ p[style*="color: var(--ink-soft)"] {
      data-next-img2="{% if next_question %}{{ next_question.image_2.url }}{% endif %}" >
 </div>
 
+{% if fire_game_start_event %}
+<script>
+    if (typeof gtag === 'function') {
+        gtag('event', 'game_start', { platform: '{{ ga_platform }}', difficulty: '{{ difficulty }}', is_premium: {{ is_premium_mode|yesno:"true,false" }} });
+    }
+</script>
+{% endif %}
 <script>
 let timerInterval;
 let timeLeft;
