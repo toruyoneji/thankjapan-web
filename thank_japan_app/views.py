@@ -807,29 +807,32 @@ class KiyakuDEView(ListView):
 def apply_login_bonus(request):
     if request.user.is_authenticated:
         profile = request.user.profile
-        today = timezone.now().date()
+        today = timezone.localdate()
         yesterday = today - timedelta(days=1)
 
-       
+
         if profile.last_bonus_date != today:
-            
-            
+
+
             if profile.last_bonus_date == yesterday:
-                
+
                 profile.streak_count += 1
             else:
-                
+
                 profile.streak_count = 1
 
-            
+
             if profile.streak_count % 7 == 0:
-                bonus_points = 5 
+                bonus_points = 5
             else:
-                bonus_points = 1  
-            
-            
+                bonus_points = 1
+
+
             profile.total_score += bonus_points
             profile.last_bonus_date = today
+            # A fresh active day ends any idle streak being tracked for the
+            # inactivity-reminder emails, so the next idle period starts clean.
+            profile.last_reminder_step_sent = 0
             profile.save()
 
             

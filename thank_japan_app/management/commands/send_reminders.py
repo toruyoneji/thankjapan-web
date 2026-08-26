@@ -73,10 +73,18 @@ class Command(BaseCommand):
             },
         }
 
-        
+        # Steps run in ascending order: a profile idle long enough to qualify for
+        # multiple tiers in one run (e.g. after a missed cron day) will pick up
+        # each one it hasn't received yet, in order.
         for days_count in [2, 7, 30]:
-            target_date = timezone.now().date() - timedelta(days=days_count)
-            target_profiles = Profile.objects.filter(last_bonus_date=target_date)
+            target_date = timezone.localdate() - timedelta(days=days_count)
+            # >= N days idle (not "exactly N days ago"), and this tier not sent yet
+            # for the current idle streak - last_reminder_step_sent is reset to 0
+            # whenever the user is active again (see apply_login_bonus).
+            target_profiles = Profile.objects.filter(
+                last_bonus_date__lte=target_date,
+                last_reminder_step_sent__lt=days_count,
+            )
 
             self.stdout.write(f"Day {days_count}: Targeting {target_profiles.count()} users...")
 
@@ -99,5 +107,8 @@ class Command(BaseCommand):
                         messaging.send(message)
                     except Exception:
                         device.delete()
+
+                profile.last_reminder_step_sent = days_count
+                profile.save(update_fields=['last_reminder_step_sent'])
 
         self.stdout.write(self.style.SUCCESS('Successfully processed all steps.'))
