@@ -1897,6 +1897,10 @@ def game_result(request):
         is_android_twa(request) and difficulty != 'single' and total_played > 0 and
         (score >= 5 or accuracy >= 0.8)
     )
+    if trigger_review_score:
+        # Standing eligibility for the in-app review prompt, shown the next time the
+        # top page is displayed (not on this result screen) — see review_prompt_status.
+        request.session['review_prompt_score_ready'] = True
 
     return render(request, 'thank_japan_app/game_result-v2.html', {
         'lang_code': lang_code,
@@ -1914,7 +1918,6 @@ def game_result(request):
         'total_registered': total_registered,
         'bgm_url': get_bgm_url('top'),
         'bgm_page_type': 'top',
-        'trigger_review_score': trigger_review_score,
     })
     
     

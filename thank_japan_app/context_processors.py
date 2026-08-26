@@ -47,27 +47,41 @@ def language_context(request):
     
 
 def review_prompt_status(request):
-    """Standing eligibility for the 'reviewed 10 words' in-app review prompt trigger.
-    The score/accuracy trigger is handled separately per-request in the game_result view."""
+    """Standing eligibility for the in-app review prompt, shown only on the top page.
+
+    Two independent triggers feed it: viewing 10 distinct words (tracked here from
+    session/profile), and a good game score/accuracy (recorded as a session flag by
+    the game_result view once earned). Either one becomes "ready" and stays that way
+    until the user completes or dismisses the prompt, so it survives to the next
+    top-page view rather than firing on the screen where it was earned."""
     from .views import is_android_twa
 
     WORD_COUNT_THRESHOLD = 10
+    NOT_READY = {'review_prompt_wordcount_ready': False, 'review_prompt_score_ready': False}
 
     if not is_android_twa(request):
-        return {'review_prompt_wordcount_ready': False}
+        return NOT_READY
+
+    score_ready = request.session.get('review_prompt_score_ready', False)
 
     if request.user.is_authenticated:
         profile = getattr(request.user, 'profile', None)
         if not profile:
-            return {'review_prompt_wordcount_ready': False}
+            return NOT_READY
         if profile.review_prompt_completed:
-            return {'review_prompt_wordcount_ready': False}
+            return NOT_READY
         if profile.review_prompt_dismissed_until and profile.review_prompt_dismissed_until > timezone.localdate():
-            return {'review_prompt_wordcount_ready': False}
-        return {'review_prompt_wordcount_ready': profile.viewed_word_count >= WORD_COUNT_THRESHOLD}
+            return NOT_READY
+        return {
+            'review_prompt_wordcount_ready': profile.viewed_word_count >= WORD_COUNT_THRESHOLD,
+            'review_prompt_score_ready': score_ready,
+        }
 
     viewed_count = len(request.session.get('viewed_word_ids', []))
-    return {'review_prompt_wordcount_ready': viewed_count >= WORD_COUNT_THRESHOLD}
+    return {
+        'review_prompt_wordcount_ready': viewed_count >= WORD_COUNT_THRESHOLD,
+        'review_prompt_score_ready': score_ready,
+    }
 
 
 def firebase_keys(request):
