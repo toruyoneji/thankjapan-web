@@ -136,6 +136,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'thank_japan_app.middleware.RedirectToWwwMiddleware',
+    'thank_japan_app.middleware.GAOptOutMiddleware',
     'corsheaders.middleware.CorsMiddleware',
 ]
 

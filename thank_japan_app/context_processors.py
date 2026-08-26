@@ -85,9 +85,14 @@ def review_prompt_status(request):
 
 
 def ga_platform(request):
-    """'twa' vs 'web', for tagging GA4 events so drop-off can be split by channel."""
+    """GA4 context available on every page: 'twa' vs 'web' (for tagging events so
+    drop-off can be split by channel), and whether this browser opted out of GA4
+    tracking entirely via ?ga_opt_out=1 (see GAOptOutMiddleware)."""
     from .views import is_android_twa
-    return {'ga_platform': 'twa' if is_android_twa(request) else 'web'}
+    return {
+        'ga_platform': 'twa' if is_android_twa(request) else 'web',
+        'ga_disabled': request.COOKIES.get('ga_opt_out') == '1',
+    }
 
 
 def firebase_keys(request):
