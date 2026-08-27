@@ -1,5 +1,6 @@
 from django.db import models
 from cloudinary.models import CloudinaryField
+from thank_japan_app.fields import OptimizedCloudinaryField
 from django.contrib.auth.hashers import make_password, check_password
 from django.utils.text import slugify
 from django.contrib.auth.models import User
@@ -31,7 +32,7 @@ class ThankJapanModel(models.Model):
     kanji_name = models.CharField(max_length=100, blank=True, null=True) 
     katakana_name = models.CharField(max_length=100, blank=True, null=True)
     category = models.CharField(max_length=100)
-    image = CloudinaryField('image', folder='thankjapan/images')
+    image = OptimizedCloudinaryField('image', folder='thankjapan/images')
     timestamp = models.DateTimeField(auto_now_add=True)
     slug = models.SlugField(unique=True, null=False, blank=False)
     description = models.TextField(max_length=1000)
@@ -134,7 +135,7 @@ class ThankJapanPremium(models.Model):
     kanji_name = models.CharField(max_length=100, blank=True, null=True) 
     katakana_name = models.CharField(max_length=100, blank=True, null=True)
     slug = models.SlugField(unique=True, max_length=255, blank=True)
-    image = CloudinaryField('image', folder='thankjapan/premium')
+    image = OptimizedCloudinaryField('image', folder='thankjapan/premium')
     category = models.CharField(max_length=100)
     jlpt_level = models.CharField(max_length=10, blank=True, null=True)
     timestamp = models.DateTimeField(auto_now_add=True)
@@ -220,7 +221,7 @@ class ThankJapanBackgroundModel(models.Model):
     ]
 
     page_type = models.CharField(max_length=20, choices=PAGE_CHOICES, blank=True, null=True)
-    background_image = CloudinaryField('background_image', folder='thankjapan/backgrounds/', blank=True, null=True)
+    background_image = OptimizedCloudinaryField('background_image', folder='thankjapan/backgrounds/', blank=True, null=True)
     sound = CloudinaryField(
         'sound',
         folder='thankjapan/sounds/',
