@@ -662,15 +662,41 @@ p[style*="color: var(--ink-soft)"] {
        to scroll to see the answer choices. Mobile/tablet (<=768px) keep
        their own separate spacing above, unaffected by this block. */
     #timer-container { margin: 2px 0 !important; }
+    #timer-bar-bg-wrap { margin: 0 auto 4px !important; }
     .yomifuda-label { margin-bottom: 1px !important; }
     .question-visual-area { margin-bottom: 3px !important; }
-    .game-jpname-text { font-size: 2.1rem !important; }
+    .game-jpname-text { font-size: 1.9rem !important; }
     .main2 h2 { margin: 2px 0 !important; }
-    .hint-area { margin: 3px 0 !important; }
-    .quiz-section { margin-top: 2px !important; }
-    .quiz-section p { margin-bottom: 2px !important; }
-    .karuta-board { margin: 2px auto !important; }
+    .hint-area { margin: 2px 0 !important; }
+    .quiz-section { margin-top: 1px !important; }
+    .quiz-section p { margin-bottom: 1px !important; }
+    .karuta-board { margin: 1px auto !important; }
+
+    /* The site header only holds a logo link, a redundant score badge (the
+       in-game timer row already shows score), and a global sound toggle.
+       Hiding it here reclaims the 60px top padding reserved for it below,
+       and the sound toggle is replicated compactly in the timer row instead. */
+    .app-header { display: none !important; }
+    #premium-auth-container { padding-top: 0 !important; }
+    .game-sound-toggle-btn { display: flex !important; }
 }
+
+.game-sound-toggle-btn {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    background: rgba(0,0,0,0.3);
+    border: 1px solid rgba(212, 175, 55, 0.6);
+    border-radius: 50%;
+    color: #fff;
+    font-size: 1rem;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+}
+.game-sound-toggle-btn:active { transform: scale(0.95); }
 
 @media (max-width: 1024px) {
   .main2 { padding: 20px 10px; margin: 20px auto !important; width: 95%; }
@@ -963,13 +989,16 @@ p[style*="color: var(--ink-soft)"] {
 
   {% if not show_result %}
     <div id="timer-container" style="text-align: center; margin: 10px 0;">
-        <div style="width: 80%; height: 10px; background: rgba(255,255,255,0.1); border-radius: 5px; margin: 0 auto 8px; overflow: hidden; border: 1px solid rgba(255,255,255,0.2);">
+        <div id="timer-bar-bg-wrap" style="width: 80%; height: 10px; background: rgba(255,255,255,0.1); border-radius: 5px; margin: 0 auto 8px; overflow: hidden; border: 1px solid rgba(255,255,255,0.2);">
             <div id="timer-bar-fill" style="width: 100%; height: 100%; background: #2ecc71; transition: width 1s linear, background-color 0.3s ease;"></div>
         </div>
 
         <div style="display: flex; justify-content: center; align-items: center; gap: 30px;">
             <span id="time-left" style="font-size: 1.8rem; font-weight: 800; color: #2ecc71; font-family: 'Courier New', Courier, monospace; transition: color 0.3s ease;">01:00</span>
             <span style="font-size: 1.2rem; color: #fff; font-weight: bold; background: rgba(212, 175, 55, 0.2); padding: 4px 12px; border-radius: 20px; border: 1px solid #d4af37;">{% if lang_code == 'ja' %}スコア{% elif lang_code == 'zh-hant' %}分數{% elif lang_code == 'zh-cn' %}分数{% elif lang_code == 'ko' %}점수{% elif lang_code == 'de' %}Punkte{% elif lang_code == 'fr' %}Score{% elif lang_code == 'it' %}Punteggio{% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Puntuación{% elif lang_code == 'pt' or lang_code == 'pt-br' %}Pontuação{% elif lang_code == 'vi' %}Điểm{% elif lang_code == 'th' %}คะแนน{% else %}Score{% endif %}: {{ score }}</span>
+            <button type="button" id="game-sound-toggle" class="game-sound-toggle-btn" aria-label="Toggle Sound">
+                <span id="game-sound-icon">🔊</span>
+            </button>
         </div>
     </div>
   {% endif %}
@@ -1425,6 +1454,27 @@ function initSound() {
     }
 }
 initSound();
+
+document.addEventListener('DOMContentLoaded', function() {
+    const btn = document.getElementById('game-sound-toggle');
+    const icon = document.getElementById('game-sound-icon');
+    if (!btn || !icon) return;
+
+    icon.textContent = isSoundOn ? '🔊' : '🔇';
+
+    btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        isSoundOn = !isSoundOn;
+        localStorage.setItem('thankjapan_sound', isSoundOn ? 'on' : 'off');
+        icon.textContent = isSoundOn ? '🔊' : '🔇';
+
+        const bgm = document.getElementById('bgm-player');
+        if (bgm) {
+            bgm.muted = !isSoundOn;
+            if (isSoundOn) bgm.play().catch(() => {});
+        }
+    });
+});
 
 
 function speakJapanese(text, isAuto = false) {
