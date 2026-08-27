@@ -10,6 +10,15 @@ class RedirectToWwwMiddleware:
         if host == 'thankjapan.com':
             new_url = request.build_absolute_uri().replace('thankjapan.com', 'www.thankjapan.com')
             return HttpResponsePermanentRedirect(new_url)
+        # /premium/ (and its language variants) show/charge a price based on
+        # CF-IPCountry, which is only trustworthy coming through Cloudflare's
+        # edge (see pricing.py). The raw Heroku domain stays reachable for
+        # everything else — it's used deliberately for developer testing
+        # (e.g. the GA4-exclusion check in premium_info-v2.html) — so only
+        # this one path prefix gets sent back through www.thankjapan.com.
+        if host.endswith('.herokuapp.com') and request.path.startswith('/premium/'):
+            new_url = request.build_absolute_uri().replace(host, 'www.thankjapan.com')
+            return HttpResponsePermanentRedirect(new_url)
         return self.get_response(request)
 
 
