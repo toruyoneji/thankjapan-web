@@ -471,7 +471,7 @@ tbody td { padding: 8px; border: none; font-size: 0.82rem; color: var(--ink); }
         {% endif %}
         <div style="margin: 15px 0; border-top: 1px solid #eee; padding-top: 15px;">
             <p style="font-size: 1.1rem; color: #666; margin-bottom: 5px; font-weight: bold;">
-                ⏱ 60s Challenge
+                ⏱ {% if lang_code == 'ja' %}60秒チャレンジ{% elif lang_code == 'zh-hant' %}60秒挑戰{% elif lang_code == 'zh-cn' %}60秒挑战{% elif lang_code == 'ko' %}60초 챌린지{% elif lang_code == 'de' %}60-Sekunden-Challenge{% elif lang_code == 'fr' %}Défi 60 secondes{% elif lang_code == 'it' %}Sfida di 60 secondi{% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Desafío de 60 segundos{% elif lang_code == 'pt' or lang_code == 'pt-br' %}Desafio de 60 segundos{% elif lang_code == 'vi' %}Thử thách 60 giây{% elif lang_code == 'th' %}ท้าทาย 60 วินาที{% else %}60s Challenge{% endif %}
             </p>
 
             <p style="font-size: 2.2rem; font-weight: bold; color: #333; margin: 0;">
@@ -532,7 +532,7 @@ tbody td { padding: 8px; border: none; font-size: 0.82rem; color: var(--ink); }
                 : {{ score }}
             </p>
 
-            <p style="font-size: 1rem; color: #888;">+{{ score }} pts added to your Total Exp</p>
+            <p style="font-size: 1rem; color: #888;">{% if lang_code == 'ja' %}+{{ score }} ポイントが総経験値に加算されました{% elif lang_code == 'zh-hant' %}+{{ score }} 分已加入你的總經驗值{% elif lang_code == 'zh-cn' %}+{{ score }} 分已加入你的总经验值{% elif lang_code == 'ko' %}+{{ score }} 포인트가 총 경험치에 추가되었습니다{% elif lang_code == 'de' %}+{{ score }} Punkte zu deiner Gesamt-Erfahrung hinzugefügt{% elif lang_code == 'fr' %}+{{ score }} points ajoutés à votre expérience totale{% elif lang_code == 'it' %}+{{ score }} punti aggiunti alla tua esperienza totale{% elif lang_code == 'es-es' or lang_code == 'es-mx' %}+{{ score }} puntos añadidos a tu experiencia total{% elif lang_code == 'pt' or lang_code == 'pt-br' %}+{{ score }} pontos adicionados à sua experiência total{% elif lang_code == 'vi' %}+{{ score }} điểm đã được cộng vào tổng kinh nghiệm của bạn{% elif lang_code == 'th' %}+{{ score }} คะแนนถูกเพิ่มเข้าประสบการณ์รวมของคุณ{% else %}+{{ score }} pts added to your Total Exp{% endif %}</p>
 
             {% if is_guest %}
 
@@ -774,7 +774,7 @@ tbody td { padding: 8px; border: none; font-size: 0.82rem; color: var(--ink); }
                         {% elif lang_code == 'th' %}ผู้ใช้
                         {% else %}User{% endif %}
                     </th>
-                    <th>Pts</th>
+                    <th>{% if lang_code == 'ja' %}pt{% elif lang_code == 'zh-hant' %}分{% elif lang_code == 'zh-cn' %}积分{% elif lang_code == 'ko' %}점{% elif lang_code == 'de' %}Pkt.{% elif lang_code == 'fr' %}Pts{% elif lang_code == 'it' %}Pt{% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Pts{% elif lang_code == 'pt' or lang_code == 'pt-br' %}Pts{% elif lang_code == 'vi' %}Điểm{% elif lang_code == 'th' %}คะแนน{% else %}Pts{% endif %}</th>
                     <th style="text-align: left;">
                         {% if lang_code == 'ja' %}国
                         {% elif lang_code == 'zh-hant' %}國家
@@ -967,9 +967,9 @@ tbody td { padding: 8px; border: none; font-size: 0.82rem; color: var(--ink); }
                     <div class="review-card {% if item.is_correct %}correct{% else %}wrong{% endif %}">
                         <div class="review-img-wrapper">
                             {% if item.object.image %}
-                                <img src="{{ item.object.image.url }}" alt="Review Image" class="review-result-img">
+                                <img src="{{ item.object.image.url }}" alt="{% if lang_code == 'ja' %}復習画像{% elif lang_code == 'zh-hant' %}複習圖片{% elif lang_code == 'zh-cn' %}复习图片{% elif lang_code == 'ko' %}복습 이미지{% elif lang_code == 'de' %}Wiederholungsbild{% elif lang_code == 'fr' %}Image de révision{% elif lang_code == 'it' %}Immagine di revisione{% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Imagen de repaso{% elif lang_code == 'pt' or lang_code == 'pt-br' %}Imagem de revisão{% elif lang_code == 'vi' %}Hình ảnh ôn tập{% elif lang_code == 'th' %}รูปภาพทบทวน{% else %}Review Image{% endif %}" class="review-result-img">
                             {% else %}
-                                <div class="no-image">No Image</div>
+                                <div class="no-image">{% if lang_code == 'ja' %}画像なし{% elif lang_code == 'zh-hant' %}無圖片{% elif lang_code == 'zh-cn' %}无图片{% elif lang_code == 'ko' %}이미지 없음{% elif lang_code == 'de' %}Kein Bild{% elif lang_code == 'fr' %}Pas d'image{% elif lang_code == 'it' %}Nessuna immagine{% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Sin imagen{% elif lang_code == 'pt' or lang_code == 'pt-br' %}Sem imagem{% elif lang_code == 'vi' %}Không có hình ảnh{% elif lang_code == 'th' %}ไม่มีรูปภาพ{% else %}No Image{% endif %}</div>
                             {% endif %}
                         </div>
                         <div class="review-info">

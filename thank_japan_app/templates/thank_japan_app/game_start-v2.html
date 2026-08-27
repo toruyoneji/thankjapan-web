@@ -637,7 +637,20 @@ body::before, body::after { display: none; }
             <a href="{% url 'game_restart' %}?difficulty=easy&lang={{ lang_code }}" class="difficulty-card easy">
                 <span class="emoji">🙂</span>
                 <div class="difficulty-info">
-                    <h3>EASY</h3>
+                    <h3>
+                        {% if lang_code == 'ja' %}かんたん
+                        {% elif lang_code == 'zh-hant' %}簡單
+                        {% elif lang_code == 'zh-cn' %}简单
+                        {% elif lang_code == 'ko' %}쉬움
+                        {% elif lang_code == 'de' %}Einfach
+                        {% elif lang_code == 'fr' %}Facile
+                        {% elif lang_code == 'it' %}Facile
+                        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Fácil
+                        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Fácil
+                        {% elif lang_code == 'vi' %}Dễ
+                        {% elif lang_code == 'th' %}ง่าย
+                        {% else %}Easy{% endif %}
+                    </h3>
                     <p>
                         {% if lang_code == 'ja' %}かんたんな単語
                         {% elif lang_code == 'zh-hant' %}簡單單字
@@ -658,7 +671,20 @@ body::before, body::after { display: none; }
             <a href="{% url 'game_restart' %}?difficulty=normal&lang={{ lang_code }}" class="difficulty-card normal">
                 <span class="emoji">😐</span>
                 <div class="difficulty-info">
-                    <h3>NORMAL</h3>
+                    <h3>
+                        {% if lang_code == 'ja' %}ふつう
+                        {% elif lang_code == 'zh-hant' %}普通
+                        {% elif lang_code == 'zh-cn' %}普通
+                        {% elif lang_code == 'ko' %}보통
+                        {% elif lang_code == 'de' %}Normal
+                        {% elif lang_code == 'fr' %}Normal
+                        {% elif lang_code == 'it' %}Normal
+                        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Normal
+                        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Normal
+                        {% elif lang_code == 'vi' %}Bình thường
+                        {% elif lang_code == 'th' %}ปกติ
+                        {% else %}Normal{% endif %}
+                    </h3>
                     <p>
                         {% if lang_code == 'ja' %}日常生活
                         {% elif lang_code == 'zh-hant' or lang_code == 'zh-cn' %}日常生活
@@ -678,7 +704,20 @@ body::before, body::after { display: none; }
             <a href="{% url 'game_restart' %}?difficulty=hard&lang={{ lang_code }}" class="difficulty-card hard">
                 <span class="emoji">😡</span>
                 <div class="difficulty-info">
-                    <h3>HARD</h3>
+                    <h3>
+                        {% if lang_code == 'ja' %}むずかしい
+                        {% elif lang_code == 'zh-hant' %}困難
+                        {% elif lang_code == 'zh-cn' %}困难
+                        {% elif lang_code == 'ko' %}어려움
+                        {% elif lang_code == 'de' %}Schwer
+                        {% elif lang_code == 'fr' %}Difficile
+                        {% elif lang_code == 'it' %}Difficile
+                        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Difícil
+                        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Difícil
+                        {% elif lang_code == 'vi' %}Khó
+                        {% elif lang_code == 'th' %}ยาก
+                        {% else %}Hard{% endif %}
+                    </h3>
                     <p>
                         {% if lang_code == 'ja' %}文化・芸術
                         {% elif lang_code == 'zh-hant' %}文化與藝術
@@ -700,8 +739,34 @@ body::before, body::after { display: none; }
             <a href="{% url 'game_restart' %}?difficulty=super_hard&lang={{ lang_code }}" class="difficulty-card super-hard">
                 <span class="emoji">👹</span>
                 <div class="difficulty-info">
-                    <h3>MANIA</h3>
-                    <p>God Tier!</p>
+                    <h3>
+                        {% if lang_code == 'ja' %}マニア
+                        {% elif lang_code == 'zh-hant' %}狂熱
+                        {% elif lang_code == 'zh-cn' %}狂热
+                        {% elif lang_code == 'ko' %}마니아
+                        {% elif lang_code == 'de' %}Wahnsinn
+                        {% elif lang_code == 'fr' %}Folie
+                        {% elif lang_code == 'it' %}Follia
+                        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Locura
+                        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Loucura
+                        {% elif lang_code == 'vi' %}Điên cuồng
+                        {% elif lang_code == 'th' %}คลั่งไคล้
+                        {% else %}Mania{% endif %}
+                    </h3>
+                    <p>
+                        {% if lang_code == 'ja' %}神レベル！
+                        {% elif lang_code == 'zh-hant' %}神級！
+                        {% elif lang_code == 'zh-cn' %}神级！
+                        {% elif lang_code == 'ko' %}갓 티어!
+                        {% elif lang_code == 'de' %}Göttliche Stufe!
+                        {% elif lang_code == 'fr' %}Niveau divin !
+                        {% elif lang_code == 'it' %}Livello divino!
+                        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}¡Nivel divino!
+                        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Nível divino!
+                        {% elif lang_code == 'vi' %}Cấp độ thần thánh!
+                        {% elif lang_code == 'th' %}ระดับเทพ!
+                        {% else %}God Tier!{% endif %}
+                    </p>
                 </div>
             </a>
             {% else %}
@@ -735,7 +800,20 @@ body::before, body::after { display: none; }
             <a href="{% url 'game_restart' %}?difficulty=kanji1&lang={{ lang_code }}" class="difficulty-card easy">
                 <span class="emoji">🉐</span>
                 <div class="difficulty-info">
-                    <h3>KANJI: LEVEL 1</h3>
+                    <h3>
+                        {% if lang_code == 'ja' %}漢字レベル1
+                        {% elif lang_code == 'zh-hant' %}漢字第1級
+                        {% elif lang_code == 'zh-cn' %}汉字第1级
+                        {% elif lang_code == 'ko' %}한자 레벨 1
+                        {% elif lang_code == 'de' %}Kanji Stufe 1
+                        {% elif lang_code == 'fr' %}Kanji Niveau 1
+                        {% elif lang_code == 'it' %}Kanji Livello 1
+                        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Kanji Nivel 1
+                        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Kanji Nível 1
+                        {% elif lang_code == 'vi' %}Kanji Cấp 1
+                        {% elif lang_code == 'th' %}คันจิ เลเวล 1
+                        {% else %}Kanji Level 1{% endif %}
+                    </h3>
                     <p>
                         {% if lang_code == 'ja' %}生活と自然：必須の基礎漢字
                         {% elif lang_code == 'zh-hant' %}生活與自然：必修基礎漢字
@@ -757,7 +835,20 @@ body::before, body::after { display: none; }
             <a href="{% url 'game_restart' %}?difficulty=kanji2&lang={{ lang_code }}" class="difficulty-card normal">
                 <span class="emoji">🈴</span>
                 <div class="difficulty-info">
-                    <h3>KANJI: LEVEL 2</h3>
+                    <h3>
+                        {% if lang_code == 'ja' %}漢字レベル2
+                        {% elif lang_code == 'zh-hant' %}漢字第2級
+                        {% elif lang_code == 'zh-cn' %}汉字第2级
+                        {% elif lang_code == 'ko' %}한자 레벨 2
+                        {% elif lang_code == 'de' %}Kanji Stufe 2
+                        {% elif lang_code == 'fr' %}Kanji Niveau 2
+                        {% elif lang_code == 'it' %}Kanji Livello 2
+                        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Kanji Nivel 2
+                        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Kanji Nível 2
+                        {% elif lang_code == 'vi' %}Kanji Cấp 2
+                        {% elif lang_code == 'th' %}คันจิ เลเวล 2
+                        {% else %}Kanji Level 2{% endif %}
+                    </h3>
                     <p>
                         {% if lang_code == 'ja' %}文化と社会：一歩進んだ漢字
                         {% elif lang_code == 'zh-hant' %}文化與社會：進階漢字
@@ -809,14 +900,40 @@ body::before, body::after { display: none; }
                         {% else %}Test Your JLPT Skills!{% endif %}
                     </p>
                 </div>
-                <span class="free-badge">TRY</span>
+                <span class="free-badge">
+                    {% if lang_code == 'ja' %}無料
+                    {% elif lang_code == 'zh-hant' %}免費
+                    {% elif lang_code == 'zh-cn' %}免费
+                    {% elif lang_code == 'ko' %}무료
+                    {% elif lang_code == 'de' %}Kostenlos
+                    {% elif lang_code == 'fr' %}Gratuit
+                    {% elif lang_code == 'it' %}Gratis
+                    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Gratis
+                    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Grátis
+                    {% elif lang_code == 'vi' %}Miễn phí
+                    {% elif lang_code == 'th' %}ฟรี
+                    {% else %}Free{% endif %}
+                </span>
             </a>
 
             <!-- LEVEL N5 -->    
             <a href="{% url 'game_restart' %}?difficulty=n5_premium&lang={{ lang_code }}" class="difficulty-card premium-gold">
                 <span class="emoji">🌱</span>
                 <div class="difficulty-info">
-                    <h3>LEVEL N5</h3>
+                    <h3>
+                        {% if lang_code == 'ja' %}レベルN5
+                        {% elif lang_code == 'zh-hant' %}N5級
+                        {% elif lang_code == 'zh-cn' %}N5級
+                        {% elif lang_code == 'ko' %}레벨 N5
+                        {% elif lang_code == 'de' %}Stufe N5
+                        {% elif lang_code == 'fr' %}Niveau N5
+                        {% elif lang_code == 'it' %}Livello N5
+                        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Nivel N5
+                        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Nível N5
+                        {% elif lang_code == 'vi' %}Cấp N5
+                        {% elif lang_code == 'th' %}ระดับ N5
+                        {% else %}Level N5{% endif %}
+                    </h3>
                     <p>
                         {% if lang_code == 'ja' %}旅行者・初心者
                         {% elif lang_code == 'zh-hant' %}旅遊・初學者
@@ -838,7 +955,20 @@ body::before, body::after { display: none; }
             <a href="{% url 'game_restart' %}?difficulty=n4_premium&lang={{ lang_code }}" class="difficulty-card premium-gold">
                 <span class="emoji">🏠</span>
                 <div class="difficulty-info">
-                    <h3>LEVEL N4</h3>
+                    <h3>
+                        {% if lang_code == 'ja' %}レベルN4
+                        {% elif lang_code == 'zh-hant' %}N4級
+                        {% elif lang_code == 'zh-cn' %}N4級
+                        {% elif lang_code == 'ko' %}레벨 N4
+                        {% elif lang_code == 'de' %}Stufe N4
+                        {% elif lang_code == 'fr' %}Niveau N4
+                        {% elif lang_code == 'it' %}Livello N4
+                        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Nivel N4
+                        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Nível N4
+                        {% elif lang_code == 'vi' %}Cấp N4
+                        {% elif lang_code == 'th' %}ระดับ N4
+                        {% else %}Level N4{% endif %}
+                    </h3>
                     <p>
                         {% if lang_code == 'ja' %}日本居住者向け
                         {% elif lang_code == 'zh-hant' %}適合居住者
@@ -860,7 +990,20 @@ body::before, body::after { display: none; }
             <a href="{% url 'game_restart' %}?difficulty=n3_premium&lang={{ lang_code }}" class="difficulty-card premium-gold">
                 <span class="emoji">💼</span>
                 <div class="difficulty-info">
-                    <h3>LEVEL N3</h3>
+                    <h3>
+                        {% if lang_code == 'ja' %}レベルN3
+                        {% elif lang_code == 'zh-hant' %}N3級
+                        {% elif lang_code == 'zh-cn' %}N3級
+                        {% elif lang_code == 'ko' %}레벨 N3
+                        {% elif lang_code == 'de' %}Stufe N3
+                        {% elif lang_code == 'fr' %}Niveau N3
+                        {% elif lang_code == 'it' %}Livello N3
+                        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Nivel N3
+                        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Nível N3
+                        {% elif lang_code == 'vi' %}Cấp N3
+                        {% elif lang_code == 'th' %}ระดับ N3
+                        {% else %}Level N3{% endif %}
+                    </h3>
                     <p>
                         {% if lang_code == 'ja' %}ビジネス・就職
                         {% elif lang_code == 'zh-hant' %}商務・求職
@@ -892,7 +1035,21 @@ body::before, body::after { display: none; }
             {% elif lang_code == 'vi' %}Người chơi
             {% elif lang_code == 'th' %}ผู้เล่น
             {% else %}Player{% endif %}:
-            {% if player %}{{ player.username }}{% else %}Guest{% endif %}
+            {% if player %}{{ player.username }}
+            {% else %}
+                {% if lang_code == 'ja' %}ゲスト
+                {% elif lang_code == 'zh-hant' %}訪客
+                {% elif lang_code == 'zh-cn' %}访客
+                {% elif lang_code == 'ko' %}게스트
+                {% elif lang_code == 'de' %}Gast
+                {% elif lang_code == 'fr' %}Invité
+                {% elif lang_code == 'it' %}Ospite
+                {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Invitado
+                {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Convidado
+                {% elif lang_code == 'vi' %}Khách
+                {% elif lang_code == 'th' %}แขก
+                {% else %}Guest{% endif %}
+            {% endif %}
         </div>
     </div>
 

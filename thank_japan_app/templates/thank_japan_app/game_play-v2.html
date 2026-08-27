@@ -889,7 +889,7 @@ p[style*="color: var(--ink-soft)"] {
 
         <div style="display: flex; justify-content: center; align-items: center; gap: 30px;">
             <span id="time-left" style="font-size: 1.8rem; font-weight: 800; color: #2ecc71; font-family: 'Courier New', Courier, monospace; transition: color 0.3s ease;">01:00</span>
-            <span style="font-size: 1.2rem; color: #fff; font-weight: bold; background: rgba(212, 175, 55, 0.2); padding: 4px 12px; border-radius: 20px; border: 1px solid #d4af37;">Score: {{ score }}</span>
+            <span style="font-size: 1.2rem; color: #fff; font-weight: bold; background: rgba(212, 175, 55, 0.2); padding: 4px 12px; border-radius: 20px; border: 1px solid #d4af37;">{% if lang_code == 'ja' %}スコア{% elif lang_code == 'zh-hant' %}分數{% elif lang_code == 'zh-cn' %}分数{% elif lang_code == 'ko' %}점수{% elif lang_code == 'de' %}Punkte{% elif lang_code == 'fr' %}Score{% elif lang_code == 'it' %}Punteggio{% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Puntuación{% elif lang_code == 'pt' or lang_code == 'pt-br' %}Pontuação{% elif lang_code == 'vi' %}Điểm{% elif lang_code == 'th' %}คะแนน{% else %}Score{% endif %}: {{ score }}</span>
         </div>
     </div>
   {% endif %}
