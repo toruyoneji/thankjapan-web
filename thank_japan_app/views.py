@@ -1514,34 +1514,40 @@ def delete_player(request):
 DIFFICULTY_SETTINGS = {
     'single': {'num_questions': 1, 'model_type': 'free'},
     # First-visit taste flow from the top page: 3 EASY-tier questions, no
-    # difficulty picker, 30s timer (see game_play's timer setup below).
+    # difficulty picker (all difficulties share the same 30s timer, see
+    # game_play's timer setup below).
+    # dummy_count left at the default (1 => 2 choices) for first_taste/easy so
+    # beginners aren't discouraged; NORMAL and above use 3 (=> 4 choices) so
+    # the answer can't be found by elimination alone.
     'first_taste': {'category_filter': ['sports', 'food', 'animal', 'dailyactions'], 'length_regex': r'^.{1,20}$', 'num_questions': 3, 'model_type': 'free'},
     'easy': {'category_filter': ['sports', 'food', 'animal', 'dailyactions'], 'length_regex': r'^.{1,20}$', 'num_questions': 50, 'model_type': 'free'},
-    'normal': {'category_filter': ['cook', 'food', 'culture', 'body', 'live', 'work', 'dailyactions'], 'length_regex': r'^.{1,9}$', 'num_questions': 50, 'model_type': 'free'},
-    'hard': {'category_filter': None, 'length_regex': r'^.{1,9}$', 'num_questions': 50, 'model_type': 'free'},
-    'super_hard': {'category_filter': None, 'length_regex': None, 'num_questions': 50, 'model_type': 'free'},
-    
+    'normal': {'category_filter': ['cook', 'food', 'culture', 'body', 'live', 'work', 'dailyactions'], 'length_regex': r'^.{1,9}$', 'num_questions': 50, 'model_type': 'free', 'dummy_count': 3},
+    'hard': {'category_filter': None, 'length_regex': r'^.{1,9}$', 'num_questions': 50, 'model_type': 'free', 'dummy_count': 3},
+    'super_hard': {'category_filter': None, 'length_regex': None, 'num_questions': 50, 'model_type': 'free', 'dummy_count': 3},
+
     'kanji1': {
         'category_filter': ['nature', 'food', 'cook', 'animal', 'building', 'dailyactions'],
-        'length_regex': r'^.{1,3}$', 
+        'length_regex': r'^.{1,3}$',
         'num_questions': 50,
         'model_type': 'free',
         'is_kanji_mode': True,
-    },
-    
-        'kanji2': {
-        'category_filter': ['culture', 'work', 'fashion', 'flower', 'householditems', 'sports', 'body'],
-        'length_regex': r'^.{1,3}$',  
-        'num_questions': 50,
-        'model_type': 'free',
-        'is_kanji_mode': True,
+        'dummy_count': 3,
     },
 
-    
-    'sample_premium': {'category_filter': ['DailyConversation', 'slang', 'TourismEtiquette' ,'Entertainment'], 'jlpt_level': ['N5', 'N4', 'N3'], 'num_questions': 550, 'model_type': 'premium'},
-    'n5_premium': {'jlpt_level': 'N5', 'num_questions': 50, 'model_type': 'premium'},
-    'n4_premium': {'jlpt_level': 'N4', 'num_questions': 50, 'model_type': 'premium'},
-    'n3_premium': {'jlpt_level': 'N3', 'num_questions': 50, 'model_type': 'premium'},
+        'kanji2': {
+        'category_filter': ['culture', 'work', 'fashion', 'flower', 'householditems', 'sports', 'body'],
+        'length_regex': r'^.{1,3}$',
+        'num_questions': 50,
+        'model_type': 'free',
+        'is_kanji_mode': True,
+        'dummy_count': 3,
+    },
+
+
+    'sample_premium': {'category_filter': ['DailyConversation', 'slang', 'TourismEtiquette' ,'Entertainment'], 'jlpt_level': ['N5', 'N4', 'N3'], 'num_questions': 550, 'model_type': 'premium', 'dummy_count': 3},
+    'n5_premium': {'jlpt_level': 'N5', 'num_questions': 50, 'model_type': 'premium', 'dummy_count': 3},
+    'n4_premium': {'jlpt_level': 'N4', 'num_questions': 50, 'model_type': 'premium', 'dummy_count': 3},
+    'n3_premium': {'jlpt_level': 'N3', 'num_questions': 50, 'model_type': 'premium', 'dummy_count': 3},
 }
 
 def get_current_player_info(request):
@@ -1594,8 +1600,7 @@ def game_play(request):
     else:
         game_end_time = request.session.get('game_end_time')
         if not game_end_time:
-            difficulty_for_timer = request.session.get('game_difficulty', 'normal')
-            time_limit = 31 if difficulty_for_timer == 'first_taste' else 61
+            time_limit = 31
             game_end_time = current_time + time_limit
             request.session['game_end_time'] = game_end_time
 
@@ -1616,7 +1621,7 @@ def game_play(request):
         choice_ids = request.session.get('current_choices')
         choices = [get_object_or_404(model, id=cid) for cid in choice_ids]
     else:
-        KARUTA_DUMMY_COUNT = 1
+        KARUTA_DUMMY_COUNT = settings.get('dummy_count', 1)
         dummy_pool = model.objects.filter(category=question.category).exclude(id=question.id).exclude(jpname=question.jpname)
         if is_kanji_mode:
             dummy_pool = dummy_pool.filter(kanji_name__regex=r'[一-龠]')

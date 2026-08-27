@@ -460,6 +460,14 @@ p[style*="color: var(--ink-soft)"] {
     object-fit: cover;
 }
 
+.karuta-board.choices-4 {
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.karuta-board.choices-4 .choice-btn {
+    aspect-ratio: 4 / 3 !important;
+}
+
 
 .choice-btn rt {
     display: none !important;
@@ -831,7 +839,7 @@ p[style*="color: var(--ink-soft)"] {
 
 
 <div id="game-config" 
-     data-seconds-left="{{ seconds_left|default:60 }}" 
+     data-seconds-left="{{ seconds_left|default:31 }}"
      data-show-result="{{ show_result|yesno:'true,false' }}"
      data-next-url="{% url 'game_next_question' %}"
      data-result-url="{% url 'game_result' %}"
@@ -1250,7 +1258,7 @@ p[style*="color: var(--ink-soft)"] {
         <form method="post" action="{% url 'game_answer' object.id %}" id="answer-form" hx-post="{% url 'game_answer' object.id %}">
             {% csrf_token %}
             <input type="hidden" name="answer" id="answer-input">
-                <div class="choices-container karuta-board">
+                <div class="choices-container karuta-board choices-{{ choices|length }}">
                     {% for choice in choices %}
                         <button type="button" class="choice-btn" onclick="selectCard(this, '{{ choice.id }}')">
                             {% if choice.image %}
@@ -1592,7 +1600,7 @@ document.addEventListener('DOMContentLoaded', function() {
         return;
     }
 
-    timeLeft = parseInt(config.getAttribute('data-seconds-left') || "60");
+    timeLeft = parseInt(config.getAttribute('data-seconds-left') || "31");
     const totalTime = timeLeft;
     const tDisp = document.getElementById('time-left');
     const tBar = document.getElementById('timer-bar-fill');

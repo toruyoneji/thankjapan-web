@@ -471,7 +471,7 @@ tbody td { padding: 8px; border: none; font-size: 0.82rem; color: var(--ink); }
         {% endif %}
         <div style="margin: 15px 0; border-top: 1px solid #eee; padding-top: 15px;">
             <p style="font-size: 1.1rem; color: #666; margin-bottom: 5px; font-weight: bold;">
-                ⏱ {% if lang_code == 'ja' %}60秒チャレンジ{% elif lang_code == 'zh-hant' %}60秒挑戰{% elif lang_code == 'zh-cn' %}60秒挑战{% elif lang_code == 'ko' %}60초 챌린지{% elif lang_code == 'de' %}60-Sekunden-Challenge{% elif lang_code == 'fr' %}Défi 60 secondes{% elif lang_code == 'it' %}Sfida di 60 secondi{% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Desafío de 60 segundos{% elif lang_code == 'pt' or lang_code == 'pt-br' %}Desafio de 60 segundos{% elif lang_code == 'vi' %}Thử thách 60 giây{% elif lang_code == 'th' %}ท้าทาย 60 วินาที{% else %}60s Challenge{% endif %}
+                ⏱ {% if lang_code == 'ja' %}30秒チャレンジ{% elif lang_code == 'zh-hant' %}30秒挑戰{% elif lang_code == 'zh-cn' %}30秒挑战{% elif lang_code == 'ko' %}30초 챌린지{% elif lang_code == 'de' %}30-Sekunden-Challenge{% elif lang_code == 'fr' %}Défi 30 secondes{% elif lang_code == 'it' %}Sfida di 30 secondi{% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Desafío de 30 segundos{% elif lang_code == 'pt' or lang_code == 'pt-br' %}Desafio de 30 segundos{% elif lang_code == 'vi' %}Thử thách 30 giây{% elif lang_code == 'th' %}ท้าทาย 30 วินาที{% else %}30s Challenge{% endif %}
             </p>
 
             <p style="font-size: 2.2rem; font-weight: bold; color: #333; margin: 0;">
@@ -665,7 +665,7 @@ tbody td { padding: 8px; border: none; font-size: 0.82rem; color: var(--ink); }
       {% endif %}
 
       <div class="primary-actions">
-        <a href="https://twitter.com/intent/tweet?text=I%20solved%20{{ score|default:0 }}%20words%20in%20the%2060-Second%20Challenge%20on%20ThankJapan!%20🇯🇵%20{% if current_rank %}World%20Rank:%20%23{{ current_rank }}%2F{{ total_registered }}{% else %}Rank:%20{{ player.rank|default:'Villager' }}{% endif %}.%20Can%20you%20beat%20me?%20🎮&url=https://www.thankjapan.com&hashtags=LearnJapanese,JapanQuiz,ThankJapan"
+        <a href="https://twitter.com/intent/tweet?text=I%20solved%20{{ score|default:0 }}%20words%20in%20the%2030-Second%20Challenge%20on%20ThankJapan!%20🇯🇵%20{% if current_rank %}World%20Rank:%20%23{{ current_rank }}%2F{{ total_registered }}{% else %}Rank:%20{{ player.rank|default:'Villager' }}{% endif %}.%20Can%20you%20beat%20me?%20🎮&url=https://www.thankjapan.com&hashtags=LearnJapanese,JapanQuiz,ThankJapan"
             target="_blank"
             class="twitter-share-btn">
             <svg viewBox="0 0 24 24" aria-hidden="true" class="x-icon">
