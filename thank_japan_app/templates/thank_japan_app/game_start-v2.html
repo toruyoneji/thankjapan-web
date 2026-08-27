@@ -1035,7 +1035,7 @@ body::before, body::after { display: none; }
             {% elif lang_code == 'vi' %}Người chơi
             {% elif lang_code == 'th' %}ผู้เล่น
             {% else %}Player{% endif %}:
-            {% if player %}{{ player.username }}
+            {% if not is_guest %}{{ player.username }}
             {% else %}
                 {% if lang_code == 'ja' %}ゲスト
                 {% elif lang_code == 'zh-hant' %}訪客

@@ -1278,7 +1278,7 @@ p[style*="color: var(--ink-soft)"] {
         {% elif lang_code == 'th' %}✨ ไปต่อเลย
         {% else %}✨ Keep going
         {% endif %}
-        , {% if player %}{{ player.username }}{% else %}
+        , {% if not is_guest %}{{ player.username }}{% else %}
         {% if lang_code == 'ja' %}ゲスト
         {% elif lang_code == 'zh-hant' %}訪客
         {% elif lang_code == 'zh-cn' %}访客

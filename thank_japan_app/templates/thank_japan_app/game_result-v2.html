@@ -436,7 +436,7 @@ tbody td { padding: 8px; border: none; font-size: 0.82rem; color: var(--ink); }
       </h1>
 
       <div class="score-box" style="color: #000000;">
-        {% if player %}
+        {% if not is_guest %}
             <p style="font-size:1.5rem; color: #000000;">
                 {% if lang_code == 'ja' %}プレイヤー
                 {% elif lang_code == 'zh-hant' %}玩家
