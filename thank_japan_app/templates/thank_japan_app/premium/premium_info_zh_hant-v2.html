@@ -359,7 +359,7 @@
       <div class="pricing-container">
           <div class="plan-card featured">
               <div class="plan-name">Premium</div>
-              <div class="plan-price">$5.00 <span>/ 每月</span></div>
+              <div class="plan-price">{{ price_display }} <span>/ 每月</span></div>
               <div class="plan-subtext">隨時取消 · 無隱藏費用</div>
 
               <ul class="plan-features">
@@ -542,11 +542,11 @@
         onClick: function(data, actions) {
             gtag('event', 'begin_checkout', {
                 currency: 'USD',
-                value: 5.00,
+                value: {{ price_usd }},
                 items: [{
                     item_id: 'thankjapan_premium_monthly_paypal',
                     item_name: 'ThankJapan Premium Monthly',
-                    price: 5.00,
+                    price: {{ price_usd }},
                     quantity: 1
                 }]
             });
@@ -554,7 +554,16 @@
         },
         createSubscription: function(data, actions) {
             return actions.subscription.create({
-                'plan_id': '{{ paypal_plan_id }}'
+                'plan_id': '{{ paypal_plan_id }}',
+                'plan': {
+                    'billing_cycles': [{
+                        'sequence': 1,
+                        'total_cycles': 0,
+                        'pricing_scheme': {
+                            'fixed_price': { 'value': '{{ price_usd }}', 'currency_code': 'USD' }
+                        }
+                    }]
+                }
             });
         },
         onApprove: function(data, actions) {
@@ -574,11 +583,11 @@
                     gtag('event', 'purchase', {
                         transaction_id: data.subscriptionID,
                         currency: 'USD',
-                        value: 5.00,
+                        value: {{ price_usd }},
                         items: [{
                             item_id: 'thankjapan_premium_monthly_paypal',
                             item_name: 'ThankJapan Premium Monthly',
-                            price: 5.00,
+                            price: {{ price_usd }},
                             quantity: 1
                         }]
                     });
@@ -600,11 +609,11 @@
 <script>
 gtag('event', 'view_item', {
     currency: '{% if is_twa %}TWD{% else %}USD{% endif %}',
-    value: parseFloat('{% if is_twa %}170.00{% else %}5.00{% endif %}'),
+    value: parseFloat('{% if is_twa %}170.00{% else %}{{ price_usd }}{% endif %}'),
     items: [{
         item_id: '{% if is_twa %}thankjapan_premium_monthly_gplay{% else %}thankjapan_premium_monthly_paypal{% endif %}',
         item_name: 'ThankJapan Premium Monthly',
-        price: parseFloat('{% if is_twa %}170.00{% else %}5.00{% endif %}'),
+        price: parseFloat('{% if is_twa %}170.00{% else %}{{ price_usd }}{% endif %}'),
         quantity: 1
     }]
 });

@@ -23,6 +23,7 @@ from django.utils.http import urlencode
 from django.contrib.auth.views import PasswordResetView, PasswordResetConfirmView
 from .context_processors import language_context
 from .models import WeeklyScore, ThankJapanBackgroundModel, FCMDevice
+from .pricing import get_premium_price
 from google.oauth2 import service_account
 from googleapiclient.discovery import build
 from django.urls import reverse
@@ -2679,6 +2680,7 @@ def premium_info(request):
         # Digital Goods API isn't available even inside a real TWA session.
         'is_twa': is_android_twa(request) and request.GET.get('billing') != 'web',
     }
+    context.update(get_premium_price(request))
     return render(request, 'thank_japan_app/premium/premium_info-v2.html', context)
 
 def premium_infoZHCN(request):
@@ -2689,6 +2691,7 @@ def premium_infoZHCN(request):
         # Digital Goods API isn't available even inside a real TWA session.
         'is_twa': is_android_twa(request) and request.GET.get('billing') != 'web',
     }
+    context.update(get_premium_price(request))
     return render(request, 'thank_japan_app/premium/premium_info_zh_cn-v2.html', context)
 
 
@@ -2700,6 +2703,7 @@ def premium_infoZHHANT(request):
         # Digital Goods API isn't available even inside a real TWA session.
         'is_twa': is_android_twa(request) and request.GET.get('billing') != 'web',
     }
+    context.update(get_premium_price(request))
     return render(request, 'thank_japan_app/premium/premium_info_zh_hant-v2.html', context)
 
 def premium_infoVI(request):
@@ -2710,6 +2714,7 @@ def premium_infoVI(request):
         # Digital Goods API isn't available even inside a real TWA session.
         'is_twa': is_android_twa(request) and request.GET.get('billing') != 'web',
     }
+    context.update(get_premium_price(request))
     return render(request, 'thank_japan_app/premium/premium_info_vi-v2.html', context)
 
 def premium_infoTH(request):
@@ -2720,6 +2725,7 @@ def premium_infoTH(request):
         # Digital Goods API isn't available even inside a real TWA session.
         'is_twa': is_android_twa(request) and request.GET.get('billing') != 'web',
     }
+    context.update(get_premium_price(request))
     return render(request, 'thank_japan_app/premium/premium_info_th-v2.html', context)
 
 def premium_infoPT(request):
@@ -2730,6 +2736,7 @@ def premium_infoPT(request):
         # Digital Goods API isn't available even inside a real TWA session.
         'is_twa': is_android_twa(request) and request.GET.get('billing') != 'web',
     }
+    context.update(get_premium_price(request))
     return render(request, 'thank_japan_app/premium/premium_info_pt-v2.html', context)
 
 def premium_infoPTBR(request):
@@ -2740,6 +2747,7 @@ def premium_infoPTBR(request):
         # Digital Goods API isn't available even inside a real TWA session.
         'is_twa': is_android_twa(request) and request.GET.get('billing') != 'web',
     }
+    context.update(get_premium_price(request))
     return render(request, 'thank_japan_app/premium/premium_info_pt_br-v2.html', context)
 
 def premium_infoKO(request):
@@ -2750,6 +2758,7 @@ def premium_infoKO(request):
         # Digital Goods API isn't available even inside a real TWA session.
         'is_twa': is_android_twa(request) and request.GET.get('billing') != 'web',
     }
+    context.update(get_premium_price(request))
     return render(request, 'thank_japan_app/premium/premium_info_ko-v2.html', context)
 
 def premium_infoJA(request):
@@ -2760,6 +2769,7 @@ def premium_infoJA(request):
         # Digital Goods API isn't available even inside a real TWA session.
         'is_twa': is_android_twa(request) and request.GET.get('billing') != 'web',
     }
+    context.update(get_premium_price(request))
     return render(request, 'thank_japan_app/premium/premium_info_ja-v2.html', context)
 
 def premium_infoIT(request):
@@ -2770,6 +2780,7 @@ def premium_infoIT(request):
         # Digital Goods API isn't available even inside a real TWA session.
         'is_twa': is_android_twa(request) and request.GET.get('billing') != 'web',
     }
+    context.update(get_premium_price(request))
     return render(request, 'thank_japan_app/premium/premium_info_it-v2.html', context)
 
 def premium_infoFR(request):
@@ -2780,6 +2791,7 @@ def premium_infoFR(request):
         # Digital Goods API isn't available even inside a real TWA session.
         'is_twa': is_android_twa(request) and request.GET.get('billing') != 'web',
     }
+    context.update(get_premium_price(request))
     return render(request, 'thank_japan_app/premium/premium_info_fr-v2.html', context)
 
 def premium_infoESMX(request):
@@ -2790,6 +2802,7 @@ def premium_infoESMX(request):
         # Digital Goods API isn't available even inside a real TWA session.
         'is_twa': is_android_twa(request) and request.GET.get('billing') != 'web',
     }
+    context.update(get_premium_price(request))
     return render(request, 'thank_japan_app/premium/premium_info_es_mx-v2.html', context)
 
 def premium_infoESES(request):
@@ -2800,6 +2813,7 @@ def premium_infoESES(request):
         # Digital Goods API isn't available even inside a real TWA session.
         'is_twa': is_android_twa(request) and request.GET.get('billing') != 'web',
     }
+    context.update(get_premium_price(request))
     return render(request, 'thank_japan_app/premium/premium_info_es_es-v2.html', context)
 
 def premium_infoENIN(request):
@@ -2810,6 +2824,7 @@ def premium_infoENIN(request):
         # Digital Goods API isn't available even inside a real TWA session.
         'is_twa': is_android_twa(request) and request.GET.get('billing') != 'web',
     }
+    context.update(get_premium_price(request))
     return render(request, 'thank_japan_app/premium/premium_info_en_in-v2.html', context)
 
 def premium_infoDE(request):
@@ -2820,6 +2835,7 @@ def premium_infoDE(request):
         # Digital Goods API isn't available even inside a real TWA session.
         'is_twa': is_android_twa(request) and request.GET.get('billing') != 'web',
     }
+    context.update(get_premium_price(request))
     return render(request, 'thank_japan_app/premium/premium_info_de-v2.html', context)
 
 
