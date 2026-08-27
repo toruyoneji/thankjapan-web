@@ -107,8 +107,8 @@ body {
 
 .main2 {
   max-width: 900px;
-  margin: 10px auto !important; 
-  padding: 20px !important;    
+  margin: 2px auto !important;
+  padding: 8px 20px !important;
   background: 
     repeating-linear-gradient(
         0deg,
@@ -128,20 +128,20 @@ body {
 }
 
 h1 {
-  font-size: 2rem;
+  font-size: 1.3rem;
   color: var(--ink-on-green);
   text-shadow: none;
   border-bottom: 2px solid var(--gold);
   display: inline-block;
-  padding-bottom: 10px;
-  margin-bottom: 20px;
+  padding-bottom: 2px;
+  margin-bottom: 3px;
 }
 
 h2 {
   color: var(--ink-on-green);
   font-weight: 600;
-  margin: 20px 0 20px 0;
-  font-size: 1.2rem;
+  margin: 6px 0 6px 0;
+  font-size: 1.1rem;
 }
 
 img {
@@ -656,6 +656,22 @@ p[style*="color: var(--ink-soft)"] {
     }
 }
 
+@media (min-width: 769px) {
+    /* Compact vertical spacing so the question and choice cards fit within
+       a typical desktop/laptop viewport height (~720-1080px) without needing
+       to scroll to see the answer choices. Mobile/tablet (<=768px) keep
+       their own separate spacing above, unaffected by this block. */
+    #timer-container { margin: 2px 0 !important; }
+    .yomifuda-label { margin-bottom: 1px !important; }
+    .question-visual-area { margin-bottom: 3px !important; }
+    .game-jpname-text { font-size: 2.1rem !important; }
+    .main2 h2 { margin: 2px 0 !important; }
+    .hint-area { margin: 3px 0 !important; }
+    .quiz-section { margin-top: 2px !important; }
+    .quiz-section p { margin-bottom: 2px !important; }
+    .karuta-board { margin: 2px auto !important; }
+}
+
 @media (max-width: 1024px) {
   .main2 { padding: 20px 10px; margin: 20px auto !important; width: 95%; }
   h1 { font-size: 1.6rem; border-bottom-width: 2px; }
@@ -958,7 +974,7 @@ p[style*="color: var(--ink-soft)"] {
     </div>
   {% endif %}
 
-  <p style="font-size: 1rem; color: var(--ink-soft); font-weight: bold; margin-bottom: 8px; letter-spacing: 2px;">
+  <p class="yomifuda-label" style="font-size: 1rem; color: var(--ink-soft); font-weight: bold; margin-bottom: 8px; letter-spacing: 2px;">
     {% if lang_code == 'ja' %}よみふだ
     {% elif lang_code == 'zh-hant' %}讀牌
     {% elif lang_code == 'zh-cn' %}读牌
