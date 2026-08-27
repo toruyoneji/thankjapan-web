@@ -1891,6 +1891,75 @@ def game_restart(request):
 
 
 
+COMBO_SHARE_ACHIEVEMENTS = {
+    'high': {
+        'ja': '🔥{max_combo}連続正解達成！ThankJapanの30秒チャレンジで{score}pt獲得！',
+        'zh-hant': '🔥達成{max_combo}連續正確！在ThankJapan的30秒挑戰中獲得{score}分！',
+        'zh-cn': '🔥达成{max_combo}连续正确！在ThankJapan的30秒挑战中获得{score}分！',
+        'ko': '🔥{max_combo}연속 정답 달성! ThankJapan의 30초 챌린지에서 {score}점 획득!',
+        'de': '🔥{max_combo} Treffer in Folge! {score} Punkte in der ThankJapan 30-Sekunden-Challenge!',
+        'fr': "🔥{max_combo} bonnes réponses d'affilée ! {score} points dans le Défi 30 secondes de ThankJapan !",
+        'es-es': '🔥¡{max_combo} aciertos seguidos! ¡{score} puntos en el Reto de 30 segundos de ThankJapan!',
+        'it': '🔥{max_combo} risposte corrette di fila! {score} punti nella Sfida di 30 secondi di ThankJapan!',
+        'pt': '🔥{max_combo} acertos seguidos! {score} pontos no Desafio de 30 segundos do ThankJapan!',
+        'vi': '🔥Đạt {max_combo} câu đúng liên tiếp! Ghi {score} điểm trong Thử thách 30 giây của ThankJapan!',
+        'th': '🔥ทำได้ {max_combo} คอมโบติดต่อกัน! ได้ {score} คะแนนใน 30-Second Challenge ของ ThankJapan!',
+        'en': '🔥{max_combo}-combo streak! Scored {score}pts in the 30-Second Challenge on ThankJapan!',
+    },
+    'mid': {
+        'ja': '⚡最高コンボ{max_combo}達成！ThankJapanの30秒チャレンジで{score}pt獲得！',
+        'zh-hant': '⚡最高連擊{max_combo}！在ThankJapan的30秒挑戰中獲得{score}分！',
+        'zh-cn': '⚡最高连击{max_combo}！在ThankJapan的30秒挑战中获得{score}分！',
+        'ko': '⚡최대 콤보 {max_combo}! ThankJapan의 30초 챌린지에서 {score}점 획득!',
+        'de': '⚡Maximal-Combo {max_combo}! {score} Punkte in der ThankJapan 30-Sekunden-Challenge!',
+        'fr': '⚡Combo max {max_combo} ! {score} points dans le Défi 30 secondes de ThankJapan !',
+        'es-es': '⚡¡Combo máximo {max_combo}! ¡{score} puntos en el Reto de 30 segundos de ThankJapan!',
+        'it': '⚡Combo massima {max_combo}! {score} punti nella Sfida di 30 secondi di ThankJapan!',
+        'pt': '⚡Combo máximo {max_combo}! {score} pontos no Desafio de 30 segundos do ThankJapan!',
+        'vi': '⚡Combo tối đa {max_combo}! Ghi {score} điểm trong Thử thách 30 giây của ThankJapan!',
+        'th': '⚡คอมโบสูงสุด {max_combo}! ได้ {score} คะแนนใน 30-Second Challenge ของ ThankJapan!',
+        'en': '⚡Max combo {max_combo}! Scored {score}pts in the 30-Second Challenge on ThankJapan!',
+    },
+    'none': {
+        'ja': 'ThankJapanの30秒チャレンジで{score}pt獲得！日本語、どれだけ知ってる？',
+        'zh-hant': '在ThankJapan的30秒挑戰中獲得{score}分！你懂多少日文？',
+        'zh-cn': '在ThankJapan的30秒挑战中获得{score}分！你懂多少日文？',
+        'ko': 'ThankJapan의 30초 챌린지에서 {score}점 획득! 일본어 얼마나 아세요?',
+        'de': '{score} Punkte in der ThankJapan 30-Sekunden-Challenge! Wie viel Japanisch kannst du?',
+        'fr': 'Défi 30 secondes de ThankJapan : {score} points ! Et toi, combien de japonais connais-tu ?',
+        'es-es': '¡{score} puntos en el Reto de 30 segundos de ThankJapan! ¿Cuánto japonés sabes tú?',
+        'it': '{score} punti nella Sfida di 30 secondi di ThankJapan! Quanto giapponese conosci?',
+        'pt': '{score} pontos no Desafio de 30 segundos do ThankJapan! Quanto japonês você sabe?',
+        'vi': 'Ghi {score} điểm trong Thử thách 30 giây của ThankJapan! Bạn biết bao nhiêu tiếng Nhật?',
+        'th': 'ได้ {score} คะแนนใน 30-Second Challenge ของ ThankJapan! คุณรู้ภาษาญี่ปุ่นแค่ไหน?',
+        'en': 'Scored {score}pts in the 30-Second Challenge on ThankJapan! How much Japanese do you know?',
+    },
+}
+
+COMBO_SHARE_CTA = {
+    'ja': '挑戦してみて！🎮',
+    'zh-hant': '來挑戰看看吧！🎮',
+    'zh-cn': '来挑战看看吧！🎮',
+    'ko': '도전해 보세요! 🎮',
+    'de': 'Trau dich! 🎮',
+    'fr': 'À toi de jouer ! 🎮',
+    'es-es': '¡Atrévete! 🎮',
+    'it': 'Provaci anche tu! 🎮',
+    'pt': 'Bora tentar! 🎮',
+    'vi': 'Thử sức xem nào! 🎮',
+    'th': 'มาลองดูสิ! 🎮',
+    'en': 'Can you beat me? 🎮',
+}
+
+
+def build_combo_share_message(lang_code, max_combo, score):
+    lang = {'es-mx': 'es-es', 'pt-br': 'pt', 'en-in': 'en'}.get(lang_code, lang_code)
+    tier = 'high' if max_combo >= 7 else ('mid' if max_combo >= 3 else 'none')
+    achievement = COMBO_SHARE_ACHIEVEMENTS[tier].get(lang, COMBO_SHARE_ACHIEVEMENTS[tier]['en'])
+    cta = COMBO_SHARE_CTA.get(lang, COMBO_SHARE_CTA['en'])
+    return f"{achievement.format(max_combo=max_combo, score=score)} {cta}"
+
+
 def game_result(request):
     _, lang_code = get_lang_info(request)
 
@@ -1907,6 +1976,8 @@ def game_result(request):
     # clicked (see game_restart), not here.
     if request.session.get('game_difficulty') == 'first_taste':
         player, is_guest = get_current_player_info(request)
+        quick_score = sum(h.get('points', 0) for h in history)
+        quick_max_combo = max((h.get('combo', 0) for h in history), default=0)
         return render(request, 'thank_japan_app/game_result_quick-v2.html', {
             'lang_code': lang_code,
             'correct_count': correct_count,
@@ -1915,6 +1986,8 @@ def game_result(request):
             'is_twa': is_android_twa(request),
             'bgm_url': get_bgm_url('result'),
             'bgm_page_type': 'result',
+            'share_message': build_combo_share_message(lang_code, quick_max_combo, quick_score),
+            'share_url': 'https://www.thankjapan.com',
         })
 
     is_premium_mode = request.session.get('is_premium_mode', False)
@@ -1980,6 +2053,8 @@ def game_result(request):
         'score': score,
         'combo_bonus_total': combo_bonus_total,
         'max_combo': max_combo,
+        'share_message': build_combo_share_message(lang_code, max_combo, score),
+        'share_url': 'https://www.thankjapan.com',
         'correct_count': correct_count,
         'total_played': total_played,
         'is_guest': is_guest,
