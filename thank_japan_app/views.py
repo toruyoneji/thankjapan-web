@@ -1639,7 +1639,6 @@ def game_play(request):
         request.session['choice_index_check'] = index
 
     db_answer = extract_base_name(question.name).lower()
-    request.session['question_start_time'] = time.time()
     fire_game_start_event = request.session.pop('ga_fire_game_start', False)
     return render(request, 'thank_japan_app/game_play-v2.html', {
         'object': question,
@@ -1697,7 +1696,7 @@ def game_answer(request, pk):
             'choices': choices,
             'user_input': last_entry.get('user_input', ''),
             'is_correct': last_entry.get('is_correct', False),
-            'reaction_time': last_entry.get('reaction_time'),
+            'combo': last_entry.get('combo', 0),
             'show_result': True,
             'is_last_question': is_last_question,
             'current_index': index + 1,
@@ -1717,31 +1716,35 @@ def game_answer(request, pk):
     
 
     user_input = request.POST.get('answer')
-    
-    question_start_time = request.session.get('question_start_time')
-    if question_start_time:
-        reaction_time = round(time.time() - question_start_time, 1)
-    else:
-        reaction_time = None
-    
+
     client_seconds_left = request.POST.get('seconds_left')
     if client_seconds_left:
         request.session['frozen_seconds_left'] = int(client_seconds_left)
 
     correct_flag = (str(user_input) == str(question.id))
-    
+
     points = 0
+    combo = 0
+    combo_bonus = 0
     if correct_flag:
         # Base point for a correct answer: 1 for free-category questions, 2 for
-        # premium-category questions. The speed bonus on top is the same for both.
+        # premium-category questions. On top of that, a combo bonus grows with
+        # the current streak of consecutive correct answers (reset on a miss):
+        # 3-4 in a row: +1 / 5-6: +2 / 7+: +3.
         base_points = 2 if is_premium_mode else 1
-        if reaction_time is not None and reaction_time < 2:
-            points = base_points + 2
-        elif reaction_time is not None and reaction_time < 4:
-            points = base_points + 1
-        else:
-            points = base_points
+        combo = request.session.get('game_combo', 0) + 1
+        request.session['game_combo'] = combo
+        request.session['game_max_combo'] = max(request.session.get('game_max_combo', 0), combo)
+        if combo >= 7:
+            combo_bonus = 3
+        elif combo >= 5:
+            combo_bonus = 2
+        elif combo >= 3:
+            combo_bonus = 1
+        points = base_points + combo_bonus
         request.session['game_score'] = request.session.get('game_score', 0) + points
+    else:
+        request.session['game_combo'] = 0
 
     history = request.session.get('game_history', [])
     history.append({
@@ -1750,7 +1753,8 @@ def game_answer(request, pk):
         'is_correct': correct_flag,
         'user_input': question.name if correct_flag else "Wrong",
         'correct_answer': question.name,
-        'reaction_time': reaction_time,
+        'combo': combo,
+        'combo_bonus': combo_bonus,
         'points': points,
     })
     request.session['game_history'] = history
@@ -1760,7 +1764,7 @@ def game_answer(request, pk):
         'choices': choices,
         'user_input': user_input,
         'is_correct': correct_flag,
-        'reaction_time': reaction_time,
+        'combo': combo,
         'show_result': True,
         'is_last_question': is_last_question,
         'current_index': index + 1,
@@ -1852,9 +1856,10 @@ def game_restart(request):
         selected_question_ids = ids[:current_settings['num_questions']]
 
     keys_to_clear = [
-        'game_question_ids', 'game_current_index', 'game_score', 'game_difficulty', 
-        'game_history', 'score_saved', 'is_premium_mode', 
+        'game_question_ids', 'game_current_index', 'game_score', 'game_difficulty',
+        'game_history', 'score_saved', 'is_premium_mode',
         'game_end_time', 'current_choices', 'choice_index_check','last_answered_index',
+        'game_combo', 'game_max_combo',
     ]
     for key in keys_to_clear: request.session.pop(key, None)
 
@@ -1913,8 +1918,8 @@ def game_result(request):
         })
 
     is_premium_mode = request.session.get('is_premium_mode', False)
-    base_points = 2 if is_premium_mode else 1
-    time_bonus_total = sum((h.get('points', base_points) - base_points) for h in history if h.get('is_correct'))
+    combo_bonus_total = sum(h.get('combo_bonus', 0) for h in history if h.get('is_correct'))
+    max_combo = max((h.get('combo', 0) for h in history), default=0)
     score = sum(h.get('points', 0) for h in history)
 
     player, is_guest = get_current_player_info(request)
@@ -1973,7 +1978,8 @@ def game_result(request):
         'lang_code': lang_code,
         'player': player,
         'score': score,
-        'time_bonus_total': time_bonus_total,
+        'combo_bonus_total': combo_bonus_total,
+        'max_combo': max_combo,
         'correct_count': correct_count,
         'total_played': total_played,
         'is_guest': is_guest,

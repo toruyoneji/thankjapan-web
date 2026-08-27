@@ -516,6 +516,45 @@ p[style*="color: var(--ink-soft)"] {
     cursor: not-allowed;
 }
 
+.combo-popup {
+    position: fixed;
+    top: 38%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    font-size: 2.4rem;
+    font-weight: 900;
+    font-family: 'Poppins', sans-serif;
+    z-index: 9999;
+    pointer-events: none;
+    text-shadow: 0 0 10px rgba(0,0,0,0.35), 0 0 22px currentColor;
+    white-space: nowrap;
+    animation: comboPop 1.1s cubic-bezier(.34,1.56,.64,1) forwards;
+}
+
+.combo-popup.tier-yellow { color: #ffd700; }
+.combo-popup.tier-orange { color: #ff8c00; }
+.combo-popup.tier-rainbow {
+    background: linear-gradient(90deg, #ff3b3b, #ff9900, #ffee00, #33dd55, #33aaff, #a266ff, #ff4fd8);
+    background-size: 300% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: comboPop 1.1s cubic-bezier(.34,1.56,.64,1) forwards, comboRainbow 1.1s linear infinite;
+}
+
+@keyframes comboPop {
+    0%   { transform: translate(-50%, -50%) scale(0) rotate(-8deg); opacity: 0; }
+    35%  { transform: translate(-50%, -50%) scale(1.3) rotate(4deg); opacity: 1; }
+    55%  { transform: translate(-50%, -50%) scale(1) rotate(0deg); opacity: 1; }
+    85%  { transform: translate(-50%, -50%) scale(1) rotate(0deg); opacity: 1; }
+    100% { transform: translate(-50%, -50%) scale(0.9) rotate(0deg); opacity: 0; }
+}
+
+@keyframes comboRainbow {
+    0%   { background-position: 0% 50%; }
+    100% { background-position: 100% 50%; }
+}
+
 
 
 @media (hover: hover) {
@@ -855,7 +894,8 @@ p[style*="color: var(--ink-soft)"] {
      data-next-url="{% url 'game_next_question' %}"
      data-result-url="{% url 'game_result' %}"
      data-difficulty="{{ difficulty }}"
-     data-is-correct="{{ is_correct|yesno:'true,false' }}">
+     data-is-correct="{{ is_correct|yesno:'true,false' }}"
+     data-combo="{{ combo|default:0 }}">
 </div>
 
 <div class="main2" 
@@ -1562,6 +1602,15 @@ function preloadImages(urls) {
     });
 }
 
+function showComboPopup(combo) {
+    const tier = combo >= 7 ? 'tier-rainbow' : (combo >= 5 ? 'tier-orange' : 'tier-yellow');
+    const el = document.createElement('div');
+    el.className = 'combo-popup ' + tier;
+    el.textContent = combo + ' COMBO!';
+    document.body.appendChild(el);
+    setTimeout(() => el.remove(), 1150);
+}
+
 document.addEventListener('DOMContentLoaded', function() {
 
     const config = document.getElementById('game-config');
@@ -1592,7 +1641,23 @@ document.addEventListener('DOMContentLoaded', function() {
     const isCorrect = config.getAttribute('data-is-correct') === 'true';
 
     if (showResult) {
-        if (isCorrect) confetti({ particleCount: 120, spread: 80, origin: { y: 0.6 }, colors: ['#cda23f', '#7c9473', '#faf6ec', '#a5533f'] });
+        if (isCorrect) {
+            const combo = parseInt(config.getAttribute('data-combo') || '0');
+            let comboColors = ['#cda23f', '#7c9473', '#faf6ec', '#a5533f'];
+            let particleCount = 120;
+            if (combo >= 7) {
+                comboColors = ['#ff3b3b', '#ff9900', '#ffee00', '#33dd55', '#33aaff', '#a266ff'];
+                particleCount = 220;
+            } else if (combo >= 5) {
+                comboColors = ['#ff8c00', '#ffcc00', '#ff6600', '#ffffff'];
+                particleCount = 170;
+            } else if (combo >= 3) {
+                comboColors = ['#ffd700', '#ffe066', '#fff8dc'];
+                particleCount = 140;
+            }
+            confetti({ particleCount, spread: 80, origin: { y: 0.6 }, colors: comboColors });
+            if (combo >= 3) showComboPopup(combo);
+        }
 
         const nextUrl = config.getAttribute('data-next-url');
         if (config.getAttribute('data-difficulty') !== 'single' && nextUrl) {
