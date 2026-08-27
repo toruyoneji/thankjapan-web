@@ -19,6 +19,12 @@
 
 {% block content %}
 
+<script>
+    if (typeof gtag === 'function') {
+        gtag('event', 'view_difficulty_select', { platform: '{{ ga_platform }}' });
+    }
+</script>
+
 <style>
 :root {
     --washi: #faf6ec;

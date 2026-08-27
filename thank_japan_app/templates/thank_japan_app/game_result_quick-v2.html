@@ -1,0 +1,156 @@
+{% extends 'base/basecategory_top.html' %}
+
+{% block title %}
+    {% if lang_code == 'ja' %}3問チャレンジ結果 | ThankJapan
+    {% elif lang_code == 'zh-hant' %}3題挑戰結果 | ThankJapan
+    {% elif lang_code == 'zh-cn' %}3题挑战结果 | ThankJapan
+    {% elif lang_code == 'ko' %}3문제 챌린지 결과 | ThankJapan
+    {% elif lang_code == 'de' %}Ergebnis der 3-Fragen-Challenge | ThankJapan
+    {% elif lang_code == 'fr' %}Résultat du défi 3 questions | ThankJapan
+    {% elif lang_code == 'it' %}Risultato della sfida a 3 domande | ThankJapan
+    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Resultado del reto de 3 preguntas | ThankJapan
+    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Resultado do desafio de 3 perguntas | ThankJapan
+    {% elif lang_code == 'vi' %}Kết quả thử thách 3 câu | ThankJapan
+    {% elif lang_code == 'th' %}ผลลัพธ์ท้าทาย 3 ข้อ | ThankJapan
+    {% else %}3-Question Challenge Result | ThankJapan{% endif %}
+{% endblock %}
+
+{% block content %}
+
+<script>
+    if (typeof gtag === 'function') {
+        gtag('event', 'game_complete', {
+            platform: '{{ ga_platform }}',
+            difficulty: 'first_taste',
+            is_premium: false,
+            correct_count: {{ correct_count|default:0 }},
+            total_played: {{ total_played|default:0 }}
+        });
+    }
+</script>
+
+<style>
+:root {
+    color-scheme: light !important;
+    --washi: #faf6ec;
+    --washi-card: #ffffff;
+    --wood-border: #e8dfc8;
+    --ink: #2a1d13;
+    --ink-soft: #8a7862;
+    --gold: #cda23f;
+    --gold-dark: #a97c1f;
+    --matcha-dark: #5e7458;
+}
+html, body { background-color: #faf6ec !important; margin: 0; padding: 0; }
+#premium-auth-container {
+    position: fixed; top: 0; left: 0; width: 100vw !important; height: 100dvh;
+    background-color: #faf6ec !important; overflow: hidden; z-index: 1;
+    display: flex; flex-direction: column; border: none !important; outline: none !important;
+}
+.app-content-fix {
+    flex: 1; height: 100%; width: 100%; background-color: #faf6ec !important;
+    overflow-y: auto !important; -webkit-overflow-scrolling: touch;
+    padding-top: 20px; padding-bottom: calc(100px + env(safe-area-inset-bottom));
+    -ms-overflow-style: none; scrollbar-width: none; border: none !important; outline: none !important;
+}
+.app-content-fix::-webkit-scrollbar { display: none; }
+body { font-family: 'Zen Antique', 'Shippori Mincho', 'Noto Serif JP', serif; color: var(--ink); }
+.main2 { max-width: 480px; margin: 0 auto; text-align: center; padding: 24px 18px 10px; background-color: #faf6ec !important; }
+* { outline: none !important; }
+
+h1 {
+    font-size: 1.4rem; color: var(--ink); border-bottom: 2px solid var(--gold);
+    display: inline-block; padding-bottom: 8px; margin: 8px 0 20px; font-weight: 700;
+}
+.score-box {
+    background: var(--washi-card); padding: 28px 20px; margin: 0 auto 22px;
+    border-radius: 20px; border: 1px solid var(--wood-border); max-width: 420px;
+}
+.score-box .cheer { font-size: 1.15rem; font-weight: 700; color: var(--ink); margin: 0 0 12px; }
+.score-box .score-line { font-size: 2rem; font-weight: 800; color: var(--matcha-dark); margin: 0; }
+.score-box .score-line .total { font-size: 1.1rem; color: var(--ink-soft); font-weight: 700; }
+
+.neon-button {
+    background: var(--gold); color: var(--ink); padding: 14px; font-size: 1.05rem; font-weight: 800;
+    border: none; border-bottom: 4px solid var(--gold-dark); border-radius: 16px; cursor: pointer;
+    transition: transform 0.1s; text-decoration: none; display: flex; align-items: center; justify-content: center;
+    max-width: 380px; margin: 0 auto; width: 100%; font-family: 'Noto Sans JP', sans-serif;
+}
+.neon-button:hover { transform: translateY(2px); border-bottom-width: 2px; background: var(--gold); color: var(--ink); }
+</style>
+
+<div id="premium-auth-container">
+  <div class="app-content-fix">
+    <div class="main2">
+
+      <h1>
+        {% if lang_code == 'ja' %}🎉 3問チャレンジ結果 🎉
+        {% elif lang_code == 'zh-hant' %}🎉 3題挑戰結果 🎉
+        {% elif lang_code == 'zh-cn' %}🎉 3题挑战结果 🎉
+        {% elif lang_code == 'ko' %}🎉 3문제 챌린지 결과 🎉
+        {% elif lang_code == 'de' %}🎉 Ergebnis der 3-Fragen-Challenge 🎉
+        {% elif lang_code == 'fr' %}🎉 Résultat du défi 3 questions 🎉
+        {% elif lang_code == 'it' %}🎉 Risultato della sfida a 3 domande 🎉
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}🎉 Resultado del reto de 3 preguntas 🎉
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}🎉 Resultado do desafio de 3 perguntas 🎉
+        {% elif lang_code == 'vi' %}🎉 Kết quả thử thách 3 câu 🎉
+        {% elif lang_code == 'th' %}🎉 ผลลัพธ์ท้าทาย 3 ข้อ 🎉
+        {% else %}🎉 3-Question Challenge Result 🎉
+        {% endif %}
+      </h1>
+
+      <div class="score-box">
+        <p class="cheer">
+            {% if lang_code == 'ja' %}お疲れさま！日本語に一歩近づきました
+            {% elif lang_code == 'zh-hant' %}辛苦了！你離日語又近了一步
+            {% elif lang_code == 'zh-cn' %}辛苦了！你离日语又近了一步
+            {% elif lang_code == 'ko' %}수고하셨어요! 일본어에 한 걸음 더 가까워졌어요
+            {% elif lang_code == 'de' %}Gut gemacht! Du bist Japanisch einen Schritt nähergekommen
+            {% elif lang_code == 'fr' %}Bravo ! Vous vous êtes rapproché du japonais
+            {% elif lang_code == 'it' %}Ottimo lavoro! Sei un passo più vicino al giapponese
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}¡Buen trabajo! Estás un paso más cerca del japonés
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Muito bem! Você está mais perto do japonês
+            {% elif lang_code == 'vi' %}Làm tốt lắm! Bạn đã tiến gần hơn với tiếng Nhật
+            {% elif lang_code == 'th' %}เก่งมาก! คุณเข้าใกล้ภาษาญี่ปุ่นไปอีกก้าวแล้ว
+            {% else %}Nice work! You're one step closer to Japanese
+            {% endif %}
+        </p>
+        <p class="score-line">{{ correct_count }}<span class="total"> / {{ total_played }}
+            {% if lang_code == 'ja' %}問正解
+            {% elif lang_code == 'zh-hant' %}題答對
+            {% elif lang_code == 'zh-cn' %}题答对
+            {% elif lang_code == 'ko' %}문제 정답
+            {% elif lang_code == 'de' %}richtig
+            {% elif lang_code == 'fr' %}bonnes réponses
+            {% elif lang_code == 'it' %}corrette
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}correctas
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}corretas
+            {% elif lang_code == 'vi' %}câu đúng
+            {% elif lang_code == 'th' %}ข้อถูก
+            {% else %}correct
+            {% endif %}
+        </span></p>
+      </div>
+
+      <a href="{% url 'game_start' %}?lang={{ lang_code }}" class="neon-button">
+        {% if lang_code == 'ja' %}もっと遊ぶ？ 🎮
+        {% elif lang_code == 'zh-hant' %}想繼續玩嗎？ 🎮
+        {% elif lang_code == 'zh-cn' %}想继续玩吗？ 🎮
+        {% elif lang_code == 'ko' %}더 플레이할까요? 🎮
+        {% elif lang_code == 'de' %}Weiterspielen? 🎮
+        {% elif lang_code == 'fr' %}Continuer à jouer ? 🎮
+        {% elif lang_code == 'it' %}Vuoi continuare a giocare? 🎮
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}¿Seguir jugando? 🎮
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Continuar jogando? 🎮
+        {% elif lang_code == 'vi' %}Chơi tiếp nhé? 🎮
+        {% elif lang_code == 'th' %}เล่นต่อไหม? 🎮
+        {% else %}Want to keep playing? 🎮
+        {% endif %}
+      </a>
+
+    </div>
+  </div>
+</div>
+
+{% include 'includes/bgm_player.html' %}
+{% endblock %}

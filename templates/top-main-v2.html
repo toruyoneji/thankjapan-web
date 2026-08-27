@@ -112,8 +112,15 @@
     width: 100%;
     display: flex;
     flex-direction: column;
-    gap: 25px !important; 
+    gap: 25px !important;
     align-items: center;
+}
+
+.cta-subtext {
+    margin: -14px 0 0;
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.75);
+    text-align: center;
 }
 
 .explore-btn {
@@ -235,19 +242,20 @@
                 </ul>
             </div>
             <div class="hero-buttons">
+                {% if has_played %}
                 <a href="{% url 'game_start' %}?lang={{ lang_code }}" class="explore-btn btn-green">
-                    {% if lang_code == 'ja' %}まずは1問やってみる 🎮
-                    {% elif lang_code == 'ko' %}우선 한 문제만 풀어보세요 🎮
-                    {% elif lang_code == 'zh-cn' %}先尝试第一道题 🎮
-                    {% elif lang_code == 'zh-hant' %}先嘗試第一道題 🎮
-                    {% elif lang_code == 'th' %}ลองทำสักข้อก่อนเลย 🎮
-                    {% elif lang_code == 'vi' %}Thử trước một câu xem sao 🎮
-                    {% elif lang_code == 'fr' %}Essaie juste une question 🎮
-                    {% elif lang_code == 'de' %}Versuch erst mal eine Frage 🎮
-                    {% elif lang_code == 'it' %}Prova solo una domanda 🎮
-                    {% elif lang_code == 'es-es' or lang_code == 'es-mx' or lang_code == 'es' %}¡Prueba solo una pregunta! 🎮
-                    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Tente apenas uma questão 🎮
-                    {% else %}Try just one question first 🎮{% endif %}
+                    {% if lang_code == 'ja' %}プレイする 🎮
+                    {% elif lang_code == 'ko' %}플레이하기 🎮
+                    {% elif lang_code == 'zh-cn' %}开始游戏 🎮
+                    {% elif lang_code == 'zh-hant' %}開始遊戲 🎮
+                    {% elif lang_code == 'th' %}เล่นเลย 🎮
+                    {% elif lang_code == 'vi' %}Chơi ngay 🎮
+                    {% elif lang_code == 'fr' %}Jouer 🎮
+                    {% elif lang_code == 'de' %}Spielen 🎮
+                    {% elif lang_code == 'it' %}Gioca 🎮
+                    {% elif lang_code == 'es-es' or lang_code == 'es-mx' or lang_code == 'es' %}Jugar 🎮
+                    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Jogar 🎮
+                    {% else %}Play 🎮{% endif %}
                 </a>
 
                 <a href="{% url 'player_register' %}?lang={{ lang_code }}" class="explore-btn btn-yellow">
@@ -264,6 +272,36 @@
                     {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Começar grátis
                     {% else %}Start for Free{% endif %}
                 </a>
+                {% else %}
+                <a href="{% url 'game_restart' %}?difficulty=first_taste&lang={{ lang_code }}" class="explore-btn btn-green">
+                    {% if lang_code == 'ja' %}3問だけ試してみる 🎮
+                    {% elif lang_code == 'ko' %}딱 3문제만 풀어보기 🎮
+                    {% elif lang_code == 'zh-cn' %}先试3道题 🎮
+                    {% elif lang_code == 'zh-hant' %}先試3道題 🎮
+                    {% elif lang_code == 'th' %}ลองทำแค่ 3 ข้อ 🎮
+                    {% elif lang_code == 'vi' %}Thử ngay 3 câu 🎮
+                    {% elif lang_code == 'fr' %}Essayer 3 questions 🎮
+                    {% elif lang_code == 'de' %}Nur 3 Fragen testen 🎮
+                    {% elif lang_code == 'it' %}Prova solo 3 domande 🎮
+                    {% elif lang_code == 'es-es' or lang_code == 'es-mx' or lang_code == 'es' %}¡Prueba solo 3 preguntas! 🎮
+                    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Testar só 3 perguntas 🎮
+                    {% else %}Try 3 quick questions 🎮{% endif %}
+                </a>
+                <p class="cta-subtext">
+                    {% if lang_code == 'ja' %}登録不要
+                    {% elif lang_code == 'ko' %}회원가입 불필요
+                    {% elif lang_code == 'zh-cn' %}无需注册
+                    {% elif lang_code == 'zh-hant' %}無需註冊
+                    {% elif lang_code == 'th' %}ไม่ต้องสมัครสมาชิก
+                    {% elif lang_code == 'vi' %}Không cần đăng ký
+                    {% elif lang_code == 'fr' %}Sans inscription
+                    {% elif lang_code == 'de' %}Keine Anmeldung nötig
+                    {% elif lang_code == 'it' %}Nessuna registrazione
+                    {% elif lang_code == 'es-es' or lang_code == 'es-mx' or lang_code == 'es' %}Sin necesidad de registro
+                    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Sem necessidade de cadastro
+                    {% else %}No sign-up needed{% endif %}
+                </p>
+                {% endif %}
             </div>
 
         {% else %}

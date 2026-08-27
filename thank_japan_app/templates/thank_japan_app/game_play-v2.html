@@ -1593,6 +1593,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     timeLeft = parseInt(config.getAttribute('data-seconds-left') || "60");
+    const totalTime = timeLeft;
     const tDisp = document.getElementById('time-left');
     const tBar = document.getElementById('timer-bar-fill');
     const rUrl = config.getAttribute('data-result-url');
@@ -1601,16 +1602,16 @@ document.addEventListener('DOMContentLoaded', function() {
         timeLeft--;
         if (timeLeft >= 0) {
             if (tDisp) {
-                
+
                 tDisp.textContent = String(Math.floor(timeLeft / 60)).padStart(2, '0') + ":" + String(timeLeft % 60).padStart(2, '0');
 
                 let timerColor;
-                if (timeLeft > 30) {
-                    timerColor = "#2ecc71"; 
-                } else if (timeLeft > 10) {
-                    timerColor = "#f1c40f"; 
+                if (timeLeft > totalTime * 0.5) {
+                    timerColor = "#2ecc71";
+                } else if (timeLeft > totalTime * (10 / 60)) {
+                    timerColor = "#f1c40f";
                 } else {
-                    timerColor = "#e74c3c"; 
+                    timerColor = "#e74c3c";
                 }
 
                 tDisp.style.color = timerColor;
@@ -1618,7 +1619,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
 
             if (tBar) {
-                tBar.style.width = (timeLeft / 60 * 100) + "%";
+                tBar.style.width = (timeLeft / totalTime * 100) + "%";
             }
         } else {
             clearInterval(timerInterval);

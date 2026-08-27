@@ -1009,6 +1009,7 @@ class TopView(BGMContextMixin, ListView):
         context['bonus_received'] = self.request.session.pop('show_bonus_toast', False)
         context['show_guest_alert'] = self.request.session.pop('show_guest_bonus_alert', False)
         context['earned_points'] = self.request.session.pop('earned_points', 0)
+        context['has_played'] = self.request.COOKIES.get('tj_has_played') == '1'
         return context
     
         
@@ -1026,6 +1027,7 @@ class TopViewJA(BGMContextMixin, ListView):
         context['bonus_received'] = self.request.session.pop('show_bonus_toast', False)
         context['show_guest_alert'] = self.request.session.pop('show_guest_bonus_alert', False)
         context['earned_points'] = self.request.session.pop('earned_points', 0)
+        context['has_played'] = self.request.COOKIES.get('tj_has_played') == '1'
         return context
     
     
@@ -1043,6 +1045,7 @@ class TopViewVI(BGMContextMixin, ListView):
         context['bonus_received'] = self.request.session.pop('show_bonus_toast', False)
         context['show_guest_alert'] = self.request.session.pop('show_guest_bonus_alert', False)
         context['earned_points'] = self.request.session.pop('earned_points', 0)
+        context['has_played'] = self.request.COOKIES.get('tj_has_played') == '1'
         return context
     
     
@@ -1060,6 +1063,7 @@ class TopViewFR(BGMContextMixin, ListView):
         context['bonus_received'] = self.request.session.pop('show_bonus_toast', False)
         context['show_guest_alert'] = self.request.session.pop('show_guest_bonus_alert', False)
         context['earned_points'] = self.request.session.pop('earned_points', 0)
+        context['has_played'] = self.request.COOKIES.get('tj_has_played') == '1'
         return context
     
     
@@ -1077,6 +1081,7 @@ class TopViewIT(BGMContextMixin, ListView):
         context['bonus_received'] = self.request.session.pop('show_bonus_toast', False)
         context['show_guest_alert'] = self.request.session.pop('show_guest_bonus_alert', False)
         context['earned_points'] = self.request.session.pop('earned_points', 0)
+        context['has_played'] = self.request.COOKIES.get('tj_has_played') == '1'
         return context
     
     
@@ -1094,6 +1099,7 @@ class TopViewPT(BGMContextMixin, ListView):
         context['bonus_received'] = self.request.session.pop('show_bonus_toast', False)
         context['show_guest_alert'] = self.request.session.pop('show_guest_bonus_alert', False)
         context['earned_points'] = self.request.session.pop('earned_points', 0)
+        context['has_played'] = self.request.COOKIES.get('tj_has_played') == '1'
         return context
     
     
@@ -1111,6 +1117,7 @@ class TopViewZHCN(BGMContextMixin, ListView):
         context['bonus_received'] = self.request.session.pop('show_bonus_toast', False)
         context['show_guest_alert'] = self.request.session.pop('show_guest_bonus_alert', False)
         context['earned_points'] = self.request.session.pop('earned_points', 0)
+        context['has_played'] = self.request.COOKIES.get('tj_has_played') == '1'
         return context
     
     
@@ -1128,6 +1135,7 @@ class TopViewZHHANT(BGMContextMixin, ListView):
         context['bonus_received'] = self.request.session.pop('show_bonus_toast', False)
         context['show_guest_alert'] = self.request.session.pop('show_guest_bonus_alert', False)
         context['earned_points'] = self.request.session.pop('earned_points', 0)
+        context['has_played'] = self.request.COOKIES.get('tj_has_played') == '1'
         return context
     
     
@@ -1145,6 +1153,7 @@ class TopViewKO(BGMContextMixin, ListView):
         context['bonus_received'] = self.request.session.pop('show_bonus_toast', False)
         context['show_guest_alert'] = self.request.session.pop('show_guest_bonus_alert', False)
         context['earned_points'] = self.request.session.pop('earned_points', 0)
+        context['has_played'] = self.request.COOKIES.get('tj_has_played') == '1'
         return context
     
 
@@ -1162,6 +1171,7 @@ class TopViewESES(BGMContextMixin, ListView):
         context['bonus_received'] = self.request.session.pop('show_bonus_toast', False)
         context['show_guest_alert'] = self.request.session.pop('show_guest_bonus_alert', False)
         context['earned_points'] = self.request.session.pop('earned_points', 0)
+        context['has_played'] = self.request.COOKIES.get('tj_has_played') == '1'
         return context
     
     
@@ -1179,6 +1189,7 @@ class TopViewDE(BGMContextMixin, ListView):
         context['bonus_received'] = self.request.session.pop('show_bonus_toast', False)
         context['show_guest_alert'] = self.request.session.pop('show_guest_bonus_alert', False)
         context['earned_points'] = self.request.session.pop('earned_points', 0)
+        context['has_played'] = self.request.COOKIES.get('tj_has_played') == '1'
         return context
     
     
@@ -1196,6 +1207,7 @@ class TopViewTH(BGMContextMixin, ListView):
         context['bonus_received'] = self.request.session.pop('show_bonus_toast', False)
         context['show_guest_alert'] = self.request.session.pop('show_guest_bonus_alert', False)
         context['earned_points'] = self.request.session.pop('earned_points', 0)
+        context['has_played'] = self.request.COOKIES.get('tj_has_played') == '1'
         return context
     
     
@@ -1213,6 +1225,7 @@ class TopViewPTBR(BGMContextMixin, ListView):
         context['bonus_received'] = self.request.session.pop('show_bonus_toast', False)
         context['show_guest_alert'] = self.request.session.pop('show_guest_bonus_alert', False)
         context['earned_points'] = self.request.session.pop('earned_points', 0)
+        context['has_played'] = self.request.COOKIES.get('tj_has_played') == '1'
         return context
     
     
@@ -1230,6 +1243,7 @@ class TopViewESMX(BGMContextMixin, ListView):
         context['bonus_received'] = self.request.session.pop('show_bonus_toast', False)
         context['show_guest_alert'] = self.request.session.pop('show_guest_bonus_alert', False)
         context['earned_points'] = self.request.session.pop('earned_points', 0)
+        context['has_played'] = self.request.COOKIES.get('tj_has_played') == '1'
         return context
     
     
@@ -1247,6 +1261,7 @@ class TopViewENIN(BGMContextMixin, ListView):
         context['bonus_received'] = self.request.session.pop('show_bonus_toast', False)
         context['show_guest_alert'] = self.request.session.pop('show_guest_bonus_alert', False)
         context['earned_points'] = self.request.session.pop('earned_points', 0)
+        context['has_played'] = self.request.COOKIES.get('tj_has_played') == '1'
         return context
     
     
@@ -1498,6 +1513,9 @@ def delete_player(request):
 
 DIFFICULTY_SETTINGS = {
     'single': {'num_questions': 1, 'model_type': 'free'},
+    # First-visit taste flow from the top page: 3 EASY-tier questions, no
+    # difficulty picker, 30s timer (see game_play's timer setup below).
+    'first_taste': {'category_filter': ['sports', 'food', 'animal', 'dailyactions'], 'length_regex': r'^.{1,20}$', 'num_questions': 3, 'model_type': 'free'},
     'easy': {'category_filter': ['sports', 'food', 'animal', 'dailyactions'], 'length_regex': r'^.{1,20}$', 'num_questions': 50, 'model_type': 'free'},
     'normal': {'category_filter': ['cook', 'food', 'culture', 'body', 'live', 'work', 'dailyactions'], 'length_regex': r'^.{1,9}$', 'num_questions': 50, 'model_type': 'free'},
     'hard': {'category_filter': None, 'length_regex': r'^.{1,9}$', 'num_questions': 50, 'model_type': 'free'},
@@ -1576,9 +1594,11 @@ def game_play(request):
     else:
         game_end_time = request.session.get('game_end_time')
         if not game_end_time:
-            game_end_time = current_time + 61
+            difficulty_for_timer = request.session.get('game_difficulty', 'normal')
+            time_limit = 31 if difficulty_for_timer == 'first_taste' else 61
+            game_end_time = current_time + time_limit
             request.session['game_end_time'] = game_end_time
-    
+
     seconds_left = int(game_end_time - current_time)
     difficulty = request.session.get('game_difficulty', 'normal')
 
@@ -1850,14 +1870,36 @@ def game_restart(request):
 
 def game_result(request):
     _, lang_code = get_lang_info(request)
-    
+
     raw_history = request.session.get('game_history', [])
-    
+
     deduped_dict = {h.get('index'): h for h in raw_history}
-    history = list(deduped_dict.values()) 
+    history = list(deduped_dict.values())
 
     total_played = len(history)
     correct_count = sum(1 for h in history if h.get('is_correct'))
+
+    # First-visit taste flow (3 questions, no ranking/registration nudges).
+    # Reaching this screen counts as having "completed" the taste flow, so
+    # mark the visitor as a returning player from here on via a long-lived
+    # cookie the top page reads (see TopView.get_context_data).
+    if request.session.get('game_difficulty') == 'first_taste':
+        player, is_guest = get_current_player_info(request)
+        response = render(request, 'thank_japan_app/game_result_quick-v2.html', {
+            'lang_code': lang_code,
+            'correct_count': correct_count,
+            'total_played': total_played,
+            'is_guest': is_guest,
+            'is_twa': is_android_twa(request),
+            'bgm_url': get_bgm_url('result'),
+            'bgm_page_type': 'result',
+        })
+        response.set_cookie(
+            'tj_has_played', '1',
+            max_age=34560000,  # ~400 days: the practical cap most browsers honor
+            httponly=True, samesite='Lax', secure=request.is_secure(),
+        )
+        return response
 
     is_premium_mode = request.session.get('is_premium_mode', False)
     base_points = 2 if is_premium_mode else 1
