@@ -2675,7 +2675,9 @@ def premium_info(request):
     context = {
         'paypal_client_id': settings.PAYPAL_CLIENT_ID,
         'paypal_plan_id': settings.PAYPAL_PLAN_ID,
-        'is_twa': is_android_twa(request),
+        # Google Play Billing button falls back here (?billing=web) when the
+        # Digital Goods API isn't available even inside a real TWA session.
+        'is_twa': is_android_twa(request) and request.GET.get('billing') != 'web',
     }
     return render(request, 'thank_japan_app/premium/premium_info-v2.html', context)
 
@@ -2683,7 +2685,9 @@ def premium_infoZHCN(request):
     context = {
         'paypal_client_id': settings.PAYPAL_CLIENT_ID,
         'paypal_plan_id': settings.PAYPAL_PLAN_ID,
-        'is_twa': is_android_twa(request),
+        # Google Play Billing button falls back here (?billing=web) when the
+        # Digital Goods API isn't available even inside a real TWA session.
+        'is_twa': is_android_twa(request) and request.GET.get('billing') != 'web',
     }
     return render(request, 'thank_japan_app/premium/premium_info_zh_cn-v2.html', context)
 
@@ -2692,7 +2696,9 @@ def premium_infoZHHANT(request):
     context = {
         'paypal_client_id': settings.PAYPAL_CLIENT_ID,
         'paypal_plan_id': settings.PAYPAL_PLAN_ID,
-        'is_twa': is_android_twa(request),
+        # Google Play Billing button falls back here (?billing=web) when the
+        # Digital Goods API isn't available even inside a real TWA session.
+        'is_twa': is_android_twa(request) and request.GET.get('billing') != 'web',
     }
     return render(request, 'thank_japan_app/premium/premium_info_zh_hant-v2.html', context)
 
@@ -2700,7 +2706,9 @@ def premium_infoVI(request):
     context = {
         'paypal_client_id': settings.PAYPAL_CLIENT_ID,
         'paypal_plan_id': settings.PAYPAL_PLAN_ID,
-        'is_twa': is_android_twa(request),
+        # Google Play Billing button falls back here (?billing=web) when the
+        # Digital Goods API isn't available even inside a real TWA session.
+        'is_twa': is_android_twa(request) and request.GET.get('billing') != 'web',
     }
     return render(request, 'thank_japan_app/premium/premium_info_vi-v2.html', context)
 
@@ -2708,7 +2716,9 @@ def premium_infoTH(request):
     context = {
         'paypal_client_id': settings.PAYPAL_CLIENT_ID,
         'paypal_plan_id': settings.PAYPAL_PLAN_ID,
-        'is_twa': is_android_twa(request),
+        # Google Play Billing button falls back here (?billing=web) when the
+        # Digital Goods API isn't available even inside a real TWA session.
+        'is_twa': is_android_twa(request) and request.GET.get('billing') != 'web',
     }
     return render(request, 'thank_japan_app/premium/premium_info_th-v2.html', context)
 
@@ -2716,7 +2726,9 @@ def premium_infoPT(request):
     context = {
         'paypal_client_id': settings.PAYPAL_CLIENT_ID,
         'paypal_plan_id': settings.PAYPAL_PLAN_ID,
-        'is_twa': is_android_twa(request),
+        # Google Play Billing button falls back here (?billing=web) when the
+        # Digital Goods API isn't available even inside a real TWA session.
+        'is_twa': is_android_twa(request) and request.GET.get('billing') != 'web',
     }
     return render(request, 'thank_japan_app/premium/premium_info_pt-v2.html', context)
 
@@ -2724,7 +2736,9 @@ def premium_infoPTBR(request):
     context = {
         'paypal_client_id': settings.PAYPAL_CLIENT_ID,
         'paypal_plan_id': settings.PAYPAL_PLAN_ID,
-        'is_twa': is_android_twa(request),
+        # Google Play Billing button falls back here (?billing=web) when the
+        # Digital Goods API isn't available even inside a real TWA session.
+        'is_twa': is_android_twa(request) and request.GET.get('billing') != 'web',
     }
     return render(request, 'thank_japan_app/premium/premium_info_pt_br-v2.html', context)
 
@@ -2732,7 +2746,9 @@ def premium_infoKO(request):
     context = {
         'paypal_client_id': settings.PAYPAL_CLIENT_ID,
         'paypal_plan_id': settings.PAYPAL_PLAN_ID,
-        'is_twa': is_android_twa(request),
+        # Google Play Billing button falls back here (?billing=web) when the
+        # Digital Goods API isn't available even inside a real TWA session.
+        'is_twa': is_android_twa(request) and request.GET.get('billing') != 'web',
     }
     return render(request, 'thank_japan_app/premium/premium_info_ko-v2.html', context)
 
@@ -2740,7 +2756,9 @@ def premium_infoJA(request):
     context = {
         'paypal_client_id': settings.PAYPAL_CLIENT_ID,
         'paypal_plan_id': settings.PAYPAL_PLAN_ID,
-        'is_twa': is_android_twa(request),
+        # Google Play Billing button falls back here (?billing=web) when the
+        # Digital Goods API isn't available even inside a real TWA session.
+        'is_twa': is_android_twa(request) and request.GET.get('billing') != 'web',
     }
     return render(request, 'thank_japan_app/premium/premium_info_ja-v2.html', context)
 
@@ -2748,7 +2766,9 @@ def premium_infoIT(request):
     context = {
         'paypal_client_id': settings.PAYPAL_CLIENT_ID,
         'paypal_plan_id': settings.PAYPAL_PLAN_ID,
-        'is_twa': is_android_twa(request),
+        # Google Play Billing button falls back here (?billing=web) when the
+        # Digital Goods API isn't available even inside a real TWA session.
+        'is_twa': is_android_twa(request) and request.GET.get('billing') != 'web',
     }
     return render(request, 'thank_japan_app/premium/premium_info_it-v2.html', context)
 
@@ -2756,7 +2776,9 @@ def premium_infoFR(request):
     context = {
         'paypal_client_id': settings.PAYPAL_CLIENT_ID,
         'paypal_plan_id': settings.PAYPAL_PLAN_ID,
-        'is_twa': is_android_twa(request),
+        # Google Play Billing button falls back here (?billing=web) when the
+        # Digital Goods API isn't available even inside a real TWA session.
+        'is_twa': is_android_twa(request) and request.GET.get('billing') != 'web',
     }
     return render(request, 'thank_japan_app/premium/premium_info_fr-v2.html', context)
 
@@ -2764,7 +2786,9 @@ def premium_infoESMX(request):
     context = {
         'paypal_client_id': settings.PAYPAL_CLIENT_ID,
         'paypal_plan_id': settings.PAYPAL_PLAN_ID,
-        'is_twa': is_android_twa(request),
+        # Google Play Billing button falls back here (?billing=web) when the
+        # Digital Goods API isn't available even inside a real TWA session.
+        'is_twa': is_android_twa(request) and request.GET.get('billing') != 'web',
     }
     return render(request, 'thank_japan_app/premium/premium_info_es_mx-v2.html', context)
 
@@ -2772,7 +2796,9 @@ def premium_infoESES(request):
     context = {
         'paypal_client_id': settings.PAYPAL_CLIENT_ID,
         'paypal_plan_id': settings.PAYPAL_PLAN_ID,
-        'is_twa': is_android_twa(request),
+        # Google Play Billing button falls back here (?billing=web) when the
+        # Digital Goods API isn't available even inside a real TWA session.
+        'is_twa': is_android_twa(request) and request.GET.get('billing') != 'web',
     }
     return render(request, 'thank_japan_app/premium/premium_info_es_es-v2.html', context)
 
@@ -2780,7 +2806,9 @@ def premium_infoENIN(request):
     context = {
         'paypal_client_id': settings.PAYPAL_CLIENT_ID,
         'paypal_plan_id': settings.PAYPAL_PLAN_ID,
-        'is_twa': is_android_twa(request),
+        # Google Play Billing button falls back here (?billing=web) when the
+        # Digital Goods API isn't available even inside a real TWA session.
+        'is_twa': is_android_twa(request) and request.GET.get('billing') != 'web',
     }
     return render(request, 'thank_japan_app/premium/premium_info_en_in-v2.html', context)
 
@@ -2788,7 +2816,9 @@ def premium_infoDE(request):
     context = {
         'paypal_client_id': settings.PAYPAL_CLIENT_ID,
         'paypal_plan_id': settings.PAYPAL_PLAN_ID,
-        'is_twa': is_android_twa(request),
+        # Google Play Billing button falls back here (?billing=web) when the
+        # Digital Goods API isn't available even inside a real TWA session.
+        'is_twa': is_android_twa(request) and request.GET.get('billing') != 'web',
     }
     return render(request, 'thank_japan_app/premium/premium_info_de-v2.html', context)
 

@@ -440,7 +440,13 @@
           });
 
           if (!window.getDigitalGoodsService) {
-              alert("Questo ambiente non supporta il pagamento con Google Play.");
+              // Digital Goods API isn't available on this device even though it's a TWA
+              // (old WebView, no Google Play Services, etc). Send the user to the PayPal
+              // flow instead of leaving them stuck on a dead-end alert.
+              statusElement.innerText = "Google Play Billing isn't available on this device. Redirecting to another payment method...";
+              const fallbackUrl = new URL(window.location.href);
+              fallbackUrl.searchParams.set('billing', 'web');
+              window.location.href = fallbackUrl.toString();
               return;
           }
 
