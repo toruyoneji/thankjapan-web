@@ -1864,7 +1864,20 @@ def game_restart(request):
     request.session['ga_fire_game_start'] = True
 
     _, lang_code = get_lang_info(request)
-    return redirect(f"{reverse('game_play')}?lang={lang_code}")
+    response = redirect(f"{reverse('game_play')}?lang={lang_code}")
+
+    # First-visit taste flow (3 questions, no ranking/registration nudges).
+    # Mark the visitor as a returning player as soon as they click the
+    # "try 3 questions" button, so leaving mid-flow still shows the normal
+    # play button on their next visit (see TopView.get_context_data).
+    if difficulty == 'first_taste':
+        response.set_cookie(
+            'tj_has_played', '1',
+            max_age=34560000,  # ~400 days: the practical cap most browsers honor
+            httponly=True, samesite='Lax', secure=request.is_secure(),
+        )
+
+    return response
 
 
 
@@ -1880,12 +1893,11 @@ def game_result(request):
     correct_count = sum(1 for h in history if h.get('is_correct'))
 
     # First-visit taste flow (3 questions, no ranking/registration nudges).
-    # Reaching this screen counts as having "completed" the taste flow, so
-    # mark the visitor as a returning player from here on via a long-lived
-    # cookie the top page reads (see TopView.get_context_data).
+    # tj_has_played is now set as soon as the "try 3 questions" button is
+    # clicked (see game_restart), not here.
     if request.session.get('game_difficulty') == 'first_taste':
         player, is_guest = get_current_player_info(request)
-        response = render(request, 'thank_japan_app/game_result_quick-v2.html', {
+        return render(request, 'thank_japan_app/game_result_quick-v2.html', {
             'lang_code': lang_code,
             'correct_count': correct_count,
             'total_played': total_played,
@@ -1894,12 +1906,6 @@ def game_result(request):
             'bgm_url': get_bgm_url('result'),
             'bgm_page_type': 'result',
         })
-        response.set_cookie(
-            'tj_has_played', '1',
-            max_age=34560000,  # ~400 days: the practical cap most browsers honor
-            httponly=True, samesite='Lax', secure=request.is_secure(),
-        )
-        return response
 
     is_premium_mode = request.session.get('is_premium_mode', False)
     base_points = 2 if is_premium_mode else 1
