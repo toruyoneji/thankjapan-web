@@ -6,6 +6,8 @@ from .models import ThankJapanModel, Player, Profile, ThankJapanPremium
 from django.db.models import F
 from django.contrib import messages
 from django.core.mail import send_mail
+from django.core.validators import validate_email
+from django.core.exceptions import ValidationError
 from django.conf import settings
 from .forms import AnswerForm, ContactForm, UsernameForm
 from django.views.decorators.http import require_POST
@@ -284,6 +286,49 @@ def update_review_prompt_status(request):
         profile.save(update_fields=['review_prompt_dismissed_until'])
 
     return JsonResponse({'status': 'success'})
+
+
+@login_required
+@require_POST
+def add_missing_email(request):
+    """Lets a user who signed up via a social provider without an email
+    (e.g. X, which never returns one) add one voluntarily from the
+    dismissible banner. Not required to keep using the site."""
+    email = (request.POST.get('email') or '').strip()
+
+    if not email:
+        return JsonResponse({'status': 'error', 'message': 'required'}, status=400)
+
+    try:
+        validate_email(email)
+    except ValidationError:
+        return JsonResponse({'status': 'error', 'message': 'invalid'}, status=400)
+
+    email_taken = (
+        User.objects.filter(email__iexact=email).exclude(pk=request.user.pk).exists()
+        or Player.objects.filter(email__iexact=email).exclude(username=request.user.username).exists()
+    )
+    if email_taken:
+        return JsonResponse({'status': 'error', 'message': 'taken'}, status=400)
+
+    request.user.email = email
+    request.user.save(update_fields=['email'])
+
+    player = Player.objects.filter(username=request.user.username).first()
+    if player:
+        player.email = email
+        player.save(update_fields=['email'])
+
+    request.session['email_prompt_dismissed'] = True
+    return JsonResponse({'status': 'success'})
+
+
+@login_required
+@require_POST
+def dismiss_email_prompt(request):
+    request.session['email_prompt_dismissed'] = True
+    return JsonResponse({'status': 'success'})
+
 
 #category: urls:
 CATEGORY_URL_MAP = {

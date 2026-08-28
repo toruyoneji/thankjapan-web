@@ -157,6 +157,7 @@ TEMPLATES = [
                 'thank_japan_app.context_processors.firebase_keys',
                 'thank_japan_app.context_processors.review_prompt_status',
                 'thank_japan_app.context_processors.ga_platform',
+                'thank_japan_app.context_processors.email_prompt_status',
             ],
         },
     },

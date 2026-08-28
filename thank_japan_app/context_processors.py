@@ -84,6 +84,22 @@ def review_prompt_status(request):
     }
 
 
+def email_prompt_status(request):
+    """Whether to show the dismissible 'please add your email' banner.
+
+    Social providers like X don't return an email address, so those accounts
+    are created with a blank email. The banner nudges the user to add one
+    without blocking anything; skipping just hides it for the rest of the
+    session (see dismiss_email_prompt in views.py)."""
+    if not request.user.is_authenticated:
+        return {'show_email_prompt': False}
+    if request.user.email:
+        return {'show_email_prompt': False}
+    if request.session.get('email_prompt_dismissed'):
+        return {'show_email_prompt': False}
+    return {'show_email_prompt': True}
+
+
 def ga_platform(request):
     """GA4 context available on every page: 'twa' vs 'web' (for tagging events so
     drop-off can be split by channel), and whether this browser opted out of GA4

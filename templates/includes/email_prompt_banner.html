@@ -1,0 +1,111 @@
+{% if show_email_prompt %}
+<div id="emailPromptBanner" style="position: fixed; bottom: 0; left: 0; width: 100%; background: #1a1a1a; color: #eee; padding: 16px 20px; z-index: 10001; box-shadow: 0 -5px 15px rgba(0,0,0,0.4); border-top: 2px solid #d4af37; box-sizing: border-box;">
+  <div style="max-width: 700px; margin: 0 auto; display: flex; flex-wrap: wrap; align-items: center; gap: 10px; justify-content: center;">
+    <p style="margin: 0; font-size: 0.85rem; flex: 1 1 260px; min-width: 200px;">
+      {% if lang_code == 'ja' %}メールアドレスが未登録です。パスワード再設定などに使うので、よろしければご登録ください。
+      {% elif lang_code == 'zh-hant' %}您尚未登記電子郵件地址。若可以的話，建議登記以便重設密碼等用途。
+      {% elif lang_code == 'zh-cn' %}您尚未登记电子邮件地址。方便的话，建议登记以便重设密码等用途。
+      {% elif lang_code == 'ko' %}이메일 주소가 등록되어 있지 않습니다. 비밀번호 재설정 등에 필요하니 등록해 주세요.
+      {% elif lang_code == 'de' %}Sie haben noch keine E-Mail-Adresse hinterlegt. Diese wird z. B. für das Zurücksetzen des Passworts benötigt.
+      {% elif lang_code == 'fr' %}Vous n'avez pas encore renseigné d'adresse e-mail. Elle est utile pour réinitialiser votre mot de passe.
+      {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Todavía no has registrado un correo electrónico. Es necesario para restablecer tu contraseña, por ejemplo.
+      {% elif lang_code == 'it' %}Non hai ancora registrato un indirizzo email. Serve, ad esempio, per reimpostare la password.
+      {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Você ainda não registrou um e-mail. Ele é necessário, por exemplo, para redefinir sua senha.
+      {% elif lang_code == 'vi' %}Bạn chưa đăng ký địa chỉ email. Email cần thiết để đặt lại mật khẩu, v.v.
+      {% elif lang_code == 'th' %}คุณยังไม่ได้ลงทะเบียนอีเมล ซึ่งจำเป็นสำหรับการรีเซ็ตรหัสผ่านเป็นต้น
+      {% else %}You haven't added an email address yet. It's used for things like password resets.
+      {% endif %}
+    </p>
+
+    <form id="emailPromptForm" style="display: flex; flex-wrap: wrap; gap: 8px; align-items: center;">
+      {% csrf_token %}
+      <input type="email" id="emailPromptInput" required placeholder="{% if lang_code == 'ja' %}メールアドレス{% else %}Email address{% endif %}" style="padding: 8px 10px; border-radius: 6px; border: 1px solid #555; font-size: 0.85rem; min-width: 200px;">
+      <button type="submit" style="padding: 8px 16px; border: none; border-radius: 6px; background: #d4af37; color: #000; font-weight: bold; font-size: 0.85rem; cursor: pointer; white-space: nowrap;">
+        {% if lang_code == 'ja' %}追加する
+        {% elif lang_code == 'zh-hant' %}新增
+        {% elif lang_code == 'zh-cn' %}新增
+        {% elif lang_code == 'ko' %}추가하기
+        {% elif lang_code == 'de' %}Hinzufügen
+        {% elif lang_code == 'fr' %}Ajouter
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Añadir
+        {% elif lang_code == 'it' %}Aggiungi
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Adicionar
+        {% elif lang_code == 'vi' %}Thêm
+        {% elif lang_code == 'th' %}เพิ่ม
+        {% else %}Add
+        {% endif %}
+      </button>
+      <button type="button" id="emailPromptSkip" style="padding: 8px 14px; border: 1px solid #666; border-radius: 6px; background: transparent; color: #ccc; font-size: 0.8rem; cursor: pointer; white-space: nowrap;">
+        {% if lang_code == 'ja' %}後で
+        {% elif lang_code == 'zh-hant' or lang_code == 'zh-cn' %}稍後再說
+        {% elif lang_code == 'ko' %}나중에
+        {% elif lang_code == 'de' %}Später
+        {% elif lang_code == 'fr' %}Plus tard
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Más tarde
+        {% elif lang_code == 'it' %}Più tardi
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Mais tarde
+        {% elif lang_code == 'vi' %}Để sau
+        {% elif lang_code == 'th' %}ไว้ทีหลัง
+        {% else %}Later
+        {% endif %}
+      </button>
+    </form>
+  </div>
+  <p id="emailPromptError" style="display:none; max-width: 700px; margin: 8px auto 0; text-align: center; color: #ff6b6b; font-size: 0.8rem;"></p>
+</div>
+
+<script>
+(function() {
+  var banner = document.getElementById('emailPromptBanner');
+  var form = document.getElementById('emailPromptForm');
+  var skipBtn = document.getElementById('emailPromptSkip');
+  var errorEl = document.getElementById('emailPromptError');
+  if (!banner || !form) return;
+
+  function hideBanner() {
+    banner.style.display = 'none';
+  }
+
+  function showError(message) {
+    errorEl.textContent = message;
+    errorEl.style.display = 'block';
+  }
+
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    var email = document.getElementById('emailPromptInput').value.trim();
+    fetch("{% url 'add_missing_email' %}", {
+      method: 'POST',
+      headers: {
+        'X-CSRFToken': '{{ csrf_token }}',
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      body: 'email=' + encodeURIComponent(email)
+    })
+    .then(function(res) { return res.json().then(function(data) { return { ok: res.ok, data: data }; }); })
+    .then(function(result) {
+      if (result.ok && result.data.status === 'success') {
+        hideBanner();
+      } else {
+        var msg = result.data.message;
+        var text = "{% if lang_code == 'ja' %}正しいメールアドレスを入力してください。{% else %}Please enter a valid email address.{% endif %}";
+        if (msg === 'taken') {
+          text = "{% if lang_code == 'ja' %}このメールアドレスは既に使用されています。{% else %}This email address is already in use.{% endif %}";
+        }
+        showError(text);
+      }
+    })
+    .catch(function() {
+      showError("{% if lang_code == 'ja' %}通信エラーが発生しました。{% else %}A network error occurred.{% endif %}");
+    });
+  });
+
+  skipBtn.addEventListener('click', function() {
+    fetch("{% url 'dismiss_email_prompt' %}", {
+      method: 'POST',
+      headers: { 'X-CSRFToken': '{{ csrf_token }}' }
+    }).finally(hideBanner);
+  });
+})();
+</script>
+{% endif %}
