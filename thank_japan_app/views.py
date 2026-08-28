@@ -32,6 +32,7 @@ from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 from firebase_admin import messaging
 from .firebase_utils import get_firebase_credentials
+from allauth.socialaccount.views import ConnectionsView
 from datetime import date, timedelta
 import logging
 import random
@@ -3079,6 +3080,19 @@ def thank_youENIN(request):
 @login_required
 def thank_youDE(request):
     return render(request, 'thank_japan_app/thankyou/thank_you_de-v2.html')
+
+
+class ThankJapanConnectionsView(ConnectionsView):
+    """Same allauth ConnectionsView/DisconnectForm/connect-flow, just with
+    extra context so the restyled template (templates/socialaccount/connections.html)
+    can show per-provider connect/disconnect state without its own view."""
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        connected_accounts = context['form'].accounts
+        context['connected_accounts'] = connected_accounts
+        context['connected_provider_ids'] = list(connected_accounts.values_list('provider', flat=True))
+        context['can_disconnect'] = self.request.user.has_usable_password() or connected_accounts.count() > 1
+        return context
 
 
 #account_settings

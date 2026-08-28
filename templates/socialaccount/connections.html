@@ -1,0 +1,380 @@
+{% extends 'base/base_top.html' %}
+{% load socialaccount %}
+
+{% block content %}
+{% get_providers as socialaccount_providers %}
+
+<style>
+    html, body {
+        margin: 0;
+        padding: 0;
+    }
+    body {
+        background: radial-gradient(circle at center, #2c2c2c 0%, #0a0a0a 100%) !important;
+        background-attachment: fixed !important;
+    }
+    #connections-container {
+        font-family: 'Zen Antique', 'Shippori Mincho', serif;
+        display: flex;
+        justify-content: center;
+        padding: 90px 0 80px;
+        box-sizing: border-box;
+    }
+    .connections-wrap {
+        width: 92%;
+        max-width: 480px;
+    }
+    :root {
+        --tj-ink: #2a1d13;
+        --tj-tea-dark: #2a1d13;
+        --tj-washi: #f4ead1;
+        --tj-gold: #d4af37;
+        --tj-gold-light: #e8c968;
+        --tj-red: #a63737;
+    }
+    .settings-card {
+        border-radius: 15px;
+        overflow: hidden;
+        border: 4px solid var(--tj-tea-dark);
+        box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+        background: var(--tj-tea-dark);
+        padding: 25px 20px;
+        box-sizing: border-box;
+    }
+    .connections-title {
+        text-align: center;
+        color: #fff;
+        font-size: 1.4rem;
+        font-weight: bold;
+        margin: 0 0 8px;
+    }
+    .connections-intro {
+        text-align: center;
+        color: #aaa;
+        font-size: 0.85rem;
+        margin: 0 0 25px;
+    }
+    .section-heading {
+        color: var(--tj-gold-light);
+        font-size: 0.8rem;
+        font-weight: bold;
+        letter-spacing: 1px;
+        margin: 20px 0 10px;
+        text-transform: uppercase;
+    }
+    .provider-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: rgba(0,0,0,0.3);
+        border: 1px solid rgba(212,175,55,0.3);
+        border-radius: 8px;
+        padding: 12px 14px;
+        margin-bottom: 10px;
+    }
+    .provider-identity {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: #fff;
+        font-weight: bold;
+        font-size: 0.95rem;
+    }
+    .provider-identity svg { flex-shrink: 0; }
+    .btn-disconnect {
+        background: transparent;
+        color: var(--tj-red);
+        border: 1px solid var(--tj-red);
+        border-radius: 6px;
+        padding: 6px 12px;
+        font-size: 0.8rem;
+        font-weight: bold;
+        cursor: pointer;
+    }
+    .btn-connect {
+        background: var(--tj-gold);
+        color: var(--tj-tea-dark);
+        border: none;
+        border-radius: 6px;
+        padding: 6px 14px;
+        font-size: 0.8rem;
+        font-weight: bold;
+        text-decoration: none;
+    }
+    .only-login-note {
+        color: #888;
+        font-size: 0.75rem;
+        font-style: italic;
+    }
+    .connections-error {
+        background: rgba(166,55,55,0.15);
+        border: 1px solid var(--tj-red);
+        color: #ff9d9d;
+        border-radius: 8px;
+        padding: 10px 14px;
+        font-size: 0.85rem;
+        margin-bottom: 20px;
+    }
+    .empty-note {
+        color: #888;
+        font-size: 0.85rem;
+        text-align: center;
+        margin: 10px 0 20px;
+    }
+    .back-link {
+        color: #ffffff !important;
+        font-weight: bold;
+        text-decoration: none;
+        display: block;
+        text-align: center;
+        margin-top: 30px;
+        font-size: 1rem;
+    }
+</style>
+
+<div id="connections-container">
+    <div class="connections-wrap">
+        <div class="settings-card">
+            <h1 class="connections-title">
+                {% if lang_code == 'ja' %}🔗 連携アカウント管理
+                {% elif lang_code == 'zh-hant' %}🔗 連結帳號管理
+                {% elif lang_code == 'zh-cn' %}🔗 关联账号管理
+                {% elif lang_code == 'ko' %}🔗 연결된 계정 관리
+                {% elif lang_code == 'de' %}🔗 Verknüpfte Konten
+                {% elif lang_code == 'fr' %}🔗 Comptes liés
+                {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}🔗 Cuentas vinculadas
+                {% elif lang_code == 'it' %}🔗 Account collegati
+                {% elif lang_code == 'pt' or lang_code == 'pt-br' %}🔗 Contas vinculadas
+                {% elif lang_code == 'vi' %}🔗 Quản lý tài khoản liên kết
+                {% elif lang_code == 'th' %}🔗 จัดการบัญชีที่เชื่อมโยง
+                {% else %}🔗 Connected Accounts
+                {% endif %}
+            </h1>
+            <p class="connections-intro">
+                {% if lang_code == 'ja' %}以下のSNSアカウントでThankJapanにログインできます。複数連携も可能です。
+                {% elif lang_code == 'zh-hant' %}您可以使用以下社群帳號登入 ThankJapan，也可以同時連結多個帳號。
+                {% elif lang_code == 'zh-cn' %}您可以使用以下社交账号登录 ThankJapan，也可以同时关联多个账号。
+                {% elif lang_code == 'ko' %}아래 SNS 계정으로 ThankJapan에 로그인할 수 있습니다. 여러 개 연결도 가능합니다.
+                {% elif lang_code == 'de' %}Du kannst dich mit den folgenden Konten bei ThankJapan anmelden. Mehrere Verknüpfungen sind möglich.
+                {% elif lang_code == 'fr' %}Vous pouvez vous connecter à ThankJapan avec les comptes suivants. Plusieurs liaisons sont possibles.
+                {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Puedes iniciar sesión en ThankJapan con las siguientes cuentas. Puedes vincular varias.
+                {% elif lang_code == 'it' %}Puoi accedere a ThankJapan con i seguenti account. È possibile collegarne più di uno.
+                {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Você pode entrar no ThankJapan com as contas abaixo. É possível vincular várias.
+                {% elif lang_code == 'vi' %}Bạn có thể đăng nhập ThankJapan bằng các tài khoản dưới đây. Có thể liên kết nhiều tài khoản.
+                {% elif lang_code == 'th' %}คุณสามารถเข้าสู่ระบบ ThankJapan ด้วยบัญชีด้านล่างนี้ และเชื่อมโยงได้มากกว่าหนึ่งบัญชี
+                {% else %}You can log in to ThankJapan with any of the accounts below. Linking more than one is fine.
+                {% endif %}
+            </p>
+
+            {% if form.non_field_errors %}
+            <div class="connections-error">
+                {% for error in form.non_field_errors %}
+                    {% if "no password" in error %}
+                        {% if lang_code == 'ja' %}これが唯一のログイン手段です。先にパスワードを設定するか、別のアカウントを連携してから解除してください。
+                        {% elif lang_code == 'zh-hant' %}這是您唯一的登入方式。請先設定密碼或連結其他帳號後再解除連結。
+                        {% elif lang_code == 'zh-cn' %}这是您唯一的登录方式。请先设置密码或关联其他账号后再取消关联。
+                        {% elif lang_code == 'ko' %}이것이 유일한 로그인 수단입니다. 먼저 비밀번호를 설정하거나 다른 계정을 연결한 후 해제해 주세요.
+                        {% elif lang_code == 'de' %}Dies ist deine einzige Anmeldemöglichkeit. Bitte lege zuerst ein Passwort fest oder verknüpfe ein weiteres Konto.
+                        {% elif lang_code == 'fr' %}Il s'agit de votre seul moyen de connexion. Définissez d'abord un mot de passe ou liez un autre compte.
+                        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Esta es tu única forma de iniciar sesión. Configura una contraseña o vincula otra cuenta antes de desvincular.
+                        {% elif lang_code == 'it' %}Questo è il tuo unico metodo di accesso. Imposta prima una password o collega un altro account.
+                        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Esta é sua única forma de login. Defina uma senha ou vincule outra conta antes de desvincular.
+                        {% elif lang_code == 'vi' %}Đây là cách đăng nhập duy nhất của bạn. Hãy đặt mật khẩu hoặc liên kết tài khoản khác trước khi hủy liên kết.
+                        {% elif lang_code == 'th' %}นี่คือวิธีเข้าสู่ระบบเดียวของคุณ กรุณาตั้งรหัสผ่านหรือเชื่อมโยงบัญชีอื่นก่อนยกเลิกการเชื่อมโยง
+                        {% else %}This is your only way to log in. Please set a password or connect another account before disconnecting.
+                        {% endif %}
+                    {% elif "different account" in error or "connected to a different" in error %}
+                        {% if lang_code == 'ja' %}このアカウントはすでに別のThankJapanアカウントに連携されています。
+                        {% elif lang_code == 'zh-hant' %}此帳號已連結至另一個 ThankJapan 帳號。
+                        {% elif lang_code == 'zh-cn' %}此账号已关联至另一个 ThankJapan 账号。
+                        {% elif lang_code == 'ko' %}이 계정은 이미 다른 ThankJapan 계정에 연결되어 있습니다.
+                        {% elif lang_code == 'de' %}Dieses Konto ist bereits mit einem anderen ThankJapan-Konto verknüpft.
+                        {% elif lang_code == 'fr' %}Ce compte est déjà lié à un autre compte ThankJapan.
+                        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Esta cuenta ya está vinculada a otra cuenta de ThankJapan.
+                        {% elif lang_code == 'it' %}Questo account è già collegato a un altro account ThankJapan.
+                        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Esta conta já está vinculada a outra conta ThankJapan.
+                        {% elif lang_code == 'vi' %}Tài khoản này đã được liên kết với một tài khoản ThankJapan khác.
+                        {% elif lang_code == 'th' %}บัญชีนี้เชื่อมโยงกับบัญชี ThankJapan อื่นอยู่แล้ว
+                        {% else %}This account is already linked to a different ThankJapan account.
+                        {% endif %}
+                    {% else %}
+                        {{ error }}
+                    {% endif %}
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            <div class="section-heading">
+                {% if lang_code == 'ja' %}連携中
+                {% elif lang_code == 'zh-hant' %}已連結
+                {% elif lang_code == 'zh-cn' %}已关联
+                {% elif lang_code == 'ko' %}연결됨
+                {% elif lang_code == 'de' %}Verknüpft
+                {% elif lang_code == 'fr' %}Liés
+                {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Vinculadas
+                {% elif lang_code == 'it' %}Collegati
+                {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Vinculadas
+                {% elif lang_code == 'vi' %}Đã liên kết
+                {% elif lang_code == 'th' %}เชื่อมโยงแล้ว
+                {% else %}Connected
+                {% endif %}
+            </div>
+
+            {% if connected_accounts %}
+                {% for account in connected_accounts %}
+                <div class="provider-row">
+                    <div class="provider-identity">
+                        {% if account.provider == 'google' %}
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 48 48">
+                                <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"></path>
+                                <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"></path>
+                                <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"></path>
+                                <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"></path>
+                            </svg>
+                        {% elif account.provider == 'twitter_oauth2' %}
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" viewBox="0 0 24 24" fill="#ffffff">
+                                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path>
+                            </svg>
+                        {% elif account.provider == 'facebook' %}
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 24 24" fill="#1877f2">
+                                <path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"></path>
+                            </svg>
+                        {% endif %}
+                        <span>{{ account.get_provider_account }}</span>
+                    </div>
+
+                    {% if can_disconnect %}
+                    <form method="post" action="{% url 'socialaccount_connections' %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="account" value="{{ account.pk }}">
+                        <button type="submit" class="btn-disconnect" onclick="return confirm('{% if lang_code == 'ja' %}連携を解除しますか？{% else %}Disconnect this account?{% endif %}')">
+                            {% if lang_code == 'ja' %}解除する
+                            {% elif lang_code == 'zh-hant' %}解除連結
+                            {% elif lang_code == 'zh-cn' %}解除关联
+                            {% elif lang_code == 'ko' %}연결 해제
+                            {% elif lang_code == 'de' %}Trennen
+                            {% elif lang_code == 'fr' %}Dissocier
+                            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Desvincular
+                            {% elif lang_code == 'it' %}Scollega
+                            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Desvincular
+                            {% elif lang_code == 'vi' %}Hủy liên kết
+                            {% elif lang_code == 'th' %}ยกเลิกการเชื่อมโยง
+                            {% else %}Disconnect
+                            {% endif %}
+                        </button>
+                    </form>
+                    {% else %}
+                        <span class="only-login-note">
+                            {% if lang_code == 'ja' %}唯一のログイン手段
+                            {% elif lang_code == 'zh-hant' %}唯一登入方式
+                            {% elif lang_code == 'zh-cn' %}唯一登录方式
+                            {% elif lang_code == 'ko' %}유일한 로그인 수단
+                            {% elif lang_code == 'de' %}Einzige Anmeldeoption
+                            {% elif lang_code == 'fr' %}Seul moyen de connexion
+                            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Único acceso
+                            {% elif lang_code == 'it' %}Unico accesso
+                            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Único acesso
+                            {% elif lang_code == 'vi' %}Cách đăng nhập duy nhất
+                            {% elif lang_code == 'th' %}วิธีเข้าสู่ระบบเดียว
+                            {% else %}Only login method
+                            {% endif %}
+                        </span>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            {% else %}
+                <p class="empty-note">
+                    {% if lang_code == 'ja' %}まだSNSアカウントは連携されていません。
+                    {% elif lang_code == 'zh-hant' %}尚未連結任何社群帳號。
+                    {% elif lang_code == 'zh-cn' %}尚未关联任何社交账号。
+                    {% elif lang_code == 'ko' %}아직 연결된 SNS 계정이 없습니다.
+                    {% elif lang_code == 'de' %}Es sind noch keine Konten verknüpft.
+                    {% elif lang_code == 'fr' %}Aucun compte n'est encore lié.
+                    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Aún no hay cuentas vinculadas.
+                    {% elif lang_code == 'it' %}Nessun account collegato ancora.
+                    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Ainda não há contas vinculadas.
+                    {% elif lang_code == 'vi' %}Chưa có tài khoản nào được liên kết.
+                    {% elif lang_code == 'th' %}ยังไม่มีบัญชีที่เชื่อมโยง
+                    {% else %}No accounts connected yet.
+                    {% endif %}
+                </p>
+            {% endif %}
+
+            <div class="section-heading">
+                {% if lang_code == 'ja' %}連携可能
+                {% elif lang_code == 'zh-hant' %}可連結
+                {% elif lang_code == 'zh-cn' %}可关联
+                {% elif lang_code == 'ko' %}연결 가능
+                {% elif lang_code == 'de' %}Verfügbar
+                {% elif lang_code == 'fr' %}Disponibles
+                {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Disponibles
+                {% elif lang_code == 'it' %}Disponibili
+                {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Disponíveis
+                {% elif lang_code == 'vi' %}Có thể liên kết
+                {% elif lang_code == 'th' %}เชื่อมโยงได้
+                {% else %}Available to Connect
+                {% endif %}
+            </div>
+
+            {% for provider in socialaccount_providers %}
+                {% if provider.id not in connected_provider_ids %}
+                <div class="provider-row">
+                    <div class="provider-identity">
+                        {% if provider.id == 'google' %}
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 48 48">
+                                <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"></path>
+                                <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"></path>
+                                <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"></path>
+                                <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"></path>
+                            </svg>
+                        {% elif provider.id == 'twitter_oauth2' %}
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" viewBox="0 0 24 24" fill="#ffffff">
+                                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path>
+                            </svg>
+                        {% elif provider.id == 'facebook' %}
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 24 24" fill="#1877f2">
+                                <path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"></path>
+                            </svg>
+                        {% endif %}
+                        <span>{{ provider.name }}</span>
+                    </div>
+                    {% provider_login_url provider.id process='connect' as connect_url %}
+                    <a href="{{ connect_url }}" class="btn-connect">
+                        {% if lang_code == 'ja' %}連携する
+                        {% elif lang_code == 'zh-hant' %}連結
+                        {% elif lang_code == 'zh-cn' %}关联
+                        {% elif lang_code == 'ko' %}연결하기
+                        {% elif lang_code == 'de' %}Verknüpfen
+                        {% elif lang_code == 'fr' %}Lier
+                        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Vincular
+                        {% elif lang_code == 'it' %}Collega
+                        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Vincular
+                        {% elif lang_code == 'vi' %}Liên kết
+                        {% elif lang_code == 'th' %}เชื่อมโยง
+                        {% else %}Connect
+                        {% endif %}
+                    </a>
+                </div>
+                {% endif %}
+            {% endfor %}
+
+            <a class="back-link" href="{% url 'account_settings_redirect' %}?lang={{ lang_code }}">
+                {% if lang_code == 'ja' %}← アカウント設定に戻る
+                {% elif lang_code == 'zh-hant' %}← 返回帳號設定
+                {% elif lang_code == 'zh-cn' %}← 返回账号设置
+                {% elif lang_code == 'ko' %}← 계정 설정으로 돌아가기
+                {% elif lang_code == 'de' %}← Zurück zu den Kontoeinstellungen
+                {% elif lang_code == 'fr' %}← Retour aux paramètres du compte
+                {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}← Volver a la configuración de la cuenta
+                {% elif lang_code == 'it' %}← Torna alle impostazioni account
+                {% elif lang_code == 'pt' or lang_code == 'pt-br' %}← Voltar às configurações da conta
+                {% elif lang_code == 'vi' %}← Quay lại cài đặt tài khoản
+                {% elif lang_code == 'th' %}← กลับไปตั้งค่าบัญชี
+                {% else %}← Back to Account Settings
+                {% endif %}
+            </a>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

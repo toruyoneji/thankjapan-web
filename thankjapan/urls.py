@@ -6,6 +6,7 @@ from django.conf.urls.static import static
 from thank_japan_app.views import robots_txt
 from django.views.generic import TemplateView
 from thank_japan_app.views import sitemap_view, sitemap_view, save_fcm_token
+from thank_japan_app.views import ThankJapanConnectionsView
 from django.http import JsonResponse
 from django.http import HttpResponse
 import json
@@ -58,6 +59,7 @@ urlpatterns = [
     path('robots.txt', robots_txt),
     path('kanrisha/', admin.site.urls),
     
+    path('accounts/3rdparty/', ThankJapanConnectionsView.as_view(), name='socialaccount_connections'),
     path('accounts/', include('allauth.urls')),
     
     path('', include('thank_japan_app.urls')),

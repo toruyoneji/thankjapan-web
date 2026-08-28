@@ -269,6 +269,10 @@
                         {% endif %}
                     {% endif %}
 
+                    <a href="{% url 'socialaccount_connections' %}?lang={{ lang_code }}" class="btn-manage" style="background: transparent; border: 1px solid rgba(212,175,55,0.6); color: var(--tj-gold-light); font-size: 0.9rem; display: block; text-align: center;">
+                        연결된 계정 관리 🔗
+                    </a>
+
                     <form action="{% url 'delete_account' %}?lang={{ lang_code }}" method="POST" onsubmit="return confirm('주의: 계정과 모든 데이터가 영구적으로 삭제됩니다. 계속하시겠습니까?')">
                         {% csrf_token %}
                         <input type="hidden" name="success_url_name" value="delete_successko">

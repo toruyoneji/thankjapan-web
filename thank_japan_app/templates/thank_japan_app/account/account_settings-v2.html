@@ -271,6 +271,10 @@
                         {% endif %}
                     {% endif %}
 
+                    <a href="{% url 'socialaccount_connections' %}?lang={{ lang_code }}" class="btn-manage" style="background: transparent; border: 1px solid rgba(212,175,55,0.6); color: var(--tj-gold-light); font-size: 0.9rem; display: block; text-align: center;">
+                        Manage Connected Accounts 🔗
+                    </a>
+
                     <form action="{% url 'delete_account' %}?lang={{ lang_code }}" method="POST" onsubmit="return confirm('DANGER: Delete account and all data permanently?')">
                         {% csrf_token %}
                         <input type="hidden" name="success_url_name" value="delete_successenIN">
