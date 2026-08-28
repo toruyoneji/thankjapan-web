@@ -30,6 +30,39 @@
 
 {% block content %}
 
+{% if unlocked_achievements %}
+<div id="achievement-toast" style="position: fixed; top: 60px; left: 50%; transform: translateX(-50%); background: rgba(26, 26, 26, 0.95); color: #d4af37; border: 2px solid #d4af37; padding: 14px 26px; border-radius: 16px; z-index: 11000; font-weight: bold; box-shadow: 0 4px 20px rgba(0,0,0,0.5); text-align: center; max-width: 90%;">
+    <div style="font-size: 0.95rem; margin-bottom: 6px;">
+        🏆 {% if lang_code == 'ja' %}新しい実績を獲得！{% elif lang_code == 'zh-hant' %}解鎖新成就！{% elif lang_code == 'zh-cn' %}解锁新成就！{% elif lang_code == 'ko' %}새로운 업적 달성!{% elif lang_code == 'de' %}Neue Errungenschaft freigeschaltet!{% elif lang_code == 'fr' %}Nouveau succès débloqué !{% elif lang_code == 'es-es' or lang_code == 'es-mx' %}¡Nuevo logro desbloqueado!{% elif lang_code == 'it' %}Nuovo obiettivo sbloccato!{% elif lang_code == 'pt' or lang_code == 'pt-br' %}Nova conquista desbloqueada!{% elif lang_code == 'vi' %}Đã mở khóa thành tích mới!{% elif lang_code == 'th' %}ปลดล็อกความสำเร็จใหม่!{% else %}New Achievement Unlocked!{% endif %}
+    </div>
+    {% for code in unlocked_achievements %}
+    <div style="font-size: 0.85rem; color: #fff; font-weight: normal;">
+        {% if code == 'score_50' %}🌱 {% if lang_code == 'ja' %}初めの一歩{% elif lang_code == 'zh-hant' %}邁出第一步{% elif lang_code == 'zh-cn' %}迈出第一步{% elif lang_code == 'ko' %}첫 걸음{% elif lang_code == 'de' %}Erste Schritte{% elif lang_code == 'fr' %}Premiers Pas{% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Primeros Pasos{% elif lang_code == 'it' %}Primi Passi{% elif lang_code == 'pt' or lang_code == 'pt-br' %}Primeiros Passos{% elif lang_code == 'vi' %}Bước Đầu Tiên{% elif lang_code == 'th' %}ก้าวแรก{% else %}First Steps{% endif %}
+        {% elif code == 'score_300' %}⚔️ {% if lang_code == 'ja' %}侍の道{% elif lang_code == 'zh-hant' %}武士之路{% elif lang_code == 'zh-cn' %}武士之路{% elif lang_code == 'ko' %}사무라이의 길{% elif lang_code == 'de' %}Weg des Kriegers{% elif lang_code == 'fr' %}Voie du Guerrier{% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Camino del Guerrero{% elif lang_code == 'it' %}Via del Guerriero{% elif lang_code == 'pt' or lang_code == 'pt-br' %}Caminho do Guerreiro{% elif lang_code == 'vi' %}Con Đường Võ Sĩ{% elif lang_code == 'th' %}เส้นทางนักรบ{% else %}Warrior's Path{% endif %}
+        {% elif code == 'score_1200' %}👑 {% if lang_code == 'ja' %}大将軍{% elif lang_code == 'zh-hant' %}大將軍{% elif lang_code == 'zh-cn' %}大将军{% elif lang_code == 'ko' %}대장군{% elif lang_code == 'de' %}Großgeneral{% elif lang_code == 'fr' %}Grand Général{% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Gran General{% elif lang_code == 'it' %}Grande Generale{% elif lang_code == 'pt' or lang_code == 'pt-br' %}Grande General{% elif lang_code == 'vi' %}Đại Tướng Quân{% elif lang_code == 'th' %}มหาแม่ทัพ{% else %}Grand General{% endif %}
+        {% elif code == 'score_2000' %}🗾 {% if lang_code == 'ja' %}生ける伝説{% elif lang_code == 'zh-hant' %}傳說在世{% elif lang_code == 'zh-cn' %}传说在世{% elif lang_code == 'ko' %}살아있는 전설{% elif lang_code == 'de' %}Lebende Legende{% elif lang_code == 'fr' %}Légende Vivante{% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Leyenda Viviente{% elif lang_code == 'it' %}Leggenda Vivente{% elif lang_code == 'pt' or lang_code == 'pt-br' %}Lenda Viva{% elif lang_code == 'vi' %}Huyền Thoại Sống{% elif lang_code == 'th' %}ตำนานที่มีชีวิต{% else %}Living Legend{% endif %}
+        {% elif code == 'games_1' %}🎮 {% if lang_code == 'ja' %}初めての冒険{% elif lang_code == 'zh-hant' %}初次冒險{% elif lang_code == 'zh-cn' %}初次冒险{% elif lang_code == 'ko' %}첫 모험{% elif lang_code == 'de' %}Erstes Abenteuer{% elif lang_code == 'fr' %}Première Aventure{% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Primera Aventura{% elif lang_code == 'it' %}Prima Avventura{% elif lang_code == 'pt' or lang_code == 'pt-br' %}Primeira Aventura{% elif lang_code == 'vi' %}Cuộc Phiêu Lưu Đầu Tiên{% elif lang_code == 'th' %}การผจญภัยครั้งแรก{% else %}First Adventure{% endif %}
+        {% elif code == 'combo_7' %}🔥 {% if lang_code == 'ja' %}コンボ入門{% elif lang_code == 'zh-hant' %}連擊新手{% elif lang_code == 'zh-cn' %}连击新手{% elif lang_code == 'ko' %}콤보 입문{% elif lang_code == 'de' %}Combo-Einsteiger{% elif lang_code == 'fr' %}Débutant Combo{% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Combo Inicial{% elif lang_code == 'it' %}Combo Iniziale{% elif lang_code == 'pt' or lang_code == 'pt-br' %}Combo Iniciante{% elif lang_code == 'vi' %}Khởi Đầu Combo{% elif lang_code == 'th' %}มือใหม่คอมโบ{% else %}Combo Starter{% endif %}
+        {% elif code == 'combo_12' %}⚡ {% if lang_code == 'ja' %}コンボマスター{% elif lang_code == 'zh-hant' %}連擊大師{% elif lang_code == 'zh-cn' %}连击大师{% elif lang_code == 'ko' %}콤보 마스터{% elif lang_code == 'de' %}Combo-Meister{% elif lang_code == 'fr' %}Maître du Combo{% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Maestro del Combo{% elif lang_code == 'it' %}Maestro Combo{% elif lang_code == 'pt' or lang_code == 'pt-br' %}Mestre do Combo{% elif lang_code == 'vi' %}Bậc Thầy Combo{% elif lang_code == 'th' %}ปรมาจารย์คอมโบ{% else %}Combo Master{% endif %}
+        {% endif %}
+    </div>
+    {% endfor %}
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const achToast = document.getElementById('achievement-toast');
+    if (achToast) {
+        setTimeout(() => {
+            achToast.style.transition = "all 0.6s ease";
+            achToast.style.opacity = "0";
+            achToast.style.top = "80px";
+            setTimeout(() => achToast.remove(), 600);
+        }, 4500);
+    }
+});
+</script>
+{% endif %}
+
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",

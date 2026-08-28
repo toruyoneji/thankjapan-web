@@ -33,6 +33,7 @@ from django.views.decorators.csrf import csrf_exempt
 from firebase_admin import messaging
 from .firebase_utils import get_firebase_credentials
 from allauth.socialaccount.views import ConnectionsView
+from .achievements import check_and_unlock_achievements, get_achievement_progress, STREAK_ACHIEVEMENT_CODES
 from datetime import date, timedelta
 import logging
 import random
@@ -889,9 +890,14 @@ def apply_login_bonus(request):
             
             
             request.session['show_bonus_toast'] = True
-            
-            request.session['earned_points'] = bonus_points 
-            
+
+            request.session['earned_points'] = bonus_points
+
+            newly_unlocked = check_and_unlock_achievements(profile)
+            streak_unlocks = [a['code'] for a in newly_unlocked if a['code'] in STREAK_ACHIEVEMENT_CODES]
+            if streak_unlocks:
+                request.session['newly_unlocked_streak_achievements'] = streak_unlocks
+
     else:
         
         request.session['show_guest_bonus_alert'] = True        
@@ -1056,6 +1062,7 @@ class TopView(BGMContextMixin, ListView):
         context['show_guest_alert'] = self.request.session.pop('show_guest_bonus_alert', False)
         context['earned_points'] = self.request.session.pop('earned_points', 0)
         context['has_played'] = self.request.COOKIES.get('tj_has_played') == '1'
+        context['unlocked_streak_achievements'] = self.request.session.pop('newly_unlocked_streak_achievements', [])
         return context
     
         
@@ -1074,6 +1081,7 @@ class TopViewJA(BGMContextMixin, ListView):
         context['show_guest_alert'] = self.request.session.pop('show_guest_bonus_alert', False)
         context['earned_points'] = self.request.session.pop('earned_points', 0)
         context['has_played'] = self.request.COOKIES.get('tj_has_played') == '1'
+        context['unlocked_streak_achievements'] = self.request.session.pop('newly_unlocked_streak_achievements', [])
         return context
     
     
@@ -1092,6 +1100,7 @@ class TopViewVI(BGMContextMixin, ListView):
         context['show_guest_alert'] = self.request.session.pop('show_guest_bonus_alert', False)
         context['earned_points'] = self.request.session.pop('earned_points', 0)
         context['has_played'] = self.request.COOKIES.get('tj_has_played') == '1'
+        context['unlocked_streak_achievements'] = self.request.session.pop('newly_unlocked_streak_achievements', [])
         return context
     
     
@@ -1110,6 +1119,7 @@ class TopViewFR(BGMContextMixin, ListView):
         context['show_guest_alert'] = self.request.session.pop('show_guest_bonus_alert', False)
         context['earned_points'] = self.request.session.pop('earned_points', 0)
         context['has_played'] = self.request.COOKIES.get('tj_has_played') == '1'
+        context['unlocked_streak_achievements'] = self.request.session.pop('newly_unlocked_streak_achievements', [])
         return context
     
     
@@ -1128,6 +1138,7 @@ class TopViewIT(BGMContextMixin, ListView):
         context['show_guest_alert'] = self.request.session.pop('show_guest_bonus_alert', False)
         context['earned_points'] = self.request.session.pop('earned_points', 0)
         context['has_played'] = self.request.COOKIES.get('tj_has_played') == '1'
+        context['unlocked_streak_achievements'] = self.request.session.pop('newly_unlocked_streak_achievements', [])
         return context
     
     
@@ -1146,6 +1157,7 @@ class TopViewPT(BGMContextMixin, ListView):
         context['show_guest_alert'] = self.request.session.pop('show_guest_bonus_alert', False)
         context['earned_points'] = self.request.session.pop('earned_points', 0)
         context['has_played'] = self.request.COOKIES.get('tj_has_played') == '1'
+        context['unlocked_streak_achievements'] = self.request.session.pop('newly_unlocked_streak_achievements', [])
         return context
     
     
@@ -1164,6 +1176,7 @@ class TopViewZHCN(BGMContextMixin, ListView):
         context['show_guest_alert'] = self.request.session.pop('show_guest_bonus_alert', False)
         context['earned_points'] = self.request.session.pop('earned_points', 0)
         context['has_played'] = self.request.COOKIES.get('tj_has_played') == '1'
+        context['unlocked_streak_achievements'] = self.request.session.pop('newly_unlocked_streak_achievements', [])
         return context
     
     
@@ -1182,6 +1195,7 @@ class TopViewZHHANT(BGMContextMixin, ListView):
         context['show_guest_alert'] = self.request.session.pop('show_guest_bonus_alert', False)
         context['earned_points'] = self.request.session.pop('earned_points', 0)
         context['has_played'] = self.request.COOKIES.get('tj_has_played') == '1'
+        context['unlocked_streak_achievements'] = self.request.session.pop('newly_unlocked_streak_achievements', [])
         return context
     
     
@@ -1200,6 +1214,7 @@ class TopViewKO(BGMContextMixin, ListView):
         context['show_guest_alert'] = self.request.session.pop('show_guest_bonus_alert', False)
         context['earned_points'] = self.request.session.pop('earned_points', 0)
         context['has_played'] = self.request.COOKIES.get('tj_has_played') == '1'
+        context['unlocked_streak_achievements'] = self.request.session.pop('newly_unlocked_streak_achievements', [])
         return context
     
 
@@ -1218,6 +1233,7 @@ class TopViewESES(BGMContextMixin, ListView):
         context['show_guest_alert'] = self.request.session.pop('show_guest_bonus_alert', False)
         context['earned_points'] = self.request.session.pop('earned_points', 0)
         context['has_played'] = self.request.COOKIES.get('tj_has_played') == '1'
+        context['unlocked_streak_achievements'] = self.request.session.pop('newly_unlocked_streak_achievements', [])
         return context
     
     
@@ -1236,6 +1252,7 @@ class TopViewDE(BGMContextMixin, ListView):
         context['show_guest_alert'] = self.request.session.pop('show_guest_bonus_alert', False)
         context['earned_points'] = self.request.session.pop('earned_points', 0)
         context['has_played'] = self.request.COOKIES.get('tj_has_played') == '1'
+        context['unlocked_streak_achievements'] = self.request.session.pop('newly_unlocked_streak_achievements', [])
         return context
     
     
@@ -1254,6 +1271,7 @@ class TopViewTH(BGMContextMixin, ListView):
         context['show_guest_alert'] = self.request.session.pop('show_guest_bonus_alert', False)
         context['earned_points'] = self.request.session.pop('earned_points', 0)
         context['has_played'] = self.request.COOKIES.get('tj_has_played') == '1'
+        context['unlocked_streak_achievements'] = self.request.session.pop('newly_unlocked_streak_achievements', [])
         return context
     
     
@@ -1272,6 +1290,7 @@ class TopViewPTBR(BGMContextMixin, ListView):
         context['show_guest_alert'] = self.request.session.pop('show_guest_bonus_alert', False)
         context['earned_points'] = self.request.session.pop('earned_points', 0)
         context['has_played'] = self.request.COOKIES.get('tj_has_played') == '1'
+        context['unlocked_streak_achievements'] = self.request.session.pop('newly_unlocked_streak_achievements', [])
         return context
     
     
@@ -1290,6 +1309,7 @@ class TopViewESMX(BGMContextMixin, ListView):
         context['show_guest_alert'] = self.request.session.pop('show_guest_bonus_alert', False)
         context['earned_points'] = self.request.session.pop('earned_points', 0)
         context['has_played'] = self.request.COOKIES.get('tj_has_played') == '1'
+        context['unlocked_streak_achievements'] = self.request.session.pop('newly_unlocked_streak_achievements', [])
         return context
     
     
@@ -1308,6 +1328,7 @@ class TopViewENIN(BGMContextMixin, ListView):
         context['show_guest_alert'] = self.request.session.pop('show_guest_bonus_alert', False)
         context['earned_points'] = self.request.session.pop('earned_points', 0)
         context['has_played'] = self.request.COOKIES.get('tj_has_played') == '1'
+        context['unlocked_streak_achievements'] = self.request.session.pop('newly_unlocked_streak_achievements', [])
         return context
     
     
@@ -2057,7 +2078,18 @@ def game_result(request):
             weekly_record.score += score
             weekly_record.save()
         request.session['score_saved'] = True
-        
+
+    unlocked_achievements = []
+    if not request.session.get('achievements_checked', False) and total_played > 0:
+        if not is_guest and request.user.is_authenticated:
+            profile = request.user.profile
+            profile.games_played += 1
+            if max_combo > profile.best_combo:
+                profile.best_combo = max_combo
+            profile.save()
+            unlocked_achievements = check_and_unlock_achievements(profile)
+        request.session['achievements_checked'] = True
+
     player_global_rank = None
     total_registered = 0
     if not is_guest:
@@ -2113,6 +2145,7 @@ def game_result(request):
         'bgm_url': get_bgm_url('top'),
         'bgm_page_type': 'top',
         'is_premium_mode': is_premium_mode,
+        'unlocked_achievements': [a['code'] for a in unlocked_achievements],
     })
     
     
@@ -3185,6 +3218,7 @@ def account_settings(request):
         'total_registered': total_registered,
         'streak_count': profile.streak_count,
         'weekly_progress': get_weekly_progress(request.user),
+        'achievement_progress': get_achievement_progress(profile),
         'is_twa': is_android_twa(request)
     }
     return render(request, 'thank_japan_app/account/account_settings-v2.html', context)
@@ -3229,6 +3263,7 @@ def account_settingsZHCN(request):
         'total_registered': total_registered,
         'streak_count': profile.streak_count,
         'weekly_progress': get_weekly_progress(request.user),
+        'achievement_progress': get_achievement_progress(profile),
         'is_twa': is_android_twa(request)
     }
     return render(request, 'thank_japan_app/account/account_settings_zh_cn-v2.html', context)
@@ -3273,6 +3308,7 @@ def account_settingsZHHANT(request):
         'total_registered': total_registered,
         'streak_count': profile.streak_count,
         'weekly_progress': get_weekly_progress(request.user),
+        'achievement_progress': get_achievement_progress(profile),
         'is_twa': is_android_twa(request)
     }
     return render(request, 'thank_japan_app/account/account_settings_zh_hant-v2.html', context)
@@ -3317,6 +3353,7 @@ def account_settingsVI(request):
         'total_registered': total_registered,
         'streak_count': profile.streak_count,
         'weekly_progress': get_weekly_progress(request.user),
+        'achievement_progress': get_achievement_progress(profile),
         'is_twa': is_android_twa(request)
     }
     return render(request, 'thank_japan_app/account/account_settings_vi-v2.html', context)
@@ -3361,6 +3398,7 @@ def account_settingsTH(request):
         'total_registered': total_registered,
         'streak_count': profile.streak_count,
         'weekly_progress': get_weekly_progress(request.user),
+        'achievement_progress': get_achievement_progress(profile),
         'is_twa': is_android_twa(request)
     }
     return render(request, 'thank_japan_app/account/account_settings_th-v2.html', context)
@@ -3405,6 +3443,7 @@ def account_settingsPT(request):
         'total_registered': total_registered,
         'streak_count': profile.streak_count,
         'weekly_progress': get_weekly_progress(request.user),
+        'achievement_progress': get_achievement_progress(profile),
         'is_twa': is_android_twa(request)
     }
     return render(request, 'thank_japan_app/account/account_settings_pt-v2.html', context)
@@ -3449,6 +3488,7 @@ def account_settingsPTBR(request):
         'total_registered': total_registered,
         'streak_count': profile.streak_count,
         'weekly_progress': get_weekly_progress(request.user),
+        'achievement_progress': get_achievement_progress(profile),
         'is_twa': is_android_twa(request)
     }
     return render(request, 'thank_japan_app/account/account_settings_pt_br-v2.html', context)
@@ -3493,6 +3533,7 @@ def account_settingsKO(request):
         'total_registered': total_registered,
         'streak_count': profile.streak_count,
         'weekly_progress': get_weekly_progress(request.user),
+        'achievement_progress': get_achievement_progress(profile),
         'is_twa': is_android_twa(request)
     }
     return render(request, 'thank_japan_app/account/account_settings_ko-v2.html', context)
@@ -3536,6 +3577,7 @@ def account_settingsJA(request):
         'total_registered': total_registered,
         'streak_count': profile.streak_count,
         'weekly_progress': get_weekly_progress(request.user),
+        'achievement_progress': get_achievement_progress(profile),
         'is_twa': is_android_twa(request)
     }
     return render(request, 'thank_japan_app/account/account_settings_ja-v2.html', context)
@@ -3580,6 +3622,7 @@ def account_settingsIT(request):
         'total_registered': total_registered,
         'streak_count': profile.streak_count,
         'weekly_progress': get_weekly_progress(request.user),
+        'achievement_progress': get_achievement_progress(profile),
         'is_twa': is_android_twa(request)
     }
     return render(request, 'thank_japan_app/account/account_settings_it-v2.html', context)
@@ -3624,6 +3667,7 @@ def account_settingsFR(request):
         'total_registered': total_registered,
         'streak_count': profile.streak_count,
         'weekly_progress': get_weekly_progress(request.user),
+        'achievement_progress': get_achievement_progress(profile),
         'is_twa': is_android_twa(request)
     }
     return render(request, 'thank_japan_app/account/account_settings_fr-v2.html', context)
@@ -3668,6 +3712,7 @@ def account_settingsESMX(request):
         'total_registered': total_registered,
         'streak_count': profile.streak_count,
         'weekly_progress': get_weekly_progress(request.user),
+        'achievement_progress': get_achievement_progress(profile),
         'is_twa': is_android_twa(request)
     }
     return render(request, 'thank_japan_app/account/account_settings_es_mx-v2.html', context)
@@ -3712,6 +3757,7 @@ def account_settingsESES(request):
         'total_registered': total_registered,
         'streak_count': profile.streak_count,
         'weekly_progress': get_weekly_progress(request.user),
+        'achievement_progress': get_achievement_progress(profile),
         'is_twa': is_android_twa(request)
     }
     return render(request, 'thank_japan_app/account/account_settings_es_es-v2.html', context)
@@ -3756,6 +3802,7 @@ def account_settingsENIN(request):
         'total_registered': total_registered,
         'streak_count': profile.streak_count,
         'weekly_progress': get_weekly_progress(request.user),
+        'achievement_progress': get_achievement_progress(profile),
         'is_twa': is_android_twa(request)
     }
     return render(request, 'thank_japan_app/account/account_settings_en_in-v2.html', context)
@@ -3800,6 +3847,7 @@ def account_settingsDE(request):
         'total_registered': total_registered,
         'streak_count': profile.streak_count,
         'weekly_progress': get_weekly_progress(request.user),
+        'achievement_progress': get_achievement_progress(profile),
         'is_twa': is_android_twa(request)
     }
     return render(request, 'thank_japan_app/account/account_settings_de-v2.html', context)

@@ -268,6 +268,8 @@ class Profile(models.Model):
     viewed_word_count = models.PositiveIntegerField(default=0)
     review_prompt_completed = models.BooleanField(default=False)
     review_prompt_dismissed_until = models.DateField(null=True, blank=True)
+    best_combo = models.PositiveIntegerField(default=0)
+    games_played = models.PositiveIntegerField(default=0)
 
     def __str__(self):
         return f"{self.user.username}'s Profile"
@@ -298,6 +300,21 @@ def save_user_profile(sender, instance, **kwargs):
         Profile.objects.create(user=instance)
     instance.profile.save()
     
+
+
+class Achievement(models.Model):
+    """One row per badge a user has unlocked. The badge catalog itself (codes,
+    thresholds, which Profile field each checks) lives in achievements.py as
+    plain Python, not in the DB, so adding a new badge never needs a migration."""
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    code = models.CharField(max_length=50)
+    unlocked_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('user', 'code')
+
+    def __str__(self):
+        return f"{self.user.username} - {self.code}"
 
 
 class WeeklyScore(models.Model):

@@ -49,6 +49,35 @@
 </div>
 {% endif %}
 
+{% if unlocked_streak_achievements %}
+<div id="streak-achievement-toast" style="position: fixed; top: 130px; left: 50%; transform: translateX(-50%); background: rgba(26, 26, 26, 0.95); color: #d4af37; border: 2px solid #d4af37; padding: 14px 26px; border-radius: 16px; z-index: 11000; font-weight: bold; box-shadow: 0 4px 20px rgba(0,0,0,0.5); text-align: center; max-width: 90%;">
+    <div style="font-size: 0.95rem; margin-bottom: 6px;">
+        🏆 Nova conquista desbloqueada!
+    </div>
+    {% for code in unlocked_streak_achievements %}
+    <div style="font-size: 0.85rem; color: #fff; font-weight: normal;">
+        {% if code == 'streak_7' %}🔥 Guerreiro Semanal
+        {% elif code == 'streak_30' %}🔥👑 Mestre Mensal
+        {% elif code == 'streak_100' %}💯 Sequência de 100 Dias
+        {% endif %}
+    </div>
+    {% endfor %}
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const streakToast = document.getElementById('streak-achievement-toast');
+    if (streakToast) {
+        setTimeout(() => {
+            streakToast.style.transition = "all 0.6s ease";
+            streakToast.style.opacity = "0";
+            streakToast.style.top = "150px";
+            setTimeout(() => streakToast.remove(), 600);
+        }, 4500);
+    }
+});
+</script>
+{% endif %}
+
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
