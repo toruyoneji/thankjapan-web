@@ -241,6 +241,10 @@
                         <span class="stat-label" style="display: block; font-size: 0.7rem; color: #aaa;">RANKING MUNDIAL</span>
                         <span class="stat-value" style="font-size: 1.2rem; color: #00ff87; font-weight: bold;">#{{ current_rank }}</span>
                     </div>
+                    <div class="stats-container" style="flex: 1; background: rgba(0,0,0,0.3); padding: 10px; border-radius: 8px; border: 1px solid rgba(212,175,55,0.3);">
+                        <span class="stat-label" style="display: block; font-size: 0.7rem; color: #aaa;">SEQUÊNCIA</span>
+                        <span class="stat-value" style="font-size: 1.2rem; font-weight: bold; {% if streak_count >= 30 %}color: var(--tj-gold-light); text-shadow: 0 0 8px var(--tj-gold);{% elif streak_count >= 7 %}color: var(--tj-gold-light);{% elif streak_count >= 1 %}color: #ff9248;{% else %}color: #888;{% endif %}">{% if streak_count >= 30 %}🔥👑{% elif streak_count >= 7 %}🔥🔥{% elif streak_count >= 1 %}🔥{% else %}💤{% endif %} {{ streak_count }}<small style="font-size: 0.6rem; font-weight: normal;"> dias</small></span>
+                    </div>
                 </div>
 
                 <div class="action-group" style="margin-top: 30px;">

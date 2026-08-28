@@ -3141,7 +3141,8 @@ def account_settings(request):
         'progress_percent': progress_percent, 
         'current_rank': current_rank,         
         'total_registered': total_registered,
-        'is_twa': is_android_twa(request)  
+        'streak_count': profile.streak_count,
+        'is_twa': is_android_twa(request)
     }
     return render(request, 'thank_japan_app/account/account_settings-v2.html', context)
 
@@ -3183,7 +3184,8 @@ def account_settingsZHCN(request):
         'progress_percent': progress_percent, 
         'current_rank': current_rank,         
         'total_registered': total_registered,
-        'is_twa': is_android_twa(request) 
+        'streak_count': profile.streak_count,
+        'is_twa': is_android_twa(request)
     }
     return render(request, 'thank_japan_app/account/account_settings_zh_cn-v2.html', context)
 
@@ -3225,7 +3227,8 @@ def account_settingsZHHANT(request):
         'progress_percent': progress_percent, 
         'current_rank': current_rank,         
         'total_registered': total_registered,
-        'is_twa': is_android_twa(request) 
+        'streak_count': profile.streak_count,
+        'is_twa': is_android_twa(request)
     }
     return render(request, 'thank_japan_app/account/account_settings_zh_hant-v2.html', context)
 
@@ -3267,7 +3270,8 @@ def account_settingsVI(request):
         'progress_percent': progress_percent, 
         'current_rank': current_rank,         
         'total_registered': total_registered,
-        'is_twa': is_android_twa(request) 
+        'streak_count': profile.streak_count,
+        'is_twa': is_android_twa(request)
     }
     return render(request, 'thank_japan_app/account/account_settings_vi-v2.html', context)
 
@@ -3309,7 +3313,8 @@ def account_settingsTH(request):
         'progress_percent': progress_percent, 
         'current_rank': current_rank,         
         'total_registered': total_registered,
-        'is_twa': is_android_twa(request) 
+        'streak_count': profile.streak_count,
+        'is_twa': is_android_twa(request)
     }
     return render(request, 'thank_japan_app/account/account_settings_th-v2.html', context)
 
@@ -3351,7 +3356,8 @@ def account_settingsPT(request):
         'progress_percent': progress_percent, 
         'current_rank': current_rank,         
         'total_registered': total_registered,
-        'is_twa': is_android_twa(request) 
+        'streak_count': profile.streak_count,
+        'is_twa': is_android_twa(request)
     }
     return render(request, 'thank_japan_app/account/account_settings_pt-v2.html', context)
 
@@ -3393,7 +3399,8 @@ def account_settingsPTBR(request):
         'progress_percent': progress_percent, 
         'current_rank': current_rank,         
         'total_registered': total_registered,
-        'is_twa': is_android_twa(request) 
+        'streak_count': profile.streak_count,
+        'is_twa': is_android_twa(request)
     }
     return render(request, 'thank_japan_app/account/account_settings_pt_br-v2.html', context)
 
@@ -3435,7 +3442,8 @@ def account_settingsKO(request):
         'progress_percent': progress_percent, 
         'current_rank': current_rank,         
         'total_registered': total_registered,
-        'is_twa': is_android_twa(request) 
+        'streak_count': profile.streak_count,
+        'is_twa': is_android_twa(request)
     }
     return render(request, 'thank_japan_app/account/account_settings_ko-v2.html', context)
 
@@ -3476,7 +3484,8 @@ def account_settingsJA(request):
         'progress_percent': progress_percent, 
         'current_rank': current_rank,         
         'total_registered': total_registered,
-        'is_twa': is_android_twa(request) 
+        'streak_count': profile.streak_count,
+        'is_twa': is_android_twa(request)
     }
     return render(request, 'thank_japan_app/account/account_settings_ja-v2.html', context)
 
@@ -3518,7 +3527,8 @@ def account_settingsIT(request):
         'progress_percent': progress_percent, 
         'current_rank': current_rank,         
         'total_registered': total_registered,
-        'is_twa': is_android_twa(request) 
+        'streak_count': profile.streak_count,
+        'is_twa': is_android_twa(request)
     }
     return render(request, 'thank_japan_app/account/account_settings_it-v2.html', context)
 
@@ -3560,7 +3570,8 @@ def account_settingsFR(request):
         'progress_percent': progress_percent, 
         'current_rank': current_rank,         
         'total_registered': total_registered,
-        'is_twa': is_android_twa(request) 
+        'streak_count': profile.streak_count,
+        'is_twa': is_android_twa(request)
     }
     return render(request, 'thank_japan_app/account/account_settings_fr-v2.html', context)
 
@@ -3602,7 +3613,8 @@ def account_settingsESMX(request):
         'progress_percent': progress_percent, 
         'current_rank': current_rank,         
         'total_registered': total_registered,
-        'is_twa': is_android_twa(request)  
+        'streak_count': profile.streak_count,
+        'is_twa': is_android_twa(request)
     }
     return render(request, 'thank_japan_app/account/account_settings_es_mx-v2.html', context)
 
@@ -3644,7 +3656,8 @@ def account_settingsESES(request):
         'progress_percent': progress_percent, 
         'current_rank': current_rank,         
         'total_registered': total_registered,
-        'is_twa': is_android_twa(request)  
+        'streak_count': profile.streak_count,
+        'is_twa': is_android_twa(request)
     }
     return render(request, 'thank_japan_app/account/account_settings_es_es-v2.html', context)
 
@@ -3686,7 +3699,8 @@ def account_settingsENIN(request):
         'progress_percent': progress_percent, 
         'current_rank': current_rank,         
         'total_registered': total_registered,
-        'is_twa': is_android_twa(request)  
+        'streak_count': profile.streak_count,
+        'is_twa': is_android_twa(request)
     }
     return render(request, 'thank_japan_app/account/account_settings_en_in-v2.html', context)
 
@@ -3728,7 +3742,8 @@ def account_settingsDE(request):
         'progress_percent': progress_percent, 
         'current_rank': current_rank,         
         'total_registered': total_registered,
-        'is_twa': is_android_twa(request)  
+        'streak_count': profile.streak_count,
+        'is_twa': is_android_twa(request)
     }
     return render(request, 'thank_japan_app/account/account_settings_de-v2.html', context)
 
