@@ -139,7 +139,21 @@ urlpatterns = [
     
     #delete-success
     path('account/delete-success/', delete_success_v2, name='delete_success'),
-    
+    path('account/delete-success/ja/', delete_success_v2, name='delete_successja'),
+    path('account/delete-success/en-in/', delete_success_v2, name='delete_successenIN'),
+    path('account/delete-success/zh-hant/', delete_success_v2, name='delete_successzhHANT'),
+    path('account/delete-success/zh-cn/', delete_success_v2, name='delete_successzhCN'),
+    path('account/delete-success/de/', delete_success_v2, name='delete_successde'),
+    path('account/delete-success/fr/', delete_success_v2, name='delete_successfr'),
+    path('account/delete-success/it/', delete_success_v2, name='delete_successit'),
+    path('account/delete-success/es-es/', delete_success_v2, name='delete_successesES'),
+    path('account/delete-success/es-mx/', delete_success_v2, name='delete_successesMX'),
+    path('account/delete-success/pt/', delete_success_v2, name='delete_successpt'),
+    path('account/delete-success/pt-br/', delete_success_v2, name='delete_successptBR'),
+    path('account/delete-success/ko/', delete_success_v2, name='delete_successko'),
+    path('account/delete-success/th/', delete_success_v2, name='delete_successth'),
+    path('account/delete-success/vi/', delete_success_v2, name='delete_successvi'),
+
     #downgrade
     path('account/downgrade-success/', downgrade_success_v2, name='downgrade_success'),
     

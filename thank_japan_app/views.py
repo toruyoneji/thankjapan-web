@@ -3921,12 +3921,15 @@ def delete_account(request):
     logout(request) 
     
     next_url_name = request.POST.get('success_url_name', 'delete_success')
-    
+
     try:
         target_url = reverse(next_url_name)
-        return redirect(f"{target_url}?lang={lang_code}")
-    except:
-        return redirect(next_url_name)
+    except Exception:
+        # Unknown/unregistered success_url_name (e.g. a template referencing
+        # a name that doesn't exist) must not crash after the account is
+        # already deleted, so fall back to the one URL that's always there.
+        target_url = reverse('delete_success')
+    return redirect(f"{target_url}?lang={lang_code}")
     
     
 
