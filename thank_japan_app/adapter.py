@@ -1,9 +1,21 @@
+import logging
+
 from allauth.socialaccount.adapter import DefaultSocialAccountAdapter
-from .models import Player  
+from .models import Player
+
+logger = logging.getLogger(__name__)
 
 class MySocialAccountAdapter(DefaultSocialAccountAdapter):
     def save_user(self, request, sociallogin, form=None):
-        
+
+        logger.info(
+            "Social signup via provider=%s uid=%s extra_data=%s resolved_email=%r",
+            sociallogin.account.provider,
+            sociallogin.account.uid,
+            sociallogin.account.extra_data,
+            sociallogin.user.email,
+        )
+
         user = super().save_user(request, sociallogin, form)
         
         
