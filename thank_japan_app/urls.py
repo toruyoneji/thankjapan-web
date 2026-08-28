@@ -156,7 +156,21 @@ urlpatterns = [
 
     #downgrade
     path('account/downgrade-success/', downgrade_success_v2, name='downgrade_success'),
-    
+    path('account/downgrade-success/ja/', downgrade_success_v2, name='downgrade_successja'),
+    path('account/downgrade-success/en-in/', downgrade_success_v2, name='downgrade_successen_in'),
+    path('account/downgrade-success/zh-hant/', downgrade_success_v2, name='downgrade_successzh_hant'),
+    path('account/downgrade-success/zh-cn/', downgrade_success_v2, name='downgrade_successzh_cn'),
+    path('account/downgrade-success/de/', downgrade_success_v2, name='downgrade_successde'),
+    path('account/downgrade-success/fr/', downgrade_success_v2, name='downgrade_successfr'),
+    path('account/downgrade-success/it/', downgrade_success_v2, name='downgrade_successit'),
+    path('account/downgrade-success/es-es/', downgrade_success_v2, name='downgrade_successes_es'),
+    path('account/downgrade-success/es-mx/', downgrade_success_v2, name='downgrade_successes_mx'),
+    path('account/downgrade-success/pt/', downgrade_success_v2, name='downgrade_successpt'),
+    path('account/downgrade-success/pt-br/', downgrade_success_v2, name='downgrade_successpt_br'),
+    path('account/downgrade-success/ko/', downgrade_success_v2, name='downgrade_successko'),
+    path('account/downgrade-success/th/', downgrade_success_v2, name='downgrade_successth'),
+    path('account/downgrade-success/vi/', downgrade_success_v2, name='downgrade_successvi'),
+
     
     #premium-status
     path('update-premium-status/', update_premium_status, name='update_premium_status'),

@@ -3883,19 +3883,17 @@ def downgrade_premium(request):
     profile.save()
 
     next_url_name = request.POST.get('downgrade_url_name', 'downgrade_success')
-        
+
     lang_code = request.session.get('tj_lang_code', 'en')
 
-    
-    response = redirect(next_url_name)
-    
-    
-    
     try:
         target_url = reverse(next_url_name)
-        return redirect(f"{target_url}?lang={lang_code}")
-    except:
-        return response
+    except Exception:
+        # Unknown/unregistered downgrade_url_name must not crash after the
+        # downgrade already succeeded, so fall back to the one URL that's
+        # always there.
+        target_url = reverse('downgrade_success')
+    return redirect(f"{target_url}?lang={lang_code}")
     
     
     

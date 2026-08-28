@@ -1,0 +1,393 @@
+{% extends 'base/base_top.html' %}
+{% load socialaccount %}
+
+{% block content %}
+
+<style>
+    html, body {
+        margin: 0;
+        padding: 0;
+    }
+    body {
+        background: radial-gradient(circle at center, #2c2c2c 0%, #0a0a0a 100%) !important;
+        background-attachment: fixed !important;
+    }
+    #login-container {
+        font-family: 'Zen Antique', 'Shippori Mincho', serif;
+        display: flex;
+        justify-content: center;
+        padding: 90px 0 80px;
+        box-sizing: border-box;
+    }
+    .login-wrap {
+        width: 92%;
+        max-width: 420px;
+    }
+    :root {
+        --tj-tea-dark: #2a1d13;
+        --tj-gold: #d4af37;
+        --tj-gold-light: #e8c968;
+    }
+    .settings-card {
+        border-radius: 15px;
+        overflow: hidden;
+        border: 4px solid var(--tj-tea-dark);
+        box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+        background: var(--tj-tea-dark);
+        padding: 30px 25px;
+        box-sizing: border-box;
+    }
+    .login-title {
+        text-align: center;
+        color: #fff;
+        font-size: 1.5rem;
+        font-weight: bold;
+        margin: 0 0 25px;
+    }
+    .login-error {
+        background: rgba(166,55,55,0.15);
+        border: 1px solid #a63737;
+        color: #ff9d9d;
+        border-radius: 8px;
+        padding: 10px 14px;
+        font-size: 0.85rem;
+        margin-bottom: 20px;
+    }
+    form label {
+        display: block;
+        font-weight: 600;
+        color: var(--tj-gold-light);
+        margin-bottom: 8px;
+        font-size: 0.9rem;
+        margin-top: 15px;
+    }
+    form input[type="text"],
+    form input[type="email"],
+    form input[type="password"] {
+        width: 100%;
+        padding: 12px 14px;
+        background: #ffffff;
+        border: 2px solid transparent;
+        border-radius: 8px;
+        color: #000;
+        font-size: 16px;
+        box-sizing: border-box;
+    }
+    form input[type="text"]:focus,
+    form input[type="email"]:focus,
+    form input[type="password"]:focus {
+        outline: none;
+        border-color: var(--tj-gold);
+    }
+    .remember-row {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-top: 15px;
+        color: #ccc;
+        font-size: 0.85rem;
+    }
+    .remember-row label {
+        margin: 0;
+        color: #ccc;
+        font-weight: normal;
+        display: inline;
+    }
+    button[type="submit"] {
+        width: 100%;
+        padding: 14px;
+        margin-top: 25px;
+        background: linear-gradient(135deg, var(--tj-gold) 0%, #aa891c 100%);
+        border: none;
+        border-radius: 50px;
+        color: #000;
+        font-size: 1.1rem;
+        font-weight: bold;
+        cursor: pointer;
+    }
+    .divider {
+        margin-top: 25px;
+        display: flex;
+        align-items: center;
+        color: #666;
+        font-size: 0.8rem;
+    }
+    .divider .line { flex: 1; height: 1px; background: #444; }
+    .divider span { padding: 0 15px; }
+    .social-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 10px;
+        padding: 12px 16px;
+        text-decoration: none;
+        font-weight: bold;
+        margin-top: 12px;
+    }
+    .signup-note {
+        margin-top: 25px;
+        font-size: 0.9rem;
+        color: #bbb;
+        text-align: center;
+    }
+    .signup-note a {
+        color: var(--tj-gold-light);
+        font-weight: bold;
+        text-decoration: none;
+    }
+    .back-link {
+        color: #ffffff !important;
+        font-weight: bold;
+        text-decoration: none;
+        display: block;
+        text-align: center;
+        margin-top: 30px;
+        font-size: 1rem;
+    }
+</style>
+
+<div id="login-container">
+    <div class="login-wrap">
+        <div class="settings-card">
+            <h1 class="login-title">
+                {% if lang_code == 'ja' %}ログイン
+                {% elif lang_code == 'zh-hant' %}登入
+                {% elif lang_code == 'zh-cn' %}登录
+                {% elif lang_code == 'ko' %}로그인
+                {% elif lang_code == 'de' %}Anmelden
+                {% elif lang_code == 'fr' %}Connexion
+                {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Iniciar sesión
+                {% elif lang_code == 'it' %}Accedi
+                {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Entrar
+                {% elif lang_code == 'vi' %}Đăng nhập
+                {% elif lang_code == 'th' %}เข้าสู่ระบบ
+                {% else %}Sign In
+                {% endif %}
+            </h1>
+
+            {% if form.non_field_errors %}
+            <div class="login-error">
+                {% for error in form.non_field_errors %}
+                    {% if "not correct" in error or "verified" in error %}
+                        {% if lang_code == 'ja' %}ユーザー名/メールアドレスまたはパスワードが正しくありません。
+                        {% elif lang_code == 'zh-hant' %}使用者名稱/電子郵件或密碼不正確。
+                        {% elif lang_code == 'zh-cn' %}用户名/电子邮件或密码不正确。
+                        {% elif lang_code == 'ko' %}사용자 이름/이메일 또는 비밀번호가 올바르지 않습니다.
+                        {% elif lang_code == 'de' %}Benutzername/E-Mail oder Passwort ist falsch.
+                        {% elif lang_code == 'fr' %}Nom d'utilisateur/e-mail ou mot de passe incorrect.
+                        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Nombre de usuario/correo o contraseña incorrectos.
+                        {% elif lang_code == 'it' %}Nome utente/email o password non corretti.
+                        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Nome de usuário/e-mail ou senha incorretos.
+                        {% elif lang_code == 'vi' %}Tên người dùng/email hoặc mật khẩu không đúng.
+                        {% elif lang_code == 'th' %}ชื่อผู้ใช้/อีเมลหรือรหัสผ่านไม่ถูกต้อง
+                        {% else %}Incorrect username/email or password.
+                        {% endif %}
+                    {% else %}
+                        {{ error }}
+                    {% endif %}
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            <form method="post" action="{% url 'account_login' %}">
+                {% csrf_token %}
+                {{ redirect_field }}
+
+                <label for="{{ form.login.id_for_label }}">
+                    {% if lang_code == 'ja' %}ユーザー名またはメールアドレス
+                    {% elif lang_code == 'zh-hant' %}用戶名稱或電子郵件
+                    {% elif lang_code == 'zh-cn' %}用户名或电子邮件
+                    {% elif lang_code == 'ko' %}사용자 이름 또는 이메일
+                    {% elif lang_code == 'de' %}Benutzername oder E-Mail
+                    {% elif lang_code == 'fr' %}Nom d'utilisateur ou e-mail
+                    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Usuario o correo electrónico
+                    {% elif lang_code == 'it' %}Nome utente o email
+                    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Nome de usuário ou e-mail
+                    {% elif lang_code == 'vi' %}Tên người dùng hoặc email
+                    {% elif lang_code == 'th' %}ชื่อผู้ใช้หรืออีเมล
+                    {% else %}Username or Email
+                    {% endif %}
+                </label>
+                {{ form.login }}
+
+                <label for="{{ form.password.id_for_label }}">
+                    {% if lang_code == 'ja' %}パスワード
+                    {% elif lang_code == 'zh-hant' %}密碼
+                    {% elif lang_code == 'zh-cn' %}密码
+                    {% elif lang_code == 'ko' %}비밀번호
+                    {% elif lang_code == 'de' %}Passwort
+                    {% elif lang_code == 'fr' %}Mot de passe
+                    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Contraseña
+                    {% elif lang_code == 'it' %}Password
+                    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Senha
+                    {% elif lang_code == 'vi' %}Mật khẩu
+                    {% elif lang_code == 'th' %}รหัสผ่าน
+                    {% else %}Password
+                    {% endif %}
+                </label>
+                {{ form.password }}
+
+                {% if form.remember %}
+                <div class="remember-row">
+                    {{ form.remember }}
+                    <label for="{{ form.remember.id_for_label }}">
+                        {% if lang_code == 'ja' %}ログイン状態を保持する
+                        {% elif lang_code == 'zh-hant' %}記住我
+                        {% elif lang_code == 'zh-cn' %}记住我
+                        {% elif lang_code == 'ko' %}로그인 상태 유지
+                        {% elif lang_code == 'de' %}Angemeldet bleiben
+                        {% elif lang_code == 'fr' %}Se souvenir de moi
+                        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Recordarme
+                        {% elif lang_code == 'it' %}Ricordami
+                        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Lembrar de mim
+                        {% elif lang_code == 'vi' %}Ghi nhớ đăng nhập
+                        {% elif lang_code == 'th' %}จดจำฉันไว้
+                        {% else %}Remember Me
+                        {% endif %}
+                    </label>
+                </div>
+                {% endif %}
+
+                <button type="submit">
+                    {% if lang_code == 'ja' %}ログイン
+                    {% elif lang_code == 'zh-hant' %}登入
+                    {% elif lang_code == 'zh-cn' %}登录
+                    {% elif lang_code == 'ko' %}로그인
+                    {% elif lang_code == 'de' %}Anmelden
+                    {% elif lang_code == 'fr' %}Connexion
+                    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Iniciar sesión
+                    {% elif lang_code == 'it' %}Accedi
+                    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Entrar
+                    {% elif lang_code == 'vi' %}Đăng nhập
+                    {% elif lang_code == 'th' %}เข้าสู่ระบบ
+                    {% else %}Sign In
+                    {% endif %}
+                </button>
+            </form>
+
+            {% if SOCIALACCOUNT_ENABLED %}
+            <div class="divider">
+                <div class="line"></div>
+                <span>
+                    {% if lang_code == 'ja' %}または
+                    {% elif lang_code == 'zh-hant' %}或
+                    {% elif lang_code == 'zh-cn' %}或
+                    {% elif lang_code == 'ko' %}또는
+                    {% elif lang_code == 'de' %}oder
+                    {% elif lang_code == 'fr' %}ou
+                    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}o
+                    {% elif lang_code == 'it' %}o
+                    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}ou
+                    {% elif lang_code == 'vi' %}hoặc
+                    {% elif lang_code == 'th' %}หรือ
+                    {% else %}or
+                    {% endif %}
+                </span>
+                <div class="line"></div>
+            </div>
+
+            <a href="{% provider_login_url 'google' %}" class="social-btn" style="background-color: #ffffff; color: #333333; border: 1px solid #ddd;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" viewBox="0 0 48 48" style="margin-right: 12px;">
+                    <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"></path>
+                    <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"></path>
+                    <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"></path>
+                    <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"></path>
+                </svg>
+                <span>
+                    {% if lang_code == 'ja' %}Googleでログイン
+                    {% elif lang_code == 'zh-hant' %}使用 Google 登入
+                    {% elif lang_code == 'zh-cn' %}使用 Google 登录
+                    {% elif lang_code == 'ko' %}Google 계정으로 로그인
+                    {% elif lang_code == 'de' %}Mit Google anmelden
+                    {% elif lang_code == 'fr' %}Se connecter avec Google
+                    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Iniciar sesión con Google
+                    {% elif lang_code == 'it' %}Accedi con Google
+                    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Entrar com Google
+                    {% elif lang_code == 'vi' %}Đăng nhập bằng Google
+                    {% elif lang_code == 'th' %}เข้าสู่ระบบด้วย Google
+                    {% else %}Log in with Google
+                    {% endif %}
+                </span>
+            </a>
+
+            <a href="{% provider_login_url 'twitter_oauth2' %}" class="social-btn" style="background-color: #000000; color: #ffffff; border: 2px solid var(--tj-gold);">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" viewBox="0 0 24 24" fill="#ffffff" style="margin-right: 12px;">
+                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path>
+                </svg>
+                <span>
+                    {% if lang_code == 'ja' %}Xでログイン
+                    {% elif lang_code == 'zh-hant' %}使用 X 登入
+                    {% elif lang_code == 'zh-cn' %}使用 X 登录
+                    {% elif lang_code == 'ko' %}X 계정으로 로그인
+                    {% elif lang_code == 'de' %}Mit X anmelden
+                    {% elif lang_code == 'fr' %}Se connecter avec X
+                    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Iniciar sesión con X
+                    {% elif lang_code == 'it' %}Accedi con X
+                    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Entrar com X
+                    {% elif lang_code == 'vi' %}Đăng nhập bằng X
+                    {% elif lang_code == 'th' %}เข้าสู่ระบบด้วย X
+                    {% else %}Log in with X
+                    {% endif %}
+                </span>
+            </a>
+
+            <a href="{% provider_login_url 'facebook' %}" class="social-btn" style="background-color: #1877f2; color: #ffffff; border: 1px solid #1877f2;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" viewBox="0 0 24 24" fill="#ffffff" style="margin-right: 12px;">
+                    <path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"></path>
+                </svg>
+                <span>
+                    {% if lang_code == 'ja' %}Facebookでログイン
+                    {% elif lang_code == 'zh-hant' %}使用 Facebook 登入
+                    {% elif lang_code == 'zh-cn' %}使用 Facebook 登录
+                    {% elif lang_code == 'ko' %}Facebook 계정으로 로그인
+                    {% elif lang_code == 'de' %}Mit Facebook anmelden
+                    {% elif lang_code == 'fr' %}Se connecter avec Facebook
+                    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Iniciar sesión con Facebook
+                    {% elif lang_code == 'it' %}Accedi con Facebook
+                    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Entrar com Facebook
+                    {% elif lang_code == 'vi' %}Đăng nhập bằng Facebook
+                    {% elif lang_code == 'th' %}เข้าสู่ระบบด้วย Facebook
+                    {% else %}Log in with Facebook
+                    {% endif %}
+                </span>
+            </a>
+            {% endif %}
+
+            {% if not SOCIALACCOUNT_ONLY and signup_url %}
+            <p class="signup-note">
+                {% if lang_code == 'ja' %}アカウントをお持ちでない方は <a href="{{ signup_url }}">新規登録</a>
+                {% elif lang_code == 'zh-hant' %}還沒有帳號嗎？<a href="{{ signup_url }}">立即註冊</a>
+                {% elif lang_code == 'zh-cn' %}还没有账号吗？<a href="{{ signup_url }}">立即注册</a>
+                {% elif lang_code == 'ko' %}계정이 없으신가요? <a href="{{ signup_url }}">회원가입</a>
+                {% elif lang_code == 'de' %}Noch kein Konto? <a href="{{ signup_url }}">Registrieren</a>
+                {% elif lang_code == 'fr' %}Pas encore de compte ? <a href="{{ signup_url }}">S'inscrire</a>
+                {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}¿No tienes cuenta? <a href="{{ signup_url }}">Regístrate</a>
+                {% elif lang_code == 'it' %}Non hai un account? <a href="{{ signup_url }}">Registrati</a>
+                {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Não tem uma conta? <a href="{{ signup_url }}">Cadastre-se</a>
+                {% elif lang_code == 'vi' %}Chưa có tài khoản? <a href="{{ signup_url }}">Đăng ký</a>
+                {% elif lang_code == 'th' %}ยังไม่มีบัญชี? <a href="{{ signup_url }}">ลงทะเบียน</a>
+                {% else %}Don't have an account? <a href="{{ signup_url }}">Sign up</a>
+                {% endif %}
+            </p>
+            {% endif %}
+
+            <a class="back-link" href="{% url 'toppage' %}?lang={{ lang_code }}">
+                {% if lang_code == 'ja' %}← ホームに戻る
+                {% elif lang_code == 'zh-hant' %}← 返回首頁
+                {% elif lang_code == 'zh-cn' %}← 返回首页
+                {% elif lang_code == 'ko' %}← 홈으로 돌아가기
+                {% elif lang_code == 'de' %}← Zurück zur Startseite
+                {% elif lang_code == 'fr' %}← Retour à l'accueil
+                {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}← Volver al inicio
+                {% elif lang_code == 'it' %}← Torna alla home
+                {% elif lang_code == 'pt' or lang_code == 'pt-br' %}← Voltar para o início
+                {% elif lang_code == 'vi' %}← Quay lại trang chủ
+                {% elif lang_code == 'th' %}← กลับหน้าหลัก
+                {% else %}← Back to Home
+                {% endif %}
+            </a>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
