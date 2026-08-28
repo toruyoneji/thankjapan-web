@@ -1434,19 +1434,56 @@ def player_register(request):
             if hasattr(user, 'profile'):
                 user.profile.country = country
                 user.profile.save()
-            
-            messages.success(request, "Account created! Please log in.")
-            
-            keys_to_clear = ['is_guest', 'game_question_ids', 'game_current_index', 'game_message', 'last_question_info', 'game_difficulty', 'player_id']
+
+            messages.success(request, "Account created! Welcome to ThankJapan!")
+
+            # Log the new account straight in (same flow player_login uses),
+            # instead of bouncing the user back to the login form to
+            # re-enter the credentials they just typed.
+            auth_user = authenticate(request, username=username, password=raw_password)
+
+            temp_guest_score = int(request.session.get('game_score', 0))
+
+            keys_to_clear = ['is_guest', 'game_score', 'game_question_ids', 'game_current_index', 'game_message', 'last_question_info', 'game_difficulty', 'player_id']
             for key in keys_to_clear:
                 request.session.pop(key, None)
-            
+
             request.session['tj_lang_code'] = lang_code
-            
-            login_url = reverse('player_login')
-            # 'registered=1' lets the login page fire the GA4 'sign_up' event once.
-            query_params = urlencode({'next': next_url, 'lang': lang_code, 'registered': '1'})
-            return redirect(f"{login_url}?{query_params}")
+
+            if auth_user is not None:
+                auth_login(request, auth_user)
+                request.session['is_guest'] = False
+
+                try:
+                    profile = auth_user.profile
+                    profile.total_score += temp_guest_score
+                    profile.save()
+
+                    player.total_score = profile.total_score
+                    player.save()
+
+                    request.session['player_id'] = player.id
+                except Exception:
+                    pass
+
+            # 'registered=1' lets the destination page fire the GA4 'sign_up' event once.
+            if next_url == 'toppage':
+                lang_urls = {
+                    'ja': 'toppageja', 'vi': 'toppagevi', 'fr': 'toppagefr',
+                    'it': 'toppageit', 'pt': 'toppagept', 'zh-hant': 'toppagezhHANT',
+                    'zh-cn': 'toppagezhCN', 'ko': 'toppageko', 'es-es': 'toppageesES',
+                    'de': 'toppagede', 'th': 'toppageth', 'pt-br': 'toppageptBR',
+                    'es-mx': 'toppageesMX', 'en-in': 'toppageenIN'
+                }
+                target_url = reverse(lang_urls.get(lang_code, 'toppage'))
+            else:
+                try:
+                    target_url = reverse(next_url)
+                except Exception:
+                    target_url = reverse('toppage')
+
+            query_params = urlencode({'registered': '1'})
+            return redirect(f"{target_url}?{query_params}")
 
     else:
         form = UsernameForm()
