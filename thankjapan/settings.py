@@ -122,6 +122,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
     'allauth.socialaccount.providers.twitter_oauth2',
+    'allauth.socialaccount.providers.facebook',
 ]
 
 MIDDLEWARE = [
@@ -242,6 +243,14 @@ ACCOUNT_DEFAULT_HTTP_PROTOCOL = 'https'
 
 
 SOCIALACCOUNT_ADAPTER = 'thank_japan_app.adapter.MySocialAccountAdapter'
+
+SOCIALACCOUNT_PROVIDERS = {
+    'facebook': {
+        'METHOD': 'oauth2',
+        'FIELDS': ['id', 'email', 'name'],
+        'VERSION': 'v19.0',
+    },
+}
 
 
 

@@ -227,6 +227,28 @@
           </span>
         </a>
 
+        <!-- Facebook Login -->
+        <a href="{% provider_login_url 'facebook' %}" style="display: flex; align-items: center; justify-content: center; background-color: #1877f2; color: #ffffff; border: 1px solid #1877f2; border-radius: 10px; padding: 12px 16px; text-decoration: none; font-weight: bold; margin-top: 12px;">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" viewBox="0 0 24 24" fill="#ffffff" style="margin-right: 12px;">
+            <path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"></path>
+          </svg>
+          <span>
+            {% if lang_code == 'ja' %}Facebookでログイン
+            {% elif lang_code == 'zh-hant' %}使用 Facebook 登入
+            {% elif lang_code == 'zh-cn' %}使用 Facebook 登录
+            {% elif lang_code == 'ko' %}Facebook 계정으로 로그인
+            {% elif lang_code == 'de' %}Mit Facebook anmelden
+            {% elif lang_code == 'fr' %}Se connecter avec Facebook
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Iniciar sesión con Facebook
+            {% elif lang_code == 'it' %}Accedi con Facebook
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Entrar com Facebook
+            {% elif lang_code == 'vi' %}Đăng nhập bằng Facebook
+            {% elif lang_code == 'th' %}เข้าสู่ระบบด้วย Facebook
+            {% else %}Log in with Facebook
+            {% endif %}
+          </span>
+        </a>
+
         <div style="margin-top: 25px; display: flex; align-items: center; color: #666; font-size: 0.8rem;">
           <div style="flex: 1; height: 1px; background: #444;"></div>
           <div style="padding: 0 15px;">
