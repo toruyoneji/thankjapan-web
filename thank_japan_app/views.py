@@ -1542,8 +1542,13 @@ def player_login(request):
                     'es-mx': 'toppageesMX', 'en-in': 'toppageenIN'
                 }
                 return redirect(lang_urls.get(lang_code, 'toppage'))
-            
-            return redirect(next_url)
+
+            try:
+                return redirect(next_url)
+            except Exception:
+                # Unknown/unregistered next (bad ?next= value) must not crash
+                # after the user is already logged in.
+                return redirect('toppage')
         else:
             messages.error(request, "Invalid username or password.", extra_tags="login_invalid")
             

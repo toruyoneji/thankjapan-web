@@ -8,6 +8,8 @@ on the account settings page, and the combo tier already used in
 build_combo_share_message (>= 7 = 'high').
 """
 
+from django.db import IntegrityError, transaction
+
 from .models import Achievement
 
 ACHIEVEMENT_CATALOG = [
@@ -51,7 +53,15 @@ def check_and_unlock_achievements(profile):
         if entry['code'] in already_unlocked:
             continue
         if metrics[entry['metric']] >= entry['threshold']:
-            Achievement.objects.create(user_id=profile.user_id, code=entry['code'])
+            try:
+                # Own savepoint per badge: if a concurrent request unlocks
+                # the same badge first, the unique_together constraint
+                # trips here rather than as an unhandled 500 later, and
+                # only this one insert is rolled back.
+                with transaction.atomic():
+                    Achievement.objects.create(user_id=profile.user_id, code=entry['code'])
+            except IntegrityError:
+                continue
             newly_unlocked.append(entry)
     return newly_unlocked
 
