@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.models import User
 from .models import ThankJapanModel, ThankJapanBackgroundModel, Player, Profile, ThankJapanPremium
-from .models import FCMDevice
+from .models import FCMDevice, Achievement, WeeklyScore
 import logging
 from django.core.exceptions import ValidationError
 
@@ -58,6 +58,20 @@ class FCMDeviceAdmin(admin.ModelAdmin):
 
     def token_snippet(self, obj):
         return obj.token[:20] + "..." 
+
+@admin.register(Achievement)
+class AchievementAdmin(admin.ModelAdmin):
+    list_display = ('user', 'code', 'unlocked_at')
+    list_filter = ('code',)
+    search_fields = ('user__username', 'code')
+
+
+@admin.register(WeeklyScore)
+class WeeklyScoreAdmin(admin.ModelAdmin):
+    list_display = ('user', 'week_start', 'score', 'country')
+    list_filter = ('week_start',)
+    search_fields = ('user__username',)
+
 
 admin.site.unregister(User)
 admin.site.register(User, UserAdmin)
