@@ -247,6 +247,26 @@
                     </div>
                 </div>
 
+                <div style="margin-top: 20px; border: 1px solid rgba(212,175,55,0.3); border-radius: 8px; padding: 15px; background: rgba(0,0,0,0.15);">
+                    <div style="color: var(--tj-gold-light); font-size: 0.75rem; font-weight: bold; letter-spacing: 1px; margin-bottom: 12px;">📊 PROGRESSION HEBDOMADAIRE</div>
+                    {% if weekly_progress %}
+                    <div style="display: flex; align-items: flex-end; justify-content: space-between; height: 90px; gap: 4px;">
+                        {% for week in weekly_progress %}
+                        <div style="flex: 1; display: flex; align-items: flex-end; justify-content: center; height: 100%;">
+                            <div style="width: 100%; max-width: 20px; height: {{ week.height_percent }}%; background: linear-gradient(180deg, var(--tj-gold-light), var(--tj-gold)); border-radius: 3px 3px 0 0; box-shadow: 0 0 6px rgba(212,175,55,0.4);" title="{{ week.score }} pt"></div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin-top: 6px; gap: 4px;">
+                        {% for week in weekly_progress %}
+                        <div style="flex: 1; text-align: center; font-size: 0.6rem; color: #888;">{{ week.label }}</div>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <p style="color: #888; font-size: 0.8rem; text-align: center; margin: 10px 0;">Pas encore de données. Jouez quelques parties pour voir votre progression hebdomadaire !</p>
+                    {% endif %}
+                </div>
+
                 <div class="action-group" style="margin-top: 30px;">
                     {% if not user.profile.is_premium %}
                         <a href="{% url 'premium_infofr' %}?lang={{ lang_code }}" class="btn-manage btn-upgrade" style="display: block; background: linear-gradient(135deg, #d4af37, #f9f1b0); color: #000; padding: 12px; border-radius: 8px; text-decoration: none; font-weight: bold; margin-bottom: 15px;">

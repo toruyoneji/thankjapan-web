@@ -3082,6 +3082,34 @@ def thank_youDE(request):
     return render(request, 'thank_japan_app/thankyou/thank_you_de-v2.html')
 
 
+def get_weekly_progress(user, weeks=8):
+    """Last `weeks` weeks of WeeklyScore for the account settings chart, oldest
+    first, zero-filled for weeks with no recorded score so the bars stay
+    contiguous. Returns [] when there's no score in the whole window at all,
+    so the template can show an empty state instead of an all-zero chart."""
+    current_week_start = WeeklyScore.get_current_week_start()
+    start_range = current_week_start - timedelta(weeks=weeks - 1)
+    scores_by_week = dict(
+        WeeklyScore.objects.filter(user=user, week_start__gte=start_range)
+        .values_list('week_start', 'score')
+    )
+
+    if not any(scores_by_week.values()):
+        return []
+
+    max_score = max(scores_by_week.values())
+    weekly_progress = []
+    for i in range(weeks):
+        week_start = start_range + timedelta(weeks=i)
+        score = scores_by_week.get(week_start, 0)
+        weekly_progress.append({
+            'label': week_start.strftime('%m/%d'),
+            'score': score,
+            'height_percent': round((score / max_score) * 100) if max_score else 0,
+        })
+    return weekly_progress
+
+
 class ThankJapanConnectionsView(ConnectionsView):
     """Same allauth ConnectionsView/DisconnectForm/connect-flow, just with
     extra context so the restyled template (templates/socialaccount/connections.html)
@@ -3156,6 +3184,7 @@ def account_settings(request):
         'current_rank': current_rank,         
         'total_registered': total_registered,
         'streak_count': profile.streak_count,
+        'weekly_progress': get_weekly_progress(request.user),
         'is_twa': is_android_twa(request)
     }
     return render(request, 'thank_japan_app/account/account_settings-v2.html', context)
@@ -3199,6 +3228,7 @@ def account_settingsZHCN(request):
         'current_rank': current_rank,         
         'total_registered': total_registered,
         'streak_count': profile.streak_count,
+        'weekly_progress': get_weekly_progress(request.user),
         'is_twa': is_android_twa(request)
     }
     return render(request, 'thank_japan_app/account/account_settings_zh_cn-v2.html', context)
@@ -3242,6 +3272,7 @@ def account_settingsZHHANT(request):
         'current_rank': current_rank,         
         'total_registered': total_registered,
         'streak_count': profile.streak_count,
+        'weekly_progress': get_weekly_progress(request.user),
         'is_twa': is_android_twa(request)
     }
     return render(request, 'thank_japan_app/account/account_settings_zh_hant-v2.html', context)
@@ -3285,6 +3316,7 @@ def account_settingsVI(request):
         'current_rank': current_rank,         
         'total_registered': total_registered,
         'streak_count': profile.streak_count,
+        'weekly_progress': get_weekly_progress(request.user),
         'is_twa': is_android_twa(request)
     }
     return render(request, 'thank_japan_app/account/account_settings_vi-v2.html', context)
@@ -3328,6 +3360,7 @@ def account_settingsTH(request):
         'current_rank': current_rank,         
         'total_registered': total_registered,
         'streak_count': profile.streak_count,
+        'weekly_progress': get_weekly_progress(request.user),
         'is_twa': is_android_twa(request)
     }
     return render(request, 'thank_japan_app/account/account_settings_th-v2.html', context)
@@ -3371,6 +3404,7 @@ def account_settingsPT(request):
         'current_rank': current_rank,         
         'total_registered': total_registered,
         'streak_count': profile.streak_count,
+        'weekly_progress': get_weekly_progress(request.user),
         'is_twa': is_android_twa(request)
     }
     return render(request, 'thank_japan_app/account/account_settings_pt-v2.html', context)
@@ -3414,6 +3448,7 @@ def account_settingsPTBR(request):
         'current_rank': current_rank,         
         'total_registered': total_registered,
         'streak_count': profile.streak_count,
+        'weekly_progress': get_weekly_progress(request.user),
         'is_twa': is_android_twa(request)
     }
     return render(request, 'thank_japan_app/account/account_settings_pt_br-v2.html', context)
@@ -3457,6 +3492,7 @@ def account_settingsKO(request):
         'current_rank': current_rank,         
         'total_registered': total_registered,
         'streak_count': profile.streak_count,
+        'weekly_progress': get_weekly_progress(request.user),
         'is_twa': is_android_twa(request)
     }
     return render(request, 'thank_japan_app/account/account_settings_ko-v2.html', context)
@@ -3499,6 +3535,7 @@ def account_settingsJA(request):
         'current_rank': current_rank,         
         'total_registered': total_registered,
         'streak_count': profile.streak_count,
+        'weekly_progress': get_weekly_progress(request.user),
         'is_twa': is_android_twa(request)
     }
     return render(request, 'thank_japan_app/account/account_settings_ja-v2.html', context)
@@ -3542,6 +3579,7 @@ def account_settingsIT(request):
         'current_rank': current_rank,         
         'total_registered': total_registered,
         'streak_count': profile.streak_count,
+        'weekly_progress': get_weekly_progress(request.user),
         'is_twa': is_android_twa(request)
     }
     return render(request, 'thank_japan_app/account/account_settings_it-v2.html', context)
@@ -3585,6 +3623,7 @@ def account_settingsFR(request):
         'current_rank': current_rank,         
         'total_registered': total_registered,
         'streak_count': profile.streak_count,
+        'weekly_progress': get_weekly_progress(request.user),
         'is_twa': is_android_twa(request)
     }
     return render(request, 'thank_japan_app/account/account_settings_fr-v2.html', context)
@@ -3628,6 +3667,7 @@ def account_settingsESMX(request):
         'current_rank': current_rank,         
         'total_registered': total_registered,
         'streak_count': profile.streak_count,
+        'weekly_progress': get_weekly_progress(request.user),
         'is_twa': is_android_twa(request)
     }
     return render(request, 'thank_japan_app/account/account_settings_es_mx-v2.html', context)
@@ -3671,6 +3711,7 @@ def account_settingsESES(request):
         'current_rank': current_rank,         
         'total_registered': total_registered,
         'streak_count': profile.streak_count,
+        'weekly_progress': get_weekly_progress(request.user),
         'is_twa': is_android_twa(request)
     }
     return render(request, 'thank_japan_app/account/account_settings_es_es-v2.html', context)
@@ -3714,6 +3755,7 @@ def account_settingsENIN(request):
         'current_rank': current_rank,         
         'total_registered': total_registered,
         'streak_count': profile.streak_count,
+        'weekly_progress': get_weekly_progress(request.user),
         'is_twa': is_android_twa(request)
     }
     return render(request, 'thank_japan_app/account/account_settings_en_in-v2.html', context)
@@ -3757,6 +3799,7 @@ def account_settingsDE(request):
         'current_rank': current_rank,         
         'total_registered': total_registered,
         'streak_count': profile.streak_count,
+        'weekly_progress': get_weekly_progress(request.user),
         'is_twa': is_android_twa(request)
     }
     return render(request, 'thank_japan_app/account/account_settings_de-v2.html', context)
