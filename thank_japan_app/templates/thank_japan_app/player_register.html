@@ -150,7 +150,44 @@
           </span>
         </a>
 
-  
+        <!-- X (Twitter) Login -->
+        <a href="{% provider_login_url 'twitter_oauth2' %}" style="
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background-color: #000000;
+          color: #ffffff;
+          border: 1px solid #000000;
+          border-radius: 4px;
+          padding: 10px 16px;
+          text-decoration: none;
+          font-family: 'Roboto', arial, sans-serif;
+          font-weight: 500;
+          box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+          transition: background-color 0.2s;
+          margin-top: 10px;
+        " onmouseover="this.style.backgroundColor='#222222'" onmouseout="this.style.backgroundColor='#000000'">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" viewBox="0 0 24 24" fill="#ffffff" style="margin-right: 10px;">
+            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path>
+          </svg>
+          <span>
+            {% if lang_code == 'ja' %}Xで登録
+            {% elif lang_code == 'zh-hant' %}使用 X 註冊
+            {% elif lang_code == 'zh-cn' %}使用 X 注册
+            {% elif lang_code == 'ko' %}X 계정으로 가입
+            {% elif lang_code == 'de' %}Mit X registrieren
+            {% elif lang_code == 'fr' %}S'inscrire avec X
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Registrarse con X
+            {% elif lang_code == 'it' %}Registrati con X
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Cadastrar com X
+            {% elif lang_code == 'vi' %}Đăng ký bằng X
+            {% elif lang_code == 'th' %}ลงทะเบียนด้วย X
+            {% else %}Sign up with X
+            {% endif %}
+          </span>
+        </a>
+
+
   <div style="margin-top: 20px; display: flex; align-items: center; color: #888; font-size: 0.9em;">
     <div style="flex: 1; height: 1px; background: #ddd;"></div>
     <div style="padding: 0 10px;">

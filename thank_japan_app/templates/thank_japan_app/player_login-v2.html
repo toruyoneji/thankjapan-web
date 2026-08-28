@@ -205,6 +205,28 @@
           </span>
         </a>
 
+        <!-- X (Twitter) Login -->
+        <a href="{% provider_login_url 'twitter_oauth2' %}" style="display: flex; align-items: center; justify-content: center; background-color: #000000; color: #ffffff; border: 1px solid #000000; border-radius: 10px; padding: 12px 16px; text-decoration: none; font-weight: bold; margin-top: 12px;">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" viewBox="0 0 24 24" fill="#ffffff" style="margin-right: 12px;">
+            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path>
+          </svg>
+          <span>
+            {% if lang_code == 'ja' %}Xでログイン
+            {% elif lang_code == 'zh-hant' %}使用 X 登入
+            {% elif lang_code == 'zh-cn' %}使用 X 登录
+            {% elif lang_code == 'ko' %}X 계정으로 로그인
+            {% elif lang_code == 'de' %}Mit X anmelden
+            {% elif lang_code == 'fr' %}Se connecter avec X
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Iniciar sesión con X
+            {% elif lang_code == 'it' %}Accedi con X
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Entrar com X
+            {% elif lang_code == 'vi' %}Đăng nhập bằng X
+            {% elif lang_code == 'th' %}เข้าสู่ระบบด้วย X
+            {% else %}Log in with X
+            {% endif %}
+          </span>
+        </a>
+
         <div style="margin-top: 25px; display: flex; align-items: center; color: #666; font-size: 0.8rem;">
           <div style="flex: 1; height: 1px; background: #444;"></div>
           <div style="padding: 0 15px;">
