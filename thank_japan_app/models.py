@@ -7,6 +7,7 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.conf import settings
+from django.utils import timezone
 
 
 class ThankJapanModel(models.Model):
@@ -257,9 +258,13 @@ class Player(models.Model):
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
     is_premium = models.BooleanField(default=False)
+    premium_expires_at = models.DateTimeField(blank=True, null=True)
+    is_trial = models.BooleanField(default=False)
+    trial_used = models.BooleanField(default=False)
     country = models.CharField(max_length=50, blank=True, null=True)
     privacy_policy_version = models.CharField(max_length=10, default="2026-2")
     paypal_subscription_id = models.CharField(max_length=50, blank=True, null=True)
+    google_play_purchase_token = models.CharField(max_length=255, blank=True, null=True)
     total_score = models.PositiveIntegerField(default=0)
     last_score = models.PositiveIntegerField(default=0)
     last_bonus_date = models.DateField(null=True, blank=True)
@@ -270,6 +275,17 @@ class Profile(models.Model):
     review_prompt_dismissed_until = models.DateField(null=True, blank=True)
     best_combo = models.PositiveIntegerField(default=0)
     games_played = models.PositiveIntegerField(default=0)
+
+    @property
+    def has_premium_access(self):
+        if not self.is_premium:
+            return False
+        # premium_expires_at is unset for accounts granted premium before this
+        # field existed (and for admin-granted premium) - treat "unknown
+        # expiry" as still valid rather than instantly revoking their access.
+        if self.premium_expires_at is not None and self.premium_expires_at < timezone.now():
+            return False
+        return True
 
     def __str__(self):
         return f"{self.user.username}'s Profile"

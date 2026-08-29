@@ -21,6 +21,7 @@ from django.http import JsonResponse, HttpResponse
 from django.contrib.auth import authenticate, logout, login as auth_login, logout as auth_logout
 from django.views.decorators.csrf import csrf_exempt
 from django.utils import timezone
+from django.utils.dateparse import parse_datetime
 from django.utils.http import urlencode
 from django.contrib.auth.views import PasswordResetView, PasswordResetConfirmView
 from .context_processors import language_context
@@ -228,8 +229,29 @@ def verify_android_subscription(request):
                 if expiry_time_ms > current_time_ms:
                     user = request.user
                     if user.is_authenticated:
-                        user.profile.is_premium = True 
-                        user.profile.save()
+                        # paymentState 2 == "Free trial" per the Play Developer API v3
+                        # purchases.subscriptions schema.
+                        is_trial = purchase_info.get('paymentState') == 2
+                        profile = user.profile
+
+                        if is_trial and profile.trial_used:
+                            logger.warning(
+                                f"User {user.id} attempted to reuse an already-consumed "
+                                f"free trial via Google Play (token={purchase_token})"
+                            )
+                            return JsonResponse(
+                                {'status': 'error', 'message': 'trial already used'}, status=400
+                            )
+
+                        profile.is_premium = True
+                        profile.premium_expires_at = timezone.now() + timedelta(
+                            milliseconds=expiry_time_ms - current_time_ms
+                        )
+                        profile.google_play_purchase_token = purchase_token
+                        profile.is_trial = is_trial
+                        if is_trial:
+                            profile.trial_used = True
+                        profile.save()
                         return JsonResponse({'status': 'success', 'expiry': expiry_time_ms})
             
             return JsonResponse({'status': 'error', 'message': '検証に失敗したか、期限切れです'}, status=400)
@@ -1904,7 +1926,7 @@ def game_restart(request):
     mode = request.GET.get('mode')
     player, is_guest = get_current_player_info(request)
     
-    is_premium = request.user.is_authenticated and getattr(request.user.profile, 'is_premium', False)
+    is_premium = request.user.is_authenticated and getattr(request.user.profile, 'has_premium_access', False)
 
     if mode == 'single':
         model_type = request.GET.get('model_type')
@@ -2196,7 +2218,7 @@ def game_result(request):
 
 def category_list(request):
     
-    is_premium = request.user.is_authenticated and getattr(request.user.profile, 'is_premium', False)
+    is_premium = request.user.is_authenticated and getattr(request.user.profile, 'has_premium_access', False)
 
     lang_code = request.GET.get('lang', 'en')
 
@@ -2210,7 +2232,7 @@ def category_list(request):
 
 def category_list_zhcn(request):
     
-    is_premium = request.user.is_authenticated and getattr(request.user.profile, 'is_premium', False)
+    is_premium = request.user.is_authenticated and getattr(request.user.profile, 'has_premium_access', False)
 
     lang_code = request.GET.get('lang', 'zh-cn')
 
@@ -2224,7 +2246,7 @@ def category_list_zhcn(request):
 
 def category_list_zhhant(request):
     
-    is_premium = request.user.is_authenticated and getattr(request.user.profile, 'is_premium', False)
+    is_premium = request.user.is_authenticated and getattr(request.user.profile, 'has_premium_access', False)
 
     lang_code = request.GET.get('lang', 'zh-hant')
 
@@ -2238,7 +2260,7 @@ def category_list_zhhant(request):
 
 def category_list_vi(request):
     
-    is_premium = request.user.is_authenticated and getattr(request.user.profile, 'is_premium', False)
+    is_premium = request.user.is_authenticated and getattr(request.user.profile, 'has_premium_access', False)
 
     lang_code = request.GET.get('lang', 'vi')
 
@@ -2252,7 +2274,7 @@ def category_list_vi(request):
 
 def category_list_th(request):
     
-    is_premium = request.user.is_authenticated and getattr(request.user.profile, 'is_premium', False)
+    is_premium = request.user.is_authenticated and getattr(request.user.profile, 'has_premium_access', False)
 
     lang_code = request.GET.get('lang', 'th')
 
@@ -2266,7 +2288,7 @@ def category_list_th(request):
     
 def category_list_pt(request):
     
-    is_premium = request.user.is_authenticated and getattr(request.user.profile, 'is_premium', False)
+    is_premium = request.user.is_authenticated and getattr(request.user.profile, 'has_premium_access', False)
     
     lang_code = request.GET.get('lang', 'pt')
 
@@ -2281,7 +2303,7 @@ def category_list_pt(request):
 
 def category_list_pt_br(request):
     
-    is_premium = request.user.is_authenticated and getattr(request.user.profile, 'is_premium', False)
+    is_premium = request.user.is_authenticated and getattr(request.user.profile, 'has_premium_access', False)
     
     lang_code = request.GET.get('lang', 'pt-br')
 
@@ -2296,7 +2318,7 @@ def category_list_pt_br(request):
 
 def category_list_ko(request):
     
-    is_premium = request.user.is_authenticated and getattr(request.user.profile, 'is_premium', False)
+    is_premium = request.user.is_authenticated and getattr(request.user.profile, 'has_premium_access', False)
     
     lang_code = request.GET.get('lang', 'ko')
 
@@ -2311,7 +2333,7 @@ def category_list_ko(request):
 
 def category_list_ja(request):
     
-    is_premium = request.user.is_authenticated and getattr(request.user.profile, 'is_premium', False)
+    is_premium = request.user.is_authenticated and getattr(request.user.profile, 'has_premium_access', False)
     
     lang_code = request.GET.get('lang', 'ja')
 
@@ -2326,7 +2348,7 @@ def category_list_ja(request):
  
 def category_list_it(request):
     
-    is_premium = request.user.is_authenticated and getattr(request.user.profile, 'is_premium', False)
+    is_premium = request.user.is_authenticated and getattr(request.user.profile, 'has_premium_access', False)
     
     lang_code = request.GET.get('lang', 'it')
 
@@ -2341,7 +2363,7 @@ def category_list_it(request):
  
 def category_list_fr(request):
     
-    is_premium = request.user.is_authenticated and getattr(request.user.profile, 'is_premium', False)
+    is_premium = request.user.is_authenticated and getattr(request.user.profile, 'has_premium_access', False)
     
     lang_code = request.GET.get('lang', 'fr')
 
@@ -2356,7 +2378,7 @@ def category_list_fr(request):
 
 def category_list_es_mx(request):
     
-    is_premium = request.user.is_authenticated and getattr(request.user.profile, 'is_premium', False)
+    is_premium = request.user.is_authenticated and getattr(request.user.profile, 'has_premium_access', False)
     
     lang_code = request.GET.get('lang', 'es-mx')
 
@@ -2371,7 +2393,7 @@ def category_list_es_mx(request):
 
 def category_list_es_es(request):
     
-    is_premium = request.user.is_authenticated and getattr(request.user.profile, 'is_premium', False)
+    is_premium = request.user.is_authenticated and getattr(request.user.profile, 'has_premium_access', False)
     
     lang_code = request.GET.get('lang', 'es-es')
 
@@ -2386,7 +2408,7 @@ def category_list_es_es(request):
  
 def category_list_en_in(request):
     
-    is_premium = request.user.is_authenticated and getattr(request.user.profile, 'is_premium', False)
+    is_premium = request.user.is_authenticated and getattr(request.user.profile, 'has_premium_access', False)
     
     lang_code = request.GET.get('lang', 'en-in')
 
@@ -2401,7 +2423,7 @@ def category_list_en_in(request):
  
 def category_list_de(request):
     
-    is_premium = request.user.is_authenticated and getattr(request.user.profile, 'is_premium', False)
+    is_premium = request.user.is_authenticated and getattr(request.user.profile, 'has_premium_access', False)
     
     lang_code = request.GET.get('lang', 'de')
 
@@ -2828,48 +2850,89 @@ def update_premium_status(request):
     try:
         data = json.loads(request.body)
         subscription_id = data.get('subscriptionID')
-        
+
         if not subscription_id:
             return JsonResponse({'status': 'error'}, status=400)
 
+        subscription = get_paypal_subscription_details(subscription_id)
+        if not subscription:
+            logger.warning(f"PayPal subscription {subscription_id} could not be verified with PayPal")
+            return JsonResponse({'status': 'error', 'message': 'subscription not found'}, status=400)
+
+        if subscription.get('status') != 'ACTIVE':
+            logger.warning(f"PayPal subscription {subscription_id} is not ACTIVE (status={subscription.get('status')})")
+            return JsonResponse({'status': 'error', 'message': 'subscription is not active'}, status=400)
+
+        if settings.PAYPAL_PLAN_ID and subscription.get('plan_id') != settings.PAYPAL_PLAN_ID:
+            logger.warning(f"PayPal subscription {subscription_id} has unexpected plan_id={subscription.get('plan_id')}")
+            return JsonResponse({'status': 'error', 'message': 'unexpected plan'}, status=400)
+
         profile, created = Profile.objects.get_or_create(user=request.user)
-        
+
         profile.is_premium = True
         profile.paypal_subscription_id = subscription_id
+        sync_paypal_premium_state(profile, subscription)
         profile.save()
-        
+
         return JsonResponse({'status': 'success'})
 
     except Exception as e:
-        print(f"Update Error: {str(e)}")
+        logger.error(f"Update Error: {str(e)}")
         return JsonResponse({'status': 'error'}, status=500)
 
 @csrf_exempt
 def paypal_webhook(request):
-    
+
     try:
         data = json.loads(request.body)
+    except (json.JSONDecodeError, TypeError, ValueError) as e:
+        logger.warning(f"PayPal webhook received invalid JSON body: {e}")
+        return HttpResponse(status=400)
+
+    if not settings.PAYPAL_WEBHOOK_ID:
+        logger.error("PAYPAL_WEBHOOK_ID is not configured; rejecting webhook")
+        return HttpResponse(status=500)
+
+    if not verify_paypal_webhook_signature(request, data):
+        logger.warning("PayPal webhook signature verification failed")
+        return HttpResponse(status=401)
+
+    try:
         event_type = data.get('event_type')
-        resource = data.get('resource')
+        resource = data.get('resource') or {}
         subscription_id = resource.get('id')
 
-        
-        trigger_events = [
+        deactivate_events = [
             "BILLING.SUBSCRIPTION.CANCELLED",
             "BILLING.SUBSCRIPTION.SUSPENDED",
             "BILLING.SUBSCRIPTION.EXPIRED",
             "BILLING.SUBSCRIPTION.PAYMENT.FAILED"
         ]
 
-        if event_type in trigger_events:
-            Profile.objects.filter(paypal_subscription_id=subscription_id).update(is_premium=False)
-            print(f"Webhook Handled: {subscription_id} to Free")
+        if event_type in deactivate_events and subscription_id:
+            Profile.objects.filter(paypal_subscription_id=subscription_id).update(
+                is_premium=False, is_trial=False, premium_expires_at=None
+            )
+            logger.info(f"Webhook Handled: {subscription_id} to Free")
+
+        elif event_type == "BILLING.SUBSCRIPTION.ACTIVATED" and subscription_id:
+            # Fires on first activation (trial or paid) and on renewals/reactivations.
+            # Re-fetch from PayPal rather than trusting the webhook payload's own
+            # billing_info, consistent with never trusting client/webhook-supplied data.
+            profile = Profile.objects.filter(paypal_subscription_id=subscription_id).first()
+            if profile:
+                subscription = get_paypal_subscription_details(subscription_id)
+                if subscription:
+                    profile.is_premium = True
+                    sync_paypal_premium_state(profile, subscription)
+                    profile.save()
+                    logger.info(f"Webhook Handled: {subscription_id} ACTIVATED (is_trial={profile.is_trial})")
 
         return HttpResponse(status=200)
 
     except Exception as e:
-        print(f"Webhook Error: {str(e)}")
-        return HttpResponse(status=200)     
+        logger.error(f"Webhook Error: {str(e)}")
+        return HttpResponse(status=200)
         
 #premium_info
 
@@ -3912,16 +3975,106 @@ def cancel_paypal_subscription(subscription_id, reason):
             cancel_url = f"https://api-m.sandbox.paypal.com/v1/billing/subscriptions/{subscription_id}/cancel"
         requests.post(cancel_url, headers={"Authorization": f"Bearer {token}", "Content-Type": "application/json"}, json={"reason": reason})
 
+def get_paypal_subscription_details(subscription_id):
+    """Looks up a subscription directly on PayPal's servers so a client-supplied
+    subscriptionID can't be trusted blindly before granting premium access."""
+    token = get_paypal_access_token()
+    if not token:
+        return None
+
+    details_url = f"https://api-m.paypal.com/v1/billing/subscriptions/{subscription_id}"
+    if settings.PAYPAL_MODE == "sandbox":
+        details_url = f"https://api-m.sandbox.paypal.com/v1/billing/subscriptions/{subscription_id}"
+
+    try:
+        resp = requests.get(details_url, headers={"Authorization": f"Bearer {token}"})
+    except requests.RequestException as e:
+        logger.error(f"PayPal subscription lookup failed for {subscription_id}: {e}")
+        return None
+
+    if resp.status_code != 200:
+        return None
+    return resp.json()
+
+def verify_paypal_webhook_signature(request, webhook_event):
+    """Verifies a PayPal webhook's authenticity via PayPal's
+    verify-webhook-signature API, using the PAYPAL-* transmission headers."""
+    headers = request.headers
+    payload = {
+        "auth_algo": headers.get("Paypal-Auth-Algo"),
+        "cert_url": headers.get("Paypal-Cert-Url"),
+        "transmission_id": headers.get("Paypal-Transmission-Id"),
+        "transmission_sig": headers.get("Paypal-Transmission-Sig"),
+        "transmission_time": headers.get("Paypal-Transmission-Time"),
+        "webhook_id": settings.PAYPAL_WEBHOOK_ID,
+        "webhook_event": webhook_event,
+    }
+
+    if not all([payload["auth_algo"], payload["cert_url"], payload["transmission_id"],
+                payload["transmission_sig"], payload["transmission_time"]]):
+        return False
+
+    token = get_paypal_access_token()
+    if not token:
+        return False
+
+    verify_url = "https://api-m.paypal.com/v1/notifications/verify-webhook-signature"
+    if settings.PAYPAL_MODE == "sandbox":
+        verify_url = "https://api-m.sandbox.paypal.com/v1/notifications/verify-webhook-signature"
+
+    try:
+        resp = requests.post(
+            verify_url,
+            headers={"Authorization": f"Bearer {token}", "Content-Type": "application/json"},
+            json=payload,
+        )
+    except requests.RequestException as e:
+        logger.error(f"PayPal webhook signature verification request failed: {e}")
+        return False
+
+    if resp.status_code != 200:
+        return False
+    return resp.json().get("verification_status") == "SUCCESS"
+
+def _paypal_current_cycle_is_trial(subscription):
+    """Reads billing_info.cycle_executions to find the currently-active
+    billing cycle and reports whether it's the TRIAL one. total_cycles == 0
+    means an indefinitely-repeating (usually REGULAR) cycle."""
+    cycle_executions = (subscription.get('billing_info') or {}).get('cycle_executions') or []
+    for cycle in sorted(cycle_executions, key=lambda c: c.get('sequence', 0)):
+        total_cycles = cycle.get('total_cycles', 0)
+        cycles_completed = cycle.get('cycles_completed', 0)
+        if total_cycles == 0 or cycles_completed < total_cycles:
+            return cycle.get('tenure_type') == 'TRIAL'
+    return False
+
+def sync_paypal_premium_state(profile, subscription):
+    """Updates a Profile's premium/trial bookkeeping from a verified PayPal
+    subscription resource (as returned by get_paypal_subscription_details).
+    Does not save() - callers persist alongside their own field changes."""
+    next_billing_time = (subscription.get('billing_info') or {}).get('next_billing_time')
+    if next_billing_time:
+        parsed = parse_datetime(next_billing_time)
+        if parsed:
+            profile.premium_expires_at = parsed
+
+    is_trial = _paypal_current_cycle_is_trial(subscription)
+    profile.is_trial = is_trial
+    if is_trial:
+        profile.trial_used = True
+
 @login_required
 @require_POST
 def downgrade_premium(request):
     profile = request.user.profile
-    if profile.is_premium and profile.paypal_subscription_id:
+    if profile.has_premium_access and profile.paypal_subscription_id:
         try:
             cancel_paypal_subscription(profile.paypal_subscription_id, "User downgraded")
         except Exception:
             pass
     profile.is_premium = False
+    profile.is_trial = False
+    profile.premium_expires_at = None
     profile.save()
 
     next_url_name = request.POST.get('downgrade_url_name', 'downgrade_success')
@@ -3949,7 +4102,7 @@ def delete_account(request):
     user = request.user
     profile = user.profile
     
-    if profile.is_premium and profile.paypal_subscription_id:
+    if profile.has_premium_access and profile.paypal_subscription_id:
         try:
             cancel_paypal_subscription(profile.paypal_subscription_id, "User deleted account")
         except Exception:
@@ -4062,7 +4215,7 @@ class BusinessJapaneseView(BGMContextMixin, ListView):
     bgm_page_type = 'study_select'
     
     def dispatch(self, request, *args, **kwargs):
-        is_premium = request.user.is_authenticated and getattr(request.user.profile, 'is_premium', False)
+        is_premium = request.user.is_authenticated and getattr(request.user.profile, 'has_premium_access', False)
         if not is_premium and request.GET.get('page', '1') != '1':
             url_name, lang_code = get_lang_info(request)
             return redirect(f"{reverse(url_name)}?lang={lang_code}") 
@@ -4070,7 +4223,7 @@ class BusinessJapaneseView(BGMContextMixin, ListView):
     
     def get_queryset(self):
         qs = ThankJapanPremium.objects.filter(category="BusinessJapanese").order_by('timestamp')
-        is_premium = self.request.user.is_authenticated and getattr(self.request.user.profile, 'is_premium', False)
+        is_premium = self.request.user.is_authenticated and getattr(self.request.user.profile, 'has_premium_access', False)
         if not is_premium:
             return qs[:12]
         return qs
@@ -4079,7 +4232,7 @@ class BusinessJapaneseView(BGMContextMixin, ListView):
         context = super().get_context_data(**kwargs)
         all_premium_qs = ThankJapanPremium.objects.filter(category="BusinessJapanese")
         total_count = all_premium_qs.count()
-        is_premium = self.request.user.is_authenticated and getattr(self.request.user.profile, 'is_premium', False)
+        is_premium = self.request.user.is_authenticated and getattr(self.request.user.profile, 'has_premium_access', False)
         url_name, lang_code = get_lang_info(self.request)
         context['lang_code'] = lang_code
         context['premium_url_name'] = url_name
@@ -4097,7 +4250,7 @@ class LivingInJapanView(BGMContextMixin, ListView):
     bgm_page_type = 'study_select'
     
     def dispatch(self, request, *args, **kwargs):
-        is_premium = request.user.is_authenticated and getattr(request.user.profile, 'is_premium', False)
+        is_premium = request.user.is_authenticated and getattr(request.user.profile, 'has_premium_access', False)
         if not is_premium and request.GET.get('page', '1') != '1':
             url_name, lang_code = get_lang_info(request)
             return redirect(f"{reverse(url_name)}?lang={lang_code}") 
@@ -4105,7 +4258,7 @@ class LivingInJapanView(BGMContextMixin, ListView):
     
     def get_queryset(self):
         qs = ThankJapanPremium.objects.filter(category="LivingInJapan").order_by('timestamp')
-        is_premium = self.request.user.is_authenticated and getattr(self.request.user.profile, 'is_premium', False)
+        is_premium = self.request.user.is_authenticated and getattr(self.request.user.profile, 'has_premium_access', False)
         if not is_premium:
             return qs[:12]
         return qs
@@ -4114,7 +4267,7 @@ class LivingInJapanView(BGMContextMixin, ListView):
         context = super().get_context_data(**kwargs)
         all_premium_qs = ThankJapanPremium.objects.filter(category="LivingInJapan")
         total_count = all_premium_qs.count()
-        is_premium = self.request.user.is_authenticated and getattr(self.request.user.profile, 'is_premium', False)
+        is_premium = self.request.user.is_authenticated and getattr(self.request.user.profile, 'has_premium_access', False)
         url_name, lang_code = get_lang_info(self.request)
         context['lang_code'] = lang_code
         context['premium_url_name'] = url_name
@@ -4132,7 +4285,7 @@ class MedicalEmergencyView(BGMContextMixin, ListView):
     bgm_page_type = 'study_select'
     
     def dispatch(self, request, *args, **kwargs):
-        is_premium = request.user.is_authenticated and getattr(request.user.profile, 'is_premium', False)
+        is_premium = request.user.is_authenticated and getattr(request.user.profile, 'has_premium_access', False)
         if not is_premium and request.GET.get('page', '1') != '1':
             url_name, lang_code = get_lang_info(request)
             return redirect(f"{reverse(url_name)}?lang={lang_code}") 
@@ -4140,7 +4293,7 @@ class MedicalEmergencyView(BGMContextMixin, ListView):
     
     def get_queryset(self):
         qs = ThankJapanPremium.objects.filter(category="MedicalEmergency").order_by('timestamp')
-        is_premium = self.request.user.is_authenticated and getattr(self.request.user.profile, 'is_premium', False)
+        is_premium = self.request.user.is_authenticated and getattr(self.request.user.profile, 'has_premium_access', False)
         if not is_premium:
             return qs[:12]
         return qs
@@ -4149,7 +4302,7 @@ class MedicalEmergencyView(BGMContextMixin, ListView):
         context = super().get_context_data(**kwargs)
         all_premium_qs = ThankJapanPremium.objects.filter(category="MedicalEmergency")
         total_count = all_premium_qs.count()
-        is_premium = self.request.user.is_authenticated and getattr(self.request.user.profile, 'is_premium', False)
+        is_premium = self.request.user.is_authenticated and getattr(self.request.user.profile, 'has_premium_access', False)
         url_name, lang_code = get_lang_info(self.request)
         context['lang_code'] = lang_code
         context['premium_url_name'] = url_name
@@ -4167,7 +4320,7 @@ class RealestateRulesView(BGMContextMixin, ListView):
     bgm_page_type = 'study_select'
     
     def dispatch(self, request, *args, **kwargs):
-        is_premium = request.user.is_authenticated and getattr(request.user.profile, 'is_premium', False)
+        is_premium = request.user.is_authenticated and getattr(request.user.profile, 'has_premium_access', False)
         if not is_premium and request.GET.get('page', '1') != '1':
             url_name, lang_code = get_lang_info(request)
             return redirect(f"{reverse(url_name)}?lang={lang_code}") 
@@ -4175,7 +4328,7 @@ class RealestateRulesView(BGMContextMixin, ListView):
     
     def get_queryset(self):
         qs = ThankJapanPremium.objects.filter(category="RealEstateRules").order_by('timestamp')
-        is_premium = self.request.user.is_authenticated and getattr(self.request.user.profile, 'is_premium', False)
+        is_premium = self.request.user.is_authenticated and getattr(self.request.user.profile, 'has_premium_access', False)
         if not is_premium:
             return qs[:12]
         return qs
@@ -4184,7 +4337,7 @@ class RealestateRulesView(BGMContextMixin, ListView):
         context = super().get_context_data(**kwargs)
         all_premium_qs = ThankJapanPremium.objects.filter(category="RealEstateRules")
         total_count = all_premium_qs.count()
-        is_premium = self.request.user.is_authenticated and getattr(self.request.user.profile, 'is_premium', False)
+        is_premium = self.request.user.is_authenticated and getattr(self.request.user.profile, 'has_premium_access', False)
         url_name, lang_code = get_lang_info(self.request)
         context['lang_code'] = lang_code
         context['premium_url_name'] = url_name
@@ -4202,7 +4355,7 @@ class PrefectureView(BGMContextMixin, ListView):
     bgm_page_type = 'study_select'
     
     def dispatch(self, request, *args, **kwargs):
-        is_premium = request.user.is_authenticated and getattr(request.user.profile, 'is_premium', False)
+        is_premium = request.user.is_authenticated and getattr(request.user.profile, 'has_premium_access', False)
         if not is_premium and request.GET.get('page', '1') != '1':
             url_name, lang_code = get_lang_info(request)
             return redirect(f"{reverse(url_name)}?lang={lang_code}") 
@@ -4210,7 +4363,7 @@ class PrefectureView(BGMContextMixin, ListView):
     
     def get_queryset(self):
         qs = ThankJapanPremium.objects.filter(category="Prefectures").order_by('timestamp')
-        is_premium = self.request.user.is_authenticated and getattr(self.request.user.profile, 'is_premium', False)
+        is_premium = self.request.user.is_authenticated and getattr(self.request.user.profile, 'has_premium_access', False)
         if not is_premium:
             return qs[:12]
         return qs
@@ -4219,7 +4372,7 @@ class PrefectureView(BGMContextMixin, ListView):
         context = super().get_context_data(**kwargs)
         all_premium_qs = ThankJapanPremium.objects.filter(category="Prefectures")
         total_count = all_premium_qs.count()
-        is_premium = self.request.user.is_authenticated and getattr(self.request.user.profile, 'is_premium', False)
+        is_premium = self.request.user.is_authenticated and getattr(self.request.user.profile, 'has_premium_access', False)
         url_name, lang_code = get_lang_info(self.request)
         context['lang_code'] = lang_code
         context['premium_url_name'] = url_name
@@ -4317,7 +4470,7 @@ class ImgPremiumDetailView(DetailView):
 
     def get_object(self, queryset=None):
         obj = super().get_object(queryset)
-        is_premium = self.request.user.is_authenticated and getattr(self.request.user.profile, 'is_premium', False)
+        is_premium = self.request.user.is_authenticated and getattr(self.request.user.profile, 'has_premium_access', False)
         if obj.category not in ["DailyConversation", "slang", "TourismEtiquette" ,"Entertainment"] and not is_premium:
             free_sample_ids = ThankJapanPremium.objects.filter(
                 category__iexact=obj.category
@@ -4334,7 +4487,7 @@ class ImgPremiumDetailView(DetailView):
             raise Http404
 
         self.is_modal = request.headers.get('x-requested-with') == 'XMLHttpRequest'
-        is_premium = request.user.is_authenticated and getattr(request.user.profile, 'is_premium', False)
+        is_premium = request.user.is_authenticated and getattr(request.user.profile, 'has_premium_access', False)
         try:
             return super().dispatch(request, *args, **kwargs)
         except Http404:
@@ -4372,7 +4525,7 @@ class ImgPremiumDetailView(DetailView):
         context['lang_code'] = lang_code
         context['is_twa'] = is_android_twa(self.request)
         track_word_view(self.request, 'premium', current_item.id)
-        is_premium = self.request.user.is_authenticated and getattr(self.request.user.profile, 'is_premium', False)
+        is_premium = self.request.user.is_authenticated and getattr(self.request.user.profile, 'has_premium_access', False)
         url_target_name = CATEGORY_URL_MAP.get(current_item.category, 'toppage')
         try:
             base_category_url = reverse(url_target_name)
