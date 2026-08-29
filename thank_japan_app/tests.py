@@ -456,5 +456,45 @@ class GooglePlayTrialReuseTests(TestCase):
         profile = Profile.objects.get(user=self.user)
         self.assertTrue(profile.is_premium)
         self.assertFalse(profile.is_trial)
-        self.user.profile.refresh_from_db()
-        self.assertTrue(self.user.profile.is_premium)
+
+
+@override_settings(SECURE_SSL_REDIRECT=False)
+class PremiumInfoTrialPlanTemplateTests(TestCase):
+    """The new trial-enabled PayPal plan puts the free TRIAL cycle at
+    sequence 1 and the paid REGULAR cycle at sequence 2. The regional-price
+    override in premium_info-v2.html (and its language variants) must target
+    sequence 2 - overriding sequence 1 would silently replace the $0 trial
+    price with the regional price, destroying the free trial."""
+
+    # A real Cloudflare edge IP, so pricing.get_premium_price() trusts the
+    # CF-IPCountry header instead of falling back to the USD default.
+    CLOUDFLARE_IP = '173.245.48.1'
+
+    def test_default_region_overrides_sequence_2_at_base_price(self):
+        response = self.client.get(reverse('premium_info'))
+        content = response.content.decode()
+
+        self.assertIn("'sequence': 2,", content)
+        self.assertNotIn("'sequence': 1,", content)
+        self.assertIn("'value': '5.00'", content)
+
+    def test_discounted_region_overrides_sequence_2_at_tier_price(self):
+        response = self.client.get(
+            reverse('premium_info'),
+            REMOTE_ADDR=self.CLOUDFLARE_IP,
+            HTTP_X_FORWARDED_FOR=self.CLOUDFLARE_IP,
+            HTTP_CF_IPCOUNTRY='ID',  # tier A -> $1.75
+        )
+        content = response.content.decode()
+
+        self.assertIn("'sequence': 2,", content)
+        self.assertNotIn("'sequence': 1,", content)
+        self.assertIn("'value': '1.75'", content)
+
+    def test_language_variants_also_override_sequence_2(self):
+        for url_name in ('premium_infoja', 'premium_infode', 'premium_infozhCN'):
+            with self.subTest(url_name=url_name):
+                response = self.client.get(reverse(url_name))
+                content = response.content.decode()
+                self.assertIn("'sequence': 2,", content)
+                self.assertNotIn("'sequence': 1,", content)
