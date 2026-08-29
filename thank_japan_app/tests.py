@@ -460,25 +460,29 @@ class GooglePlayTrialReuseTests(TestCase):
 
 @override_settings(SECURE_SSL_REDIRECT=False)
 class PremiumInfoTrialPlanTemplateTests(TestCase):
-    """The new trial-enabled PayPal plan puts the free TRIAL cycle at
-    sequence 1 and the paid REGULAR cycle at sequence 2. The regional-price
-    override in premium_info-v2.html (and its language variants) must target
-    sequence 2 - overriding sequence 1 would silently replace the $0 trial
-    price with the regional price, destroying the free trial."""
+    """PAYPAL_PLAN_ID is temporarily rolled back to the old, trial-less plan
+    (single REGULAR cycle at sequence 1) after the trial-plan checkout broke
+    in production - see the "Client Authentication failed" incident. The
+    regional-price override must target sequence 1 while this plan is live.
+
+    TODO: once the trial-enabled plan is correctly set up via a rebuilt
+    PayPal button and PAYPAL_PLAN_ID points to it again, flip these back to
+    assert 'sequence': 2 (the plan's REGULAR cycle; sequence 1 is the $0
+    TRIAL cycle there, and overriding it would destroy the free trial)."""
 
     # A real Cloudflare edge IP, so pricing.get_premium_price() trusts the
     # CF-IPCountry header instead of falling back to the USD default.
     CLOUDFLARE_IP = '173.245.48.1'
 
-    def test_default_region_overrides_sequence_2_at_base_price(self):
+    def test_default_region_overrides_sequence_1_at_base_price(self):
         response = self.client.get(reverse('premium_info'))
         content = response.content.decode()
 
-        self.assertIn("'sequence': 2,", content)
-        self.assertNotIn("'sequence': 1,", content)
+        self.assertIn("'sequence': 1,", content)
+        self.assertNotIn("'sequence': 2,", content)
         self.assertIn("'value': '5.00'", content)
 
-    def test_discounted_region_overrides_sequence_2_at_tier_price(self):
+    def test_discounted_region_overrides_sequence_1_at_tier_price(self):
         response = self.client.get(
             reverse('premium_info'),
             REMOTE_ADDR=self.CLOUDFLARE_IP,
@@ -487,14 +491,14 @@ class PremiumInfoTrialPlanTemplateTests(TestCase):
         )
         content = response.content.decode()
 
-        self.assertIn("'sequence': 2,", content)
-        self.assertNotIn("'sequence': 1,", content)
+        self.assertIn("'sequence': 1,", content)
+        self.assertNotIn("'sequence': 2,", content)
         self.assertIn("'value': '1.75'", content)
 
-    def test_language_variants_also_override_sequence_2(self):
+    def test_language_variants_also_override_sequence_1(self):
         for url_name in ('premium_infoja', 'premium_infode', 'premium_infozhCN'):
             with self.subTest(url_name=url_name):
                 response = self.client.get(reverse(url_name))
                 content = response.content.decode()
-                self.assertIn("'sequence': 2,", content)
-                self.assertNotIn("'sequence': 1,", content)
+                self.assertIn("'sequence': 1,", content)
+                self.assertNotIn("'sequence': 2,", content)
