@@ -529,7 +529,7 @@
 
 
 {% if not is_twa %}
-<script src="https://www.paypal.com/sdk/js?client-id={{ paypal_client_id }}&vault=true&intent=subscription&currency=USD"></script>
+<script src="https://www.paypal.com/sdk/js?client-id={{ paypal_client_id }}&vault=true&intent=subscription&currency=USD" data-user-id-token="{{ paypal_id_token }}"></script>
 
 <script>
     paypal.Buttons({

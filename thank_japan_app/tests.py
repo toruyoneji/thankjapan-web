@@ -502,3 +502,76 @@ class PremiumInfoTrialPlanTemplateTests(TestCase):
                 content = response.content.decode()
                 self.assertIn("'sequence': 1,", content)
                 self.assertNotIn("'sequence': 2,", content)
+
+
+@override_settings(
+    PAYPAL_CLIENT_ID='test-client-id',
+    PAYPAL_CLIENT_SECRET='test-client-secret',
+    PAYPAL_MODE='sandbox',
+)
+class GetPaypalIdTokenTests(TestCase):
+    """get_paypal_id_token() is the fix for the browser-side "Client
+    Authentication failed" incident: the JS SDK needs vault=true requests to
+    carry a server-generated id_token (data-user-id-token), not just the
+    public client-id. See PayPal's "Save PayPal with the JavaScript SDK" docs."""
+
+    @patch('thank_japan_app.views.requests.post')
+    def test_requests_id_token_response_type_and_returns_it(self, mock_post):
+        mock_post.return_value = _mock_response(200, {'access_token': 'tok', 'id_token': 'idtok-abc'})
+
+        from thank_japan_app.views import get_paypal_id_token
+        result = get_paypal_id_token()
+
+        self.assertEqual(result, 'idtok-abc')
+        args, kwargs = mock_post.call_args
+        self.assertIn('oauth2/token', args[0])
+        self.assertEqual(kwargs['data'].get('response_type'), 'id_token')
+
+    @patch('thank_japan_app.views.requests.post')
+    def test_returns_none_on_failure_response(self, mock_post):
+        mock_post.return_value = _mock_response(401, {'error': 'invalid_client'})
+
+        from thank_japan_app.views import get_paypal_id_token
+        self.assertIsNone(get_paypal_id_token())
+
+
+@override_settings(
+    PAYPAL_CLIENT_ID='test-client-id',
+    PAYPAL_CLIENT_SECRET='test-client-secret',
+    PAYPAL_MODE='sandbox',
+    SECURE_SSL_REDIRECT=False,
+)
+class PremiumInfoIdTokenTemplateTests(TestCase):
+    """The SDK script tag must carry data-user-id-token, on every language
+    variant, or vault-backed subscription checkout fails client-side."""
+
+    @patch('thank_japan_app.views.requests.post')
+    def test_id_token_rendered_in_script_tag(self, mock_post):
+        mock_post.return_value = _mock_response(200, {'access_token': 'tok', 'id_token': 'idtok-xyz'})
+
+        response = self.client.get(reverse('premium_info'))
+        content = response.content.decode()
+
+        self.assertIn('data-user-id-token="idtok-xyz"', content)
+
+    @patch('thank_japan_app.views.requests.post')
+    def test_id_token_rendered_across_language_variants(self, mock_post):
+        mock_post.return_value = _mock_response(200, {'access_token': 'tok', 'id_token': 'idtok-xyz'})
+
+        for url_name in ('premium_infoja', 'premium_infode', 'premium_infozhCN', 'premium_infofr'):
+            with self.subTest(url_name=url_name):
+                response = self.client.get(reverse(url_name))
+                content = response.content.decode()
+                self.assertIn('data-user-id-token="idtok-xyz"', content)
+
+    @patch('thank_japan_app.views.requests.post')
+    def test_missing_id_token_does_not_crash_the_page(self, mock_post):
+        # PayPal outage / bad credentials -> get_paypal_id_token() returns None.
+        # The page must still render (degrades to a broken PayPal button,
+        # not a 500) since the free content on the rest of the page matters.
+        mock_post.return_value = _mock_response(401, {'error': 'invalid_client'})
+
+        response = self.client.get(reverse('premium_info'))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertIn('data-user-id-token=""', response.content.decode())

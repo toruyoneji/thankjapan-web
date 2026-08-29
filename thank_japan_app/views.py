@@ -2993,6 +2993,7 @@ def get_lang_info(request):
 def premium_info(request):
     context = {
         'paypal_client_id': settings.PAYPAL_CLIENT_ID,
+        'paypal_id_token': get_paypal_id_token() or '',
         'paypal_plan_id': settings.PAYPAL_PLAN_ID,
         # Google Play Billing button falls back here (?billing=web) when the
         # Digital Goods API isn't available even inside a real TWA session.
@@ -3004,6 +3005,7 @@ def premium_info(request):
 def premium_infoZHCN(request):
     context = {
         'paypal_client_id': settings.PAYPAL_CLIENT_ID,
+        'paypal_id_token': get_paypal_id_token() or '',
         'paypal_plan_id': settings.PAYPAL_PLAN_ID,
         # Google Play Billing button falls back here (?billing=web) when the
         # Digital Goods API isn't available even inside a real TWA session.
@@ -3016,6 +3018,7 @@ def premium_infoZHCN(request):
 def premium_infoZHHANT(request):
     context = {
         'paypal_client_id': settings.PAYPAL_CLIENT_ID,
+        'paypal_id_token': get_paypal_id_token() or '',
         'paypal_plan_id': settings.PAYPAL_PLAN_ID,
         # Google Play Billing button falls back here (?billing=web) when the
         # Digital Goods API isn't available even inside a real TWA session.
@@ -3027,6 +3030,7 @@ def premium_infoZHHANT(request):
 def premium_infoVI(request):
     context = {
         'paypal_client_id': settings.PAYPAL_CLIENT_ID,
+        'paypal_id_token': get_paypal_id_token() or '',
         'paypal_plan_id': settings.PAYPAL_PLAN_ID,
         # Google Play Billing button falls back here (?billing=web) when the
         # Digital Goods API isn't available even inside a real TWA session.
@@ -3038,6 +3042,7 @@ def premium_infoVI(request):
 def premium_infoTH(request):
     context = {
         'paypal_client_id': settings.PAYPAL_CLIENT_ID,
+        'paypal_id_token': get_paypal_id_token() or '',
         'paypal_plan_id': settings.PAYPAL_PLAN_ID,
         # Google Play Billing button falls back here (?billing=web) when the
         # Digital Goods API isn't available even inside a real TWA session.
@@ -3049,6 +3054,7 @@ def premium_infoTH(request):
 def premium_infoPT(request):
     context = {
         'paypal_client_id': settings.PAYPAL_CLIENT_ID,
+        'paypal_id_token': get_paypal_id_token() or '',
         'paypal_plan_id': settings.PAYPAL_PLAN_ID,
         # Google Play Billing button falls back here (?billing=web) when the
         # Digital Goods API isn't available even inside a real TWA session.
@@ -3060,6 +3066,7 @@ def premium_infoPT(request):
 def premium_infoPTBR(request):
     context = {
         'paypal_client_id': settings.PAYPAL_CLIENT_ID,
+        'paypal_id_token': get_paypal_id_token() or '',
         'paypal_plan_id': settings.PAYPAL_PLAN_ID,
         # Google Play Billing button falls back here (?billing=web) when the
         # Digital Goods API isn't available even inside a real TWA session.
@@ -3071,6 +3078,7 @@ def premium_infoPTBR(request):
 def premium_infoKO(request):
     context = {
         'paypal_client_id': settings.PAYPAL_CLIENT_ID,
+        'paypal_id_token': get_paypal_id_token() or '',
         'paypal_plan_id': settings.PAYPAL_PLAN_ID,
         # Google Play Billing button falls back here (?billing=web) when the
         # Digital Goods API isn't available even inside a real TWA session.
@@ -3082,6 +3090,7 @@ def premium_infoKO(request):
 def premium_infoJA(request):
     context = {
         'paypal_client_id': settings.PAYPAL_CLIENT_ID,
+        'paypal_id_token': get_paypal_id_token() or '',
         'paypal_plan_id': settings.PAYPAL_PLAN_ID,
         # Google Play Billing button falls back here (?billing=web) when the
         # Digital Goods API isn't available even inside a real TWA session.
@@ -3093,6 +3102,7 @@ def premium_infoJA(request):
 def premium_infoIT(request):
     context = {
         'paypal_client_id': settings.PAYPAL_CLIENT_ID,
+        'paypal_id_token': get_paypal_id_token() or '',
         'paypal_plan_id': settings.PAYPAL_PLAN_ID,
         # Google Play Billing button falls back here (?billing=web) when the
         # Digital Goods API isn't available even inside a real TWA session.
@@ -3104,6 +3114,7 @@ def premium_infoIT(request):
 def premium_infoFR(request):
     context = {
         'paypal_client_id': settings.PAYPAL_CLIENT_ID,
+        'paypal_id_token': get_paypal_id_token() or '',
         'paypal_plan_id': settings.PAYPAL_PLAN_ID,
         # Google Play Billing button falls back here (?billing=web) when the
         # Digital Goods API isn't available even inside a real TWA session.
@@ -3115,6 +3126,7 @@ def premium_infoFR(request):
 def premium_infoESMX(request):
     context = {
         'paypal_client_id': settings.PAYPAL_CLIENT_ID,
+        'paypal_id_token': get_paypal_id_token() or '',
         'paypal_plan_id': settings.PAYPAL_PLAN_ID,
         # Google Play Billing button falls back here (?billing=web) when the
         # Digital Goods API isn't available even inside a real TWA session.
@@ -3126,6 +3138,7 @@ def premium_infoESMX(request):
 def premium_infoESES(request):
     context = {
         'paypal_client_id': settings.PAYPAL_CLIENT_ID,
+        'paypal_id_token': get_paypal_id_token() or '',
         'paypal_plan_id': settings.PAYPAL_PLAN_ID,
         # Google Play Billing button falls back here (?billing=web) when the
         # Digital Goods API isn't available even inside a real TWA session.
@@ -3137,6 +3150,7 @@ def premium_infoESES(request):
 def premium_infoENIN(request):
     context = {
         'paypal_client_id': settings.PAYPAL_CLIENT_ID,
+        'paypal_id_token': get_paypal_id_token() or '',
         'paypal_plan_id': settings.PAYPAL_PLAN_ID,
         # Google Play Billing button falls back here (?billing=web) when the
         # Digital Goods API isn't available even inside a real TWA session.
@@ -3148,6 +3162,7 @@ def premium_infoENIN(request):
 def premium_infoDE(request):
     context = {
         'paypal_client_id': settings.PAYPAL_CLIENT_ID,
+        'paypal_id_token': get_paypal_id_token() or '',
         'paypal_plan_id': settings.PAYPAL_PLAN_ID,
         # Google Play Billing button falls back here (?billing=web) when the
         # Digital Goods API isn't available even inside a real TWA session.
@@ -3966,6 +3981,27 @@ def get_paypal_access_token():
         auth_url = "https://api-m.sandbox.paypal.com/v1/oauth2/token"
     resp = requests.post(auth_url, auth=(settings.PAYPAL_CLIENT_ID, settings.PAYPAL_CLIENT_SECRET), data={"grant_type": "client_credentials"})
     return resp.json().get('access_token')
+
+def get_paypal_id_token():
+    """Browser-safe token the PayPal JS SDK needs (data-user-id-token) to
+    authenticate vault-backed operations (subscriptions rely on vaulting the
+    payment method). The plain client-id alone isn't enough for vault=true -
+    see https://developer.paypal.com/docs/multiparty/checkout/save-payment-methods/during-purchase/js-sdk/paypal/"""
+    auth_url = "https://api-m.paypal.com/v1/oauth2/token"
+    if settings.PAYPAL_MODE == "sandbox":
+        auth_url = "https://api-m.sandbox.paypal.com/v1/oauth2/token"
+    try:
+        resp = requests.post(
+            auth_url,
+            auth=(settings.PAYPAL_CLIENT_ID, settings.PAYPAL_CLIENT_SECRET),
+            data={"grant_type": "client_credentials", "response_type": "id_token"},
+        )
+    except requests.RequestException as e:
+        logger.error(f"PayPal id_token request failed: {e}")
+        return None
+    if resp.status_code != 200:
+        return None
+    return resp.json().get('id_token')
 
 def cancel_paypal_subscription(subscription_id, reason):
     token = get_paypal_access_token()
