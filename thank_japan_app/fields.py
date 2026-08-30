@@ -9,7 +9,7 @@ class OptimizedCloudinaryField(CloudinaryField):
     field's `.url` is read (templates, serializers, etc.) without needing
     to add transformation params at each call site.
     """
-    DELIVERY_OPTIONS = {'fetch_format': 'auto', 'quality': 'auto'}
+    DELIVERY_OPTIONS = {'fetch_format': 'auto', 'quality': 'auto', 'secure': True}
 
     def parse_cloudinary_resource(self, value):
         resource = super().parse_cloudinary_resource(value)
