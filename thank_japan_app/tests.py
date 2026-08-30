@@ -458,120 +458,165 @@ class GooglePlayTrialReuseTests(TestCase):
         self.assertFalse(profile.is_trial)
 
 
-@override_settings(SECURE_SSL_REDIRECT=False)
-class PremiumInfoTrialPlanTemplateTests(TestCase):
-    """PAYPAL_PLAN_ID is temporarily rolled back to the old, trial-less plan
-    (single REGULAR cycle at sequence 1) after the trial-plan checkout broke
-    in production - see the "Client Authentication failed" incident. The
-    regional-price override must target sequence 1 while this plan is live.
-
-    TODO: once the trial-enabled plan is correctly set up via a rebuilt
-    PayPal button and PAYPAL_PLAN_ID points to it again, flip these back to
-    assert 'sequence': 2 (the plan's REGULAR cycle; sequence 1 is the $0
-    TRIAL cycle there, and overriding it would destroy the free trial)."""
+@override_settings(
+    PAYPAL_CLIENT_ID='test-client-id',
+    PAYPAL_CLIENT_SECRET='test-client-secret',
+    PAYPAL_MODE='sandbox',
+    PAYPAL_PLAN_ID='P-TESTPLAN',
+    SECURE_SSL_REDIRECT=False,
+)
+class CreatePaypalSubscriptionTests(TestCase):
+    """The JS SDK's client-side actions.subscription.create() rejects a
+    'plan' override with 403 NOT_AUTHORIZED ("Billing Plan Override is not
+    allowed due to insufficient permissions") - confirmed against the live
+    REST API, where the exact same override succeeds (201) every time when
+    sent with a server-side OAuth token instead. So the region-price
+    override has to happen here, server-side, not in a button's
+    createSubscription callback."""
 
     # A real Cloudflare edge IP, so pricing.get_premium_price() trusts the
     # CF-IPCountry header instead of falling back to the USD default.
     CLOUDFLARE_IP = '173.245.48.1'
 
-    def test_default_region_overrides_sequence_1_at_base_price(self):
-        response = self.client.get(reverse('premium_info'))
-        content = response.content.decode()
+    def setUp(self):
+        self.user = User.objects.create_user(username='alice', password='pass12345')
+        self.client.login(username='alice', password='pass12345')
+        self.url = reverse('create_paypal_subscription')
 
-        self.assertIn("'sequence': 1,", content)
-        self.assertNotIn("'sequence': 2,", content)
-        self.assertIn("'value': '5.00'", content)
+    @patch('thank_japan_app.views.requests.post')
+    def test_default_region_creates_subscription_at_base_price(self, mock_post):
+        mock_post.side_effect = [
+            _mock_response(200, {'access_token': 'tok'}),
+            _mock_response(201, {
+                'id': 'I-NEWSUB',
+                'status': 'APPROVAL_PENDING',
+                'links': [{'rel': 'approve', 'href': 'https://www.paypal.com/webapps/billing/subscriptions?ba_token=BA-X'}],
+            }),
+        ]
 
-    def test_discounted_region_overrides_sequence_1_at_tier_price(self):
-        response = self.client.get(
-            reverse('premium_info'),
+        response = self.client.post(self.url)
+
+        self.assertEqual(response.status_code, 200)
+        data = response.json()
+        self.assertEqual(data['status'], 'success')
+        self.assertEqual(data['approve_url'], 'https://www.paypal.com/webapps/billing/subscriptions?ba_token=BA-X')
+
+        create_call = mock_post.call_args_list[1]
+        body = create_call.kwargs['json']
+        self.assertEqual(body['plan_id'], 'P-TESTPLAN')
+        cycle = body['plan']['billing_cycles'][0]
+        self.assertEqual(cycle['sequence'], 1)
+        self.assertEqual(cycle['pricing_scheme']['fixed_price']['value'], '5.00')
+        self.assertNotIn('total_cycles', cycle)
+
+        self.assertEqual(self.client.session['pending_paypal_subscription_id'], 'I-NEWSUB')
+
+    @patch('thank_japan_app.views.requests.post')
+    def test_discounted_region_overrides_to_tier_price(self, mock_post):
+        mock_post.side_effect = [
+            _mock_response(200, {'access_token': 'tok'}),
+            _mock_response(201, {
+                'id': 'I-NEWSUB2',
+                'status': 'APPROVAL_PENDING',
+                'links': [{'rel': 'approve', 'href': 'https://www.paypal.com/webapps/billing/subscriptions?ba_token=BA-Y'}],
+            }),
+        ]
+
+        response = self.client.post(
+            self.url,
             REMOTE_ADDR=self.CLOUDFLARE_IP,
             HTTP_X_FORWARDED_FOR=self.CLOUDFLARE_IP,
             HTTP_CF_IPCOUNTRY='ID',  # tier A -> $1.75
         )
-        content = response.content.decode()
-
-        self.assertIn("'sequence': 1,", content)
-        self.assertNotIn("'sequence': 2,", content)
-        self.assertIn("'value': '1.75'", content)
-
-    def test_language_variants_also_override_sequence_1(self):
-        for url_name in ('premium_infoja', 'premium_infode', 'premium_infozhCN'):
-            with self.subTest(url_name=url_name):
-                response = self.client.get(reverse(url_name))
-                content = response.content.decode()
-                self.assertIn("'sequence': 1,", content)
-                self.assertNotIn("'sequence': 2,", content)
-
-
-@override_settings(
-    PAYPAL_CLIENT_ID='test-client-id',
-    PAYPAL_CLIENT_SECRET='test-client-secret',
-    PAYPAL_MODE='sandbox',
-)
-class GetPaypalIdTokenTests(TestCase):
-    """get_paypal_id_token() is the fix for the browser-side "Client
-    Authentication failed" incident: the JS SDK needs vault=true requests to
-    carry a server-generated id_token (data-user-id-token), not just the
-    public client-id. See PayPal's "Save PayPal with the JavaScript SDK" docs."""
-
-    @patch('thank_japan_app.views.requests.post')
-    def test_requests_id_token_response_type_and_returns_it(self, mock_post):
-        mock_post.return_value = _mock_response(200, {'access_token': 'tok', 'id_token': 'idtok-abc'})
-
-        from thank_japan_app.views import get_paypal_id_token
-        result = get_paypal_id_token()
-
-        self.assertEqual(result, 'idtok-abc')
-        args, kwargs = mock_post.call_args
-        self.assertIn('oauth2/token', args[0])
-        self.assertEqual(kwargs['data'].get('response_type'), 'id_token')
-
-    @patch('thank_japan_app.views.requests.post')
-    def test_returns_none_on_failure_response(self, mock_post):
-        mock_post.return_value = _mock_response(401, {'error': 'invalid_client'})
-
-        from thank_japan_app.views import get_paypal_id_token
-        self.assertIsNone(get_paypal_id_token())
-
-
-@override_settings(
-    PAYPAL_CLIENT_ID='test-client-id',
-    PAYPAL_CLIENT_SECRET='test-client-secret',
-    PAYPAL_MODE='sandbox',
-    SECURE_SSL_REDIRECT=False,
-)
-class PremiumInfoIdTokenTemplateTests(TestCase):
-    """The SDK script tag must carry data-user-id-token, on every language
-    variant, or vault-backed subscription checkout fails client-side."""
-
-    @patch('thank_japan_app.views.requests.post')
-    def test_id_token_rendered_in_script_tag(self, mock_post):
-        mock_post.return_value = _mock_response(200, {'access_token': 'tok', 'id_token': 'idtok-xyz'})
-
-        response = self.client.get(reverse('premium_info'))
-        content = response.content.decode()
-
-        self.assertIn('data-user-id-token="idtok-xyz"', content)
-
-    @patch('thank_japan_app.views.requests.post')
-    def test_id_token_rendered_across_language_variants(self, mock_post):
-        mock_post.return_value = _mock_response(200, {'access_token': 'tok', 'id_token': 'idtok-xyz'})
-
-        for url_name in ('premium_infoja', 'premium_infode', 'premium_infozhCN', 'premium_infofr'):
-            with self.subTest(url_name=url_name):
-                response = self.client.get(reverse(url_name))
-                content = response.content.decode()
-                self.assertIn('data-user-id-token="idtok-xyz"', content)
-
-    @patch('thank_japan_app.views.requests.post')
-    def test_missing_id_token_does_not_crash_the_page(self, mock_post):
-        # PayPal outage / bad credentials -> get_paypal_id_token() returns None.
-        # The page must still render (degrades to a broken PayPal button,
-        # not a 500) since the free content on the rest of the page matters.
-        mock_post.return_value = _mock_response(401, {'error': 'invalid_client'})
-
-        response = self.client.get(reverse('premium_info'))
 
         self.assertEqual(response.status_code, 200)
-        self.assertIn('data-user-id-token=""', response.content.decode())
+        create_call = mock_post.call_args_list[1]
+        body = create_call.kwargs['json']
+        self.assertEqual(body['plan']['billing_cycles'][0]['pricing_scheme']['fixed_price']['value'], '1.75')
+
+    def test_requires_login(self):
+        self.client.logout()
+        response = self.client.post(self.url)
+        self.assertNotEqual(response.status_code, 200)
+
+    @patch('thank_japan_app.views.requests.post')
+    def test_paypal_error_surfaces_as_502(self, mock_post):
+        mock_post.side_effect = [
+            _mock_response(200, {'access_token': 'tok'}),
+            _mock_response(400, {'name': 'INVALID_REQUEST'}),
+        ]
+
+        response = self.client.post(self.url)
+        self.assertEqual(response.status_code, 502)
+        self.assertEqual(response.json()['status'], 'error')
+
+
+@override_settings(
+    PAYPAL_CLIENT_ID='test-client-id',
+    PAYPAL_CLIENT_SECRET='test-client-secret',
+    PAYPAL_MODE='sandbox',
+    PAYPAL_PLAN_ID='P-TESTPLAN',
+    SECURE_SSL_REDIRECT=False,
+)
+class PaypalSubscriptionReturnTests(TestCase):
+    """The redirect back from PayPal must re-verify with PayPal using the
+    subscription_id this server itself stashed in the session before
+    sending the buyer to PayPal - never an ID taken from the redirect's own
+    query string, mirroring update_premium_status's same never-trust-the-
+    client verification."""
+
+    def setUp(self):
+        self.user = User.objects.create_user(username='alice', password='pass12345')
+        self.client.login(username='alice', password='pass12345')
+
+    def _set_pending(self, subscription_id):
+        session = self.client.session
+        session['pending_paypal_subscription_id'] = subscription_id
+        session.save()
+
+    @patch('thank_japan_app.views.requests.get')
+    @patch('thank_japan_app.views.requests.post')
+    def test_active_subscription_activates_premium_and_redirects_to_thank_you(self, mock_post, mock_get):
+        self._set_pending('I-RETURNED')
+        mock_post.return_value = _mock_response(200, {'access_token': 'tok'})
+        mock_get.return_value = _mock_response(200, {'status': 'ACTIVE', 'plan_id': 'P-TESTPLAN'})
+
+        response = self.client.get(reverse('paypal_subscription_return'))
+
+        self.assertRedirects(response, reverse('thank_you'), fetch_redirect_response=False)
+        profile = Profile.objects.get(user=self.user)
+        self.assertTrue(profile.is_premium)
+        self.assertEqual(profile.paypal_subscription_id, 'I-RETURNED')
+        self.assertNotIn('pending_paypal_subscription_id', self.client.session)
+
+    @patch('thank_japan_app.views.requests.get')
+    @patch('thank_japan_app.views.requests.post')
+    def test_redirects_to_localized_thank_you_page(self, mock_post, mock_get):
+        self._set_pending('I-RETURNED-JA')
+        mock_post.return_value = _mock_response(200, {'access_token': 'tok'})
+        mock_get.return_value = _mock_response(200, {'status': 'ACTIVE', 'plan_id': 'P-TESTPLAN'})
+
+        response = self.client.get(reverse('paypal_subscription_return'), {'lang': 'ja'})
+
+        self.assertRedirects(response, reverse('thank_youja'), fetch_redirect_response=False)
+
+    def test_missing_pending_id_redirects_to_premium_with_error(self):
+        response = self.client.get(reverse('paypal_subscription_return'))
+
+        self.assertEqual(response.status_code, 302)
+        self.assertIn('paypal_error=1', response.url)
+        profile = Profile.objects.get(user=self.user)
+        self.assertFalse(profile.is_premium)
+
+    @patch('thank_japan_app.views.requests.get')
+    @patch('thank_japan_app.views.requests.post')
+    def test_inactive_subscription_does_not_activate_premium(self, mock_post, mock_get):
+        self._set_pending('I-CANCELLED')
+        mock_post.return_value = _mock_response(200, {'access_token': 'tok'})
+        mock_get.return_value = _mock_response(200, {'status': 'CANCELLED', 'plan_id': 'P-TESTPLAN'})
+
+        response = self.client.get(reverse('paypal_subscription_return'))
+
+        self.assertIn('paypal_error=1', response.url)
+        profile = Profile.objects.get(user=self.user)
+        self.assertFalse(profile.is_premium)

@@ -2844,6 +2844,31 @@ class FukuiView(BGMContextMixin, TemplateView):
 #Thank_Japan premium 
 
 
+def _activate_paypal_subscription(user, subscription_id):
+    """Verifies a subscription_id directly with PayPal (never trusting a
+    client- or redirect-supplied ID blindly) and activates premium for
+    `user` if it's ACTIVE and on the expected plan. Returns (ok, message)."""
+    subscription = get_paypal_subscription_details(subscription_id)
+    if not subscription:
+        logger.warning(f"PayPal subscription {subscription_id} could not be verified with PayPal")
+        return False, 'subscription not found'
+
+    if subscription.get('status') != 'ACTIVE':
+        logger.warning(f"PayPal subscription {subscription_id} is not ACTIVE (status={subscription.get('status')})")
+        return False, 'subscription is not active'
+
+    if settings.PAYPAL_PLAN_ID and subscription.get('plan_id') != settings.PAYPAL_PLAN_ID:
+        logger.warning(f"PayPal subscription {subscription_id} has unexpected plan_id={subscription.get('plan_id')}")
+        return False, 'unexpected plan'
+
+    profile, created = Profile.objects.get_or_create(user=user)
+    profile.is_premium = True
+    profile.paypal_subscription_id = subscription_id
+    sync_paypal_premium_state(profile, subscription)
+    profile.save()
+    return True, 'success'
+
+
 @login_required
 @require_POST
 def update_premium_status(request):
@@ -2854,31 +2879,117 @@ def update_premium_status(request):
         if not subscription_id:
             return JsonResponse({'status': 'error'}, status=400)
 
-        subscription = get_paypal_subscription_details(subscription_id)
-        if not subscription:
-            logger.warning(f"PayPal subscription {subscription_id} could not be verified with PayPal")
-            return JsonResponse({'status': 'error', 'message': 'subscription not found'}, status=400)
-
-        if subscription.get('status') != 'ACTIVE':
-            logger.warning(f"PayPal subscription {subscription_id} is not ACTIVE (status={subscription.get('status')})")
-            return JsonResponse({'status': 'error', 'message': 'subscription is not active'}, status=400)
-
-        if settings.PAYPAL_PLAN_ID and subscription.get('plan_id') != settings.PAYPAL_PLAN_ID:
-            logger.warning(f"PayPal subscription {subscription_id} has unexpected plan_id={subscription.get('plan_id')}")
-            return JsonResponse({'status': 'error', 'message': 'unexpected plan'}, status=400)
-
-        profile, created = Profile.objects.get_or_create(user=request.user)
-
-        profile.is_premium = True
-        profile.paypal_subscription_id = subscription_id
-        sync_paypal_premium_state(profile, subscription)
-        profile.save()
+        ok, message = _activate_paypal_subscription(request.user, subscription_id)
+        if not ok:
+            return JsonResponse({'status': 'error', 'message': message}, status=400)
 
         return JsonResponse({'status': 'success'})
 
     except Exception as e:
         logger.error(f"Update Error: {str(e)}")
         return JsonResponse({'status': 'error'}, status=500)
+
+@login_required
+@require_POST
+def create_paypal_subscription(request):
+    """Creates the PayPal subscription server-side (with the region-adjusted
+    price override) and returns an approval URL for the browser to redirect
+    to.
+
+    The JS SDK's client-side actions.subscription.create() rejects a 'plan'
+    override with 403 NOT_AUTHORIZED ("Billing Plan Override is not allowed
+    due to insufficient permissions") - confirmed by sending the exact same
+    override straight to the REST API with a server-side OAuth token, which
+    succeeds (201) every time. Overriding a plan's pricing at
+    subscription-creation time is only permitted for server-authenticated
+    requests, so the override has to happen here rather than in the button's
+    createSubscription callback.
+    """
+    price = get_premium_price(request)
+
+    token = get_paypal_access_token()
+    if not token:
+        logger.error("PayPal subscription create failed: could not obtain access token")
+        return JsonResponse({'status': 'error'}, status=502)
+
+    body = {
+        "plan_id": settings.PAYPAL_PLAN_ID,
+        "plan": {
+            "billing_cycles": [{
+                "sequence": 1,
+                "pricing_scheme": {
+                    "fixed_price": {"value": price['price_usd'], "currency_code": "USD"}
+                }
+            }]
+        },
+        "application_context": {
+            "return_url": request.build_absolute_uri(reverse('paypal_subscription_return')),
+            "cancel_url": request.build_absolute_uri(reverse('paypal_subscription_cancel')),
+        },
+    }
+
+    create_url = "https://api-m.paypal.com/v1/billing/subscriptions"
+    if settings.PAYPAL_MODE == "sandbox":
+        create_url = "https://api-m.sandbox.paypal.com/v1/billing/subscriptions"
+
+    try:
+        resp = requests.post(
+            create_url,
+            headers={
+                "Authorization": f"Bearer {token}",
+                "Content-Type": "application/json",
+                # Idempotency key so a double-click can't create duplicate subscriptions.
+                "PayPal-Request-Id": f"sub-{request.user.id}-{int(timezone.now().timestamp())}",
+            },
+            json=body,
+        )
+    except requests.RequestException as e:
+        logger.error(f"PayPal subscription create request failed: {e}")
+        return JsonResponse({'status': 'error'}, status=502)
+
+    if resp.status_code not in (200, 201):
+        logger.error(f"PayPal subscription create failed: {resp.status_code} {resp.text}")
+        return JsonResponse({'status': 'error'}, status=502)
+
+    data = resp.json()
+    approve_url = next((l.get('href') for l in data.get('links', []) if l.get('rel') == 'approve'), None)
+    subscription_id = data.get('id')
+    if not approve_url or not subscription_id:
+        logger.error(f"PayPal subscription create response missing approve link: {data}")
+        return JsonResponse({'status': 'error'}, status=502)
+
+    # Read back on return from PayPal instead of trusting the redirect's own
+    # query string - same never-trust-client-input principle as elsewhere.
+    request.session['pending_paypal_subscription_id'] = subscription_id
+    return JsonResponse({'status': 'success', 'approve_url': approve_url})
+
+@login_required
+def paypal_subscription_return(request):
+    """Buyer is redirected back here by PayPal after approving (or
+    abandoning) the subscription created in create_paypal_subscription."""
+    subscription_id = request.session.pop('pending_paypal_subscription_id', None)
+    url_name, lang_code = get_lang_info(request)
+
+    if not subscription_id:
+        return redirect(f"{reverse(url_name)}?lang={lang_code}&paypal_error=1")
+
+    ok, message = _activate_paypal_subscription(request.user, subscription_id)
+    if not ok:
+        logger.warning(f"paypal_subscription_return: activation failed for {subscription_id}: {message}")
+        return redirect(f"{reverse(url_name)}?lang={lang_code}&paypal_error=1")
+
+    # thank_you url names mirror premium_info's exactly (same language
+    # suffix), so the language-specific page can be derived without a
+    # second lookup table.
+    thank_you_url_name = url_name.replace('premium_info', 'thank_you')
+    return redirect(thank_you_url_name)
+
+@login_required
+def paypal_subscription_cancel(request):
+    """Buyer backed out of the PayPal approval page."""
+    request.session.pop('pending_paypal_subscription_id', None)
+    url_name, lang_code = get_lang_info(request)
+    return redirect(f"{reverse(url_name)}?lang={lang_code}")
 
 @csrf_exempt
 def paypal_webhook(request):
@@ -2992,9 +3103,6 @@ def get_lang_info(request):
 
 def premium_info(request):
     context = {
-        'paypal_client_id': settings.PAYPAL_CLIENT_ID,
-        'paypal_id_token': get_paypal_id_token() or '',
-        'paypal_plan_id': settings.PAYPAL_PLAN_ID,
         # Google Play Billing button falls back here (?billing=web) when the
         # Digital Goods API isn't available even inside a real TWA session.
         'is_twa': is_android_twa(request) and request.GET.get('billing') != 'web',
@@ -3004,9 +3112,6 @@ def premium_info(request):
 
 def premium_infoZHCN(request):
     context = {
-        'paypal_client_id': settings.PAYPAL_CLIENT_ID,
-        'paypal_id_token': get_paypal_id_token() or '',
-        'paypal_plan_id': settings.PAYPAL_PLAN_ID,
         # Google Play Billing button falls back here (?billing=web) when the
         # Digital Goods API isn't available even inside a real TWA session.
         'is_twa': is_android_twa(request) and request.GET.get('billing') != 'web',
@@ -3017,9 +3122,6 @@ def premium_infoZHCN(request):
 
 def premium_infoZHHANT(request):
     context = {
-        'paypal_client_id': settings.PAYPAL_CLIENT_ID,
-        'paypal_id_token': get_paypal_id_token() or '',
-        'paypal_plan_id': settings.PAYPAL_PLAN_ID,
         # Google Play Billing button falls back here (?billing=web) when the
         # Digital Goods API isn't available even inside a real TWA session.
         'is_twa': is_android_twa(request) and request.GET.get('billing') != 'web',
@@ -3029,9 +3131,6 @@ def premium_infoZHHANT(request):
 
 def premium_infoVI(request):
     context = {
-        'paypal_client_id': settings.PAYPAL_CLIENT_ID,
-        'paypal_id_token': get_paypal_id_token() or '',
-        'paypal_plan_id': settings.PAYPAL_PLAN_ID,
         # Google Play Billing button falls back here (?billing=web) when the
         # Digital Goods API isn't available even inside a real TWA session.
         'is_twa': is_android_twa(request) and request.GET.get('billing') != 'web',
@@ -3041,9 +3140,6 @@ def premium_infoVI(request):
 
 def premium_infoTH(request):
     context = {
-        'paypal_client_id': settings.PAYPAL_CLIENT_ID,
-        'paypal_id_token': get_paypal_id_token() or '',
-        'paypal_plan_id': settings.PAYPAL_PLAN_ID,
         # Google Play Billing button falls back here (?billing=web) when the
         # Digital Goods API isn't available even inside a real TWA session.
         'is_twa': is_android_twa(request) and request.GET.get('billing') != 'web',
@@ -3053,9 +3149,6 @@ def premium_infoTH(request):
 
 def premium_infoPT(request):
     context = {
-        'paypal_client_id': settings.PAYPAL_CLIENT_ID,
-        'paypal_id_token': get_paypal_id_token() or '',
-        'paypal_plan_id': settings.PAYPAL_PLAN_ID,
         # Google Play Billing button falls back here (?billing=web) when the
         # Digital Goods API isn't available even inside a real TWA session.
         'is_twa': is_android_twa(request) and request.GET.get('billing') != 'web',
@@ -3065,9 +3158,6 @@ def premium_infoPT(request):
 
 def premium_infoPTBR(request):
     context = {
-        'paypal_client_id': settings.PAYPAL_CLIENT_ID,
-        'paypal_id_token': get_paypal_id_token() or '',
-        'paypal_plan_id': settings.PAYPAL_PLAN_ID,
         # Google Play Billing button falls back here (?billing=web) when the
         # Digital Goods API isn't available even inside a real TWA session.
         'is_twa': is_android_twa(request) and request.GET.get('billing') != 'web',
@@ -3077,9 +3167,6 @@ def premium_infoPTBR(request):
 
 def premium_infoKO(request):
     context = {
-        'paypal_client_id': settings.PAYPAL_CLIENT_ID,
-        'paypal_id_token': get_paypal_id_token() or '',
-        'paypal_plan_id': settings.PAYPAL_PLAN_ID,
         # Google Play Billing button falls back here (?billing=web) when the
         # Digital Goods API isn't available even inside a real TWA session.
         'is_twa': is_android_twa(request) and request.GET.get('billing') != 'web',
@@ -3089,9 +3176,6 @@ def premium_infoKO(request):
 
 def premium_infoJA(request):
     context = {
-        'paypal_client_id': settings.PAYPAL_CLIENT_ID,
-        'paypal_id_token': get_paypal_id_token() or '',
-        'paypal_plan_id': settings.PAYPAL_PLAN_ID,
         # Google Play Billing button falls back here (?billing=web) when the
         # Digital Goods API isn't available even inside a real TWA session.
         'is_twa': is_android_twa(request) and request.GET.get('billing') != 'web',
@@ -3101,9 +3185,6 @@ def premium_infoJA(request):
 
 def premium_infoIT(request):
     context = {
-        'paypal_client_id': settings.PAYPAL_CLIENT_ID,
-        'paypal_id_token': get_paypal_id_token() or '',
-        'paypal_plan_id': settings.PAYPAL_PLAN_ID,
         # Google Play Billing button falls back here (?billing=web) when the
         # Digital Goods API isn't available even inside a real TWA session.
         'is_twa': is_android_twa(request) and request.GET.get('billing') != 'web',
@@ -3113,9 +3194,6 @@ def premium_infoIT(request):
 
 def premium_infoFR(request):
     context = {
-        'paypal_client_id': settings.PAYPAL_CLIENT_ID,
-        'paypal_id_token': get_paypal_id_token() or '',
-        'paypal_plan_id': settings.PAYPAL_PLAN_ID,
         # Google Play Billing button falls back here (?billing=web) when the
         # Digital Goods API isn't available even inside a real TWA session.
         'is_twa': is_android_twa(request) and request.GET.get('billing') != 'web',
@@ -3125,9 +3203,6 @@ def premium_infoFR(request):
 
 def premium_infoESMX(request):
     context = {
-        'paypal_client_id': settings.PAYPAL_CLIENT_ID,
-        'paypal_id_token': get_paypal_id_token() or '',
-        'paypal_plan_id': settings.PAYPAL_PLAN_ID,
         # Google Play Billing button falls back here (?billing=web) when the
         # Digital Goods API isn't available even inside a real TWA session.
         'is_twa': is_android_twa(request) and request.GET.get('billing') != 'web',
@@ -3137,9 +3212,6 @@ def premium_infoESMX(request):
 
 def premium_infoESES(request):
     context = {
-        'paypal_client_id': settings.PAYPAL_CLIENT_ID,
-        'paypal_id_token': get_paypal_id_token() or '',
-        'paypal_plan_id': settings.PAYPAL_PLAN_ID,
         # Google Play Billing button falls back here (?billing=web) when the
         # Digital Goods API isn't available even inside a real TWA session.
         'is_twa': is_android_twa(request) and request.GET.get('billing') != 'web',
@@ -3149,9 +3221,6 @@ def premium_infoESES(request):
 
 def premium_infoENIN(request):
     context = {
-        'paypal_client_id': settings.PAYPAL_CLIENT_ID,
-        'paypal_id_token': get_paypal_id_token() or '',
-        'paypal_plan_id': settings.PAYPAL_PLAN_ID,
         # Google Play Billing button falls back here (?billing=web) when the
         # Digital Goods API isn't available even inside a real TWA session.
         'is_twa': is_android_twa(request) and request.GET.get('billing') != 'web',
@@ -3161,9 +3230,6 @@ def premium_infoENIN(request):
 
 def premium_infoDE(request):
     context = {
-        'paypal_client_id': settings.PAYPAL_CLIENT_ID,
-        'paypal_id_token': get_paypal_id_token() or '',
-        'paypal_plan_id': settings.PAYPAL_PLAN_ID,
         # Google Play Billing button falls back here (?billing=web) when the
         # Digital Goods API isn't available even inside a real TWA session.
         'is_twa': is_android_twa(request) and request.GET.get('billing') != 'web',
@@ -3981,27 +4047,6 @@ def get_paypal_access_token():
         auth_url = "https://api-m.sandbox.paypal.com/v1/oauth2/token"
     resp = requests.post(auth_url, auth=(settings.PAYPAL_CLIENT_ID, settings.PAYPAL_CLIENT_SECRET), data={"grant_type": "client_credentials"})
     return resp.json().get('access_token')
-
-def get_paypal_id_token():
-    """Browser-safe token the PayPal JS SDK needs (data-user-id-token) to
-    authenticate vault-backed operations (subscriptions rely on vaulting the
-    payment method). The plain client-id alone isn't enough for vault=true -
-    see https://developer.paypal.com/docs/multiparty/checkout/save-payment-methods/during-purchase/js-sdk/paypal/"""
-    auth_url = "https://api-m.paypal.com/v1/oauth2/token"
-    if settings.PAYPAL_MODE == "sandbox":
-        auth_url = "https://api-m.sandbox.paypal.com/v1/oauth2/token"
-    try:
-        resp = requests.post(
-            auth_url,
-            auth=(settings.PAYPAL_CLIENT_ID, settings.PAYPAL_CLIENT_SECRET),
-            data={"grant_type": "client_credentials", "response_type": "id_token"},
-        )
-    except requests.RequestException as e:
-        logger.error(f"PayPal id_token request failed: {e}")
-        return None
-    if resp.status_code != 200:
-        return None
-    return resp.json().get('id_token')
 
 def cancel_paypal_subscription(subscription_id, reason):
     token = get_paypal_access_token()

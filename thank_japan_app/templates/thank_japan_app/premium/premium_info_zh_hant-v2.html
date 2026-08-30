@@ -376,7 +376,7 @@
                   <a href="{% url 'privacy_policyzhHANT' %}" target="_blank">隱私權政策</a>。
               </p>
 
-              <div id="paypal-button-container"></div>
+              <div id="paypal-button-container"><button id="paypal-subscribe-btn" class="plan-btn google-play-btn" type="button">PayPal</button></div>
 
               <p class="agreement-text" style="margin-top:10px;">
                   🔒 支付過程經過安全加密處理。
@@ -529,79 +529,50 @@
 
 
 {% if not is_twa %}
-<script src="https://www.paypal.com/sdk/js?client-id={{ paypal_client_id }}&vault=true&intent=subscription&currency=USD" data-user-id-token="{{ paypal_id_token }}"></script>
-
 <script>
-    paypal.Buttons({
-        style: {
-            shape: 'rect',
-            color: 'gold',
-            layout: 'vertical',
-            label: 'subscribe'
-        },
-        onClick: function(data, actions) {
-            gtag('event', 'begin_checkout', {
-                currency: 'USD',
-                value: {{ price_usd }},
-                items: [{
-                    item_id: 'thankjapan_premium_monthly_paypal',
-                    item_name: 'ThankJapan Premium Monthly',
-                    price: {{ price_usd }},
-                    quantity: 1
-                }]
-            });
-            return actions.resolve();
-        },
-        createSubscription: function(data, actions) {
-            return actions.subscription.create({
-                'plan_id': '{{ paypal_plan_id }}',
-                'plan': {
-                    'billing_cycles': [{
-                        'sequence': 1,
-                        'total_cycles': 0,
-                        'pricing_scheme': {
-                            'fixed_price': { 'value': '{{ price_usd }}', 'currency_code': 'USD' }
-                        }
-                    }]
-                }
-            });
-        },
-        onApprove: function(data, actions) {
-            document.getElementById('paypal-button-container').innerHTML = '<p style="color: #d4af37; font-weight: bold; padding: 20px;">正在更新您的帳戶...<br>請稍候。</p>';
-            
-            fetch("{% url 'update_premium_status' %}", {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRFToken': '{{ csrf_token }}'
-                },
-                body: JSON.stringify({
-                    subscriptionID: data.subscriptionID
-                })
-            }).then(response => {
-                if (response.ok) {
-                    gtag('event', 'purchase', {
-                        transaction_id: data.subscriptionID,
-                        currency: 'USD',
-                        value: {{ price_usd }},
-                        items: [{
-                            item_id: 'thankjapan_premium_monthly_paypal',
-                            item_name: 'ThankJapan Premium Monthly',
-                            price: {{ price_usd }},
-                            quantity: 1
-                        }]
-                    });
+document.addEventListener('DOMContentLoaded', function () {
+    var btn = document.getElementById('paypal-subscribe-btn');
+    if (!btn) return;
+    var originalText = btn.textContent;
 
-                    setTimeout(function() {
-                        window.location.href = "{% url 'thank_youzhHANT' %}";
-                    }, 3000);
-                }
-            });
-        },
-        onError: function (err) {
-            alert('PayPal 發生錯誤。');
-        }
-    }).render('#paypal-button-container');
+    btn.addEventListener('click', function () {
+        gtag('event', 'begin_checkout', {
+            currency: 'USD',
+            value: {{ price_usd }},
+            items: [{
+                item_id: 'thankjapan_premium_monthly_paypal',
+                item_name: 'ThankJapan Premium Monthly',
+                price: {{ price_usd }},
+                quantity: 1
+            }]
+        });
+
+        btn.disabled = true;
+        btn.textContent = '...';
+
+        fetch("{% url 'create_paypal_subscription' %}", {
+            method: 'POST',
+            headers: { 'X-CSRFToken': '{{ csrf_token }}' }
+        }).then(function (r) { return r.json(); }).then(function (data) {
+            if (data.status === 'success' && data.approve_url) {
+                window.location.href = data.approve_url;
+            } else {
+                alert('PayPal Error occurred.');
+                btn.disabled = false;
+                btn.textContent = originalText;
+            }
+        }).catch(function () {
+            alert('PayPal Error occurred.');
+            btn.disabled = false;
+            btn.textContent = originalText;
+        });
+    });
+
+    var params = new URLSearchParams(window.location.search);
+    if (params.get('paypal_error') === '1') {
+        alert('PayPal Error occurred.');
+    }
+});
 </script>
 
 {% endif %}

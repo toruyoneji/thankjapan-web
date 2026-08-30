@@ -27,7 +27,8 @@ from .views import (TopView, TopViewFR, TopViewIT, TopViewPT, TopViewZHHANT,TopV
                     PrivacyPolicy, PrivacyPolicyDE, PrivacyPolicyENIN, PrivacyPolicyESES, PrivacyPolicyESMX,
                     PrivacyPolicyFR, PrivacyPolicyIT, PrivacyPolicyJA, PrivacyPolicyKO, PrivacyPolicyPT,
                     PrivacyPolicyPTBR, PrivacyPolicyTH, PrivacyPolicyVI, PrivacyPolicyZHHANT, PrivacyPolicyZHCN,
-                    update_premium_status, delete_account, downgrade_premium, 
+                    update_premium_status, create_paypal_subscription, paypal_subscription_return,
+                    paypal_subscription_cancel, delete_account, downgrade_premium,
                     premium_info, premium_infoDE, premium_infoENIN, premium_infoESES, premium_infoESMX,
                     premium_infoFR, premium_infoIT, premium_infoJA, premium_infoKO, premium_infoPT,
                     premium_infoPTBR, premium_infoTH, premium_infoVI, premium_infoZHHANT, premium_infoZHCN,
@@ -174,6 +175,9 @@ urlpatterns = [
     
     #premium-status
     path('update-premium-status/', update_premium_status, name='update_premium_status'),
+    path('premium/paypal/create/', create_paypal_subscription, name='create_paypal_subscription'),
+    path('premium/paypal/return/', paypal_subscription_return, name='paypal_subscription_return'),
+    path('premium/paypal/cancel/', paypal_subscription_cancel, name='paypal_subscription_cancel'),
     path('paypal/webhook/', paypal_webhook, name='paypal_webhook'),
     path('account/downgrade/', downgrade_premium, name='downgrade_premium'),
     path('account/delete/', delete_account, name='delete_account'),
