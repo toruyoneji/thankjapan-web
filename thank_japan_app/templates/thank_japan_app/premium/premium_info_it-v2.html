@@ -176,43 +176,76 @@
 }
 
 .plan-subtext {
-    font-size: 0.75rem;
-    color: var(--ink-faint);
-    margin-bottom: 18px;
+    display: inline-block;
+    font-size: 0.78rem;
+    font-weight: 800;
+    color: #241a00;
+    background: linear-gradient(135deg, #ffd700, #d4af37);
+    padding: 7px 18px;
+    border-radius: 999px;
+    margin-bottom: 22px;
+    box-shadow: 0 3px 12px rgba(212, 175, 55, 0.35);
+}
+.plan-subtext::before { content: "\2713  "; }
+
+.soft-invite {
+    font-size: 0.95rem;
+    color: var(--ink-soft);
+    margin: 2px 0 14px;
+    font-weight: 500;
 }
 
 .plan-features {
     list-style: none;
     margin: 20px 0 30px 0;
-    padding: 15px 20px;
-    text-align: left;
-    background: rgba(255, 255, 255, 0.05) !important;
-    
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    
-    border: 1px solid rgba(212, 175, 55, 0.2);
-    border-radius: 20px; 
+    padding: 4px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
 }
 
 .plan-features li {
-    padding: 12px 0; 
-    font-size: 1rem;
+    padding: 16px 10px;
+    font-size: 0.85rem;
     display: flex;
+    flex-direction: column;
     align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 8px;
     color: #ffffff;
-    line-height: 1.4;
+    line-height: 1.35;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(212, 175, 55, 0.2);
+    border-radius: 16px;
+    transition: transform 0.15s ease, border-color 0.15s ease;
 }
 
-
+.plan-features li:hover {
+    transform: translateY(-2px);
+    border-color: rgba(212, 175, 55, 0.5);
+}
 
 .plan-features li::before {
-    content: "✦"; 
-    margin-right: 12px;
+    content: "\2726";
+    display: block;
     color: #d4af37;
-    font-size: 1.1rem;
+    font-size: 1.5rem;
     filter: drop-shadow(0 0 5px rgba(212, 175, 55, 0.5));
 }
+
+.plan-features li:nth-child(1)::before { content: "\1F4AC"; }
+.plan-features li:nth-child(2)::before { content: "\1F4BC"; }
+.plan-features li:nth-child(3)::before { content: "\1F647"; }
+.plan-features li:nth-child(4)::before { content: "\1F515"; }
+.plan-features li:nth-child(5) {
+    grid-column: 1 / -1;
+    flex-direction: row;
+    gap: 12px;
+}
+.plan-features li:nth-child(5)::before { content: "\1F680"; font-size: 1.3rem; }
 
 .plan-btn {
     display: block;
@@ -243,6 +276,8 @@
     box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
 }
 .google-play-btn:active { transform: translateY(2px); border-bottom-width: 2px; }
+.google-play-btn { transition: transform 0.15s ease, box-shadow 0.15s ease; }
+.google-play-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(212, 175, 55, 0.45); }
 
 .paypal-btn {
     background: #ffc439 !important;
@@ -259,7 +294,9 @@
     justify-content: center;
     gap: 10px;
 }
+.paypal-btn { transition: transform 0.15s ease, box-shadow 0.15s ease; }
 .paypal-btn:active { transform: translateY(2px); }
+.paypal-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0, 48, 135, 0.4); }
 .paypal-btn:disabled { opacity: 0.7; cursor: default; }
 .paypal-wordmark { font-style: italic; font-weight: 800; }
 .paypal-wordmark span { color: #0070e0; }
@@ -383,6 +420,7 @@
       <div class="pricing-container">
           <div class="plan-card featured">
               <div class="plan-name">Premium</div>
+              <p class="soft-invite">Provalo senza pensieri, disdici quando vuoi.</p>
               <div class="plan-price">{{ price_display }} <span>/ mese</span></div>
               <div class="plan-subtext">Annulla in qualsiasi momento · Nessun costo nascosto</div>
 
