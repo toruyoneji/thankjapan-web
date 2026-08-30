@@ -554,16 +554,7 @@
         },
         createSubscription: function(data, actions) {
             return actions.subscription.create({
-                'plan_id': '{{ paypal_plan_id }}',
-                'plan': {
-                    'billing_cycles': [{
-                        'sequence': 1,
-                        'total_cycles': 0,
-                        'pricing_scheme': {
-                            'fixed_price': { 'value': '{{ price_usd }}', 'currency_code': 'USD' }
-                        }
-                    }]
-                }
+                'plan_id': '{{ paypal_plan_id }}'
             });
         },
         onApprove: function(data, actions) {
