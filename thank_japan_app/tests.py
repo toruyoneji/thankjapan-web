@@ -3,11 +3,12 @@ from datetime import timedelta
 from unittest.mock import MagicMock, patch
 
 from django.contrib.auth.models import User
-from django.test import TestCase, override_settings
+from django.test import RequestFactory, SimpleTestCase, TestCase, override_settings
 from django.urls import reverse
 from django.utils import timezone
 
 from .models import Profile
+from .pricing import get_premium_price
 
 
 def _mock_response(status_code=200, json_data=None):
@@ -456,6 +457,57 @@ class GooglePlayTrialReuseTests(TestCase):
         profile = Profile.objects.get(user=self.user)
         self.assertTrue(profile.is_premium)
         self.assertFalse(profile.is_trial)
+
+
+class GetPremiumPriceLocalCurrencyTests(SimpleTestCase):
+    """price_usd is always what's actually billed to PayPal and must stay
+    USD regardless of country. price_display is display-only and switches
+    to a native-currency string for countries in LOCAL_CURRENCY_DISPLAY -
+    added alongside Cambodia/Myanmar joining COUNTRY_TIERS and the
+    Nigeria/Myanmar/Egypt/Ghana rate check on 2026-08-30."""
+
+    CLOUDFLARE_IP = '173.245.48.1'
+
+    def _price_for(self, country_code=None):
+        kwargs = {'REMOTE_ADDR': self.CLOUDFLARE_IP, 'HTTP_X_FORWARDED_FOR': self.CLOUDFLARE_IP}
+        if country_code:
+            kwargs['HTTP_CF_IPCOUNTRY'] = country_code
+        request = RequestFactory().get('/premium/', **kwargs)
+        return get_premium_price(request)
+
+    def test_japan_shows_yen_but_bills_usd(self):
+        result = self._price_for('JP')
+        self.assertEqual(result['price_usd'], '5.00')
+        self.assertEqual(result['price_display'], '¥800')
+        self.assertIsNone(result['price_tier'])
+
+    def test_cambodia_and_myanmar_are_tier_a_with_local_display(self):
+        for country, expected_display in (('KH', '៛7,200'), ('MM', 'Ks3,700')):
+            with self.subTest(country=country):
+                result = self._price_for(country)
+                self.assertEqual(result['price_usd'], '1.75')
+                self.assertEqual(result['price_tier'], 'A')
+                self.assertEqual(result['price_display'], expected_display)
+
+    def test_tier_countries_without_a_currency_entry_still_bill_correctly(self):
+        # Every LOCAL_CURRENCY_DISPLAY entry must actually match a real
+        # country/tier pairing, but not every tiered country needs a
+        # display entry - price_display just falls back to USD for those.
+        result = self._price_for('MN')
+        self.assertEqual(result['price_usd'], '1.75')
+        self.assertEqual(result['price_tier'], 'A')
+
+    def test_untiered_country_falls_back_to_usd_display(self):
+        result = self._price_for('TH')
+        self.assertEqual(result['price_usd'], '5.00')
+        self.assertEqual(result['price_display'], '$5.00')
+
+    def test_no_country_detected_falls_back_to_usd_display(self):
+        request = RequestFactory().get('/premium/', REMOTE_ADDR='8.8.8.8')
+        result = get_premium_price(request)
+        self.assertEqual(result['price_usd'], '5.00')
+        self.assertEqual(result['price_display'], '$5.00')
+        self.assertIsNone(result['detected_country'])
 
 
 @override_settings(

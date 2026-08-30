@@ -57,12 +57,50 @@ COUNTRY_TIERS = {
     # Tier A
     'ID': 'A', 'PH': 'A', 'VN': 'A', 'EG': 'A',
     'MA': 'A', 'MN': 'A', 'PY': 'A', 'BO': 'A',
+    'KH': 'A', 'MM': 'A',
     # Tier B
     'NG': 'B', 'PK': 'B', 'BD': 'B', 'TZ': 'B',
     'KE': 'B', 'GH': 'B', 'LK': 'B', 'CI': 'B',
     'SN': 'B', 'CM': 'B',
     # Tier C
     'ZA': 'C', 'IN': 'C',
+}
+
+# Display-only local-currency prices. The actual PayPal charge is always
+# price_usd (USD) - these only change the human-readable price_display, for
+# markets where a native-currency figure reads far more naturally than a
+# USD one. Amounts are fixed, rounded approximations of the USD tier price
+# at roughly the exchange rate in effect when set (checked 2026-08-30), not
+# a live/dynamic conversion - revisit if a currency moves a lot.
+# Keyed by country code, then by price_tier (None = the untiered default
+# price, i.e. DEFAULT_PRICE).
+LOCAL_CURRENCY_DISPLAY = {
+    'JP': {None: '¥800'},
+    # Tier A ($1.75)
+    'ID': {'A': 'Rp27.000'},
+    'PH': {'A': '₱99'},
+    'VN': {'A': '44.000₫'},
+    'EG': {'A': 'EGP 88'},
+    'MA': {'A': 'MAD 17'},
+    'MN': {'A': '₮6,000'},
+    'PY': {'A': '₲13,500'},
+    'BO': {'A': 'Bs12'},
+    'KH': {'A': '៛7,200'},
+    'MM': {'A': 'Ks3,700'},
+    # Tier B ($1.25)
+    'NG': {'B': '₦1,750'},
+    'PK': {'B': '₨350'},
+    'BD': {'B': '৳150'},
+    'TZ': {'B': 'TSh3,250'},
+    'KE': {'B': 'KSh160'},
+    'GH': {'B': 'GH₵14'},
+    'LK': {'B': 'Rs375'},
+    'CI': {'B': '750F'},
+    'SN': {'B': '750F'},
+    'CM': {'B': '750F'},
+    # Tier C ($2.50)
+    'ZA': {'C': 'R45'},
+    'IN': {'C': '₹220'},
 }
 
 
@@ -74,8 +112,9 @@ def get_premium_price(request):
     Cloudflare, such as local development) or isn't in a discounted tier.
 
     Returns a dict meant to be merged straight into a template context:
-    price_usd (e.g. "1.75"), price_display (e.g. "$1.75"), price_tier,
-    detected_country.
+    price_usd (e.g. "1.75", always what's actually billed to PayPal),
+    price_display (e.g. "$1.75", or a local-currency string for countries
+    in LOCAL_CURRENCY_DISPLAY - display only), price_tier, detected_country.
     """
     country_code = None
     if _request_is_from_cloudflare(request):
@@ -84,9 +123,14 @@ def get_premium_price(request):
     price = TIER_PRICES[tier] if tier else DEFAULT_PRICE
     price_usd = f'{price:.2f}'
 
+    price_display = f'${price_usd}'
+    local_display = LOCAL_CURRENCY_DISPLAY.get(country_code)
+    if local_display and tier in local_display:
+        price_display = local_display[tier]
+
     return {
         'price_usd': price_usd,
-        'price_display': f'${price_usd}',
+        'price_display': price_display,
         'price_tier': tier,
         'detected_country': country_code,
     }
