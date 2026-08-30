@@ -46,8 +46,10 @@
     top: 0; left: 0;
     width: 100% !important;
     height: 100dvh;
-    background: radial-gradient(circle at top right, #2d1b2d, #0f0f0f 60%), 
-                radial-gradient(circle at bottom left, #1a1a2e, #0f0f0f 60%) !important;
+    background: repeating-radial-gradient(circle at 50% 100%, transparent 0, transparent 18px, rgba(212, 175, 55, 0.035) 19px, rgba(212, 175, 55, 0.035) 20px),
+                radial-gradient(circle at top right, #2d1b2d, #0f0f0f 60%),
+                radial-gradient(circle at bottom left, #241a12, #0f0f0f 60%) !important;
+    background-size: 60px 30px, auto, auto;
     overflow: hidden;
     z-index: 1;
 }
@@ -148,7 +150,7 @@
 .plan-card.featured {
     border-color: var(--border);
     background: var(--card-bg);
-    box-shadow: none;
+    box-shadow: 0 0 90px 14px rgba(212, 175, 55, 0.14), 0 0 30px rgba(212, 175, 55, 0.1);
 }
 
 .plan-badge {
