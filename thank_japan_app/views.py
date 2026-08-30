@@ -4466,6 +4466,81 @@ class PrefectureView(BGMContextMixin, ListView):
         return context    
 
                
+# SEO title/description for word detail pages, generated per language.
+# GSC data showed high impressions but very low CTR on these pages because the
+# title was not localized and no meta description was rendered at all.
+WORD_NAME_FIELD_MAP = {
+    'ja': 'englishname_ja',
+    'en-in': 'englishname_en_in',
+    'zh-cn': 'englishname_zh_cn',
+    'zh-hant': 'englishname_zh_hant',
+    'ko': 'englishname_ko',
+    'fr': 'englishname_fr',
+    'de': 'englishname_de',
+    'it': 'englishname_it',
+    'es-es': 'englishname_es_es',
+    'es-mx': 'englishname_es_mx',
+    'pt': 'englishname_pt',
+    'pt-br': 'englishname_pt_br',
+    'th': 'englishname_th',
+    'vi': 'englishname_vi',
+}
+
+WORD_SEO_TITLE_TEMPLATES = {
+    'en': "{word} Meaning & Pronunciation | Photo Quiz - ThankJapan",
+    'en-in': "{word} Meaning in Japanese | Photo Quiz - ThankJapan",
+    'ja': "{word}の意味・読み方・発音 | 写真クイズで覚える日本語 | ThankJapan",
+    'zh-cn': "{word}是什么意思？发音怎么读 | 图片测验学日语 - ThankJapan",
+    'zh-hant': "{word}是什麼意思？發音怎麼唸 | 圖片測驗學日文 - ThankJapan",
+    'ko': "{word} 뜻・발음 정리 | 사진 퀴즈 - ThankJapan",
+    'fr': "{word} : sens et prononciation | Quiz photo - ThankJapan",
+    'de': "{word}: Bedeutung & Aussprache | Foto-Quiz - ThankJapan",
+    'it': "{word}: significato e pronuncia | Quiz foto - ThankJapan",
+    'es-es': "{word}: significado y pronunciación | Quiz - ThankJapan",
+    'es-mx': "{word}: significado y pronunciación | Quiz - ThankJapan",
+    'pt': "{word}: significado e pronúncia | Quiz - ThankJapan",
+    'pt-br': "{word}: significado e pronúncia | Quiz - ThankJapan",
+    'th': "{word} แปลว่าอะไร? อ่าน-ออกเสียง | ควิซรูปภาพ - ThankJapan",
+    'vi': "{word} nghĩa là gì? Đọc & phát âm | Quiz ảnh - ThankJapan",
+}
+
+WORD_SEO_DESCRIPTION_TEMPLATES = {
+    'en': "What does {word} mean in Japanese? Get the meaning, reading and native pronunciation, then make it stick with a fun photo quiz on ThankJapan.",
+    'en-in': "Wondering what {word} means in Japanese? Learn the meaning, reading and pronunciation, then practice with a fun photo quiz on ThankJapan.",
+    'ja': "「{word}」の意味・読み方・発音をわかりやすく解説。ネイティブ音声を聞きながら、写真クイズで楽しく日本語の語彙を身につけよう。今すぐThankJapanでチェック!",
+    'zh-cn': "「{word}」到底是什么意思？这里有详细的含义、发音和读法讲解，还能通过趣味图片测验边玩边记单词。快来ThankJapan轻松学日语！",
+    'zh-hant': "「{word}」到底是什麼意思？這裡有清楚的含義、發音與讀法說明，還能透過趣味圖片測驗邊玩邊記單字。立即到ThankJapan輕鬆學日文！",
+    'ko': "{word}의 뜻과 읽는 법, 발음을 한눈에 확인하고 재미있는 사진 퀴즈로 일본어 단어를 익혀보세요. ThankJapan에서 지금 시작하세요!",
+    'fr': "Que signifie « {word} » en japonais ? Découvrez sa signification, sa lecture et sa prononciation, puis retenez-le facilement avec un quiz photo sur ThankJapan.",
+    'de': "Was bedeutet „{word}“ auf Japanisch? Entdecke Bedeutung, Lesung und Aussprache und präge es dir mit einem unterhaltsamen Foto-Quiz auf ThankJapan spielerisch ein.",
+    'it': "Cosa significa “{word}” in giapponese? Scopri significato, lettura e pronuncia, poi mettiti alla prova con un divertente quiz fotografico su ThankJapan.",
+    'es-es': "¿Qué significa “{word}” en japonés? Descubre su significado, lectura y pronunciación, y apréndelo jugando con un quiz de fotos en ThankJapan.",
+    'es-mx': "¿Qué significa “{word}” en japonés? Conoce su significado, lectura y pronunciación, y apréndelo jugando con un divertido quiz de fotos en ThankJapan.",
+    'pt': "O que significa “{word}” em japonês? Descobre o significado, a leitura e a pronúncia, e fixa tudo com um quiz de fotos divertido no ThankJapan.",
+    'pt-br': "O que significa “{word}” em japonês? Descubra o significado, a leitura e a pronúncia, e grave tudo brincando com um quiz de fotos no ThankJapan.",
+    'th': "{word} แปลว่าอะไรในภาษาญี่ปุ่น? ดูความหมาย การอ่าน และการออกเสียงแบบเจ้าของภาษา แล้วจำศัพท์ได้ง่ายๆ ด้วยควิซรูปภาพสนุกๆ ที่ ThankJapan",
+    'vi': "{word} nghĩa là gì trong tiếng Nhật? Xem ngay nghĩa, cách đọc và phát âm chuẩn, rồi ghi nhớ dễ dàng với quiz hình ảnh thú vị tại ThankJapan.",
+}
+
+
+def build_word_seo_context(item, lang_code):
+    field_name = WORD_NAME_FIELD_MAP.get(lang_code)
+    word_name = getattr(item, field_name, None) if field_name else None
+    if not word_name and lang_code == 'ja':
+        word_name = item.jpname
+    if not word_name:
+        word_name = item.englishname
+
+    title_template = WORD_SEO_TITLE_TEMPLATES.get(lang_code, WORD_SEO_TITLE_TEMPLATES['en'])
+    description_template = WORD_SEO_DESCRIPTION_TEMPLATES.get(lang_code, WORD_SEO_DESCRIPTION_TEMPLATES['en'])
+
+    return {
+        'seo_word_name': word_name,
+        'seo_title': title_template.format(word=word_name),
+        'seo_description': description_template.format(word=word_name),
+    }
+
+
 # free detail view
 class CategoryDetailView(DetailView):
     model = ThankJapanModel
@@ -4524,6 +4599,8 @@ class CategoryDetailView(DetailView):
         context['lang_code'] = lang_code
         context['is_twa'] = is_android_twa(self.request)
         track_word_view(self.request, 'free', current_item.id)
+
+        context.update(build_word_seo_context(current_item, lang_code))
 
         context['related_items'] = ThankJapanModel.objects.filter(
             category=current_item.category
