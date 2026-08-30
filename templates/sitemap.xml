@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+        xmlns:xhtml="http://www.w3.org/1999/xhtml"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
 
   <!-- トップページ (多言語対応) -->
   <url>
@@ -2180,14 +2181,19 @@
       <lastmod>{{ item.timestamp|date:"Y-m-d" }}</lastmod>
       <priority>0.8</priority>
       <changefreq>weekly</changefreq>
-      
+      {% if item.image %}
+      <image:image>
+        <image:loc>{{ item.image.url }}</image:loc>
+      </image:image>
+      {% endif %}
+
       {% for alt in languages %}
-      <xhtml:link rel="alternate" hreflang="{{ alt.hreflang }}" 
+      <xhtml:link rel="alternate" hreflang="{{ alt.hreflang }}"
                   href="https://www.thankjapan.com/{% if alt.code != 'en' %}{{ alt.code }}/{% endif %}{{ item.category|lower }}/{{ item.slug }}/" />
       {% endfor %}
-      
-      
-      <xhtml:link rel="alternate" hreflang="x-default" 
+
+
+      <xhtml:link rel="alternate" hreflang="x-default"
                   href="https://www.thankjapan.com/{{ item.category|lower }}/{{ item.slug }}/" />
     </url>
     {% endfor %}
