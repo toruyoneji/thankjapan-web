@@ -185,6 +185,38 @@
 
 .categories, .game-call-to-action, footer { display: none; }
 
+.daily-question-banner {
+    background: rgba(0, 0, 0, 0.35) !important;
+    backdrop-filter: blur(8px) !important;
+    -webkit-backdrop-filter: blur(8px) !important;
+    border: 1px solid rgba(212, 175, 55, 0.5) !important;
+    border-radius: 20px !important;
+    padding: 18px 20px !important;
+    width: 90%;
+    margin-bottom: 20px !important;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    text-align: center;
+}
+
+.daily-question-banner p {
+    color: #fff;
+    font-size: 0.85rem;
+    margin: 0;
+}
+
+.daily-question-banner-dismiss {
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.75rem;
+    text-decoration: underline;
+    cursor: pointer;
+    padding: 0;
+}
+
 
 
 @media (orientation: landscape) and (max-width: 1200px) {
@@ -219,6 +251,68 @@
     <div class="hero-bg-layer" id="bg-3" style="background-image: url('https://res.cloudinary.com/dotekofm5/image/upload/f_auto,q_auto/v1779246274/thankjapan/backgrounds/rwra8lolzbyp0kn6cs25.jpg'); opacity: 0;"></div>
 
     <div class="hero-container">
+
+        {% if show_daily_question_banner %}
+        <div class="daily-question-banner" id="dailyQuestionBanner">
+            <p>
+                {% if lang_code == 'ja' %}📅 今日の一問にまだ答えていません！
+                {% elif lang_code == 'zh-hant' %}📅 你今天還沒回答「今日一題」！
+                {% elif lang_code == 'zh-cn' %}📅 你今天还没回答「今日一题」！
+                {% elif lang_code == 'ko' %}📅 오늘의 한 문제에 아직 답하지 않으셨어요!
+                {% elif lang_code == 'de' %}📅 Du hast die heutige Frage des Tages noch nicht beantwortet!
+                {% elif lang_code == 'fr' %}📅 Vous n'avez pas encore répondu à la question du jour !
+                {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}📅 ¡Todavía no has respondido la pregunta de hoy!
+                {% elif lang_code == 'it' %}📅 Non hai ancora risposto alla domanda di oggi!
+                {% elif lang_code == 'pt' or lang_code == 'pt-br' %}📅 Você ainda não respondeu a pergunta de hoje!
+                {% elif lang_code == 'vi' %}📅 Bạn chưa trả lời câu hỏi hôm nay!
+                {% elif lang_code == 'th' %}📅 คุณยังไม่ได้ตอบคำถามประจำวันนี้!
+                {% else %}📅 You haven't answered today's Daily Question yet!
+                {% endif %}
+            </p>
+            <a href="{% url 'daily_question' %}?lang={{ lang_code }}" class="explore-btn btn-gold" style="width: 85%; max-width: 300px;">
+                {% if lang_code == 'ja' %}今すぐ挑戦する 🐾
+                {% elif lang_code == 'zh-hant' %}立即挑戰 🐾
+                {% elif lang_code == 'zh-cn' %}立即挑战 🐾
+                {% elif lang_code == 'ko' %}지금 도전하기 🐾
+                {% elif lang_code == 'de' %}Jetzt mitmachen 🐾
+                {% elif lang_code == 'fr' %}Relever le défi 🐾
+                {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Participar ahora 🐾
+                {% elif lang_code == 'it' %}Partecipa ora 🐾
+                {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Participar agora 🐾
+                {% elif lang_code == 'vi' %}Thử ngay 🐾
+                {% elif lang_code == 'th' %}ลองเลย 🐾
+                {% else %}Answer Now 🐾
+                {% endif %}
+            </a>
+            <button type="button" class="daily-question-banner-dismiss" id="dailyQuestionBannerDismiss">
+                {% if lang_code == 'ja' %}後で
+                {% elif lang_code == 'zh-hant' or lang_code == 'zh-cn' %}稍後再說
+                {% elif lang_code == 'ko' %}나중에
+                {% elif lang_code == 'de' %}Später
+                {% elif lang_code == 'fr' %}Plus tard
+                {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Más tarde
+                {% elif lang_code == 'it' %}Più tardi
+                {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Mais tarde
+                {% elif lang_code == 'vi' %}Để sau
+                {% elif lang_code == 'th' %}ไว้ทีหลัง
+                {% else %}Later
+                {% endif %}
+            </button>
+        </div>
+        <script>
+        (function() {
+            var dismissBtn = document.getElementById('dailyQuestionBannerDismiss');
+            if (!dismissBtn) return;
+            dismissBtn.addEventListener('click', function() {
+                var banner = document.getElementById('dailyQuestionBanner');
+                fetch("{% url 'dismiss_daily_question_banner' %}", {
+                    method: 'POST',
+                    headers: { 'X-CSRFToken': '{{ csrf_token }}' }
+                }).finally(function() { if (banner) banner.style.display = 'none'; });
+            });
+        })();
+        </script>
+        {% endif %}
 
         {% if not user.is_authenticated %}
             <div class="hero-description-list">

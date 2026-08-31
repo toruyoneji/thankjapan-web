@@ -43,7 +43,7 @@ from .views import (TopView, TopViewFR, TopViewIT, TopViewPT, TopViewZHHANT,TopV
                     downgrade_success_v2, update_policy_agreement, paypal_webhook,
                     CustomPasswordResetView, CustomPasswordResetConfirmView, verify_android_subscription,
                     broadcast_daily_message, update_review_prompt_status,
-                    add_missing_email, dismiss_email_prompt,
+                    add_missing_email, dismiss_email_prompt, dismiss_daily_question_banner,
                     )
 
 
@@ -335,6 +335,7 @@ urlpatterns = [
     #email prompt banner (for social accounts with no email, e.g. X)
     path('api/add-missing-email/', add_missing_email, name='add_missing_email'),
     path('api/dismiss-email-prompt/', dismiss_email_prompt, name='dismiss_email_prompt'),
+    path('api/dismiss-daily-question-banner/', dismiss_daily_question_banner, name='dismiss_daily_question_banner'),
 
 
     #privacypolicy

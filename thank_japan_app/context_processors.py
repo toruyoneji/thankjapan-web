@@ -100,6 +100,22 @@ def email_prompt_status(request):
     return {'show_email_prompt': True}
 
 
+def daily_question_banner_status(request):
+    """Whether to show the 'you haven't answered today's Daily Question yet'
+    banner on the top page.
+
+    The Daily Question feature deliberately never persists a per-user answer
+    record to the database (see DailyQuestion in models.py), so "already
+    answered" / "dismissed for today" are tracked in the session only, the
+    same lightweight pattern as email_prompt_status below."""
+    from django.utils import timezone
+    from .views import DAILY_QUESTION_SESSION_ANSWERED_KEY, DAILY_QUESTION_BANNER_DISMISSED_KEY
+    today = timezone.localdate().isoformat()
+    answered = request.session.get(DAILY_QUESTION_SESSION_ANSWERED_KEY) == today
+    dismissed = request.session.get(DAILY_QUESTION_BANNER_DISMISSED_KEY) == today
+    return {'show_daily_question_banner': not answered and not dismissed}
+
+
 def ga_platform(request):
     """GA4 context available on every page: 'twa' vs 'web' (for tagging events so
     drop-off can be split by channel), and whether this browser opted out of GA4

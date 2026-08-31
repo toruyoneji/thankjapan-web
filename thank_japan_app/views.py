@@ -354,6 +354,14 @@ def dismiss_email_prompt(request):
     return JsonResponse({'status': 'success'})
 
 
+@require_POST
+def dismiss_daily_question_banner(request):
+    # No @login_required: the Daily Question (and its top-page reminder banner)
+    # is available to guests too, matching the rest of the feature.
+    request.session[DAILY_QUESTION_BANNER_DISMISSED_KEY] = timezone.localdate().isoformat()
+    return JsonResponse({'status': 'success'})
+
+
 #category: urls:
 CATEGORY_URL_MAP = {
     'culture': 'culturepage',
@@ -2025,6 +2033,7 @@ def game_restart(request):
 
 DAILY_QUESTION_DUMMY_COUNT = 3  # -> 4 choices total (1 correct + 3 dummies)
 DAILY_QUESTION_SESSION_ANSWERED_KEY = 'daily_question_answered_date'
+DAILY_QUESTION_BANNER_DISMISSED_KEY = 'daily_question_banner_dismissed'
 
 DAILY_QUESTION_SHARE_TEXT = {
     'ja': {'correct': '「今日の一問」で「{word}」正解しました🎉 ThankJapanで日本語クイズに挑戦しよう！',
