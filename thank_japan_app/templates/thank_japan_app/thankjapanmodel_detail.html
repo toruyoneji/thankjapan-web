@@ -551,18 +551,18 @@
     {% if related_items %}
         <div style="width: 100%; margin-top: 60px; padding-top: 40px; border-top: 1px solid rgba(212, 175, 55, 0.2);">
             <h3 style="color: #d4af37; font-size: 1.1rem; letter-spacing: 2px; margin-bottom: 20px; text-transform: uppercase;">
-                {% if lang_code == 'ja' %}もっと探す
-                {% elif lang_code == 'zh-hant' %}探索更多
-                {% elif lang_code == 'zh-cn' %}探索更多
-                {% elif lang_code == 'de' %}Mehr entdecken
-                {% elif lang_code == 'fr' %}Explorer davantage
-                {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Explorar más
-                {% elif lang_code == 'it' %}Esplora di più
-                {% elif lang_code == 'ko' %}더 둘러보기
-                {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Explorar mais
-                {% elif lang_code == 'vi' %}Khám phá thêm
-                {% elif lang_code == 'th' %}สำรวจเพิ่มเติม
-                {% else %}Explore More
+                {% if lang_code == 'ja' %}関連する単語
+                {% elif lang_code == 'zh-hant' %}相關單字
+                {% elif lang_code == 'zh-cn' %}相关单词
+                {% elif lang_code == 'de' %}Verwandte Wörter
+                {% elif lang_code == 'fr' %}Mots associés
+                {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Palabras relacionadas
+                {% elif lang_code == 'it' %}Parole correlate
+                {% elif lang_code == 'ko' %}관련 단어
+                {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Palavras relacionadas
+                {% elif lang_code == 'vi' %}Từ liên quan
+                {% elif lang_code == 'th' %}คำที่เกี่ยวข้อง
+                {% else %}Related Words
                 {% endif %}
 
             </h3>
@@ -571,16 +571,17 @@
         <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;">
             {% for item in related_items %}
                 {% url 'category_detail' item.category item.slug as the_url %}
-        
-                    <a href="javascript:void(0);" 
-                    onclick="openDetailModal('{{ the_url }}{% if lang_code %}?lang={{ lang_code }}{% endif %}')" 
+                {% with related_href=the_url|add:"?lang="|add:lang_code %}
+                    <a href="{{ related_href }}"
+                    onclick="openDetailModal('{{ related_href }}'); return false;"
                     class="related-card-item">
-            
+
                         {% if item.image %}
                             <img src="{{ item.image.url }}" style="width:100%; height:60px; object-fit:cover; opacity:0.6;">
                         {% endif %}
                         <div style="padding:5px; font-size:0.6rem; color:#fff;">{{ item.englishname }}</div>
                     </a>
+                {% endwith %}
             {% endfor %}
         </div>
 
