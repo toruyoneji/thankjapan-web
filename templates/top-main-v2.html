@@ -201,6 +201,12 @@
     text-align: center;
 }
 
+/* Extra clearance so this doesn't sit under the fixed #bonus-toast
+   (top: 60px) when both happen to show on the same load. */
+.daily-question-banner-clear-toast {
+    margin-top: 130px !important;
+}
+
 .daily-question-banner p {
     color: #fff;
     font-size: 0.85rem;
@@ -253,7 +259,7 @@
     <div class="hero-container">
 
         {% if show_daily_question_banner %}
-        <div class="daily-question-banner" id="dailyQuestionBanner">
+        <div class="daily-question-banner{% if bonus_received %} daily-question-banner-clear-toast{% endif %}" id="dailyQuestionBanner">
             <p>
                 {% if lang_code == 'ja' %}📅 今日の一問にまだ答えていません！
                 {% elif lang_code == 'zh-hant' %}📅 你今天還沒回答「今日一題」！
