@@ -25,7 +25,7 @@ from django.utils.dateparse import parse_datetime
 from django.utils.http import urlencode
 from django.contrib.auth.views import PasswordResetView, PasswordResetConfirmView
 from .context_processors import language_context
-from .models import WeeklyScore, ThankJapanBackgroundModel, FCMDevice
+from .models import WeeklyScore, ThankJapanBackgroundModel, FCMDevice, DailyQuestion
 from .pricing import get_premium_price
 from google.oauth2 import service_account
 from googleapiclient.discovery import build
@@ -2020,6 +2020,155 @@ def game_restart(request):
 
     return response
 
+
+# --- Daily Question (今日の一問) ---
+
+DAILY_QUESTION_DUMMY_COUNT = 3  # -> 4 choices total (1 correct + 3 dummies)
+DAILY_QUESTION_SESSION_ANSWERED_KEY = 'daily_question_answered_date'
+
+DAILY_QUESTION_SHARE_TEXT = {
+    'ja': {'correct': '「今日の一問」で「{word}」正解しました🎉 ThankJapanで日本語クイズに挑戦しよう！',
+           'incorrect': '「今日の一問」で「{word}」不正解でした…😢 ThankJapanで日本語クイズに挑戦しよう！'},
+    'zh-hant': {'correct': '「今日一題」答對了「{word}」🎉 到ThankJapan挑戰日文小測驗吧！',
+                'incorrect': '「今日一題」答錯了「{word}」…😢 到ThankJapan挑戰日文小測驗吧！'},
+    'zh-cn': {'correct': '「今日一题」答对了「{word}」🎉 到ThankJapan挑战日语小测验吧！',
+              'incorrect': '「今日一题」答错了「{word}」…😢 到ThankJapan挑战日语小测验吧！'},
+    'ko': {'correct': '오늘의 한 문제에서 「{word}」 정답! 🎉 ThankJapan에서 일본어 퀴즈에 도전해보세요!',
+           'incorrect': '오늘의 한 문제에서 「{word}」 오답…😢 ThankJapan에서 일본어 퀴즈에 도전해보세요!'},
+    'de': {'correct': 'Bei der "Frage des Tages" "{word}" richtig beantwortet 🎉 Probier das Japanisch-Quiz auf ThankJapan!',
+           'incorrect': 'Bei der "Frage des Tages" "{word}" leider falsch…😢 Probier das Japanisch-Quiz auf ThankJapan!'},
+    'fr': {'correct': 'Question du jour : "{word}" trouvée 🎉 Essaie le quiz de japonais sur ThankJapan !',
+           'incorrect': 'Question du jour : "{word}" ratée…😢 Essaie le quiz de japonais sur ThankJapan !'},
+    'es-es': {'correct': '¡Pregunta del día "{word}" acertada! 🎉 ¡Prueba el quiz de japonés en ThankJapan!',
+              'incorrect': 'Pregunta del día "{word}" fallada…😢 ¡Prueba el quiz de japonés en ThankJapan!'},
+    'it': {'correct': 'Domanda del giorno "{word}" indovinata 🎉 Prova il quiz di giapponese su ThankJapan!',
+           'incorrect': 'Domanda del giorno "{word}" sbagliata…😢 Prova il quiz di giapponese su ThankJapan!'},
+    'pt': {'correct': 'Pergunta do dia "{word}" acertada 🎉 Experimente o quiz de japonês no ThankJapan!',
+           'incorrect': 'Pergunta do dia "{word}" errada…😢 Experimente o quiz de japonês no ThankJapan!'},
+    'vi': {'correct': 'Câu hỏi hôm nay "{word}" trả lời đúng 🎉 Hãy thử quiz tiếng Nhật trên ThankJapan!',
+           'incorrect': 'Câu hỏi hôm nay "{word}" trả lời sai…😢 Hãy thử quiz tiếng Nhật trên ThankJapan!'},
+    'th': {'correct': 'คำถามประจำวัน "{word}" ตอบถูก🎉 ลองเล่นควิซภาษาญี่ปุ่นที่ ThankJapan สิ!',
+           'incorrect': 'คำถามประจำวัน "{word}" ตอบผิด…😢 ลองเล่นควิซภาษาญี่ปุ่นที่ ThankJapan สิ!'},
+    'en': {'correct': 'Got today\'s ThankJapan Daily Question "{word}" right! 🎉 Try the Japanese quiz yourself!',
+           'incorrect': 'Missed today\'s ThankJapan Daily Question "{word}"…😢 Try the Japanese quiz yourself!'},
+}
+
+
+def _daily_question_share_text(lang_code, is_correct, word):
+    lang = {'es-mx': 'es-es', 'pt-br': 'pt', 'en-in': 'en'}.get(lang_code, lang_code)
+    texts = DAILY_QUESTION_SHARE_TEXT.get(lang, DAILY_QUESTION_SHARE_TEXT['en'])
+    template = texts['correct'] if is_correct else texts['incorrect']
+    return template.format(word=f"{word.jpname} ({word.name})")
+
+
+DAILY_QUESTION_HASHTAGS = {
+    'ja': 'ThankJapan,今日の一問,日本語学習',
+    'zh-hant': 'ThankJapan,學日文',
+    'zh-cn': 'ThankJapan,学日语',
+    'ko': 'ThankJapan,일본어공부',
+    'de': 'ThankJapan,JapanischLernen',
+    'fr': 'ThankJapan,ApprendreLeJaponais',
+    'es-es': 'ThankJapan,AprenderJapones',
+    'it': 'ThankJapan,ImparaGiapponese',
+    'pt': 'ThankJapan,AprenderJapones',
+    'vi': 'ThankJapan,HocTiengNhat',
+    'th': 'ThankJapan,เรียนภาษาญี่ปุ่น',
+    'en': 'ThankJapan,LearnJapanese',
+}
+
+
+def _daily_question_hashtags(lang_code, word):
+    lang = {'es-mx': 'es-es', 'pt-br': 'pt', 'en-in': 'en'}.get(lang_code, lang_code)
+    base = DAILY_QUESTION_HASHTAGS.get(lang, DAILY_QUESTION_HASHTAGS['en'])
+    word_tag = ''.join(word.englishname.split())  # hashtags can't contain spaces
+    return f"{base},{word_tag}" if word_tag else base
+
+
+def _daily_question_choices(request, daily_question, today):
+    """Build (and session-cache for the day) the 4 choice objects for today's question."""
+    choices_key = f'daily_choices_{today.isoformat()}'
+    choice_ids = request.session.get(choices_key)
+    if choice_ids:
+        choices = list(ThankJapanModel.objects.filter(id__in=choice_ids))
+        choices.sort(key=lambda w: choice_ids.index(w.id))
+        return choices
+
+    word = daily_question.word
+    dummy_pool = ThankJapanModel.objects.filter(category=word.category).exclude(id=word.id).exclude(jpname=word.jpname)
+    if dummy_pool.count() < DAILY_QUESTION_DUMMY_COUNT:
+        dummy_pool = ThankJapanModel.objects.exclude(id=word.id).exclude(jpname=word.jpname)
+    num_to_sample = min(dummy_pool.count(), DAILY_QUESTION_DUMMY_COUNT)
+    dummies = random.sample(list(dummy_pool), num_to_sample)
+    choices = [word] + dummies
+    random.shuffle(choices)
+    request.session[choices_key] = [c.id for c in choices]
+    return choices
+
+
+def daily_question_view(request):
+    premium_url_name, lang_code = get_lang_info(request)
+    top_page_url = f"/?lang={lang_code}"
+    today = timezone.localdate()  # TIME_ZONE='Asia/Tokyo' -> JST "today"
+    already_answered = request.session.get(DAILY_QUESTION_SESSION_ANSWERED_KEY) == today.isoformat()
+
+    daily_question, _ = DailyQuestion.objects.get_or_create_for_date(today)
+
+    if daily_question is None:
+        return render(request, 'thank_japan_app/daily_question.html', {
+            'daily_state': 'unavailable',
+            'lang_code': lang_code,
+            'top_page_url': top_page_url,
+        })
+
+    word = daily_question.word
+
+    if request.method == 'POST':
+        if already_answered:
+            return render(request, 'thank_japan_app/daily_question.html', {
+                'daily_state': 'already_answered',
+                'lang_code': lang_code,
+                'top_page_url': top_page_url,
+                'object': word,
+            })
+
+        chosen_id = request.POST.get('choice_id')
+        is_correct = str(chosen_id) == str(word.id)
+        request.session[DAILY_QUESTION_SESSION_ANSWERED_KEY] = today.isoformat()
+
+        share_text = _daily_question_share_text(lang_code, is_correct, word)
+        share_url = f"https://www.thankjapan.com/daily/?lang={lang_code}"
+        share_hashtags = _daily_question_hashtags(lang_code, word)
+
+        return render(request, 'thank_japan_app/daily_question.html', {
+            'daily_state': 'result',
+            'is_correct': is_correct,
+            'object': word,
+            'share_text': share_text,
+            'share_url': share_url,
+            'share_hashtags': share_hashtags,
+            'lang_code': lang_code,
+            'top_page_url': top_page_url,
+            'is_twa': is_android_twa(request),
+        })
+
+    if already_answered:
+        return render(request, 'thank_japan_app/daily_question.html', {
+            'daily_state': 'already_answered',
+            'lang_code': lang_code,
+            'top_page_url': top_page_url,
+            'object': word,
+        })
+
+    choices = _daily_question_choices(request, daily_question, today)
+
+    return render(request, 'thank_japan_app/daily_question.html', {
+        'daily_state': 'question',
+        'object': word,
+        'choices': choices,
+        'lang_code': lang_code,
+        'top_page_url': top_page_url,
+        'is_twa': is_android_twa(request),
+    })
 
 
 COMBO_SHARE_ACHIEVEMENTS = {

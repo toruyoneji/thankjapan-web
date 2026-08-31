@@ -1,3 +1,5 @@
+import random
+
 from django.db import models
 from cloudinary.models import CloudinaryField
 from thank_japan_app.fields import OptimizedCloudinaryField
@@ -363,4 +365,51 @@ class FCMDevice(models.Model):
 
     def __str__(self):
         return f"{self.user} ({self.lang})"
+
+
+class DailyQuestionManager(models.Manager):
+    # Mirrors DIFFICULTY_SETTINGS['normal'] in thank_japan_app/views.py so
+    # "today's question" always matches the site-wide notion of normal difficulty.
+    NORMAL_CATEGORY_FILTER = ['cook', 'food', 'culture', 'body', 'live', 'work', 'dailyactions']
+    NORMAL_LENGTH_REGEX = r'^.{1,9}$'
+    RECENT_EXCLUSION_DAYS = 30  # avoid repeating a word used in roughly the last month
+
+    def get_or_create_for_date(self, date):
+        """Return (DailyQuestion, created) for `date`, selecting a word on first call.
+
+        Single source of truth for both the daily selection batch and the
+        page view's on-the-fly fallback, so they can never pick differently.
+        """
+        existing = self.filter(date=date).select_related('word').first()
+        if existing:
+            return existing, False
+
+        pool = ThankJapanModel.objects.filter(
+            category__in=self.NORMAL_CATEGORY_FILTER,
+            name__iregex=self.NORMAL_LENGTH_REGEX,
+        )
+        recent_word_ids = list(
+            self.order_by('-date')[:self.RECENT_EXCLUSION_DAYS].values_list('word_id', flat=True)
+        )
+        candidates = pool.exclude(id__in=recent_word_ids)
+        if not candidates.exists():
+            candidates = pool
+
+        candidate_ids = list(candidates.values_list('id', flat=True))
+        if not candidate_ids:
+            return None, False
+
+        word = ThankJapanModel.objects.get(id=random.choice(candidate_ids))
+        return self.get_or_create(date=date, defaults={'word': word})
+
+
+class DailyQuestion(models.Model):
+    date = models.DateField(unique=True)  # JST基準の日付
+    word = models.ForeignKey(ThankJapanModel, on_delete=models.CASCADE, related_name='daily_appearances')
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    objects = DailyQuestionManager()
+
+    def __str__(self):
+        return f"{self.date} - {self.word.englishname}"
 

@@ -1,0 +1,384 @@
+{% extends 'base/basecategory_top.html' %}
+{% load category_filters %}
+
+{% block title %}
+    {% if lang_code == 'ja' %}今日の一問 | ThankJapan
+    {% elif lang_code == 'zh-hant' %}今日一題 | ThankJapan
+    {% elif lang_code == 'zh-cn' %}今日一题 | ThankJapan
+    {% elif lang_code == 'ko' %}오늘의 한 문제 | ThankJapan
+    {% elif lang_code == 'de' %}Frage des Tages | ThankJapan
+    {% elif lang_code == 'fr' %}Question du jour | ThankJapan
+    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Pregunta del día | ThankJapan
+    {% elif lang_code == 'it' %}Domanda del giorno | ThankJapan
+    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Pergunta do dia | ThankJapan
+    {% elif lang_code == 'vi' %}Câu hỏi hôm nay | ThankJapan
+    {% elif lang_code == 'th' %}คำถามประจำวัน | ThankJapan
+    {% else %}Daily Question | ThankJapan
+    {% endif %}
+{% endblock %}
+
+{% block meta %}
+    <meta name="description" content="Today's shared Japanese word quiz on ThankJapan.">
+    <meta name="robots" content="index,follow">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="ThankJapan - Daily Question">
+    <meta name="twitter:description" content="Today's shared Japanese word quiz on ThankJapan.">
+    {% if object.image %}
+        <meta name="twitter:image" content="{{ object.image.url }}">
+        <meta property="og:image" content="{{ object.image.url }}">
+    {% else %}
+        <meta name="twitter:image" content="https://res.cloudinary.com/dotekofm5/image/upload/f_auto,q_auto/v1768385674/thankjapan/backgrounds/gx8xbypllgs1qogcsvak.jpg">
+        <meta property="og:image" content="https://res.cloudinary.com/dotekofm5/image/upload/f_auto,q_auto/v1768385674/thankjapan/backgrounds/gx8xbypllgs1qogcsvak.jpg">
+    {% endif %}
+
+    <meta property="og:title" content="ThankJapan - Daily Question" />
+    <meta property="og:description" content="Today's shared Japanese word quiz on ThankJapan." />
+    <meta property="og:url" content="https://www.thankjapan.com/daily/" />
+    <meta property="og:type" content="website" />
+{% endblock %}
+
+{% block content %}
+<div id="daily-question-wrapper" class="main2">
+<style>
+    #daily-question-wrapper.main2 {
+        background: #0a0a0a !important;
+        color: #ffffff !important;
+        padding: 30px 15px 100px !important;
+        text-align: center !important;
+        width: 100% !important;
+        min-height: 100%;
+        display: block !important;
+        margin: 0 auto !important;
+    }
+
+    #daily-question-wrapper .dq-inner {
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    #daily-question-wrapper .dq-title {
+        color: #d4af37 !important;
+        font-size: 1rem !important;
+        letter-spacing: 4px !important;
+        text-transform: uppercase !important;
+        margin-bottom: 25px !important;
+    }
+
+    #daily-question-wrapper .dq-jpname {
+        font-size: 2.6rem !important;
+        font-weight: 700 !important;
+        margin-bottom: 35px !important;
+    }
+
+    #daily-question-wrapper .dq-jpname ruby rt {
+        font-size: 0.85rem !important;
+        color: #d4af37 !important;
+    }
+
+    #daily-question-wrapper .dq-choices {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 14px;
+        margin-bottom: 20px;
+    }
+
+    #daily-question-wrapper .dq-choice-btn {
+        background: rgba(255, 255, 255, 0.05) !important;
+        border: 1px solid rgba(212, 175, 55, 0.3) !important;
+        border-radius: 14px !important;
+        overflow: hidden !important;
+        padding: 0 !important;
+        cursor: pointer;
+    }
+
+    #daily-question-wrapper .dq-choice-btn img {
+        width: 100%;
+        height: 130px;
+        object-fit: cover;
+        display: block;
+    }
+
+    #daily-question-wrapper .dq-choice-btn.selected {
+        border-color: #d4af37 !important;
+        box-shadow: 0 0 0 2px #d4af37 !important;
+    }
+
+    #daily-question-wrapper .dq-card {
+        background: rgba(255, 255, 255, 0.05) !important;
+        border: 1px solid rgba(212, 175, 55, 0.2) !important;
+        border-radius: 16px !important;
+        padding: 25px !important;
+        margin-bottom: 25px !important;
+    }
+
+    #daily-question-wrapper .dq-badge {
+        display: inline-block;
+        padding: 8px 22px;
+        border-radius: 50px;
+        font-weight: bold;
+        margin-bottom: 20px;
+    }
+
+    #daily-question-wrapper .dq-badge.correct { background: #639922; color: #fff; }
+    #daily-question-wrapper .dq-badge.incorrect { background: #e24b4a; color: #fff; }
+
+    #daily-question-wrapper .dq-result-image {
+        width: 100%;
+        max-width: 400px;
+        border-radius: 12px;
+        margin-bottom: 15px;
+    }
+
+    #daily-question-wrapper .dq-share-btn,
+    #daily-question-wrapper .dq-skip-btn {
+        display: inline-block;
+        padding: 14px 30px;
+        border-radius: 50px;
+        font-weight: bold;
+        margin: 8px;
+        border: none;
+        cursor: pointer;
+        font-size: 0.95rem;
+    }
+
+    #daily-question-wrapper .dq-share-btn { background: #000; color: #fff; }
+    #daily-question-wrapper .dq-skip-btn { background: transparent; color: #ccc; border: 1px solid rgba(255,255,255,0.3) !important; }
+</style>
+
+<div class="dq-inner">
+    <div class="dq-title">
+        {% if lang_code == 'ja' %}今日の一問
+        {% elif lang_code == 'zh-hant' %}今日一題
+        {% elif lang_code == 'zh-cn' %}今日一题
+        {% elif lang_code == 'ko' %}오늘의 한 문제
+        {% elif lang_code == 'de' %}Frage des Tages
+        {% elif lang_code == 'fr' %}Question du jour
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Pregunta del día
+        {% elif lang_code == 'it' %}Domanda del giorno
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Pergunta do dia
+        {% elif lang_code == 'vi' %}Câu hỏi hôm nay
+        {% elif lang_code == 'th' %}คำถามประจำวัน
+        {% else %}Daily Question
+        {% endif %}
+    </div>
+
+    {% if daily_state == 'unavailable' %}
+        <p style="color:#ccc; margin-bottom: 30px;">
+            {% if lang_code == 'ja' %}本日の問題を準備できませんでした。しばらくしてから、もう一度お試しください。
+            {% elif lang_code == 'zh-hant' %}今日的題目尚未準備好，請稍後再試。
+            {% elif lang_code == 'zh-cn' %}今天的题目尚未准备好，请稍后再试。
+            {% elif lang_code == 'ko' %}오늘의 문제를 준비하지 못했습니다. 잠시 후 다시 시도해주세요.
+            {% elif lang_code == 'de' %}Die heutige Frage konnte nicht vorbereitet werden. Bitte versuche es später erneut.
+            {% elif lang_code == 'fr' %}La question du jour n'a pas pu être préparée. Merci de réessayer plus tard.
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}No se pudo preparar la pregunta de hoy. Inténtalo de nuevo más tarde.
+            {% elif lang_code == 'it' %}Non è stato possibile preparare la domanda di oggi. Riprova più tardi.
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Não foi possível preparar a pergunta de hoje. Tente novamente mais tarde.
+            {% elif lang_code == 'vi' %}Không thể chuẩn bị câu hỏi hôm nay. Vui lòng thử lại sau.
+            {% elif lang_code == 'th' %}ไม่สามารถเตรียมคำถามของวันนี้ได้ โปรดลองใหม่อีกครั้งในภายหลัง
+            {% else %}Today's question isn't ready yet. Please check back soon.
+            {% endif %}
+        </p>
+        <a href="{{ top_page_url }}" class="dq-share-btn">
+            {% if lang_code == 'ja' %}トップへ戻る
+            {% elif lang_code == 'zh-hant' %}返回首頁
+            {% elif lang_code == 'zh-cn' %}返回首页
+            {% elif lang_code == 'ko' %}메인으로 돌아가기
+            {% elif lang_code == 'de' %}Zurück zur Startseite
+            {% elif lang_code == 'fr' %}Retour à l'accueil
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Volver al inicio
+            {% elif lang_code == 'it' %}Torna alla home
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Voltar ao início
+            {% elif lang_code == 'vi' %}Quay lại trang chủ
+            {% elif lang_code == 'th' %}กลับหน้าแรก
+            {% else %}Back to Top
+            {% endif %}
+        </a>
+
+    {% elif daily_state == 'already_answered' %}
+        <div class="dq-card">
+            <p style="font-size: 1.1rem; margin-bottom: 10px;">
+                {% if lang_code == 'ja' %}今日はもう回答済みです
+                {% elif lang_code == 'zh-hant' %}今天已經回答過了
+                {% elif lang_code == 'zh-cn' %}今天已经回答过了
+                {% elif lang_code == 'ko' %}오늘은 이미 답변하셨습니다
+                {% elif lang_code == 'de' %}Du hast heute bereits geantwortet
+                {% elif lang_code == 'fr' %}Vous avez déjà répondu aujourd'hui
+                {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Ya has respondido hoy
+                {% elif lang_code == 'it' %}Hai già risposto oggi
+                {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Você já respondeu hoje
+                {% elif lang_code == 'vi' %}Bạn đã trả lời hôm nay rồi
+                {% elif lang_code == 'th' %}วันนี้คุณตอบไปแล้ว
+                {% else %}You've already answered today's question
+                {% endif %}
+            </p>
+            <p style="color:#999; font-size: 0.85rem;">
+                {% if lang_code == 'ja' %}また明日、新しい問題でお会いしましょう(JST 0:00更新)
+                {% elif lang_code == 'zh-hant' %}明天再來挑戰新的題目吧(JST 0:00更新)
+                {% elif lang_code == 'zh-cn' %}明天再来挑战新的题目吧(JST 0:00更新)
+                {% elif lang_code == 'ko' %}내일 새로운 문제로 다시 만나요(JST 0시 갱신)
+                {% elif lang_code == 'de' %}Bis morgen für eine neue Frage (Reset um 00:00 Uhr JST)!
+                {% elif lang_code == 'fr' %}Rendez-vous demain pour une nouvelle question (réinitialisation à 00h00 JST) !
+                {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}¡Vuelve mañana para una nueva pregunta! (se reinicia a las 00:00 JST)
+                {% elif lang_code == 'it' %}Torna domani per una nuova domanda (si aggiorna alle 00:00 JST)!
+                {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Volte amanhã para uma nova pergunta (atualiza às 00:00 JST)!
+                {% elif lang_code == 'vi' %}Hẹn gặp lại ngày mai với câu hỏi mới (làm mới lúc 0:00 JST)!
+                {% elif lang_code == 'th' %}พบกันใหม่พรุ่งนี้กับคำถามใหม่ (รีเซ็ตเวลา 00:00 JST)
+                {% else %}Come back tomorrow (resets at 00:00 JST) for a new question!
+                {% endif %}
+            </p>
+        </div>
+        <a href="{{ top_page_url }}" class="dq-share-btn">
+            {% if lang_code == 'ja' %}トップへ戻る
+            {% elif lang_code == 'zh-hant' %}返回首頁
+            {% elif lang_code == 'zh-cn' %}返回首页
+            {% elif lang_code == 'ko' %}메인으로 돌아가기
+            {% elif lang_code == 'de' %}Zurück zur Startseite
+            {% elif lang_code == 'fr' %}Retour à l'accueil
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Volver al inicio
+            {% elif lang_code == 'it' %}Torna alla home
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Voltar ao início
+            {% elif lang_code == 'vi' %}Quay lại trang chủ
+            {% elif lang_code == 'th' %}กลับหน้าแรก
+            {% else %}Back to Top
+            {% endif %}
+        </a>
+
+    {% elif daily_state == 'result' %}
+        <div class="dq-card">
+            <div class="dq-badge {% if is_correct %}correct{% else %}incorrect{% endif %}">
+                {% if is_correct %}
+                    {% if lang_code == 'ja' %}正解！
+                    {% elif lang_code == 'zh-hant' %}答對了！
+                    {% elif lang_code == 'zh-cn' %}答对了！
+                    {% elif lang_code == 'ko' %}정답!
+                    {% elif lang_code == 'de' %}Richtig!
+                    {% elif lang_code == 'fr' %}Bonne réponse !
+                    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}¡Correcto!
+                    {% elif lang_code == 'it' %}Corretto!
+                    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Acertou!
+                    {% elif lang_code == 'vi' %}Chính xác!
+                    {% elif lang_code == 'th' %}ถูกต้อง!
+                    {% else %}Correct!
+                    {% endif %}
+                {% else %}
+                    {% if lang_code == 'ja' %}不正解
+                    {% elif lang_code == 'zh-hant' %}答錯了
+                    {% elif lang_code == 'zh-cn' %}答错了
+                    {% elif lang_code == 'ko' %}오답
+                    {% elif lang_code == 'de' %}Falsch
+                    {% elif lang_code == 'fr' %}Mauvaise réponse
+                    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Incorrecto
+                    {% elif lang_code == 'it' %}Sbagliato
+                    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Errou
+                    {% elif lang_code == 'vi' %}Sai rồi
+                    {% elif lang_code == 'th' %}ไม่ถูกต้อง
+                    {% else %}Incorrect
+                    {% endif %}
+                {% endif %}
+            </div>
+
+            {% if object.image %}
+                <img src="{{ object.image.url }}" alt="{{ object.jpname }}" class="dq-result-image">
+            {% endif %}
+
+            <div class="dq-jpname" style="font-size: 1.8rem;">
+                {% if object.kanji_name %}{{ object.kanji_name|ruby_smart:object.jpname }}{% else %}{{ object.jpname }}{% endif %}
+            </div>
+            <p style="color:#999;">{{ object.name }} / {{ object.englishname }}</p>
+        </div>
+
+        <button type="button" class="dq-share-btn" onclick="shareResult('{{ share_url|escapejs }}', '{{ share_text|escapejs }}', '{{ share_hashtags|escapejs }}', '{{ top_page_url|escapejs }}')">
+            {% if lang_code == 'ja' %}𝕏でシェア
+            {% elif lang_code == 'zh-hant' %}在𝕏分享
+            {% elif lang_code == 'zh-cn' %}在𝕏分享
+            {% elif lang_code == 'ko' %}𝕏에 공유
+            {% elif lang_code == 'de' %}Auf 𝕏 teilen
+            {% elif lang_code == 'fr' %}Partager sur 𝕏
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Compartir en 𝕏
+            {% elif lang_code == 'it' %}Condividi su 𝕏
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Compartilhar no 𝕏
+            {% elif lang_code == 'vi' %}Chia sẻ trên 𝕏
+            {% elif lang_code == 'th' %}แชร์บน 𝕏
+            {% else %}Share on 𝕏
+            {% endif %}
+        </button>
+        <button type="button" class="dq-skip-btn" onclick="skipShare('{{ top_page_url|escapejs }}')">
+            {% if lang_code == 'ja' %}シェアしない
+            {% elif lang_code == 'zh-hant' %}不分享
+            {% elif lang_code == 'zh-cn' %}不分享
+            {% elif lang_code == 'ko' %}공유 안 함
+            {% elif lang_code == 'de' %}Nicht teilen
+            {% elif lang_code == 'fr' %}Ne pas partager
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}No compartir
+            {% elif lang_code == 'it' %}Non condividere
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Não compartilhar
+            {% elif lang_code == 'vi' %}Không chia sẻ
+            {% elif lang_code == 'th' %}ไม่แชร์
+            {% else %}Don't Share
+            {% endif %}
+        </button>
+
+        <script>
+        function shareResult(shareUrl, shareText, hashtags, topPageUrl) {
+            const intentUrl = "https://x.com/intent/tweet?text=" + encodeURIComponent(shareText) +
+                "&url=" + encodeURIComponent(shareUrl) +
+                "&hashtags=" + encodeURIComponent(hashtags);
+            window.open(intentUrl, "_blank", "noopener");
+            window.location.href = topPageUrl;
+        }
+        function skipShare(topPageUrl) {
+            window.location.href = topPageUrl;
+        }
+        </script>
+
+    {% else %}
+        <div class="dq-jpname">
+            {% if object.kanji_name %}{{ object.kanji_name|ruby_smart:object.jpname }}{% else %}{{ object.jpname }}{% endif %}
+        </div>
+
+        <p style="color:#ccc; margin-bottom: 20px;">
+            {% if lang_code == 'ja' %}正しい画像を1つ選んでください
+            {% elif lang_code == 'zh-hant' %}請選擇正確的圖片
+            {% elif lang_code == 'zh-cn' %}请选择正确的图片
+            {% elif lang_code == 'ko' %}올바른 이미지를 하나 선택하세요
+            {% elif lang_code == 'de' %}Wähle das richtige Bild
+            {% elif lang_code == 'fr' %}Choisissez la bonne image
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Elige la imagen correcta
+            {% elif lang_code == 'it' %}Scegli l'immagine corretta
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Escolha a imagem correta
+            {% elif lang_code == 'vi' %}Chọn hình ảnh đúng
+            {% elif lang_code == 'th' %}เลือกภาพที่ถูกต้อง
+            {% else %}Pick the matching image
+            {% endif %}
+        </p>
+
+        <form method="post" id="dq-form">
+            {% csrf_token %}
+            <input type="hidden" name="choice_id" id="dq-choice-input">
+            <div class="dq-choices">
+                {% for choice in choices %}
+                    <button type="button" class="dq-choice-btn" onclick="dqSelect(this, '{{ choice.id }}')">
+                        {% if choice.image %}
+                            <img src="{{ choice.image.url }}" alt="{{ choice.jpname }}">
+                        {% endif %}
+                    </button>
+                {% endfor %}
+            </div>
+        </form>
+
+        <script>
+        function dqSelect(btn, choiceId) {
+            document.querySelectorAll('.dq-choice-btn').forEach(b => {
+                b.classList.remove('selected');
+                b.disabled = true;
+            });
+            btn.classList.add('selected');
+            document.getElementById('dq-choice-input').value = choiceId;
+            document.getElementById('dq-form').submit();
+        }
+        </script>
+    {% endif %}
+</div>
+</div>
+{% endblock %}
