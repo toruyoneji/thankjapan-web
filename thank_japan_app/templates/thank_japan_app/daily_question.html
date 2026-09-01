@@ -291,7 +291,7 @@
         <a href="https://x.com/intent/tweet?text={{ share_text|urlencode }}&url={{ share_url|urlencode }}&hashtags={{ share_hashtags|urlencode }}"
            target="_blank" rel="noopener"
            class="dq-share-btn"
-           onclick="afterShareClick('{{ top_page_url|escapejs }}')">
+           onclick="return handleShareClick(event, this.href, '{{ top_page_url|escapejs }}')">
             {% if lang_code == 'ja' %}𝕏でシェア
             {% elif lang_code == 'zh-hant' %}在𝕏分享
             {% elif lang_code == 'zh-cn' %}在𝕏分享
@@ -323,14 +323,28 @@
         </button>
 
         <script>
-        // The X share opens via the anchor's own target="_blank" (native browser
-        // handling, matching the pattern used elsewhere on the site - e.g.
-        // thankjapanmodel_detail.html, game_result_quick-v2.html). This click
-        // handler only sends the current tab on to the top page; it does not
-        // call window.open() itself, since that previously produced an extra
-        // blank tab in some browsers alongside the anchor's own new tab.
-        function afterShareClick(topPageUrl) {
+        // Named, sized popup dialog - the same pattern X's own share-button
+        // widget has used historically - instead of a plain target="_blank"
+        // tab. event.preventDefault() + returning false cancels the anchor's
+        // own target="_blank" navigation, so only this popup opens (letting
+        // both fire is exactly what produced the earlier extra blank tab).
+        // The href stays real (not javascript:void(0)) for crawlers/no-JS/
+        // right-click "open in new tab", matching the rest of the site.
+        function handleShareClick(event, intentUrl, topPageUrl) {
+            event.preventDefault();
+
+            const width = 550;
+            const height = 420;
+            const left = (window.screen.width / 2) - (width / 2);
+            const top = (window.screen.height / 2) - (height / 2);
+            window.open(
+                intentUrl,
+                'twitter-share-dialog',
+                `width=${width},height=${height},left=${left},top=${top},scrollbars=yes,resizable=yes`
+            );
+
             window.location.href = topPageUrl;
+            return false;
         }
         function skipShare(topPageUrl) {
             window.location.href = topPageUrl;
