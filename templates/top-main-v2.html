@@ -8,6 +8,23 @@
 
 <style>
 
+/* base_top.html sets html/body/.app-wrapper to a fixed 100vh with
+   overflow:hidden (no page-level scroll), and .app-content has no
+   scroll region of its own. That's fine when hero content fits in
+   one screen, but with the daily-question banner now stacked below
+   the catchphrase/CTA (and, for logged-in users, below the game/
+   category buttons), longer greetings/streak text in some of the
+   15 languages can push total content past the viewport height. Give
+   .app-content its own scroll region - scoped to this page only via
+   this include's own <style> block, matching the self-scrolling
+   wrapper pattern already used on daily_question.html and
+   game_result_quick-v2.html - so nothing ends up permanently stuck
+   behind the fixed .cookie-consent-banner / .bottom-nav with no way
+   to reach it. */
+.app-content {
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+}
 
 .hero {
     font-family: 'Inter', 'Noto Sans JP', sans-serif !important;
@@ -186,14 +203,23 @@
 .categories, .game-call-to-action, footer { display: none; }
 
 .daily-question-banner {
-    /* Occupies the exact same slot as #bonus-toast (position: fixed, top: 60px)
-       so the two never compete for space in the flow - see the sequencing
-       script below for how they hand off when both apply to the same load. */
-    position: fixed;
-    top: 60px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 11000;
+    /* Placed in normal flow after the catchphrase/CTA (and, for logged-in
+       users, after the game/category buttons) - see markup order below.
+       #bonus-toast is position:fixed at the top of the viewport, so this
+       in-flow banner never shares its slot; the delayed-show script below
+       still waits for the toast to finish before revealing the banner, so
+       the two never compete for the user's attention at the same instant.
+
+       margin-bottom below: .hero vertically centers .hero-container as a
+       whole (justify-content:center), so on short viewports this banner -
+       now the last item - can land at the very bottom of the screen, behind
+       the fixed .cookie-consent-banner (bottom:100px) + .bottom-nav (75px)
+       stack. Centering means adding space *after* the last child shifts the
+       whole centered block up by half that amount, which is what actually
+       clears the banner from that fixed-footer band - a bottom scrollbar
+       alone would not, since those footer elements are fixed and always
+       occupy that same screen region regardless of scroll position. */
+    margin-bottom: 200px;
     width: 90%;
     max-width: 420px;
     background: rgba(0, 0, 0, 0.35) !important;
@@ -259,83 +285,6 @@
     <div class="hero-bg-layer" id="bg-3" style="background-image: url('https://res.cloudinary.com/dotekofm5/image/upload/f_auto,q_auto/v1779246274/thankjapan/backgrounds/rwra8lolzbyp0kn6cs25.jpg'); opacity: 0;"></div>
 
     <div class="hero-container">
-
-        {% if show_daily_question_banner %}
-        <div class="daily-question-banner" id="dailyQuestionBanner"{% if bonus_received %} style="display: none;"{% endif %}>
-            <p>
-                {% if lang_code == 'ja' %}📅 今日の一問にまだ答えていません！
-                {% elif lang_code == 'zh-hant' %}📅 你今天還沒回答「今日一題」！
-                {% elif lang_code == 'zh-cn' %}📅 你今天还没回答「今日一题」！
-                {% elif lang_code == 'ko' %}📅 오늘의 한 문제에 아직 답하지 않으셨어요!
-                {% elif lang_code == 'de' %}📅 Du hast die heutige Frage des Tages noch nicht beantwortet!
-                {% elif lang_code == 'fr' %}📅 Vous n'avez pas encore répondu à la question du jour !
-                {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}📅 ¡Todavía no has respondido la pregunta de hoy!
-                {% elif lang_code == 'it' %}📅 Non hai ancora risposto alla domanda di oggi!
-                {% elif lang_code == 'pt' or lang_code == 'pt-br' %}📅 Você ainda não respondeu a pergunta de hoje!
-                {% elif lang_code == 'vi' %}📅 Bạn chưa trả lời câu hỏi hôm nay!
-                {% elif lang_code == 'th' %}📅 คุณยังไม่ได้ตอบคำถามประจำวันนี้!
-                {% else %}📅 You haven't answered today's Daily Question yet!
-                {% endif %}
-            </p>
-            <a href="{% url 'daily_question' %}?lang={{ lang_code }}" class="explore-btn btn-gold" style="width: 85%; max-width: 300px;">
-                {% if lang_code == 'ja' %}今すぐ挑戦する 🐾
-                {% elif lang_code == 'zh-hant' %}立即挑戰 🐾
-                {% elif lang_code == 'zh-cn' %}立即挑战 🐾
-                {% elif lang_code == 'ko' %}지금 도전하기 🐾
-                {% elif lang_code == 'de' %}Jetzt mitmachen 🐾
-                {% elif lang_code == 'fr' %}Relever le défi 🐾
-                {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Participar ahora 🐾
-                {% elif lang_code == 'it' %}Partecipa ora 🐾
-                {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Participar agora 🐾
-                {% elif lang_code == 'vi' %}Thử ngay 🐾
-                {% elif lang_code == 'th' %}ลองเลย 🐾
-                {% else %}Answer Now 🐾
-                {% endif %}
-            </a>
-            <button type="button" class="daily-question-banner-dismiss" id="dailyQuestionBannerDismiss">
-                {% if lang_code == 'ja' %}後で
-                {% elif lang_code == 'zh-hant' or lang_code == 'zh-cn' %}稍後再說
-                {% elif lang_code == 'ko' %}나중에
-                {% elif lang_code == 'de' %}Später
-                {% elif lang_code == 'fr' %}Plus tard
-                {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Más tarde
-                {% elif lang_code == 'it' %}Più tardi
-                {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Mais tarde
-                {% elif lang_code == 'vi' %}Để sau
-                {% elif lang_code == 'th' %}ไว้ทีหลัง
-                {% else %}Later
-                {% endif %}
-            </button>
-        </div>
-        <script>
-        (function() {
-            var dismissBtn = document.getElementById('dailyQuestionBannerDismiss');
-            if (!dismissBtn) return;
-            dismissBtn.addEventListener('click', function() {
-                var banner = document.getElementById('dailyQuestionBanner');
-                fetch("{% url 'dismiss_daily_question_banner' %}", {
-                    method: 'POST',
-                    headers: { 'X-CSRFToken': '{{ csrf_token }}' }
-                }).finally(function() { if (banner) banner.style.display = 'none'; });
-            });
-        })();
-        </script>
-
-        {% if bonus_received %}
-        <script>
-        // #bonus-toast (per-language toppage template, above this include) starts
-        // fading at the 2s mark and is fully removed 600ms later (its own script:
-        // opacity/position transition "all 0.6s ease", then toast.remove()) - i.e.
-        // fully gone by 2600ms. This banner shares that same fixed top-center slot,
-        // so it stays hidden (see the inline display:none above) until just after
-        // that, with a small buffer so the two never visibly overlap mid-fade.
-        setTimeout(function() {
-            var banner = document.getElementById('dailyQuestionBanner');
-            if (banner) banner.style.display = 'flex';
-        }, 2800);
-        </script>
-        {% endif %}
-        {% endif %}
 
         {% if not user.is_authenticated %}
             <div class="hero-description-list">
@@ -489,6 +438,120 @@
                     {% else %}Play Vocab Quiz 🎮{% endif %}
                 </a>
             </div>
+        {% endif %}
+
+        {% if show_daily_question_banner %}
+        <div class="daily-question-banner" id="dailyQuestionBanner"{% if bonus_received %} style="display: none;"{% endif %}>
+            <p>
+                {% if lang_code == 'ja' %}📅 今日の一問にまだ答えていません！
+                {% elif lang_code == 'zh-hant' %}📅 你今天還沒回答「今日一題」！
+                {% elif lang_code == 'zh-cn' %}📅 你今天还没回答「今日一题」！
+                {% elif lang_code == 'ko' %}📅 오늘의 한 문제에 아직 답하지 않으셨어요!
+                {% elif lang_code == 'de' %}📅 Du hast die heutige Frage des Tages noch nicht beantwortet!
+                {% elif lang_code == 'fr' %}📅 Vous n'avez pas encore répondu à la question du jour !
+                {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}📅 ¡Todavía no has respondido la pregunta de hoy!
+                {% elif lang_code == 'it' %}📅 Non hai ancora risposto alla domanda di oggi!
+                {% elif lang_code == 'pt' or lang_code == 'pt-br' %}📅 Você ainda não respondeu a pergunta de hoje!
+                {% elif lang_code == 'vi' %}📅 Bạn chưa trả lời câu hỏi hôm nay!
+                {% elif lang_code == 'th' %}📅 คุณยังไม่ได้ตอบคำถามประจำวันนี้!
+                {% else %}📅 You haven't answered today's Daily Question yet!
+                {% endif %}
+            </p>
+            <a href="{% url 'daily_question' %}?lang={{ lang_code }}" class="explore-btn btn-gold" style="width: 85%; max-width: 300px;">
+                {% if lang_code == 'ja' %}今すぐ挑戦する 🐾
+                {% elif lang_code == 'zh-hant' %}立即挑戰 🐾
+                {% elif lang_code == 'zh-cn' %}立即挑战 🐾
+                {% elif lang_code == 'ko' %}지금 도전하기 🐾
+                {% elif lang_code == 'de' %}Jetzt mitmachen 🐾
+                {% elif lang_code == 'fr' %}Relever le défi 🐾
+                {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Participar ahora 🐾
+                {% elif lang_code == 'it' %}Partecipa ora 🐾
+                {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Participar agora 🐾
+                {% elif lang_code == 'vi' %}Thử ngay 🐾
+                {% elif lang_code == 'th' %}ลองเลย 🐾
+                {% else %}Answer Now 🐾
+                {% endif %}
+            </a>
+            <button type="button" class="daily-question-banner-dismiss" id="dailyQuestionBannerDismiss">
+                {% if lang_code == 'ja' %}後で
+                {% elif lang_code == 'zh-hant' or lang_code == 'zh-cn' %}稍後再說
+                {% elif lang_code == 'ko' %}나중에
+                {% elif lang_code == 'de' %}Später
+                {% elif lang_code == 'fr' %}Plus tard
+                {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Más tarde
+                {% elif lang_code == 'it' %}Più tardi
+                {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Mais tarde
+                {% elif lang_code == 'vi' %}Để sau
+                {% elif lang_code == 'th' %}ไว้ทีหลัง
+                {% else %}Later
+                {% endif %}
+            </button>
+        </div>
+        <script>
+        (function() {
+            var dismissBtn = document.getElementById('dailyQuestionBannerDismiss');
+            if (!dismissBtn) return;
+            dismissBtn.addEventListener('click', function() {
+                var banner = document.getElementById('dailyQuestionBanner');
+                fetch("{% url 'dismiss_daily_question_banner' %}", {
+                    method: 'POST',
+                    headers: { 'X-CSRFToken': '{{ csrf_token }}' }
+                }).finally(function() { if (banner) banner.style.display = 'none'; });
+            });
+
+            // The base CSS margin-bottom on .daily-question-banner covers the
+            // common case, but content above it (greeting length, streak badge,
+            // language) varies enough across the 15 locales that a fixed value
+            // can't guarantee clearance from the fixed .cookie-consent-banner
+            // (shown ~1s after load, first-time visitors) and .bottom-nav below
+            // it. When hero content is short, growing the margin is enough
+            // (centering the flex box redistributes the extra space above and
+            // below it). But once content is already taller than .hero's
+            // min-height, centering has no slack left to redistribute, so
+            // instead nudge .app-content's own scroll position by the
+            // measured overlap - .app-content is this page's scroll region
+            // (see the overflow-y:auto override above), so this brings the
+            // banner clear of the fixed footer stack either way.
+            function ensureBannerClearance() {
+                var banner = document.getElementById('dailyQuestionBanner');
+                if (!banner || getComputedStyle(banner).display === 'none') return;
+                var obstacles = [
+                    document.querySelector('.cookie-consent-banner.show'),
+                    document.querySelector('.bottom-nav')
+                ].filter(function(el) { return el; });
+                if (!obstacles.length) return;
+                var minTop = Math.min.apply(null, obstacles.map(function(el) {
+                    return el.getBoundingClientRect().top;
+                }));
+                var bannerBottom = banner.getBoundingClientRect().bottom;
+                var overlap = (bannerBottom - minTop) + 20;
+                if (overlap > 0) {
+                    var scrollContainer = document.querySelector('.app-content');
+                    if (scrollContainer) {
+                        scrollContainer.scrollTop += overlap;
+                    }
+                }
+            }
+            setTimeout(ensureBannerClearance, 1100);
+            {% if bonus_received %}setTimeout(ensureBannerClearance, 2900);{% endif %}
+        })();
+        </script>
+
+        {% if bonus_received %}
+        <script>
+        // #bonus-toast (per-language toppage template, above this include) starts
+        // fading at the 2s mark and is fully removed 600ms later (its own script:
+        // opacity/position transition "all 0.6s ease", then toast.remove()) - i.e.
+        // fully gone by 2600ms. This banner is now in normal page flow (not fixed),
+        // so it doesn't overlap the toast's slot regardless, but we still wait
+        // until just after the toast is gone before revealing it, so the two
+        // don't compete for attention at the same instant.
+        setTimeout(function() {
+            var banner = document.getElementById('dailyQuestionBanner');
+            if (banner) banner.style.display = 'flex';
+        }, 2800);
+        </script>
+        {% endif %}
         {% endif %}
     </div>
 </section>
