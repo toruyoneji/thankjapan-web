@@ -532,8 +532,22 @@
                     }
                 }
             }
-            setTimeout(ensureBannerClearance, 1100);
-            {% if bonus_received %}setTimeout(ensureBannerClearance, 2900);{% endif %}
+            // This whole <script> block runs inline, during initial HTML
+            // parsing - i.e. potentially well before DOMContentLoaded. The
+            // cookie-consent-banner's own reveal timer (base_top.html) is
+            // registered *inside* a DOMContentLoaded handler and only then
+            // waits 1000ms, so timing these checks off this script's own
+            // parse-time start (rather than DOMContentLoaded) risked firing
+            // before that banner ever appeared, missing the overlap entirely.
+            // Wait for DOMContentLoaded first, then use the same 1000ms
+            // baseline as the cookie banner, with two passes for safety
+            // margin against any further jitter (fonts/images reflowing
+            // text height, slow network, etc.).
+            document.addEventListener('DOMContentLoaded', function() {
+                setTimeout(ensureBannerClearance, 1300);
+                setTimeout(ensureBannerClearance, 2200);
+                {% if bonus_received %}setTimeout(ensureBannerClearance, 3200);{% endif %}
+            });
         })();
         </script>
 
