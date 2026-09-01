@@ -186,25 +186,27 @@
 .categories, .game-call-to-action, footer { display: none; }
 
 .daily-question-banner {
+    /* Occupies the exact same slot as #bonus-toast (position: fixed, top: 60px)
+       so the two never compete for space in the flow - see the sequencing
+       script below for how they hand off when both apply to the same load. */
+    position: fixed;
+    top: 60px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 11000;
+    width: 90%;
+    max-width: 420px;
     background: rgba(0, 0, 0, 0.35) !important;
     backdrop-filter: blur(8px) !important;
     -webkit-backdrop-filter: blur(8px) !important;
     border: 1px solid rgba(212, 175, 55, 0.5) !important;
     border-radius: 20px !important;
     padding: 18px 20px !important;
-    width: 90%;
-    margin-bottom: 20px !important;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 12px;
     text-align: center;
-}
-
-/* Extra clearance so this doesn't sit under the fixed #bonus-toast
-   (top: 60px) when both happen to show on the same load. */
-.daily-question-banner-clear-toast {
-    margin-top: 130px !important;
 }
 
 .daily-question-banner p {
@@ -259,7 +261,7 @@
     <div class="hero-container">
 
         {% if show_daily_question_banner %}
-        <div class="daily-question-banner{% if bonus_received %} daily-question-banner-clear-toast{% endif %}" id="dailyQuestionBanner">
+        <div class="daily-question-banner" id="dailyQuestionBanner"{% if bonus_received %} style="display: none;"{% endif %}>
             <p>
                 {% if lang_code == 'ja' %}📅 今日の一問にまだ答えていません！
                 {% elif lang_code == 'zh-hant' %}📅 你今天還沒回答「今日一題」！
@@ -318,6 +320,19 @@
             });
         })();
         </script>
+
+        {% if bonus_received %}
+        <script>
+        // #bonus-toast (per-language toppage template, above this include) now
+        // fades out at the 2s mark on every page (see its own script). This
+        // banner shares that same fixed top-center slot, so it stays hidden
+        // (see the inline display:none above) until that moment, then takes over.
+        setTimeout(function() {
+            var banner = document.getElementById('dailyQuestionBanner');
+            if (banner) banner.style.display = 'flex';
+        }, 2000);
+        </script>
+        {% endif %}
         {% endif %}
 
         {% if not user.is_authenticated %}

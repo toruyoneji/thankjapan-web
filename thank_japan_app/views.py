@@ -2144,6 +2144,25 @@ def daily_question_view(request):
         is_correct = str(chosen_id) == str(word.id)
         request.session[DAILY_QUESTION_SESSION_ANSWERED_KEY] = today.isoformat()
 
+        # Guests earn nothing (nowhere to persist it); logged-in users get a
+        # flat 1pt for a correct answer, mirroring the scoring pattern in
+        # game_result (views.py ~2290) so it shows up in the same ranking/
+        # weekly-score displays. The "already answered today" gate above
+        # already prevents this from running twice in one day.
+        if is_correct and request.user.is_authenticated:
+            profile = request.user.profile
+            profile.total_score += 1
+            profile.last_score = 1
+            profile.save()
+            player = Player.objects.filter(username=request.user.username).first()
+            if player:
+                player.total_score = profile.total_score
+                player.save()
+            week_start = WeeklyScore.get_current_week_start()
+            weekly_record, _ = WeeklyScore.objects.get_or_create(user=request.user, week_start=week_start)
+            weekly_record.score += 1
+            weekly_record.save()
+
         share_text = _daily_question_share_text(lang_code, is_correct, word)
         share_url = f"https://www.thankjapan.com/daily/?lang={lang_code}"
         share_hashtags = _daily_question_hashtags(lang_code, word)
