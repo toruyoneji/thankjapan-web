@@ -71,12 +71,65 @@ h1 {
 .score-box .score-line .total { font-size: 1.1rem; color: var(--ink-soft); font-weight: 700; }
 
 .neon-button {
-    background: var(--gold); color: var(--ink); padding: 14px; font-size: 1.05rem; font-weight: 800;
-    border: none; border-bottom: 4px solid var(--gold-dark); border-radius: 16px; cursor: pointer;
+    background: transparent; color: var(--ink-soft); padding: 12px; font-size: 0.9rem; font-weight: 700;
+    border: 1px solid var(--wood-border); border-radius: 14px; cursor: pointer;
     transition: transform 0.1s; text-decoration: none; display: flex; align-items: center; justify-content: center;
     max-width: 380px; margin: 0 auto; width: 100%; font-family: 'Noto Sans JP', sans-serif;
 }
-.neon-button:hover { transform: translateY(2px); border-bottom-width: 2px; background: var(--gold); color: var(--ink); }
+.neon-button:hover { transform: translateY(1px); background: rgba(0,0,0,0.03); }
+
+.signup-cta-card {
+    background: #1c150e;
+    border: 1px solid var(--gold);
+    border-radius: 20px;
+    padding: 24px 20px;
+    margin: 0 auto 18px;
+    max-width: 420px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+}
+.signup-cta-title {
+    color: var(--gold);
+    font-size: 1.1rem;
+    font-weight: 800;
+    margin: 0 0 16px;
+}
+.signup-cta-benefits {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 20px;
+    text-align: left;
+    display: inline-block;
+}
+.signup-cta-benefits li {
+    color: #f4ead1;
+    font-size: 0.85rem;
+    line-height: 1.6;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+}
+.signup-cta-benefits li::before {
+    content: "✨";
+    flex-shrink: 0;
+}
+.signup-cta-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #fff1b8, #ffd700, var(--gold));
+    color: #1c150e;
+    padding: 15px;
+    font-size: 1.05rem;
+    font-weight: 800;
+    border-radius: 16px;
+    text-decoration: none;
+    max-width: 360px;
+    margin: 0 auto;
+    box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
+    font-family: 'Noto Sans JP', sans-serif;
+}
+.signup-cta-button:hover { color: #1c150e; }
 
 .share-invite {
     font-weight: bold;
@@ -207,6 +260,103 @@ h1 {
             </svg>
         </a>
       </div>
+
+      {% if is_guest %}
+      <div class="signup-cta-card">
+          <p class="signup-cta-title">
+              {% if lang_code == 'ja' %}無料登録して続きを楽しもう！
+              {% elif lang_code == 'zh-hant' %}免費註冊，繼續你的旅程！
+              {% elif lang_code == 'zh-cn' %}免费注册，继续你的旅程！
+              {% elif lang_code == 'ko' %}무료로 가입하고 계속 즐겨보세요！
+              {% elif lang_code == 'de' %}Kostenlos registrieren und weitermachen!
+              {% elif lang_code == 'fr' %}Inscrivez-vous gratuitement pour continuer !
+              {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}¡Regístrate gratis y sigue disfrutando!
+              {% elif lang_code == 'it' %}Registrati gratis e continua a divertirti!
+              {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Cadastre-se grátis e continue aproveitando!
+              {% elif lang_code == 'vi' %}Đăng ký miễn phí để tiếp tục trải nghiệm!
+              {% elif lang_code == 'th' %}สมัครฟรีแล้วสนุกต่อกันเถอะ!
+              {% else %}Sign up free to keep the fun going!
+              {% endif %}
+          </p>
+          <ul class="signup-cta-benefits">
+              <li>
+                  {% if lang_code == 'ja' %}スコアを記録できる
+                  {% elif lang_code == 'zh-hant' %}可以記錄你的分數
+                  {% elif lang_code == 'zh-cn' %}可以记录你的分数
+                  {% elif lang_code == 'ko' %}점수를 기록할 수 있어요
+                  {% elif lang_code == 'de' %}Speichere deinen Punktestand
+                  {% elif lang_code == 'fr' %}Enregistrez votre score
+                  {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Guarda tu puntuación
+                  {% elif lang_code == 'it' %}Salva il tuo punteggio
+                  {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Salve sua pontuação
+                  {% elif lang_code == 'vi' %}Lưu lại điểm số của bạn
+                  {% elif lang_code == 'th' %}บันทึกคะแนนของคุณได้
+                  {% else %}Save your score
+                  {% endif %}
+              </li>
+              <li>
+                  {% if lang_code == 'ja' %}ランキングに参加できる
+                  {% elif lang_code == 'zh-hant' %}可以參加排行榜
+                  {% elif lang_code == 'zh-cn' %}可以参加排行榜
+                  {% elif lang_code == 'ko' %}랭킹에 참여할 수 있어요
+                  {% elif lang_code == 'de' %}Nimm an der Rangliste teil
+                  {% elif lang_code == 'fr' %}Participez au classement
+                  {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Participa en el ranking
+                  {% elif lang_code == 'it' %}Partecipa alla classifica
+                  {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Participe do ranking
+                  {% elif lang_code == 'vi' %}Tham gia bảng xếp hạng
+                  {% elif lang_code == 'th' %}เข้าร่วมอันดับได้
+                  {% else %}Join the ranking
+                  {% endif %}
+              </li>
+              <li>
+                  {% if lang_code == 'ja' %}毎日のログインボーナス
+                  {% elif lang_code == 'zh-hant' %}每日登入獎勵
+                  {% elif lang_code == 'zh-cn' %}每日登录奖励
+                  {% elif lang_code == 'ko' %}매일 로그인 보너스
+                  {% elif lang_code == 'de' %}Täglicher Login-Bonus
+                  {% elif lang_code == 'fr' %}Bonus de connexion quotidien
+                  {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Bono diario por iniciar sesión
+                  {% elif lang_code == 'it' %}Bonus giornaliero di accesso
+                  {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Bônus diário de login
+                  {% elif lang_code == 'vi' %}Thưởng đăng nhập hàng ngày
+                  {% elif lang_code == 'th' %}โบนัสเข้าสู่ระบบทุกวัน
+                  {% else %}Daily login bonus
+                  {% endif %}
+              </li>
+              <li>
+                  {% if lang_code == 'ja' %}「今日の一問」にも挑戦できる(通知も受け取れる)
+                  {% elif lang_code == 'zh-hant' %}也能挑戰「今日一題」(可接收通知)
+                  {% elif lang_code == 'zh-cn' %}也能挑战「今日一题」(可接收通知)
+                  {% elif lang_code == 'ko' %}"오늘의 한 문제"에도 도전할 수 있어요(알림도 받을 수 있어요)
+                  {% elif lang_code == 'de' %}Nimm auch an der "Frage des Tages" teil (mit Benachrichtigungen)
+                  {% elif lang_code == 'fr' %}Relevez aussi le défi de la question du jour (avec notifications)
+                  {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Participa también en la pregunta del día (con notificaciones)
+                  {% elif lang_code == 'it' %}Partecipa anche alla domanda del giorno (con notifiche)
+                  {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Participe também da pergunta do dia (com notificações)
+                  {% elif lang_code == 'vi' %}Cũng có thể tham gia câu hỏi hôm nay (kèm thông báo)
+                  {% elif lang_code == 'th' %}ร่วมท้าทาย "คำถามประจำวัน" ได้ด้วย (พร้อมการแจ้งเตือน)
+                  {% else %}Try the Daily Question too (with notifications)
+                  {% endif %}
+              </li>
+          </ul>
+          <a href="{% url 'player_register' %}?lang={{ lang_code }}" class="signup-cta-button">
+              {% if lang_code == 'ja' %}無料で登録する →
+              {% elif lang_code == 'zh-hant' %}免費註冊 →
+              {% elif lang_code == 'zh-cn' %}免费注册 →
+              {% elif lang_code == 'ko' %}무료로 가입하기 →
+              {% elif lang_code == 'de' %}Kostenlos registrieren →
+              {% elif lang_code == 'fr' %}S'inscrire gratuitement →
+              {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Regístrate gratis →
+              {% elif lang_code == 'it' %}Registrati gratis →
+              {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Cadastre-se grátis →
+              {% elif lang_code == 'vi' %}Đăng ký miễn phí →
+              {% elif lang_code == 'th' %}สมัครฟรี →
+              {% else %}Sign Up Free →
+              {% endif %}
+          </a>
+      </div>
+      {% endif %}
 
       <a href="{% url 'game_start' %}?lang={{ lang_code }}" class="neon-button">
         {% if lang_code == 'ja' %}もっと遊ぶ？ 🎮
