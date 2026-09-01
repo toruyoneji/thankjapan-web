@@ -323,14 +323,16 @@
 
         {% if bonus_received %}
         <script>
-        // #bonus-toast (per-language toppage template, above this include) now
-        // fades out at the 2s mark on every page (see its own script). This
-        // banner shares that same fixed top-center slot, so it stays hidden
-        // (see the inline display:none above) until that moment, then takes over.
+        // #bonus-toast (per-language toppage template, above this include) starts
+        // fading at the 2s mark and is fully removed 600ms later (its own script:
+        // opacity/position transition "all 0.6s ease", then toast.remove()) - i.e.
+        // fully gone by 2600ms. This banner shares that same fixed top-center slot,
+        // so it stays hidden (see the inline display:none above) until just after
+        // that, with a small buffer so the two never visibly overlap mid-fade.
         setTimeout(function() {
             var banner = document.getElementById('dailyQuestionBanner');
             if (banner) banner.style.display = 'flex';
-        }, 2000);
+        }, 2800);
         </script>
         {% endif %}
         {% endif %}
