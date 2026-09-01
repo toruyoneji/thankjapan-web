@@ -94,6 +94,7 @@
 }
 
 .dq-softask-modal {
+    display: none;
     position: fixed;
     bottom: 0; left: 0; width: 100%;
     max-height: 80vh;
@@ -104,6 +105,10 @@
     box-sizing: border-box;
     z-index: 20001;
     text-align: center;
+}
+
+.dq-softask-modal.show {
+    display: block;
 }
 
 .dq-softask-modal .dq-softask-icon {
