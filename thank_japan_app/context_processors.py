@@ -107,9 +107,16 @@ def daily_question_banner_status(request):
     The Daily Question feature deliberately never persists a per-user answer
     record to the database (see DailyQuestion in models.py), so "already
     answered" / "dismissed for today" are tracked in the session only, the
-    same lightweight pattern as email_prompt_status below."""
+    same lightweight pattern as email_prompt_status below.
+
+    Brand-new guests who haven't finished the first-taste 3-question trial
+    yet never see this banner - it's an "extra way to enjoy the site" nudge,
+    shown only once someone has already gotten a taste of the app (played
+    the trial, tj_has_played cookie) or is a logged-in user."""
     from django.utils import timezone
     from .views import DAILY_QUESTION_SESSION_ANSWERED_KEY, DAILY_QUESTION_BANNER_DISMISSED_KEY
+    if not request.user.is_authenticated and request.COOKIES.get('tj_has_played') != '1':
+        return {'show_daily_question_banner': False}
     today = timezone.localdate().isoformat()
     answered = request.session.get(DAILY_QUESTION_SESSION_ANSWERED_KEY) == today
     dismissed = request.session.get(DAILY_QUESTION_BANNER_DISMISSED_KEY) == today
