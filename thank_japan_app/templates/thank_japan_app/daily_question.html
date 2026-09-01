@@ -142,7 +142,7 @@
         font-size: 0.95rem;
     }
 
-    #daily-question-wrapper .dq-share-btn { background: #000; color: #fff; }
+    #daily-question-wrapper .dq-share-btn { background: #000; color: #fff; text-decoration: none; }
     #daily-question-wrapper .dq-skip-btn { background: transparent; color: #ccc; border: 1px solid rgba(255,255,255,0.3) !important; }
 </style>
 
@@ -288,7 +288,10 @@
             <p style="color:#999;">{{ object.name }} / {{ object.englishname }}</p>
         </div>
 
-        <button type="button" class="dq-share-btn" onclick="shareResult('{{ share_url|escapejs }}', '{{ share_text|escapejs }}', '{{ share_hashtags|escapejs }}', '{{ top_page_url|escapejs }}')">
+        <a href="https://x.com/intent/tweet?text={{ share_text|urlencode }}&url={{ share_url|urlencode }}&hashtags={{ share_hashtags|urlencode }}"
+           target="_blank" rel="noopener"
+           class="dq-share-btn"
+           onclick="afterShareClick('{{ top_page_url|escapejs }}')">
             {% if lang_code == 'ja' %}𝕏でシェア
             {% elif lang_code == 'zh-hant' %}在𝕏分享
             {% elif lang_code == 'zh-cn' %}在𝕏分享
@@ -302,7 +305,7 @@
             {% elif lang_code == 'th' %}แชร์บน 𝕏
             {% else %}Share on 𝕏
             {% endif %}
-        </button>
+        </a>
         <button type="button" class="dq-skip-btn" onclick="skipShare('{{ top_page_url|escapejs }}')">
             {% if lang_code == 'ja' %}シェアしない
             {% elif lang_code == 'zh-hant' %}不分享
@@ -320,11 +323,13 @@
         </button>
 
         <script>
-        function shareResult(shareUrl, shareText, hashtags, topPageUrl) {
-            const intentUrl = "https://x.com/intent/tweet?text=" + encodeURIComponent(shareText) +
-                "&url=" + encodeURIComponent(shareUrl) +
-                "&hashtags=" + encodeURIComponent(hashtags);
-            window.open(intentUrl, "_blank", "noopener");
+        // The X share opens via the anchor's own target="_blank" (native browser
+        // handling, matching the pattern used elsewhere on the site - e.g.
+        // thankjapanmodel_detail.html, game_result_quick-v2.html). This click
+        // handler only sends the current tab on to the top page; it does not
+        // call window.open() itself, since that previously produced an extra
+        // blank tab in some browsers alongside the anchor's own new tab.
+        function afterShareClick(topPageUrl) {
             window.location.href = topPageUrl;
         }
         function skipShare(topPageUrl) {
