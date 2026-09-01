@@ -3,53 +3,70 @@
 
 <script>
 
+const FCM_CONFIG = {
+    apiKey: "{{ FIREBASE_API_KEY }}",
+    authDomain: "{{ FIREBASE_PROJECT_ID }}.firebaseapp.com",
+    projectId: "{{ FIREBASE_PROJECT_ID }}",
+    storageBucket: "{{ FIREBASE_PROJECT_ID }}.firebasestorage.app",
+    messagingSenderId: "{{ FIREBASE_MESSAGING_SENDER_ID }}",
+    appId: "{{ FIREBASE_APP_ID }}"
+};
+const FCM_VAPID_KEY = "{{ FIREBASE_VAPID_KEY }}";
+const FCM_LANG = "{{ lang_code }}";
+
+function getFcmMessaging() {
+    if (!firebase.apps.length) {
+        firebase.initializeApp(FCM_CONFIG);
+    }
+    return firebase.messaging();
+}
+
+// Requests browser notification permission (a no-op prompt if the user already
+// answered) and, if granted, fetches an FCM token and saves it server-side.
+// Resolves to 'granted' / 'denied' / 'default' / 'unsupported' / 'error'.
+// Shared by the unconditional auto-prompt below (setupNotifications) and any
+// explicit opt-in flow - e.g. the Daily Question notification toggle's soft
+// ask in templates/includes/daily_question_notify_toggle.html - that wants
+// the same permission + token setup without duplicating this logic.
+async function requestNotificationPermissionAndSaveToken() {
+    if (!('serviceWorker' in navigator) || !('Notification' in window)) return 'unsupported';
+    try {
+        const registration = await navigator.serviceWorker.ready;
+        const permission = await Notification.requestPermission();
+        if (permission !== 'granted') return permission;
+
+        const messaging = getFcmMessaging();
+        const token = await messaging.getToken({
+            vapidKey: FCM_VAPID_KEY,
+            serviceWorkerRegistration: registration
+        });
+
+        if (token) {
+            await fetch('/api/save-fcm-token/', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({token: token, lang: FCM_LANG})
+            });
+        }
+        return 'granted';
+    } catch (error) {
+        console.log("FCM setup error:", error);
+        return 'error';
+    }
+}
+
 if (typeof isFcmAlreadyRunning === 'undefined') {
     var isFcmAlreadyRunning = false;
 }
 
 async function setupNotifications() {
-    if (isFcmAlreadyRunning) return; 
+    if (isFcmAlreadyRunning) return;
     isFcmAlreadyRunning = true;
 
-    const firebaseConfig = {
-        apiKey: "{{ FIREBASE_API_KEY }}",
-        authDomain: "{{ FIREBASE_PROJECT_ID }}.firebaseapp.com",
-        projectId: "{{ FIREBASE_PROJECT_ID }}",
-        storageBucket: "{{ FIREBASE_PROJECT_ID }}.firebasestorage.app",
-        messagingSenderId: "{{ FIREBASE_MESSAGING_SENDER_ID }}",
-        appId: "{{ FIREBASE_APP_ID }}"
-    };
-
-    if (!firebase.apps.length) {
-        firebase.initializeApp(firebaseConfig);
-    }
-    const messaging = firebase.messaging();
+    await requestNotificationPermissionAndSaveToken();
 
     try {
-        if (!('serviceWorker' in navigator)) return;
-
-        
-        const registration = await navigator.serviceWorker.ready;
-        
-        
-        const permission = await Notification.requestPermission();
-        if (permission === 'granted') {
-            const token = await messaging.getToken({
-                vapidKey: "{{ FIREBASE_VAPID_KEY }}",
-                serviceWorkerRegistration: registration
-            });
-
-            if (token) {
-                await fetch('/api/save-fcm-token/', {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({token: token, lang: "{{ lang_code }}"})
-                });
-                console.log("FCM Setup Complete.");
-            }
-        }
-        
-        
+        const messaging = getFcmMessaging();
         messaging.onMessage((payload) => {
             console.log('Foreground message:', payload);
             new Notification(payload.notification.title, {
@@ -57,7 +74,6 @@ async function setupNotifications() {
                 icon: '/static/images/pwa-icon-192.png'
             });
         });
-
     } catch (error) {
         console.log("FCM waiting for ready...");
     }
