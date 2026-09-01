@@ -137,10 +137,11 @@
     #daily-question-wrapper .dq-badge.incorrect { background: #e24b4a; color: #fff; }
 
     #daily-question-wrapper .dq-result-image {
+        display: block;
         width: 100%;
         max-width: 400px;
         border-radius: 12px;
-        margin-bottom: 15px;
+        margin: 0 auto 15px;
     }
 
     #daily-question-wrapper .dq-share-btn,
@@ -259,6 +260,10 @@
 
     {% elif daily_state == 'result' %}
         <div class="dq-card">
+            {% if object.image %}
+                <img src="{{ object.image.url }}" alt="{{ object.jpname }}" class="dq-result-image">
+            {% endif %}
+
             <div class="dq-badge {% if is_correct %}correct{% else %}incorrect{% endif %}">
                 {% if is_correct %}
                     {% if lang_code == 'ja' %}正解！
@@ -290,10 +295,6 @@
                     {% endif %}
                 {% endif %}
             </div>
-
-            {% if object.image %}
-                <img src="{{ object.image.url }}" alt="{{ object.jpname }}" class="dq-result-image">
-            {% endif %}
 
             <div class="dq-jpname" style="font-size: 1.8rem;">
                 {% if object.kanji_name %}{{ object.kanji_name|ruby_smart:object.jpname }}{% else %}{{ object.jpname }}{% endif %}
