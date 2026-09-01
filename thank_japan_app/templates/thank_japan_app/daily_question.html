@@ -42,14 +42,27 @@
 <div id="daily-question-wrapper" class="main2">
 <style>
     #daily-question-wrapper.main2 {
+        /* basecategory_top.html sets html,body to height:100vh + overflow:hidden
+           (same pattern that previously broke scrolling on the login/premium
+           pages on desktop). This page needs its own fixed, self-scrolling
+           container - matching the working pattern in game_result_quick-v2.html
+           (#premium-auth-container) - so content taller than the viewport
+           (e.g. the share/skip buttons on the result screen) stays reachable. */
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100% !important;
+        height: 100dvh;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        z-index: 1;
         background: #0a0a0a !important;
         color: #ffffff !important;
         padding: 30px 15px 100px !important;
         text-align: center !important;
-        width: 100% !important;
-        min-height: 100%;
         display: block !important;
         margin: 0 auto !important;
+        box-sizing: border-box;
     }
 
     #daily-question-wrapper .dq-inner {
