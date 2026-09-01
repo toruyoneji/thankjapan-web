@@ -271,8 +271,35 @@
 
 @media (min-width: 1201px) {
     .hero-buttons {
-        flex-direction: column !important; 
+        flex-direction: column !important;
         gap: 25px !important;
+    }
+
+    /* PC-only compaction: real desktop browser windows are usually
+       noticeably shorter (in actual usable px) than the raw screen
+       resolution once address bar/tabs/OS taskbar are accounted for, so
+       the mobile/tablet spacing (80px gaps, generous margins) pushed the
+       daily-question banner below the fold. Tighten vertical spacing here
+       only - mobile/tablet keep their existing values untouched. */
+    .hero {
+        padding: 10px 10px !important;
+    }
+    .hero-container {
+        gap: 24px !important;
+        margin-top: 0 !important;
+    }
+    .hero-description-list {
+        padding: 12px 25px !important;
+        margin-bottom: 0 !important;
+    }
+    .welcome-greeting {
+        margin-top: 10px !important;
+        margin-bottom: 8px !important;
+        font-size: 1.35rem !important;
+    }
+    .daily-question-banner {
+        margin-bottom: 30px !important;
+        padding: 14px 20px !important;
     }
 }
 
@@ -501,17 +528,21 @@
 
             // The base CSS margin-bottom on .daily-question-banner covers the
             // common case, but content above it (greeting length, streak badge,
-            // language) varies enough across the 15 locales that a fixed value
-            // can't guarantee clearance from the fixed .cookie-consent-banner
-            // (shown ~1s after load, first-time visitors) and .bottom-nav below
-            // it. When hero content is short, growing the margin is enough
-            // (centering the flex box redistributes the extra space above and
-            // below it). But once content is already taller than .hero's
-            // min-height, centering has no slack left to redistribute, so
-            // instead nudge .app-content's own scroll position by the
-            // measured overlap - .app-content is this page's scroll region
-            // (see the overflow-y:auto override above), so this brings the
-            // banner clear of the fixed footer stack either way.
+            // language, and now the PC-only compact spacing) varies enough
+            // across the 15 locales/breakpoints that a fixed value can't
+            // guarantee clearance from the fixed .cookie-consent-banner
+            // (shown ~1s after load, first-time visitors) and .bottom-nav
+            // below it. Two different mechanisms fix this depending on
+            // whether .hero has slack: when hero content is shorter than
+            // .hero's box, .hero's justify-content:center still has room to
+            // redistribute, so growing the banner's margin shifts everything
+            // up by about half of what's added. When content already fills
+            // or exceeds .hero's box (no centering slack left), grow the
+            // margin does nothing, so fall back to nudging .app-content's own
+            // scroll position instead (see the overflow-y:auto override
+            // above). Try margin first, then use whatever scroll room is
+            // left for any remaining overlap - together these cover both
+            // cases without needing to know in advance which one applies.
             function ensureBannerClearance() {
                 var banner = document.getElementById('dailyQuestionBanner');
                 if (!banner || getComputedStyle(banner).display === 'none') return;
@@ -520,11 +551,22 @@
                     document.querySelector('.bottom-nav')
                 ].filter(function(el) { return el; });
                 if (!obstacles.length) return;
-                var minTop = Math.min.apply(null, obstacles.map(function(el) {
-                    return el.getBoundingClientRect().top;
-                }));
-                var bannerBottom = banner.getBoundingClientRect().bottom;
-                var overlap = (bannerBottom - minTop) + 20;
+                function currentOverlap() {
+                    var minTop = Math.min.apply(null, obstacles.map(function(el) {
+                        return el.getBoundingClientRect().top;
+                    }));
+                    return (banner.getBoundingClientRect().bottom - minTop) + 20;
+                }
+                var overlap = currentOverlap();
+                if (overlap <= 0) return;
+
+                // setProperty(...,'important') is required here: the PC-only
+                // media query below sets margin-bottom with !important, which
+                // a plain el.style.marginBottom assignment cannot override.
+                var currentMargin = parseFloat(getComputedStyle(banner).marginBottom) || 0;
+                banner.style.setProperty('margin-bottom', (currentMargin + overlap * 2 + 10) + 'px', 'important');
+
+                overlap = currentOverlap();
                 if (overlap > 0) {
                     var scrollContainer = document.querySelector('.app-content');
                     if (scrollContainer) {
@@ -547,6 +589,13 @@
                 setTimeout(ensureBannerClearance, 1300);
                 setTimeout(ensureBannerClearance, 2200);
                 {% if bonus_received %}setTimeout(ensureBannerClearance, 3200);{% endif %}
+            });
+            // web fonts finishing (@font-face) can reflow text - and with it
+            // the banner's position - after the checks above already ran.
+            // window.load fires once everything (fonts included) is done, so
+            // recheck once more then, as a final safety net.
+            window.addEventListener('load', function() {
+                setTimeout(ensureBannerClearance, 100);
             });
         })();
         </script>
