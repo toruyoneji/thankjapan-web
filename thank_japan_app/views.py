@@ -362,6 +362,19 @@ def dismiss_daily_question_banner(request):
     return JsonResponse({'status': 'success'})
 
 
+@login_required
+@require_POST
+def toggle_daily_question_notify(request):
+    # Phase 2 step (1): persists the on/off preference only. The actual
+    # browser-permission / FCM-token flow (soft ask -> native prompt -> token
+    # save) is wired up in front of this endpoint in the next step; for now
+    # this just records the user's choice.
+    profile = request.user.profile
+    profile.daily_question_notify = request.POST.get('enabled') == 'true'
+    profile.save(update_fields=['daily_question_notify'])
+    return JsonResponse({'status': 'success', 'enabled': profile.daily_question_notify})
+
+
 #category: urls:
 CATEGORY_URL_MAP = {
     'culture': 'culturepage',
@@ -3582,7 +3595,8 @@ def account_settings(request):
         'streak_count': profile.streak_count,
         'weekly_progress': get_weekly_progress(request.user),
         'achievement_progress': get_achievement_progress(profile),
-        'is_twa': is_android_twa(request)
+        'is_twa': is_android_twa(request),
+        'daily_question_notify': profile.daily_question_notify,
     }
     return render(request, 'thank_japan_app/account/account_settings-v2.html', context)
 
@@ -3627,7 +3641,8 @@ def account_settingsZHCN(request):
         'streak_count': profile.streak_count,
         'weekly_progress': get_weekly_progress(request.user),
         'achievement_progress': get_achievement_progress(profile),
-        'is_twa': is_android_twa(request)
+        'is_twa': is_android_twa(request),
+        'daily_question_notify': profile.daily_question_notify,
     }
     return render(request, 'thank_japan_app/account/account_settings_zh_cn-v2.html', context)
 
@@ -3672,7 +3687,8 @@ def account_settingsZHHANT(request):
         'streak_count': profile.streak_count,
         'weekly_progress': get_weekly_progress(request.user),
         'achievement_progress': get_achievement_progress(profile),
-        'is_twa': is_android_twa(request)
+        'is_twa': is_android_twa(request),
+        'daily_question_notify': profile.daily_question_notify,
     }
     return render(request, 'thank_japan_app/account/account_settings_zh_hant-v2.html', context)
 
@@ -3717,7 +3733,8 @@ def account_settingsVI(request):
         'streak_count': profile.streak_count,
         'weekly_progress': get_weekly_progress(request.user),
         'achievement_progress': get_achievement_progress(profile),
-        'is_twa': is_android_twa(request)
+        'is_twa': is_android_twa(request),
+        'daily_question_notify': profile.daily_question_notify,
     }
     return render(request, 'thank_japan_app/account/account_settings_vi-v2.html', context)
 
@@ -3762,7 +3779,8 @@ def account_settingsTH(request):
         'streak_count': profile.streak_count,
         'weekly_progress': get_weekly_progress(request.user),
         'achievement_progress': get_achievement_progress(profile),
-        'is_twa': is_android_twa(request)
+        'is_twa': is_android_twa(request),
+        'daily_question_notify': profile.daily_question_notify,
     }
     return render(request, 'thank_japan_app/account/account_settings_th-v2.html', context)
 
@@ -3807,7 +3825,8 @@ def account_settingsPT(request):
         'streak_count': profile.streak_count,
         'weekly_progress': get_weekly_progress(request.user),
         'achievement_progress': get_achievement_progress(profile),
-        'is_twa': is_android_twa(request)
+        'is_twa': is_android_twa(request),
+        'daily_question_notify': profile.daily_question_notify,
     }
     return render(request, 'thank_japan_app/account/account_settings_pt-v2.html', context)
 
@@ -3852,7 +3871,8 @@ def account_settingsPTBR(request):
         'streak_count': profile.streak_count,
         'weekly_progress': get_weekly_progress(request.user),
         'achievement_progress': get_achievement_progress(profile),
-        'is_twa': is_android_twa(request)
+        'is_twa': is_android_twa(request),
+        'daily_question_notify': profile.daily_question_notify,
     }
     return render(request, 'thank_japan_app/account/account_settings_pt_br-v2.html', context)
 
@@ -3897,7 +3917,8 @@ def account_settingsKO(request):
         'streak_count': profile.streak_count,
         'weekly_progress': get_weekly_progress(request.user),
         'achievement_progress': get_achievement_progress(profile),
-        'is_twa': is_android_twa(request)
+        'is_twa': is_android_twa(request),
+        'daily_question_notify': profile.daily_question_notify,
     }
     return render(request, 'thank_japan_app/account/account_settings_ko-v2.html', context)
 
@@ -3941,7 +3962,8 @@ def account_settingsJA(request):
         'streak_count': profile.streak_count,
         'weekly_progress': get_weekly_progress(request.user),
         'achievement_progress': get_achievement_progress(profile),
-        'is_twa': is_android_twa(request)
+        'is_twa': is_android_twa(request),
+        'daily_question_notify': profile.daily_question_notify,
     }
     return render(request, 'thank_japan_app/account/account_settings_ja-v2.html', context)
 
@@ -3986,7 +4008,8 @@ def account_settingsIT(request):
         'streak_count': profile.streak_count,
         'weekly_progress': get_weekly_progress(request.user),
         'achievement_progress': get_achievement_progress(profile),
-        'is_twa': is_android_twa(request)
+        'is_twa': is_android_twa(request),
+        'daily_question_notify': profile.daily_question_notify,
     }
     return render(request, 'thank_japan_app/account/account_settings_it-v2.html', context)
 
@@ -4031,7 +4054,8 @@ def account_settingsFR(request):
         'streak_count': profile.streak_count,
         'weekly_progress': get_weekly_progress(request.user),
         'achievement_progress': get_achievement_progress(profile),
-        'is_twa': is_android_twa(request)
+        'is_twa': is_android_twa(request),
+        'daily_question_notify': profile.daily_question_notify,
     }
     return render(request, 'thank_japan_app/account/account_settings_fr-v2.html', context)
 
@@ -4076,7 +4100,8 @@ def account_settingsESMX(request):
         'streak_count': profile.streak_count,
         'weekly_progress': get_weekly_progress(request.user),
         'achievement_progress': get_achievement_progress(profile),
-        'is_twa': is_android_twa(request)
+        'is_twa': is_android_twa(request),
+        'daily_question_notify': profile.daily_question_notify,
     }
     return render(request, 'thank_japan_app/account/account_settings_es_mx-v2.html', context)
 
@@ -4121,7 +4146,8 @@ def account_settingsESES(request):
         'streak_count': profile.streak_count,
         'weekly_progress': get_weekly_progress(request.user),
         'achievement_progress': get_achievement_progress(profile),
-        'is_twa': is_android_twa(request)
+        'is_twa': is_android_twa(request),
+        'daily_question_notify': profile.daily_question_notify,
     }
     return render(request, 'thank_japan_app/account/account_settings_es_es-v2.html', context)
 
@@ -4166,7 +4192,8 @@ def account_settingsENIN(request):
         'streak_count': profile.streak_count,
         'weekly_progress': get_weekly_progress(request.user),
         'achievement_progress': get_achievement_progress(profile),
-        'is_twa': is_android_twa(request)
+        'is_twa': is_android_twa(request),
+        'daily_question_notify': profile.daily_question_notify,
     }
     return render(request, 'thank_japan_app/account/account_settings_en_in-v2.html', context)
 
@@ -4211,7 +4238,8 @@ def account_settingsDE(request):
         'streak_count': profile.streak_count,
         'weekly_progress': get_weekly_progress(request.user),
         'achievement_progress': get_achievement_progress(profile),
-        'is_twa': is_android_twa(request)
+        'is_twa': is_android_twa(request),
+        'daily_question_notify': profile.daily_question_notify,
     }
     return render(request, 'thank_japan_app/account/account_settings_de-v2.html', context)
 

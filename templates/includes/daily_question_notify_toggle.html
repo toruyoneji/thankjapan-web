@@ -1,0 +1,123 @@
+<style>
+.dq-notify-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    background: transparent;
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    border-radius: 8px;
+    padding: 14px 15px;
+    margin-bottom: 15px;
+}
+
+.dq-notify-label {
+    color: #fff;
+    font-size: 0.85rem;
+    text-align: left;
+    line-height: 1.4;
+}
+
+.dq-notify-switch {
+    position: relative;
+    display: inline-block;
+    width: 46px;
+    height: 26px;
+    flex-shrink: 0;
+}
+
+.dq-notify-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.dq-notify-switch .dq-notify-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(212, 175, 55, 0.4);
+    border-radius: 26px;
+    transition: 0.2s;
+}
+
+.dq-notify-switch .dq-notify-slider::before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 3px;
+    bottom: 3px;
+    background-color: #ccc;
+    border-radius: 50%;
+    transition: 0.2s;
+}
+
+.dq-notify-switch input:checked + .dq-notify-slider {
+    background-color: var(--tj-gold, #d4af37);
+    border-color: var(--tj-gold, #d4af37);
+}
+
+.dq-notify-switch input:checked + .dq-notify-slider::before {
+    transform: translateX(20px);
+    background-color: #000;
+}
+
+.dq-notify-switch input:disabled + .dq-notify-slider {
+    opacity: 0.5;
+    cursor: default;
+}
+</style>
+
+<div class="dq-notify-row">
+    <span class="dq-notify-label">
+        🐾
+        {% if lang_code == 'ja' %}「今日の一問」を通知で受け取る
+        {% elif lang_code == 'zh-hant' %}接收「今日一題」通知
+        {% elif lang_code == 'zh-cn' %}接收「今日一题」通知
+        {% elif lang_code == 'ko' %}"오늘의 한 문제" 알림 받기
+        {% elif lang_code == 'de' %}Benachrichtigung für die "Frage des Tages" erhalten
+        {% elif lang_code == 'fr' %}Recevoir une notification pour la question du jour
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Recibir notificación de la pregunta del día
+        {% elif lang_code == 'it' %}Ricevi una notifica per la domanda del giorno
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Receber notificação da pergunta do dia
+        {% elif lang_code == 'vi' %}Nhận thông báo cho câu hỏi hôm nay
+        {% elif lang_code == 'th' %}รับการแจ้งเตือนคำถามประจำวัน
+        {% else %}Get notified about the Daily Question
+        {% endif %}
+    </span>
+    <label class="dq-notify-switch">
+        <input type="checkbox" id="dqNotifyCheckbox" {% if daily_question_notify %}checked{% endif %}>
+        <span class="dq-notify-slider"></span>
+    </label>
+</div>
+
+<script>
+(function() {
+    var checkbox = document.getElementById('dqNotifyCheckbox');
+    if (!checkbox) return;
+    checkbox.addEventListener('change', function() {
+        var enabled = checkbox.checked;
+        checkbox.disabled = true;
+        fetch("{% url 'toggle_daily_question_notify' %}", {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}',
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: 'enabled=' + (enabled ? 'true' : 'false'),
+        })
+        .then(function(res) { if (!res.ok) throw new Error('failed'); return res.json(); })
+        .then(function(data) {
+            checkbox.checked = data.enabled;
+        })
+        .catch(function() {
+            checkbox.checked = !enabled; // revert on failure
+        })
+        .finally(function() {
+            checkbox.disabled = false;
+        });
+    });
+})();
+</script>
