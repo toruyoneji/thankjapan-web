@@ -263,6 +263,22 @@ def verify_android_subscription(request):
 
 #android google play
 def is_android_twa(request):
+    # Session flag (set by mark_twa below, from the client's document.referrer
+    # check) takes priority: X-Requested-With is only added by Chrome when the
+    # Digital Asset Links handshake for the Trusted Web Activity succeeds, so
+    # a real device can be genuinely running inside the app and still never
+    # send it (assetlinks.json fingerprint mismatch, verification hiccup,
+    # etc). document.referrer == 'android-app://<package>' is a weaker but
+    # independent signal - Chrome sets it whenever the page was opened via
+    # the app's Android intent, regardless of asset-link verification - so it
+    # catches cases the header alone misses. Once true for a session it stays
+    # true; there's no legitimate way to go from real TWA back to plain
+    # browser mid-session.
+    if request.session.get('is_twa'):
+        debug_line = f"[TWA-CHECK] path={request.path} source=session result=True UA={request.META.get('HTTP_USER_AGENT', '')!r}"
+        print(debug_line, flush=True)
+        logger.info(debug_line)
+        return True
 
     x_requested_with = request.META.get('HTTP_X_REQUESTED_WITH')
     result = x_requested_with == settings.PACKAGE_NAME
@@ -272,6 +288,17 @@ def is_android_twa(request):
     logger.info(debug_line)
 
     return result
+
+
+@require_POST
+def mark_twa(request):
+    """Called once by the client (see includes/twa_referrer_check.html) when
+    document.referrer indicates the page was opened via the Android app's
+    Trusted Web Activity intent. See is_android_twa() above for why this
+    exists alongside the X-Requested-With check rather than replacing it.
+    No @login_required: guests browsing /premium/ etc. need this too."""
+    request.session['is_twa'] = True
+    return JsonResponse({'status': 'success'})
 
 
 #in-app review prompt: cumulative distinct word-detail view counter

@@ -1,0 +1,14 @@
+<script>
+(function() {
+    try {
+        if (sessionStorage.getItem('tj_twa_checked')) return;
+        sessionStorage.setItem('tj_twa_checked', '1');
+        if (document.referrer && document.referrer.indexOf('android-app://com.thankjapan.www.twa') === 0) {
+            fetch('{% url "mark_twa" %}', {
+                method: 'POST',
+                headers: { 'X-CSRFToken': '{{ csrf_token }}' }
+            });
+        }
+    } catch (e) {}
+})();
+</script>

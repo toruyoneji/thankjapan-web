@@ -44,6 +44,7 @@ from .views import (TopView, TopViewFR, TopViewIT, TopViewPT, TopViewZHHANT,TopV
                     CustomPasswordResetView, CustomPasswordResetConfirmView, verify_android_subscription,
                     broadcast_daily_message, update_review_prompt_status,
                     add_missing_email, dismiss_email_prompt, dismiss_daily_question_banner, toggle_daily_question_notify,
+                    mark_twa,
                     )
 
 
@@ -336,6 +337,7 @@ urlpatterns = [
     path('api/add-missing-email/', add_missing_email, name='add_missing_email'),
     path('api/dismiss-email-prompt/', dismiss_email_prompt, name='dismiss_email_prompt'),
     path('api/dismiss-daily-question-banner/', dismiss_daily_question_banner, name='dismiss_daily_question_banner'),
+    path('api/mark-twa/', mark_twa, name='mark_twa'),
     path('api/toggle-daily-question-notify/', toggle_daily_question_notify, name='toggle_daily_question_notify'),
 
 
