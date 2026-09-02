@@ -123,6 +123,31 @@ def daily_question_banner_status(request):
     return {'show_daily_question_banner': not answered and not dismissed}
 
 
+def trial_ended_popup_status(request):
+    """Whether to show the "continue with Premium?" popup on the top page,
+    after someone's 7-day free trial has ended (Phase design step 5 - see
+    project_paypal_checkout_state memory).
+
+    Shown once trial_used is True and is_trial has gone back False (the
+    expire_premium_subscriptions batch already does this once
+    premium_expires_at passes - see that command), as long as they haven't
+    since subscribed for real (has_premium_access) and haven't already
+    responded to it. Unlike the daily-question banner's dismiss (session-only,
+    meant to reappear daily), this one is meant to be shown at most once ever
+    - so trial_ended_popup_dismissed lives on Profile (DB), not the session,
+    and is set on both "yes" and "no" (see dismiss_trial_ended_popup). Guests
+    can't have trial_used=True at all (starting a trial requires login), so
+    this never applies to them."""
+    if not request.user.is_authenticated:
+        return {'show_trial_ended_popup': False}
+    profile = request.user.profile
+    if not profile.trial_used or profile.is_trial or profile.has_premium_access:
+        return {'show_trial_ended_popup': False}
+    if profile.trial_ended_popup_dismissed:
+        return {'show_trial_ended_popup': False}
+    return {'show_trial_ended_popup': True}
+
+
 def ga_platform(request):
     """GA4 context available on every page: 'twa' vs 'web' (for tagging events so
     drop-off can be split by channel), and whether this browser opted out of GA4

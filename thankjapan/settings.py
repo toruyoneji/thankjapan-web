@@ -160,6 +160,7 @@ TEMPLATES = [
                 'thank_japan_app.context_processors.ga_platform',
                 'thank_japan_app.context_processors.email_prompt_status',
                 'thank_japan_app.context_processors.daily_question_banner_status',
+                'thank_japan_app.context_processors.trial_ended_popup_status',
             ],
         },
     },

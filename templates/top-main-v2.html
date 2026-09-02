@@ -303,6 +303,51 @@
     }
 }
 
+/* Trial-ended "continue with Premium?" popup (Phase design step 5). Built as
+   a centered position:fixed overlay+modal - deliberately NOT an in-flow
+   banner like .daily-question-banner above, since today's earlier debugging
+   on this exact page (see git history) showed in-flow banners here need a
+   lot of PC-viewport/cookie-banner-clearance machinery to avoid overlapping
+   fixed footer chrome. A centered fixed modal sidesteps all of that: its
+   position never depends on surrounding page flow or content length. */
+.trial-ended-overlay {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.75);
+    z-index: 20000;
+}
+.trial-ended-overlay.show { display: block; }
+
+.trial-ended-modal {
+    display: none;
+    position: fixed;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    max-width: 380px;
+    background: #1a1a1a;
+    border: 1px solid rgba(212, 175, 55, 0.4);
+    border-radius: 20px;
+    padding: 28px 22px;
+    box-sizing: border-box;
+    z-index: 20001;
+    text-align: center;
+}
+.trial-ended-modal.show { display: block; }
+.trial-ended-modal .trial-ended-icon { font-size: 2rem; margin-bottom: 10px; }
+.trial-ended-modal h3 { color: #fff; font-size: 1.05rem; margin: 0 0 10px; }
+.trial-ended-modal p { color: #ccc; font-size: 0.85rem; line-height: 1.5; margin: 0 0 22px; }
+.trial-ended-btn-yes {
+    display: block; width: 100%; padding: 14px; border: none; border-radius: 10px;
+    background: #d4af37; color: #000; font-weight: bold; font-size: 0.95rem;
+    cursor: pointer; margin-bottom: 10px; box-sizing: border-box; text-decoration: none;
+}
+.trial-ended-btn-no {
+    display: block; width: 100%; padding: 12px; border: 1px solid #444; border-radius: 10px;
+    background: none; color: #999; font-size: 0.85rem; cursor: pointer; box-sizing: border-box;
+}
+
 </style>
 
 <section class="hero" id="hero-slider">
@@ -619,6 +664,118 @@
     </div>
 </section>
 
+{% if show_trial_ended_popup %}
+<div class="trial-ended-overlay" id="trialEndedOverlay"></div>
+<div class="trial-ended-modal" id="trialEndedModal">
+    <div class="trial-ended-icon">💎</div>
+    <h3>
+        {% if lang_code == 'ja' %}7日間の無料トライアルが終了しました
+        {% elif lang_code == 'zh-hant' %}您的7天免費試用已結束
+        {% elif lang_code == 'zh-cn' %}您的7天免费试用已结束
+        {% elif lang_code == 'ko' %}7일 무료 체험이 종료되었습니다
+        {% elif lang_code == 'de' %}Deine 7-tägige kostenlose Testphase ist beendet
+        {% elif lang_code == 'fr' %}Votre essai gratuit de 7 jours est terminé
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Tu prueba gratuita de 7 días ha terminado
+        {% elif lang_code == 'it' %}La tua prova gratuita di 7 giorni è terminata
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Seu teste grátis de 7 dias terminou
+        {% elif lang_code == 'vi' %}Thời gian dùng thử miễn phí 7 ngày đã kết thúc
+        {% elif lang_code == 'th' %}การทดลองใช้ฟรี 7 วันของคุณสิ้นสุดแล้ว
+        {% else %}Your 7-day free trial has ended
+        {% endif %}
+    </h3>
+    <p>
+        {% if lang_code == 'ja' %}引き続きプレミアムをご利用になりますか？
+        {% elif lang_code == 'zh-hant' %}要繼續使用進階版嗎？
+        {% elif lang_code == 'zh-cn' %}要继续使用高级版吗？
+        {% elif lang_code == 'ko' %}계속해서 프리미엄을 이용하시겠어요?
+        {% elif lang_code == 'de' %}Möchtest du Premium weiterhin nutzen?
+        {% elif lang_code == 'fr' %}Voulez-vous continuer à utiliser Premium ?
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}¿Quieres seguir usando Premium?
+        {% elif lang_code == 'it' %}Vuoi continuare a usare Premium?
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Deseja continuar usando o Premium?
+        {% elif lang_code == 'vi' %}Bạn có muốn tiếp tục sử dụng Premium không?
+        {% elif lang_code == 'th' %}ต้องการใช้พรีเมียมต่อหรือไม่?
+        {% else %}Would you like to continue with Premium?
+        {% endif %}
+    </p>
+    <a href="{% url 'premium_info' %}?lang={{ lang_code }}" class="trial-ended-btn-yes" id="trialEndedYesBtn">
+        {% if lang_code == 'ja' %}はい、続ける
+        {% elif lang_code == 'zh-hant' %}是，繼續使用
+        {% elif lang_code == 'zh-cn' %}是，继续使用
+        {% elif lang_code == 'ko' %}예, 계속하기
+        {% elif lang_code == 'de' %}Ja, fortfahren
+        {% elif lang_code == 'fr' %}Oui, continuer
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Sí, continuar
+        {% elif lang_code == 'it' %}Sì, continua
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Sim, continuar
+        {% elif lang_code == 'vi' %}Có, tiếp tục
+        {% elif lang_code == 'th' %}ใช่ ดำเนินการต่อ
+        {% else %}Yes, Continue
+        {% endif %}
+    </a>
+    <button type="button" class="trial-ended-btn-no" id="trialEndedNoBtn">
+        {% if lang_code == 'ja' %}いいえ
+        {% elif lang_code == 'zh-hant' %}不，謝謝
+        {% elif lang_code == 'zh-cn' %}不，谢谢
+        {% elif lang_code == 'ko' %}아니요
+        {% elif lang_code == 'de' %}Nein, danke
+        {% elif lang_code == 'fr' %}Non merci
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}No, gracias
+        {% elif lang_code == 'it' %}No grazie
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Não, obrigado
+        {% elif lang_code == 'vi' %}Không, cảm ơn
+        {% elif lang_code == 'th' %}ไม่ ขอบคุณ
+        {% else %}No, Thanks
+        {% endif %}
+    </button>
+</div>
+<script>
+(function() {
+    var overlay = document.getElementById('trialEndedOverlay');
+    var modal = document.getElementById('trialEndedModal');
+    var yesBtn = document.getElementById('trialEndedYesBtn');
+    var noBtn = document.getElementById('trialEndedNoBtn');
+
+    function showModal() {
+        overlay.classList.add('show');
+        modal.classList.add('show');
+    }
+    function hideModal() {
+        overlay.classList.remove('show');
+        modal.classList.remove('show');
+    }
+    // Persists trial_ended_popup_dismissed on the Profile (permanent - this
+    // popup is meant to be shown at most once ever, unlike the session-only
+    // daily-question banner dismiss). Only "yes" and "no" count as having
+    // responded; clicking the overlay just closes it for now (see below) so
+    // it can still come back on the next visit rather than being silently
+    // suppressed forever by an accidental outside-click.
+    function dismissPermanently(then) {
+        fetch("{% url 'dismiss_trial_ended_popup' %}", {
+            method: 'POST',
+            headers: { 'X-CSRFToken': '{{ csrf_token }}' }
+        }).finally(then);
+    }
+
+    overlay.addEventListener('click', hideModal);
+    noBtn.addEventListener('click', function() {
+        dismissPermanently(hideModal);
+    });
+    yesBtn.addEventListener('click', function(event) {
+        event.preventDefault();
+        var targetUrl = yesBtn.href;
+        dismissPermanently(function() {
+            window.location.href = targetUrl;
+        });
+    });
+
+    // Same delayed-reveal idea as the daily-question banner above: give the
+    // bonus-toast (if showing) time to finish before covering the screen
+    // with this modal, so the two don't compete for attention at once.
+    setTimeout(showModal, {% if bonus_received %}3400{% else %}600{% endif %});
+})();
+</script>
+{% endif %}
 
 <script>
     (function() {

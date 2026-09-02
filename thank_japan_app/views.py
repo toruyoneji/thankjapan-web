@@ -390,6 +390,21 @@ def dismiss_daily_question_banner(request):
 
 
 @login_required
+def dismiss_trial_ended_popup(request):
+    # @login_required (not @require_POST too - matches dismiss_daily_question_banner's
+    # leniency): only logged-in users can ever have trial_used=True in the
+    # first place, so this can't meaningfully be called by a guest anyway.
+    # Persisted on Profile (not the session) - this popup is meant to be shown
+    # at most once ever, not once per session. Called from both the "yes" and
+    # "no" buttons (see top-main-v2.html), so responding either way silences
+    # it permanently.
+    profile = request.user.profile
+    profile.trial_ended_popup_dismissed = True
+    profile.save(update_fields=['trial_ended_popup_dismissed'])
+    return JsonResponse({'status': 'success'})
+
+
+@login_required
 @require_POST
 def toggle_daily_question_notify(request):
     # Phase 2 step (1): persists the on/off preference only. The actual
@@ -3108,6 +3123,41 @@ def update_premium_status(request):
 
 @login_required
 @require_POST
+def start_premium_trial(request):
+    """Grants a 7-day app-managed premium trial - no PayPal subscription is
+    created here at all (that's what avoided the client-side plan-override
+    403 that blocked the earlier trial rollout, see PayPal checkout memory).
+    is_premium is set True (not just is_trial) so every existing premium-gate
+    check in the app (has_premium_access, ImgPremiumDetailView, etc.) grants
+    access automatically with no changes needed elsewhere. premium_expires_at
+    is shared with the regular-subscription field by design - trial and paid
+    periods for one user never overlap, and expire_premium_subscriptions
+    already resets is_trial=False in its non-Google-Play fallback branch when
+    that date passes.
+
+    trial_used is re-checked here even though the button is hidden client-side
+    once it's True - never trust that alone. has_premium_access is also
+    checked so a user who's already premium (e.g. subscribed directly without
+    ever trialing) can't hit this endpoint directly and have their real
+    premium_expires_at overwritten with a mere +7 days.
+    """
+    profile = request.user.profile
+    if profile.trial_used:
+        return JsonResponse({'status': 'error', 'message': 'Trial already used.'}, status=400)
+    if profile.has_premium_access:
+        return JsonResponse({'status': 'error', 'message': 'Already have premium access.'}, status=400)
+
+    profile.is_premium = True
+    profile.is_trial = True
+    profile.trial_used = True
+    profile.premium_expires_at = timezone.now() + timedelta(days=7)
+    profile.save()
+
+    return JsonResponse({'status': 'success', 'premium_expires_at': profile.premium_expires_at.isoformat()})
+
+
+@login_required
+@require_POST
 def create_paypal_subscription(request):
     """Creates the PayPal subscription server-side (with the region-adjusted
     price override) and returns an approval URL for the browser to redirect
@@ -3323,6 +3373,11 @@ def premium_info(request):
         # Google Play Billing button falls back here (?billing=web) when the
         # Digital Goods API isn't available even inside a real TWA session.
         'is_twa': is_android_twa(request) and request.GET.get('billing') != 'web',
+        # Guests have never used a trial either, so they see the trial CTA too
+        # (matches the PayPal button, which is likewise shown to guests -
+        # actually starting a trial or subscription still requires login,
+        # enforced server-side same as create_paypal_subscription today).
+        'trial_used': request.user.profile.trial_used if request.user.is_authenticated else False,
     }
     context.update(get_premium_price(request))
     return render(request, 'thank_japan_app/premium/premium_info-v2.html', context)
@@ -3332,6 +3387,11 @@ def premium_infoZHCN(request):
         # Google Play Billing button falls back here (?billing=web) when the
         # Digital Goods API isn't available even inside a real TWA session.
         'is_twa': is_android_twa(request) and request.GET.get('billing') != 'web',
+        # Guests have never used a trial either, so they see the trial CTA too
+        # (matches the PayPal button, which is likewise shown to guests -
+        # actually starting a trial or subscription still requires login,
+        # enforced server-side same as create_paypal_subscription today).
+        'trial_used': request.user.profile.trial_used if request.user.is_authenticated else False,
     }
     context.update(get_premium_price(request))
     return render(request, 'thank_japan_app/premium/premium_info_zh_cn-v2.html', context)
@@ -3342,6 +3402,11 @@ def premium_infoZHHANT(request):
         # Google Play Billing button falls back here (?billing=web) when the
         # Digital Goods API isn't available even inside a real TWA session.
         'is_twa': is_android_twa(request) and request.GET.get('billing') != 'web',
+        # Guests have never used a trial either, so they see the trial CTA too
+        # (matches the PayPal button, which is likewise shown to guests -
+        # actually starting a trial or subscription still requires login,
+        # enforced server-side same as create_paypal_subscription today).
+        'trial_used': request.user.profile.trial_used if request.user.is_authenticated else False,
     }
     context.update(get_premium_price(request))
     return render(request, 'thank_japan_app/premium/premium_info_zh_hant-v2.html', context)
@@ -3351,6 +3416,11 @@ def premium_infoVI(request):
         # Google Play Billing button falls back here (?billing=web) when the
         # Digital Goods API isn't available even inside a real TWA session.
         'is_twa': is_android_twa(request) and request.GET.get('billing') != 'web',
+        # Guests have never used a trial either, so they see the trial CTA too
+        # (matches the PayPal button, which is likewise shown to guests -
+        # actually starting a trial or subscription still requires login,
+        # enforced server-side same as create_paypal_subscription today).
+        'trial_used': request.user.profile.trial_used if request.user.is_authenticated else False,
     }
     context.update(get_premium_price(request))
     return render(request, 'thank_japan_app/premium/premium_info_vi-v2.html', context)
@@ -3360,6 +3430,11 @@ def premium_infoTH(request):
         # Google Play Billing button falls back here (?billing=web) when the
         # Digital Goods API isn't available even inside a real TWA session.
         'is_twa': is_android_twa(request) and request.GET.get('billing') != 'web',
+        # Guests have never used a trial either, so they see the trial CTA too
+        # (matches the PayPal button, which is likewise shown to guests -
+        # actually starting a trial or subscription still requires login,
+        # enforced server-side same as create_paypal_subscription today).
+        'trial_used': request.user.profile.trial_used if request.user.is_authenticated else False,
     }
     context.update(get_premium_price(request))
     return render(request, 'thank_japan_app/premium/premium_info_th-v2.html', context)
@@ -3369,6 +3444,11 @@ def premium_infoPT(request):
         # Google Play Billing button falls back here (?billing=web) when the
         # Digital Goods API isn't available even inside a real TWA session.
         'is_twa': is_android_twa(request) and request.GET.get('billing') != 'web',
+        # Guests have never used a trial either, so they see the trial CTA too
+        # (matches the PayPal button, which is likewise shown to guests -
+        # actually starting a trial or subscription still requires login,
+        # enforced server-side same as create_paypal_subscription today).
+        'trial_used': request.user.profile.trial_used if request.user.is_authenticated else False,
     }
     context.update(get_premium_price(request))
     return render(request, 'thank_japan_app/premium/premium_info_pt-v2.html', context)
@@ -3378,6 +3458,11 @@ def premium_infoPTBR(request):
         # Google Play Billing button falls back here (?billing=web) when the
         # Digital Goods API isn't available even inside a real TWA session.
         'is_twa': is_android_twa(request) and request.GET.get('billing') != 'web',
+        # Guests have never used a trial either, so they see the trial CTA too
+        # (matches the PayPal button, which is likewise shown to guests -
+        # actually starting a trial or subscription still requires login,
+        # enforced server-side same as create_paypal_subscription today).
+        'trial_used': request.user.profile.trial_used if request.user.is_authenticated else False,
     }
     context.update(get_premium_price(request))
     return render(request, 'thank_japan_app/premium/premium_info_pt_br-v2.html', context)
@@ -3387,6 +3472,11 @@ def premium_infoKO(request):
         # Google Play Billing button falls back here (?billing=web) when the
         # Digital Goods API isn't available even inside a real TWA session.
         'is_twa': is_android_twa(request) and request.GET.get('billing') != 'web',
+        # Guests have never used a trial either, so they see the trial CTA too
+        # (matches the PayPal button, which is likewise shown to guests -
+        # actually starting a trial or subscription still requires login,
+        # enforced server-side same as create_paypal_subscription today).
+        'trial_used': request.user.profile.trial_used if request.user.is_authenticated else False,
     }
     context.update(get_premium_price(request))
     return render(request, 'thank_japan_app/premium/premium_info_ko-v2.html', context)
@@ -3396,6 +3486,11 @@ def premium_infoJA(request):
         # Google Play Billing button falls back here (?billing=web) when the
         # Digital Goods API isn't available even inside a real TWA session.
         'is_twa': is_android_twa(request) and request.GET.get('billing') != 'web',
+        # Guests have never used a trial either, so they see the trial CTA too
+        # (matches the PayPal button, which is likewise shown to guests -
+        # actually starting a trial or subscription still requires login,
+        # enforced server-side same as create_paypal_subscription today).
+        'trial_used': request.user.profile.trial_used if request.user.is_authenticated else False,
     }
     context.update(get_premium_price(request))
     return render(request, 'thank_japan_app/premium/premium_info_ja-v2.html', context)
@@ -3405,6 +3500,11 @@ def premium_infoIT(request):
         # Google Play Billing button falls back here (?billing=web) when the
         # Digital Goods API isn't available even inside a real TWA session.
         'is_twa': is_android_twa(request) and request.GET.get('billing') != 'web',
+        # Guests have never used a trial either, so they see the trial CTA too
+        # (matches the PayPal button, which is likewise shown to guests -
+        # actually starting a trial or subscription still requires login,
+        # enforced server-side same as create_paypal_subscription today).
+        'trial_used': request.user.profile.trial_used if request.user.is_authenticated else False,
     }
     context.update(get_premium_price(request))
     return render(request, 'thank_japan_app/premium/premium_info_it-v2.html', context)
@@ -3414,6 +3514,11 @@ def premium_infoFR(request):
         # Google Play Billing button falls back here (?billing=web) when the
         # Digital Goods API isn't available even inside a real TWA session.
         'is_twa': is_android_twa(request) and request.GET.get('billing') != 'web',
+        # Guests have never used a trial either, so they see the trial CTA too
+        # (matches the PayPal button, which is likewise shown to guests -
+        # actually starting a trial or subscription still requires login,
+        # enforced server-side same as create_paypal_subscription today).
+        'trial_used': request.user.profile.trial_used if request.user.is_authenticated else False,
     }
     context.update(get_premium_price(request))
     return render(request, 'thank_japan_app/premium/premium_info_fr-v2.html', context)
@@ -3423,6 +3528,11 @@ def premium_infoESMX(request):
         # Google Play Billing button falls back here (?billing=web) when the
         # Digital Goods API isn't available even inside a real TWA session.
         'is_twa': is_android_twa(request) and request.GET.get('billing') != 'web',
+        # Guests have never used a trial either, so they see the trial CTA too
+        # (matches the PayPal button, which is likewise shown to guests -
+        # actually starting a trial or subscription still requires login,
+        # enforced server-side same as create_paypal_subscription today).
+        'trial_used': request.user.profile.trial_used if request.user.is_authenticated else False,
     }
     context.update(get_premium_price(request))
     return render(request, 'thank_japan_app/premium/premium_info_es_mx-v2.html', context)
@@ -3432,6 +3542,11 @@ def premium_infoESES(request):
         # Google Play Billing button falls back here (?billing=web) when the
         # Digital Goods API isn't available even inside a real TWA session.
         'is_twa': is_android_twa(request) and request.GET.get('billing') != 'web',
+        # Guests have never used a trial either, so they see the trial CTA too
+        # (matches the PayPal button, which is likewise shown to guests -
+        # actually starting a trial or subscription still requires login,
+        # enforced server-side same as create_paypal_subscription today).
+        'trial_used': request.user.profile.trial_used if request.user.is_authenticated else False,
     }
     context.update(get_premium_price(request))
     return render(request, 'thank_japan_app/premium/premium_info_es_es-v2.html', context)
@@ -3441,6 +3556,11 @@ def premium_infoENIN(request):
         # Google Play Billing button falls back here (?billing=web) when the
         # Digital Goods API isn't available even inside a real TWA session.
         'is_twa': is_android_twa(request) and request.GET.get('billing') != 'web',
+        # Guests have never used a trial either, so they see the trial CTA too
+        # (matches the PayPal button, which is likewise shown to guests -
+        # actually starting a trial or subscription still requires login,
+        # enforced server-side same as create_paypal_subscription today).
+        'trial_used': request.user.profile.trial_used if request.user.is_authenticated else False,
     }
     context.update(get_premium_price(request))
     return render(request, 'thank_japan_app/premium/premium_info_en_in-v2.html', context)
@@ -3450,6 +3570,11 @@ def premium_infoDE(request):
         # Google Play Billing button falls back here (?billing=web) when the
         # Digital Goods API isn't available even inside a real TWA session.
         'is_twa': is_android_twa(request) and request.GET.get('billing') != 'web',
+        # Guests have never used a trial either, so they see the trial CTA too
+        # (matches the PayPal button, which is likewise shown to guests -
+        # actually starting a trial or subscription still requires login,
+        # enforced server-side same as create_paypal_subscription today).
+        'trial_used': request.user.profile.trial_used if request.user.is_authenticated else False,
     }
     context.update(get_premium_price(request))
     return render(request, 'thank_japan_app/premium/premium_info_de-v2.html', context)

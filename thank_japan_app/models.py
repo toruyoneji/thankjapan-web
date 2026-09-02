@@ -278,6 +278,7 @@ class Profile(models.Model):
     best_combo = models.PositiveIntegerField(default=0)
     games_played = models.PositiveIntegerField(default=0)
     daily_question_notify = models.BooleanField(default=False)
+    trial_ended_popup_dismissed = models.BooleanField(default=False)
 
     @property
     def has_premium_access(self):
