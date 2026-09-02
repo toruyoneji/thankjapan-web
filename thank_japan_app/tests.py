@@ -930,3 +930,110 @@ class DowngradePremiumKeepsAccessUntilExpiryTests(TestCase):
         self.profile.refresh_from_db()
         self.assertFalse(self.profile.is_premium)
         self.assertFalse(self.profile.has_premium_access)
+
+
+LOCALE_QUERY_PARAMS = [
+    'en', 'ja', 'de', 'en-in', 'es-es', 'es-mx', 'fr', 'it', 'ko',
+    'pt', 'pt-br', 'th', 'vi', 'zh-hant', 'zh-cn',
+]
+
+
+@override_settings(SECURE_SSL_REDIRECT=False)
+class GameResultReviewPromptTests(TestCase):
+    """The in-app review prompt on the game_result screen (replacing the
+    now-retired top-page version - see base_top.html/review_prompt_status
+    history) must show only for TWA + logged-in + at least one correct
+    answer + never shown before, and must permanently gate itself via
+    Profile.review_prompt_shown the instant it's shown, not depend on any
+    follow-up client action."""
+
+    def setUp(self):
+        self.user = User.objects.create_user(username='review_prompt_user', password='pass12345')
+        self.client.login(username='review_prompt_user', password='pass12345')
+
+    def _set_game_session(self, is_twa=True, correct=True):
+        session = self.client.session
+        session['game_history'] = [{
+            'index': 0,
+            'is_correct': correct,
+            'points': 10 if correct else 0,
+            'question_id': 999999,
+            'combo': 1,
+            'combo_bonus': 0,
+        }]
+        session['game_difficulty'] = 'normal'
+        if is_twa:
+            session['is_twa'] = True
+        session.save()
+
+    def test_shows_for_twa_logged_in_user_with_a_correct_answer(self):
+        self._set_game_session(is_twa=True, correct=True)
+
+        response = self.client.get(reverse('game_result'))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'reviewPromptOverlay')
+        self.user.profile.refresh_from_db()
+        self.assertTrue(self.user.profile.review_prompt_shown)
+
+    def test_shown_flag_prevents_a_second_display(self):
+        self.user.profile.review_prompt_shown = True
+        self.user.profile.save()
+        self._set_game_session(is_twa=True, correct=True)
+
+        response = self.client.get(reverse('game_result'))
+
+        self.assertNotContains(response, 'reviewPromptOverlay')
+
+    def test_does_not_show_on_web_non_twa(self):
+        self._set_game_session(is_twa=False, correct=True)
+
+        response = self.client.get(reverse('game_result'))
+
+        self.assertNotContains(response, 'reviewPromptOverlay')
+        self.user.profile.refresh_from_db()
+        self.assertFalse(self.user.profile.review_prompt_shown)
+
+    def test_does_not_show_with_zero_correct_answers(self):
+        self._set_game_session(is_twa=True, correct=False)
+
+        response = self.client.get(reverse('game_result'))
+
+        self.assertNotContains(response, 'reviewPromptOverlay')
+        self.user.profile.refresh_from_db()
+        self.assertFalse(self.user.profile.review_prompt_shown)
+
+    def test_does_not_show_for_guests(self):
+        self.client.logout()
+        session = self.client.session
+        session['game_history'] = [{
+            'index': 0, 'is_correct': True, 'points': 10, 'question_id': 999999,
+        }]
+        session['game_difficulty'] = 'normal'
+        session['is_twa'] = True
+        session.save()
+
+        response = self.client.get(reverse('game_result'))
+
+        self.assertNotContains(response, 'reviewPromptOverlay')
+
+    def test_links_to_play_store_review_page(self):
+        self._set_game_session(is_twa=True, correct=True)
+
+        response = self.client.get(reverse('game_result'))
+
+        self.assertContains(response, 'https://play.google.com/store/apps/details?id=com.thankjapan.www.twa')
+
+    def test_renders_without_error_in_all_15_locales(self):
+        for lang in LOCALE_QUERY_PARAMS:
+            with self.subTest(lang=lang):
+                # Fresh eligibility each time - a prior iteration's render
+                # already flips review_prompt_shown to True.
+                self.user.profile.review_prompt_shown = False
+                self.user.profile.save()
+                self._set_game_session(is_twa=True, correct=True)
+
+                response = self.client.get(reverse('game_result'), {'lang': lang})
+
+                self.assertEqual(response.status_code, 200)
+                self.assertContains(response, 'reviewPromptOverlay')

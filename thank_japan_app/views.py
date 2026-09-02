@@ -3,7 +3,6 @@ from django.views import View
 from django.views.generic import ListView, DetailView, FormView, TemplateView
 from django.views.generic.edit import FormView
 from .models import ThankJapanModel, Player, Profile, ThankJapanPremium
-from django.db.models import F
 from django.contrib import messages
 from django.core.mail import send_mail
 from django.core.validators import validate_email
@@ -298,44 +297,6 @@ def mark_twa(request):
     exists alongside the X-Requested-With check rather than replacing it.
     No @login_required: guests browsing /premium/ etc. need this too."""
     request.session['is_twa'] = True
-    return JsonResponse({'status': 'success'})
-
-
-#in-app review prompt: cumulative distinct word-detail view counter
-def track_word_view(request, model_type, object_id):
-    session_key = 'viewed_word_ids'
-    viewed_ids = request.session.get(session_key, [])
-    word_key = f"{model_type}:{object_id}"
-    if word_key not in viewed_ids:
-        viewed_ids.append(word_key)
-        request.session[session_key] = viewed_ids
-        request.session.modified = True
-        if request.user.is_authenticated:
-            Profile.objects.filter(pk=request.user.profile.pk).update(
-                viewed_word_count=F('viewed_word_count') + 1
-            )
-    if request.user.is_authenticated:
-        request.user.profile.refresh_from_db(fields=['viewed_word_count'])
-        return request.user.profile.viewed_word_count
-    return len(viewed_ids)
-
-
-@login_required
-@require_POST
-def update_review_prompt_status(request):
-    profile = request.user.profile
-    try:
-        action = json.loads(request.body or '{}').get('action')
-    except (ValueError, TypeError):
-        action = None
-
-    if action == 'completed':
-        profile.review_prompt_completed = True
-        profile.save(update_fields=['review_prompt_completed'])
-    elif action == 'dismiss':
-        profile.review_prompt_dismissed_until = timezone.localdate() + timedelta(days=14)
-        profile.save(update_fields=['review_prompt_dismissed_until'])
-
     return JsonResponse({'status': 'success'})
 
 
@@ -2411,15 +2372,19 @@ def game_result(request):
         weekly_ranking.append(r)
         last_score = r.score
 
-    accuracy = (correct_count / total_played) if total_played else 0
-    trigger_review_score = (
-        is_android_twa(request) and difficulty != 'single' and total_played > 0 and
-        (score >= 5 or accuracy >= 0.8)
+    # In-app review prompt: TWA + logged in + at least one correct answer +
+    # never shown before. Shown right here on the result screen (not the top
+    # page - see the retired review_prompt_status/base_top.html version this
+    # replaced). review_prompt_shown is flipped the moment we decide to show
+    # it, in this same request, rather than waiting for a follow-up
+    # dismiss/complete call - that's what makes "shown at most once ever"
+    # unconditional instead of depending on the client actually reporting back.
+    show_review_prompt = (
+        request.user.is_authenticated and is_android_twa(request) and
+        correct_count >= 1 and not request.user.profile.review_prompt_shown
     )
-    if trigger_review_score:
-        # Standing eligibility for the in-app review prompt, shown the next time the
-        # top page is displayed (not on this result screen) — see review_prompt_status.
-        request.session['review_prompt_score_ready'] = True
+    if show_review_prompt:
+        Profile.objects.filter(pk=request.user.profile.pk).update(review_prompt_shown=True)
 
     return render(request, 'thank_japan_app/game_result-v2.html', {
         'lang_code': lang_code,
@@ -2442,6 +2407,7 @@ def game_result(request):
         'bgm_page_type': 'top',
         'is_premium_mode': is_premium_mode,
         'unlocked_achievements': [a['code'] for a in unlocked_achievements],
+        'show_review_prompt': show_review_prompt,
     })
     
     

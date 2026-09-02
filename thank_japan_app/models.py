@@ -279,6 +279,7 @@ class Profile(models.Model):
     games_played = models.PositiveIntegerField(default=0)
     daily_question_notify = models.BooleanField(default=False)
     trial_ended_popup_dismissed = models.BooleanField(default=False)
+    review_prompt_shown = models.BooleanField(default=False)
 
     @property
     def has_premium_access(self):

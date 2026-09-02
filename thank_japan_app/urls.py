@@ -42,7 +42,7 @@ from .views import (TopView, TopViewFR, TopViewIT, TopViewPT, TopViewZHHANT,TopV
                     delete_success_v2, 
                     downgrade_success_v2, update_policy_agreement, paypal_webhook,
                     CustomPasswordResetView, CustomPasswordResetConfirmView, verify_android_subscription,
-                    broadcast_daily_message, update_review_prompt_status,
+                    broadcast_daily_message,
                     add_missing_email, dismiss_email_prompt, dismiss_daily_question_banner, toggle_daily_question_notify,
                     mark_twa, dismiss_trial_ended_popup,
                     )
@@ -330,9 +330,6 @@ urlpatterns = [
     
     #update-privacypolicy
     path('update-policy-agreement/', update_policy_agreement, name='update_policy_agreement'),
-
-    #in-app review prompt
-    path('api/review-prompt-status/', update_review_prompt_status, name='update_review_prompt_status'),
 
     #email prompt banner (for social accounts with no email, e.g. X)
     path('api/add-missing-email/', add_missing_email, name='add_missing_email'),

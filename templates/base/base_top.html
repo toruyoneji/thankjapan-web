@@ -365,52 +365,6 @@
             padding: 0 10px;
         }
 
-        .review-prompt-overlay {
-            display: none;
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: rgba(0,0,0,0.75);
-            z-index: 12000;
-            align-items: center;
-            justify-content: center;
-        }
-        .review-prompt-overlay.show { display: flex; }
-        .review-prompt-modal {
-            background: #1a1a1a;
-            border: 1px solid rgba(212, 175, 55, 0.5);
-            border-radius: 20px;
-            padding: 28px 24px;
-            width: 85%;
-            max-width: 360px;
-            text-align: center;
-            color: #fff;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.6);
-        }
-        .review-prompt-modal .review-prompt-emoji { font-size: 2.2rem; margin-bottom: 10px; }
-        .review-prompt-modal p { font-size: 0.95rem; line-height: 1.5; margin-bottom: 20px; color: #eee; }
-        .review-prompt-write-btn {
-            display: block;
-            width: 100%;
-            background: linear-gradient(135deg, #ffd700, #d4af37);
-            color: #000;
-            border: none;
-            padding: 12px;
-            border-radius: 999px;
-            font-weight: bold;
-            font-size: 1rem;
-            cursor: pointer;
-            margin-bottom: 12px;
-        }
-        .review-prompt-later-btn {
-            background: none;
-            border: none;
-            color: #999;
-            font-size: 0.85rem;
-            cursor: pointer;
-            text-decoration: underline;
-        }
-
     </style>
 
     {% if not ga_disabled %}
@@ -829,61 +783,6 @@
     </div>
 
 
-    <div id="reviewPromptOverlay" class="review-prompt-overlay">
-        <div class="review-prompt-modal">
-            <div class="review-prompt-emoji">⭐️</div>
-            <p>
-                {% if lang_code == 'ja' %}ThankJapanを楽しんでいただけていますか?<br>よろしければレビューをお願いします
-                {% elif lang_code == 'ko' %}ThankJapan을 즐기고 계신가요?<br>괜찮으시다면 리뷰를 부탁드립니다
-                {% elif lang_code == 'zh-cn' %}您在ThankJapan玩得开心吗?<br>如果可以的话,希望您能给我们留下评价
-                {% elif lang_code == 'zh-hant' %}您在ThankJapan玩得開心嗎?<br>如果可以的話,希望您能給我們留下評價
-                {% elif lang_code == 'th' %}คุณสนุกกับ ThankJapan อยู่หรือเปล่า?<br>หากสะดวก ช่วยเขียนรีวิวให้เราด้วยนะครับ/คะ
-                {% elif lang_code == 'vi' %}Bạn có đang thích thú với ThankJapan không?<br>Nếu được, hãy để lại đánh giá cho chúng tôi nhé
-                {% elif lang_code == 'fr' %}Vous appréciez ThankJapan ?<br>Si possible, laissez-nous un avis
-                {% elif lang_code == 'de' %}Gefällt dir ThankJapan?<br>Wir würden uns über eine Bewertung freuen
-                {% elif lang_code == 'it' %}Ti stai divertendo con ThankJapan?<br>Se ti va, lasciaci una recensione
-                {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}¿Estás disfrutando de ThankJapan?<br>Si te parece bien, déjanos una reseña
-                {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Está gostando do ThankJapan?<br>Se possível, deixe-nos uma avaliação
-                {% elif lang_code == 'en-in' %}Enjoying ThankJapan?<br>If you don't mind, please leave us a review
-                {% else %}Enjoying ThankJapan?<br>We'd love it if you could leave us a review{% endif %}
-            </p>
-            <button type="button" class="review-prompt-write-btn" onclick="reviewPromptWrite()">
-                {% if lang_code == 'ja' %}レビューを書く
-                {% elif lang_code == 'ko' %}리뷰 작성하기
-                {% elif lang_code == 'zh-cn' %}撰写评价
-                {% elif lang_code == 'zh-hant' %}撰寫評價
-                {% elif lang_code == 'th' %}เขียนรีวิว
-                {% elif lang_code == 'vi' %}Viết đánh giá
-                {% elif lang_code == 'fr' %}Écrire un avis
-                {% elif lang_code == 'de' %}Bewertung schreiben
-                {% elif lang_code == 'it' %}Scrivi una recensione
-                {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Escribir una reseña
-                {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Escrever avaliação
-                {% else %}Write a Review{% endif %}
-            </button>
-            <button type="button" class="review-prompt-later-btn" onclick="reviewPromptLater()">
-                {% if lang_code == 'ja' %}後で
-                {% elif lang_code == 'ko' %}나중에
-                {% elif lang_code == 'zh-cn' %}以后再说
-                {% elif lang_code == 'zh-hant' %}稍後再說
-                {% elif lang_code == 'th' %}ไว้ทีหลัง
-                {% elif lang_code == 'vi' %}Để sau
-                {% elif lang_code == 'fr' %}Plus tard
-                {% elif lang_code == 'de' %}Später
-                {% elif lang_code == 'it' %}Più tardi
-                {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Más tarde
-                {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Mais tarde
-                {% else %}Not Now{% endif %}
-            </button>
-        </div>
-    </div>
-    <script>
-        window.TJ_REVIEW_WORDCOUNT_READY = {{ review_prompt_wordcount_ready|yesno:"true,false" }};
-        window.TJ_REVIEW_SCORE_READY = {{ review_prompt_score_ready|yesno:"true,false" }};
-        window.TJ_REVIEW_LOGGED_IN = {{ user.is_authenticated|yesno:"true,false" }};
-    </script>
-
-
     <div id="menuModal" class="lang-modal">
         <h3 style="color:#d4af37; text-align:center; margin-bottom:20px;">
             {% if lang_code == 'ja' %}メニュー
@@ -1073,48 +972,6 @@
     }
 
 
-    const REVIEW_PLAY_STORE_URL = 'https://play.google.com/store/apps/details?id=com.thankjapan.www.twa';
-    const REVIEW_DISMISS_DAYS = 14;
-
-    function reviewPromptEligible() {
-        if (localStorage.getItem('tj_review_completed') === 'true') return false;
-        const dismissedUntil = localStorage.getItem('tj_review_dismissed_until');
-        if (dismissedUntil && Date.now() < parseInt(dismissedUntil, 10)) return false;
-        return !!(window.TJ_REVIEW_WORDCOUNT_READY || window.TJ_REVIEW_SCORE_READY);
-    }
-
-    function hideReviewPrompt() {
-        const overlay = document.getElementById('reviewPromptOverlay');
-        if (overlay) overlay.classList.remove('show');
-    }
-
-    function reviewPromptWrite() {
-        localStorage.setItem('tj_review_completed', 'true');
-        if (window.TJ_REVIEW_LOGGED_IN) {
-            fetch("{% url 'update_review_prompt_status' %}", {
-                method: 'POST',
-                headers: {'X-CSRFToken': '{{ csrf_token }}', 'Content-Type': 'application/json'},
-                body: JSON.stringify({ action: 'completed' })
-            });
-        }
-        window.open(REVIEW_PLAY_STORE_URL, '_blank');
-        hideReviewPrompt();
-    }
-
-    function reviewPromptLater() {
-        const dismissedUntil = Date.now() + REVIEW_DISMISS_DAYS * 24 * 60 * 60 * 1000;
-        localStorage.setItem('tj_review_dismissed_until', String(dismissedUntil));
-        if (window.TJ_REVIEW_LOGGED_IN) {
-            fetch("{% url 'update_review_prompt_status' %}", {
-                method: 'POST',
-                headers: {'X-CSRFToken': '{{ csrf_token }}', 'Content-Type': 'application/json'},
-                body: JSON.stringify({ action: 'dismiss' })
-            });
-        }
-        hideReviewPrompt();
-    }
-
-
     document.addEventListener('DOMContentLoaded', function() {
 
 
@@ -1145,13 +1002,6 @@
         if (localStorage.getItem('policy_agreed_2026_03') === 'true') {
             const banner = document.getElementById('policyUpdateBanner');
             if (banner) banner.style.display = 'none';
-        }
-
-        if (reviewPromptEligible()) {
-            setTimeout(() => {
-                const overlay = document.getElementById('reviewPromptOverlay');
-                if (overlay) overlay.classList.add('show');
-            }, 1200);
         }
     });
 </script>
