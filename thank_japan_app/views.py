@@ -4519,10 +4519,13 @@ def downgrade_premium(request):
             cancel_paypal_subscription(profile.paypal_subscription_id, "User downgraded")
         except Exception:
             pass
-    profile.is_premium = False
-    profile.is_trial = False
-    profile.premium_expires_at = None
-    profile.save()
+    # is_premium / premium_expires_at are deliberately left untouched here:
+    # the user already paid for the current billing period, so access should
+    # continue until premium_expires_at (like Google Play's own cancellation,
+    # which this mirrors), not end the instant they click Cancel.
+    # cancel_paypal_subscription above already stops future auto-renewal;
+    # expire_premium_subscriptions reverts is_premium once premium_expires_at
+    # actually passes, same as any other expiry.
 
     next_url_name = request.POST.get('downgrade_url_name', 'downgrade_success')
 

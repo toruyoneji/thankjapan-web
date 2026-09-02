@@ -3,6 +3,7 @@ from datetime import timedelta
 from unittest.mock import MagicMock, patch
 
 from django.contrib.auth.models import User
+from django.core.management import call_command
 from django.test import RequestFactory, SimpleTestCase, TestCase, override_settings
 from django.urls import reverse
 from django.utils import timezone
@@ -834,7 +835,6 @@ class TrialCancelLoopholeTests(TestCase):
 
         self.assertEqual(response.status_code, 302)
         profile.refresh_from_db()
-        self.assertFalse(profile.is_premium)
         self.assertFalse(profile.is_trial)
 
     def test_trial_used_permanently_blocks_a_second_trial(self):
@@ -864,3 +864,69 @@ class TrialCancelLoopholeTests(TestCase):
         self.assertTrue(profile.is_premium)
         self.assertTrue(profile.is_trial)
         self.assertTrue(profile.trial_used)
+
+
+@override_settings(
+    PAYPAL_CLIENT_ID='test-client-id',
+    PAYPAL_CLIENT_SECRET='test-client-secret',
+    PAYPAL_MODE='sandbox',
+    SECURE_SSL_REDIRECT=False,
+)
+class DowngradePremiumKeepsAccessUntilExpiryTests(TestCase):
+    """Cancelling a real PayPal subscription must only stop future
+    auto-renewal (via PayPal's own cancel API) - it must not revoke access
+    before the already-paid-for premium_expires_at. This mirrors how Google
+    Play cancellation already behaves (access continues to the end of the
+    current billing period; our app has no code path that revokes early for
+    Google Play, since there's no cancellation webhook wired up - the only
+    thing that ever changes premium state for a Google Play user is the
+    purchase-verify endpoint and expire_premium_subscriptions' re-verify
+    branch, neither of which fires on cancellation itself)."""
+
+    def setUp(self):
+        self.user = User.objects.create_user(username='real_subscriber', password='pass12345')
+        self.client.login(username='real_subscriber', password='pass12345')
+        self.profile = self.user.profile
+        self.profile.is_premium = True
+        self.profile.is_trial = False
+        self.profile.paypal_subscription_id = 'I-REALSUB'
+        self.expiry = timezone.now() + timedelta(days=20)
+        self.profile.premium_expires_at = self.expiry
+        self.profile.save()
+
+    @patch('thank_japan_app.views.requests.post')
+    def test_cancel_keeps_access_until_expiry_and_stops_paypal_auto_renewal(self, mock_post):
+        def post_side_effect(url, **kwargs):
+            if 'oauth2/token' in url:
+                return _mock_response(200, {'access_token': 'tok'})
+            if url.endswith('/I-REALSUB/cancel'):
+                return _mock_response(204, {})
+            raise AssertionError(f'unexpected POST to {url}')
+        mock_post.side_effect = post_side_effect
+
+        response = self.client.post(reverse('downgrade_premium'))
+
+        self.assertEqual(response.status_code, 302)
+        self.profile.refresh_from_db()
+        self.assertTrue(self.profile.is_premium)
+        self.assertTrue(self.profile.has_premium_access)
+        self.assertAlmostEqual(self.profile.premium_expires_at, self.expiry, delta=timedelta(seconds=5))
+
+        cancel_calls = [
+            c for c in mock_post.call_args_list
+            if c.args and c.args[0].endswith('/I-REALSUB/cancel')
+        ]
+        self.assertEqual(len(cancel_calls), 1, "PayPal's cancel endpoint must be called exactly once")
+
+    def test_expiry_batch_reverts_access_once_premium_expires_at_passes(self):
+        # Simulate time having passed the already-paid-for period without a
+        # renewal (as if PayPal's auto-renewal had indeed been stopped by an
+        # earlier cancellation).
+        self.profile.premium_expires_at = timezone.now() - timedelta(minutes=1)
+        self.profile.save()
+
+        call_command('expire_premium_subscriptions')
+
+        self.profile.refresh_from_db()
+        self.assertFalse(self.profile.is_premium)
+        self.assertFalse(self.profile.has_premium_access)
