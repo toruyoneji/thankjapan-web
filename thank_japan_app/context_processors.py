@@ -128,27 +128,30 @@ def trial_ended_popup_status(request):
     after someone's 7-day free trial has ended (Phase design step 5 - see
     project_paypal_checkout_state memory).
 
-    Shown once trial_used is True and is_trial has gone back False (the
-    expire_premium_subscriptions batch already does this once
-    premium_expires_at passes - see that command), as long as they haven't
-    since subscribed for real (has_premium_access) and haven't already
-    responded to it. Unlike the daily-question banner's dismiss (session-only,
-    meant to reappear daily), this one is meant to be shown at most once ever
-    - so trial_ended_popup_dismissed lives on Profile (DB), not the session,
-    and is set on both "yes" and "no" (see dismiss_trial_ended_popup). Guests
-    can't have trial_used=True at all (starting a trial requires login), so
-    this never applies to them.
+    Shown once trial_used is True and has_premium_access has gone False, as
+    long as they haven't already responded to it. has_premium_access is a
+    computed property (is_premium True and premium_expires_at either unset or
+    still in the future - see Profile.has_premium_access in models.py), so it
+    flips the instant premium_expires_at passes - unlike is_trial, which is a
+    plain stored field only ever flipped False by the expire_premium_subscriptions
+    batch (daily, 18:00 UTC) or a real-subscription conversion. Gating on
+    is_trial instead of has_premium_access was tried first and reverted: it
+    left up to a ~24h gap where access had already ended (has_premium_access
+    False) but the popup stayed hidden because is_trial hadn't been batch-flipped
+    yet. has_premium_access needs no such wait. Unlike the daily-question
+    banner's dismiss (session-only, meant to reappear daily), this one is
+    meant to be shown at most once ever - so trial_ended_popup_dismissed lives
+    on Profile (DB), not the session, and is set on both "yes" and "no" (see
+    dismiss_trial_ended_popup). Guests can't have trial_used=True at all
+    (starting a trial requires login), so this never applies to them.
 
     paypal_subscription_id / google_play_purchase_token must also both be
     blank. Without this check, a user who trials, converts to a real
-    subscription mid-trial (PayPal: sync_paypal_premium_state /
-    _activate_paypal_subscription flips is_trial back to False immediately on
-    activation; Google Play: the purchase-verify endpoint does the same via
-    paymentState != 2), and later cancels that real subscription would
-    satisfy trial_used=True + is_trial=False + not has_premium_access too,
-    and wrongly see "your trial has ended" even though they actually paid and
-    then cancelled normally. Neither field is ever cleared once set
-    (downgrade_premium/delete_account/the webhook's deactivate branch and
+    subscription mid-trial, and later cancels that real subscription would
+    satisfy trial_used=True + not has_premium_access too, and wrongly see
+    "your trial has ended" even though they actually paid and then cancelled
+    normally. Neither field is ever cleared once set (downgrade_premium/
+    delete_account/the webhook's deactivate branch and
     expire_premium_subscriptions's expiry branch all leave them in place), so
     either being present reliably means "this account did have a real
     subscription at some point", regardless of whether it's still active now
@@ -156,7 +159,7 @@ def trial_ended_popup_status(request):
     if not request.user.is_authenticated:
         return {'show_trial_ended_popup': False}
     profile = request.user.profile
-    if not profile.trial_used or profile.is_trial or profile.has_premium_access:
+    if not profile.trial_used or profile.has_premium_access:
         return {'show_trial_ended_popup': False}
     if profile.paypal_subscription_id or profile.google_play_purchase_token:
         return {'show_trial_ended_popup': False}

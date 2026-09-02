@@ -681,7 +681,12 @@ class TrialEndedPopupStatusTests(TestCase):
     subscription and later cancelled that (regression: see
     project_paypal_checkout_state memory 2026-09-02, reported by real
     trial -> PayPal payment -> downgrade flow wrongly showing "your trial
-    has ended")."""
+    has ended"), and it must fire the instant access actually ends rather
+    than waiting for expire_premium_subscriptions' next daily run (regression
+    #2: gating on the stored is_trial field instead of the computed
+    has_premium_access property left up to a ~24h gap where a QA account with
+    premium_expires_at manually moved into the past still didn't see the
+    popup, because is_trial only flips on the batch's next run)."""
 
     def setUp(self):
         self.factory = RequestFactory()
@@ -693,10 +698,26 @@ class TrialEndedPopupStatusTests(TestCase):
         return context_processors.trial_ended_popup_status(request)['show_trial_ended_popup']
 
     def test_natural_trial_expiry_shows_popup(self):
+        """The state expire_premium_subscriptions leaves a trial profile in
+        once it *has* run: is_trial already flipped False."""
         profile = self.user.profile
         profile.trial_used = True
         profile.is_trial = False
         profile.is_premium = False
+        profile.save()
+
+        self.assertTrue(self._status())
+
+    def test_expired_but_unbatched_trial_shows_popup_immediately(self):
+        """The gap this fix closes: premium_expires_at has already passed,
+        but is_trial/is_premium are still the stale pre-batch values (True) -
+        has_premium_access is computed, so it already reflects reality and
+        the popup must show without waiting for the next 18:00 UTC batch."""
+        profile = self.user.profile
+        profile.trial_used = True
+        profile.is_trial = True
+        profile.is_premium = True
+        profile.premium_expires_at = timezone.now() - timedelta(minutes=1)
         profile.save()
 
         self.assertTrue(self._status())
@@ -726,6 +747,7 @@ class TrialEndedPopupStatusTests(TestCase):
         profile.trial_used = True
         profile.is_trial = True
         profile.is_premium = True
+        profile.premium_expires_at = timezone.now() + timedelta(days=3)
         profile.save()
 
         self.assertFalse(self._status())
