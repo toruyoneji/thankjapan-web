@@ -4505,6 +4505,15 @@ def sync_paypal_premium_state(profile, subscription):
 @require_POST
 def downgrade_premium(request):
     profile = request.user.profile
+    if profile.is_trial:
+        # The "Cancel Subscription" button is only ever rendered for real,
+        # paying subscribers (see account_settings*-v2.html), never during a
+        # trial - a trial just lapses on its own after 7 days. This is a
+        # defense-in-depth check against this endpoint being hit directly
+        # (e.g. via the URL/devtools) while is_trial is still True, since
+        # there's nothing to actually cancel and letting it through would
+        # just discard the trial early with no benefit to anyone.
+        return HttpResponse(status=400)
     if profile.has_premium_access and profile.paypal_subscription_id:
         try:
             cancel_paypal_subscription(profile.paypal_subscription_id, "User downgraded")

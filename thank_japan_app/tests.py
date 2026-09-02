@@ -742,3 +742,103 @@ class TrialEndedPopupStatusTests(TestCase):
 
     def test_trial_never_used_does_not_show_popup(self):
         self.assertFalse(self._status())
+
+
+@override_settings(SECURE_SSL_REDIRECT=False)
+class TrialCancelLoopholeTests(TestCase):
+    """A trial user must never be able to hit "Cancel Subscription" (there's
+    nothing to cancel - a trial just lapses after 7 days on its own), and
+    trial_used must permanently block a second trial. Regression for the
+    reported loophole: the account settings page showed the real-subscriber
+    "Cancel Premium Subscription" button during an app-managed trial too
+    (its is_premium check didn't exclude is_trial), and downgrade_premium had
+    no server-side guard against being hit directly while on a trial."""
+
+    def setUp(self):
+        self.user = User.objects.create_user(username='cancel_loophole_user', password='pass12345')
+        self.client.login(username='cancel_loophole_user', password='pass12345')
+
+    def test_trial_user_does_not_see_cancel_button(self):
+        profile = self.user.profile
+        profile.is_premium = True
+        profile.is_trial = True
+        profile.trial_used = True
+        profile.premium_expires_at = timezone.now() + timedelta(days=7)
+        profile.save()
+
+        response = self.client.get(reverse('account_settings'))
+        body = response.content.decode()
+
+        self.assertNotIn('Cancel Premium Subscription', body)
+        self.assertIn('Upgrade to Premium', body)
+
+    def test_real_paying_user_sees_cancel_button(self):
+        profile = self.user.profile
+        profile.is_premium = True
+        profile.is_trial = False
+        profile.paypal_subscription_id = 'I-REALSUB'
+        profile.premium_expires_at = timezone.now() + timedelta(days=20)
+        profile.save()
+
+        response = self.client.get(reverse('account_settings'))
+        body = response.content.decode()
+
+        self.assertIn('Cancel Premium Subscription', body)
+        self.assertNotIn('Upgrade to Premium', body)
+
+    def test_downgrade_endpoint_rejects_direct_hit_during_trial(self):
+        profile = self.user.profile
+        profile.is_premium = True
+        profile.is_trial = True
+        profile.trial_used = True
+        profile.premium_expires_at = timezone.now() + timedelta(days=7)
+        profile.save()
+
+        response = self.client.post(reverse('downgrade_premium'))
+
+        self.assertEqual(response.status_code, 400)
+        profile.refresh_from_db()
+        self.assertTrue(profile.is_premium)
+        self.assertTrue(profile.is_trial)
+
+    def test_downgrade_endpoint_still_works_for_real_subscribers(self):
+        profile = self.user.profile
+        profile.is_premium = True
+        profile.is_trial = False
+        profile.premium_expires_at = timezone.now() + timedelta(days=20)
+        profile.save()
+
+        response = self.client.post(reverse('downgrade_premium'))
+
+        self.assertEqual(response.status_code, 302)
+        profile.refresh_from_db()
+        self.assertFalse(profile.is_premium)
+        self.assertFalse(profile.is_trial)
+
+    def test_trial_used_permanently_blocks_a_second_trial(self):
+        profile = self.user.profile
+        profile.trial_used = True
+        profile.is_premium = False
+        profile.is_trial = False
+        profile.save()
+
+        response = self.client.post(reverse('start_premium_trial'))
+
+        self.assertEqual(response.status_code, 400)
+        profile.refresh_from_db()
+        self.assertFalse(profile.is_premium)
+        self.assertFalse(profile.is_trial)
+
+    def test_first_time_trial_still_succeeds(self):
+        profile = self.user.profile
+        profile.trial_used = False
+        profile.is_premium = False
+        profile.save()
+
+        response = self.client.post(reverse('start_premium_trial'))
+
+        self.assertEqual(response.status_code, 200)
+        profile.refresh_from_db()
+        self.assertTrue(profile.is_premium)
+        self.assertTrue(profile.is_trial)
+        self.assertTrue(profile.trial_used)
