@@ -7,6 +7,7 @@ from django.test import RequestFactory, SimpleTestCase, TestCase, override_setti
 from django.urls import reverse
 from django.utils import timezone
 
+from . import context_processors
 from .models import Profile
 from .pricing import get_premium_price
 
@@ -672,3 +673,72 @@ class PaypalSubscriptionReturnTests(TestCase):
         self.assertIn('paypal_error=1', response.url)
         profile = Profile.objects.get(user=self.user)
         self.assertFalse(profile.is_premium)
+
+
+class TrialEndedPopupStatusTests(TestCase):
+    """trial_ended_popup_status must fire only when the trial itself expired
+    naturally, never when the user converted the trial to a real
+    subscription and later cancelled that (regression: see
+    project_paypal_checkout_state memory 2026-09-02, reported by real
+    trial -> PayPal payment -> downgrade flow wrongly showing "your trial
+    has ended")."""
+
+    def setUp(self):
+        self.factory = RequestFactory()
+        self.user = User.objects.create_user(username='trial_popup_user', password='pass12345')
+
+    def _status(self):
+        request = self.factory.get('/')
+        request.user = self.user
+        return context_processors.trial_ended_popup_status(request)['show_trial_ended_popup']
+
+    def test_natural_trial_expiry_shows_popup(self):
+        profile = self.user.profile
+        profile.trial_used = True
+        profile.is_trial = False
+        profile.is_premium = False
+        profile.save()
+
+        self.assertTrue(self._status())
+
+    def test_trial_converted_to_paypal_then_downgraded_does_not_show_popup(self):
+        profile = self.user.profile
+        profile.trial_used = True
+        profile.is_trial = False  # flipped False on conversion, before downgrade
+        profile.is_premium = False  # then downgraded
+        profile.paypal_subscription_id = 'I-REALSUB'  # never cleared by downgrade
+        profile.save()
+
+        self.assertFalse(self._status())
+
+    def test_trial_converted_to_google_play_then_cancelled_does_not_show_popup(self):
+        profile = self.user.profile
+        profile.trial_used = True
+        profile.is_trial = False
+        profile.is_premium = False
+        profile.google_play_purchase_token = 'token-abc'  # never cleared on cancellation
+        profile.save()
+
+        self.assertFalse(self._status())
+
+    def test_still_in_trial_does_not_show_popup(self):
+        profile = self.user.profile
+        profile.trial_used = True
+        profile.is_trial = True
+        profile.is_premium = True
+        profile.save()
+
+        self.assertFalse(self._status())
+
+    def test_already_dismissed_does_not_show_popup_again(self):
+        profile = self.user.profile
+        profile.trial_used = True
+        profile.is_trial = False
+        profile.is_premium = False
+        profile.trial_ended_popup_dismissed = True
+        profile.save()
+
+        self.assertFalse(self._status())
+
+    def test_trial_never_used_does_not_show_popup(self):
+        self.assertFalse(self._status())

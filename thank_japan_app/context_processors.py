@@ -137,11 +137,28 @@ def trial_ended_popup_status(request):
     - so trial_ended_popup_dismissed lives on Profile (DB), not the session,
     and is set on both "yes" and "no" (see dismiss_trial_ended_popup). Guests
     can't have trial_used=True at all (starting a trial requires login), so
-    this never applies to them."""
+    this never applies to them.
+
+    paypal_subscription_id / google_play_purchase_token must also both be
+    blank. Without this check, a user who trials, converts to a real
+    subscription mid-trial (PayPal: sync_paypal_premium_state /
+    _activate_paypal_subscription flips is_trial back to False immediately on
+    activation; Google Play: the purchase-verify endpoint does the same via
+    paymentState != 2), and later cancels that real subscription would
+    satisfy trial_used=True + is_trial=False + not has_premium_access too,
+    and wrongly see "your trial has ended" even though they actually paid and
+    then cancelled normally. Neither field is ever cleared once set
+    (downgrade_premium/delete_account/the webhook's deactivate branch and
+    expire_premium_subscriptions's expiry branch all leave them in place), so
+    either being present reliably means "this account did have a real
+    subscription at some point", regardless of whether it's still active now
+    - which is exactly the case this popup must not fire for."""
     if not request.user.is_authenticated:
         return {'show_trial_ended_popup': False}
     profile = request.user.profile
     if not profile.trial_used or profile.is_trial or profile.has_premium_access:
+        return {'show_trial_ended_popup': False}
+    if profile.paypal_subscription_id or profile.google_play_purchase_token:
         return {'show_trial_ended_popup': False}
     if profile.trial_ended_popup_dismissed:
         return {'show_trial_ended_popup': False}
