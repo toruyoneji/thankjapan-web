@@ -9,7 +9,7 @@ from django.urls import reverse
 from django.utils import timezone
 
 from . import context_processors
-from .models import Profile
+from .models import Profile, ThankJapanModel, ThankJapanPremium
 from .pricing import get_premium_price
 
 
@@ -1037,3 +1037,39 @@ class GameResultReviewPromptTests(TestCase):
 
                 self.assertEqual(response.status_code, 200)
                 self.assertContains(response, 'reviewPromptOverlay')
+
+
+@override_settings(SECURE_SSL_REDIRECT=False)
+class WordDetailPageTests(TestCase):
+    """Regression: CategoryDetailView/ImgPremiumDetailView.get_context_data
+    used to call track_word_view() for the (now-retired) review-prompt word
+    count. Removing that function without also removing these two call sites
+    left every word-detail page (free and premium) throwing NameError on
+    every request - caught in production via 5xx alerts, not by this test
+    suite, since nothing had previously exercised these views at all."""
+
+    def setUp(self):
+        self.word = ThankJapanModel.objects.create(
+            name='test-animal-dog', englishname='Dog', jpname='犬',
+            category='Animal', slug='animal-test-dog',
+            description='desc', history='hist',
+        )
+        self.premium_word = ThankJapanPremium.objects.create(
+            name='test-premium-word', englishname='Premium Word', jpname='テスト',
+            category='TourismEtiquette', slug='premium-test-word',
+            description='desc', history='hist',
+        )
+
+    def test_free_word_detail_page_loads(self):
+        response = self.client.get(reverse('category_detail', kwargs={
+            'category': 'animal', 'slug': 'animal-test-dog',
+        }))
+
+        self.assertEqual(response.status_code, 200)
+
+    def test_premium_word_detail_page_loads(self):
+        response = self.client.get(reverse('detail_premium', kwargs={
+            'category': 'TourismEtiquette', 'slug': 'premium-test-word',
+        }))
+
+        self.assertEqual(response.status_code, 200)

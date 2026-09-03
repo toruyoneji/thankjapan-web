@@ -4933,7 +4933,6 @@ class CategoryDetailView(DetailView):
         _, lang_code = get_lang_info(self.request)
         context['lang_code'] = lang_code
         context['is_twa'] = is_android_twa(self.request)
-        track_word_view(self.request, 'free', current_item.id)
 
         context.update(build_word_seo_context(current_item, lang_code))
 
@@ -5017,7 +5016,6 @@ class ImgPremiumDetailView(DetailView):
         context['premium_url_name'] = url_name
         context['lang_code'] = lang_code
         context['is_twa'] = is_android_twa(self.request)
-        track_word_view(self.request, 'premium', current_item.id)
         is_premium = self.request.user.is_authenticated and getattr(self.request.user.profile, 'has_premium_access', False)
         url_target_name = CATEGORY_URL_MAP.get(current_item.category, 'toppage')
         try:
