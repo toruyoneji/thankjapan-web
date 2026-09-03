@@ -10,7 +10,10 @@ from django.utils import timezone
 
 from . import context_processors
 from .models import Profile, ThankJapanModel, ThankJapanPremium
-from .pricing import get_premium_price
+from .pricing import (
+    get_premium_price, get_top_page_seo_override,
+    DEFAULT_TOP_PAGE_TITLE, DEFAULT_TOP_PAGE_DESCRIPTION,
+)
 
 
 def _mock_response(status_code=200, json_data=None):
@@ -1095,3 +1098,126 @@ class WordDetailPageTests(TestCase):
 
         self.assertIn('Premium Word Meaning &amp; Pronunciation | Photo Quiz - ThankJapan', body)
         self.assertIn('<meta name="description" content="What does Premium Word mean in Japanese?', body)
+
+
+class TopPageSeoOverrideTests(SimpleTestCase):
+    """The top page's <title>/<meta name="description"> switch to a
+    bilingual "{local} (Learn Japanese) | ThankJapan" pair for visitors from
+    28 countries without one of the 15 fully-translated locales, based on
+    the same Cloudflare-verified CF-IPCountry signal as get_premium_price -
+    but must never affect pricing (separate dict, same detection helper
+    only) nor any of the 15 locale-specific top pages (this only wires into
+    TopView, see views.py)."""
+
+    CLOUDFLARE_IP = '173.245.48.1'
+
+    def _seo_for(self, country_code=None):
+        kwargs = {'REMOTE_ADDR': self.CLOUDFLARE_IP, 'HTTP_X_FORWARDED_FOR': self.CLOUDFLARE_IP}
+        if country_code:
+            kwargs['HTTP_CF_IPCOUNTRY'] = country_code
+        request = RequestFactory().get('/', **kwargs)
+        return get_top_page_seo_override(request)
+
+    def test_high_confidence_country_gets_bilingual_title(self):
+        result = self._seo_for('ID')
+        self.assertEqual(result['seo_title'], "Belajar Bahasa Jepang (Learn Japanese) | ThankJapan")
+        self.assertIn('Belajar kosakata Jepang', result['seo_description'])
+
+    def test_shared_language_countries_get_the_same_content(self):
+        # CI/SN/CM all map to the same French copy; TZ/KE to the same Swahili.
+        fr_titles = {self._seo_for(c)['seo_title'] for c in ('CI', 'SN', 'CM')}
+        self.assertEqual(len(fr_titles), 1)
+        sw_titles = {self._seo_for(c)['seo_title'] for c in ('TZ', 'KE')}
+        self.assertEqual(len(sw_titles), 1)
+
+    def test_medium_confidence_country_gets_bilingual_title(self):
+        result = self._seo_for('MM')
+        self.assertEqual(result['seo_title'], "ဂျပန်စာလေ့လာမယ် (Learn Japanese) | ThankJapan")
+
+    def test_all_28_countries_have_working_overrides(self):
+        countries = [
+            'ID', 'PH', 'CI', 'SN', 'CM', 'IN', 'EG', 'MA', 'AE', 'SA', 'OM',
+            'NL', 'PL', 'RU', 'SE', 'NO', 'DK', 'GR', 'TR', 'CH',
+            'MM', 'KH', 'MN', 'PK', 'BD', 'TZ', 'KE', 'LK',
+        ]
+        for country in countries:
+            with self.subTest(country=country):
+                result = self._seo_for(country)
+                self.assertNotEqual(result['seo_title'], DEFAULT_TOP_PAGE_TITLE)
+                self.assertIn('ThankJapan', result['seo_title'])
+                self.assertIn('Learn Japanese vocabulary', result['seo_description'])
+
+    def test_ng_gh_za_deliberately_stay_on_the_english_default(self):
+        for country in ('NG', 'GH', 'ZA'):
+            with self.subTest(country=country):
+                result = self._seo_for(country)
+                self.assertEqual(result['seo_title'], DEFAULT_TOP_PAGE_TITLE)
+                self.assertEqual(result['seo_description'], DEFAULT_TOP_PAGE_DESCRIPTION)
+
+    def test_country_not_in_the_list_falls_back_to_english_default(self):
+        result = self._seo_for('US')
+        self.assertEqual(result['seo_title'], DEFAULT_TOP_PAGE_TITLE)
+        self.assertEqual(result['seo_description'], DEFAULT_TOP_PAGE_DESCRIPTION)
+
+    def test_one_of_the_15_existing_locales_also_falls_back_to_english_default(self):
+        # These countries have their own dedicated top-page view/template
+        # (e.g. Japan -> TopViewJA) that never calls get_top_page_seo_override
+        # at all; this only documents that the function itself is harmless
+        # if ever called for one.
+        result = self._seo_for('JP')
+        self.assertEqual(result['seo_title'], DEFAULT_TOP_PAGE_TITLE)
+
+    def test_undetectable_country_falls_back_to_english_default(self):
+        result = self._seo_for(None)
+        self.assertEqual(result['seo_title'], DEFAULT_TOP_PAGE_TITLE)
+        self.assertEqual(result['seo_description'], DEFAULT_TOP_PAGE_DESCRIPTION)
+
+    def test_non_cloudflare_request_is_not_trusted_even_with_country_header(self):
+        # A request that bypasses Cloudflare (e.g. hitting the raw Heroku
+        # domain directly) must not let a spoofed CF-IPCountry header choose
+        # the SEO copy - same trust boundary as get_premium_price.
+        request = RequestFactory().get(
+            '/', REMOTE_ADDR='8.8.8.8', HTTP_X_FORWARDED_FOR='8.8.8.8', HTTP_CF_IPCOUNTRY='ID',
+        )
+        result = get_top_page_seo_override(request)
+        self.assertEqual(result['seo_title'], DEFAULT_TOP_PAGE_TITLE)
+
+    def test_pricing_is_unaffected_by_the_seo_override_refactor(self):
+        # detect_cf_country() was factored out of get_premium_price for
+        # reuse here - must not change its behavior.
+        request = RequestFactory().get('/premium/', **{
+            'REMOTE_ADDR': self.CLOUDFLARE_IP, 'HTTP_X_FORWARDED_FOR': self.CLOUDFLARE_IP,
+            'HTTP_CF_IPCOUNTRY': 'ID',
+        })
+        result = get_premium_price(request)
+        self.assertEqual(result['price_usd'], '1.75')
+        self.assertEqual(result['price_tier'], 'A')
+        self.assertEqual(result['detected_country'], 'ID')
+
+
+@override_settings(SECURE_SSL_REDIRECT=False)
+class TopPageRendersSeoOverrideTests(TestCase):
+    """Integration check: TopView actually wires seo_title/seo_description
+    into the rendered page, and the 15 locale-specific top pages (which
+    don't call get_top_page_seo_override at all) are untouched."""
+
+    CLOUDFLARE_IP = '173.245.48.1'
+
+    def test_root_page_shows_bilingual_title_for_a_covered_country(self):
+        response = self.client.get('/', **{
+            'REMOTE_ADDR': self.CLOUDFLARE_IP, 'HTTP_X_FORWARDED_FOR': self.CLOUDFLARE_IP,
+            'HTTP_CF_IPCOUNTRY': 'ID',
+        })
+        self.assertContains(response, "Belajar Bahasa Jepang (Learn Japanese) | ThankJapan")
+
+    def test_root_page_shows_english_default_without_a_country_match(self):
+        response = self.client.get('/')
+        self.assertContains(response, DEFAULT_TOP_PAGE_TITLE.replace('&', '&amp;'))
+
+    def test_japanese_locale_top_page_is_unaffected(self):
+        response = self.client.get('/ja/', **{
+            'REMOTE_ADDR': self.CLOUDFLARE_IP, 'HTTP_X_FORWARDED_FOR': self.CLOUDFLARE_IP,
+            'HTTP_CF_IPCOUNTRY': 'ID',
+        })
+        self.assertEqual(response.status_code, 200)
+        self.assertNotContains(response, "Belajar Bahasa Jepang")

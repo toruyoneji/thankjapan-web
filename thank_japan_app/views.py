@@ -25,7 +25,7 @@ from django.utils.http import urlencode
 from django.contrib.auth.views import PasswordResetView, PasswordResetConfirmView
 from .context_processors import language_context
 from .models import WeeklyScore, ThankJapanBackgroundModel, FCMDevice, DailyQuestion
-from .pricing import get_premium_price
+from .pricing import get_premium_price, get_top_page_seo_override
 from google.oauth2 import service_account
 from googleapiclient.discovery import build
 from django.urls import reverse
@@ -1109,9 +1109,10 @@ class TopView(BGMContextMixin, ListView):
         context['earned_points'] = self.request.session.pop('earned_points', 0)
         context['has_played'] = self.request.COOKIES.get('tj_has_played') == '1'
         context['unlocked_streak_achievements'] = self.request.session.pop('newly_unlocked_streak_achievements', [])
+        context.update(get_top_page_seo_override(self.request))
         return context
-    
-        
+
+
 class TopViewJA(BGMContextMixin, ListView):
     template_name = "thank_japan_app/toppage/toppage_ja.html"
     model = ThankJapanModel
