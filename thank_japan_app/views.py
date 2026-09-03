@@ -2137,6 +2137,16 @@ def daily_question_view(request):
     today = timezone.localdate()  # TIME_ZONE='Asia/Tokyo' -> JST "today"
     already_answered = request.session.get(DAILY_QUESTION_SESSION_ANSWERED_KEY) == today.isoformat()
 
+    # X/Twitter (and other social crawlers) cache OGP data per-URL, not
+    # per-response - a fixed /daily/ URL kept showing whatever word's image
+    # was cached from the first time it got crawled, days later, regardless
+    # of which word is actually live now. Stamping today's date onto the
+    # URL makes each day a distinct URL, so there's nothing stale to serve:
+    # a URL nobody has shared/crawled yet always gets a fresh fetch. This is
+    # the URL actually embedded in the X share link below and echoed back as
+    # og:url, so what a crawler fetches and what og:url claims always agree.
+    daily_url = f"https://www.thankjapan.com/daily/?lang={lang_code}&date={today.isoformat()}"
+
     daily_question, _ = DailyQuestion.objects.get_or_create_for_date(today)
 
     if daily_question is None:
@@ -2144,6 +2154,7 @@ def daily_question_view(request):
             'daily_state': 'unavailable',
             'lang_code': lang_code,
             'top_page_url': top_page_url,
+            'daily_url': daily_url,
         })
 
     word = daily_question.word
@@ -2155,6 +2166,7 @@ def daily_question_view(request):
                 'lang_code': lang_code,
                 'top_page_url': top_page_url,
                 'object': word,
+                'daily_url': daily_url,
             })
 
         chosen_id = request.POST.get('choice_id')
@@ -2181,7 +2193,6 @@ def daily_question_view(request):
             weekly_record.save()
 
         share_text = _daily_question_share_text(lang_code, is_correct, word)
-        share_url = f"https://www.thankjapan.com/daily/?lang={lang_code}"
         share_hashtags = _daily_question_hashtags(lang_code, word)
 
         return render(request, 'thank_japan_app/daily_question.html', {
@@ -2189,11 +2200,12 @@ def daily_question_view(request):
             'is_correct': is_correct,
             'object': word,
             'share_text': share_text,
-            'share_url': share_url,
+            'share_url': daily_url,
             'share_hashtags': share_hashtags,
             'lang_code': lang_code,
             'top_page_url': top_page_url,
             'is_twa': is_android_twa(request),
+            'daily_url': daily_url,
         })
 
     if already_answered:
@@ -2202,6 +2214,7 @@ def daily_question_view(request):
             'lang_code': lang_code,
             'top_page_url': top_page_url,
             'object': word,
+            'daily_url': daily_url,
         })
 
     choices = _daily_question_choices(request, daily_question, today)
@@ -2211,6 +2224,7 @@ def daily_question_view(request):
         'object': word,
         'choices': choices,
         'lang_code': lang_code,
+        'daily_url': daily_url,
         'top_page_url': top_page_url,
         'is_twa': is_android_twa(request),
     })

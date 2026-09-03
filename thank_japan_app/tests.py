@@ -1,6 +1,7 @@
 import json
 from datetime import timedelta
 from unittest.mock import MagicMock, patch
+from urllib.parse import quote as urlquote
 
 from django.contrib.auth.models import User
 from django.core.management import call_command
@@ -9,7 +10,7 @@ from django.urls import reverse
 from django.utils import timezone
 
 from . import context_processors
-from .models import Profile, ThankJapanModel, ThankJapanPremium
+from .models import DailyQuestion, Profile, ThankJapanModel, ThankJapanPremium
 from .pricing import (
     get_premium_price, get_top_page_seo_override,
     DEFAULT_TOP_PAGE_TITLE, DEFAULT_TOP_PAGE_DESCRIPTION,
@@ -1221,3 +1222,66 @@ class TopPageRendersSeoOverrideTests(TestCase):
         })
         self.assertEqual(response.status_code, 200)
         self.assertNotContains(response, "Belajar Bahasa Jepang")
+
+
+@override_settings(SECURE_SSL_REDIRECT=False)
+class DailyQuestionOgpCacheBustTests(TestCase):
+    """/daily/'s og:image is correct on every request (it's just today's
+    word's image), but X/other social crawlers cache OGP data keyed by URL,
+    not by response - a fixed /daily/ URL kept serving whatever image was
+    cached the first time it got crawled, days after that word had changed
+    (reported 2026-09-04: stuck on a "職人" image for 2-3 days while the
+    actual word had moved on to "受験"). Stamping today's date onto the
+    shared URL (and echoing it back as og:url) makes every day a distinct
+    URL with nothing stale to serve."""
+
+    def setUp(self):
+        self.today = timezone.localdate()
+        self.word = DailyQuestion.objects.create(
+            date=self.today,
+            word=ThankJapanModel.objects.create(
+                name='test-daily-word', englishname='Exam', jpname='受験',
+                category='culture', slug='daily-test-word',
+                description='desc', history='hist',
+            ),
+        ).word
+
+    def test_question_state_og_url_and_share_link_include_todays_date(self):
+        response = self.client.get(reverse('daily_question'))
+        body = response.content.decode()
+
+        expected_url = f"https://www.thankjapan.com/daily/?lang=en&date={self.today.isoformat()}"
+        self.assertIn(f'<meta property="og:url" content="{expected_url.replace("&", "&amp;")}" />', body)
+
+    def test_result_state_share_link_and_og_url_include_todays_date(self):
+        response = self.client.post(reverse('daily_question'), {'choice_id': self.word.id})
+        body = response.content.decode()
+
+        expected_url = f"https://www.thankjapan.com/daily/?lang=en&date={self.today.isoformat()}"
+        self.assertIn(f'<meta property="og:url" content="{expected_url.replace("&", "&amp;")}" />', body)
+        self.assertIn(f'url={urlquote(expected_url, safe="/")}', body)
+
+    def test_og_image_reflects_todays_actual_word(self):
+        response = self.client.get(reverse('daily_question'))
+        body = response.content.decode()
+
+        # No image uploaded in the test fixture, so it must fall back to the
+        # shared default background - the point being it's derived from
+        # today's actual word/state on every request, never a stale value.
+        self.assertIn('res.cloudinary.com', body)
+
+    def test_share_url_changes_the_day_after(self):
+        tomorrow = self.today + timedelta(days=1)
+        with patch('thank_japan_app.views.timezone.localdate', return_value=tomorrow):
+            DailyQuestion.objects.create(
+                date=tomorrow,
+                word=ThankJapanModel.objects.create(
+                    name='test-daily-word-2', englishname='Craftsman', jpname='職人',
+                    category='work', slug='daily-test-word-2',
+                    description='desc', history='hist',
+                ),
+            )
+            response = self.client.get(reverse('daily_question'))
+
+        self.assertIn(f'date={tomorrow.isoformat()}', response.content.decode())
+        self.assertNotIn(f'date={self.today.isoformat()}', response.content.decode())
