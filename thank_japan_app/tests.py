@@ -1073,3 +1073,25 @@ class WordDetailPageTests(TestCase):
         }))
 
         self.assertEqual(response.status_code, 200)
+
+    def test_free_word_detail_page_has_seo_title_and_description(self):
+        response = self.client.get(reverse('category_detail', kwargs={
+            'category': 'animal', 'slug': 'animal-test-dog',
+        }))
+        body = response.content.decode()
+
+        self.assertIn('Dog Meaning &amp; Pronunciation | Photo Quiz - ThankJapan', body)
+        self.assertIn('<meta name="description" content="What does Dog mean in Japanese?', body)
+
+    def test_premium_word_detail_page_has_seo_title_and_description(self):
+        """Regression: the premium template used to hardcode "{englishname} -
+        Premium Lesson | ThankJapan" and had no <meta name="description"> at
+        all - the same GSC-identified gap fixed for the free tier
+        (commit 43cfedc5) but never extended to premium words."""
+        response = self.client.get(reverse('detail_premium', kwargs={
+            'category': 'TourismEtiquette', 'slug': 'premium-test-word',
+        }))
+        body = response.content.decode()
+
+        self.assertIn('Premium Word Meaning &amp; Pronunciation | Photo Quiz - ThankJapan', body)
+        self.assertIn('<meta name="description" content="What does Premium Word mean in Japanese?', body)

@@ -5016,6 +5016,7 @@ class ImgPremiumDetailView(DetailView):
         context['premium_url_name'] = url_name
         context['lang_code'] = lang_code
         context['is_twa'] = is_android_twa(self.request)
+        context.update(build_word_seo_context(current_item, lang_code))
         is_premium = self.request.user.is_authenticated and getattr(self.request.user.profile, 'has_premium_access', False)
         url_target_name = CATEGORY_URL_MAP.get(current_item.category, 'toppage')
         try:

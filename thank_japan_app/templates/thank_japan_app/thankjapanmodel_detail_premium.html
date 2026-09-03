@@ -1,27 +1,14 @@
 {% extends is_modal|yesno:",base/base_detail_premium.html" %}
 {% load category_filters %}
 
-{% block title %}
-    {% if lang_code == 'ja' %}{{ object.englishname }} - プレミアムレッスン | ThankJapan
-    {% elif lang_code == 'zh-hant' %}{{ object.englishname }} - 高級課程 | ThankJapan
-    {% elif lang_code == 'zh-cn' %}{{ object.englishname }} - 高级课程 | ThankJapan
-    {% elif lang_code == 'ko' %}{{ object.englishname }} - 프리미엄 레슨 | ThankJapan
-    {% elif lang_code == 'fr' %}{{ object.englishname }} - Leçon Premium | ThankJapan
-    {% elif lang_code == 'th' %}{{ object.englishname }} - บทเรียนพรีเมียม | ThankJapan
-    {% elif lang_code == 'vi' %}{{ object.englishname }} - Bài học Cao cấp | ThankJapan
-    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}{{ object.englishname }} - Lección Premium | ThankJapan
-    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}{{ object.englishname }} - Aula Premium | ThankJapan
-    {% elif lang_code == 'de' %}{{ object.englishname }} - Premium-Lektion | ThankJapan
-    {% elif lang_code == 'it' %}{{ object.englishname }} - Lezione Premium | ThankJapan
-    {% elif lang_code == 'en-in' %}{{ object.englishname }} - Premium Lesson | ThankJapan
-    {% else %}{{ object.englishname }} - Premium Lesson | ThankJapan{% endif %}
-{% endblock %}
+{% block title %}{{ seo_title }}{% endblock %}
 
 {% block meta %}
+    <meta name="description" content="{{ seo_description }}">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="{{ object.englishname }} | Learn Japanese">
-    <meta name="twitter:description" content="Learn about {{ object.englishname }} ({{ object.jpname }}) on ThankJapan.">
-    
+    <meta name="twitter:title" content="{{ seo_title }}">
+    <meta name="twitter:description" content="{{ seo_description }}">
+
     {% if object.image %}
         <meta name="twitter:image" content="{{ object.image.url }}">
         <meta property="og:image" content="{{ object.image.url }}">
@@ -30,8 +17,8 @@
         <meta property="og:image" content="https://res.cloudinary.com/dotekofm5/image/upload/f_auto,q_auto/v1768385674/thankjapan/backgrounds/gx8xbypllgs1qogcsvak.jpg">
     {% endif %}
 
-    <meta property="og:title" content="{{ object.englishname }} | ThankJapan" />
-    <meta property="og:description" content="Learn about {{ object.englishname }} ({{ object.jpname }}) on ThankJapan." />
+    <meta property="og:title" content="{{ seo_title }}" />
+    <meta property="og:description" content="{{ seo_description }}" />
     <meta property="og:url" content="{{ request.build_absolute_uri }}" />
     <meta property="og:type" content="article" />
 {% endblock %}
