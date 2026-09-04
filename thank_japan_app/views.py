@@ -1671,7 +1671,7 @@ def delete_player(request):
 DIFFICULTY_SETTINGS = {
     'single': {'num_questions': 1, 'model_type': 'free'},
     # First-visit taste flow from the top page: 3 EASY-tier questions, no
-    # difficulty picker (all difficulties share the same 30s timer, see
+    # difficulty picker (the tile game shares a single 60s timer, see
     # game_play's timer setup below).
     # dummy_count left at the default (1 => 2 choices) for first_taste/easy so
     # beginners aren't discouraged; NORMAL and above use 3 (=> 4 choices) so
@@ -1713,7 +1713,7 @@ DIFFICULTY_SETTINGS = {
 # to mean. The picker UI itself (game_start-v2.html) no longer links to any
 # of these tiers.
 
-TILE_GAME_POOL_SIZE = 50  # generous upper bound; the 30s timer always ends the game long before this runs out
+TILE_GAME_POOL_SIZE = 50  # generous upper bound; the 60s timer always ends the game long before this runs out
 
 
 def _sample_ids(model, category_filter=None, length_regex=None, exclude_ids=(), count=1):
@@ -1856,9 +1856,9 @@ def game_play(request):
 
 def game_question_data(request):
     """AJAX: current question's shuffled tiles. Also the one place that
-    starts the 30s clock - game_end_time is set the first time this is
+    starts the 60s clock - game_end_time is set the first time this is
     called for a game, i.e. right after the 3-2-1 countdown finishes on the
-    client, so the countdown doesn't eat into the 30s."""
+    client, so the countdown doesn't eat into the 60s."""
     questions = request.session.get('game_question_ids', [])
     index = request.session.get('game_current_index', 0)
     difficulty = request.session.get('game_difficulty', 'timeattack')
@@ -1871,7 +1871,7 @@ def game_question_data(request):
         current_time = time.time()
         game_end_time = request.session.get('game_end_time')
         if not game_end_time:
-            game_end_time = current_time + 30
+            game_end_time = current_time + 60
             request.session['game_end_time'] = game_end_time
         seconds_left = int(game_end_time - current_time)
         if seconds_left <= 0:
@@ -2243,44 +2243,44 @@ def daily_question_view(request):
 
 COMBO_SHARE_ACHIEVEMENTS = {
     'high': {
-        'ja': '🔥{max_combo}連続正解達成！ThankJapanの30秒チャレンジで{score}pt獲得！',
-        'zh-hant': '🔥達成{max_combo}連續正確！在ThankJapan的30秒挑戰中獲得{score}分！',
-        'zh-cn': '🔥达成{max_combo}连续正确！在ThankJapan的30秒挑战中获得{score}分！',
-        'ko': '🔥{max_combo}연속 정답 달성! ThankJapan의 30초 챌린지에서 {score}점 획득!',
-        'de': '🔥{max_combo} Treffer in Folge! {score} Punkte in der ThankJapan 30-Sekunden-Challenge!',
-        'fr': "🔥{max_combo} bonnes réponses d'affilée ! {score} points dans le Défi 30 secondes de ThankJapan !",
-        'es-es': '🔥¡{max_combo} aciertos seguidos! ¡{score} puntos en el Reto de 30 segundos de ThankJapan!',
-        'it': '🔥{max_combo} risposte corrette di fila! {score} punti nella Sfida di 30 secondi di ThankJapan!',
-        'pt': '🔥{max_combo} acertos seguidos! {score} pontos no Desafio de 30 segundos do ThankJapan!',
-        'vi': '🔥Đạt {max_combo} câu đúng liên tiếp! Ghi {score} điểm trong Thử thách 30 giây của ThankJapan!',
+        'ja': '🔥{max_combo}連続正解達成！ThankJapanの60秒チャレンジで{score}pt獲得！',
+        'zh-hant': '🔥達成{max_combo}連續正確！在ThankJapan的60秒挑戰中獲得{score}分！',
+        'zh-cn': '🔥达成{max_combo}连续正确！在ThankJapan的60秒挑战中获得{score}分！',
+        'ko': '🔥{max_combo}연속 정답 달성! ThankJapan의 60초 챌린지에서 {score}점 획득!',
+        'de': '🔥{max_combo} Treffer in Folge! {score} Punkte in der ThankJapan 60-Sekunden-Challenge!',
+        'fr': "🔥{max_combo} bonnes réponses d'affilée ! {score} points dans le Défi 60 secondes de ThankJapan !",
+        'es-es': '🔥¡{max_combo} aciertos seguidos! ¡{score} puntos en el Reto de 60 segundos de ThankJapan!',
+        'it': '🔥{max_combo} risposte corrette di fila! {score} punti nella Sfida di 60 secondi di ThankJapan!',
+        'pt': '🔥{max_combo} acertos seguidos! {score} pontos no Desafio de 60 segundos do ThankJapan!',
+        'vi': '🔥Đạt {max_combo} câu đúng liên tiếp! Ghi {score} điểm trong Thử thách 60 giây của ThankJapan!',
         'th': '🔥ทำได้ {max_combo} คอมโบติดต่อกัน! ได้ {score} คะแนนใน 30-Second Challenge ของ ThankJapan!',
         'en': '🔥{max_combo}-combo streak! Scored {score}pts in the 30-Second Challenge on ThankJapan!',
     },
     'mid': {
-        'ja': '⚡最高コンボ{max_combo}達成！ThankJapanの30秒チャレンジで{score}pt獲得！',
-        'zh-hant': '⚡最高連擊{max_combo}！在ThankJapan的30秒挑戰中獲得{score}分！',
-        'zh-cn': '⚡最高连击{max_combo}！在ThankJapan的30秒挑战中获得{score}分！',
-        'ko': '⚡최대 콤보 {max_combo}! ThankJapan의 30초 챌린지에서 {score}점 획득!',
-        'de': '⚡Maximal-Combo {max_combo}! {score} Punkte in der ThankJapan 30-Sekunden-Challenge!',
-        'fr': '⚡Combo max {max_combo} ! {score} points dans le Défi 30 secondes de ThankJapan !',
-        'es-es': '⚡¡Combo máximo {max_combo}! ¡{score} puntos en el Reto de 30 segundos de ThankJapan!',
-        'it': '⚡Combo massima {max_combo}! {score} punti nella Sfida di 30 secondi di ThankJapan!',
-        'pt': '⚡Combo máximo {max_combo}! {score} pontos no Desafio de 30 segundos do ThankJapan!',
-        'vi': '⚡Combo tối đa {max_combo}! Ghi {score} điểm trong Thử thách 30 giây của ThankJapan!',
+        'ja': '⚡最高コンボ{max_combo}達成！ThankJapanの60秒チャレンジで{score}pt獲得！',
+        'zh-hant': '⚡最高連擊{max_combo}！在ThankJapan的60秒挑戰中獲得{score}分！',
+        'zh-cn': '⚡最高连击{max_combo}！在ThankJapan的60秒挑战中获得{score}分！',
+        'ko': '⚡최대 콤보 {max_combo}! ThankJapan의 60초 챌린지에서 {score}점 획득!',
+        'de': '⚡Maximal-Combo {max_combo}! {score} Punkte in der ThankJapan 60-Sekunden-Challenge!',
+        'fr': '⚡Combo max {max_combo} ! {score} points dans le Défi 60 secondes de ThankJapan !',
+        'es-es': '⚡¡Combo máximo {max_combo}! ¡{score} puntos en el Reto de 60 segundos de ThankJapan!',
+        'it': '⚡Combo massima {max_combo}! {score} punti nella Sfida di 60 secondi di ThankJapan!',
+        'pt': '⚡Combo máximo {max_combo}! {score} pontos no Desafio de 60 segundos do ThankJapan!',
+        'vi': '⚡Combo tối đa {max_combo}! Ghi {score} điểm trong Thử thách 60 giây của ThankJapan!',
         'th': '⚡คอมโบสูงสุด {max_combo}! ได้ {score} คะแนนใน 30-Second Challenge ของ ThankJapan!',
         'en': '⚡Max combo {max_combo}! Scored {score}pts in the 30-Second Challenge on ThankJapan!',
     },
     'none': {
-        'ja': 'ThankJapanの30秒チャレンジで{score}pt獲得！日本語、どれだけ知ってる？',
-        'zh-hant': '在ThankJapan的30秒挑戰中獲得{score}分！你懂多少日文？',
-        'zh-cn': '在ThankJapan的30秒挑战中获得{score}分！你懂多少日文？',
-        'ko': 'ThankJapan의 30초 챌린지에서 {score}점 획득! 일본어 얼마나 아세요?',
-        'de': '{score} Punkte in der ThankJapan 30-Sekunden-Challenge! Wie viel Japanisch kannst du?',
-        'fr': 'Défi 30 secondes de ThankJapan : {score} points ! Et toi, combien de japonais connais-tu ?',
-        'es-es': '¡{score} puntos en el Reto de 30 segundos de ThankJapan! ¿Cuánto japonés sabes tú?',
-        'it': '{score} punti nella Sfida di 30 secondi di ThankJapan! Quanto giapponese conosci?',
-        'pt': '{score} pontos no Desafio de 30 segundos do ThankJapan! Quanto japonês você sabe?',
-        'vi': 'Ghi {score} điểm trong Thử thách 30 giây của ThankJapan! Bạn biết bao nhiêu tiếng Nhật?',
+        'ja': 'ThankJapanの60秒チャレンジで{score}pt獲得！日本語、どれだけ知ってる？',
+        'zh-hant': '在ThankJapan的60秒挑戰中獲得{score}分！你懂多少日文？',
+        'zh-cn': '在ThankJapan的60秒挑战中获得{score}分！你懂多少日文？',
+        'ko': 'ThankJapan의 60초 챌린지에서 {score}점 획득! 일본어 얼마나 아세요?',
+        'de': '{score} Punkte in der ThankJapan 60-Sekunden-Challenge! Wie viel Japanisch kannst du?',
+        'fr': 'Défi 60 secondes de ThankJapan : {score} points ! Et toi, combien de japonais connais-tu ?',
+        'es-es': '¡{score} puntos en el Reto de 60 segundos de ThankJapan! ¿Cuánto japonés sabes tú?',
+        'it': '{score} punti nella Sfida di 60 secondi di ThankJapan! Quanto giapponese conosci?',
+        'pt': '{score} pontos no Desafio de 60 segundos do ThankJapan! Quanto japonês você sabe?',
+        'vi': 'Ghi {score} điểm trong Thử thách 60 giây của ThankJapan! Bạn biết bao nhiêu tiếng Nhật?',
         'th': 'ได้ {score} คะแนนใน 30-Second Challenge ของ ThankJapan! คุณรู้ภาษาญี่ปุ่นแค่ไหน?',
         'en': 'Scored {score}pts in the 30-Second Challenge on ThankJapan! How much Japanese do you know?',
     },

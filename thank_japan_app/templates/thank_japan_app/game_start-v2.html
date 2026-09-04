@@ -40,13 +40,18 @@
     --jewel-teal-dark: #1e8f84;
     --jewel-ruby: #e63946;
     --jewel-purple: #6a4c93;
+    --page-bg: #1c1712;
+    --card-dark: #26201a;
+    --card-dark-2: #2f271f;
+    --hairline-dark: rgba(201,162,39,0.25);
 }
 
+html, body { background-color: var(--page-bg) !important; }
 body {
     font-family: 'Zen Antique', 'Shippori Mincho', 'Noto Serif JP', serif;
-    background-color: var(--washi);
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.06'/%3E%3C/svg%3E");
-    color: var(--ink);
+    background-color: var(--page-bg);
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.08'/%3E%3C/svg%3E");
+    color: var(--washi);
     display: flex;
     justify-content: center;
     align-items: flex-start;
@@ -63,7 +68,7 @@ body::before, body::after { display: none; }
 }
 
 .start-game-title {
-    font-size: 1.25em; font-weight: 700; color: var(--ink);
+    font-size: 1.25em; font-weight: 700; color: var(--washi);
     margin-bottom: 22px; letter-spacing: 0.5px;
     text-align: center; line-height: 1.6;
 }
@@ -112,7 +117,7 @@ body::before, body::after { display: none; }
 
 .rules-card {
     margin-top: 34px; width: 100%; box-sizing: border-box;
-    background: var(--washi-card); border: 1px solid var(--wood-border); border-top: 4px solid var(--gold);
+    background: var(--card-dark); border: 1px solid var(--hairline-dark); border-top: 4px solid var(--gold);
     border-radius: 16px; padding: 18px 16px; text-align: center;
 }
 .rules-steps { display: flex; align-items: center; justify-content: center; gap: 10px; font-size: 0.95rem; font-weight: 700; margin-bottom: 10px; flex-wrap: wrap; }
@@ -129,11 +134,11 @@ body::before, body::after { display: none; }
     background: rgba(255,255,255,0.18); transform: rotate(25deg);
 }
 .rules-caption { color: var(--ink-soft); font-size: 0.86em; line-height: 1.7; font-family: 'Noto Sans JP', sans-serif; margin: 0; }
-.rules-caption strong { color: var(--azuki, #a5533f); }
+.rules-caption strong { color: var(--jewel-ruby); }
 
 .player-info {
-    width: 100%; margin-top: 18px; color: var(--ink-soft); background: var(--washi-card);
-    border: 1px solid var(--wood-border); padding: 10px; border-radius: 14px; text-align: center; font-size: 0.9em;
+    width: 100%; margin-top: 18px; color: var(--ink-soft); background: var(--card-dark);
+    border: 1px solid var(--hairline-dark); padding: 10px; border-radius: 14px; text-align: center; font-size: 0.9em;
     box-sizing: border-box;
 }
 
@@ -188,16 +193,16 @@ body::before, body::after { display: none; }
         <p class="rules-caption">
             {% if lang_code == 'ja' %}
                 画像に合う言葉を、バラバラのタイルから並べ替えて完成させよう！<br>
-                <span style="font-size: 0.9em; color: #00bcd4; font-weight: bold;">⏱ 30秒タイムアタック：何問解けるか挑戦！</span><br>
-                <span style="font-size: 0.85em; color: #d4af37; font-weight: bold;">⚡ 連続正解でコンボボーナス！3問+1点 / 5問+2点 / 7問+3点</span>
+                <span style="font-size: 0.9em; color: #00bcd4; font-weight: bold;">⏱ 60秒タイムアタック：何問解けるか挑戦！</span><br>
+                <span style="font-size: 0.85em; color: #d4af37; font-weight: bold;">⚡ 連続正解でコンボボーナス！2問+1点 / 5問+2点 / 7問+3点</span>
             {% elif lang_code == 'en-in' %}
                 Rearrange the scrambled tiles to spell the word that matches the picture!<br>
-                <span style="font-size: 0.9em; color: #00bcd4; font-weight: bold;">⏱ 30s Time Attack: How many can you solve?</span><br>
-                <span style="font-size: 0.85em; color: #d4af37; font-weight: bold;">⚡ Combo bonus for streaks! 3 correct: +1pt / 5: +2pts / 7+: +3pts</span>
+                <span style="font-size: 0.9em; color: #00bcd4; font-weight: bold;">⏱ 60s Time Attack: How many can you solve?</span><br>
+                <span style="font-size: 0.85em; color: #d4af37; font-weight: bold;">⚡ Combo bonus for streaks! 2 correct: +1pt / 5: +2pts / 7+: +3pts</span>
             {% else %}
                 Rearrange the scrambled tiles to spell the word that matches the picture!<br>
-                <span style="font-size: 0.9em; color: #00bcd4; font-weight: bold;">⏱ 30s Time Attack: How many can you solve?</span><br>
-                <span style="font-size: 0.85em; color: #d4af37; font-weight: bold;">⚡ Combo bonus for streaks! 3 correct: +1pt / 5: +2pts / 7+: +3pts</span>
+                <span style="font-size: 0.9em; color: #00bcd4; font-weight: bold;">⏱ 60s Time Attack: How many can you solve?</span><br>
+                <span style="font-size: 0.85em; color: #d4af37; font-weight: bold;">⚡ Combo bonus for streaks! 2 correct: +1pt / 5: +2pts / 7+: +3pts</span>
             {% endif %}
         </p>
     </div>

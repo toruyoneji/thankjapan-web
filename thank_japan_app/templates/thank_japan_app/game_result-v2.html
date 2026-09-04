@@ -183,12 +183,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <style>
 :root {
-    color-scheme: light !important;
+    color-scheme: dark !important;
     --washi: #faf6ec;
     --washi-card: #ffffff;
     --wood-border: #e8dfc8;
     --ink: #2a1d13;
     --ink-soft: #8a7862;
+    --ink-soft-on-dark: #b3a68e;
     --gold: #cda23f;
     --gold-dark: #a97c1f;
     --matcha: #7c9473;
@@ -199,10 +200,13 @@ document.addEventListener('DOMContentLoaded', function() {
     --jewel-teal-dark: #1e8f84;
     --jewel-ruby: #e63946;
     --jewel-purple: #6a4c93;
+    --page-bg: #1c1712;
+    --card-dark: #26201a;
+    --hairline-dark: rgba(201,162,39,0.25);
 }
 
 html, body {
-    background-color: #faf6ec !important;
+    background-color: var(--page-bg) !important;
     margin: 0;
     padding: 0;
     width: 100%;
@@ -211,41 +215,41 @@ html, body {
 
 #premium-auth-container {
     position: fixed;
-    top: 0; 
+    top: 0;
     left: 0;
-    width: 100vw !important; 
+    width: 100vw !important;
     height: 100dvh;
-    background-color: #faf6ec !important; 
-    overflow: hidden; 
+    background-color: var(--page-bg) !important;
+    overflow: hidden;
     z-index: 1;
     display: flex;
     flex-direction: column;
-    border: none !important; 
+    border: none !important;
     outline: none !important;
 }
 
 .app-content-fix {
-    flex: 1; 
-    height: 100%; 
+    flex: 1;
+    height: 100%;
     width: 100%;
-    background-color: #faf6ec !important; 
-    overflow-y: auto !important; 
+    background-color: var(--page-bg) !important;
+    overflow-y: auto !important;
     -webkit-overflow-scrolling: touch;
-    padding-top: 20px; 
-    padding-bottom: calc(100px + env(safe-area-inset-bottom)); 
+    padding-top: 20px;
+    padding-bottom: calc(100px + env(safe-area-inset-bottom));
     -ms-overflow-style: none;
     scrollbar-width: none;
-    border: none !important; 
+    border: none !important;
     outline: none !important;
 }
 
-.app-content-fix::-webkit-scrollbar { 
-    display: none; 
+.app-content-fix::-webkit-scrollbar {
+    display: none;
 }
 
 body {
     font-family: 'Zen Antique', 'Shippori Mincho', 'Noto Serif JP', serif;
-    color: var(--ink);
+    color: var(--washi);
 }
 
 .main2 {
@@ -253,7 +257,7 @@ body {
     margin: 0 auto;
     text-align: center;
     padding: 24px 18px 10px;
-    background-color: #faf6ec !important;
+    background-color: var(--page-bg) !important;
     border: none !important;
     outline: none !important;
 }
@@ -265,7 +269,7 @@ body {
 
 h1 {
     font-size: 1.4rem;
-    color: var(--ink);
+    color: var(--washi);
     border-bottom: 2px solid var(--gold);
     display: inline-block;
     padding-bottom: 8px;
@@ -275,25 +279,25 @@ h1 {
 
 h2 {
     font-size: 1.1rem;
-    color: var(--ink);
+    color: var(--washi);
     margin-top: 10px;
     margin-bottom: 14px;
     font-weight: 700;
 }
 
 .score-box {
-    background: var(--washi-card);
+    background: var(--card-dark);
     padding: 20px 16px;
     margin: 0 auto 14px;
     border-radius: 20px;
-    border: 1px solid var(--wood-border);
+    border: 1px solid var(--hairline-dark);
     border-top: 4px solid var(--gold);
     max-width: 500px;
     position: relative;
     overflow: hidden;
 }
-.score-box p { color: var(--ink) !important; }
-.score-number { color: var(--jewel-teal-dark) !important; font-size: 2.2rem !important; }
+.score-box p { color: var(--washi) !important; }
+.score-number { color: var(--jewel-teal) !important; font-size: 2.2rem !important; }
 
 .goal-badge {
     display: inline-flex; align-items: center; gap: 6px; font-size: 0.72rem; font-weight: 700;
@@ -302,7 +306,7 @@ h2 {
 }
 
 .ki-result-gauge { max-width: 260px; margin: 10px auto 4px; }
-.ki-result-label { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.06em; color: var(--ink-soft); margin-bottom: 4px; }
+.ki-result-label { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.06em; color: var(--ink-soft-on-dark); margin-bottom: 4px; }
 .ki-result-track { height: 12px; background: #f0e9d8; border-radius: 99px; overflow: hidden; border: 1px solid var(--wood-border); position: relative; }
 .ki-result-fill { height: 100%; border-radius: 99px; background: linear-gradient(90deg, var(--jewel-teal), var(--gold)); }
 .ki-result-fill.maxed { background: linear-gradient(90deg, var(--jewel-teal), var(--gold), #fff2c2); }
@@ -342,7 +346,7 @@ h2 {
 .share-invite {
     text-align: center;
     font-weight: bold;
-    color: var(--ink);
+    color: var(--washi);
     font-size: 1.05rem;
     margin: 4px 0 10px;
 }
@@ -397,14 +401,14 @@ h2 {
 .neon-button:hover { transform: translateY(2px); border-bottom-width: 2px; background: var(--gold); color: var(--ink); }
 .neon-button.secondary {
     background: transparent;
-    color: var(--ink-soft);
+    color: var(--ink-soft-on-dark);
     border: 1px solid var(--wood-border);
     border-bottom: 1px solid var(--wood-border);
     box-shadow: none;
 }
 .neon-button.secondary:hover { transform: none; background: #f4ede0; }
 
-hr { margin: 24px auto; border: none; height: 1px; background: var(--wood-border); max-width: 500px; }
+hr { margin: 24px auto; border: none; height: 1px; background: var(--hairline-dark); max-width: 500px; }
 
 
 .rank-card { margin: 14px auto; max-width: 450px; background: var(--washi-card); border: 1px solid var(--wood-border); border-radius: 16px; overflow: hidden; font-family: 'Noto Sans JP', sans-serif; }
@@ -580,7 +584,7 @@ tbody td { padding: 8px; border: none; font-size: 0.82rem; color: var(--ink); }
 }
 
 .btn-more {
-    display: inline-block; background: transparent; color: var(--ink-soft);
+    display: inline-block; background: transparent; color: var(--ink-soft-on-dark);
     padding: 8px; text-decoration: underline; font-weight: 600; margin-top: 6px; font-size: 0.85rem;
 }
 
@@ -671,7 +675,7 @@ tbody td { padding: 8px; border: none; font-size: 0.82rem; color: var(--ink); }
         {% endif %}
         <div style="margin: 15px 0; border-top: 1px solid #eee; padding-top: 15px;">
             <p style="font-size: 1.1rem; color: #666; margin-bottom: 5px; font-weight: bold;">
-                ⏱ {% if lang_code == 'ja' %}30秒チャレンジ{% elif lang_code == 'zh-hant' %}30秒挑戰{% elif lang_code == 'zh-cn' %}30秒挑战{% elif lang_code == 'ko' %}30초 챌린지{% elif lang_code == 'de' %}30-Sekunden-Challenge{% elif lang_code == 'fr' %}Défi 30 secondes{% elif lang_code == 'it' %}Sfida di 30 secondi{% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Desafío de 30 segundos{% elif lang_code == 'pt' or lang_code == 'pt-br' %}Desafio de 30 segundos{% elif lang_code == 'vi' %}Thử thách 30 giây{% elif lang_code == 'th' %}ท้าทาย 30 วินาที{% else %}30s Challenge{% endif %}
+                ⏱ {% if lang_code == 'ja' %}60秒チャレンジ{% elif lang_code == 'zh-hant' %}60秒挑戰{% elif lang_code == 'zh-cn' %}60秒挑战{% elif lang_code == 'ko' %}60초 챌린지{% elif lang_code == 'de' %}60-Sekunden-Challenge{% elif lang_code == 'fr' %}Défi 60 secondes{% elif lang_code == 'it' %}Sfida di 60 secondi{% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Desafío de 60 segundos{% elif lang_code == 'pt' or lang_code == 'pt-br' %}Desafio de 60 segundos{% elif lang_code == 'vi' %}Thử thách 60 giây{% elif lang_code == 'th' %}ท้าทาย 60 วินาที{% else %}60s Challenge{% endif %}
             </p>
 
             <p style="font-size: 2.2rem; font-weight: bold; color: #333; margin: 0;">
@@ -823,8 +827,8 @@ tbody td { padding: 8px; border: none; font-size: 0.82rem; color: var(--ink); }
       </div>
 
       {% if not is_guest and current_rank %}
-        <div style="margin-top: 10px; border-top: 1px dashed #ddd; padding-top: 10px;">
-            <p style="font-size: 0.9rem; color: #666; margin-bottom: 5px; font-weight: bold;">
+        <div style="margin: 0 auto 14px; max-width: 500px; background: var(--card-dark); border: 1px solid var(--hairline-dark); border-radius: 16px; padding: 14px 16px;">
+            <p style="font-size: 0.9rem; color: var(--ink-soft-on-dark); margin-bottom: 5px; font-weight: bold;">
                 {% if lang_code == 'ja' %}現在の順位:
                 {% elif lang_code == 'zh-hant' or lang_code == 'zh-cn' %}目前排名:
                 {% elif lang_code == 'ko' %}현재 순위:
@@ -837,8 +841,8 @@ tbody td { padding: 8px; border: none; font-size: 0.82rem; color: var(--ink); }
                 {% elif lang_code == 'th' %}อันดับปัจจุบัน:
                 {% else %}Current World Rank:{% endif %}
             </p>
-            <p style="font-size: 1.2rem; color: #333; margin: 0;">
-                <span style="font-weight: bold; color: #b7282e; font-size: 1.8rem;">{{ current_rank }}</span>
+            <p style="font-size: 1.2rem; color: var(--washi); margin: 0;">
+                <span style="font-weight: bold; color: var(--jewel-ruby); font-size: 1.8rem;">{{ current_rank }}</span>
                 <span style="font-size: 1rem;">
                     {% if lang_code == 'ja' %}位
                     {% elif lang_code == 'zh-hant' or lang_code == 'zh-cn' %}名
@@ -852,9 +856,9 @@ tbody td { padding: 8px; border: none; font-size: 0.82rem; color: var(--ink); }
                     {% elif lang_code == 'vi' %}
                     {% else %}th{% endif %}
                 </span>
-                <span style="color: #999; margin: 0 8px;">/</span>
+                <span style="color: var(--ink-soft-on-dark); margin: 0 8px;">/</span>
                 <span style="font-size: 1.1rem;">{{ total_registered }}</span>
-                <span style="font-size: 0.9rem; color: #666;">
+                <span style="font-size: 0.9rem; color: var(--ink-soft-on-dark);">
                     {% if lang_code == 'ja' %}人中
                     {% elif lang_code == 'zh-hant' or lang_code == 'zh-cn' %}人中
                     {% elif lang_code == 'ko' %}명 중
