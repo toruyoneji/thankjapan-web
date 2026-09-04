@@ -1392,3 +1392,65 @@ class EasyPoolMoraFilterTests(TestCase):
         ids = _sample_easy_ids(['animal'], count=2)
         names = set(ThankJapanModel.objects.filter(id__in=ids).values_list('name', flat=True))
         self.assertIn('inu', names)
+
+
+class ChunkAnswerCachingTests(TestCase):
+    """2026-09-05: a reported 'correctly ordered tiles marked wrong' bug.
+    Root cause not conclusively reproduced, but game_submit_answer used to
+    independently recompute build_tiles() from scratch rather than reusing
+    the exact computation game_question_data had just served - any future
+    drift between those two calls (a tile_split.py change deployed
+    mid-game, or non-determinism introduced later) would silently break
+    scoring. Now the answer is computed once and cached in the session at
+    serve time; submit_answer must validate against that cached value."""
+
+    def setUp(self):
+        self.user = User.objects.create_user(username='chunk_answer_tester', password='pass12345')
+        ThankJapanModel.objects.create(
+            name='erekigitaa', englishname='Electric guitar', jpname='えれきぎたー',
+            kanji_name='エレキギター', katakana_name='エレキギター', category='appliances',
+            slug='electric-guitar-erekigitaa', description='d', history='h',
+            example_sentence_ja='放課後にエレキギターの練習をします')
+
+    def _start_single_word_game(self):
+        self.client.login(username='chunk_answer_tester', password='pass12345')
+        self.client.get(reverse('game_restart'), {
+            'mode': 'single', 'model_type': 'free', 'slug': 'electric-guitar-erekigitaa',
+        })
+        self.client.get(reverse('game_play'))
+
+    def test_correctly_ordered_chunks_are_accepted(self):
+        self._start_single_word_game()
+        data = json.loads(self.client.get(reverse('game_question_data')).content)
+        self.assertEqual(data['route'], 'chunk')
+        correct_order = sorted(data['tiles'], key=lambda chunk: '放課後にエレキギターの練習をします'.index(chunk))
+
+        response = self.client.post(
+            reverse('game_submit_answer'),
+            data=json.dumps({'tiles': correct_order, 'seconds_left': 60}),
+            content_type='application/json',
+        )
+        result = json.loads(response.content)
+        self.assertTrue(result['is_correct'], msg=f"tiles={data['tiles']} order_tried={correct_order} result={result}")
+
+    def test_submit_uses_cached_answer_not_a_fresh_recompute(self):
+        """Even if tile_split.py's output were to change between the two
+        calls, submit_answer must still validate against what was actually
+        shown, because it reuses the cached value rather than recomputing."""
+        self._start_single_word_game()
+        self.client.get(reverse('game_question_data'))
+        session = self.client.session
+        self.assertIn('current_answer_text', session)
+        self.assertEqual(session['current_answer_text'], '放課後にエレキギターの練習をします')
+
+        # simulate tile_split.py somehow producing a different answer if it
+        # were recomputed now - the cached value must still win
+        session['current_answer_text'] = '差し替えられた別解答'
+        session.save()
+        response = self.client.post(
+            reverse('game_submit_answer'),
+            data=json.dumps({'tiles': ['差し替えられた別解答'], 'seconds_left': 60}),
+            content_type='application/json',
+        )
+        result = json.loads(response.content)
+        self.assertTrue(result['is_correct'])

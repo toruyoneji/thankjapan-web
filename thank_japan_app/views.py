@@ -1900,6 +1900,17 @@ def game_question_data(request):
     question = get_object_or_404(model, id=q['id'])
     tile_data = _tiles_for_question(question)
 
+    # Cache the canonical answer text computed *right now* against this
+    # exact index, so game_submit_answer validates against the very same
+    # string the tiles shown here were built from - instead of recomputing
+    # build_tiles() a second time. This isn't just an optimization: it
+    # closes off an entire class of "shown tiles don't match what scoring
+    # expects" bugs if the two computations were ever to disagree (e.g. a
+    # tile_split.py change deployed between the two calls, or any future
+    # non-determinism in the tokenizer) - there's only one computation now.
+    request.session['current_answer_index'] = index
+    request.session['current_answer_text'] = tile_data['answer_text']
+
     return JsonResponse({
         'game_over': False,
         'index': index + 1,
@@ -1949,10 +1960,20 @@ def game_submit_answer(request):
     q = questions[index]
     model = _model_for(q['model'])
     question = get_object_or_404(model, id=q['id'])
-    tile_data = _tiles_for_question(question)
+
+    # Validate against the answer text cached when this question's tiles
+    # were served (see game_question_data) rather than recomputing
+    # build_tiles() here - that guarantees the check is against the exact
+    # same string the displayed tiles were cut from. Recompute only as a
+    # defensive fallback if that cache is missing (e.g. a replayed/crafted
+    # request that skipped game_question_data for this index).
+    if request.session.get('current_answer_index') == index:
+        answer_text = request.session['current_answer_text']
+    else:
+        answer_text = _tiles_for_question(question)['answer_text']
 
     submitted_text = ''.join(str(t) for t in submitted_tiles)
-    correct_flag = submitted_text == tile_data['answer_text']
+    correct_flag = submitted_text == answer_text
     is_premium_question = q['model'] == 'premium'
 
     points = combo = combo_bonus = 0
@@ -1973,8 +1994,8 @@ def game_submit_answer(request):
         'question_model': q['model'],
         'index': index,
         'is_correct': correct_flag,
-        'user_input': tile_data['answer_text'] if correct_flag else submitted_text,
-        'correct_answer': tile_data['answer_text'],
+        'user_input': answer_text if correct_flag else submitted_text,
+        'correct_answer': answer_text,
         'combo': combo,
         'combo_bonus': combo_bonus,
         'points': points,
@@ -1988,7 +2009,7 @@ def game_submit_answer(request):
         'is_correct': correct_flag,
         'points': points,
         'combo': combo,
-        'correct_answer': tile_data['answer_text'],
+        'correct_answer': answer_text,
         'score': request.session.get('game_score', 0),
     })
 
