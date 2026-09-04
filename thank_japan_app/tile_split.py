@@ -162,9 +162,16 @@ def build_tiles(jpname, example_sentence_ja):
     """Top-level entry point: decide the route and return its tiles.
 
     Returns {route, tiles, answer_text}. For 'chunk' routing, answer_text
-    is the plain (ruby-stripped) example_sentence_ja text since that's
-    what actually gets tiled - the game question changes from "arrange
-    this word" to "arrange this example sentence" for these words.
+    is derived from the tiles themselves (''.join(tiles)), NOT the raw
+    ruby-stripped source text - some example_sentence_ja values contain
+    literal spaces between words for readability, but fugashi/MeCab's
+    tokenizer silently drops whitespace characters (it never emits a
+    token for them), so split_chunks()'s output omits those spaces. If
+    answer_text used the raw source text instead, a player who correctly
+    reassembles every tile shown would still be marked wrong, because the
+    space characters are baked into the "correct" string but literally
+    unreachable from any tile. Deriving answer_text from the tiles
+    guarantees it's always exactly what the tiles can reconstruct.
     """
     info = classify_route(jpname)
     if info['route'] == 'mora':
@@ -173,4 +180,4 @@ def build_tiles(jpname, example_sentence_ja):
 
     plain = strip_ruby_tags(example_sentence_ja)
     tiles = split_chunks(plain)
-    return {'route': 'chunk', 'tiles': tiles, 'answer_text': plain}
+    return {'route': 'chunk', 'tiles': tiles, 'answer_text': ''.join(tiles)}

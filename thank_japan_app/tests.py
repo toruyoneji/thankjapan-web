@@ -1357,6 +1357,18 @@ class TileSplitTests(SimpleTestCase):
         self.assertEqual(result['answer_text'], '建設現場で働きます')
         self.assertEqual(result['tiles'], ['建設現場で', '働きます'])
 
+    def test_build_tiles_answer_text_matches_tiles_even_with_source_spaces(self):
+        # 2026-09-05 bug: some example_sentence_ja values have literal
+        # spaces between words for readability, but fugashi/MeCab silently
+        # drops whitespace tokens - it never emits a token for them. If
+        # answer_text used the raw (space-containing) source text, a
+        # player who correctly reassembles every tile shown would still
+        # be marked wrong, since the spaces are unreachable from any tile.
+        result = tile_split.build_tiles('けがをしました', '指を 切ったので 絆創膏を 貼りました。')
+        self.assertEqual(result['tiles'], ['指を切ったので', '絆創膏を', '貼りました。'])
+        self.assertEqual(result['answer_text'], ''.join(result['tiles']))
+        self.assertNotIn(' ', result['answer_text'])
+
 
 class ComboBonusTests(SimpleTestCase):
     """2026-09-05: first bonus tier moved from a 3-streak to a 2-streak, so
@@ -1454,3 +1466,38 @@ class ChunkAnswerCachingTests(TestCase):
         )
         result = json.loads(response.content)
         self.assertTrue(result['is_correct'])
+
+
+class ChunkAnswerWithSourceSpacesTests(TestCase):
+    """End-to-end reproduction of the 'correctly ordered tiles marked
+    wrong' bug: example_sentence_ja here has literal spaces between words
+    (a real pattern in production content), which fugashi/MeCab drops
+    during tokenization. See tile_split.build_tiles for the fix."""
+
+    def setUp(self):
+        self.user = User.objects.create_user(username='space_bug_tester', password='pass12345')
+        ThankJapanModel.objects.create(
+            name='bansoukou', englishname='Adhesive Bandage', jpname='ばんそうこう',
+            kanji_name='絆創膏', katakana_name='バンソウコウ', category='householditems',
+            slug='adhesive-bandage-bansoukou', description='d', history='h',
+            example_sentence_ja='指を 切ったので 絆創膏を 貼りました。')
+
+    def test_correctly_reassembled_tiles_are_marked_correct(self):
+        self.client.login(username='space_bug_tester', password='pass12345')
+        self.client.get(reverse('game_restart'), {
+            'mode': 'single', 'model_type': 'free', 'slug': 'adhesive-bandage-bansoukou',
+        })
+        self.client.get(reverse('game_play'))
+        data = json.loads(self.client.get(reverse('game_question_data')).content)
+        self.assertEqual(data['route'], 'chunk')
+
+        full_sentence = '指を切ったので絆創膏を貼りました。'
+        correct_order = sorted(data['tiles'], key=lambda chunk: full_sentence.index(chunk))
+
+        response = self.client.post(
+            reverse('game_submit_answer'),
+            data=json.dumps({'tiles': correct_order, 'seconds_left': 60}),
+            content_type='application/json',
+        )
+        result = json.loads(response.content)
+        self.assertTrue(result['is_correct'], msg=f"tiles={data['tiles']} order_tried={correct_order} result={result}")
