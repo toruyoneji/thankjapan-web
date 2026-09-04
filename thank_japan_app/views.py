@@ -1740,6 +1740,24 @@ def _sample_long_word_ids(exclude_ids=(), count=1):
     return long_ids[:count]
 
 
+EASY_MAX_MORA = 4  # Q1-2 should be a quick, genuinely gentle first puzzle
+
+
+def _sample_easy_ids(category_filter, exclude_ids=(), count=1):
+    """EASY pool: the old 'easy' category filter alone doesn't guarantee a
+    short word (e.g. a rare animal name like chimpanzee/ちんぱんじー is
+    still in the 'animal' category), and for a tile puzzle, mora count -
+    not category - is what actually makes a word quick to solve. So filter
+    down to short (<=4 mora) words on top of the category filter."""
+    qs = ThankJapanModel.objects.exclude(id__in=exclude_ids)
+    if category_filter:
+        qs = qs.filter(category__in=category_filter)
+    candidates = list(qs.values_list('id', 'jpname'))
+    short_ids = [pk for pk, jpname in candidates if (classify_route(jpname)['mora_count'] or 99) <= EASY_MAX_MORA]
+    random.shuffle(short_ids)
+    return short_ids[:count]
+
+
 def _build_tile_game_questions(is_premium):
     """Ordered question list for the tile-rearrangement time attack:
     Q1-2 EASY, Q3-4 NORMAL/HARD, Q5+ PREMIUM (subscribers) or long free
@@ -1748,7 +1766,7 @@ def _build_tile_game_questions(is_premium):
     multiple-choice flow."""
     easy, normal, hard = DIFFICULTY_SETTINGS['easy'], DIFFICULTY_SETTINGS['normal'], DIFFICULTY_SETTINGS['hard']
 
-    free_ids = _sample_ids(ThankJapanModel, easy['category_filter'], easy['length_regex'], count=2)
+    free_ids = _sample_easy_ids(easy['category_filter'], count=2)
     free_ids += _sample_ids(ThankJapanModel, normal['category_filter'], normal['length_regex'], exclude_ids=free_ids, count=1)
     free_ids += _sample_ids(ThankJapanModel, hard['category_filter'], hard['length_regex'], exclude_ids=free_ids, count=1)
 

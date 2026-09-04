@@ -11,7 +11,7 @@ from django.utils import timezone
 
 from . import context_processors, tile_split
 from .models import DailyQuestion, Profile, ThankJapanModel, ThankJapanPremium
-from .views import combo_bonus_for_streak
+from .views import combo_bonus_for_streak, _sample_easy_ids
 from .pricing import (
     get_premium_price, get_top_page_seo_override,
     DEFAULT_TOP_PAGE_TITLE, DEFAULT_TOP_PAGE_DESCRIPTION,
@@ -1366,3 +1366,29 @@ class ComboBonusTests(SimpleTestCase):
         expected = {1: 0, 2: 1, 3: 1, 4: 1, 5: 2, 6: 2, 7: 3, 8: 3, 20: 3}
         for combo, bonus in expected.items():
             self.assertEqual(combo_bonus_for_streak(combo), bonus, f"combo={combo}")
+
+
+class EasyPoolMoraFilterTests(TestCase):
+    """2026-09-05: the EASY tier's category filter alone let through rare
+    long words in the right category (e.g. chinpanjii/chimpanzee is
+    'animal' but 6 mora) - Q1-2 of a brand new tile game showed a hard
+    word. _sample_easy_ids must additionally cap mora count."""
+
+    def setUp(self):
+        ThankJapanModel.objects.create(
+            name='inu', englishname='Dog', jpname='いぬ', kanji_name='犬', katakana_name='イヌ',
+            category='animal', slug='dog-inu', description='d', history='h')
+        ThankJapanModel.objects.create(
+            name='chinpanjii', englishname='Chimpanzee', jpname='ちんぱんじー', kanji_name='チンパンジー',
+            katakana_name='チンパンジー', category='animal', slug='chimp-chinpanjii', description='d', history='h')
+
+    def test_long_word_excluded_from_easy_pool_even_in_right_category(self):
+        for _ in range(20):
+            ids = _sample_easy_ids(['animal'], count=2)
+            names = set(ThankJapanModel.objects.filter(id__in=ids).values_list('name', flat=True))
+            self.assertNotIn('chinpanjii', names)
+
+    def test_short_word_still_eligible(self):
+        ids = _sample_easy_ids(['animal'], count=2)
+        names = set(ThankJapanModel.objects.filter(id__in=ids).values_list('name', flat=True))
+        self.assertIn('inu', names)

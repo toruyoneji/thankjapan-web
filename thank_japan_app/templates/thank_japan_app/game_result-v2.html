@@ -200,8 +200,8 @@ document.addEventListener('DOMContentLoaded', function() {
     --jewel-teal-dark: #1e8f84;
     --jewel-ruby: #e63946;
     --jewel-purple: #6a4c93;
-    --page-bg: #1c1712;
-    --card-dark: #26201a;
+    --page-bg: #1f8f6f;
+    --card-dark: #166b53;
     --hairline-dark: rgba(201,162,39,0.25);
 }
 
@@ -719,7 +719,7 @@ tbody td { padding: 8px; border: none; font-size: 0.82rem; color: var(--ink); }
             {% endif %}
 
             <div class="ki-result-gauge">
-                <p class="ki-result-label">気(コンボ) MAX {{ max_combo }}</p>
+                <p class="ki-result-label">{% if lang_code == 'ja' %}気(コンボ){% else %}COMBO{% endif %} MAX {{ max_combo }}</p>
                 <div class="ki-result-track">
                     <div class="ki-result-fill{% if max_combo >= 7 %} maxed{% endif %}" style="width: {% widthratio combo_gauge_capped 7 100 %}%;"></div>
                 </div>
