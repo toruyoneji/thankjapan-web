@@ -35,6 +35,11 @@
     --azuki: #a5533f;
     --azuki-dark: #833f2f;
     --ink-on-green: #f3ead6;
+    --jewel-teal: #2ec4b6;
+    --jewel-teal-dark: #1e8f84;
+    --jewel-ruby: #e63946;
+    --jewel-ruby-dark: #a92330;
+    --jewel-purple: #6a4c93;
 }
 
 html, body { background-color: var(--washi) !important; overflow-x: hidden !important; }
@@ -85,11 +90,67 @@ body {
 }
 .score-chip .n { color: var(--gold-light); font-size: 1.3rem; margin-left: 4px; }
 
-.zone-badge {
-  display: inline-block; margin: 2px 0 14px; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.06em;
-  color: var(--ink); background: var(--gold-light); padding: 4px 14px; border-radius: 999px;
+/* ---------- sugoroku progress track ---------- */
+.sugoroku-track {
+  display: flex; align-items: center; justify-content: center; gap: 7px;
+  margin: 4px 0 12px; position: relative; padding-top: 14px;
 }
-.zone-badge.premium { background: linear-gradient(90deg, var(--gold), var(--gold-dark)); color: #fff9e6; }
+.stone {
+  width: 15px; height: 15px; border-radius: 50%; background: rgba(255,255,255,0.12);
+  border: 2px dashed rgba(255,255,255,0.35); flex-shrink: 0; transition: all 0.4s ease; position: relative;
+}
+.stone.passed { background: var(--jewel-teal); border-style: solid; border-color: #7fe0d5; }
+.stone.gate { width: 26px; height: 26px; background: none; border: none; font-size: 1.35rem; display: flex; align-items: center; justify-content: center; }
+.stone.gate.reached { filter: drop-shadow(0 0 6px rgba(232,207,122,0.9)); }
+.koma {
+  position: absolute; top: -16px; font-size: 1.1rem; transform: translateX(-50%);
+  transition: left 0.5s cubic-bezier(.34,1.2,.64,1); left: 0;
+}
+
+/* ---------- ki (combo) gauge ---------- */
+.ki-gauge-wrap { max-width: 260px; margin: 0 auto 16px; }
+.ki-gauge-label {
+  font-size: 0.62rem; font-weight: 700; letter-spacing: 0.08em; color: var(--ink-on-green);
+  opacity: 0.75; margin-bottom: 4px; display: flex; justify-content: space-between;
+}
+.ki-gauge-track { height: 12px; background: rgba(0,0,0,0.25); border-radius: 99px; overflow: hidden; border: 1px solid rgba(255,255,255,0.15); position: relative; }
+.ki-gauge-fill {
+  height: 100%; border-radius: 99px; width: 0%;
+  background: linear-gradient(90deg, var(--jewel-teal), var(--gold-light));
+  transition: width 0.4s cubic-bezier(.34,1.2,.64,1);
+}
+.ki-gauge-fill.maxed { background: linear-gradient(90deg, var(--jewel-teal), var(--gold), #fff2c2); }
+.ki-tick { position: absolute; top: 0; bottom: 0; width: 2px; background: rgba(0,0,0,0.3); }
+
+.hanko-stamp {
+  position: fixed; top: 42%; left: 50%; transform: translate(-50%,-50%) scale(2) rotate(-14deg);
+  font-family: 'Kaisei Decol', 'Shippori Mincho', serif; font-weight: 700; font-size: 3.2rem; color: var(--jewel-ruby);
+  border: 6px solid var(--jewel-ruby); border-radius: 16px; padding: 4px 20px; opacity: 0;
+  z-index: 9998; pointer-events: none; background: rgba(250,246,236,0.05);
+}
+.hanko-stamp.show { animation: hankoStamp 1.3s ease-out forwards; }
+@keyframes hankoStamp {
+  0% { opacity: 0; transform: translate(-50%,-50%) scale(2.4) rotate(-14deg); }
+  35% { opacity: 0.95; transform: translate(-50%,-50%) scale(0.92) rotate(-8deg); }
+  50% { transform: translate(-50%,-50%) scale(1.04) rotate(-8deg); }
+  80% { opacity: 0.95; transform: translate(-50%,-50%) scale(1) rotate(-8deg); }
+  100% { opacity: 0; transform: translate(-50%,-50%) scale(1) rotate(-8deg); }
+}
+.coin-piece {
+  position: fixed; top: -5%; font-size: 1.3rem; z-index: 9997; pointer-events: none;
+  animation: coinFall linear forwards;
+}
+@keyframes coinFall { to { transform: translateY(110vh) rotate(720deg); opacity: 0; } }
+
+.ring-burst {
+  position: fixed; top: 40%; left: 50%; width: 20px; height: 20px;
+  border: 3px solid var(--gold-light); border-radius: 50%; opacity: 0; z-index: 9996; pointer-events: none;
+}
+.ring-burst.show { animation: ringBurstOut 0.9s ease-out; }
+@keyframes ringBurstOut {
+  0% { width: 20px; height: 20px; opacity: 0.9; transform: translate(-50%,-50%); }
+  100% { width: 340px; height: 340px; opacity: 0; transform: translate(-50%,-50%); }
+}
 
 /* ---------- prompt (image) ---------- */
 .prompt-card {
@@ -112,26 +173,31 @@ body {
 .bank-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; max-width: 480px; margin: 0 auto; }
 
 .tile {
-  font-family: 'Zen Antique', 'Shippori Mincho', serif;
-  font-size: 1.15rem; font-weight: 700; color: var(--ink);
-  background: var(--washi-card); border: none; border-bottom: 4px solid var(--wood-border);
+  font-family: 'Kaisei Decol', 'Shippori Mincho', serif;
+  font-size: 1.15rem; font-weight: 700; color: #fff2d6;
+  background: linear-gradient(145deg, #3a2e18, #241b10); border: 2px solid var(--gold);
   border-radius: 10px; padding: 10px 14px; min-width: 46px; min-height: 46px;
   cursor: pointer; user-select: none; -webkit-tap-highlight-color: transparent;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  box-shadow: 0 3px 8px rgba(0,0,0,0.35);
   animation: tileBreathe 2.6s ease-in-out infinite;
+  position: relative; overflow: hidden;
+}
+.tile::before {
+  content: ''; position: absolute; top: -40%; left: -20%; width: 50%; height: 180%;
+  background: rgba(255,255,255,0.16); transform: rotate(25deg); pointer-events: none;
 }
 .tile:nth-child(2n) { animation-delay: 0.3s; }
 .tile:nth-child(3n) { animation-delay: 0.6s; }
 .tile:nth-child(4n) { animation-delay: 0.9s; }
 
-.answer-row .tile { animation: none; border-bottom: 4px solid var(--gold-dark); background: var(--gold-light); }
+.answer-row .tile { animation: none; border-color: var(--gold-light); background: linear-gradient(145deg, #4a3a20, #2e2314); }
 
-@keyframes tileBreathe { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
+@keyframes tileBreathe { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-4px) rotate(-1deg); } }
 
 .tile.tap-pulse { animation: tileTap 0.18s ease-out; }
-@keyframes tileTap { 0% { transform: scale(1); } 50% { transform: scale(1.18); } 100% { transform: scale(1); } }
+@keyframes tileTap { 0% { transform: scale(1) rotate(0deg); } 50% { transform: scale(1.18) rotate(3deg); } 100% { transform: scale(1) rotate(0deg); } }
 
-.tile.tile-correct { animation: tileBounceGold 0.6s ease-out; box-shadow: 0 0 0 3px var(--gold-light), 0 0 22px 6px rgba(232,207,122,0.9); }
+.tile.tile-correct { animation: tileBounceGold 0.6s ease-out; border-color: var(--jewel-teal); box-shadow: 0 0 0 3px var(--jewel-teal), 0 0 22px 6px rgba(46,196,182,0.75); }
 @keyframes tileBounceGold {
   0%   { transform: translateY(0) scale(1); }
   30%  { transform: translateY(-14px) scale(1.12); }
@@ -140,7 +206,7 @@ body {
   100% { transform: translateY(0) scale(1); }
 }
 
-.answer-row.wrong-shake .tile { animation: tileShake 0.45s ease-in-out; border-bottom-color: var(--azuki-dark); background: #f3d9d2; }
+.answer-row.wrong-shake .tile { animation: tileShake 0.45s ease-in-out; border-color: var(--jewel-ruby); background: linear-gradient(145deg, #5c2a2a, #3a1a1a); }
 @keyframes tileShake {
   0%, 100% { transform: translateX(0); }
   20% { transform: translateX(-8px); }
@@ -199,6 +265,7 @@ body {
 <div id="countdown-overlay"{% if skip_countdown %} hidden{% endif %}>
     <div id="countdown-num">3</div>
 </div>
+<div class="hanko-stamp" id="hanko-stamp">極</div>
 
 <div class="main2">
     <div class="play-header">
@@ -216,7 +283,23 @@ body {
         <button type="button" id="game-sound-toggle" class="game-sound-toggle-btn" aria-label="Toggle Sound"><span id="game-sound-icon">🔊</span></button>
     </div>
 
-    <div class="zone-badge" id="zone-badge">EASY</div>
+    <div class="sugoroku-track" id="sugoroku-track">
+        <div class="koma" id="koma">🪙</div>
+        <div class="stone" id="stone-1"></div>
+        <div class="stone" id="stone-2"></div>
+        <div class="stone" id="stone-3"></div>
+        <div class="stone" id="stone-4"></div>
+        <div class="stone gate" id="stone-gate">⛩️</div>
+    </div>
+
+    <div class="ki-gauge-wrap">
+        <div class="ki-gauge-label"><span>気(コンボ)</span><span id="ki-gauge-text">0</span></div>
+        <div class="ki-gauge-track">
+            <div class="ki-tick" style="left: 42.8%;"></div>
+            <div class="ki-tick" style="left: 71.4%;"></div>
+            <div class="ki-gauge-fill" id="ki-gauge-fill"></div>
+        </div>
+    </div>
 
     <div class="prompt-card">
         <img id="prompt-img" src="" alt="">
@@ -325,9 +408,8 @@ body {
         placedIndices = [];
         submitting = false;
 
-        const badge = document.getElementById('zone-badge');
-        badge.textContent = data.index <= 2 ? 'EASY' : (data.index <= 4 ? 'NORMAL / HARD' : 'PREMIUM');
-        badge.className = 'zone-badge' + (data.index >= 5 ? ' premium' : '');
+        positionKoma(data.index);
+        updateKiGauge(data.combo);
 
         document.getElementById('score-num').textContent = data.score;
         document.getElementById('answer-row').className = 'answer-row';
@@ -336,6 +418,47 @@ body {
 
         document.getElementById('prompt-img').src = data.image_url || '';
         document.getElementById('prompt-caption').textContent = data.caption || '';
+    }
+
+    function positionKoma(index) {
+        const track = document.getElementById('sugoroku-track');
+        const koma = document.getElementById('koma');
+        const stoneId = index <= 1 ? 'stone-1' : index === 2 ? 'stone-2' : index === 3 ? 'stone-3' : index === 4 ? 'stone-4' : 'stone-gate';
+        const target = document.getElementById(stoneId);
+        const trackRect = track.getBoundingClientRect();
+        const targetRect = target.getBoundingClientRect();
+        koma.style.left = (targetRect.left + targetRect.width / 2 - trackRect.left) + 'px';
+        [1, 2, 3, 4].forEach((i) => {
+            document.getElementById('stone-' + i).classList.toggle('passed', index > i);
+        });
+        document.getElementById('stone-gate').classList.toggle('reached', index >= 5);
+    }
+
+    function updateKiGauge(combo) {
+        const capped = Math.min(combo, 7);
+        const fill = document.getElementById('ki-gauge-fill');
+        fill.style.width = (capped / 7 * 100) + '%';
+        fill.classList.toggle('maxed', combo >= 7);
+        document.getElementById('ki-gauge-text').textContent = combo;
+    }
+
+    function playGokuCelebration() {
+        const stamp = document.getElementById('hanko-stamp');
+        stamp.classList.remove('show'); void stamp.offsetWidth; stamp.classList.add('show');
+        const ring = document.createElement('div');
+        ring.className = 'ring-burst show';
+        document.body.appendChild(ring);
+        setTimeout(() => ring.remove(), 950);
+        for (let i = 0; i < 12; i++) {
+            const coin = document.createElement('div');
+            coin.className = 'coin-piece';
+            coin.textContent = '🪙';
+            coin.style.left = (10 + Math.random() * 80) + '%';
+            coin.style.animationDuration = (1 + Math.random() * 0.6) + 's';
+            coin.style.animationDelay = (Math.random() * 0.3) + 's';
+            document.body.appendChild(coin);
+            setTimeout(() => coin.remove(), 2200);
+        }
     }
 
     function submitAnswer() {
@@ -351,15 +474,17 @@ body {
                 if (res.game_over) { window.location.href = RESULT_URL; return; }
                 const answerRow = document.getElementById('answer-row');
                 document.getElementById('score-num').textContent = res.score;
+                updateKiGauge(res.combo);
                 if (res.is_correct) {
                     answerRow.querySelectorAll('.tile').forEach((t) => t.classList.add('tile-correct'));
-                    let comboColors = ['#cda23f', '#7c9473', '#faf6ec', '#a5533f'];
+                    let comboColors = ['#2ec4b6', '#7fe0d5', '#faf6ec', '#cda23f'];
                     let particleCount = 100;
-                    if (res.combo >= 7) { comboColors = ['#ff3b3b', '#ff9900', '#ffee00', '#33dd55', '#33aaff', '#a266ff']; particleCount = 200; }
-                    else if (res.combo >= 5) { comboColors = ['#ff8c00', '#ffcc00', '#ff6600', '#ffffff']; particleCount = 160; }
-                    else if (res.combo >= 3) { comboColors = ['#ffd700', '#ffe066', '#fff8dc']; particleCount = 130; }
+                    if (res.combo >= 7) { comboColors = ['#e63946', '#ffd873', '#2ec4b6', '#6a4c93', '#fff2c2']; particleCount = 220; }
+                    else if (res.combo >= 5) { comboColors = ['#cda23f', '#e8cf7a', '#2ec4b6', '#ffffff']; particleCount = 160; }
+                    else if (res.combo >= 3) { comboColors = ['#2ec4b6', '#7fe0d5', '#e8cf7a']; particleCount = 130; }
                     if (window.confetti) confetti({ particleCount, spread: 80, origin: { y: 0.5 }, colors: comboColors });
-                    if (res.combo >= 3) showComboPopup(res.combo);
+                    if (res.combo >= 3 && res.combo < 7) showComboPopup(res.combo);
+                    if (res.combo >= 7) playGokuCelebration();
                 } else {
                     answerRow.classList.add('wrong-shake');
                 }

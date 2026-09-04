@@ -2407,6 +2407,8 @@ def game_result(request):
         'score': score,
         'combo_bonus_total': combo_bonus_total,
         'max_combo': max_combo,
+        'combo_gauge_capped': min(max_combo, 7),
+        'all_correct': total_played > 0 and correct_count == total_played,
         'share_message': build_combo_share_message(lang_code, max_combo, score),
         'share_url': 'https://www.thankjapan.com',
         'correct_count': correct_count,
