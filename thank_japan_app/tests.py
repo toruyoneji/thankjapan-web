@@ -11,7 +11,7 @@ from django.utils import timezone
 
 from . import context_processors, tile_split
 from .models import DailyQuestion, Profile, ThankJapanModel, ThankJapanPremium
-from .views import combo_bonus_for_streak, _sample_easy_ids
+from .views import combo_bonus_for_streak, _sample_easy_ids, FIRST_TASTE_QUESTION_COUNT
 from .pricing import (
     get_premium_price, get_top_page_seo_override,
     DEFAULT_TOP_PAGE_TITLE, DEFAULT_TOP_PAGE_DESCRIPTION,
@@ -1519,3 +1519,106 @@ class ChunkAnswerWithSourceSpacesTests(TestCase):
         )
         result = json.loads(response.content)
         self.assertTrue(result['is_correct'], msg=f"tiles={data['tiles']} order_tried={correct_order} result={result}")
+
+
+class DailyQuestionTileGameTests(TestCase):
+    """2026-09-05: '今日の一問' converted from 4-choice to the same
+    tile-rearrangement mechanic as the main game (mora/chunk routing,
+    symbol exclusion, session-cached answer text)."""
+
+    def setUp(self):
+        self.today = timezone.localdate()
+        self.word = ThankJapanModel.objects.create(
+            name='test-daily-tile', englishname='Adhesive Bandage', jpname='ばんそうこう',
+            kanji_name='絆創膏', katakana_name='バンソウコウ', category='householditems',
+            slug='daily-tile-word', description='d', history='h',
+            example_sentence_ja='指を 切ったので 絆創膏を、貼りました。',
+        )
+        DailyQuestion.objects.create(date=self.today, word=self.word)
+
+    def test_question_state_serves_tiles_not_image_choices(self):
+        response = self.client.get(reverse('daily_question'))
+        body = response.content.decode()
+
+        self.assertEqual(response.context['daily_state'], 'question')
+        self.assertNotIn('dq-choice-btn', body)
+        self.assertIn('dq-tile-bank', body)
+        tiles = json.loads(response.context['tiles_json'])
+        self.assertTrue(tiles)
+        # symbol-exclusion + space-drop fixes must both apply here too
+        self.assertTrue(all(' ' not in t and '、' not in t and '。' not in t for t in tiles))
+
+    def test_correctly_ordered_tiles_marked_correct_and_scored(self):
+        user = User.objects.create_user(username='daily_tile_tester', password='pass12345')
+        self.client.login(username='daily_tile_tester', password='pass12345')
+
+        get_response = self.client.get(reverse('daily_question'))
+        tiles = json.loads(get_response.context['tiles_json'])
+        full_answer = '指を切ったので絆創膏を貼りました'
+        correct_order = sorted(tiles, key=lambda chunk: full_answer.index(chunk))
+
+        post_response = self.client.post(reverse('daily_question'), {
+            'answer_tiles': json.dumps(correct_order),
+        })
+        self.assertEqual(post_response.context['daily_state'], 'result')
+        self.assertTrue(post_response.context['is_correct'])
+
+        user.profile.refresh_from_db()
+        self.assertEqual(user.profile.total_score, 1)
+
+    def test_incorrect_order_marked_incorrect(self):
+        get_response = self.client.get(reverse('daily_question'))
+        tiles = json.loads(get_response.context['tiles_json'])
+        scrambled = list(reversed(tiles)) if len(tiles) > 1 else tiles
+
+        full_answer = '指を切ったので絆創膏を貼りました'
+        if scrambled == sorted(tiles, key=lambda chunk: full_answer.index(chunk)):
+            self.skipTest('reversed order happened to already be correct')
+
+        post_response = self.client.post(reverse('daily_question'), {
+            'answer_tiles': json.dumps(scrambled),
+        })
+        self.assertFalse(post_response.context['is_correct'])
+
+    def test_already_answered_gate_still_applies(self):
+        get_response = self.client.get(reverse('daily_question'))
+        tiles = json.loads(get_response.context['tiles_json'])
+        self.client.post(reverse('daily_question'), {'answer_tiles': json.dumps(tiles)})
+
+        second_get = self.client.get(reverse('daily_question'))
+        self.assertEqual(second_get.context['daily_state'], 'already_answered')
+
+
+class FirstTasteTileGameTests(TestCase):
+    """2026-09-05: the guest first-visit 3-question trial converted from
+    4-choice to tile-rearrangement, restricted to EASY-tier short words,
+    untimed (same treatment as mode=single practice)."""
+
+    def setUp(self):
+        for i in range(6):
+            ThankJapanModel.objects.create(
+                name=f'easy-word-{i}', englishname=f'Easy {i}', jpname='いぬ',
+                kanji_name='犬', katakana_name='イヌ', category='animal',
+                slug=f'easy-word-{i}', description='d', history='h',
+            )
+
+    def test_first_taste_builds_three_easy_questions_untimed(self):
+        self.client.get(reverse('game_restart'), {'difficulty': 'first_taste'})
+        session = self.client.session
+        self.assertEqual(session['game_difficulty'], 'first_taste')
+        self.assertEqual(len(session['game_question_ids']), FIRST_TASTE_QUESTION_COUNT)
+        self.assertTrue(all(q['model'] == 'free' for q in session['game_question_ids']))
+
+        play_response = self.client.get(reverse('game_play'))
+        self.assertFalse(play_response.context['has_timer'])
+        self.assertTrue(play_response.context['skip_countdown'])
+
+    def test_first_taste_question_data_has_no_countdown_clock(self):
+        self.client.get(reverse('game_restart'), {'difficulty': 'first_taste'})
+        self.client.get(reverse('game_play'))
+        data = json.loads(self.client.get(reverse('game_question_data')).content)
+        self.assertIsNone(data['seconds_left'])
+
+    def test_first_taste_sets_returning_visitor_cookie(self):
+        response = self.client.get(reverse('game_restart'), {'difficulty': 'first_taste'})
+        self.assertIn('tj_has_played', response.cookies)

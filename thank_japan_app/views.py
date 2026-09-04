@@ -1714,6 +1714,7 @@ DIFFICULTY_SETTINGS = {
 # of these tiers.
 
 TILE_GAME_POOL_SIZE = 50  # generous upper bound; the 60s timer always ends the game long before this runs out
+FIRST_TASTE_QUESTION_COUNT = 3  # first-visit guest trial: 3 EASY-tier words, untimed
 
 
 def _sample_ids(model, category_filter=None, length_regex=None, exclude_ids=(), count=1):
@@ -1863,8 +1864,8 @@ def game_play(request):
         'is_guest': is_guest,
         'lang_code': lang_code,
         'difficulty': difficulty,
-        'skip_countdown': difficulty == 'single',
-        'has_timer': difficulty != 'single',
+        'skip_countdown': difficulty in ('single', 'first_taste'),
+        'has_timer': difficulty not in ('single', 'first_taste'),
         'score': request.session.get('game_score', 0),
         'bgm_url': get_bgm_url('game'),
         'bgm_page_type': 'game',
@@ -1885,7 +1886,7 @@ def game_question_data(request):
         return JsonResponse({'game_over': True, 'reason': 'no_more_questions'})
 
     seconds_left = None
-    if difficulty != 'single':
+    if difficulty not in ('single', 'first_taste'):
         current_time = time.time()
         game_end_time = request.session.get('game_end_time')
         if not game_end_time:
@@ -2016,9 +2017,12 @@ def game_submit_answer(request):
 
 
 def game_restart(request):
-    """Starts a new game. Two shapes:
+    """Starts a new game. Three shapes:
     - mode=single: practice one specific word (from a word-detail page deep
       link) - untimed, no countdown.
+    - difficulty=first_taste: the first-visit 3-question guest trial - all
+      EASY-tier short words, untimed, no countdown (same reasoning as
+      single: it's a low-pressure taster, not the real time attack).
     - anything else: the tile-rearrangement time attack, auto-progressing
       EASY -> NORMAL/HARD -> PREMIUM/long-words (see
       _build_tile_game_questions). There's no difficulty picker anymore;
@@ -2026,6 +2030,7 @@ def game_restart(request):
       are retired along with the multiple-choice UI they were built for.
     """
     mode = request.GET.get('mode')
+    difficulty_param = request.GET.get('difficulty')
     player, is_guest = get_current_player_info(request)
 
     is_premium = request.user.is_authenticated and getattr(request.user.profile, 'has_premium_access', False)
@@ -2056,6 +2061,11 @@ def game_restart(request):
             questions = [{'id': question.id, 'model': 'free'}]
 
         game_difficulty = 'single'
+    elif difficulty_param == 'first_taste':
+        easy = DIFFICULTY_SETTINGS['easy']
+        ids = _sample_easy_ids(easy['category_filter'], count=FIRST_TASTE_QUESTION_COUNT)
+        questions = [{'id': pk, 'model': 'free'} for pk in ids]
+        game_difficulty = 'first_taste'
     else:
         questions = _build_tile_game_questions(is_premium)
         game_difficulty = 'timeattack'
@@ -2081,12 +2091,11 @@ def game_restart(request):
     _, lang_code = get_lang_info(request)
     response = redirect(f"{reverse('game_play')}?lang={lang_code}")
 
-    # First-visit taste flow from the top page: no longer a distinct
-    # difficulty tier (it now plays the same time attack as everyone else),
-    # but still marks the visitor as a returning player as soon as they
-    # click "try it", so leaving mid-flow still shows the normal play
-    # button on their next visit (see TopView.get_context_data).
-    if request.GET.get('difficulty') == 'first_taste':
+    # First-visit taste flow from the top page: marks the visitor as a
+    # returning player as soon as they click "try it", so leaving mid-flow
+    # still shows the normal play button on their next visit (see
+    # TopView.get_context_data).
+    if difficulty_param == 'first_taste':
         response.set_cookie(
             'tj_has_played', '1',
             max_age=34560000,  # ~400 days: the practical cap most browsers honor
@@ -2098,9 +2107,9 @@ def game_restart(request):
 
 # --- Daily Question (今日の一問) ---
 
-DAILY_QUESTION_DUMMY_COUNT = 3  # -> 4 choices total (1 correct + 3 dummies)
 DAILY_QUESTION_SESSION_ANSWERED_KEY = 'daily_question_answered_date'
 DAILY_QUESTION_BANNER_DISMISSED_KEY = 'daily_question_banner_dismissed'
+DAILY_QUESTION_TIME_LIMIT = 30  # seconds - a single question doesn't need the main game's 60s
 
 DAILY_QUESTION_SHARE_TEXT = {
     'ja': {'correct': '「今日の一問」で「{word}」正解しました🎉 ThankJapanで日本語クイズに挑戦しよう！',
@@ -2160,25 +2169,15 @@ def _daily_question_hashtags(lang_code, word):
     return f"{base},{word_tag}" if word_tag else base
 
 
-def _daily_question_choices(request, daily_question, today):
-    """Build (and session-cache for the day) the 4 choice objects for today's question."""
-    choices_key = f'daily_choices_{today.isoformat()}'
-    choice_ids = request.session.get(choices_key)
-    if choice_ids:
-        choices = list(ThankJapanModel.objects.filter(id__in=choice_ids))
-        choices.sort(key=lambda w: choice_ids.index(w.id))
-        return choices
-
-    word = daily_question.word
-    dummy_pool = ThankJapanModel.objects.filter(category=word.category).exclude(id=word.id).exclude(jpname=word.jpname)
-    if dummy_pool.count() < DAILY_QUESTION_DUMMY_COUNT:
-        dummy_pool = ThankJapanModel.objects.exclude(id=word.id).exclude(jpname=word.jpname)
-    num_to_sample = min(dummy_pool.count(), DAILY_QUESTION_DUMMY_COUNT)
-    dummies = random.sample(list(dummy_pool), num_to_sample)
-    choices = [word] + dummies
-    random.shuffle(choices)
-    request.session[choices_key] = [c.id for c in choices]
-    return choices
+def _daily_question_tiles(request, word, today):
+    """Build shuffled tiles for today's word, session-caching the canonical
+    answer text for the day so a page reload before answering can reshuffle
+    freely without ever disagreeing with what POST validates against (same
+    pattern as the main game's game_question_data/game_submit_answer)."""
+    answer_key = f'daily_answer_{today.isoformat()}'
+    tile_data = _tiles_for_question(word)
+    request.session[answer_key] = tile_data['answer_text']
+    return tile_data
 
 
 def daily_question_view(request):
@@ -2219,8 +2218,21 @@ def daily_question_view(request):
                 'daily_url': daily_url,
             })
 
-        chosen_id = request.POST.get('choice_id')
-        is_correct = str(chosen_id) == str(word.id)
+        submitted_tiles_raw = request.POST.get('answer_tiles', '[]')
+        try:
+            submitted_tiles = json.loads(submitted_tiles_raw)
+        except (TypeError, ValueError):
+            submitted_tiles = []
+        submitted_text = ''.join(t for t in submitted_tiles if isinstance(t, str))
+
+        answer_key = f'daily_answer_{today.isoformat()}'
+        correct_answer_text = request.session.get(answer_key)
+        if correct_answer_text is None:
+            # Cache missed (e.g. direct POST without a prior GET) - fall
+            # back to a fresh recompute, same defensive pattern as
+            # game_submit_answer.
+            correct_answer_text = build_tiles(word.jpname, word.example_sentence_ja)['answer_text']
+        is_correct = submitted_text == correct_answer_text
         request.session[DAILY_QUESTION_SESSION_ANSWERED_KEY] = today.isoformat()
 
         # Guests earn nothing (nowhere to persist it); logged-in users get a
@@ -2267,12 +2279,13 @@ def daily_question_view(request):
             'daily_url': daily_url,
         })
 
-    choices = _daily_question_choices(request, daily_question, today)
+    tile_data = _daily_question_tiles(request, word, today)
 
     return render(request, 'thank_japan_app/daily_question.html', {
         'daily_state': 'question',
         'object': word,
-        'choices': choices,
+        'tiles_json': json.dumps(tile_data['tiles']),
+        'time_limit': DAILY_QUESTION_TIME_LIMIT,
         'lang_code': lang_code,
         'daily_url': daily_url,
         'top_page_url': top_page_url,
@@ -2292,8 +2305,8 @@ COMBO_SHARE_ACHIEVEMENTS = {
         'it': '🔥{max_combo} risposte corrette di fila! {score} punti nella Sfida di 60 secondi di ThankJapan!',
         'pt': '🔥{max_combo} acertos seguidos! {score} pontos no Desafio de 60 segundos do ThankJapan!',
         'vi': '🔥Đạt {max_combo} câu đúng liên tiếp! Ghi {score} điểm trong Thử thách 60 giây của ThankJapan!',
-        'th': '🔥ทำได้ {max_combo} คอมโบติดต่อกัน! ได้ {score} คะแนนใน 30-Second Challenge ของ ThankJapan!',
-        'en': '🔥{max_combo}-combo streak! Scored {score}pts in the 30-Second Challenge on ThankJapan!',
+        'th': '🔥ทำได้ {max_combo} คอมโบติดต่อกัน! ได้ {score} คะแนนใน 60-Second Challenge ของ ThankJapan!',
+        'en': '🔥{max_combo}-combo streak! Scored {score}pts in the 60-Second Challenge on ThankJapan!',
     },
     'mid': {
         'ja': '⚡最高コンボ{max_combo}達成！ThankJapanの60秒チャレンジで{score}pt獲得！',
@@ -2306,8 +2319,8 @@ COMBO_SHARE_ACHIEVEMENTS = {
         'it': '⚡Combo massima {max_combo}! {score} punti nella Sfida di 60 secondi di ThankJapan!',
         'pt': '⚡Combo máximo {max_combo}! {score} pontos no Desafio de 60 segundos do ThankJapan!',
         'vi': '⚡Combo tối đa {max_combo}! Ghi {score} điểm trong Thử thách 60 giây của ThankJapan!',
-        'th': '⚡คอมโบสูงสุด {max_combo}! ได้ {score} คะแนนใน 30-Second Challenge ของ ThankJapan!',
-        'en': '⚡Max combo {max_combo}! Scored {score}pts in the 30-Second Challenge on ThankJapan!',
+        'th': '⚡คอมโบสูงสุด {max_combo}! ได้ {score} คะแนนใน 60-Second Challenge ของ ThankJapan!',
+        'en': '⚡Max combo {max_combo}! Scored {score}pts in the 60-Second Challenge on ThankJapan!',
     },
     'none': {
         'ja': 'ThankJapanの60秒チャレンジで{score}pt獲得！日本語、どれだけ知ってる？',
@@ -2320,8 +2333,8 @@ COMBO_SHARE_ACHIEVEMENTS = {
         'it': '{score} punti nella Sfida di 60 secondi di ThankJapan! Quanto giapponese conosci?',
         'pt': '{score} pontos no Desafio de 60 segundos do ThankJapan! Quanto japonês você sabe?',
         'vi': 'Ghi {score} điểm trong Thử thách 60 giây của ThankJapan! Bạn biết bao nhiêu tiếng Nhật?',
-        'th': 'ได้ {score} คะแนนใน 30-Second Challenge ของ ThankJapan! คุณรู้ภาษาญี่ปุ่นแค่ไหน?',
-        'en': 'Scored {score}pts in the 30-Second Challenge on ThankJapan! How much Japanese do you know?',
+        'th': 'ได้ {score} คะแนนใน 60-Second Challenge ของ ThankJapan! คุณรู้ภาษาญี่ปุ่นแค่ไหน?',
+        'en': 'Scored {score}pts in the 60-Second Challenge on ThankJapan! How much Japanese do you know?',
     },
 }
 

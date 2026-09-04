@@ -89,34 +89,6 @@
         color: #d4af37 !important;
     }
 
-    #daily-question-wrapper .dq-choices {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 14px;
-        margin-bottom: 20px;
-    }
-
-    #daily-question-wrapper .dq-choice-btn {
-        background: rgba(255, 255, 255, 0.05) !important;
-        border: 1px solid rgba(212, 175, 55, 0.3) !important;
-        border-radius: 14px !important;
-        overflow: hidden !important;
-        padding: 0 !important;
-        cursor: pointer;
-    }
-
-    #daily-question-wrapper .dq-choice-btn img {
-        width: 100%;
-        height: 130px;
-        object-fit: cover;
-        display: block;
-    }
-
-    #daily-question-wrapper .dq-choice-btn.selected {
-        border-color: #d4af37 !important;
-        box-shadow: 0 0 0 2px #d4af37 !important;
-    }
-
     #daily-question-wrapper .dq-card {
         background: rgba(255, 255, 255, 0.05) !important;
         border: 1px solid rgba(212, 175, 55, 0.2) !important;
@@ -158,6 +130,38 @@
 
     #daily-question-wrapper .dq-share-btn { background: #000; color: #fff; text-decoration: none; }
     #daily-question-wrapper .dq-skip-btn { background: transparent; color: #ccc; border: 1px solid rgba(255,255,255,0.3) !important; }
+
+    #daily-question-wrapper .dq-prompt-card { margin-bottom: 18px; }
+    #daily-question-wrapper .dq-prompt-image { display: block; width: 100%; max-width: 320px; margin: 0 auto 10px; border-radius: 14px; border: 1px solid rgba(212, 175, 55, 0.3); }
+    #daily-question-wrapper .dq-prompt-caption { color: #d4af37 !important; font-size: 0.95rem !important; letter-spacing: 1px !important; }
+
+    #daily-question-wrapper .dq-timer-wrap { display: flex; align-items: center; gap: 10px; max-width: 320px; margin: 0 auto 18px; }
+    #daily-question-wrapper .dq-timer-bar { flex: 1; height: 8px; border-radius: 4px; background: rgba(255,255,255,0.12); overflow: hidden; }
+    #daily-question-wrapper .dq-timer-fill { height: 100%; width: 100%; background: #d4af37; transition: width 1s linear; }
+    #daily-question-wrapper .dq-timer-num { font-variant-numeric: tabular-nums; color: #d4af37; font-weight: 700; min-width: 1.6em; text-align: right; }
+
+    #daily-question-wrapper .dq-answer-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; min-height: 52px; margin-bottom: 16px; }
+    #daily-question-wrapper .dq-tile-bank { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-bottom: 20px; }
+
+    #daily-question-wrapper .dq-tile,
+    #daily-question-wrapper .dq-slot {
+        min-width: 44px; height: 44px; padding: 0 12px;
+        display: flex; align-items: center; justify-content: center;
+        border-radius: 10px; font-size: 1.15rem; font-weight: 700;
+        box-sizing: border-box;
+    }
+    #daily-question-wrapper .dq-tile {
+        background: rgba(212, 175, 55, 0.15);
+        border: 1px solid #d4af37;
+        color: #fff;
+        cursor: pointer;
+    }
+    #daily-question-wrapper .dq-tile.dq-tile-correct { background: rgba(99, 153, 34, 0.35); border-color: #8bc34a; }
+    #daily-question-wrapper .dq-tile.dq-tile-wrong { background: rgba(226, 75, 74, 0.35); border-color: #e24b4a; }
+    #daily-question-wrapper .dq-slot {
+        background: rgba(255,255,255,0.03);
+        border: 1px dashed rgba(255,255,255,0.25);
+    }
 </style>
 
 <div class="dq-inner">
@@ -366,50 +370,117 @@
         </script>
 
     {% else %}
-        <div class="dq-jpname">
-            {% if object.kanji_name %}{{ object.kanji_name|ruby_smart:object.jpname }}{% else %}{{ object.jpname }}{% endif %}
+        <div class="dq-prompt-card">
+            {% if object.image %}
+                <img src="{{ object.image.url }}" alt="" class="dq-prompt-image">
+            {% endif %}
+            <p class="dq-prompt-caption">{{ object.englishname }}</p>
         </div>
 
-        <p style="color:#ccc; margin-bottom: 20px;">
-            {% if lang_code == 'ja' %}正しい画像を1つ選んでください
-            {% elif lang_code == 'zh-hant' %}請選擇正確的圖片
-            {% elif lang_code == 'zh-cn' %}请选择正确的图片
-            {% elif lang_code == 'ko' %}올바른 이미지를 하나 선택하세요
-            {% elif lang_code == 'de' %}Wähle das richtige Bild
-            {% elif lang_code == 'fr' %}Choisissez la bonne image
-            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Elige la imagen correcta
-            {% elif lang_code == 'it' %}Scegli l'immagine corretta
-            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Escolha a imagem correta
-            {% elif lang_code == 'vi' %}Chọn hình ảnh đúng
-            {% elif lang_code == 'th' %}เลือกภาพที่ถูกต้อง
-            {% else %}Pick the matching image
+        <div class="dq-timer-wrap">
+            <div class="dq-timer-bar"><div class="dq-timer-fill" id="dq-timer-fill"></div></div>
+            <span class="dq-timer-num" id="dq-timer-num">{{ time_limit }}</span>
+        </div>
+
+        <p style="color:#ccc; margin-bottom: 16px;">
+            {% if lang_code == 'ja' %}タイルを正しい順番に並べ替えてください
+            {% elif lang_code == 'zh-hant' %}請將方塊排成正確的順序
+            {% elif lang_code == 'zh-cn' %}请将方块排成正确的顺序
+            {% elif lang_code == 'ko' %}타일을 올바른 순서로 배열하세요
+            {% elif lang_code == 'de' %}Ordne die Kacheln in der richtigen Reihenfolge an
+            {% elif lang_code == 'fr' %}Réorganisez les tuiles dans le bon ordre
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Ordena las fichas en el orden correcto
+            {% elif lang_code == 'it' %}Disponi le tessere nell'ordine corretto
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Organize as peças na ordem correta
+            {% elif lang_code == 'vi' %}Sắp xếp các ô theo đúng thứ tự
+            {% elif lang_code == 'th' %}จัดเรียงไทล์ให้ถูกลำดับ
+            {% else %}Arrange the tiles in the correct order
             {% endif %}
         </p>
 
-        <form method="post" id="dq-form">
+        <div class="dq-answer-row" id="dq-answer-row"></div>
+        <div class="dq-tile-bank" id="dq-tile-bank"></div>
+
+        <form method="post" id="dq-form" style="display:none;">
             {% csrf_token %}
-            <input type="hidden" name="choice_id" id="dq-choice-input">
-            <div class="dq-choices">
-                {% for choice in choices %}
-                    <button type="button" class="dq-choice-btn" onclick="dqSelect(this, '{{ choice.id }}')">
-                        {% if choice.image %}
-                            <img src="{{ choice.image.url }}" alt="{{ choice.jpname }}">
-                        {% endif %}
-                    </button>
-                {% endfor %}
-            </div>
+            <input type="hidden" name="answer_tiles" id="dq-answer-input">
         </form>
 
         <script>
-        function dqSelect(btn, choiceId) {
-            document.querySelectorAll('.dq-choice-btn').forEach(b => {
-                b.classList.remove('selected');
-                b.disabled = true;
+        const DQ_TILES = {{ tiles_json|safe }};
+        const DQ_TIME_LIMIT = {{ time_limit }};
+        let dqPlaced = [];
+        let dqSubmitting = false;
+        let dqSecondsLeft = DQ_TIME_LIMIT;
+        let dqTimer = null;
+
+        function dqMakeTile(text) {
+            const el = document.createElement('button');
+            el.type = 'button';
+            el.className = 'dq-tile';
+            el.textContent = text;
+            return el;
+        }
+
+        function dqRedraw() {
+            const answerRow = document.getElementById('dq-answer-row');
+            const bank = document.getElementById('dq-tile-bank');
+            answerRow.innerHTML = '';
+            bank.innerHTML = '';
+
+            DQ_TILES.forEach((text, i) => {
+                if (dqPlaced.includes(i)) return;
+                const el = dqMakeTile(text);
+                el.addEventListener('click', function () {
+                    if (dqSubmitting) return;
+                    dqPlaced.push(i);
+                    dqRedraw();
+                    if (dqPlaced.length === DQ_TILES.length) dqSubmit();
+                });
+                bank.appendChild(el);
             });
-            btn.classList.add('selected');
-            document.getElementById('dq-choice-input').value = choiceId;
+
+            dqPlaced.forEach((tileIndex) => {
+                const el = dqMakeTile(DQ_TILES[tileIndex]);
+                el.addEventListener('click', function () {
+                    if (dqSubmitting) return;
+                    const pos = dqPlaced.indexOf(tileIndex);
+                    if (pos > -1) dqPlaced.splice(pos, 1);
+                    dqRedraw();
+                });
+                answerRow.appendChild(el);
+            });
+
+            for (let i = dqPlaced.length; i < DQ_TILES.length; i++) {
+                const slot = document.createElement('div');
+                slot.className = 'dq-slot';
+                answerRow.appendChild(slot);
+            }
+        }
+
+        function dqSubmit() {
+            if (dqSubmitting) return;
+            dqSubmitting = true;
+            clearInterval(dqTimer);
+            const ordered = dqPlaced.map((i) => DQ_TILES[i]);
+            document.getElementById('dq-answer-input').value = JSON.stringify(ordered);
             document.getElementById('dq-form').submit();
         }
+
+        function dqTick() {
+            dqSecondsLeft -= 1;
+            const fill = document.getElementById('dq-timer-fill');
+            const num = document.getElementById('dq-timer-num');
+            if (fill) fill.style.width = Math.max(0, dqSecondsLeft / DQ_TIME_LIMIT * 100) + '%';
+            if (num) num.textContent = Math.max(0, dqSecondsLeft);
+            if (dqSecondsLeft <= 0) {
+                clearInterval(dqTimer);
+                dqSubmit();
+            }
+        }
+
+        dqRedraw();
+        dqTimer = setInterval(dqTick, 1000);
         </script>
     {% endif %}
 </div>
