@@ -102,9 +102,11 @@ body {
 .stone.passed { background: var(--jewel-teal); border-style: solid; border-color: #7fe0d5; }
 .stone.gate { width: 26px; height: 26px; background: none; border: none; font-size: 1.35rem; display: flex; align-items: center; justify-content: center; }
 .stone.gate.reached { filter: drop-shadow(0 0 6px rgba(232,207,122,0.9)); }
+/* the koma is re-parented into whichever .stone is current (see positionKoma
+   in the script below) rather than pixel-positioned via JS, so it always
+   sits exactly over its stone regardless of container sizing. */
 .koma {
-  position: absolute; top: -16px; font-size: 1.1rem; transform: translateX(-50%);
-  transition: left 0.5s cubic-bezier(.34,1.2,.64,1); left: 0;
+  position: absolute; top: -16px; left: 50%; font-size: 1.1rem; transform: translateX(-50%);
 }
 
 /* ---------- ki (combo) gauge ---------- */
@@ -284,8 +286,7 @@ body {
     </div>
 
     <div class="sugoroku-track" id="sugoroku-track">
-        <div class="koma" id="koma">🪙</div>
-        <div class="stone" id="stone-1"></div>
+        <div class="stone" id="stone-1"><div class="koma" id="koma">🪙</div></div>
         <div class="stone" id="stone-2"></div>
         <div class="stone" id="stone-3"></div>
         <div class="stone" id="stone-4"></div>
@@ -295,7 +296,7 @@ body {
     <div class="ki-gauge-wrap">
         <div class="ki-gauge-label"><span>気(コンボ)</span><span id="ki-gauge-text">0</span></div>
         <div class="ki-gauge-track">
-            <div class="ki-tick" style="left: 42.8%;"></div>
+            <div class="ki-tick" style="left: 28.6%;"></div>
             <div class="ki-tick" style="left: 71.4%;"></div>
             <div class="ki-gauge-fill" id="ki-gauge-fill"></div>
         </div>
@@ -421,13 +422,9 @@ body {
     }
 
     function positionKoma(index) {
-        const track = document.getElementById('sugoroku-track');
         const koma = document.getElementById('koma');
         const stoneId = index <= 1 ? 'stone-1' : index === 2 ? 'stone-2' : index === 3 ? 'stone-3' : index === 4 ? 'stone-4' : 'stone-gate';
-        const target = document.getElementById(stoneId);
-        const trackRect = track.getBoundingClientRect();
-        const targetRect = target.getBoundingClientRect();
-        koma.style.left = (targetRect.left + targetRect.width / 2 - trackRect.left) + 'px';
+        document.getElementById(stoneId).appendChild(koma);
         [1, 2, 3, 4].forEach((i) => {
             document.getElementById('stone-' + i).classList.toggle('passed', index > i);
         });
@@ -481,9 +478,9 @@ body {
                     let particleCount = 100;
                     if (res.combo >= 7) { comboColors = ['#e63946', '#ffd873', '#2ec4b6', '#6a4c93', '#fff2c2']; particleCount = 220; }
                     else if (res.combo >= 5) { comboColors = ['#cda23f', '#e8cf7a', '#2ec4b6', '#ffffff']; particleCount = 160; }
-                    else if (res.combo >= 3) { comboColors = ['#2ec4b6', '#7fe0d5', '#e8cf7a']; particleCount = 130; }
+                    else if (res.combo >= 2) { comboColors = ['#2ec4b6', '#7fe0d5', '#e8cf7a']; particleCount = 130; }
                     if (window.confetti) confetti({ particleCount, spread: 80, origin: { y: 0.5 }, colors: comboColors });
-                    if (res.combo >= 3 && res.combo < 7) showComboPopup(res.combo);
+                    if (res.combo >= 2 && res.combo < 7) showComboPopup(res.combo);
                     if (res.combo >= 7) playGokuCelebration();
                 } else {
                     answerRow.classList.add('wrong-shake');

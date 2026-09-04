@@ -1766,6 +1766,18 @@ def _build_tile_game_questions(is_premium):
     return questions
 
 
+def combo_bonus_for_streak(combo):
+    """Bonus points on top of the base per-question points, keyed to the
+    current consecutive-correct streak: 2-4 in a row +1 / 5-6 +2 / 7+ +3."""
+    if combo >= 7:
+        return 3
+    if combo >= 5:
+        return 2
+    if combo >= 2:
+        return 1
+    return 0
+
+
 def _model_for(question_model_tag):
     return ThankJapanPremium if question_model_tag == 'premium' else ThankJapanModel
 
@@ -1927,20 +1939,11 @@ def game_submit_answer(request):
 
     points = combo = combo_bonus = 0
     if correct_flag:
-        # Base point for a correct answer: 1 for free questions, 2 for
-        # premium questions. On top, a combo bonus grows with the current
-        # streak of consecutive correct answers (reset on a miss):
-        # 3-4 in a row: +1 / 5-6: +2 / 7+: +3.
         base_points = 2 if is_premium_question else 1
         combo = request.session.get('game_combo', 0) + 1
         request.session['game_combo'] = combo
         request.session['game_max_combo'] = max(request.session.get('game_max_combo', 0), combo)
-        if combo >= 7:
-            combo_bonus = 3
-        elif combo >= 5:
-            combo_bonus = 2
-        elif combo >= 3:
-            combo_bonus = 1
+        combo_bonus = combo_bonus_for_streak(combo)
         points = base_points + combo_bonus
         request.session['game_score'] = request.session.get('game_score', 0) + points
     else:
@@ -2301,7 +2304,7 @@ COMBO_SHARE_CTA = {
 
 def build_combo_share_message(lang_code, max_combo, score):
     lang = {'es-mx': 'es-es', 'pt-br': 'pt', 'en-in': 'en'}.get(lang_code, lang_code)
-    tier = 'high' if max_combo >= 7 else ('mid' if max_combo >= 3 else 'none')
+    tier = 'high' if max_combo >= 7 else ('mid' if max_combo >= 2 else 'none')
     achievement = COMBO_SHARE_ACHIEVEMENTS[tier].get(lang, COMBO_SHARE_ACHIEVEMENTS[tier]['en'])
     cta = COMBO_SHARE_CTA.get(lang, COMBO_SHARE_CTA['en'])
     return f"{achievement.format(max_combo=max_combo, score=score)} {cta}"

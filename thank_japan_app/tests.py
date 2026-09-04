@@ -11,6 +11,7 @@ from django.utils import timezone
 
 from . import context_processors, tile_split
 from .models import DailyQuestion, Profile, ThankJapanModel, ThankJapanPremium
+from .views import combo_bonus_for_streak
 from .pricing import (
     get_premium_price, get_top_page_seo_override,
     DEFAULT_TOP_PAGE_TITLE, DEFAULT_TOP_PAGE_DESCRIPTION,
@@ -1355,3 +1356,13 @@ class TileSplitTests(SimpleTestCase):
         self.assertEqual(result['route'], 'chunk')
         self.assertEqual(result['answer_text'], '建設現場で働きます')
         self.assertEqual(result['tiles'], ['建設現場で', '働きます'])
+
+
+class ComboBonusTests(SimpleTestCase):
+    """2026-09-05: first bonus tier moved from a 3-streak to a 2-streak, so
+    a 2nd consecutive correct answer already earns +1."""
+
+    def test_combo_bonus_ladder(self):
+        expected = {1: 0, 2: 1, 3: 1, 4: 1, 5: 2, 6: 2, 7: 3, 8: 3, 20: 3}
+        for combo, bonus in expected.items():
+            self.assertEqual(combo_bonus_for_streak(combo), bonus, f"combo={combo}")
