@@ -31,6 +31,17 @@ _INDEPENDENT_POS1 = {
 }
 _DEPENDENT_POS2 = {'非自立可能', '非自立'}
 
+# Punctuation that carries no meaning for a word-order puzzle: 読点(、)・
+# 句点(。)・疑問符(？)・感嘆符(！)・括弧各種・中黒(・)・コロン are tagged
+# 補助記号 by UniDic; apostrophes/quotes/hyphens (ASCII-ish marks) come
+# through as 記号 instead. Tokens in either category are dropped entirely
+# during chunk-building - they never become their own tile, and never get
+# appended into a neighboring tile either. Verified this never touches the
+# katakana long-vowel mark (ー) or any real word content: UniDic always
+# folds ー into the surrounding word's own token (e.g. "ギター", "サッカー"),
+# it's never emitted as a separate token.
+_SYMBOL_POS1 = {'補助記号', '記号'}
+
 _tagger = None
 _tagger_lock = threading.Lock()
 
@@ -129,6 +140,14 @@ def split_chunks(text):
     for w in tagger(text):
         pos1 = w.feature[0]
         pos2 = w.feature[1] if len(w.feature) > 1 else '*'
+
+        if pos1 in _SYMBOL_POS1:
+            # Meaningless punctuation (、。！？「」・:'"- etc.) - drop it
+            # entirely rather than folding it into a tile. prev_pos1/
+            # prev_pos2/prev_was_prefix are left untouched so the words on
+            # either side of the symbol still see each other correctly for
+            # noun-merging/prefix-attachment purposes.
+            continue
 
         if pos1 == '接頭辞':
             if current:

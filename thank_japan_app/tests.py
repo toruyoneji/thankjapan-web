@@ -1365,9 +1365,27 @@ class TileSplitTests(SimpleTestCase):
         # player who correctly reassembles every tile shown would still
         # be marked wrong, since the spaces are unreachable from any tile.
         result = tile_split.build_tiles('けがをしました', '指を 切ったので 絆創膏を 貼りました。')
-        self.assertEqual(result['tiles'], ['指を切ったので', '絆創膏を', '貼りました。'])
+        self.assertEqual(result['tiles'], ['指を切ったので', '絆創膏を', '貼りました'])
         self.assertEqual(result['answer_text'], ''.join(result['tiles']))
         self.assertNotIn(' ', result['answer_text'])
+
+    def test_split_chunks_drops_meaningless_punctuation(self):
+        # 2026-09-05: 読点・句点・感嘆符・括弧・中黒・アポストロフィ等は
+        # タイルとして出さず、正解文字列からも除外する。
+        self.assertEqual(tile_split.split_chunks('犬、猫、鳥が好きです。'), ['犬猫鳥が', '好きです'])
+        self.assertEqual(tile_split.split_chunks('それは「いい」と思います！'), ['それはいいと', '思います'])
+        self.assertEqual(tile_split.split_chunks("それは'ペン'です"), ['それは', 'ペンです'])
+        # the katakana long-vowel mark (ー) must never be treated as a
+        # symbol to strip - it's part of the word's own token, not a
+        # separate punctuation token.
+        self.assertEqual(tile_split.split_chunks('エレキギターを弾きます'), ['エレキギターを', '弾きます'])
+
+    def test_build_tiles_answer_text_excludes_punctuation(self):
+        html = '<ruby>犬<rt>いぬ</rt></ruby>、<ruby>猫<rt>ねこ</rt></ruby>が<ruby>好<rt>す</rt></ruby>きです。'
+        result = tile_split.build_tiles('いぬとねこ', example_sentence_ja=html)
+        self.assertNotIn('、', result['answer_text'])
+        self.assertNotIn('。', result['answer_text'])
+        self.assertEqual(result['answer_text'], ''.join(result['tiles']))
 
 
 class ComboBonusTests(SimpleTestCase):
