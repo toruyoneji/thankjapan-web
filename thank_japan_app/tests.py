@@ -1044,6 +1044,38 @@ class GameResultReviewPromptTests(TestCase):
                 self.assertContains(response, 'reviewPromptOverlay')
 
 
+class GameResultTimeLimitLabelTests(TestCase):
+    """2026-09-05: the result screen always said '60s Challenge' even for
+    untimed modes (mode=single practice, and the new first_taste trial) -
+    that's just wrong for a game that never had a clock running. The label
+    must reflect whether the just-played game actually had a time limit."""
+
+    def _play_one_question(self, difficulty):
+        session = self.client.session
+        session['game_history'] = [{
+            'index': 0, 'is_correct': True, 'points': 1, 'question_id': 999999,
+            'question_model': 'free', 'combo': 1, 'combo_bonus': 0,
+        }]
+        session['game_difficulty'] = difficulty
+        session.save()
+        return self.client.get(reverse('game_result'))
+
+    def test_timeattack_shows_60_second_challenge_label(self):
+        response = self._play_one_question('timeattack')
+        self.assertContains(response, '60s Challenge')
+        self.assertNotContains(response, 'No Time Limit')
+
+    def test_single_practice_shows_no_time_limit_label(self):
+        response = self._play_one_question('single')
+        self.assertContains(response, 'No Time Limit')
+        self.assertNotContains(response, '60s Challenge')
+
+    def test_first_taste_shows_no_time_limit_label(self):
+        response = self._play_one_question('first_taste')
+        self.assertContains(response, 'No Time Limit')
+        self.assertNotContains(response, '60s Challenge')
+
+
 @override_settings(SECURE_SSL_REDIRECT=False)
 class WordDetailPageTests(TestCase):
     """Regression: CategoryDetailView/ImgPremiumDetailView.get_context_data
@@ -1587,6 +1619,73 @@ class DailyQuestionTileGameTests(TestCase):
 
         second_get = self.client.get(reverse('daily_question'))
         self.assertEqual(second_get.context['daily_state'], 'already_answered')
+
+
+class DailyQuestionShareAfterTileConversionTests(TestCase):
+    """2026-09-05: verifies the X/Twitter share flow on the daily question
+    result screen still works correctly now that correctness is judged from
+    tile order instead of a chosen choice_id - share_text/hashtags/og:image
+    are all derived from `word` and `is_correct`, neither of which changed
+    shape, but this pins that down explicitly rather than relying on it."""
+
+    def setUp(self):
+        self.today = timezone.localdate()
+        self.word = ThankJapanModel.objects.create(
+            name='test-daily-share', englishname='Guitar', jpname='ぎたー',
+            kanji_name='ギター', katakana_name='ギター', category='appliances',
+            slug='daily-share-word', description='d', history='h',
+        )
+        DailyQuestion.objects.create(date=self.today, word=self.word)
+
+    def _answer(self, correct):
+        # tiles_json is shuffled display order, not the solved order - sort
+        # by position in the word's own reading to get the actual answer.
+        tiles = json.loads(self.client.get(reverse('daily_question')).context['tiles_json'])
+        correct_order = sorted(tiles, key=lambda t: self.word.jpname.index(t))
+        submitted = correct_order if correct else list(reversed(correct_order))
+        return self.client.post(reverse('daily_question'), {'answer_tiles': json.dumps(submitted)})
+
+    def test_correct_answer_share_text_mentions_word_and_success(self):
+        # test client defaults to lang=en (see DailyQuestionOgpCacheBustTests)
+        response = self._answer(correct=True)
+        body = response.content.decode()
+        self.assertTrue(response.context['is_correct'])
+        expected_text = 'Got today\'s ThankJapan Daily Question "ぎたー (test-daily-share)" right!'
+        self.assertIn(urlquote(expected_text, safe=''), body)
+
+    def test_incorrect_answer_share_text_mentions_word_and_failure(self):
+        response = self._answer(correct=False)
+        body = response.content.decode()
+        self.assertFalse(response.context['is_correct'])
+        expected_text = 'Missed today\'s ThankJapan Daily Question "ぎたー (test-daily-share)"'
+        self.assertIn(urlquote(expected_text, safe=''), body)
+
+    def test_share_hashtags_include_word_specific_tag(self):
+        response = self._answer(correct=True)
+        body = response.content.decode()
+        # _daily_question_hashtags appends the word's englishname (spaces
+        # stripped) as a dynamic hashtag on top of the fixed daily-question
+        # tags - confirms that per-word dynamic portion still comes through.
+        self.assertIn(urlquote('ThankJapan,LearnJapanese,Guitar', safe=''), body)
+
+    def test_share_intent_url_and_og_image_are_well_formed(self):
+        response = self._answer(correct=True)
+        body = response.content.decode()
+
+        self.assertIn('https://x.com/intent/tweet?text=', body)
+        self.assertIn('&url=', body)
+        self.assertIn('&hashtags=', body)
+        self.assertIn('handleShareClick(event, this.href,', body)
+
+        # No image uploaded in this fixture, so OGP must fall back to the
+        # shared default rather than break/omit the tag entirely.
+        self.assertIn('<meta property="og:image" content="https://res.cloudinary.com', body)
+
+    def test_share_url_matches_todays_dated_daily_url(self):
+        response = self._answer(correct=True)
+        body = response.content.decode()
+        expected_share_url = f"https://www.thankjapan.com/daily/?lang=en&date={self.today.isoformat()}"
+        self.assertIn(f'url={urlquote(expected_share_url, safe="/")}', body)
 
 
 class FirstTasteTileGameTests(TestCase):

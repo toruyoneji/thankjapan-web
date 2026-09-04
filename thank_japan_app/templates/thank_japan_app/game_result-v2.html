@@ -675,7 +675,11 @@ tbody td { padding: 8px; border: none; font-size: 0.82rem; color: var(--ink); }
         {% endif %}
         <div style="margin: 15px 0; border-top: 1px solid #eee; padding-top: 15px;">
             <p style="font-size: 1.1rem; color: #666; margin-bottom: 5px; font-weight: bold;">
+                {% if difficulty == 'single' or difficulty == 'first_taste' %}
+                📝 {% if lang_code == 'ja' %}時間制限なし{% elif lang_code == 'zh-hant' %}無時間限制{% elif lang_code == 'zh-cn' %}无时间限制{% elif lang_code == 'ko' %}시간 제한 없음{% elif lang_code == 'de' %}Ohne Zeitlimit{% elif lang_code == 'fr' %}Sans limite de temps{% elif lang_code == 'it' %}Senza limite di tempo{% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Sin límite de tiempo{% elif lang_code == 'pt' or lang_code == 'pt-br' %}Sem limite de tempo{% elif lang_code == 'vi' %}Không giới hạn thời gian{% elif lang_code == 'th' %}ไม่จำกัดเวลา{% else %}No Time Limit{% endif %}
+                {% else %}
                 ⏱ {% if lang_code == 'ja' %}60秒チャレンジ{% elif lang_code == 'zh-hant' %}60秒挑戰{% elif lang_code == 'zh-cn' %}60秒挑战{% elif lang_code == 'ko' %}60초 챌린지{% elif lang_code == 'de' %}60-Sekunden-Challenge{% elif lang_code == 'fr' %}Défi 60 secondes{% elif lang_code == 'it' %}Sfida di 60 secondi{% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Desafío de 60 segundos{% elif lang_code == 'pt' or lang_code == 'pt-br' %}Desafio de 60 segundos{% elif lang_code == 'vi' %}Thử thách 60 giây{% elif lang_code == 'th' %}ท้าทาย 60 วินาที{% else %}60s Challenge{% endif %}
+                {% endif %}
             </p>
 
             <p style="font-size: 2.2rem; font-weight: bold; color: #333; margin: 0;">
