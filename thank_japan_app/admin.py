@@ -46,8 +46,14 @@ class ThankJapanBackgroundAdmin(admin.ModelAdmin):
             
 class PlayerAdmin(admin.ModelAdmin):
     list_display = ('username', 'country', 'last_score')
-    
-    
+
+
+class ProfileAdmin(admin.ModelAdmin):
+    list_display = ('user', 'is_premium', 'premium_expires_at')
+    list_filter = ('is_premium',)
+    search_fields = ('user__username', 'user__email')
+
+
 
 
 @admin.register(FCMDevice)
@@ -79,4 +85,4 @@ admin.site.register(ThankJapanModel, ThankJapanAdmin)
 admin.site.register(ThankJapanPremium, ThankJapanPremiumAdmin)
 admin.site.register(ThankJapanBackgroundModel, ThankJapanBackgroundAdmin)
 admin.site.register(Player, PlayerAdmin)
-admin.site.register(Profile)
+admin.site.register(Profile, ProfileAdmin)
