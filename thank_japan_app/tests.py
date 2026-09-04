@@ -9,7 +9,7 @@ from django.test import RequestFactory, SimpleTestCase, TestCase, override_setti
 from django.urls import reverse
 from django.utils import timezone
 
-from . import context_processors
+from . import context_processors, tile_split
 from .models import DailyQuestion, Profile, ThankJapanModel, ThankJapanPremium
 from .pricing import (
     get_premium_price, get_top_page_seo_override,
@@ -1285,3 +1285,73 @@ class DailyQuestionOgpCacheBustTests(TestCase):
 
         self.assertIn(f'date={tomorrow.isoformat()}', response.content.decode())
         self.assertNotIn(f'date={self.today.isoformat()}', response.content.decode())
+
+
+class TileSplitTests(SimpleTestCase):
+    """Mora/chunk splitting for the tile-rearrangement game renewal.
+    See memory/project_game_renewal_feasibility_2026_09_04.md for why
+    chunk-split reads example_sentence_ja instead of the bare reading."""
+
+    def test_split_mora_handles_youon_sokuon_chouon(self):
+        self.assertEqual(tile_split.split_mora('とまと'), ['と', 'ま', 'と'])
+        self.assertEqual(tile_split.split_mora('ぎょうれつ'), ['ぎょ', 'う', 'れ', 'つ'])
+        self.assertEqual(tile_split.split_mora('けっこん'), ['け', 'っ', 'こ', 'ん'])
+        self.assertEqual(tile_split.split_mora('こんばん'), ['こ', 'ん', 'ば', 'ん'])
+        self.assertEqual(tile_split.split_mora('あぱーと'), ['あ', 'ぱ', 'ー', 'と'])
+        self.assertEqual(tile_split.split_mora('しゃしん'), ['しゃ', 'し', 'ん'])
+
+    def test_split_mora_rejects_non_kana(self):
+        self.assertIsNone(tile_split.split_mora('走る'))
+        self.assertIsNone(tile_split.split_mora('RC'))
+        self.assertIsNone(tile_split.split_mora('えーてぃーえむ RC'))
+        self.assertIsNone(tile_split.split_mora(''))
+        self.assertIsNone(tile_split.split_mora(None))
+
+    def test_classify_route_boundary_is_five_mora(self):
+        five = tile_split.classify_route('あいすくり')  # 5 mora
+        self.assertEqual(five['route'], 'mora')
+        self.assertEqual(five['mora_count'], 5)
+
+        six = tile_split.classify_route('がそりんすたんど')  # 8 mora
+        self.assertEqual(six['route'], 'chunk')
+
+    def test_classify_route_alphabet_forces_chunk_even_if_short(self):
+        result = tile_split.classify_route('RC')
+        self.assertEqual(result['route'], 'chunk')
+        self.assertTrue(result['has_alpha'])
+
+    def test_strip_ruby_tags_keeps_kanji_drops_furigana(self):
+        html = '<ruby>建設現場<rt>けんせつげんば</rt></ruby>で<ruby>働<rt>はたら</rt></ruby>きます'
+        self.assertEqual(tile_split.strip_ruby_tags(html), '建設現場で働きます')
+
+    def test_strip_ruby_tags_passthrough_for_plain_text(self):
+        self.assertEqual(tile_split.strip_ruby_tags('こんにちは'), 'こんにちは')
+        self.assertIsNone(tile_split.strip_ruby_tags(None))
+
+    def test_split_chunks_matches_hand_picked_examples(self):
+        self.assertEqual(
+            tile_split.split_chunks('駐輪場のルールを教えてください'),
+            ['駐輪場の', 'ルールを', '教えてください'],
+        )
+        self.assertEqual(tile_split.split_chunks('木造とRC'), ['木造と', 'RC'])
+
+    def test_split_chunks_merges_compound_nouns_and_prefixes(self):
+        self.assertEqual(tile_split.split_chunks('緊急連絡先はここです'), ['緊急連絡先は', 'ここです'])
+        self.assertEqual(tile_split.split_chunks('ご協力ありがとうございます'), ['ご協力', 'ありがとうございます'])
+
+    def test_split_chunks_empty_input(self):
+        self.assertEqual(tile_split.split_chunks(''), [])
+        self.assertEqual(tile_split.split_chunks(None), [])
+
+    def test_build_tiles_mora_route_uses_jpname(self):
+        result = tile_split.build_tiles('とまと', example_sentence_ja='<ruby>使わない</ruby>')
+        self.assertEqual(result['route'], 'mora')
+        self.assertEqual(result['tiles'], ['と', 'ま', 'と'])
+        self.assertEqual(result['answer_text'], 'とまと')
+
+    def test_build_tiles_chunk_route_uses_example_sentence_ja(self):
+        html = '<ruby>建設現場<rt>けんせつげんば</rt></ruby>で<ruby>働<rt>はたら</rt></ruby>きます'
+        result = tile_split.build_tiles('けんせつげんば', example_sentence_ja=html)
+        self.assertEqual(result['route'], 'chunk')
+        self.assertEqual(result['answer_text'], '建設現場で働きます')
+        self.assertEqual(result['tiles'], ['建設現場で', '働きます'])

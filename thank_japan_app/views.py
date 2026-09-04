@@ -8,7 +8,8 @@ from django.core.mail import send_mail
 from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
 from django.conf import settings
-from .forms import AnswerForm, ContactForm, UsernameForm
+from .forms import ContactForm, UsernameForm
+from .tile_split import build_tiles, classify_route
 from django.views.decorators.http import require_POST
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
@@ -1705,6 +1706,82 @@ DIFFICULTY_SETTINGS = {
     'n4_premium': {'jlpt_level': 'N4', 'num_questions': 50, 'model_type': 'premium', 'dummy_count': 3},
     'n3_premium': {'jlpt_level': 'N3', 'num_questions': 50, 'model_type': 'premium', 'dummy_count': 3},
 }
+# DIFFICULTY_SETTINGS above is a holdover from the retired multiple-choice
+# difficulty picker. Only the 'easy'/'normal'/'hard' category+length filters
+# are still read (by _build_tile_game_questions below), to keep the tile
+# game's EASY/NORMAL/HARD word pools consistent with what those labels used
+# to mean. The picker UI itself (game_start-v2.html) no longer links to any
+# of these tiers.
+
+TILE_GAME_POOL_SIZE = 50  # generous upper bound; the 30s timer always ends the game long before this runs out
+
+
+def _sample_ids(model, category_filter=None, length_regex=None, exclude_ids=(), count=1):
+    """Random id sample from `model`, honoring the same category/length
+    filters the old difficulty tiers used."""
+    qs = model.objects.all()
+    if category_filter:
+        qs = qs.filter(category__in=category_filter)
+    if length_regex:
+        qs = qs.filter(name__iregex=length_regex)
+    if exclude_ids:
+        qs = qs.exclude(id__in=exclude_ids)
+    ids = list(qs.values_list('id', flat=True))
+    random.shuffle(ids)
+    return ids[:count]
+
+
+def _sample_long_word_ids(exclude_ids=(), count=1):
+    """Free-tier 'long word' pool (chunk-split route: >5 mora or contains
+    alphabet) used from Q5 onward for players without premium access."""
+    qs = ThankJapanModel.objects.exclude(id__in=exclude_ids).values_list('id', 'jpname')
+    long_ids = [pk for pk, jpname in qs if classify_route(jpname)['route'] == 'chunk']
+    random.shuffle(long_ids)
+    return long_ids[:count]
+
+
+def _build_tile_game_questions(is_premium):
+    """Ordered question list for the tile-rearrangement time attack:
+    Q1-2 EASY, Q3-4 NORMAL/HARD, Q5+ PREMIUM (subscribers) or long free
+    words (everyone else). Returns [{'id', 'model': 'free'|'premium'}, ...]
+    - a game can mix both models, unlike the old single-model-per-game
+    multiple-choice flow."""
+    easy, normal, hard = DIFFICULTY_SETTINGS['easy'], DIFFICULTY_SETTINGS['normal'], DIFFICULTY_SETTINGS['hard']
+
+    free_ids = _sample_ids(ThankJapanModel, easy['category_filter'], easy['length_regex'], count=2)
+    free_ids += _sample_ids(ThankJapanModel, normal['category_filter'], normal['length_regex'], exclude_ids=free_ids, count=1)
+    free_ids += _sample_ids(ThankJapanModel, hard['category_filter'], hard['length_regex'], exclude_ids=free_ids, count=1)
+
+    questions = [{'id': pk, 'model': 'free'} for pk in free_ids]
+
+    remaining = TILE_GAME_POOL_SIZE - len(questions)
+    if is_premium:
+        premium_ids = list(ThankJapanPremium.objects.values_list('id', flat=True))
+        random.shuffle(premium_ids)
+        questions += [{'id': pk, 'model': 'premium'} for pk in premium_ids[:remaining]]
+    else:
+        long_ids = _sample_long_word_ids(exclude_ids=free_ids, count=remaining)
+        questions += [{'id': pk, 'model': 'free'} for pk in long_ids]
+
+    return questions
+
+
+def _model_for(question_model_tag):
+    return ThankJapanPremium if question_model_tag == 'premium' else ThankJapanModel
+
+
+def _tiles_for_question(question_obj):
+    """Shuffled display tiles + the correct answer text for one question
+    (works for both ThankJapanModel and ThankJapanPremium - both have
+    jpname/example_sentence_ja)."""
+    built = build_tiles(question_obj.jpname, question_obj.example_sentence_ja)
+    shuffled = built['tiles'][:]
+    random.shuffle(shuffled)
+    # A shuffle landing back on the solved order isn't a bug, but for 3+
+    # tiles it's rare and a bit anticlimactic - reshuffle once if it happens.
+    if len(shuffled) > 2 and shuffled == built['tiles']:
+        random.shuffle(shuffled)
+    return {'route': built['route'], 'tiles': shuffled, 'answer_text': built['answer_text']}
 
 def get_current_player_info(request):
     if request.user.is_authenticated:
@@ -1737,157 +1814,124 @@ def game_start(request):
 
 
 def game_play(request):
+    """Renders the game shell once per game (countdown + tile-board markup).
+    Question data itself is fetched via game_question_data right after the
+    3-2-1 countdown finishes - see game_play-v2.html."""
     player, is_guest = get_current_player_info(request)
     premium_url_name, lang_code = get_lang_info(request)
-    ids = request.session.get('game_question_ids', [])
+    questions = request.session.get('game_question_ids', [])
     index = request.session.get('game_current_index', 0)
-    is_premium_mode = request.session.get('is_premium_mode', False)
 
-    if not ids or index >= len(ids):
+    if not questions or index >= len(questions):
         return redirect('game_start')
 
-    current_time = time.time()
-    
-    frozen = request.session.get('frozen_seconds_left')
-    if frozen is not None:
-        game_end_time = current_time + int(frozen)
-        request.session['game_end_time'] = game_end_time
-        del request.session['frozen_seconds_left']
-    else:
-        game_end_time = request.session.get('game_end_time')
-        if not game_end_time:
-            time_limit = 31
-            game_end_time = current_time + time_limit
-            request.session['game_end_time'] = game_end_time
-
-    seconds_left = int(game_end_time - current_time)
-    difficulty = request.session.get('game_difficulty', 'normal')
-
-    if difficulty != 'single' and seconds_left <= 0:
-        return redirect('game_result')
-
-    settings = DIFFICULTY_SETTINGS.get(difficulty, {})
-    is_kanji_mode = settings.get('is_kanji_mode', False)
-
-    model = ThankJapanPremium if is_premium_mode else ThankJapanModel
-    question = get_object_or_404(model, id=ids[index])
-
-    choice_index = request.session.get('choice_index_check')
-    if choice_index == index and request.session.get('current_choices'):
-        choice_ids = request.session.get('current_choices')
-        choices = [get_object_or_404(model, id=cid) for cid in choice_ids]
-    else:
-        KARUTA_DUMMY_COUNT = settings.get('dummy_count', 1)
-        dummy_pool = model.objects.filter(category=question.category).exclude(id=question.id).exclude(jpname=question.jpname)
-        if is_kanji_mode:
-            dummy_pool = dummy_pool.filter(kanji_name__regex=r'[一-龠]')
-        if dummy_pool.count() < KARUTA_DUMMY_COUNT:
-            dummy_pool = model.objects.exclude(id=question.id).exclude(jpname=question.jpname)
-            if is_kanji_mode:
-                dummy_pool = dummy_pool.filter(kanji_name__regex=r'[一-龠]')
-        
-        num_to_sample = min(dummy_pool.count(), KARUTA_DUMMY_COUNT)
-        dummies = random.sample(list(dummy_pool), num_to_sample)
-        choice_objects = [question] + dummies
-        random.shuffle(choice_objects)
-        choices = choice_objects
-        request.session['current_choices'] = [c.id for c in choice_objects]
-        request.session['choice_index_check'] = index
-
-    db_answer = extract_base_name(question.name).lower()
+    difficulty = request.session.get('game_difficulty', 'timeattack')
     fire_game_start_event = request.session.pop('ga_fire_game_start', False)
+
     return render(request, 'thank_japan_app/game_play-v2.html', {
-        'object': question,
-        'choices': choices,
-        'seconds_left': seconds_left,
-        'show_result': False,
-        'form': AnswerForm(),
-        'current_index': index + 1,
-        'total_questions': len(ids),
-        'score': request.session.get('game_score', 0),
         'player': player,
         'is_guest': is_guest,
-        'hint_length': len(db_answer),
-        'difficulty': difficulty,
-        'is_premium_mode': is_premium_mode,
-        'is_kanji_mode': is_kanji_mode,
         'lang_code': lang_code,
+        'difficulty': difficulty,
+        'skip_countdown': difficulty == 'single',
+        'has_timer': difficulty != 'single',
+        'score': request.session.get('game_score', 0),
         'bgm_url': get_bgm_url('game'),
         'bgm_page_type': 'game',
         'fire_game_start_event': fire_game_start_event,
     })
-         
 
-def game_answer(request, pk):
-    if request.method != 'POST':
-        return redirect('game_play')
 
+def game_question_data(request):
+    """AJAX: current question's shuffled tiles. Also the one place that
+    starts the 30s clock - game_end_time is set the first time this is
+    called for a game, i.e. right after the 3-2-1 countdown finishes on the
+    client, so the countdown doesn't eat into the 30s."""
+    questions = request.session.get('game_question_ids', [])
+    index = request.session.get('game_current_index', 0)
+    difficulty = request.session.get('game_difficulty', 'timeattack')
+
+    if not questions or index >= len(questions):
+        return JsonResponse({'game_over': True, 'reason': 'no_more_questions'})
+
+    seconds_left = None
+    if difficulty != 'single':
+        current_time = time.time()
+        game_end_time = request.session.get('game_end_time')
+        if not game_end_time:
+            game_end_time = current_time + 30
+            request.session['game_end_time'] = game_end_time
+        seconds_left = int(game_end_time - current_time)
+        if seconds_left <= 0:
+            return JsonResponse({'game_over': True, 'reason': 'time_up'})
+
+    q = questions[index]
+    model = _model_for(q['model'])
+    question = get_object_or_404(model, id=q['id'])
+    tile_data = _tiles_for_question(question)
+
+    return JsonResponse({
+        'game_over': False,
+        'index': index + 1,
+        'question_id': question.id,
+        'question_model': q['model'],
+        'route': tile_data['route'],
+        'tiles': tile_data['tiles'],
+        'seconds_left': seconds_left,
+        'score': request.session.get('game_score', 0),
+        'combo': request.session.get('game_combo', 0),
+        'image_url': question.image.url if question.image else '',
+        'caption': question.englishname,
+    })
+
+
+@require_POST
+def game_submit_answer(request):
+    """AJAX: submit the player's tile order for the current question,
+    score it, append to game_history, and advance game_current_index. The
+    correct order is always recomputed server-side from the DB - the
+    client's tile order is never trusted for scoring."""
+    questions = request.session.get('game_question_ids', [])
     index = request.session.get('game_current_index', 0)
 
-    player, is_guest = get_current_player_info(request)
-    is_premium_mode = request.session.get('is_premium_mode', False)
-    premium_url_name, lang_code = get_lang_info(request)
+    if not questions or index >= len(questions):
+        return JsonResponse({'game_over': True, 'reason': 'no_more_questions'})
 
-    model = ThankJapanPremium if is_premium_mode else ThankJapanModel
-    question = get_object_or_404(model, id=pk)
-
-    difficulty = request.session.get('game_difficulty', 'normal')
-    settings = DIFFICULTY_SETTINGS.get(difficulty, {})
-    is_kanji_mode = settings.get('is_kanji_mode', False)
-
-    ids = request.session.get('game_question_ids', [])
-    is_last_question = (index + 1) >= len(ids)
-    choice_ids = request.session.get('current_choices', [])
-    choices = [get_object_or_404(model, id=cid) for cid in choice_ids]
-    current_time = time.time()
-    game_end_time = request.session.get('game_end_time', current_time)
-    seconds_left = int(game_end_time - current_time)
-
-    
     if request.session.get('last_answered_index') == index:
         history = request.session.get('game_history', [])
-        last_entry = history[-1] if history else {}
-        return render(request, 'thank_japan_app/game_play-v2.html', {
-            'object': question,
-            'choices': choices,
-            'user_input': last_entry.get('user_input', ''),
-            'is_correct': last_entry.get('is_correct', False),
-            'combo': last_entry.get('combo', 0),
-            'show_result': True,
-            'is_last_question': is_last_question,
-            'current_index': index + 1,
-            'total_questions': len(ids),
-            'score': request.session.get('game_score', 0),
-            'player': player,
-            'is_guest': is_guest,
-            'seconds_left': seconds_left,
-            'difficulty': difficulty,
-            'is_premium_mode': is_premium_mode,
-            'is_kanji_mode': is_kanji_mode,
-            'lang_code': lang_code,
-            'bgm_url': get_bgm_url('game'),
-            'bgm_page_type': 'game',
-        })
-    request.session['last_answered_index'] = index
-    
+        last_entry = next((h for h in history if h['index'] == index), None)
+        if last_entry:
+            return JsonResponse({
+                'game_over': False,
+                'is_correct': last_entry['is_correct'],
+                'points': last_entry['points'],
+                'combo': last_entry['combo'],
+                'correct_answer': last_entry['correct_answer'],
+                'score': request.session.get('game_score', 0),
+            })
 
-    user_input = request.POST.get('answer')
+    try:
+        body = json.loads(request.body.decode('utf-8'))
+    except (ValueError, UnicodeDecodeError):
+        return JsonResponse({'error': 'bad_request'}, status=400)
 
-    client_seconds_left = request.POST.get('seconds_left')
-    if client_seconds_left:
-        request.session['frozen_seconds_left'] = int(client_seconds_left)
+    submitted_tiles = body.get('tiles', [])
+    q = questions[index]
+    model = _model_for(q['model'])
+    question = get_object_or_404(model, id=q['id'])
+    tile_data = _tiles_for_question(question)
 
-    correct_flag = (str(user_input) == str(question.id))
+    submitted_text = ''.join(str(t) for t in submitted_tiles)
+    correct_flag = submitted_text == tile_data['answer_text']
+    is_premium_question = q['model'] == 'premium'
 
-    points = 0
-    combo = 0
-    combo_bonus = 0
+    points = combo = combo_bonus = 0
     if correct_flag:
-        # Base point for a correct answer: 1 for free-category questions, 2 for
-        # premium-category questions. On top of that, a combo bonus grows with
-        # the current streak of consecutive correct answers (reset on a miss):
+        # Base point for a correct answer: 1 for free questions, 2 for
+        # premium questions. On top, a combo bonus grows with the current
+        # streak of consecutive correct answers (reset on a miss):
         # 3-4 in a row: +1 / 5-6: +2 / 7+: +3.
-        base_points = 2 if is_premium_mode else 1
+        base_points = 2 if is_premium_question else 1
         combo = request.session.get('game_combo', 0) + 1
         request.session['game_combo'] = combo
         request.session['game_max_combo'] = max(request.session.get('game_max_combo', 0), combo)
@@ -1905,125 +1949,88 @@ def game_answer(request, pk):
     history = request.session.get('game_history', [])
     history.append({
         'question_id': question.id,
+        'question_model': q['model'],
         'index': index,
         'is_correct': correct_flag,
-        'user_input': question.name if correct_flag else "Wrong",
-        'correct_answer': question.name,
+        'user_input': tile_data['answer_text'] if correct_flag else submitted_text,
+        'correct_answer': tile_data['answer_text'],
         'combo': combo,
         'combo_bonus': combo_bonus,
         'points': points,
     })
     request.session['game_history'] = history
+    request.session['last_answered_index'] = index
+    request.session['game_current_index'] = index + 1
 
-    return render(request, 'thank_japan_app/game_play-v2.html', {
-        'object': question,
-        'choices': choices,
-        'user_input': user_input,
+    return JsonResponse({
+        'game_over': False,
         'is_correct': correct_flag,
+        'points': points,
         'combo': combo,
-        'show_result': True,
-        'is_last_question': is_last_question,
-        'current_index': index + 1,
-        'total_questions': len(ids),
+        'correct_answer': tile_data['answer_text'],
         'score': request.session.get('game_score', 0),
-        'player': player,
-        'is_guest': is_guest,
-        'seconds_left': seconds_left,
-        'difficulty': difficulty,
-        'is_premium_mode': is_premium_mode,
-        'is_kanji_mode': is_kanji_mode,  
-        'lang_code': lang_code,
-        'bgm_url': get_bgm_url('game'),
-        'bgm_page_type': 'game',
-    })    
-                
-def game_next_question(request):
-    _, lang_code = get_lang_info(request)
-    request.session['game_current_index'] = request.session.get('game_current_index', 0) + 1
-    if request.session['game_current_index'] >= len(request.session.get('game_question_ids', [])):
-        return redirect(f"{reverse('game_result')}?lang={lang_code}")
-    return redirect(f"{reverse('game_play')}?lang={lang_code}")
+    })
 
 
 
 def game_restart(request):
-    difficulty = request.GET.get('difficulty', 'normal')
+    """Starts a new game. Two shapes:
+    - mode=single: practice one specific word (from a word-detail page deep
+      link) - untimed, no countdown.
+    - anything else: the tile-rearrangement time attack, auto-progressing
+      EASY -> NORMAL/HARD -> PREMIUM/long-words (see
+      _build_tile_game_questions). There's no difficulty picker anymore;
+      the old ?difficulty= tiers (kanji1/kanji2/super_hard/N5-N4-N3 etc.)
+      are retired along with the multiple-choice UI they were built for.
+    """
     mode = request.GET.get('mode')
     player, is_guest = get_current_player_info(request)
-    
+
     is_premium = request.user.is_authenticated and getattr(request.user.profile, 'has_premium_access', False)
 
     if mode == 'single':
         model_type = request.GET.get('model_type')
-        val = request.GET.get('slug') 
-        
+        val = request.GET.get('slug')
+
         if model_type == 'premium':
             question = get_object_or_404(ThankJapanPremium, slug=val)
-             
+
             if question.category not in ["DailyConversation", "slang", "TourismEtiquette", "Entertainment"]:
                 if not is_premium:
                     free_sample_ids = ThankJapanPremium.objects.filter(
                         category=question.category
                     ).order_by('-timestamp').values_list('id', flat=True)[:5]
-                    
+
                     if question.id not in free_sample_ids:
                         url_name, _ = get_lang_info(request)
                         return redirect(url_name)
-        
-            is_premium_mode = True
+
+            questions = [{'id': question.id, 'model': 'premium'}]
         else:
             try:
                 question = ThankJapanModel.objects.get(slug=val)
             except ThankJapanModel.DoesNotExist:
                 question = get_object_or_404(ThankJapanModel, name=val)
-            is_premium_mode = False
-            
-        selected_question_ids = [question.id]
-        difficulty = 'single'
+            questions = [{'id': question.id, 'model': 'free'}]
+
+        game_difficulty = 'single'
     else:
-        
-
-        current_settings = DIFFICULTY_SETTINGS.get(difficulty, DIFFICULTY_SETTINGS['normal'])
-        is_premium_mode = current_settings.get('model_type') == 'premium'
-        model = ThankJapanPremium if is_premium_mode else ThankJapanModel
-        qs = model.objects.all()
-
-        if current_settings.get('category_filter'): 
-            qs = qs.filter(category__in=current_settings['category_filter'])
-
-        if current_settings.get('jlpt_level'):
-            jlpt_val = current_settings['jlpt_level']
-            if isinstance(jlpt_val, list):
-                qs = qs.filter(jlpt_level__in=jlpt_val)
-            else:
-                qs = qs.filter(jlpt_level=jlpt_val)
-
-        if current_settings.get('is_kanji_mode'):
-            qs = qs.filter(kanji_name__isnull=False).exclude(kanji_name="")
-            qs = qs.filter(kanji_name__regex=r'[一-龠]')
-            if current_settings.get('length_regex'):
-                qs = qs.filter(kanji_name__iregex=current_settings['length_regex'])
-        else:
-            if current_settings.get('length_regex'):
-                qs = qs.filter(name__iregex=current_settings['length_regex'])
-        
-        ids = list(qs.values_list('id', flat=True))
-        random.shuffle(ids)
-        selected_question_ids = ids[:current_settings['num_questions']]
+        questions = _build_tile_game_questions(is_premium)
+        game_difficulty = 'timeattack'
 
     keys_to_clear = [
         'game_question_ids', 'game_current_index', 'game_score', 'game_difficulty',
-        'game_history', 'score_saved', 'is_premium_mode',
-        'game_end_time', 'current_choices', 'choice_index_check','last_answered_index',
+        'game_history', 'score_saved', 'achievements_checked',
+        'game_end_time', 'last_answered_index',
         'game_combo', 'game_max_combo',
     ]
-    for key in keys_to_clear: request.session.pop(key, None)
+    for key in keys_to_clear:
+        request.session.pop(key, None)
 
-    request.session['game_question_ids'] = selected_question_ids
+    request.session['game_question_ids'] = questions
     request.session['game_current_index'] = 0
     request.session['game_score'] = 0
-    request.session['game_difficulty'] = difficulty
-    request.session['is_premium_mode'] = is_premium_mode
+    request.session['game_difficulty'] = game_difficulty
     request.session['game_history'] = []
     # Consumed once by game_play to fire the GA4 'game_start' event, so it fires
     # exactly once per new game rather than on every question fetch.
@@ -2032,11 +2039,12 @@ def game_restart(request):
     _, lang_code = get_lang_info(request)
     response = redirect(f"{reverse('game_play')}?lang={lang_code}")
 
-    # First-visit taste flow (3 questions, no ranking/registration nudges).
-    # Mark the visitor as a returning player as soon as they click the
-    # "try 3 questions" button, so leaving mid-flow still shows the normal
-    # play button on their next visit (see TopView.get_context_data).
-    if difficulty == 'first_taste':
+    # First-visit taste flow from the top page: no longer a distinct
+    # difficulty tier (it now plays the same time attack as everyone else),
+    # but still marks the visitor as a returning player as soon as they
+    # click "try it", so leaving mid-flow still shows the normal play
+    # button on their next visit (see TopView.get_context_data).
+    if request.GET.get('difficulty') == 'first_taste':
         response.set_cookie(
             'tj_has_played', '1',
             max_age=34560000,  # ~400 days: the practical cap most browsers honor
@@ -2310,26 +2318,10 @@ def game_result(request):
     total_played = len(history)
     correct_count = sum(1 for h in history if h.get('is_correct'))
 
-    # First-visit taste flow (3 questions, no ranking/registration nudges).
-    # tj_has_played is now set as soon as the "try 3 questions" button is
-    # clicked (see game_restart), not here.
-    if request.session.get('game_difficulty') == 'first_taste':
-        player, is_guest = get_current_player_info(request)
-        quick_score = sum(h.get('points', 0) for h in history)
-        quick_max_combo = max((h.get('combo', 0) for h in history), default=0)
-        return render(request, 'thank_japan_app/game_result_quick-v2.html', {
-            'lang_code': lang_code,
-            'correct_count': correct_count,
-            'total_played': total_played,
-            'is_guest': is_guest,
-            'is_twa': is_android_twa(request),
-            'bgm_url': get_bgm_url('result'),
-            'bgm_page_type': 'result',
-            'share_message': build_combo_share_message(lang_code, quick_max_combo, quick_score),
-            'share_url': 'https://www.thankjapan.com',
-        })
-
-    is_premium_mode = request.session.get('is_premium_mode', False)
+    # A game can now mix free and premium questions (Q1-4 are always free,
+    # Q5+ is premium content for subscribers) - this is just "did this game
+    # include any premium content", not a whole-game mode flag like before.
+    is_premium_mode = any(h.get('question_model') == 'premium' for h in history)
     combo_bonus_total = sum(h.get('combo_bonus', 0) for h in history if h.get('is_correct'))
     max_combo = max((h.get('combo', 0) for h in history), default=0)
     score = sum(h.get('points', 0) for h in history)
@@ -2370,10 +2362,18 @@ def game_result(request):
         higher_scores_count = registered_players.filter(total_score__gt=player.total_score).count()
         player_global_rank = higher_scores_count + 1
     
-    model = ThankJapanPremium if is_premium_mode else ThankJapanModel
-    played_ids = [h['question_id'] for h in history]
-    played_questions = model.objects.in_bulk(played_ids)
-    review_data = [{'object': played_questions.get(h['question_id']), 'is_correct': h['is_correct'], 'user_input': h['user_input'], 'correct_answer': h.get('correct_answer')} for h in history if played_questions.get(h['question_id'])]
+    # History can mix free and premium question ids, so look each up in its
+    # own table and key by (model, id) - a free id and a premium id can
+    # collide numerically since they're different tables.
+    free_ids = [h['question_id'] for h in history if h.get('question_model', 'free') != 'premium']
+    premium_ids = [h['question_id'] for h in history if h.get('question_model') == 'premium']
+    played_questions = {('free', pk): obj for pk, obj in ThankJapanModel.objects.in_bulk(free_ids).items()}
+    played_questions.update({('premium', pk): obj for pk, obj in ThankJapanPremium.objects.in_bulk(premium_ids).items()})
+    review_data = [
+        {'object': played_questions.get((h.get('question_model', 'free'), h['question_id'])),
+         'is_correct': h['is_correct'], 'user_input': h['user_input'], 'correct_answer': h.get('correct_answer')}
+        for h in history if played_questions.get((h.get('question_model', 'free'), h['question_id']))
+    ]
 
     ranking = Player.objects.exclude(username__icontains="Guest").order_by('-total_score')[:20]
     current_week = WeeklyScore.get_current_week_start()

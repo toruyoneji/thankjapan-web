@@ -36,19 +36,6 @@
     --gold-dark: #90741C;
     --gold-light: #E3C567;
     --gold-deep: #A5821F;
-    --matcha: #7c9473;
-    --matcha-dark: #5e7458;
-    --azuki: #a5533f;
-    --azuki-dark: #833f2f;
-    --charcoal: #2b2b2b;
-    --locked-bg: #e5ddc7;
-    --locked-border: #d0c5a5;
-    --locked-text: #9a8f74;
-    --card-bg: #1E1E1E;
-    --card-bg-dark: #1A1A1A;
-    --deep-green: #4A5D42;
-    --deep-green-dark: #3B4A35;
-    --red-accent: #B23A2F;
 }
 
 body {
@@ -63,990 +50,148 @@ body {
     margin: 0;
     overflow-y: auto;
 }
-
 body::before, body::after { display: none; }
 
 .container {
-    background: transparent;
-    border: none;
-    box-shadow: none;
-    width: 90%;
-    max-width: 600px;
-    margin-top: 90px;
-    margin-bottom: 50px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.game-start-container {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 16px;
-    padding: 24px;
-    background-color: var(--washi-card);
-    border: 1px solid var(--wood-border);
-    border-radius: 20px;
+    background: transparent; border: none; box-shadow: none;
+    width: 90%; max-width: 480px; margin-top: 90px; margin-bottom: 50px;
+    display: flex; flex-direction: column; align-items: center;
 }
 
 .start-game-title {
-    font-size: 1.3em;
-    font-weight: 700;
-    color: var(--ink);
-    margin-bottom: 4px;
-    letter-spacing: 0.5px;
-    background-color: var(--washi-card);
-    padding: 18px 16px;
-    width: 100%;
-    text-align: center;
-    border-top: 8px solid var(--gold);
-    border-bottom: 8px solid var(--gold);
-    border-radius: 14px;
-    box-sizing: border-box;
-    position: relative;
+    font-size: 1.25em; font-weight: 700; color: var(--ink);
+    margin-bottom: 22px; letter-spacing: 0.5px;
+    text-align: center; line-height: 1.6;
 }
 
-.start-game-title::before { display: none; }
-
-.difficulty-options {
-    width: 100%;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-    margin-top: 4px;
-    background: transparent;
-    padding: 0;
-}
-
-.difficulty-card {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 18px 8px;
+.play-btn {
+    font-family: 'Zen Maru Gothic', 'Zen Antique', sans-serif;
+    font-weight: 900; font-size: 1.7rem; letter-spacing: 0.03em;
+    color: #2a1d13; background: linear-gradient(180deg, var(--gold-light), var(--gold));
+    border: none; border-bottom: 6px solid var(--gold-deep); border-radius: 24px;
+    padding: 20px 60px; display: inline-flex; align-items: center; gap: 12px; cursor: pointer;
     text-decoration: none;
-    color: #fff;
-    min-height: 100px;
-    transition: transform 0.1s ease;
-    background-color: var(--matcha);
-    background-image: none;
-    border: none;
-    border-bottom: 5px solid var(--matcha-dark);
-    border-radius: 18px;
-    position: relative;
-    -webkit-tap-highlight-color: transparent;
-    box-sizing: border-box;
+    box-shadow: 0 0 0 0 rgba(201,162,39,0.55);
+    animation: pulseGlow 2.1s ease-in-out infinite;
+}
+.play-btn .tri {
+    width: 0; height: 0; border-top: 11px solid transparent; border-bottom: 11px solid transparent;
+    border-left: 18px solid #2a1d13;
+}
+.play-btn:active { transform: translateY(3px); border-bottom-width: 3px; }
+@keyframes pulseGlow {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(201,162,39,0.5); transform: translateY(0); }
+    50% { box-shadow: 0 0 0 16px rgba(201,162,39,0); transform: translateY(-3px); }
 }
 
-.difficulty-card:hover,
-.difficulty-card:active,
-.difficulty-card:focus {
-    outline: none;
+.rules-card {
+    margin-top: 34px; width: 100%; box-sizing: border-box;
+    background: var(--washi-card); border: 1px solid var(--wood-border); border-top: 4px solid var(--gold);
+    border-radius: 16px; padding: 18px 16px; text-align: center;
 }
-
-.difficulty-card:active {
-    transition: none !important;
-    transform: translateY(2px);
-    border-bottom-width: 2px;
+.rules-steps { display: flex; align-items: center; justify-content: center; gap: 10px; font-size: 0.95rem; font-weight: 700; margin-bottom: 10px; flex-wrap: wrap; }
+.rules-steps .tile-demo {
+    display: inline-flex; gap: 4px;
 }
-
-.difficulty-card .emoji {
-    font-size: 1.8em;
-    margin-bottom: 4px;
+.rules-steps .tile-demo span {
+    background: var(--gold-light); border-bottom: 3px solid var(--gold-dark); border-radius: 6px;
+    padding: 4px 8px; font-family: 'Zen Antique', serif; font-size: 1rem;
 }
-
-.difficulty-info h3 {
-    margin: 0;
-    font-size: 1.1em;
-    font-weight: 800;
-    text-align: center;
-    color: #fff;
-}
-
-.difficulty-info p {
-    font-size: 0.75em;
-    color: rgba(255,255,255,0.85);
-    margin-top: 2px;
-    text-align: center;
-}
-
-.easy { background-color: var(--card-bg); border-bottom-color: var(--gold-light); }
-.normal { background-color: var(--card-bg); border-bottom-color: var(--gold); }
-.hard { background-color: var(--card-bg); border-bottom-color: var(--gold-deep); }
-
-.easy .difficulty-info h3 { color: var(--gold-light); }
-.easy .difficulty-info p { color: rgba(255,255,255,0.75); }
-.normal .difficulty-info h3 { color: var(--gold); }
-.normal .difficulty-info p { color: rgba(255,255,255,0.75); }
-.hard .difficulty-info h3 { color: var(--gold-deep); }
-.hard .difficulty-info p { color: rgba(255,255,255,0.75); }
-
-.super-hard {
-    background-color: var(--card-bg-dark);
-    border-bottom-color: var(--red-accent);
-}
-.super-hard .difficulty-info h3 { color: var(--gold-light); }
-.super-hard .difficulty-info p { color: rgba(255,255,255,0.75); }
-.super-hard:hover { background-color: var(--card-bg-dark); }
-
-.difficulty-card.locked {
-    background-color: var(--locked-bg);
-    border-bottom-color: var(--locked-border);
-    color: var(--locked-text);
-    cursor: not-allowed;
-    pointer-events: none;
-}
-.difficulty-card.locked .difficulty-info h3 { color: var(--locked-text); }
-.difficulty-card.locked .difficulty-info p { color: var(--locked-text); font-weight: bold; }
-
-/* premium */
-.difficulty-card.sample-card {
-    background: var(--card-bg) !important;
-    border-bottom: 5px solid var(--deep-green) !important;
-    position: relative;
-}
-.sample-card .difficulty-info h3 { color: var(--gold) !important; }
-.sample-card .difficulty-info p { color: rgba(255,255,255,0.75) !important; }
-.sample-card .free-badge { background: var(--deep-green); }
-
-.difficulty-card.premium-gold {
-    background: var(--card-bg) !important;
-    border-bottom: 5px solid var(--gold) !important;
-    position: relative;
-}
-.premium-gold .difficulty-info h3 { color: var(--gold) !important; font-weight: 800; }
-.premium-gold .difficulty-info p { color: rgba(255,255,255,0.75) !important; font-weight: 600; }
-
-.difficulty-card.premium-locked {
-    background: var(--locked-bg) !important;
-    border-bottom: 5px solid var(--locked-border) !important;
-    color: var(--locked-text);
-    position: relative;
-    cursor: pointer;
-}
-.premium-locked .difficulty-info h3 { color: var(--locked-text) !important; }
-.premium-locked .difficulty-info p { color: var(--locked-text) !important; }
-.premium-locked:hover { transform: none !important; }
-
-/* N5 = 金(明るめ)・初心者・旅 */
-.premium-options .difficulty-card:nth-child(2).premium-gold {
-    background: var(--card-bg) !important;
-    border-bottom-color: var(--gold-light) !important;
-}
-.premium-options .difficulty-card:nth-child(2).premium-gold .difficulty-info h3 { color: var(--gold-light) !important; }
-.premium-options .difficulty-card:nth-child(2).premium-locked {
-    background: #d8e4e2 !important;
-    border-bottom-color: #b9c9c6 !important;
-}
-.premium-options .difficulty-card:nth-child(2).premium-locked .difficulty-info h3,
-.premium-options .difficulty-card:nth-child(2).premium-locked .difficulty-info p {
-    color: #6f8582 !important;
-}
-
-/* N4 = 金(基準)・生活者 */
-.premium-options .difficulty-card:nth-child(3).premium-gold {
-    background: var(--card-bg) !important;
-    border-bottom-color: var(--gold) !important;
-}
-.premium-options .difficulty-card:nth-child(3).premium-gold .difficulty-info h3 { color: var(--gold) !important; }
-.premium-options .difficulty-card:nth-child(3).premium-locked {
-    background: #e4d8dd !important;
-    border-bottom-color: #c9b3bc !important;
-}
-.premium-options .difficulty-card:nth-child(3).premium-locked .difficulty-info h3,
-.premium-options .difficulty-card:nth-child(3).premium-locked .difficulty-info p {
-    color: #8a6f78 !important;
-}
-
-/* N3 = 金(暗め)・ビジネス */
-.premium-options .difficulty-card:nth-child(4).premium-gold {
-    background: var(--card-bg) !important;
-    border-bottom-color: var(--gold-deep) !important;
-}
-.premium-options .difficulty-card:nth-child(4).premium-gold .difficulty-info h3 { color: var(--gold-deep) !important; }
-.premium-options .difficulty-card:nth-child(4).premium-locked {
-    background: #dadfe6 !important;
-    border-bottom-color: #b7c0cc !important;
-}
-.premium-options .difficulty-card:nth-child(4).premium-locked .difficulty-info h3,
-.premium-options .difficulty-card:nth-child(4).premium-locked .difficulty-info p {
-    color: #6f7a8a !important;
-}
-
-.lock-overlay {
-    position: absolute;
-    top: 8px;
-    right: 8px;
-    background: rgba(42, 29, 19, 0.6);
-    color: #fff;
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1rem;
-    z-index: 5;
-}
-
-.free-badge {
-    position: absolute;
-    top: 8px;
-    right: 8px;
-    background: var(--matcha);
-    color: white;
-    font-size: 0.6rem;
-    font-weight: bold;
-    padding: 3px 10px;
-    border-radius: 20px;
-    letter-spacing: 0.5px;
-}
+.rules-caption { color: var(--ink-soft); font-size: 0.86em; line-height: 1.7; font-family: 'Noto Sans JP', sans-serif; margin: 0; }
+.rules-caption strong { color: var(--azuki, #a5533f); }
 
 .player-info {
-    width: 100%;
-    margin-top: 8px;
-    color: var(--ink-soft);
-    background: var(--washi-card);
-    border: 1px solid var(--wood-border);
-    padding: 10px;
-    border-radius: 14px;
-    text-align: center;
-    font-size: 0.9em;
-}
-
-.logout-button {
-    background: transparent;
-    color: var(--ink);
-    border: 1px solid var(--wood-border);
-    padding: 8px 30px;
-    border-radius: 999px;
-    font-size: 0.9em;
-    box-shadow: none;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    margin-top: 10px;
-}
-.logout-button:hover {
-    background: var(--ink);
-    color: #fff;
-}
-
-.guest-action-area {
-    margin-top: 20px;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 15px;
-}
-
-.register-btn-main {
-    background-color: var(--azuki);
-    color: #fff;
-    text-decoration: none;
-    padding: 14px 30px;
-    border-radius: 999px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 15px;
-    border-bottom: 4px solid var(--azuki-dark);
-    transition: transform 0.1s ease;
-    width: 80%;
-    max-width: 350px;
-}
-.register-btn-main:active {
-    transform: translateY(2px);
-    border-bottom-width: 2px;
-}
-
-.btn-icon { font-size: 1.6rem; }
-
-.btn-text {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    font-weight: bold;
-    font-size: 1.1rem;
-    line-height: 1.2;
-}
-
-.btn-text small {
-    font-size: 0.75rem;
-    font-weight: normal;
-    opacity: 0.9;
-    margin-top: 3px;
-}
-
-.login-link-sub {
-    font-size: 0.85rem;
-    color: var(--ink-soft);
-}
-.login-link-sub a {
-    color: var(--gold-dark);
-    font-weight: bold;
-    text-decoration: underline;
-}
-
-.visual-rule-container {
-    background: var(--washi-card);
-    border: 1px solid var(--wood-border);
-    border-top: 4px solid var(--gold);
-    border-radius: 16px;
-    padding: 20px 16px;
-    margin-bottom: 4px;
-    color: var(--ink);
-    max-width: 500px;
-    width: 100%;
-    text-align: center;
+    width: 100%; margin-top: 18px; color: var(--ink-soft); background: var(--washi-card);
+    border: 1px solid var(--wood-border); padding: 10px; border-radius: 14px; text-align: center; font-size: 0.9em;
     box-sizing: border-box;
 }
 
-.rule-step {
-    color: var(--ink);
-    font-weight: bold;
-    font-size: 1.3rem;
-    margin-bottom: 14px;
-}
-.step-arrow { color: var(--azuki); margin: 0 5px; }
-
-.rule-example-box {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-    font-weight: bold;
-    font-size: 1rem;
-    margin-bottom: 14px;
-    flex-wrap: wrap;
-}
-
-.example-item.correct {
-    background: var(--matcha);
-    border: none;
-    border-bottom: 4px solid var(--matcha-dark);
-    color: #fff;
-    border-radius: 14px;
-    padding: 8px 16px;
-}
-
-.example-item.wrong {
-    background: #eee7d6;
-    border: none;
-    border-bottom: 4px solid #d8cdb0;
-    color: var(--ink-soft);
-    text-decoration: line-through;
-    border-radius: 14px;
-    padding: 8px 16px;
-}
-
-.example-mark { display: inline-block; margin-left: 5px; text-decoration: none; }
-.example-divider { font-size: 0.85rem; color: var(--ink-soft); font-style: italic; }
-
-.rule-caption {
-    color: var(--ink-soft);
-    font-size: 0.88em;
-    margin-top: 12px;
-    line-height: 1.6;
-    font-family: 'Noto Sans JP', sans-serif;
-}
-.rule-caption strong { color: var(--azuki); font-weight: bold; }
-
 .btn-more {
-    display: inline-block;
-    background: var(--gold);
-    color: var(--ink);
-    padding: 12px 28px;
-    border-radius: 999px;
-    text-decoration: none;
-    font-weight: 800;
-    border-bottom: 4px solid var(--gold-dark);
+    display: inline-block; background: var(--gold); color: var(--ink); padding: 12px 28px;
+    border-radius: 999px; text-decoration: none; font-weight: 800; border-bottom: 4px solid var(--gold-dark);
     transition: transform 0.1s ease;
 }
-.btn-more:active {
-    transform: translateY(2px);
-    border-bottom-width: 2px;
-}
-
-@media (max-width: 768px) {
-    .container {
-        width: 95% !important;
-        padding-top: 0 !important;
-        margin-top: 90px !important;
-        margin-left: auto !important;
-        margin-right: auto !important;
-    }
-
-    .game-start-container { padding: 16px; }
-
-    .start-game-title {
-        font-size: 1.1em;
-        padding: 16px;
-    }
-
-    .difficulty-options { grid-template-columns: 1fr 1fr; }
-
-    .difficulty-card { padding: 14px 6px; min-height: 84px; }
-    .difficulty-card.locked { min-height: 84px; }
-    .difficulty-card .emoji { font-size: 1.5em; }
-
-    .register-btn-main { width: 90%; padding: 12px 20px; }
-    .btn-icon { font-size: 1.4rem; }
-    .btn-text { font-size: 1rem; }
-}
+.btn-more:active { transform: translateY(2px); border-bottom-width: 2px; }
 
 @media (max-width: 400px) {
     .container { margin-top: 110px !important; }
+    .play-btn { font-size: 1.4rem; padding: 18px 42px; }
 }
 </style>
 
 <div class="container">
-    <div class="game-start-container">
-        <h2 class="start-game-title">
-            {% if lang_code == 'ja' %}日本語の単語や漢字、どれだけわかる？
-            {% elif lang_code == 'zh-hant' %}你認識多少日文單字和漢字？
-            {% elif lang_code == 'zh-cn' %}你认识多少日语单词和汉字？
-            {% elif lang_code == 'ko' %}일본어 단어와 한자를 얼마나 아시나요?
-            {% elif lang_code == 'fr' %}Combien de mots et de kanjis japonais connaissez-vous ?
-            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}¿Cuántas palabras y kanjis japoneses sabes?
-            {% elif lang_code == 'de' %}Wie viele japanische Wörter und Kanjis kennst du?
-            {% elif lang_code == 'it' %}Quante parole e kanji giapponesi conosci?
-            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Quantas palavras e kanjis em japonês você conhece?
-            {% elif lang_code == 'vi' %}Bạn biết bao nhiêu từ vựng và Kanji tiếng Nhật?
-            {% elif lang_code == 'th' %}คุณรู้จักคำศัพท์และคันจิภาษาญี่ปุ่นแค่ไหน?
-            {% else %}How many Japanese words and Kanji do you know?
-            {% endif %}
-        </h2>
+    <h2 class="start-game-title">
+        {% if lang_code == 'ja' %}日本語の単語や漢字、どれだけわかる？
+        {% elif lang_code == 'zh-hant' %}你認識多少日文單字和漢字？
+        {% elif lang_code == 'zh-cn' %}你认识多少日语单词和汉字？
+        {% elif lang_code == 'ko' %}일본어 단어와 한자를 얼마나 아시나요?
+        {% elif lang_code == 'fr' %}Combien de mots et de kanjis japonais connaissez-vous ?
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}¿Cuántas palabras y kanjis japoneses sabes?
+        {% elif lang_code == 'de' %}Wie viele japanische Wörter und Kanjis kennst du?
+        {% elif lang_code == 'it' %}Quante parole e kanji giapponesi conosci?
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Quantas palavras e kanjis em japonês você conhece?
+        {% elif lang_code == 'vi' %}Bạn biết bao nhiêu từ vựng và Kanji tiếng Nhật?
+        {% elif lang_code == 'th' %}คุณรู้จักคำศัพท์และคันจิภาษาญี่ปุ่นแค่ไหน?
+        {% else %}How many Japanese words and Kanji do you know?
+        {% endif %}
+    </h2>
 
-        <div class="visual-rule-container">
-            <div class="rule-step">
-                <span class="step-emoji">🖼️</span>
-                <span class="step-arrow">➡</span>
-                <span class="step-emoji">🇯🇵</span>
-                <span class="step-arrow">➡</span>
-                <span class="step-emoji">👆</span>
-            </div>
-    
-            <div class="rule-example-box">
-                <div class="example-item correct">
-                <span class="example-icon">🍣</span>
-                <span class="example-text">SUSHI</span>
-                <span class="example-mark">✅</span>
-            </div>
+    <a href="{% url 'game_restart' %}?lang={{ lang_code }}" class="play-btn">
+        <span class="tri"></span>PLAY
+    </a>
 
-            <div class="example-divider">vs</div>
-            <div class="example-item wrong">
-                <span class="example-icon">🍣</span>
-                <span class="example-text">
-                    {% if lang_code == 'ja' %}さかな
-                    {% elif lang_code == 'zh-hant' or lang_code == 'zh-cn' %}魚
-                    {% elif lang_code == 'de' %}Fisch
-                    {% elif lang_code == 'fr' %}Poisson
-                    {% elif lang_code == 'it' %}Pesce
-                    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Pescado
-                    {% elif lang_code == 'ko' %}물고기
-                    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Peixe
-                    {% elif lang_code == 'vi' %}Cá
-                    {% elif lang_code == 'th' %}ปลา
-                    {% else %}Fish{% endif %}
-                </span>
-                <span class="example-mark">❌</span>
-            </div>
+    <div class="rules-card">
+        <div class="rules-steps">
+            <span>🖼️</span><span>➡</span>
+            <span class="tile-demo"><span>と</span><span>ま</span><span>と</span></span>
         </div>
-
-        <p class="rule-caption">
+        <p class="rules-caption">
             {% if lang_code == 'ja' %}
-                30秒以内に、日本語の単語に合う画像を選んでください！<br>
-                ・正しい画像をタップして正解を目指そう(かんたん・3問お試し：2択 / ふつう以上：4択)<br>
-                <span style="font-size: 0.9em; color: #00bcd4; font-weight: bold;">⏱ タイムアタック：何問解けるか挑戦！</span><br>
+                画像に合う言葉を、バラバラのタイルから並べ替えて完成させよう！<br>
+                <span style="font-size: 0.9em; color: #00bcd4; font-weight: bold;">⏱ 30秒タイムアタック：何問解けるか挑戦！</span><br>
                 <span style="font-size: 0.85em; color: #d4af37; font-weight: bold;">⚡ 連続正解でコンボボーナス！3問+1点 / 5問+2点 / 7問+3点</span>
-
-            {% elif lang_code == 'zh-hant' %}
-                請在 30 秒內選擇符合日文單字的圖片！<br>
-                ・點擊正確的圖片(簡單・3題試玩：2選1 / 普通以上：4選1)<br>
-                <span style="font-size: 0.9em; color: #00bcd4; font-weight: bold;">⏱ 限時挑戰：看看你能答對多少題！</span><br>
-                <span style="font-size: 0.85em; color: #d4af37; font-weight: bold;">⚡ 連續答對可獲得連擊獎勵！3題+1分 / 5題+2分 / 7題+3分</span>
-
-            {% elif lang_code == 'zh-cn' %}
-                请在 30 秒内选择符合日文单词的图片！<br>
-                ・点击正确的图片(简单・3题试玩：2选1 / 普通以上：4选1)<br>
-                <span style="font-size: 0.9em; color: #00bcd4; font-weight: bold;">⏱ 限时挑战：看看你能答对多少题！</span><br>
-                <span style="font-size: 0.85em; color: #d4af37; font-weight: bold;">⚡ 连续答对可获得连击奖励！3题+1分 / 5题+2分 / 7题+3分</span>
-
-            {% elif lang_code == 'de' %}
-                Wähle das passende Bild zum japanischen Wort in 30 Sek.!<br>
-                - Tippe auf das richtige Bild (Einfach/3-Fragen-Test: 2 Bilder, Normal und höher: 4 Bilder)<br>
-                <span style="font-size: 0.9em; color: #00bcd4; font-weight: bold;">⏱ Time Attack: Wie viele schaffst du?</span><br>
-                <span style="font-size: 0.85em; color: #d4af37; font-weight: bold;">⚡ Combo-Bonus für Serien! 3 Richtige: +1 Pkt / 5: +2 Pkt / 7+: +3 Pkt</span>
-
-            {% elif lang_code == 'fr' %}
-                Associe le mot japonais à la bonne image en moins de 30s !<br>
-                - Appuie sur la bonne image (Facile/Essai de 3 questions : 2 images, Normal et plus : 4 images)<br>
-                <span style="font-size: 0.9em; color: #00bcd4; font-weight: bold;">⏱ Time Attack : Combien peux-tu en résoudre ?</span><br>
-                <span style="font-size: 0.85em; color: #d4af37; font-weight: bold;">⚡ Bonus combo pour les séries ! 3 bonnes réponses : +1 pt / 5 : +2 pts / 7+ : +3 pts</span>
-
-            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}
-                ¡Elige la imagen que coincida con la palabra japonesa en menos de 30s!<br>
-                - Toca la imagen correcta (Fácil/Prueba de 3 preguntas: 2 opciones, Normal o superior: 4 opciones)<br>
-                <span style="font-size: 0.9em; color: #00bcd4; font-weight: bold;">⏱ Contrarreloj: ¿Cuántas puedes resolver?</span><br>
-                <span style="font-size: 0.85em; color: #d4af37; font-weight: bold;">⚡ ¡Bono combo por rachas! 3 aciertos: +1 pt / 5: +2 pts / 7+: +3 pts</span>
-
-            {% elif lang_code == 'it' %}
-                Abbina la parola giapponese all'immagine corretta entro 30s!<br>
-                - Tocca l'immagine corretta (Facile/Prova di 3 domande: 2 immagini, Normal o superiore: 4 immagini)<br>
-                <span style="font-size: 0.9em; color: #00bcd4; font-weight: bold;">⏱ Time Attack: Quante ne puoi indovinare?</span><br>
-                <span style="font-size: 0.85em; color: #d4af37; font-weight: bold;">⚡ Bonus combo per le serie! 3 corrette: +1 pt / 5: +2 pt / 7+: +3 pt</span>
-
-            {% elif lang_code == 'ko' %}
-                30초 안에 일본어 단어에 맞는 이미지를 선택하세요!<br>
-                ・올바른 이미지를 터치(쉬움・3문제 체험:2지선다 / 보통 이상:4지선다)<br>
-                <span style="font-size: 0.9em; color: #00bcd4; font-weight: bold;">⏱ 타임어택: 몇 문제나 맞힐 수 있을까요?</span><br>
-                <span style="font-size: 0.85em; color: #d4af37; font-weight: bold;">⚡ 연속 정답으로 콤보 보너스! 3문제+1점 / 5문제+2점 / 7문제+3점</span>
-
-            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}
-                Escolha a imagem que combina com a palavra japonesa em até 30s!<br>
-                - Toque na imagem correta (Fácil/Teste de 3 perguntas: 2 opções, Normal ou superior: 4 opções)<br>
-                <span style="font-size: 0.9em; color: #00bcd4; font-weight: bold;">⏱ Time Attack: Quantas você consegue resolver?</span><br>
-                <span style="font-size: 0.85em; color: #d4af37; font-weight: bold;">⚡ Bônus de combo por sequências! 3 acertos: +1 pt / 5: +2 pts / 7+: +3 pts</span>
-
-            {% elif lang_code == 'vi' %}
-                Chọn hình ảnh phù hợp với từ tiếng Nhật trong vòng 30 giây!<br>
-                - Chạm vào hình ảnh đúng (Dễ/Thử 3 câu: 2 lựa chọn, Bình thường trở lên: 4 lựa chọn)<br>
-                <span style="font-size: 0.9em; color: #00bcd4; font-weight: bold;">⏱ Thử thách thời gian: Bạn giải được bao nhiêu câu?</span><br>
-                <span style="font-size: 0.85em; color: #d4af37; font-weight: bold;">⚡ Thưởng combo khi trả lời đúng liên tiếp! 3 câu: +1đ / 5 câu: +2đ / 7+ câu: +3đ</span>
-
-            {% elif lang_code == 'th' %}
-                เลือกรูปภาพที่ตรงกับคำศัพท์ภาษาญี่ปุ่นภายใน 30 วินาที!<br>
-                - แตะรูปภาพที่ถูกต้อง (ง่าย/ลอง 3 ข้อ: 2 ตัวเลือก, ปกติขึ้นไป: 4 ตัวเลือก)<br>
-                <span style="font-size: 0.9em; color: #00bcd4; font-weight: bold;">⏱ Time Attack: มาดูกันว่าคุณจะทำได้กี่ข้อ!</span><br>
-                <span style="font-size: 0.85em; color: #d4af37; font-weight: bold;">⚡ โบนัสคอมโบเมื่อตอบถูกติดต่อกัน! 3 ข้อ: +1 คะแนน / 5 ข้อ: +2 คะแนน / 7+ ข้อ: +3 คะแนน</span>
-
             {% elif lang_code == 'en-in' %}
-                Match the Japanese word with the correct image within 30s!<br>
-                - Pick the correct image (Easy/3-Question Trial: 2 choices, Normal and above: 4 choices)<br>
-                <span style="font-size: 0.9em; color: #00bcd4; font-weight: bold;">⏱ Time Attack: How many can you solve?</span><br>
+                Rearrange the scrambled tiles to spell the word that matches the picture!<br>
+                <span style="font-size: 0.9em; color: #00bcd4; font-weight: bold;">⏱ 30s Time Attack: How many can you solve?</span><br>
                 <span style="font-size: 0.85em; color: #d4af37; font-weight: bold;">⚡ Combo bonus for streaks! 3 correct: +1pt / 5: +2pts / 7+: +3pts</span>
-
             {% else %}
-                Match the Japanese word with the correct image within 30s!<br>
-                - Pick the correct image (Easy/3-Question Trial: 2 choices, Normal and above: 4 choices)<br>
-                <span style="font-size: 0.9em; color: #00bcd4; font-weight: bold;">⏱ Time Attack: How many can you solve?</span><br>
+                Rearrange the scrambled tiles to spell the word that matches the picture!<br>
+                <span style="font-size: 0.9em; color: #00bcd4; font-weight: bold;">⏱ 30s Time Attack: How many can you solve?</span><br>
                 <span style="font-size: 0.85em; color: #d4af37; font-weight: bold;">⚡ Combo bonus for streaks! 3 correct: +1pt / 5: +2pts / 7+: +3pts</span>
             {% endif %}
         </p>
     </div>
 
-        <div class="difficulty-options">
-            <a href="{% url 'game_restart' %}?difficulty=easy&lang={{ lang_code }}" class="difficulty-card easy">
-                <span class="emoji">🙂</span>
-                <div class="difficulty-info">
-                    <h3>
-                        {% if lang_code == 'ja' %}かんたん
-                        {% elif lang_code == 'zh-hant' %}簡單
-                        {% elif lang_code == 'zh-cn' %}简单
-                        {% elif lang_code == 'ko' %}쉬움
-                        {% elif lang_code == 'de' %}Einfach
-                        {% elif lang_code == 'fr' %}Facile
-                        {% elif lang_code == 'it' %}Facile
-                        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Fácil
-                        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Fácil
-                        {% elif lang_code == 'vi' %}Dễ
-                        {% elif lang_code == 'th' %}ง่าย
-                        {% else %}Easy{% endif %}
-                    </h3>
-                    <p>
-                        {% if lang_code == 'ja' %}かんたんな単語
-                        {% elif lang_code == 'zh-hant' %}簡單單字
-                        {% elif lang_code == 'zh-cn' %}简单单字
-                        {% elif lang_code == 'ko' %}쉬운 단어
-                        {% elif lang_code == 'de' %}Einfache Wörter
-                        {% elif lang_code == 'fr' %}Mots simples
-                        {% elif lang_code == 'it' %}Parole semplici
-                        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Palabras simples
-                        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Palavras simples
-                        {% elif lang_code == 'vi' %}Từ đơn giản
-                        {% elif lang_code == 'th' %}คำง่ายๆ
-                        {% else %}Simple words{% endif %}
-                    </p>
-                </div>
-            </a>
-
-            <a href="{% url 'game_restart' %}?difficulty=normal&lang={{ lang_code }}" class="difficulty-card normal">
-                <span class="emoji">😐</span>
-                <div class="difficulty-info">
-                    <h3>
-                        {% if lang_code == 'ja' %}ふつう
-                        {% elif lang_code == 'zh-hant' %}普通
-                        {% elif lang_code == 'zh-cn' %}普通
-                        {% elif lang_code == 'ko' %}보통
-                        {% elif lang_code == 'de' %}Normal
-                        {% elif lang_code == 'fr' %}Normal
-                        {% elif lang_code == 'it' %}Normal
-                        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Normal
-                        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Normal
-                        {% elif lang_code == 'vi' %}Bình thường
-                        {% elif lang_code == 'th' %}ปกติ
-                        {% else %}Normal{% endif %}
-                    </h3>
-                    <p>
-                        {% if lang_code == 'ja' %}日常生活
-                        {% elif lang_code == 'zh-hant' or lang_code == 'zh-cn' %}日常生活
-                        {% elif lang_code == 'ko' %}일상 생활
-                        {% elif lang_code == 'de' %}Alltagsleben
-                        {% elif lang_code == 'fr' %}Vie quotidienne
-                        {% elif lang_code == 'it' %}Vita quotidiana
-                        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Vida cotidiana
-                        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Vida quotidiana
-                        {% elif lang_code == 'vi' %}Đời sống hàng ngày
-                        {% elif lang_code == 'th' %}ชีวิตประจำวัน
-                        {% else %}Everyday life{% endif %}
-                    </p>
-                </div>
-            </a>
-
-            <a href="{% url 'game_restart' %}?difficulty=hard&lang={{ lang_code }}" class="difficulty-card hard">
-                <span class="emoji">😡</span>
-                <div class="difficulty-info">
-                    <h3>
-                        {% if lang_code == 'ja' %}むずかしい
-                        {% elif lang_code == 'zh-hant' %}困難
-                        {% elif lang_code == 'zh-cn' %}困难
-                        {% elif lang_code == 'ko' %}어려움
-                        {% elif lang_code == 'de' %}Schwer
-                        {% elif lang_code == 'fr' %}Difficile
-                        {% elif lang_code == 'it' %}Difficile
-                        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Difícil
-                        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Difícil
-                        {% elif lang_code == 'vi' %}Khó
-                        {% elif lang_code == 'th' %}ยาก
-                        {% else %}Hard{% endif %}
-                    </h3>
-                    <p>
-                        {% if lang_code == 'ja' %}文化・芸術
-                        {% elif lang_code == 'zh-hant' %}文化與藝術
-                        {% elif lang_code == 'zh-cn' %}文化与艺术
-                        {% elif lang_code == 'ko' %}문화와 예술
-                        {% elif lang_code == 'de' %}Kultur & Kunst
-                        {% elif lang_code == 'fr' %}Culture & Arts
-                        {% elif lang_code == 'it' %}Cultura e arti
-                        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Cultura y artes
-                        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Cultura e artes
-                        {% elif lang_code == 'vi' %}Văn hóa & Nghệ thuật
-                        {% elif lang_code == 'th' %}วัฒนธรรมและศิลปะ
-                        {% else %}Culture & Arts{% endif %}
-                    </p>
-                </div>
-            </a>
-    
-            {% if player and player.total_score >= 300 %}
-            <a href="{% url 'game_restart' %}?difficulty=super_hard&lang={{ lang_code }}" class="difficulty-card super-hard">
-                <span class="emoji">👹</span>
-                <div class="difficulty-info">
-                    <h3>
-                        {% if lang_code == 'ja' %}マニア
-                        {% elif lang_code == 'zh-hant' %}狂熱
-                        {% elif lang_code == 'zh-cn' %}狂热
-                        {% elif lang_code == 'ko' %}마니아
-                        {% elif lang_code == 'de' %}Wahnsinn
-                        {% elif lang_code == 'fr' %}Folie
-                        {% elif lang_code == 'it' %}Follia
-                        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Locura
-                        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Loucura
-                        {% elif lang_code == 'vi' %}Điên cuồng
-                        {% elif lang_code == 'th' %}คลั่งไคล้
-                        {% else %}Mania{% endif %}
-                    </h3>
-                    <p>
-                        {% if lang_code == 'ja' %}神レベル！
-                        {% elif lang_code == 'zh-hant' %}神級！
-                        {% elif lang_code == 'zh-cn' %}神级！
-                        {% elif lang_code == 'ko' %}갓 티어!
-                        {% elif lang_code == 'de' %}Göttliche Stufe!
-                        {% elif lang_code == 'fr' %}Niveau divin !
-                        {% elif lang_code == 'it' %}Livello divino!
-                        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}¡Nivel divino!
-                        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Nível divino!
-                        {% elif lang_code == 'vi' %}Cấp độ thần thánh!
-                        {% elif lang_code == 'th' %}ระดับเทพ!
-                        {% else %}God Tier!{% endif %}
-                    </p>
-                </div>
-            </a>
-            {% else %}
-                <div class="difficulty-card locked">
-                    <span class="emoji">🔒</span>
-                    <div class="difficulty-info">
-                        <h3>???</h3>
-                        <p>
-                            {% if lang_code == 'ja' %}300ptで開放
-                            {% elif lang_code == 'zh-hant' %}300pt解鎖
-                            {% elif lang_code == 'zh-cn' %}300pt解锁
-                            {% elif lang_code == 'ko' %}300pt에서 해제
-                            {% elif lang_code == 'de' %}Ab 300 Pkt.
-                            {% elif lang_code == 'fr' %}Débloquer à 300pts
-                            {% elif lang_code == 'it' %}Sblocca a 300pt
-                            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Desbloquea a 300pts
-                            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Desbloqueia a 300pts
-                            {% elif lang_code == 'vi' %}Mở khóa ở 300pt
-                            {% elif lang_code == 'th' %}ปลดล็อกที่ 300pt
-                            {% else %}Unlock at 300pts{% endif %}
-                        </p>
-                    </div>
-                    {% if not player %}
-                        <a href="{% url 'player_register' %}?next={{ request.path }}%3Flang%3D{{ lang_code }}" style="position:absolute; top:0; left:0; width:100%; height:100%; z-index:10;"></a>
-                    {% endif %}
-                </div>
-            {% endif %}
-        </div>
-
-        <div class="difficulty-options">
-            <a href="{% url 'game_restart' %}?difficulty=kanji1&lang={{ lang_code }}" class="difficulty-card easy">
-                <span class="emoji">🉐</span>
-                <div class="difficulty-info">
-                    <h3>
-                        {% if lang_code == 'ja' %}漢字レベル1
-                        {% elif lang_code == 'zh-hant' %}漢字第1級
-                        {% elif lang_code == 'zh-cn' %}汉字第1级
-                        {% elif lang_code == 'ko' %}한자 레벨 1
-                        {% elif lang_code == 'de' %}Kanji Stufe 1
-                        {% elif lang_code == 'fr' %}Kanji Niveau 1
-                        {% elif lang_code == 'it' %}Kanji Livello 1
-                        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Kanji Nivel 1
-                        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Kanji Nível 1
-                        {% elif lang_code == 'vi' %}Kanji Cấp 1
-                        {% elif lang_code == 'th' %}คันจิ เลเวล 1
-                        {% else %}Kanji Level 1{% endif %}
-                    </h3>
-                    <p>
-                        {% if lang_code == 'ja' %}生活と自然：必須の基礎漢字
-                        {% elif lang_code == 'zh-hant' %}生活與自然：必修基礎漢字
-                        {% elif lang_code == 'zh-cn' %}生活与自然：必修基礎漢字
-                        {% elif lang_code == 'ko' %}생활과 자연: 필수 기초 한자
-                        {% elif lang_code == 'de' %}Alltag & Natur: Basis-Kanji
-                        {% elif lang_code == 'fr' %}Vie & Nature : Kanji essentiels
-                        {% elif lang_code == 'it' %}Vita e Natura: Kanji essenziali
-                        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Vida y Naturaleza: Kanji esenciales
-                        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Vida e Natureza: Kanji essenciais
-                        {% elif lang_code == 'vi' %}Cuộc sống & Tự nhiên: Kanji cơ bản
-                        {% elif lang_code == 'th' %}ชีวิตและธรรมชาติ: คันจิพื้นฐานที่ต้องรู้
-                        {% else %}Life & Nature: Essential Kanji{% endif %}
-                    </p>
-                </div>
-            </a>
-
-
-            <a href="{% url 'game_restart' %}?difficulty=kanji2&lang={{ lang_code }}" class="difficulty-card normal">
-                <span class="emoji">🈴</span>
-                <div class="difficulty-info">
-                    <h3>
-                        {% if lang_code == 'ja' %}漢字レベル2
-                        {% elif lang_code == 'zh-hant' %}漢字第2級
-                        {% elif lang_code == 'zh-cn' %}汉字第2级
-                        {% elif lang_code == 'ko' %}한자 레벨 2
-                        {% elif lang_code == 'de' %}Kanji Stufe 2
-                        {% elif lang_code == 'fr' %}Kanji Niveau 2
-                        {% elif lang_code == 'it' %}Kanji Livello 2
-                        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Kanji Nivel 2
-                        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Kanji Nível 2
-                        {% elif lang_code == 'vi' %}Kanji Cấp 2
-                        {% elif lang_code == 'th' %}คันจิ เลเวล 2
-                        {% else %}Kanji Level 2{% endif %}
-                    </h3>
-                    <p>
-                        {% if lang_code == 'ja' %}文化と社会：一歩進んだ漢字
-                        {% elif lang_code == 'zh-hant' %}文化與社會：進階漢字
-                        {% elif lang_code == 'zh-cn' %}文化与社会：进阶汉字
-                        {% elif lang_code == 'ko' %}문화와 사회: 한걸음 더 나아간 한자
-                        {% elif lang_code == 'de' %}Kultur & Gesellschaft: Fortgeschrittene Kanji
-                        {% elif lang_code == 'fr' %}Culture & Société : Kanji avancés
-                        {% elif lang_code == 'it' %}Cultura e Società: Kanji avanzati
-                        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Cultura y Sociedad: Kanji avanzados
-                        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Cultura e Sociedade: Kanji avançados
-                        {% elif lang_code == 'vi' %}Văn hóa & Xã hội: Kanji nâng cao
-                        {% elif lang_code == 'th' %}วัฒนธรรมและสังคม: คันจิระดับสูง
-                        {% else %}Culture & Society: Intermediate Kanji{% endif %}
-                    </p>
-                </div>
-            </a>
-        </div>
-
-        <div class="difficulty-options premium-options">
-            <a href="{% url 'game_restart' %}?difficulty=sample_premium&lang={{ lang_code }}" class="difficulty-card sample-card">
-                <span class="emoji">📝</span>
-                <div class="difficulty-info">
-                    <h3>
-                        {% if lang_code == 'ja' %}JLPT実力診断
-                        {% elif lang_code == 'ko' %}JLPT 실력 테스트
-                        {% elif lang_code == 'zh-hant' %}JLPT 實力測試
-                        {% elif lang_code == 'zh-cn' %}JLPT 实力测试
-                        {% elif lang_code == 'th' %}แบบทดสอบทักษะ JLPT
-                        {% elif lang_code == 'vi' %}Kiểm tra năng lực JLPT
-                        {% elif lang_code == 'fr' %}Test de compétences JLPT
-                        {% elif lang_code == 'de' %}JLPT-Kompetenztest
-                        {% elif lang_code == 'it' %}Test di abilità JLPT
-                        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Test de nivel JLPT
-                        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Teste de habilidades JLPT
-                        {% else %}JLPT Skill Test{% endif %}
-                    </h3>
-                    <p>
-                        {% if lang_code == 'ja' %}JLPTの腕試しに挑戦！
-                        {% elif lang_code == 'ko' %}JLPT 실력 테스트 도전!
-                        {% elif lang_code == 'zh-hant' %}JLPT 實力測試挑戰！
-                        {% elif lang_code == 'zh-cn' %}JLPT 实力测试挑战！
-                        {% elif lang_code == 'th' %}ทดสอบระดับ JLPT ของคุณ!
-                        {% elif lang_code == 'vi' %}Thử sức với bài kiểm tra JLPT!
-                        {% elif lang_code == 'fr' %}Testez votre niveau JLPT !
-                        {% elif lang_code == 'de' %}JLPT-Einstufungstest machen!
-                        {% elif lang_code == 'it' %}Metti alla prova il tuo JLPT!
-                        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}¡Pon a prueba tu nivel de JLPT!
-                        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Teste suas habilidades no JLPT!
-                        {% else %}Test Your JLPT Skills!{% endif %}
-                    </p>
-                </div>
-            </a>
-
-            <!-- LEVEL N5 -->    
-            <a href="{% url 'game_restart' %}?difficulty=n5_premium&lang={{ lang_code }}" class="difficulty-card premium-gold">
-                <span class="emoji">🌱</span>
-                <div class="difficulty-info">
-                    <h3>
-                        {% if lang_code == 'ja' %}レベルN5
-                        {% elif lang_code == 'zh-hant' %}N5級
-                        {% elif lang_code == 'zh-cn' %}N5級
-                        {% elif lang_code == 'ko' %}레벨 N5
-                        {% elif lang_code == 'de' %}Stufe N5
-                        {% elif lang_code == 'fr' %}Niveau N5
-                        {% elif lang_code == 'it' %}Livello N5
-                        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Nivel N5
-                        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Nível N5
-                        {% elif lang_code == 'vi' %}Cấp N5
-                        {% elif lang_code == 'th' %}ระดับ N5
-                        {% else %}Level N5{% endif %}
-                    </h3>
-                    <p>
-                        {% if lang_code == 'ja' %}旅行者・初心者
-                        {% elif lang_code == 'zh-hant' %}旅遊・初學者
-                        {% elif lang_code == 'zh-cn' %}旅游・初学者
-                        {% elif lang_code == 'de' %}Reisende & Anfänger
-                        {% elif lang_code == 'fr' %}Voyageurs & Débutants
-                        {% elif lang_code == 'ko' %}여행자・초보자
-                        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Viajeros y principiantes
-                        {% elif lang_code == 'it' %}Viaggiatori e principianti
-                        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Viajantes e iniciantes
-                        {% elif lang_code == 'vi' %}Khách du lịch & Người mới
-                        {% elif lang_code == 'th' %}นักท่องเที่ยวและผู้เริ่มต้น
-                        {% else %}Travelers & Newbies{% endif %}
-                    </p>
-                </div>
-            </a>
-
-            <!-- LEVEL N4 -->
-            <a href="{% url 'game_restart' %}?difficulty=n4_premium&lang={{ lang_code }}" class="difficulty-card premium-gold">
-                <span class="emoji">🏠</span>
-                <div class="difficulty-info">
-                    <h3>
-                        {% if lang_code == 'ja' %}レベルN4
-                        {% elif lang_code == 'zh-hant' %}N4級
-                        {% elif lang_code == 'zh-cn' %}N4級
-                        {% elif lang_code == 'ko' %}레벨 N4
-                        {% elif lang_code == 'de' %}Stufe N4
-                        {% elif lang_code == 'fr' %}Niveau N4
-                        {% elif lang_code == 'it' %}Livello N4
-                        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Nivel N4
-                        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Nível N4
-                        {% elif lang_code == 'vi' %}Cấp N4
-                        {% elif lang_code == 'th' %}ระดับ N4
-                        {% else %}Level N4{% endif %}
-                    </h3>
-                    <p>
-                        {% if lang_code == 'ja' %}日本居住者向け
-                        {% elif lang_code == 'zh-hant' %}適合居住者
-                        {% elif lang_code == 'zh-cn' %}适合居住者
-                        {% elif lang_code == 'de' %}Für Bewohner
-                        {% elif lang_code == 'fr' %}Pour les résidents
-                        {% elif lang_code == 'ko' %}일본 거주자용
-                        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Para residentes
-                        {% elif lang_code == 'it' %}Per i residenti
-                        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Para residentes
-                        {% elif lang_code == 'vi' %}Dành cho cư dân
-                        {% elif lang_code == 'th' %}สำหรับผู้อยู่อาศัย
-                        {% else %}Residents{% endif %}
-                    </p>
-                </div>
-            </a>
-
-            <!-- LEVEL N3 -->
-            <a href="{% url 'game_restart' %}?difficulty=n3_premium&lang={{ lang_code }}" class="difficulty-card premium-gold">
-                <span class="emoji">💼</span>
-                <div class="difficulty-info">
-                    <h3>
-                        {% if lang_code == 'ja' %}レベルN3
-                        {% elif lang_code == 'zh-hant' %}N3級
-                        {% elif lang_code == 'zh-cn' %}N3級
-                        {% elif lang_code == 'ko' %}레벨 N3
-                        {% elif lang_code == 'de' %}Stufe N3
-                        {% elif lang_code == 'fr' %}Niveau N3
-                        {% elif lang_code == 'it' %}Livello N3
-                        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Nivel N3
-                        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Nível N3
-                        {% elif lang_code == 'vi' %}Cấp N3
-                        {% elif lang_code == 'th' %}ระดับ N3
-                        {% else %}Level N3{% endif %}
-                    </h3>
-                    <p>
-                        {% if lang_code == 'ja' %}ビジネス・就職
-                        {% elif lang_code == 'zh-hant' %}商務・求職
-                        {% elif lang_code == 'zh-cn' %}商务・求职
-                        {% elif lang_code == 'de' %}Beruf & Karriere
-                        {% elif lang_code == 'fr' %}Affaires & Carrière
-                        {% elif lang_code == 'ko' %}비즈니스・취업
-                        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Negocios y empleo
-                        {% elif lang_code == 'it' %}Lavoro e carriera
-                        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Negócios e carreira
-                        {% elif lang_code == 'vi' %}Kinh doanh & Tìm việc
-                        {% elif lang_code == 'th' %}ธุรกิจและการหางาน
-                        {% else %}Career Seekers{% endif %}
-                    </p>
-                </div>
-            </a>
-        </div>
-
-        <!-- プレイヤー情報 -->
-        <div class="player-info">
-            {% if lang_code == 'ja' %}プレイヤー
-            {% elif lang_code == 'zh-hant' or lang_code == 'zh-cn' %}玩家
-            {% elif lang_code == 'de' %}Spieler
-            {% elif lang_code == 'fr' %}Joueur
-            {% elif lang_code == 'ko' %}플레이어
-            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Jugador
-            {% elif lang_code == 'it' %}Giocatore
-            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Jogador
-            {% elif lang_code == 'vi' %}Người chơi
-            {% elif lang_code == 'th' %}ผู้เล่น
-            {% else %}Player{% endif %}:
-            {% if not is_guest %}{{ player.username }}
-            {% else %}
-                {% if lang_code == 'ja' %}ゲスト
-                {% elif lang_code == 'zh-hant' %}訪客
-                {% elif lang_code == 'zh-cn' %}访客
-                {% elif lang_code == 'ko' %}게스트
-                {% elif lang_code == 'de' %}Gast
-                {% elif lang_code == 'fr' %}Invité
-                {% elif lang_code == 'it' %}Ospite
-                {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Invitado
-                {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Convidado
-                {% elif lang_code == 'vi' %}Khách
-                {% elif lang_code == 'th' %}แขก
-                {% else %}Guest{% endif %}
-            {% endif %}
-        </div>
+    <div class="player-info">
+        {% if lang_code == 'ja' %}プレイヤー
+        {% elif lang_code == 'zh-hant' or lang_code == 'zh-cn' %}玩家
+        {% elif lang_code == 'de' %}Spieler
+        {% elif lang_code == 'fr' %}Joueur
+        {% elif lang_code == 'ko' %}플레이어
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Jugador
+        {% elif lang_code == 'it' %}Giocatore
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Jogador
+        {% elif lang_code == 'vi' %}Người chơi
+        {% elif lang_code == 'th' %}ผู้เล่น
+        {% else %}Player{% endif %}:
+        {% if not is_guest %}{{ player.username }}
+        {% else %}
+            {% if lang_code == 'ja' %}ゲスト
+            {% elif lang_code == 'zh-hant' %}訪客
+            {% elif lang_code == 'zh-cn' %}访客
+            {% elif lang_code == 'ko' %}게스트
+            {% elif lang_code == 'de' %}Gast
+            {% elif lang_code == 'fr' %}Invité
+            {% elif lang_code == 'it' %}Ospite
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Invitado
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Convidado
+            {% elif lang_code == 'vi' %}Khách
+            {% elif lang_code == 'th' %}แขก
+            {% else %}Guest{% endif %}
+        {% endif %}
     </div>
 
-    <!-- フッターボタン -->
-    <div style="text-align:center; margin: 50px 0 80px 0;">
+    <div style="text-align:center; margin: 40px 0 60px 0;">
         <a class="btn-more" href="javascript:void(0);" onclick="goToTopPage()">
             {% if lang_code == 'ja' %}← ホームに戻る
             {% elif lang_code == 'zh-hant' %}← 返回首頁
@@ -1062,21 +207,18 @@ body::before, body::after { display: none; }
             {% else %}← Back to Home{% endif %}
         </a>
     </div>
+</div>
 
 <script>
     function goToTopPage() {
         const topUrl = localStorage.getItem('tj_top_url');
-    if (topUrl) {
-
-        window.location.href = topUrl;
-    } else {
-        
-        window.location.href = "{% url 'toppage' %}?lang={{ lang_code }}";
+        if (topUrl) {
+            window.location.href = topUrl;
+        } else {
+            window.location.href = "{% url 'toppage' %}?lang={{ lang_code }}";
+        }
     }
-}
-    
 </script>
 
 {% include 'includes/bgm_player.html' %}
 {% endblock %}
-

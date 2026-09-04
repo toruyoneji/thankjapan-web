@@ -874,7 +874,7 @@ tbody td { padding: 8px; border: none; font-size: 0.82rem; color: var(--ink); }
                   {% endif %}
               </a>
           {% else %}
-              <a href="{% url 'game_restart' %}?difficulty={{ difficulty }}" class="neon-button">
+              <a href="{% url 'game_restart' %}" class="neon-button">
                   {% if lang_code == 'ja' %}🔁 もう一度プレイ
                   {% elif lang_code == 'zh-hant' %}🔁 再次遊玩
                   {% elif lang_code == 'zh-cn' %}🔁 再次游玩

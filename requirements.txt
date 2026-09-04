@@ -37,3 +37,6 @@ requests==2.34.2
 uritemplate==4.2.0
 
 firebase-admin==7.5.0
+
+fugashi==1.5.2
+unidic-lite==1.0.8
