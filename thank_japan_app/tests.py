@@ -2518,6 +2518,78 @@ class GamePlayDualBgmTests(TestCase):
         self.assertNotIn('bgm-player-top', body)
 
 
+class GameSoundToggleWiringTests(TestCase):
+    """2026-09-06: #game-sound-toggle (the small round button next to the
+    score chip) used to be unwired dead markup - harmless on phones, where
+    the header's own "Sound" button (#global-sound-toggle) is also visible,
+    but on tablet/PC that header is hidden (>=768px, see the tablet layout
+    fix) leaving this as the *only* visible sound control there. Now wired
+    to drive the same localStorage key and the same #bgm-player element the
+    header's toggle uses, so both stay in sync and both tracks (main +
+    top-page ambience) mute/unmute together regardless of which button (or
+    viewport) was used. This wiring must be present unconditionally - i.e.
+    even when the second BGM track isn't configured at all."""
+
+    def setUp(self):
+        for i in range(6):
+            ThankJapanModel.objects.create(
+                name=f'sound-toggle-word-{i}', englishname=f'Word {i}', jpname='いぬ',
+                kanji_name='犬', katakana_name='イヌ', category='animal',
+                slug=f'sound-toggle-word-{i}', description='d', history='h')
+        self.client.get(reverse('game_restart'))
+
+    def test_toggle_wiring_present_regardless_of_top_bgm(self):
+        with patch('thank_japan_app.views.get_bgm_url', side_effect=lambda t: 'https://example.com/game.mp3' if t == 'game' else None):
+            response = self.client.get(reverse('game_play'))
+        body = response.content.decode()
+
+        self.assertNotIn('bgm-player-top', body)  # confirms this case has no second track
+        self.assertIn("getElementById('game-sound-toggle')", body)
+        self.assertIn("getElementById('game-sound-icon')", body)
+        self.assertIn("gameBtn.addEventListener('click'", body)
+
+    def test_toggle_shares_the_header_localstorage_key(self):
+        response = self.client.get(reverse('game_play'))
+        body = response.content.decode()
+
+        self.assertIn("localStorage.getItem('thankjapan_sound')", body)
+        self.assertIn("localStorage.setItem('thankjapan_sound', newState)", body)
+
+    def test_toggle_drives_the_shared_bgm_player_element(self):
+        response = self.client.get(reverse('game_play'))
+        body = response.content.decode()
+
+        self.assertIn("const mainTrack = document.getElementById('bgm-player')", body)
+        self.assertIn("mainTrack.muted = (newState === 'off')", body)
+
+    def test_toggle_keeps_header_icon_in_sync(self):
+        response = self.client.get(reverse('game_play'))
+        body = response.content.decode()
+
+        self.assertIn("getElementById('global-sound-icon')", body)
+
+    def test_icon_resyncs_on_any_mute_change_not_just_its_own_click(self):
+        # Covers the header button (or bgm_player.html's first-click
+        # unmute) also updating this icon, via the shared #bgm-player
+        # volumechange event rather than only this button's own handler.
+        response = self.client.get(reverse('game_play'))
+        body = response.content.decode()
+
+        self.assertIn("mainTrack.addEventListener('volumechange', syncGameIcon)", body)
+
+    def test_both_tracks_still_configured_when_top_bgm_present(self):
+        # Sanity check that this feature and the dual-BGM feature coexist -
+        # both scripts reference #bgm-player independently without conflict.
+        with patch('thank_japan_app.views.get_bgm_url', side_effect=lambda t: f'https://example.com/{t}.mp3'):
+            response = self.client.get(reverse('game_play'))
+        body = response.content.decode()
+
+        self.assertIn('id="bgm-player-top"', body)
+        self.assertIn("getElementById('game-sound-toggle')", body)
+        self.assertIn("mainTrack.addEventListener('volumechange', syncGameIcon)", body)
+        self.assertIn("topTrack.muted = mainTrack.muted", body)
+
+
 class GamePlayTabletElementScalingTests(TestCase):
     """2026-09-05: the tablet full-height fix stretched .main2 but left the
     image/tiles/timer at phone sizing, looking lost in the extra space.

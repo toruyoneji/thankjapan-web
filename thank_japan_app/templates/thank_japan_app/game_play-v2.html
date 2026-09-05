@@ -884,6 +884,54 @@ body {
 
 {% include 'includes/bgm_player.html' %}
 
+<script>
+(function () {
+    // #game-sound-toggle is this screen's own visible sound control -
+    // needed because .app-header (which holds the shared "Sound" button,
+    // see includes/sound_toggle.html) is hidden on tablet/PC (>=768px) on
+    // this page, leaving this as the only visible toggle there. Drives the
+    // exact same localStorage key and #bgm-player element the header's
+    // toggle uses, rather than touching that shared file (used on every
+    // other page too) - so on phones, where both controls are visible at
+    // once, they always agree regardless of which one gets clicked.
+    function isSoundOn() {
+        return localStorage.getItem('thankjapan_sound') !== 'off';
+    }
+
+    const gameIcon = document.getElementById('game-sound-icon');
+    const gameBtn = document.getElementById('game-sound-toggle');
+    const mainTrack = document.getElementById('bgm-player');
+
+    function syncGameIcon() {
+        if (gameIcon) gameIcon.textContent = isSoundOn() ? '🔊' : '🔇';
+    }
+    syncGameIcon();
+
+    if (mainTrack) {
+        // Fires for every path that changes #bgm-player's mute state (the
+        // header button, bgm_player.html's own first-click unmute, and
+        // this button) - keeps this icon correct no matter which control
+        // the player actually used, and (via the separate listener below)
+        // keeps the top-page ambience track's mute in step too.
+        mainTrack.addEventListener('volumechange', syncGameIcon);
+    }
+
+    if (gameBtn) {
+        gameBtn.addEventListener('click', function (e) {
+            e.preventDefault();
+            const newState = isSoundOn() ? 'off' : 'on';
+            localStorage.setItem('thankjapan_sound', newState);
+            if (mainTrack) {
+                mainTrack.muted = (newState === 'off');
+                if (newState === 'on') mainTrack.play().catch(() => {});
+            }
+            const globalIcon = document.getElementById('global-sound-icon');
+            if (globalIcon) globalIcon.textContent = newState === 'off' ? '🔇' : '🔊';
+        });
+    }
+})();
+</script>
+
 {% if top_bgm_url %}
 <audio id="bgm-player-top" src="{{ top_bgm_url }}" loop autoplay muted></audio>
 <script>
