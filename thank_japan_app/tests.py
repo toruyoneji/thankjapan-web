@@ -5,7 +5,7 @@ from urllib.parse import quote as urlquote
 
 from django.contrib.auth.models import User
 from django.core.management import call_command
-from django.test import RequestFactory, SimpleTestCase, TestCase, override_settings
+from django.test import Client, RequestFactory, SimpleTestCase, TestCase, override_settings
 from django.urls import reverse
 from django.utils import timezone
 
@@ -942,6 +942,90 @@ LOCALE_QUERY_PARAMS = [
     'pt', 'pt-br', 'th', 'vi', 'zh-hant', 'zh-cn',
 ]
 
+# Expected strings transcribed independently from each template/dict, keyed
+# per supported locale - used by the 2026-09-05 renewal's multi-language
+# audit tests below to catch a silent English fallback (the exact bug
+# reported for Korean before the tile-game rewrite), not just a crash.
+DAILY_LOCALE_ALIAS = {'es-mx': 'es-es', 'pt-br': 'pt', 'en-in': 'en'}
+
+DAILY_SHARE_TEXT_BY_LOCALE = {
+    'ja': ('「今日の一問」で「{word}」正解しました🎉 ThankJapanで日本語クイズに挑戦しよう！',
+           '「今日の一問」で「{word}」不正解でした…😢 ThankJapanで日本語クイズに挑戦しよう！'),
+    'zh-hant': ('「今日一題」答對了「{word}」🎉 到ThankJapan挑戰日文小測驗吧！',
+                '「今日一題」答錯了「{word}」…😢 到ThankJapan挑戰日文小測驗吧！'),
+    'zh-cn': ('「今日一题」答对了「{word}」🎉 到ThankJapan挑战日语小测验吧！',
+              '「今日一题」答错了「{word}」…😢 到ThankJapan挑战日语小测验吧！'),
+    'ko': ('오늘의 한 문제에서 「{word}」 정답! 🎉 ThankJapan에서 일본어 퀴즈에 도전해보세요!',
+           '오늘의 한 문제에서 「{word}」 오답…😢 ThankJapan에서 일본어 퀴즈에 도전해보세요!'),
+    'de': ('Bei der "Frage des Tages" "{word}" richtig beantwortet 🎉 Probier das Japanisch-Quiz auf ThankJapan!',
+           'Bei der "Frage des Tages" "{word}" leider falsch…😢 Probier das Japanisch-Quiz auf ThankJapan!'),
+    'fr': ('Question du jour : "{word}" trouvée 🎉 Essaie le quiz de japonais sur ThankJapan !',
+           'Question du jour : "{word}" ratée…😢 Essaie le quiz de japonais sur ThankJapan !'),
+    'es-es': ('¡Pregunta del día "{word}" acertada! 🎉 ¡Prueba el quiz de japonés en ThankJapan!',
+              'Pregunta del día "{word}" fallada…😢 ¡Prueba el quiz de japonés en ThankJapan!'),
+    'it': ('Domanda del giorno "{word}" indovinata 🎉 Prova il quiz di giapponese su ThankJapan!',
+           'Domanda del giorno "{word}" sbagliata…😢 Prova il quiz di giapponese su ThankJapan!'),
+    'pt': ('Pergunta do dia "{word}" acertada 🎉 Experimente o quiz de japonês no ThankJapan!',
+           'Pergunta do dia "{word}" errada…😢 Experimente o quiz de japonês no ThankJapan!'),
+    'vi': ('Câu hỏi hôm nay "{word}" trả lời đúng 🎉 Hãy thử quiz tiếng Nhật trên ThankJapan!',
+           'Câu hỏi hôm nay "{word}" trả lời sai…😢 Hãy thử quiz tiếng Nhật trên ThankJapan!'),
+    'th': ('คำถามประจำวัน "{word}" ตอบถูก🎉 ลองเล่นควิซภาษาญี่ปุ่นที่ ThankJapan สิ!',
+           'คำถามประจำวัน "{word}" ตอบผิด…😢 ลองเล่นควิซภาษาญี่ปุ่นที่ ThankJapan สิ!'),
+    'en': ('Got today\'s ThankJapan Daily Question "{word}" right! 🎉 Try the Japanese quiz yourself!',
+           'Missed today\'s ThankJapan Daily Question "{word}"…😢 Try the Japanese quiz yourself!'),
+}
+
+DAILY_HASHTAGS_BY_LOCALE = {
+    'ja': 'ThankJapan,今日の一問,日本語学習',
+    'zh-hant': 'ThankJapan,學日文',
+    'zh-cn': 'ThankJapan,学日语',
+    'ko': 'ThankJapan,일본어공부',
+    'de': 'ThankJapan,JapanischLernen',
+    'fr': 'ThankJapan,ApprendreLeJaponais',
+    'es-es': 'ThankJapan,AprenderJapones',
+    'it': 'ThankJapan,ImparaGiapponese',
+    'pt': 'ThankJapan,AprenderJapones',
+    'vi': 'ThankJapan,HocTiengNhat',
+    'th': 'ThankJapan,เรียนภาษาญี่ปุ่น',
+    'en': 'ThankJapan,LearnJapanese',
+}
+
+DAILY_CAPTION_BY_LOCALE = {
+    'ja': 'タイルを正しい順番に並べ替えてください',
+    'zh-hant': '請將方塊排成正確的順序',
+    'zh-cn': '请将方块排成正确的顺序',
+    'ko': '타일을 올바른 순서로 배열하세요',
+    'de': 'Ordne die Kacheln in der richtigen Reihenfolge an',
+    'fr': 'Réorganisez les tuiles dans le bon ordre',
+    'es-es': 'Ordena las fichas en el orden correcto',
+    'es-mx': 'Ordena las fichas en el orden correcto',
+    'it': "Disponi le tessere nell'ordine corretto",
+    'pt': 'Organize as peças na ordem correta',
+    'pt-br': 'Organize as peças na ordem correta',
+    'vi': 'Sắp xếp các ô theo đúng thứ tự',
+    'th': 'จัดเรียงไทล์ให้ถูกลำดับ',
+    'en': 'Arrange the tiles in the correct order',
+    'en-in': 'Arrange the tiles in the correct order',
+}
+
+NO_TIME_LIMIT_BY_LOCALE = {
+    'ja': '時間制限なし', 'zh-hant': '無時間限制', 'zh-cn': '无时间限制',
+    'ko': '시간 제한 없음', 'de': 'Ohne Zeitlimit', 'fr': 'Sans limite de temps',
+    'es-es': 'Sin límite de tiempo', 'es-mx': 'Sin límite de tiempo',
+    'it': 'Senza limite di tempo', 'pt': 'Sem limite de tempo', 'pt-br': 'Sem limite de tempo',
+    'vi': 'Không giới hạn thời gian', 'th': 'ไม่จำกัดเวลา',
+    'en': 'No Time Limit', 'en-in': 'No Time Limit',
+}
+
+SIXTY_SEC_CHALLENGE_BY_LOCALE = {
+    'ja': '60秒チャレンジ', 'zh-hant': '60秒挑戰', 'zh-cn': '60秒挑战',
+    'ko': '60초 챌린지', 'de': '60-Sekunden-Challenge', 'fr': 'Défi 60 secondes',
+    'es-es': 'Desafío de 60 segundos', 'es-mx': 'Desafío de 60 segundos',
+    'it': 'Sfida di 60 secondi', 'pt': 'Desafio de 60 segundos', 'pt-br': 'Desafio de 60 segundos',
+    'vi': 'Thử thách 60 giây', 'th': 'ท้าทาย 60 วินาที',
+    'en': '60s Challenge', 'en-in': '60s Challenge',
+}
+
 
 @override_settings(SECURE_SSL_REDIRECT=False)
 class GameResultReviewPromptTests(TestCase):
@@ -1686,6 +1770,98 @@ class DailyQuestionShareAfterTileConversionTests(TestCase):
         body = response.content.decode()
         expected_share_url = f"https://www.thankjapan.com/daily/?lang=en&date={self.today.isoformat()}"
         self.assertIn(f'url={urlquote(expected_share_url, safe="/")}', body)
+
+
+class RenewalMultiLanguageAuditTests(TestCase):
+    """2026-09-05: after the tile-rearrangement renewal (mora/chunk split,
+    symbol exclusion, 60s timer, combo threshold, daily_question/first_taste
+    conversion), confirm every one of the 15 supported locales actually
+    renders its own translation - not a silent fallback to English - for
+    every piece of user-facing text that changed or was added along the
+    way. This is the same bug class as the earlier Korean-shows-English
+    report, just re-run against everything touched since then."""
+
+    def setUp(self):
+        self.today = timezone.localdate()
+        self.word = ThankJapanModel.objects.create(
+            name='test-daily-locale', englishname='Umbrella', jpname='かさ',
+            kanji_name='傘', katakana_name='カサ', category='dailyactions',
+            slug='daily-locale-word', description='d', history='h',
+        )
+        DailyQuestion.objects.create(date=self.today, word=self.word)
+
+    def test_daily_question_caption_renders_per_locale(self):
+        for lang in LOCALE_QUERY_PARAMS:
+            with self.subTest(lang=lang):
+                client = Client()
+                response = client.get(reverse('daily_question'), {'lang': lang})
+                self.assertEqual(response.status_code, 200)
+                self.assertEqual(response.context['daily_state'], 'question')
+                self.assertIn(DAILY_CAPTION_BY_LOCALE[lang], response.content.decode())
+
+    def test_daily_question_share_text_and_hashtags_per_locale(self):
+        for lang in LOCALE_QUERY_PARAMS:
+            with self.subTest(lang=lang):
+                client = Client()
+                url = f"{reverse('daily_question')}?lang={lang}"
+                tiles = json.loads(client.get(url).context['tiles_json'])
+                correct_order = sorted(tiles, key=lambda t: self.word.jpname.index(t))
+
+                response = client.post(url, {'answer_tiles': json.dumps(correct_order)})
+                self.assertTrue(response.context['is_correct'], msg=f"lang={lang}")
+                body = response.content.decode()
+
+                share_key = DAILY_LOCALE_ALIAS.get(lang, lang)
+                expected_text = DAILY_SHARE_TEXT_BY_LOCALE[share_key][0].format(
+                    word=f"{self.word.jpname} ({self.word.name})")
+                self.assertIn(urlquote(expected_text, safe=''), body, msg=f"lang={lang}")
+
+                expected_hashtags = f"{DAILY_HASHTAGS_BY_LOCALE[share_key]},Umbrella"
+                self.assertIn(urlquote(expected_hashtags, safe=''), body, msg=f"lang={lang}")
+
+    def test_game_result_no_time_limit_label_per_locale(self):
+        for lang in LOCALE_QUERY_PARAMS:
+            with self.subTest(lang=lang):
+                client = Client()
+                session = client.session
+                session['game_history'] = [{
+                    'index': 0, 'is_correct': True, 'points': 1, 'question_id': 999999,
+                    'question_model': 'free', 'combo': 1, 'combo_bonus': 0,
+                }]
+                session['game_difficulty'] = 'first_taste'
+                session.save()
+
+                response = client.get(reverse('game_result'), {'lang': lang})
+                self.assertIn(NO_TIME_LIMIT_BY_LOCALE[lang], response.content.decode(), msg=f"lang={lang}")
+
+    def test_game_result_60s_challenge_label_per_locale(self):
+        for lang in LOCALE_QUERY_PARAMS:
+            with self.subTest(lang=lang):
+                client = Client()
+                session = client.session
+                session['game_history'] = [{
+                    'index': 0, 'is_correct': True, 'points': 1, 'question_id': 999999,
+                    'question_model': 'free', 'combo': 1, 'combo_bonus': 0,
+                }]
+                session['game_difficulty'] = 'timeattack'
+                session.save()
+
+                response = client.get(reverse('game_result'), {'lang': lang})
+                self.assertIn(SIXTY_SEC_CHALLENGE_BY_LOCALE[lang], response.content.decode(), msg=f"lang={lang}")
+
+    def test_first_taste_flow_renders_without_error_per_locale(self):
+        for i in range(6):
+            ThankJapanModel.objects.create(
+                name=f'locale-easy-{i}', englishname=f'Easy {i}', jpname='いぬ',
+                kanji_name='犬', katakana_name='イヌ', category='animal',
+                slug=f'locale-easy-{i}', description='d', history='h')
+
+        for lang in LOCALE_QUERY_PARAMS:
+            with self.subTest(lang=lang):
+                client = Client()
+                client.get(reverse('game_restart'), {'difficulty': 'first_taste', 'lang': lang})
+                response = client.get(reverse('game_play'), {'lang': lang})
+                self.assertEqual(response.status_code, 200, msg=f"lang={lang}")
 
 
 class FirstTasteTileGameTests(TestCase):
