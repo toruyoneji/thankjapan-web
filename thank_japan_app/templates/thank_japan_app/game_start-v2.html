@@ -154,6 +154,16 @@ body::before, body::after { display: none; }
     .play-btn { font-size: 1.4rem; padding: 18px 42px; }
 }
 
+@media (max-width: 767px) {
+    /* The fixed 60px bottom margin wasn't always enough clearance above
+       the site's fixed 75px bottom-nav bar on real phones (address bar/
+       safe-area variations eat into it), so the link could end up
+       partly hidden underneath the nav. Phone-only - tablet already
+       zeroes this same margin out via justify-content, and PC has never
+       shown this problem. */
+    .back-home-wrap { margin-bottom: calc(75px + env(safe-area-inset-bottom) + 20px) !important; }
+}
+
 /* Tablet-only: .container was already a flex column (align-items: center)
    but never declared a justify-content, so it defaulted to flex-start -
    on a phone that's invisible (the content roughly fills the viewport
@@ -316,7 +326,7 @@ body::before, body::after { display: none; }
         {% endif %}
     </div>
 
-    <div style="text-align:center; margin: 40px 0 60px 0;">
+    <div class="back-home-wrap" style="text-align:center; margin: 40px 0 60px 0;">
         <a class="btn-more" href="javascript:void(0);" onclick="goToTopPage()">
             {% if lang_code == 'ja' %}← ホームに戻る
             {% elif lang_code == 'zh-hant' %}← 返回首頁

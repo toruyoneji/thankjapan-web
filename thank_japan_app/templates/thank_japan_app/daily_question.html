@@ -70,13 +70,6 @@
         margin: 0 auto;
     }
 
-    #daily-question-wrapper .dq-title {
-        color: #d4af37 !important;
-        font-size: 1rem !important;
-        letter-spacing: 4px !important;
-        text-transform: uppercase !important;
-        margin-bottom: 25px !important;
-    }
 
     #daily-question-wrapper .dq-jpname {
         font-size: 2.6rem !important;
@@ -165,22 +158,6 @@
 </style>
 
 <div class="dq-inner">
-    <div class="dq-title">
-        {% if lang_code == 'ja' %}今日の一問
-        {% elif lang_code == 'zh-hant' %}今日一題
-        {% elif lang_code == 'zh-cn' %}今日一题
-        {% elif lang_code == 'ko' %}오늘의 한 문제
-        {% elif lang_code == 'de' %}Frage des Tages
-        {% elif lang_code == 'fr' %}Question du jour
-        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Pregunta del día
-        {% elif lang_code == 'it' %}Domanda del giorno
-        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Pergunta do dia
-        {% elif lang_code == 'vi' %}Câu hỏi hôm nay
-        {% elif lang_code == 'th' %}คำถามประจำวัน
-        {% else %}Daily Question
-        {% endif %}
-    </div>
-
     {% if daily_state == 'unavailable' %}
         <p style="color:#ccc; margin-bottom: 30px;">
             {% if lang_code == 'ja' %}本日の問題を準備できませんでした。しばらくしてから、もう一度お試しください。

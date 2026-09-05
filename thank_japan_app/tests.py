@@ -3070,3 +3070,59 @@ class PremiumInfoBenefitsListTests(TestCase):
                 for leftover in AD_FREE_LEFTOVER_SUBSTRINGS:
                     self.assertNotIn(leftover, body, msg=f"url_name={url_name} (twa) leftover={leftover!r}")
                 self.assertEqual(body.count('+50'), 1, msg=f"url_name={url_name} (twa)")
+
+
+class DailyQuestionTitleRemovedTests(TestCase):
+    """2026-09-06: the page's own "DAILY QUESTION" title sat right under
+    the fixed .app-header (logo + pt badge), close enough to visually
+    overlap it - removed outright (per the user's own call: decluttering,
+    not a padding fix) rather than pushing content down further."""
+
+    def setUp(self):
+        self.today = timezone.localdate()
+        self.word = ThankJapanModel.objects.create(
+            name='title-removed-word', englishname='Word', jpname='いぬ',
+            kanji_name='犬', katakana_name='イヌ', category='animal',
+            slug='title-removed-word', description='d', history='h')
+        DailyQuestion.objects.create(date=self.today, word=self.word)
+
+    def test_dq_title_element_is_gone_from_question_state(self):
+        response = self.client.get(reverse('daily_question'))
+        body = response.content.decode()
+
+        self.assertEqual(response.context['daily_state'], 'question')
+        self.assertNotIn('dq-title', body)
+
+    def test_dq_title_element_is_gone_from_already_answered_state(self):
+        session = self.client.session
+        session['daily_question_answered_date'] = self.today.isoformat()
+        session.save()
+
+        response = self.client.get(reverse('daily_question'))
+        body = response.content.decode()
+
+        self.assertEqual(response.context['daily_state'], 'already_answered')
+        self.assertNotIn('dq-title', body)
+
+
+class GameStartBackHomeButtonMobileSpacingTests(TestCase):
+    """2026-09-06: on real phones, the 'Back to Home' link's fixed 60px
+    bottom margin wasn't always enough clearance above the site's fixed
+    75px bottom-nav bar, so the link could end up partly hidden underneath
+    it. Fixed with a phone-only (<768px) media query; tablet/PC untouched."""
+
+    def test_wrapper_has_dedicated_class_and_mobile_override_present(self):
+        response = self.client.get(reverse('game_start'))
+        body = response.content.decode()
+
+        self.assertIn('class="back-home-wrap"', body)
+        self.assertIn('@media (max-width: 767px)', body)
+        self.assertIn('.back-home-wrap { margin-bottom: calc(75px + env(safe-area-inset-bottom) + 20px) !important; }', body)
+
+    def test_tablet_still_zeroes_out_the_same_wrapper(self):
+        # the tablet block's `div[style*="margin"]` selector must still
+        # match now that the element also carries a class.
+        response = self.client.get(reverse('game_start'))
+        body = response.content.decode()
+
+        self.assertIn('.container > div[style*="margin"] { margin: 0 !important; }', body)
