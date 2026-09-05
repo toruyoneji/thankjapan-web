@@ -26,7 +26,7 @@ from django.utils.dateparse import parse_datetime
 from django.utils.http import urlencode
 from django.contrib.auth.views import PasswordResetView, PasswordResetConfirmView
 from .context_processors import language_context
-from .models import WeeklyScore, ThankJapanBackgroundModel, FCMDevice, DailyQuestion
+from .models import WeeklyScore, ThankJapanBackgroundModel, FCMDevice, DailyQuestion, PremiumRenewalReward
 from .pricing import get_premium_price, get_top_page_seo_override
 from google.oauth2 import service_account
 from googleapiclient.discovery import build
@@ -37,6 +37,7 @@ from .firebase_utils import get_firebase_credentials
 from allauth.socialaccount.views import ConnectionsView
 from .achievements import check_and_unlock_achievements, get_achievement_progress, STREAK_ACHIEVEMENT_CODES
 from datetime import date, timedelta
+from dateutil.relativedelta import relativedelta
 import logging
 import random
 import re, itertools
@@ -3403,6 +3404,15 @@ def paypal_webhook(request):
                     profile.save()
                     logger.info(f"Webhook Handled: {subscription_id} ACTIVATED (is_trial={profile.is_trial})")
 
+                    # Opportunistic fast path for the continuation-benefit
+                    # points: the daily grant_premium_renewal_points batch
+                    # is the reliable backstop for both PayPal and Google
+                    # Play, this just lets PayPal subscribers see their
+                    # +50pt sooner when their own renewal webhook happens
+                    # to fire. Never grants during trial.
+                    if profile.is_premium and not profile.is_trial:
+                        grant_renewal_rewards_if_due(profile)
+
         return HttpResponse(status=200)
 
     except Exception as e:
@@ -3835,17 +3845,20 @@ def account_settings(request):
     else:
         progress_percent = 100
 
+    recent_renewal_rewards = PremiumRenewalReward.objects.filter(user=request.user).order_by('-granted_at')[:5]
+
     context = {
         'total_score': s,
         'pts_to_next': pts_to_next,
-        'progress_percent': progress_percent, 
-        'current_rank': current_rank,         
+        'progress_percent': progress_percent,
+        'current_rank': current_rank,
         'total_registered': total_registered,
         'streak_count': profile.streak_count,
         'weekly_progress': get_weekly_progress(request.user),
         'achievement_progress': get_achievement_progress(profile),
         'is_twa': is_android_twa(request),
         'daily_question_notify': profile.daily_question_notify,
+        'recent_renewal_rewards': recent_renewal_rewards,
     }
     return render(request, 'thank_japan_app/account/account_settings-v2.html', context)
 
@@ -3881,17 +3894,20 @@ def account_settingsZHCN(request):
     else:
         progress_percent = 100
 
+    recent_renewal_rewards = PremiumRenewalReward.objects.filter(user=request.user).order_by('-granted_at')[:5]
+
     context = {
         'total_score': s,
         'pts_to_next': pts_to_next,
-        'progress_percent': progress_percent, 
-        'current_rank': current_rank,         
+        'progress_percent': progress_percent,
+        'current_rank': current_rank,
         'total_registered': total_registered,
         'streak_count': profile.streak_count,
         'weekly_progress': get_weekly_progress(request.user),
         'achievement_progress': get_achievement_progress(profile),
         'is_twa': is_android_twa(request),
         'daily_question_notify': profile.daily_question_notify,
+        'recent_renewal_rewards': recent_renewal_rewards,
     }
     return render(request, 'thank_japan_app/account/account_settings_zh_cn-v2.html', context)
 
@@ -3927,17 +3943,20 @@ def account_settingsZHHANT(request):
     else:
         progress_percent = 100
 
+    recent_renewal_rewards = PremiumRenewalReward.objects.filter(user=request.user).order_by('-granted_at')[:5]
+
     context = {
         'total_score': s,
         'pts_to_next': pts_to_next,
-        'progress_percent': progress_percent, 
-        'current_rank': current_rank,         
+        'progress_percent': progress_percent,
+        'current_rank': current_rank,
         'total_registered': total_registered,
         'streak_count': profile.streak_count,
         'weekly_progress': get_weekly_progress(request.user),
         'achievement_progress': get_achievement_progress(profile),
         'is_twa': is_android_twa(request),
         'daily_question_notify': profile.daily_question_notify,
+        'recent_renewal_rewards': recent_renewal_rewards,
     }
     return render(request, 'thank_japan_app/account/account_settings_zh_hant-v2.html', context)
 
@@ -3973,17 +3992,20 @@ def account_settingsVI(request):
     else:
         progress_percent = 100
 
+    recent_renewal_rewards = PremiumRenewalReward.objects.filter(user=request.user).order_by('-granted_at')[:5]
+
     context = {
         'total_score': s,
         'pts_to_next': pts_to_next,
-        'progress_percent': progress_percent, 
-        'current_rank': current_rank,         
+        'progress_percent': progress_percent,
+        'current_rank': current_rank,
         'total_registered': total_registered,
         'streak_count': profile.streak_count,
         'weekly_progress': get_weekly_progress(request.user),
         'achievement_progress': get_achievement_progress(profile),
         'is_twa': is_android_twa(request),
         'daily_question_notify': profile.daily_question_notify,
+        'recent_renewal_rewards': recent_renewal_rewards,
     }
     return render(request, 'thank_japan_app/account/account_settings_vi-v2.html', context)
 
@@ -4019,17 +4041,20 @@ def account_settingsTH(request):
     else:
         progress_percent = 100
 
+    recent_renewal_rewards = PremiumRenewalReward.objects.filter(user=request.user).order_by('-granted_at')[:5]
+
     context = {
         'total_score': s,
         'pts_to_next': pts_to_next,
-        'progress_percent': progress_percent, 
-        'current_rank': current_rank,         
+        'progress_percent': progress_percent,
+        'current_rank': current_rank,
         'total_registered': total_registered,
         'streak_count': profile.streak_count,
         'weekly_progress': get_weekly_progress(request.user),
         'achievement_progress': get_achievement_progress(profile),
         'is_twa': is_android_twa(request),
         'daily_question_notify': profile.daily_question_notify,
+        'recent_renewal_rewards': recent_renewal_rewards,
     }
     return render(request, 'thank_japan_app/account/account_settings_th-v2.html', context)
 
@@ -4065,17 +4090,20 @@ def account_settingsPT(request):
     else:
         progress_percent = 100
 
+    recent_renewal_rewards = PremiumRenewalReward.objects.filter(user=request.user).order_by('-granted_at')[:5]
+
     context = {
         'total_score': s,
         'pts_to_next': pts_to_next,
-        'progress_percent': progress_percent, 
-        'current_rank': current_rank,         
+        'progress_percent': progress_percent,
+        'current_rank': current_rank,
         'total_registered': total_registered,
         'streak_count': profile.streak_count,
         'weekly_progress': get_weekly_progress(request.user),
         'achievement_progress': get_achievement_progress(profile),
         'is_twa': is_android_twa(request),
         'daily_question_notify': profile.daily_question_notify,
+        'recent_renewal_rewards': recent_renewal_rewards,
     }
     return render(request, 'thank_japan_app/account/account_settings_pt-v2.html', context)
 
@@ -4111,17 +4139,20 @@ def account_settingsPTBR(request):
     else:
         progress_percent = 100
 
+    recent_renewal_rewards = PremiumRenewalReward.objects.filter(user=request.user).order_by('-granted_at')[:5]
+
     context = {
         'total_score': s,
         'pts_to_next': pts_to_next,
-        'progress_percent': progress_percent, 
-        'current_rank': current_rank,         
+        'progress_percent': progress_percent,
+        'current_rank': current_rank,
         'total_registered': total_registered,
         'streak_count': profile.streak_count,
         'weekly_progress': get_weekly_progress(request.user),
         'achievement_progress': get_achievement_progress(profile),
         'is_twa': is_android_twa(request),
         'daily_question_notify': profile.daily_question_notify,
+        'recent_renewal_rewards': recent_renewal_rewards,
     }
     return render(request, 'thank_japan_app/account/account_settings_pt_br-v2.html', context)
 
@@ -4157,17 +4188,20 @@ def account_settingsKO(request):
     else:
         progress_percent = 100
 
+    recent_renewal_rewards = PremiumRenewalReward.objects.filter(user=request.user).order_by('-granted_at')[:5]
+
     context = {
         'total_score': s,
         'pts_to_next': pts_to_next,
-        'progress_percent': progress_percent, 
-        'current_rank': current_rank,         
+        'progress_percent': progress_percent,
+        'current_rank': current_rank,
         'total_registered': total_registered,
         'streak_count': profile.streak_count,
         'weekly_progress': get_weekly_progress(request.user),
         'achievement_progress': get_achievement_progress(profile),
         'is_twa': is_android_twa(request),
         'daily_question_notify': profile.daily_question_notify,
+        'recent_renewal_rewards': recent_renewal_rewards,
     }
     return render(request, 'thank_japan_app/account/account_settings_ko-v2.html', context)
 
@@ -4202,17 +4236,20 @@ def account_settingsJA(request):
     else:
         progress_percent = 100
 
+    recent_renewal_rewards = PremiumRenewalReward.objects.filter(user=request.user).order_by('-granted_at')[:5]
+
     context = {
         'total_score': s,
         'pts_to_next': pts_to_next,
-        'progress_percent': progress_percent, 
-        'current_rank': current_rank,         
+        'progress_percent': progress_percent,
+        'current_rank': current_rank,
         'total_registered': total_registered,
         'streak_count': profile.streak_count,
         'weekly_progress': get_weekly_progress(request.user),
         'achievement_progress': get_achievement_progress(profile),
         'is_twa': is_android_twa(request),
         'daily_question_notify': profile.daily_question_notify,
+        'recent_renewal_rewards': recent_renewal_rewards,
     }
     return render(request, 'thank_japan_app/account/account_settings_ja-v2.html', context)
 
@@ -4248,17 +4285,20 @@ def account_settingsIT(request):
     else:
         progress_percent = 100
 
+    recent_renewal_rewards = PremiumRenewalReward.objects.filter(user=request.user).order_by('-granted_at')[:5]
+
     context = {
         'total_score': s,
         'pts_to_next': pts_to_next,
-        'progress_percent': progress_percent, 
-        'current_rank': current_rank,         
+        'progress_percent': progress_percent,
+        'current_rank': current_rank,
         'total_registered': total_registered,
         'streak_count': profile.streak_count,
         'weekly_progress': get_weekly_progress(request.user),
         'achievement_progress': get_achievement_progress(profile),
         'is_twa': is_android_twa(request),
         'daily_question_notify': profile.daily_question_notify,
+        'recent_renewal_rewards': recent_renewal_rewards,
     }
     return render(request, 'thank_japan_app/account/account_settings_it-v2.html', context)
 
@@ -4294,17 +4334,20 @@ def account_settingsFR(request):
     else:
         progress_percent = 100
 
+    recent_renewal_rewards = PremiumRenewalReward.objects.filter(user=request.user).order_by('-granted_at')[:5]
+
     context = {
         'total_score': s,
         'pts_to_next': pts_to_next,
-        'progress_percent': progress_percent, 
-        'current_rank': current_rank,         
+        'progress_percent': progress_percent,
+        'current_rank': current_rank,
         'total_registered': total_registered,
         'streak_count': profile.streak_count,
         'weekly_progress': get_weekly_progress(request.user),
         'achievement_progress': get_achievement_progress(profile),
         'is_twa': is_android_twa(request),
         'daily_question_notify': profile.daily_question_notify,
+        'recent_renewal_rewards': recent_renewal_rewards,
     }
     return render(request, 'thank_japan_app/account/account_settings_fr-v2.html', context)
 
@@ -4340,17 +4383,20 @@ def account_settingsESMX(request):
     else:
         progress_percent = 100
 
+    recent_renewal_rewards = PremiumRenewalReward.objects.filter(user=request.user).order_by('-granted_at')[:5]
+
     context = {
         'total_score': s,
         'pts_to_next': pts_to_next,
-        'progress_percent': progress_percent, 
-        'current_rank': current_rank,         
+        'progress_percent': progress_percent,
+        'current_rank': current_rank,
         'total_registered': total_registered,
         'streak_count': profile.streak_count,
         'weekly_progress': get_weekly_progress(request.user),
         'achievement_progress': get_achievement_progress(profile),
         'is_twa': is_android_twa(request),
         'daily_question_notify': profile.daily_question_notify,
+        'recent_renewal_rewards': recent_renewal_rewards,
     }
     return render(request, 'thank_japan_app/account/account_settings_es_mx-v2.html', context)
 
@@ -4386,17 +4432,20 @@ def account_settingsESES(request):
     else:
         progress_percent = 100
 
+    recent_renewal_rewards = PremiumRenewalReward.objects.filter(user=request.user).order_by('-granted_at')[:5]
+
     context = {
         'total_score': s,
         'pts_to_next': pts_to_next,
-        'progress_percent': progress_percent, 
-        'current_rank': current_rank,         
+        'progress_percent': progress_percent,
+        'current_rank': current_rank,
         'total_registered': total_registered,
         'streak_count': profile.streak_count,
         'weekly_progress': get_weekly_progress(request.user),
         'achievement_progress': get_achievement_progress(profile),
         'is_twa': is_android_twa(request),
         'daily_question_notify': profile.daily_question_notify,
+        'recent_renewal_rewards': recent_renewal_rewards,
     }
     return render(request, 'thank_japan_app/account/account_settings_es_es-v2.html', context)
 
@@ -4432,17 +4481,20 @@ def account_settingsENIN(request):
     else:
         progress_percent = 100
 
+    recent_renewal_rewards = PremiumRenewalReward.objects.filter(user=request.user).order_by('-granted_at')[:5]
+
     context = {
         'total_score': s,
         'pts_to_next': pts_to_next,
-        'progress_percent': progress_percent, 
-        'current_rank': current_rank,         
+        'progress_percent': progress_percent,
+        'current_rank': current_rank,
         'total_registered': total_registered,
         'streak_count': profile.streak_count,
         'weekly_progress': get_weekly_progress(request.user),
         'achievement_progress': get_achievement_progress(profile),
         'is_twa': is_android_twa(request),
         'daily_question_notify': profile.daily_question_notify,
+        'recent_renewal_rewards': recent_renewal_rewards,
     }
     return render(request, 'thank_japan_app/account/account_settings_en_in-v2.html', context)
 
@@ -4478,17 +4530,20 @@ def account_settingsDE(request):
     else:
         progress_percent = 100
 
+    recent_renewal_rewards = PremiumRenewalReward.objects.filter(user=request.user).order_by('-granted_at')[:5]
+
     context = {
         'total_score': s,
         'pts_to_next': pts_to_next,
-        'progress_percent': progress_percent, 
-        'current_rank': current_rank,         
+        'progress_percent': progress_percent,
+        'current_rank': current_rank,
         'total_registered': total_registered,
         'streak_count': profile.streak_count,
         'weekly_progress': get_weekly_progress(request.user),
         'achievement_progress': get_achievement_progress(profile),
         'is_twa': is_android_twa(request),
         'daily_question_notify': profile.daily_question_notify,
+        'recent_renewal_rewards': recent_renewal_rewards,
     }
     return render(request, 'thank_japan_app/account/account_settings_de-v2.html', context)
 
@@ -4597,6 +4652,59 @@ def sync_paypal_premium_state(profile, subscription):
     profile.is_trial = is_trial
     if is_trial:
         profile.trial_used = True
+
+
+PREMIUM_RENEWAL_REWARD_POINTS = 50
+PREMIUM_RENEWAL_REWARD_MAX_CATCHUP = 3  # cap on periods granted in one call, in case a run was missed for a while
+
+
+def grant_renewal_rewards_if_due(profile):
+    """Continuation-benefit points: +{PREMIUM_RENEWAL_REWARD_POINTS}pt for
+    each elapsed month of a real (non-trial) paid subscription, anchored to
+    profile.premium_paid_started_at. Call for any profile currently
+    is_premium=True and is_trial=False - from grant_premium_renewal_points
+    (the daily batch, the reliable primary path covering both PayPal and
+    Google Play) and opportunistically from the PayPal ACTIVATED webhook
+    for faster crediting. Caller must have already saved is_premium/
+    is_trial themselves; this only touches premium_paid_started_at and
+    total_score.
+
+    Safe to call redundantly (webhook and batch racing, or the batch
+    running twice) - the (user, period_start) uniqueness on
+    PremiumRenewalReward is what actually prevents a double grant, not
+    caller coordination. Returns the number of periods newly granted.
+    """
+    if not profile.premium_paid_started_at:
+        # No historical contract-start date exists for profiles already
+        # past their trial before this feature shipped - "now" becomes
+        # this profile's anchor rather than granting retroactively.
+        profile.premium_paid_started_at = timezone.now()
+        profile.save(update_fields=['premium_paid_started_at'])
+        return 0
+
+    now = timezone.now()
+    granted_count = 0
+    for n in range(1, PREMIUM_RENEWAL_REWARD_MAX_CATCHUP + 1):
+        period_start = profile.premium_paid_started_at + relativedelta(months=n)
+        if period_start > now:
+            break
+        _, created = PremiumRenewalReward.objects.get_or_create(
+            user=profile.user, period_start=period_start,
+            defaults={'points': PREMIUM_RENEWAL_REWARD_POINTS},
+        )
+        if created:
+            profile.total_score += PREMIUM_RENEWAL_REWARD_POINTS
+            granted_count += 1
+
+    if granted_count:
+        profile.save(update_fields=['total_score'])
+        player = Player.objects.filter(username=profile.user.username).first()
+        if player:
+            player.total_score = profile.total_score
+            player.save()
+
+    return granted_count
+
 
 @login_required
 @require_POST

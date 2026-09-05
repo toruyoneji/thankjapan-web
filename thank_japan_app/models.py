@@ -280,6 +280,15 @@ class Profile(models.Model):
     daily_question_notify = models.BooleanField(default=False)
     trial_ended_popup_dismissed = models.BooleanField(default=False)
     review_prompt_shown = models.BooleanField(default=False)
+    # Anchor date for the monthly +50pt continuation reward (see
+    # PremiumRenewalReward) - set once, the first time this profile is seen
+    # as a real paying subscriber (is_premium=True, is_trial=False), not
+    # necessarily the true original contract date. No historical contract
+    # start date is recorded anywhere for accounts that were already past
+    # their trial before this feature shipped, so for those the anchor is
+    # effectively "the day this feature started tracking them" rather than
+    # their real signup day - an accepted, deliberate simplification.
+    premium_paid_started_at = models.DateTimeField(null=True, blank=True)
 
     @property
     def has_premium_access(self):
@@ -357,8 +366,31 @@ class WeeklyScore(models.Model):
         import datetime
         today = timezone.now().date()
         return today - datetime.timedelta(days=today.weekday())
-    
-    
+
+
+
+class PremiumRenewalReward(models.Model):
+    """One row per +50pt continuation-benefit grant (see
+    Profile.premium_paid_started_at) - both the audit trail shown on the
+    account settings page and the actual double-grant guard: period_start
+    is the specific monthly anniversary a grant corresponds to, and the
+    (user, period_start) uniqueness is what makes granting safe to attempt
+    redundantly from both the daily batch and the PayPal webhook - whichever
+    gets there first wins, the other's insert is simply rejected."""
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='premium_renewal_rewards')
+    period_start = models.DateTimeField()
+    points = models.PositiveIntegerField(default=50)
+    granted_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['user', 'period_start'], name='unique_premium_renewal_reward_per_period')
+        ]
+        ordering = ['-granted_at']
+
+    def __str__(self):
+        return f"{self.user.username} +{self.points}pt ({self.period_start.date()})"
+
 
 class FCMDevice(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True)

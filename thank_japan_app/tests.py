@@ -3,16 +3,23 @@ from datetime import timedelta
 from unittest.mock import MagicMock, patch
 from urllib.parse import quote as urlquote
 
+from dateutil.relativedelta import relativedelta
+
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.core.management import call_command
+from django.db import transaction
+from django.db.utils import IntegrityError
 from django.test import Client, RequestFactory, SimpleTestCase, TestCase, override_settings
 from django.urls import reverse
 from django.utils import timezone
 
 from . import context_processors, tile_split
-from .models import DailyQuestion, Player, Profile, ThankJapanModel, ThankJapanPremium
-from .views import combo_bonus_for_streak, _sample_easy_ids, FIRST_TASTE_QUESTION_COUNT
+from .models import DailyQuestion, Player, Profile, PremiumRenewalReward, ThankJapanModel, ThankJapanPremium
+from .views import (
+    combo_bonus_for_streak, _sample_easy_ids, FIRST_TASTE_QUESTION_COUNT,
+    grant_renewal_rewards_if_due, PREMIUM_RENEWAL_REWARD_POINTS, PREMIUM_RENEWAL_REWARD_MAX_CATCHUP,
+)
 from .pricing import (
     get_premium_price, get_top_page_seo_override,
     DEFAULT_TOP_PAGE_TITLE, DEFAULT_TOP_PAGE_DESCRIPTION,
@@ -2567,3 +2574,371 @@ class GameStartTabletElementScalingTests(TestCase):
 
         self.assertIn('.play-btn {\n    font-family:', body)
         self.assertIn("font-size: 1.7rem;", body)
+
+
+class PremiumRenewalRewardModelTests(TestCase):
+    """The (user, period_start) unique constraint is the actual double-
+    grant guard for the premium continuation benefit - not caller
+    coordination between the webhook and the daily batch."""
+
+    def setUp(self):
+        self.user = User.objects.create_user(username='reward_model_user', password='pass12345')
+
+    def test_duplicate_period_start_for_same_user_is_rejected(self):
+        period_start = timezone.now()
+        PremiumRenewalReward.objects.create(user=self.user, period_start=period_start, points=50)
+        with self.assertRaises(IntegrityError):
+            with transaction.atomic():
+                PremiumRenewalReward.objects.create(user=self.user, period_start=period_start, points=50)
+
+    def test_same_period_start_allowed_for_different_users(self):
+        other_user = User.objects.create_user(username='reward_model_user2', password='pass12345')
+        period_start = timezone.now()
+        PremiumRenewalReward.objects.create(user=self.user, period_start=period_start, points=50)
+        PremiumRenewalReward.objects.create(user=other_user, period_start=period_start, points=50)
+        self.assertEqual(PremiumRenewalReward.objects.count(), 2)
+
+
+class GrantRenewalRewardsIfDueTests(TestCase):
+    """2026-09-06: the premium continuation benefit's core logic, shared by
+    the daily grant_premium_renewal_points batch and the PayPal ACTIVATED
+    webhook's opportunistic fast path. No historical contract-start date
+    exists for anyone, so the first sighting of a real (non-trial) premium
+    profile just anchors "now" rather than granting retroactively."""
+
+    def setUp(self):
+        self.user = User.objects.create_user(username='grant_logic_user', password='pass12345')
+        self.profile = self.user.profile
+        self.profile.is_premium = True
+        self.profile.is_trial = False
+        self.profile.save()
+
+    def test_first_call_sets_anchor_and_grants_nothing(self):
+        count = grant_renewal_rewards_if_due(self.profile)
+
+        self.assertEqual(count, 0)
+        self.profile.refresh_from_db()
+        self.assertIsNotNone(self.profile.premium_paid_started_at)
+        self.assertEqual(self.profile.total_score, 0)
+        self.assertEqual(PremiumRenewalReward.objects.filter(user=self.user).count(), 0)
+
+    def test_grants_50pt_after_one_month_elapsed(self):
+        self.profile.premium_paid_started_at = timezone.now() - relativedelta(months=1, days=1)
+        self.profile.save()
+
+        count = grant_renewal_rewards_if_due(self.profile)
+
+        self.assertEqual(count, 1)
+        self.profile.refresh_from_db()
+        self.assertEqual(self.profile.total_score, PREMIUM_RENEWAL_REWARD_POINTS)
+        self.assertEqual(PremiumRenewalReward.objects.filter(user=self.user).count(), 1)
+
+    def test_no_grant_before_one_month_elapsed(self):
+        self.profile.premium_paid_started_at = timezone.now() - relativedelta(days=10)
+        self.profile.save()
+
+        count = grant_renewal_rewards_if_due(self.profile)
+
+        self.assertEqual(count, 0)
+        self.profile.refresh_from_db()
+        self.assertEqual(self.profile.total_score, 0)
+
+    def test_calling_twice_in_the_same_period_does_not_double_grant(self):
+        self.profile.premium_paid_started_at = timezone.now() - relativedelta(months=1, days=1)
+        self.profile.save()
+
+        grant_renewal_rewards_if_due(self.profile)
+        self.profile.refresh_from_db()
+        second_count = grant_renewal_rewards_if_due(self.profile)
+
+        self.assertEqual(second_count, 0)
+        self.profile.refresh_from_db()
+        self.assertEqual(self.profile.total_score, PREMIUM_RENEWAL_REWARD_POINTS)
+        self.assertEqual(PremiumRenewalReward.objects.filter(user=self.user).count(), 1)
+
+    def test_catchup_is_bounded_by_max_catchup_constant(self):
+        # anchor set far enough in the past that many periods have elapsed -
+        # a missed-run scenario must not grant a runaway number of periods.
+        self.profile.premium_paid_started_at = timezone.now() - relativedelta(months=10)
+        self.profile.save()
+
+        count = grant_renewal_rewards_if_due(self.profile)
+
+        self.assertEqual(count, PREMIUM_RENEWAL_REWARD_MAX_CATCHUP)
+        self.profile.refresh_from_db()
+        self.assertEqual(self.profile.total_score, PREMIUM_RENEWAL_REWARD_POINTS * PREMIUM_RENEWAL_REWARD_MAX_CATCHUP)
+
+    def test_player_model_stays_in_sync_after_grant(self):
+        Player.objects.create(username=self.user.username, total_score=0)
+        self.profile.premium_paid_started_at = timezone.now() - relativedelta(months=1, days=1)
+        self.profile.save()
+
+        grant_renewal_rewards_if_due(self.profile)
+
+        player = Player.objects.get(username=self.user.username)
+        self.assertEqual(player.total_score, PREMIUM_RENEWAL_REWARD_POINTS)
+
+    def test_points_persist_after_premium_is_cancelled(self):
+        self.profile.premium_paid_started_at = timezone.now() - relativedelta(months=1, days=1)
+        self.profile.save()
+        grant_renewal_rewards_if_due(self.profile)
+        self.profile.refresh_from_db()
+        self.assertEqual(self.profile.total_score, PREMIUM_RENEWAL_REWARD_POINTS)
+
+        # Cancellation logic elsewhere only ever touches these 3 fields.
+        self.profile.is_premium = False
+        self.profile.is_trial = False
+        self.profile.premium_expires_at = None
+        self.profile.save()
+
+        self.profile.refresh_from_db()
+        self.assertEqual(self.profile.total_score, PREMIUM_RENEWAL_REWARD_POINTS)
+        self.assertEqual(PremiumRenewalReward.objects.filter(user=self.user).count(), 1)
+
+
+class GrantPremiumRenewalPointsCommandTests(TestCase):
+    """The daily batch (see project decision: runs once a day, is the
+    reliable primary path for both PayPal and Google Play since Google
+    Play has no webhook/RTDN infrastructure at all)."""
+
+    def setUp(self):
+        self.trial_user = User.objects.create_user(username='batch_trial_user', password='pass12345')
+        self.trial_user.profile.is_premium = True
+        self.trial_user.profile.is_trial = True
+        self.trial_user.profile.save()
+
+        self.new_paid_user = User.objects.create_user(username='batch_new_paid_user', password='pass12345')
+        self.new_paid_user.profile.is_premium = True
+        self.new_paid_user.profile.is_trial = False
+        self.new_paid_user.profile.save()
+
+        self.due_user = User.objects.create_user(username='batch_due_user', password='pass12345')
+        self.due_user.profile.is_premium = True
+        self.due_user.profile.is_trial = False
+        self.due_user.profile.premium_paid_started_at = timezone.now() - relativedelta(months=1, days=1)
+        self.due_user.profile.save()
+
+        self.free_user = User.objects.create_user(username='batch_free_user', password='pass12345')
+
+    def test_trial_users_are_never_touched(self):
+        call_command('grant_premium_renewal_points')
+
+        self.trial_user.profile.refresh_from_db()
+        self.assertIsNone(self.trial_user.profile.premium_paid_started_at)
+        self.assertEqual(self.trial_user.profile.total_score, 0)
+
+    def test_free_non_premium_users_are_never_touched(self):
+        call_command('grant_premium_renewal_points')
+
+        self.free_user.profile.refresh_from_db()
+        self.assertIsNone(self.free_user.profile.premium_paid_started_at)
+
+    def test_new_paid_user_gets_anchored_not_granted(self):
+        call_command('grant_premium_renewal_points')
+
+        self.new_paid_user.profile.refresh_from_db()
+        self.assertIsNotNone(self.new_paid_user.profile.premium_paid_started_at)
+        self.assertEqual(self.new_paid_user.profile.total_score, 0)
+
+    def test_due_user_gets_granted(self):
+        call_command('grant_premium_renewal_points')
+
+        self.due_user.profile.refresh_from_db()
+        self.assertEqual(self.due_user.profile.total_score, PREMIUM_RENEWAL_REWARD_POINTS)
+
+    def test_running_command_twice_does_not_double_grant(self):
+        call_command('grant_premium_renewal_points')
+        call_command('grant_premium_renewal_points')
+
+        self.due_user.profile.refresh_from_db()
+        self.assertEqual(self.due_user.profile.total_score, PREMIUM_RENEWAL_REWARD_POINTS)
+        self.assertEqual(PremiumRenewalReward.objects.filter(user=self.due_user).count(), 1)
+
+
+@override_settings(
+    PAYPAL_CLIENT_ID='test-client-id',
+    PAYPAL_CLIENT_SECRET='test-client-secret',
+    PAYPAL_MODE='sandbox',
+    PAYPAL_PLAN_ID='P-TESTPLAN',
+    PAYPAL_WEBHOOK_ID='WH-TEST',
+    SECURE_SSL_REDIRECT=False,
+)
+class PaypalWebhookRenewalRewardTests(TestCase):
+    """The PayPal ACTIVATED webhook's opportunistic fast path for the
+    continuation benefit - the daily batch is what actually guarantees the
+    grant happens, this just lets it happen sooner when the webhook fires."""
+
+    def setUp(self):
+        self.user = User.objects.create_user(username='webhook_reward_user', password='pass12345')
+        self.user.profile.is_premium = True
+        self.user.profile.is_trial = False
+        self.user.profile.paypal_subscription_id = 'I-REWARDSUB'
+        self.user.profile.premium_paid_started_at = timezone.now() - relativedelta(months=1, days=1)
+        self.user.profile.save()
+
+        self.paypal_headers = {
+            'HTTP_PAYPAL_AUTH_ALGO': 'SHA256withRSA',
+            'HTTP_PAYPAL_CERT_URL': 'https://api.paypal.com/cert',
+            'HTTP_PAYPAL_TRANSMISSION_ID': 'txn-reward',
+            'HTTP_PAYPAL_TRANSMISSION_SIG': 'sig',
+            'HTTP_PAYPAL_TRANSMISSION_TIME': timezone.now().isoformat(),
+        }
+
+    @staticmethod
+    def _post_side_effect():
+        def side_effect(url, **kwargs):
+            if 'oauth2/token' in url:
+                return _mock_response(200, {'access_token': 'tok'})
+            if 'verify-webhook-signature' in url:
+                return _mock_response(200, {'verification_status': 'SUCCESS'})
+            raise AssertionError(f'unexpected POST to {url}')
+        return side_effect
+
+    @staticmethod
+    def _regular_subscription_payload(next_billing_time):
+        return {
+            'status': 'ACTIVE',
+            'plan_id': 'P-TESTPLAN',
+            'billing_info': {
+                'next_billing_time': next_billing_time,
+                'cycle_executions': [
+                    {'tenure_type': 'REGULAR', 'sequence': 1, 'cycles_completed': 3, 'total_cycles': 0},
+                ],
+            },
+        }
+
+    @patch('thank_japan_app.views.requests.get')
+    @patch('thank_japan_app.views.requests.post')
+    def test_activated_webhook_grants_reward_for_real_subscriber(self, mock_post, mock_get):
+        mock_post.side_effect = self._post_side_effect()
+        mock_get.return_value = _mock_response(
+            200, self._regular_subscription_payload((timezone.now() + timedelta(days=30)).isoformat())
+        )
+
+        response = self.client.post(
+            reverse('paypal_webhook'),
+            data=json.dumps({'event_type': 'BILLING.SUBSCRIPTION.ACTIVATED', 'resource': {'id': 'I-REWARDSUB'}}),
+            content_type='application/json',
+            **self.paypal_headers,
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.user.profile.refresh_from_db()
+        self.assertEqual(self.user.profile.total_score, PREMIUM_RENEWAL_REWARD_POINTS)
+
+    @patch('thank_japan_app.views.requests.get')
+    @patch('thank_japan_app.views.requests.post')
+    def test_activated_webhook_does_not_grant_during_trial(self, mock_post, mock_get):
+        mock_post.side_effect = self._post_side_effect()
+        mock_get.return_value = _mock_response(200, {
+            'status': 'ACTIVE',
+            'plan_id': 'P-TESTPLAN',
+            'billing_info': {
+                'next_billing_time': (timezone.now() + timedelta(days=7)).isoformat(),
+                'cycle_executions': [
+                    {'tenure_type': 'TRIAL', 'sequence': 1, 'cycles_completed': 0, 'total_cycles': 1},
+                ],
+            },
+        })
+
+        response = self.client.post(
+            reverse('paypal_webhook'),
+            data=json.dumps({'event_type': 'BILLING.SUBSCRIPTION.ACTIVATED', 'resource': {'id': 'I-REWARDSUB'}}),
+            content_type='application/json',
+            **self.paypal_headers,
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.user.profile.refresh_from_db()
+        self.assertTrue(self.user.profile.is_trial)
+        self.assertEqual(self.user.profile.total_score, 0)
+
+    @patch('thank_japan_app.views.requests.get')
+    @patch('thank_japan_app.views.requests.post')
+    def test_points_persist_after_subscription_cancelled_via_webhook(self, mock_post, mock_get):
+        mock_post.side_effect = self._post_side_effect()
+        mock_get.return_value = _mock_response(
+            200, self._regular_subscription_payload((timezone.now() + timedelta(days=30)).isoformat())
+        )
+
+        self.client.post(
+            reverse('paypal_webhook'),
+            data=json.dumps({'event_type': 'BILLING.SUBSCRIPTION.ACTIVATED', 'resource': {'id': 'I-REWARDSUB'}}),
+            content_type='application/json',
+            **self.paypal_headers,
+        )
+        self.user.profile.refresh_from_db()
+        self.assertEqual(self.user.profile.total_score, PREMIUM_RENEWAL_REWARD_POINTS)
+
+        cancel_response = self.client.post(
+            reverse('paypal_webhook'),
+            data=json.dumps({'event_type': 'BILLING.SUBSCRIPTION.CANCELLED', 'resource': {'id': 'I-REWARDSUB'}}),
+            content_type='application/json',
+            **self.paypal_headers,
+        )
+
+        self.assertEqual(cancel_response.status_code, 200)
+        self.user.profile.refresh_from_db()
+        self.assertFalse(self.user.profile.is_premium)
+        self.assertEqual(self.user.profile.total_score, PREMIUM_RENEWAL_REWARD_POINTS)
+
+
+PREMIUM_REWARD_HEADING_BY_URL_NAME = {
+    'account_settings': 'CONTINUATION REWARDS',
+    'account_settingsde': 'TREUEBONUS',
+    'account_settingsenIN': 'CONTINUATION REWARDS',
+    'account_settingsesES': 'BONO DE FIDELIDAD',
+    'account_settingsesMX': 'BONO DE FIDELIDAD',
+    'account_settingsfr': 'BONUS DE FIDÉLITÉ',
+    'account_settingsit': 'BONUS FEDELTÀ',
+    'account_settingsja': '継続特典',
+    'account_settingsko': '구독 유지 혜택',
+    'account_settingspt': 'BÔNUS DE FIDELIDADE',
+    'account_settingsptBR': 'BÔNUS DE FIDELIDADE',
+    'account_settingsth': 'โบนัสสมาชิกต่อเนื่อง',
+    'account_settingsvi': 'THƯỞNG DUY TRÌ',
+    'account_settingszhHANT': '續約禮遇',
+    'account_settingszhCN': '续约礼遇',
+}
+
+
+@override_settings(SECURE_SSL_REDIRECT=False)
+class AccountSettingsRenewalRewardHistoryTests(TestCase):
+    """2026-09-06: 'recent 5 rewards' history on the account settings page,
+    in all 15 supported locales - the account_settings* views are 15
+    separate near-duplicate view functions/templates (one per locale, a
+    pre-existing pattern), so this is deliberately exercised per-locale
+    rather than just once."""
+
+    def setUp(self):
+        self.user = User.objects.create_user(username='reward_history_user', password='pass12345')
+        self.client.login(username='reward_history_user', password='pass12345')
+
+        base_time = timezone.now()
+        # 7 rewards granted - only the most recent 5 should be displayed.
+        for i in range(7):
+            PremiumRenewalReward.objects.create(
+                user=self.user,
+                period_start=base_time - relativedelta(months=7 - i),
+                points=50,
+                granted_at=base_time - relativedelta(months=7 - i),
+            )
+
+    def test_reward_heading_and_recent_entries_render_per_locale(self):
+        for url_name, expected_heading in PREMIUM_REWARD_HEADING_BY_URL_NAME.items():
+            with self.subTest(url_name=url_name):
+                response = self.client.get(reverse(url_name))
+                body = response.content.decode()
+
+                self.assertEqual(response.status_code, 200)
+                self.assertIn(expected_heading, body, msg=f"url_name={url_name}")
+                self.assertEqual(len(response.context['recent_renewal_rewards']), 5)
+                self.assertEqual(body.count('+50pt'), 5, msg=f"url_name={url_name}")
+
+    def test_no_reward_section_shown_when_user_has_no_rewards(self):
+        PremiumRenewalReward.objects.filter(user=self.user).delete()
+
+        response = self.client.get(reverse('account_settings'))
+        body = response.content.decode()
+
+        self.assertNotIn('CONTINUATION REWARDS', body)

@@ -301,6 +301,22 @@
                     </div>
                 </div>
 
+                {% if recent_renewal_rewards %}
+                <div style="margin-top: 20px; border: 1px solid rgba(212,175,55,0.3); border-radius: 8px; padding: 15px; background: rgba(0,0,0,0.15);">
+                    <div style="color: var(--tj-gold-light); font-size: 0.75rem; font-weight: bold; letter-spacing: 1px; margin-bottom: 12px;">
+                        🎁 {% if lang_code == 'ja' %}継続特典{% elif lang_code == 'zh-hant' %}續約禮遇{% elif lang_code == 'zh-cn' %}续约礼遇{% elif lang_code == 'ko' %}구독 유지 혜택{% elif lang_code == 'de' %}TREUEBONUS{% elif lang_code == 'fr' %}BONUS DE FIDÉLITÉ{% elif lang_code == 'es-es' or lang_code == 'es-mx' %}BONO DE FIDELIDAD{% elif lang_code == 'it' %}BONUS FEDELTÀ{% elif lang_code == 'pt' or lang_code == 'pt-br' %}BÔNUS DE FIDELIDADE{% elif lang_code == 'vi' %}THƯỞNG DUY TRÌ{% elif lang_code == 'th' %}โบนัสสมาชิกต่อเนื่อง{% else %}CONTINUATION REWARDS{% endif %}
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 8px;">
+                        {% for reward in recent_renewal_rewards %}
+                        <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; color: #ddd;">
+                            <span>{{ reward.granted_at|date:"Y-m-d" }}</span>
+                            <span style="color: var(--tj-gold-light); font-weight: bold;">+{{ reward.points }}pt</span>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+
                 <div class="action-group" style="margin-top: 30px;">
                     {% include 'includes/daily_question_notify_toggle.html' %}
                     {% if not user.profile.is_premium or user.profile.is_trial %}
