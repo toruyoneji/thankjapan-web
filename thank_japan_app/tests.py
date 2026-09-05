@@ -2942,3 +2942,59 @@ class AccountSettingsRenewalRewardHistoryTests(TestCase):
         body = response.content.decode()
 
         self.assertNotIn('CONTINUATION REWARDS', body)
+
+
+PREMIUM_INFO_URL_NAMES = [
+    'premium_info', 'premium_infode', 'premium_infoenIN', 'premium_infoesES',
+    'premium_infoesMX', 'premium_infofr', 'premium_infoit', 'premium_infoja',
+    'premium_infoko', 'premium_infopt', 'premium_infoptBR', 'premium_infoth',
+    'premium_infovi', 'premium_infozhHANT', 'premium_infozhCN',
+]
+
+# Ad-related substrings that must no longer appear on any premium_info
+# page, keyed just for readability - checked across the whole page body
+# regardless of which locale's template it came from.
+AD_FREE_LEFTOVER_SUBSTRINGS = [
+    'Ad-Free', 'ad-free', 'Werbefrei', 'publicité', 'Pubblicità', 'pubblicità',
+    'Publicidad', 'Anúncios', 'anúncios', '広告', '广告', '廣告', '광고',
+    'โฆษณา', 'quảng cáo',
+]
+
+
+class PremiumInfoBenefitsListTests(TestCase):
+    """2026-09-06: ThankJapan never had ads to begin with, so 'Ad-Free
+    Experience' never made sense as a premium perk - replaced with the
+    real continuation benefit (+50pt every month, see
+    grant_renewal_rewards_if_due) across all 15 premium_info pages.
+
+    Each template has two plan-feature lists in its source (one for the
+    web/PayPal card inside {% if not is_twa %}, one for the Google Play
+    card inside {% else %}), but only one branch ever renders per request
+    - so the two variants are checked here via two separate requests
+    (default web, and TWA-simulated) rather than expecting both markers
+    in a single response body."""
+
+    def test_ad_free_wording_is_gone_and_50pt_benefit_present_per_locale(self):
+        for url_name in PREMIUM_INFO_URL_NAMES:
+            with self.subTest(url_name=url_name, branch='web'):
+                response = self.client.get(reverse(url_name))
+                body = response.content.decode()
+
+                self.assertEqual(response.status_code, 200)
+                for leftover in AD_FREE_LEFTOVER_SUBSTRINGS:
+                    self.assertNotIn(leftover, body, msg=f"url_name={url_name} leftover={leftover!r}")
+                self.assertEqual(body.count('+50'), 1, msg=f"url_name={url_name}")
+
+            with self.subTest(url_name=url_name, branch='twa'):
+                twa_client = Client()
+                session = twa_client.session
+                session['is_twa'] = True
+                session.save()
+
+                response = twa_client.get(reverse(url_name))
+                body = response.content.decode()
+
+                self.assertEqual(response.status_code, 200)
+                for leftover in AD_FREE_LEFTOVER_SUBSTRINGS:
+                    self.assertNotIn(leftover, body, msg=f"url_name={url_name} (twa) leftover={leftover!r}")
+                self.assertEqual(body.count('+50'), 1, msg=f"url_name={url_name} (twa)")
