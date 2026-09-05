@@ -3150,6 +3150,70 @@ class DailyQuestionPromptSpacingTests(TestCase):
         )
 
 
+class DailyQuestionResultSpacingTests(TestCase):
+    """2026-09-06: the result screen (share buttons etc.) has the same
+    "first thing in the scroll area now overlaps the fixed .app-header"
+    problem the question screen had, since it also lost the page title.
+    Its outer card gets a second class (dq-result-card) carrying the same
+    margin-top - scoped so the visually-identical .dq-card used by the
+    already_answered state (which the user did not ask to change) is left
+    alone."""
+
+    def setUp(self):
+        self.today = timezone.localdate()
+        self.word = ThankJapanModel.objects.create(
+            name='result-spacing-word', englishname='Word', jpname='いぬ',
+            kanji_name='犬', katakana_name='イヌ', category='animal',
+            slug='result-spacing-word', description='d', history='h')
+        DailyQuestion.objects.create(date=self.today, word=self.word)
+
+    def _answer(self):
+        tiles = json.loads(self.client.get(reverse('daily_question')).context['tiles_json'])
+        return self.client.post(reverse('daily_question'), {'answer_tiles': json.dumps(tiles)})
+
+    def test_result_card_has_top_margin(self):
+        response = self._answer()
+        body = response.content.decode()
+
+        self.assertEqual(response.context['daily_state'], 'result')
+        self.assertIn('class="dq-card dq-result-card"', body)
+        self.assertIn('#daily-question-wrapper .dq-result-card { margin-top: 35px; }', body)
+
+    def test_already_answered_card_does_not_get_the_extra_class_or_margin(self):
+        # .dq-result-card's CSS rule is always present in the page's
+        # <style> block regardless of state (same as any other rule in
+        # that shared stylesheet), so the check that matters is the
+        # *markup* - the class must not be applied to any actual element
+        # here, and the plain unmodified .dq-card must still be used.
+        session = self.client.session
+        session['daily_question_answered_date'] = self.today.isoformat()
+        session.save()
+
+        response = self.client.get(reverse('daily_question'))
+        body = response.content.decode()
+
+        self.assertEqual(response.context['daily_state'], 'already_answered')
+        self.assertNotIn('class="dq-card dq-result-card"', body)
+        self.assertIn('<div class="dq-card">', body)
+
+    def test_question_state_prompt_card_margin_is_unaffected(self):
+        # the earlier question-screen fix must still be exactly as it was
+        response = self.client.get(reverse('daily_question'))
+        body = response.content.decode()
+
+        self.assertEqual(response.context['daily_state'], 'question')
+        self.assertIn('#daily-question-wrapper .dq-prompt-card {', body)
+        self.assertNotIn('class="dq-card dq-result-card"', body)
+
+    def test_share_functionality_still_works_after_the_layout_change(self):
+        response = self._answer()
+        body = response.content.decode()
+
+        self.assertIn('https://x.com/intent/tweet?text=', body)
+        self.assertIn('handleShareClick(event, this.href,', body)
+        self.assertIn('dq-share-btn', body)
+
+
 class GameStartBackHomeButtonMobileSpacingTests(TestCase):
     """2026-09-06: on real phones, the 'Back to Home' link's fixed 60px
     bottom margin wasn't always enough clearance above the site's fixed

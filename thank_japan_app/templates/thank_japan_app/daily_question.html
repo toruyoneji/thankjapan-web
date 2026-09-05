@@ -90,6 +90,13 @@
         margin-bottom: 25px !important;
     }
 
+    /* Result screen only (not the already_answered state, which also uses
+       .dq-card) - same fix and same value as .dq-prompt-card on the
+       in-progress question screen: this is the first thing in the scroll
+       area now that the page's own title is gone, so it needs its own
+       clearance from the fixed .app-header (logo + pt badge) above it. */
+    #daily-question-wrapper .dq-result-card { margin-top: 35px; }
+
     #daily-question-wrapper .dq-badge {
         display: inline-block;
         padding: 8px 22px;
@@ -249,7 +256,7 @@
         </a>
 
     {% elif daily_state == 'result' %}
-        <div class="dq-card">
+        <div class="dq-card dq-result-card">
             {% if object.image %}
                 <img src="{{ object.image.url }}" alt="{{ object.jpname }}" class="dq-result-image">
             {% endif %}
