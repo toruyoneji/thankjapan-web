@@ -3,6 +3,7 @@ from datetime import timedelta
 from unittest.mock import MagicMock, patch
 from urllib.parse import quote as urlquote
 
+from django.conf import settings
 from django.contrib.auth.models import User
 from django.core.management import call_command
 from django.test import Client, RequestFactory, SimpleTestCase, TestCase, override_settings
@@ -1126,6 +1127,97 @@ class GameResultReviewPromptTests(TestCase):
 
                 self.assertEqual(response.status_code, 200)
                 self.assertContains(response, 'reviewPromptOverlay')
+
+
+class ReviewPromptSurvivesTileGameRenewalTests(TestCase):
+    """2026-09-05: user asked us to reconfirm the in-app review prompt
+    (game_result: is_twa AND logged in AND correct_count>=1 AND not
+    review_prompt_shown) still works after the tile-rearrangement renewal.
+    GameResultReviewPromptTests above proves the gating logic itself by
+    hand-crafting session['game_history'] directly; this instead plays a
+    real question through game_question_data/game_submit_answer so the
+    'correct_count>=1' half of the gate is exercised via the actual tile
+    scoring path, not a fixture standing in for it."""
+
+    def setUp(self):
+        self.user = User.objects.create_user(username='review_tile_tester', password='pass12345')
+        self.client.login(username='review_tile_tester', password='pass12345')
+        ThankJapanModel.objects.create(
+            name='review-tile-word', englishname='Egg', jpname='たまご',
+            kanji_name='卵', katakana_name='タマゴ', category='food',
+            slug='review-tile-word', description='d', history='h')
+
+    def _play_correctly_via_single_mode(self):
+        self.client.get(reverse('game_restart'), {
+            'mode': 'single', 'model_type': 'free', 'slug': 'review-tile-word',
+        })
+        self.client.get(reverse('game_play'))
+        data = json.loads(self.client.get(reverse('game_question_data')).content)
+        correct_order = sorted(data['tiles'], key=lambda t: 'たまご'.index(t))
+        response = self.client.post(
+            reverse('game_submit_answer'),
+            data=json.dumps({'tiles': correct_order, 'seconds_left': 60}),
+            content_type='application/json',
+        )
+        result = json.loads(response.content)
+        self.assertTrue(result['is_correct'], msg=result)
+
+    def test_real_correct_tile_answer_yields_correct_count_and_shows_prompt_for_twa(self):
+        self._play_correctly_via_single_mode()
+        session = self.client.session
+        session['is_twa'] = True
+        session.save()
+
+        response = self.client.get(reverse('game_result'))
+
+        self.assertEqual(response.context['correct_count'], 1)
+        self.assertContains(response, 'reviewPromptOverlay')
+        self.user.profile.refresh_from_db()
+        self.assertTrue(self.user.profile.review_prompt_shown)
+
+    def test_x_requested_with_header_signal_also_shows_prompt(self):
+        # the header-based TWA signal (set by Chrome's TWA handshake),
+        # independent of the session-flag path exercised above.
+        self._play_correctly_via_single_mode()
+
+        response = self.client.get(reverse('game_result'), HTTP_X_REQUESTED_WITH=settings.PACKAGE_NAME)
+
+        self.assertContains(response, 'reviewPromptOverlay')
+
+    def test_correct_tile_answer_alone_does_not_show_prompt_without_twa_signal(self):
+        self._play_correctly_via_single_mode()
+
+        response = self.client.get(reverse('game_result'))
+
+        self.assertEqual(response.context['correct_count'], 1)
+        self.assertNotContains(response, 'reviewPromptOverlay')
+        self.user.profile.refresh_from_db()
+        self.assertFalse(self.user.profile.review_prompt_shown)
+
+    def test_incorrect_tile_answer_does_not_show_prompt_even_when_twa(self):
+        self.client.get(reverse('game_restart'), {
+            'mode': 'single', 'model_type': 'free', 'slug': 'review-tile-word',
+        })
+        self.client.get(reverse('game_play'))
+        data = json.loads(self.client.get(reverse('game_question_data')).content)
+        wrong_order = list(reversed(data['tiles']))
+        if wrong_order == sorted(data['tiles'], key=lambda t: 'たまご'.index(t)):
+            self.skipTest('reversed order happened to already be correct')
+
+        response = self.client.post(
+            reverse('game_submit_answer'),
+            data=json.dumps({'tiles': wrong_order, 'seconds_left': 60}),
+            content_type='application/json',
+        )
+        self.assertFalse(json.loads(response.content)['is_correct'])
+
+        session = self.client.session
+        session['is_twa'] = True
+        session.save()
+        response = self.client.get(reverse('game_result'))
+
+        self.assertEqual(response.context['correct_count'], 0)
+        self.assertNotContains(response, 'reviewPromptOverlay')
 
 
 class GameResultTimeLimitLabelTests(TestCase):
