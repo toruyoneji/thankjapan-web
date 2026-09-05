@@ -2540,3 +2540,30 @@ class GamePlayTabletElementScalingTests(TestCase):
         # tile spacing (both within a row and between the answer/bank rows)
         self.assertIn('.answer-row, .bank-row { max-width: 680px; gap: 20px; }', body)
         self.assertIn('.answer-row { margin-bottom: 28px; }', body)
+
+
+class GameStartTabletElementScalingTests(TestCase):
+    """2026-09-05: game_start's .container is a flex column with no
+    justify-content, so it defaults to flex-start - invisible on a phone
+    (content roughly fills the viewport anyway) but on a tablet-portrait
+    viewport (much taller for a similar width) everything clumped near the
+    top with a large empty band below. Same (min-width: 768px) and
+    (orientation: portrait) scope as game_play's tablet fix, spreading
+    .container's children out with justify-content: space-evenly and
+    scaling up the PLAY button and related elements to match."""
+
+    def test_tablet_media_query_distributes_and_scales_elements(self):
+        body = self.client.get(reverse('game_start')).content.decode()
+
+        self.assertIn('@media (min-width: 768px) and (orientation: portrait)', body)
+        self.assertIn('justify-content: space-evenly', body)
+        self.assertIn('.play-btn { font-size: 2.3rem;', body)
+        self.assertIn('.rules-card { max-width: 560px;', body)
+
+    def test_base_phone_pc_sizing_is_still_present_and_unscoped(self):
+        # the original (non-tablet) rules must remain exactly as they were,
+        # since PC/phone should see no change at all.
+        body = self.client.get(reverse('game_start')).content.decode()
+
+        self.assertIn('.play-btn {\n    font-family:', body)
+        self.assertIn("font-size: 1.7rem;", body)

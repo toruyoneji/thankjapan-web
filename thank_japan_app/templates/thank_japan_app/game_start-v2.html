@@ -153,6 +153,50 @@ body::before, body::after { display: none; }
     .container { margin-top: 110px !important; }
     .play-btn { font-size: 1.4rem; padding: 18px 42px; }
 }
+
+/* Tablet-only: .container was already a flex column (align-items: center)
+   but never declared a justify-content, so it defaulted to flex-start -
+   on a phone that's invisible (the content roughly fills the viewport
+   anyway), but on a tablet-portrait viewport (much taller for a similar
+   width) everything just clumped near the top with a large dead band of
+   background below. Spreading the same children out with
+   justify-content + a height floor fixes that without restructuring
+   anything; the size bumps below match the game_play tablet treatment so
+   the two screens feel consistent. Scoped to (min-width: 768px) +
+   portrait so PC (essentially never portrait) and phones are untouched. */
+@media (min-width: 768px) and (orientation: portrait) {
+    .container {
+        max-width: 620px;
+        min-height: calc(100vh - 75px); /* clears .app-content's bottom-nav padding */
+        justify-content: space-evenly;
+        margin-top: 0; margin-bottom: 0;
+    }
+
+    .start-game-title { font-size: 1.7em; margin-bottom: 0; }
+
+    .play-btn { font-size: 2.3rem; padding: 28px 84px; border-radius: 32px; border-bottom-width: 8px; gap: 16px; }
+    .play-btn .tri { border-top-width: 15px; border-bottom-width: 15px; border-left-width: 24px; }
+    .approach-track { gap: 12px; }
+    .approach-track .stone { width: 16px; height: 16px; }
+    .approach-track .stone.here { width: 22px; height: 22px; }
+    .approach-track .stone-arrow { font-size: 1.2rem; }
+    .sparkle { font-size: 1.5rem; }
+
+    .rules-card { max-width: 560px; width: 100%; margin: 0 auto; padding: 26px 22px; border-radius: 20px; }
+    .rules-steps { font-size: 1.25rem; gap: 14px; }
+    .rules-steps .tile-demo span { font-size: 1.3rem; padding: 6px 12px; border-radius: 8px; }
+    .rules-caption { font-size: 1.1em; }
+
+    .player-info { max-width: 560px; width: 100%; margin: 0 auto; padding: 14px; font-size: 1.15em; border-radius: 18px; }
+
+    .btn-more { padding: 16px 36px; font-size: 1.1rem; }
+
+    /* the back-to-home wrapper carries a fixed inline margin (40px 0 60px
+       0) sized for the old top-clumped layout - space-evenly above
+       already distributes the gaps, so that fixed margin would just stack
+       an extra lopsided gap on top of it. */
+    .container > div[style*="margin"] { margin: 0 !important; }
+}
 </style>
 
 <div class="container">
