@@ -2495,12 +2495,12 @@ class GamePlayDualBgmTests(TestCase):
         self.assertIn("mainTrack.addEventListener('volumechange'", body)
         self.assertIn('topTrack.muted = mainTrack.muted', body)
 
-    def test_tracks_are_balanced_roughly_50_50(self):
+    def test_tracks_are_balanced_40_60(self):
         with patch('thank_japan_app.views.get_bgm_url', side_effect=lambda t: f'https://example.com/{t}.mp3'):
             response = self.client.get(reverse('game_play'))
         body = response.content.decode()
-        self.assertIn('topTrack.volume = 0.5', body)
-        self.assertIn('mainTrack.volume = 0.5', body)
+        self.assertIn('topTrack.volume = 0.4', body)
+        self.assertIn('mainTrack.volume = 0.6', body)
 
     def test_second_track_omitted_when_no_top_bgm_configured(self):
         with patch('thank_japan_app.views.get_bgm_url', side_effect=lambda t: 'https://example.com/game.mp3' if t == 'game' else None):
@@ -2534,6 +2534,9 @@ class GamePlayTabletElementScalingTests(TestCase):
         self.assertIn('@media (min-width: 768px) and (orientation: portrait)', body)
         # one representative rule per element family named in the request
         self.assertIn('.prompt-card img { max-width: 380px; height: 240px; }', body)
-        self.assertIn('.tile, .slot { font-size: 1.5rem;', body)
+        self.assertIn('.tile, .slot { font-size: 1.875rem;', body)
         self.assertIn('.ring-wrap { width: 96px; height: 96px; }', body)
         self.assertIn('.ki-gauge-wrap { max-width: 380px; }', body)
+        # tile spacing (both within a row and between the answer/bank rows)
+        self.assertIn('.answer-row, .bank-row { max-width: 680px; gap: 20px; }', body)
+        self.assertIn('.answer-row { margin-bottom: 28px; }', body)

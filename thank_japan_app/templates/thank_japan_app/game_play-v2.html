@@ -315,8 +315,9 @@ body {
     .stone { width: 22px; height: 22px; }
     .stone.gate { width: 36px; height: 36px; font-size: 1.8rem; }
 
-    .answer-row, .bank-row { max-width: 680px; gap: 14px; }
-    .tile, .slot { font-size: 1.5rem; padding: 14px 20px; min-width: 62px; min-height: 62px; }
+    .answer-row, .bank-row { max-width: 680px; gap: 20px; }
+    .answer-row { margin-bottom: 28px; }
+    .tile, .slot { font-size: 1.875rem; padding: 16px 22px; min-width: 68px; min-height: 68px; }
 }
 
 /* ---------- time-up / "spend points to extend" modal ---------- */
@@ -901,10 +902,10 @@ body {
     const mainTrack = document.getElementById('bgm-player');
     if (!topTrack) return;
 
-    topTrack.volume = 0.5;
+    topTrack.volume = 0.4;
 
     if (mainTrack) {
-        mainTrack.volume = 0.5; // roughly even 50/50 mix with the top track above
+        mainTrack.volume = 0.6; // 40/60 mix - top track as ambience, game track still lead
         topTrack.muted = mainTrack.muted;
         mainTrack.addEventListener('volumechange', function () {
             topTrack.muted = mainTrack.muted;
