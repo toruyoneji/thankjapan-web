@@ -272,12 +272,185 @@ body {
     #premium-auth-container { padding-top: 0 !important; }
     .main2 { margin-top: 24px !important; }
 }
+
+/* ---------- time-up / "spend points to extend" modal ---------- */
+#timeup-modal-overlay {
+  position: fixed; inset: 0; background: rgba(10,8,4,0.75); z-index: 700;
+  display: flex; align-items: center; justify-content: center; padding: 20px; box-sizing: border-box;
+}
+.timeup-modal-card {
+  max-width: 460px; width: 100%; box-sizing: border-box;
+  background:
+    repeating-linear-gradient(0deg, rgba(255,255,255,0.05) 0px, rgba(255,255,255,0.05) 2px, transparent 2px, transparent 36px),
+    linear-gradient(135deg, #7c9473, #5e7458);
+  border-radius: 24px; border: 1px solid var(--wood-border); border-top: 6px solid var(--gold);
+  box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+  padding: 32px 26px; text-align: center;
+  animation: timeupCardIn 0.35s cubic-bezier(.34,1.4,.64,1);
+}
+@keyframes timeupCardIn {
+  0% { transform: scale(0.85); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+.timeup-icon { font-size: 2.6rem; margin-bottom: 6px; }
+.timeup-title {
+  font-family: 'Zen Maru Gothic', 'Zen Antique', sans-serif; font-weight: 900;
+  color: var(--gold-light); font-size: 1.5rem; margin: 0 0 14px;
+  text-shadow: 0 0 20px rgba(232,207,122,0.5);
+}
+.timeup-desc { color: var(--ink-on-green); font-size: 1rem; line-height: 1.6; margin: 0 0 22px; }
+.timeup-actions { display: flex; flex-direction: column; gap: 12px; }
+.timeup-btn {
+  display: block; width: 100%; padding: 16px 0; border-radius: 50px; font-weight: 900;
+  font-size: 1.05rem; cursor: pointer; border: none; text-decoration: none; box-sizing: border-box;
+  transition: transform 0.15s ease; font-family: 'Zen Maru Gothic', 'Inter', sans-serif;
+}
+.timeup-btn:active { transform: scale(0.97); }
+.timeup-btn-primary {
+  background: linear-gradient(180deg, #e8cf7a, #c9a227); color: #2a1d13;
+  border-bottom: 4px solid #90741c;
+}
+.timeup-btn-secondary {
+  background: rgba(255,255,255,0.08); color: var(--ink-on-green);
+  border: 1px solid rgba(255,255,255,0.3);
+}
+.timeup-btn[disabled] { opacity: 0.6; cursor: not-allowed; }
 </style>
 
 <div id="countdown-overlay"{% if skip_countdown %} hidden{% endif %}>
     <div id="countdown-num">3</div>
 </div>
 <div class="hanko-stamp" id="hanko-stamp">極</div>
+
+<div id="timeup-modal-overlay" hidden>
+    <div class="timeup-modal-card">
+        <div class="timeup-icon">⏳</div>
+        <div id="timeup-modal-body"></div>
+    </div>
+</div>
+
+<div hidden>
+    <span id="i18n-timeup-title">
+        {% if lang_code == 'ja' %}タイムアップ！
+        {% elif lang_code == 'zh-hant' %}時間到！
+        {% elif lang_code == 'zh-cn' %}时间到！
+        {% elif lang_code == 'ko' %}시간 종료!
+        {% elif lang_code == 'de' %}Zeit abgelaufen!
+        {% elif lang_code == 'fr' %}Temps écoulé !
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}¡Se acabó el tiempo!
+        {% elif lang_code == 'it' %}Tempo scaduto!
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Tempo esgotado!
+        {% elif lang_code == 'vi' %}Hết giờ!
+        {% elif lang_code == 'th' %}หมดเวลา!
+        {% else %}Time's Up!
+        {% endif %}
+    </span>
+    <span id="i18n-extend-question">
+        {% if lang_code == 'ja' %}ポイントを使って10秒伸ばしますか？それとも終了しますか？
+        {% elif lang_code == 'zh-hant' %}要使用點數延長10秒，還是要結束遊戲？
+        {% elif lang_code == 'zh-cn' %}要使用积分延长10秒，还是结束游戏？
+        {% elif lang_code == 'ko' %}포인트를 사용해서 10초 연장하시겠어요, 아니면 종료하시겠어요?
+        {% elif lang_code == 'de' %}Möchtest du mit Punkten 10 Sekunden verlängern oder das Spiel beenden?
+        {% elif lang_code == 'fr' %}Voulez-vous utiliser des points pour ajouter 10 secondes, ou terminer la partie ?
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}¿Quieres usar puntos para añadir 10 segundos o terminar la partida?
+        {% elif lang_code == 'it' %}Vuoi usare i punti per aggiungere 10 secondi o terminare la partita?
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Quer usar pontos para adicionar 10 segundos ou encerrar o jogo?
+        {% elif lang_code == 'vi' %}Bạn muốn dùng điểm để kéo dài thêm 10 giây, hay kết thúc trò chơi?
+        {% elif lang_code == 'th' %}ต้องการใช้แต้มเพื่อต่อเวลา 10 วินาที หรือจบเกมเลย?
+        {% else %}Use points to add 10 seconds, or end the game?
+        {% endif %}
+    </span>
+    <span id="i18n-btn-yes-extend">
+        {% if lang_code == 'ja' %}はい、延長する (10pt)
+        {% elif lang_code == 'zh-hant' %}是，延長 (10點)
+        {% elif lang_code == 'zh-cn' %}是，延长 (10积分)
+        {% elif lang_code == 'ko' %}예, 연장하기 (10pt)
+        {% elif lang_code == 'de' %}Ja, verlängern (10 Punkte)
+        {% elif lang_code == 'fr' %}Oui, prolonger (10 pts)
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Sí, ampliar (10 pts)
+        {% elif lang_code == 'it' %}Sì, estendi (10 pt)
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Sim, estender (10 pts)
+        {% elif lang_code == 'vi' %}Có, kéo dài (10 điểm)
+        {% elif lang_code == 'th' %}ใช่ ต่อเวลา (10 แต้ม)
+        {% else %}Yes, extend (10pt)
+        {% endif %}
+    </span>
+    <span id="i18n-btn-no-end">
+        {% if lang_code == 'ja' %}いいえ、終了する
+        {% elif lang_code == 'zh-hant' %}否，結束遊戲
+        {% elif lang_code == 'zh-cn' %}否，结束游戏
+        {% elif lang_code == 'ko' %}아니요, 종료하기
+        {% elif lang_code == 'de' %}Nein, beenden
+        {% elif lang_code == 'fr' %}Non, terminer
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}No, terminar
+        {% elif lang_code == 'it' %}No, termina
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Não, encerrar
+        {% elif lang_code == 'vi' %}Không, kết thúc
+        {% elif lang_code == 'th' %}ไม่ จบเกม
+        {% else %}No, end game
+        {% endif %}
+    </span>
+    <span id="i18n-not-enough-points">
+        {% if lang_code == 'ja' %}あと__N__ptで10秒延長できます
+        {% elif lang_code == 'zh-hant' %}再存__N__點即可延長10秒
+        {% elif lang_code == 'zh-cn' %}再攒__N__积分即可延长10秒
+        {% elif lang_code == 'ko' %}__N__pt만 더 모으면 10초 연장할 수 있어요
+        {% elif lang_code == 'de' %}Noch __N__ Punkte, dann kannst du 10 Sekunden verlängern
+        {% elif lang_code == 'fr' %}Encore __N__ points pour prolonger de 10 secondes
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Consigue __N__ puntos más para ampliar 10 segundos
+        {% elif lang_code == 'it' %}Ti mancano __N__ punti per estendere di 10 secondi
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Faltam __N__ pontos para estender 10 segundos
+        {% elif lang_code == 'vi' %}Cần thêm __N__ điểm để kéo dài thêm 10 giây
+        {% elif lang_code == 'th' %}อีก __N__ แต้มจะต่อเวลาได้ 10 วินาที
+        {% else %}Earn __N__ more points to extend by 10 seconds
+        {% endif %}
+    </span>
+    <span id="i18n-btn-end-only">
+        {% if lang_code == 'ja' %}終了する
+        {% elif lang_code == 'zh-hant' %}結束遊戲
+        {% elif lang_code == 'zh-cn' %}结束游戏
+        {% elif lang_code == 'ko' %}종료하기
+        {% elif lang_code == 'de' %}Beenden
+        {% elif lang_code == 'fr' %}Terminer
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Terminar
+        {% elif lang_code == 'it' %}Termina
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Encerrar
+        {% elif lang_code == 'vi' %}Kết thúc
+        {% elif lang_code == 'th' %}จบเกม
+        {% else %}End Game
+        {% endif %}
+    </span>
+    <span id="i18n-guest-desc">
+        {% if lang_code == 'ja' %}会員登録するとポイントを貯めて10秒延長できるようになります！
+        {% elif lang_code == 'zh-hant' %}註冊會員即可累積點數，延長10秒遊戲時間！
+        {% elif lang_code == 'zh-cn' %}注册会员即可累积积分，延长10秒游戏时间！
+        {% elif lang_code == 'ko' %}회원가입하면 포인트를 모아 10초 연장할 수 있어요!
+        {% elif lang_code == 'de' %}Registriere dich, um Punkte zu sammeln und 10 Sekunden zu verlängern!
+        {% elif lang_code == 'fr' %}Inscrivez-vous pour cumuler des points et prolonger de 10 secondes !
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}¡Regístrate para acumular puntos y ampliar 10 segundos!
+        {% elif lang_code == 'it' %}Registrati per accumulare punti ed estendere di 10 secondi!
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Cadastre-se para acumular pontos e estender 10 segundos!
+        {% elif lang_code == 'vi' %}Đăng ký để tích điểm và kéo dài thêm 10 giây!
+        {% elif lang_code == 'th' %}สมัครสมาชิกเพื่อสะสมแต้มและต่อเวลาได้ 10 วินาที!
+        {% else %}Sign up to earn points and extend by 10 seconds!
+        {% endif %}
+    </span>
+    <span id="i18n-btn-register">
+        {% if lang_code == 'ja' %}会員登録する
+        {% elif lang_code == 'zh-hant' %}立即註冊
+        {% elif lang_code == 'zh-cn' %}立即注册
+        {% elif lang_code == 'ko' %}회원가입하기
+        {% elif lang_code == 'de' %}Registrieren
+        {% elif lang_code == 'fr' %}S'inscrire
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Registrarse
+        {% elif lang_code == 'it' %}Registrati
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Cadastrar-se
+        {% elif lang_code == 'vi' %}Đăng ký
+        {% elif lang_code == 'th' %}สมัครสมาชิก
+        {% else %}Sign Up
+        {% endif %}
+    </span>
+</div>
 
 <div class="main2">
     <div class="play-header">
@@ -331,6 +504,11 @@ body {
     const HAS_TIMER = {{ has_timer|yesno:'true,false' }};
     const TOTAL_TIME = 60;
     const RING_CIRCUMFERENCE = 175.9;
+    const IS_AUTHENTICATED = {{ is_authenticated|yesno:'true,false' }};
+    const TIME_EXTEND_COST = {{ time_extend_cost }};
+    const TIME_EXTEND_SECONDS = {{ time_extend_seconds }};
+    const EXTEND_TIME_URL = '{% url "game_extend_time" %}';
+    const REGISTER_URL = '{% url "player_register" %}?lang={{ lang_code }}';
 
     let localSecondsLeft = TOTAL_TIME;
     let tickInterval = null;
@@ -339,6 +517,8 @@ body {
     let currentTiles = [];      // fixed original tile array for this question, {text}
     let placedIndices = [];     // indices into currentTiles, in the order placed
     let submitting = false;
+    let pointBalance = {{ point_balance|default:0 }};
+    let extendRequestInFlight = false;
 
     function setRing(seconds) {
         const ratio = Math.max(0, seconds) / TOTAL_TIME;
@@ -362,10 +542,95 @@ body {
             setRing(localSecondsLeft);
             if (localSecondsLeft <= 0) {
                 clearInterval(tickInterval);
-                window.location.href = RESULT_URL;
+                showTimeUpModal();
             }
         }, 1000);
     }
+
+    function i18n(id) {
+        return document.getElementById(id).textContent.trim();
+    }
+
+    function finishGame() {
+        window.location.href = RESULT_URL;
+    }
+
+    function showTimeUpModal() {
+        const overlay = document.getElementById('timeup-modal-overlay');
+        document.getElementById('timeup-modal-body').innerHTML = buildTimeUpModalContent();
+        overlay.hidden = false;
+    }
+
+    function hideTimeUpModal() {
+        document.getElementById('timeup-modal-overlay').hidden = true;
+    }
+
+    function buildTimeUpModalContent() {
+        if (!IS_AUTHENTICATED) {
+            return (
+                '<p class="timeup-title">' + i18n('i18n-timeup-title') + '</p>' +
+                '<p class="timeup-desc">' + i18n('i18n-guest-desc') + '</p>' +
+                '<div class="timeup-actions">' +
+                    '<a href="' + REGISTER_URL + '" class="timeup-btn timeup-btn-primary">' + i18n('i18n-btn-register') + '</a>' +
+                    '<button type="button" class="timeup-btn timeup-btn-secondary" onclick="finishGame()">' + i18n('i18n-btn-end-only') + '</button>' +
+                '</div>'
+            );
+        }
+        if (pointBalance >= TIME_EXTEND_COST) {
+            return (
+                '<p class="timeup-title">' + i18n('i18n-timeup-title') + '</p>' +
+                '<p class="timeup-desc">' + i18n('i18n-extend-question') + '</p>' +
+                '<div class="timeup-actions">' +
+                    '<button type="button" class="timeup-btn timeup-btn-primary" id="timeup-extend-btn" onclick="requestExtendTime()">' + i18n('i18n-btn-yes-extend') + '</button>' +
+                    '<button type="button" class="timeup-btn timeup-btn-secondary" onclick="finishGame()">' + i18n('i18n-btn-no-end') + '</button>' +
+                '</div>'
+            );
+        }
+        const shortfall = TIME_EXTEND_COST - pointBalance;
+        return (
+            '<p class="timeup-title">' + i18n('i18n-timeup-title') + '</p>' +
+            '<p class="timeup-desc">' + i18n('i18n-not-enough-points').replace('__N__', shortfall) + '</p>' +
+            '<div class="timeup-actions">' +
+                '<button type="button" class="timeup-btn timeup-btn-secondary" onclick="finishGame()">' + i18n('i18n-btn-end-only') + '</button>' +
+            '</div>'
+        );
+    }
+
+    function requestExtendTime() {
+        if (extendRequestInFlight) return;
+        extendRequestInFlight = true;
+        const btn = document.getElementById('timeup-extend-btn');
+        if (btn) btn.disabled = true;
+
+        fetch(EXTEND_TIME_URL, { method: 'POST', headers: { 'X-CSRFToken': CSRF_TOKEN } })
+            .then((r) => r.json())
+            .then((res) => {
+                extendRequestInFlight = false;
+                pointBalance = res.balance !== undefined ? res.balance : pointBalance;
+                if (res.success) {
+                    localSecondsLeft += TIME_EXTEND_SECONDS;
+                    setRing(localSecondsLeft);
+                    hideTimeUpModal();
+                    startLocalTimer();
+                } else {
+                    // balance dropped below cost between render and click (e.g.
+                    // another tab spent it) - refresh the modal to the
+                    // not-enough-points view instead of silently failing.
+                    document.getElementById('timeup-modal-body').innerHTML = buildTimeUpModalContent();
+                }
+            })
+            .catch(() => {
+                extendRequestInFlight = false;
+                if (btn) btn.disabled = false;
+            });
+    }
+
+    // The time-up modal's buttons are built via innerHTML (see
+    // buildTimeUpModalContent), so their inline onclick="..." attributes
+    // resolve names on the global object, not this IIFE's closure -
+    // expose these two explicitly so those clicks actually reach them.
+    window.finishGame = finishGame;
+    window.requestExtendTime = requestExtendTime;
 
     function makeTileButton(text) {
         const el = document.createElement('button');

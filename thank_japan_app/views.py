@@ -3,6 +3,7 @@ from django.views import View
 from django.views.generic import ListView, DetailView, FormView, TemplateView
 from django.views.generic.edit import FormView
 from .models import ThankJapanModel, Player, Profile, ThankJapanPremium
+from django.db.models import F
 from django.contrib import messages
 from django.core.mail import send_mail
 from django.core.validators import validate_email
@@ -1715,6 +1716,8 @@ DIFFICULTY_SETTINGS = {
 
 TILE_GAME_POOL_SIZE = 50  # generous upper bound; the 60s timer always ends the game long before this runs out
 FIRST_TASTE_QUESTION_COUNT = 3  # first-visit guest trial: 3 EASY-tier words, untimed
+TIME_EXTEND_COST = 10  # points spent per "add more time" purchase, no cap on repeat use
+TIME_EXTEND_SECONDS = 10
 
 
 def _sample_ids(model, category_filter=None, length_regex=None, exclude_ids=(), count=1):
@@ -1858,6 +1861,7 @@ def game_play(request):
 
     difficulty = request.session.get('game_difficulty', 'timeattack')
     fire_game_start_event = request.session.pop('ga_fire_game_start', False)
+    point_balance = request.user.profile.total_score if request.user.is_authenticated else 0
 
     return render(request, 'thank_japan_app/game_play-v2.html', {
         'player': player,
@@ -1870,6 +1874,10 @@ def game_play(request):
         'bgm_url': get_bgm_url('game'),
         'bgm_page_type': 'game',
         'fire_game_start_event': fire_game_start_event,
+        'is_authenticated': request.user.is_authenticated,
+        'point_balance': point_balance,
+        'time_extend_cost': TIME_EXTEND_COST,
+        'time_extend_seconds': TIME_EXTEND_SECONDS,
     })
 
 
@@ -2014,6 +2022,56 @@ def game_submit_answer(request):
         'score': request.session.get('game_score', 0),
     })
 
+
+@require_POST
+def game_extend_time(request):
+    """AJAX: spend TIME_EXTEND_COST points to add TIME_EXTEND_SECONDS to
+    the running game clock, when the "time's up" modal's extend option is
+    chosen (see game_play-v2.html). Guests can't reach this - the modal
+    only offers a registration CTA for them - but it's still validated
+    server-side rather than trusted from the client either way. Can be
+    called any number of times in one game; the player's own point balance
+    is what naturally limits repeat use, not a counter.
+
+    The point deduction is a single conditional UPDATE (only succeeds if
+    the balance is still >= cost at the moment it runs) so two concurrent
+    requests - two tabs, or a fast double-tap - can't both succeed and
+    push the balance negative; PositiveIntegerField would reject that at
+    the DB level anyway, but the conditional query avoids relying on that
+    as the only guard.
+    """
+    if not request.user.is_authenticated:
+        return JsonResponse({'success': False, 'reason': 'not_authenticated'}, status=403)
+
+    questions = request.session.get('game_question_ids', [])
+    index = request.session.get('game_current_index', 0)
+    difficulty = request.session.get('game_difficulty', 'timeattack')
+    if not questions or index >= len(questions) or difficulty in ('single', 'first_taste'):
+        return JsonResponse({'success': False, 'reason': 'no_active_timed_game'}, status=400)
+
+    updated = Profile.objects.filter(
+        user=request.user, total_score__gte=TIME_EXTEND_COST
+    ).update(total_score=F('total_score') - TIME_EXTEND_COST)
+
+    profile = Profile.objects.get(user=request.user)
+    if not updated:
+        return JsonResponse({'success': False, 'reason': 'insufficient_points', 'balance': profile.total_score})
+
+    player = Player.objects.filter(username=request.user.username).first()
+    if player:
+        player.total_score = profile.total_score
+        player.save()
+
+    current_time = time.time()
+    game_end_time = request.session.get('game_end_time') or current_time
+    game_end_time += TIME_EXTEND_SECONDS
+    request.session['game_end_time'] = game_end_time
+
+    return JsonResponse({
+        'success': True,
+        'balance': profile.total_score,
+        'seconds_left': max(0, int(game_end_time - current_time)),
+    })
 
 
 def game_restart(request):

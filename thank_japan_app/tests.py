@@ -11,7 +11,7 @@ from django.urls import reverse
 from django.utils import timezone
 
 from . import context_processors, tile_split
-from .models import DailyQuestion, Profile, ThankJapanModel, ThankJapanPremium
+from .models import DailyQuestion, Player, Profile, ThankJapanModel, ThankJapanPremium
 from .views import combo_bonus_for_streak, _sample_easy_ids, FIRST_TASTE_QUESTION_COUNT
 from .pricing import (
     get_premium_price, get_top_page_seo_override,
@@ -1989,3 +1989,200 @@ class FirstTasteTileGameTests(TestCase):
     def test_first_taste_sets_returning_visitor_cookie(self):
         response = self.client.get(reverse('game_restart'), {'difficulty': 'first_taste'})
         self.assertIn('tj_has_played', response.cookies)
+
+
+class ExtendTimeModalContextTests(TestCase):
+    """2026-09-05: 'spend points to add 10 seconds' feature. game_play must
+    hand the template enough to pick the right one of the 3 modal variants
+    (logged in w/ >=10pt, logged in w/ <10pt, guest) without another
+    round-trip - see the is_authenticated/point_balance context below."""
+
+    def setUp(self):
+        for i in range(6):
+            ThankJapanModel.objects.create(
+                name=f'extend-word-{i}', englishname=f'Word {i}', jpname='いぬ',
+                kanji_name='犬', katakana_name='イヌ', category='animal',
+                slug=f'extend-word-{i}', description='d', history='h')
+
+    def _start_timeattack_game(self):
+        self.client.get(reverse('game_restart'))
+        return self.client.get(reverse('game_play'))
+
+    def test_guest_context(self):
+        response = self._start_timeattack_game()
+        self.assertFalse(response.context['is_authenticated'])
+        self.assertEqual(response.context['point_balance'], 0)
+        self.assertEqual(response.context['time_extend_cost'], 10)
+        self.assertEqual(response.context['time_extend_seconds'], 10)
+
+    def test_logged_in_with_enough_points_context(self):
+        user = User.objects.create_user(username='extend_rich', password='pass12345')
+        user.profile.total_score = 25
+        user.profile.save()
+        self.client.login(username='extend_rich', password='pass12345')
+
+        response = self._start_timeattack_game()
+        self.assertTrue(response.context['is_authenticated'])
+        self.assertEqual(response.context['point_balance'], 25)
+
+    def test_logged_in_with_insufficient_points_context(self):
+        user = User.objects.create_user(username='extend_poor', password='pass12345')
+        user.profile.total_score = 3
+        user.profile.save()
+        self.client.login(username='extend_poor', password='pass12345')
+
+        response = self._start_timeattack_game()
+        self.assertTrue(response.context['is_authenticated'])
+        self.assertEqual(response.context['point_balance'], 3)
+
+    def test_modal_markup_and_scripts_present_for_timed_mode(self):
+        response = self._start_timeattack_game()
+        body = response.content.decode()
+        self.assertIn('id="timeup-modal-overlay"', body)
+        self.assertIn('requestExtendTime', body)
+        self.assertIn('showTimeUpModal', body)
+
+
+class GameExtendTimeEndpointTests(TestCase):
+    """2026-09-05: POST /game/extend-time/ - spends TIME_EXTEND_COST points
+    from Profile.total_score and pushes session['game_end_time'] back by
+    TIME_EXTEND_SECONDS. No cap on repeat use (see project decision in
+    memory) - the player's own point balance is the only limiter."""
+
+    def setUp(self):
+        self.user = User.objects.create_user(username='extend_endpoint_user', password='pass12345')
+        self.client.login(username='extend_endpoint_user', password='pass12345')
+        for i in range(6):
+            ThankJapanModel.objects.create(
+                name=f'extend-ep-word-{i}', englishname=f'Word {i}', jpname='いぬ',
+                kanji_name='犬', katakana_name='イヌ', category='animal',
+                slug=f'extend-ep-word-{i}', description='d', history='h')
+
+    def _start_timeattack_game(self):
+        self.client.get(reverse('game_restart'))
+        self.client.get(reverse('game_play'))
+        self.client.get(reverse('game_question_data'))  # sets session['game_end_time']
+
+    def test_extend_succeeds_and_deducts_points(self):
+        self.user.profile.total_score = 15
+        self.user.profile.save()
+        self._start_timeattack_game()
+
+        end_time_before = self.client.session['game_end_time']
+        response = self.client.post(reverse('game_extend_time'))
+        result = json.loads(response.content)
+
+        self.assertTrue(result['success'])
+        self.assertEqual(result['balance'], 5)
+        self.user.profile.refresh_from_db()
+        self.assertEqual(self.user.profile.total_score, 5)
+        self.assertAlmostEqual(self.client.session['game_end_time'], end_time_before + 10, delta=1)
+
+    def test_extend_can_be_used_repeatedly_while_points_last(self):
+        self.user.profile.total_score = 25
+        self.user.profile.save()
+        self._start_timeattack_game()
+        end_time_before = self.client.session['game_end_time']
+
+        first = json.loads(self.client.post(reverse('game_extend_time')).content)
+        second = json.loads(self.client.post(reverse('game_extend_time')).content)
+        third = json.loads(self.client.post(reverse('game_extend_time')).content)
+
+        self.assertTrue(first['success'])
+        self.assertTrue(second['success'])
+        self.assertFalse(third['success'])  # 25 - 10 - 10 = 5, not enough for a 3rd
+        self.assertEqual(third['reason'], 'insufficient_points')
+
+        self.user.profile.refresh_from_db()
+        self.assertEqual(self.user.profile.total_score, 5)
+        self.assertAlmostEqual(self.client.session['game_end_time'], end_time_before + 20, delta=1)
+
+    def test_insufficient_points_rejected_without_deduction(self):
+        self.user.profile.total_score = 9
+        self.user.profile.save()
+        self._start_timeattack_game()
+        end_time_before = self.client.session['game_end_time']
+
+        response = self.client.post(reverse('game_extend_time'))
+        result = json.loads(response.content)
+
+        self.assertFalse(result['success'])
+        self.assertEqual(result['reason'], 'insufficient_points')
+        self.assertEqual(result['balance'], 9)
+        self.user.profile.refresh_from_db()
+        self.assertEqual(self.user.profile.total_score, 9)
+        self.assertEqual(self.client.session['game_end_time'], end_time_before)
+
+    def test_exactly_ten_points_is_enough(self):
+        self.user.profile.total_score = 10
+        self.user.profile.save()
+        self._start_timeattack_game()
+
+        result = json.loads(self.client.post(reverse('game_extend_time')).content)
+
+        self.assertTrue(result['success'])
+        self.user.profile.refresh_from_db()
+        self.assertEqual(self.user.profile.total_score, 0)
+
+    def test_guest_cannot_extend(self):
+        self.client.logout()
+        response = self.client.post(reverse('game_extend_time'))
+        self.assertEqual(response.status_code, 403)
+        self.assertFalse(json.loads(response.content)['success'])
+
+    def test_rejected_without_an_active_timed_game(self):
+        self.user.profile.total_score = 100
+        self.user.profile.save()
+        # no game_restart/game_play/game_question_data called - no session state
+        response = self.client.post(reverse('game_extend_time'))
+        result = json.loads(response.content)
+        self.assertEqual(response.status_code, 400)
+        self.assertFalse(result['success'])
+        self.assertEqual(result['reason'], 'no_active_timed_game')
+        self.user.profile.refresh_from_db()
+        self.assertEqual(self.user.profile.total_score, 100)
+
+    def test_rejected_for_untimed_single_mode(self):
+        self.user.profile.total_score = 100
+        self.user.profile.save()
+        word = ThankJapanModel.objects.get(name='extend-ep-word-0')
+        self.client.get(reverse('game_restart'), {
+            'mode': 'single', 'model_type': 'free', 'slug': word.slug,
+        })
+        self.client.get(reverse('game_play'))
+        self.client.get(reverse('game_question_data'))
+
+        response = self.client.post(reverse('game_extend_time'))
+        result = json.loads(response.content)
+
+        self.assertEqual(response.status_code, 400)
+        self.assertFalse(result['success'])
+        self.assertEqual(result['reason'], 'no_active_timed_game')
+        self.user.profile.refresh_from_db()
+        self.assertEqual(self.user.profile.total_score, 100)
+
+    def test_rejected_for_untimed_first_taste_mode(self):
+        self.user.profile.total_score = 100
+        self.user.profile.save()
+        self.client.get(reverse('game_restart'), {'difficulty': 'first_taste'})
+        self.client.get(reverse('game_play'))
+        self.client.get(reverse('game_question_data'))
+
+        response = self.client.post(reverse('game_extend_time'))
+        result = json.loads(response.content)
+
+        self.assertFalse(result['success'])
+        self.assertEqual(result['reason'], 'no_active_timed_game')
+        self.user.profile.refresh_from_db()
+        self.assertEqual(self.user.profile.total_score, 100)
+
+    def test_player_model_score_stays_in_sync_after_extend(self):
+        self.user.profile.total_score = 15
+        self.user.profile.save()
+        Player.objects.create(username=self.user.username, total_score=15)
+        self._start_timeattack_game()
+
+        self.client.post(reverse('game_extend_time'))
+
+        player = Player.objects.get(username=self.user.username)
+        self.assertEqual(player.total_score, 5)
