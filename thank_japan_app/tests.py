@@ -1991,6 +1991,168 @@ class FirstTasteTileGameTests(TestCase):
         self.assertIn('tj_has_played', response.cookies)
 
 
+EXTEND_TIME_TEXT_BY_LOCALE = {
+    'ja': {
+        'title': 'タイムアップ！',
+        'extend_question': 'ポイントを使って10秒伸ばしますか？それとも終了しますか？',
+        'btn_yes_extend': 'はい、延長する (10pt)',
+        'btn_no_end': 'いいえ、終了する',
+        'not_enough': 'あと__N__ptで10秒延長できます',
+        'btn_end_only': '終了する',
+        'guest_desc': '会員登録するとポイントを貯めて10秒延長できるようになります！',
+        'btn_register': '会員登録する',
+    },
+    'zh-hant': {
+        'title': '時間到！',
+        'extend_question': '要使用點數延長10秒，還是要結束遊戲？',
+        'btn_yes_extend': '是，延長 (10點)',
+        'btn_no_end': '否，結束遊戲',
+        'not_enough': '再存__N__點即可延長10秒',
+        'btn_end_only': '結束遊戲',
+        'guest_desc': '註冊會員即可累積點數，延長10秒遊戲時間！',
+        'btn_register': '立即註冊',
+    },
+    'zh-cn': {
+        'title': '时间到！',
+        'extend_question': '要使用积分延长10秒，还是结束游戏？',
+        'btn_yes_extend': '是，延长 (10积分)',
+        'btn_no_end': '否，结束游戏',
+        'not_enough': '再攒__N__积分即可延长10秒',
+        'btn_end_only': '结束游戏',
+        'guest_desc': '注册会员即可累积积分，延长10秒游戏时间！',
+        'btn_register': '立即注册',
+    },
+    'ko': {
+        'title': '시간 종료!',
+        'extend_question': '포인트를 사용해서 10초 연장하시겠어요, 아니면 종료하시겠어요?',
+        'btn_yes_extend': '예, 연장하기 (10pt)',
+        'btn_no_end': '아니요, 종료하기',
+        'not_enough': '__N__pt만 더 모으면 10초 연장할 수 있어요',
+        'btn_end_only': '종료하기',
+        'guest_desc': '회원가입하면 포인트를 모아 10초 연장할 수 있어요!',
+        'btn_register': '회원가입하기',
+    },
+    'de': {
+        'title': 'Zeit abgelaufen!',
+        'extend_question': 'Möchtest du mit Punkten 10 Sekunden verlängern oder das Spiel beenden?',
+        'btn_yes_extend': 'Ja, verlängern (10 Punkte)',
+        'btn_no_end': 'Nein, beenden',
+        'not_enough': 'Noch __N__ Punkte, dann kannst du 10 Sekunden verlängern',
+        'btn_end_only': 'Beenden',
+        'guest_desc': 'Registriere dich, um Punkte zu sammeln und 10 Sekunden zu verlängern!',
+        'btn_register': 'Registrieren',
+    },
+    'fr': {
+        'title': 'Temps écoulé !',
+        'extend_question': 'Voulez-vous utiliser des points pour ajouter 10 secondes, ou terminer la partie ?',
+        'btn_yes_extend': 'Oui, prolonger (10 pts)',
+        'btn_no_end': 'Non, terminer',
+        'not_enough': 'Encore __N__ points pour prolonger de 10 secondes',
+        'btn_end_only': 'Terminer',
+        'guest_desc': 'Inscrivez-vous pour cumuler des points et prolonger de 10 secondes !',
+        'btn_register': "S'inscrire",
+    },
+    'es-es': {
+        'title': '¡Se acabó el tiempo!',
+        'extend_question': '¿Quieres usar puntos para añadir 10 segundos o terminar la partida?',
+        'btn_yes_extend': 'Sí, ampliar (10 pts)',
+        'btn_no_end': 'No, terminar',
+        'not_enough': 'Consigue __N__ puntos más para ampliar 10 segundos',
+        'btn_end_only': 'Terminar',
+        'guest_desc': '¡Regístrate para acumular puntos y ampliar 10 segundos!',
+        'btn_register': 'Registrarse',
+    },
+    'it': {
+        'title': 'Tempo scaduto!',
+        'extend_question': 'Vuoi usare i punti per aggiungere 10 secondi o terminare la partita?',
+        'btn_yes_extend': 'Sì, estendi (10 pt)',
+        'btn_no_end': 'No, termina',
+        'not_enough': 'Ti mancano __N__ punti per estendere di 10 secondi',
+        'btn_end_only': 'Termina',
+        'guest_desc': 'Registrati per accumulare punti ed estendere di 10 secondi!',
+        'btn_register': 'Registrati',
+    },
+    'pt': {
+        'title': 'Tempo esgotado!',
+        'extend_question': 'Quer usar pontos para adicionar 10 segundos ou encerrar o jogo?',
+        'btn_yes_extend': 'Sim, estender (10 pts)',
+        'btn_no_end': 'Não, encerrar',
+        'not_enough': 'Faltam __N__ pontos para estender 10 segundos',
+        'btn_end_only': 'Encerrar',
+        'guest_desc': 'Cadastre-se para acumular pontos e estender 10 segundos!',
+        'btn_register': 'Cadastrar-se',
+    },
+    'vi': {
+        'title': 'Hết giờ!',
+        'extend_question': 'Bạn muốn dùng điểm để kéo dài thêm 10 giây, hay kết thúc trò chơi?',
+        'btn_yes_extend': 'Có, kéo dài (10 điểm)',
+        'btn_no_end': 'Không, kết thúc',
+        'not_enough': 'Cần thêm __N__ điểm để kéo dài thêm 10 giây',
+        'btn_end_only': 'Kết thúc',
+        'guest_desc': 'Đăng ký để tích điểm và kéo dài thêm 10 giây!',
+        'btn_register': 'Đăng ký',
+    },
+    'th': {
+        'title': 'หมดเวลา!',
+        'extend_question': 'ต้องการใช้แต้มเพื่อต่อเวลา 10 วินาที หรือจบเกมเลย?',
+        'btn_yes_extend': 'ใช่ ต่อเวลา (10 แต้ม)',
+        'btn_no_end': 'ไม่ จบเกม',
+        'not_enough': 'อีก __N__ แต้มจะต่อเวลาได้ 10 วินาที',
+        'btn_end_only': 'จบเกม',
+        'guest_desc': 'สมัครสมาชิกเพื่อสะสมแต้มและต่อเวลาได้ 10 วินาที!',
+        'btn_register': 'สมัครสมาชิก',
+    },
+    'en': {
+        'title': "Time's Up!",
+        'extend_question': 'Use points to add 10 seconds, or end the game?',
+        'btn_yes_extend': 'Yes, extend (10pt)',
+        'btn_no_end': 'No, end game',
+        'not_enough': 'Earn __N__ more points to extend by 10 seconds',
+        'btn_end_only': 'End Game',
+        'guest_desc': 'Sign up to earn points and extend by 10 seconds!',
+        'btn_register': 'Sign Up',
+    },
+}
+EXTEND_TIME_TEXT_BY_LOCALE['es-mx'] = EXTEND_TIME_TEXT_BY_LOCALE['es-es']
+EXTEND_TIME_TEXT_BY_LOCALE['pt-br'] = EXTEND_TIME_TEXT_BY_LOCALE['pt']
+EXTEND_TIME_TEXT_BY_LOCALE['en-in'] = EXTEND_TIME_TEXT_BY_LOCALE['en']
+
+
+class ExtendTimeAllLocalesTests(TestCase):
+    """2026-09-05: the 'spend points to add 10 seconds' modal's 8 strings
+    (title, extend question, not-enough-points, guest pitch, and the 4
+    button labels) must actually render per-locale text, not silently fall
+    back to English, in all 15 supported locales - the same bug class as
+    the earlier Korean-shows-English report. All 8 strings are rendered
+    into hidden <span id="i18n-..."> elements unconditionally regardless of
+    which modal variant a given player will see (see ExtendTimeModalContextTests
+    for the state-branching itself), so one render per locale covers all 8."""
+
+    def setUp(self):
+        ThankJapanModel.objects.create(
+            name='extend-locale-word', englishname='Word', jpname='いぬ',
+            kanji_name='犬', katakana_name='イヌ', category='animal',
+            slug='extend-locale-word', description='d', history='h')
+
+    def test_all_extend_time_strings_render_per_locale(self):
+        for lang in LOCALE_QUERY_PARAMS:
+            with self.subTest(lang=lang):
+                client = Client()
+                client.get(reverse('game_restart'), {'lang': lang})
+                response = client.get(reverse('game_play'), {'lang': lang})
+                body = response.content.decode()
+                expected = EXTEND_TIME_TEXT_BY_LOCALE[lang]
+
+                self.assertIn(expected['title'], body, msg=f"lang={lang} title")
+                self.assertIn(expected['extend_question'], body, msg=f"lang={lang} extend_question")
+                self.assertIn(expected['btn_yes_extend'], body, msg=f"lang={lang} btn_yes_extend")
+                self.assertIn(expected['btn_no_end'], body, msg=f"lang={lang} btn_no_end")
+                self.assertIn(expected['not_enough'], body, msg=f"lang={lang} not_enough")
+                self.assertIn(expected['btn_end_only'], body, msg=f"lang={lang} btn_end_only")
+                self.assertIn(expected['guest_desc'], body, msg=f"lang={lang} guest_desc")
+                self.assertIn(expected['btn_register'], body, msg=f"lang={lang} btn_register")
+
+
 class ExtendTimeModalContextTests(TestCase):
     """2026-09-05: 'spend points to add 10 seconds' feature. game_play must
     hand the template enough to pick the right one of the 3 modal variants
