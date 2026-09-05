@@ -2495,10 +2495,12 @@ class GamePlayDualBgmTests(TestCase):
         self.assertIn("mainTrack.addEventListener('volumechange'", body)
         self.assertIn('topTrack.muted = mainTrack.muted', body)
 
-    def test_top_track_volume_is_reduced_relative_to_main_track(self):
+    def test_tracks_are_balanced_roughly_50_50(self):
         with patch('thank_japan_app.views.get_bgm_url', side_effect=lambda t: f'https://example.com/{t}.mp3'):
             response = self.client.get(reverse('game_play'))
-        self.assertIn('topTrack.volume = 0.35', response.content.decode())
+        body = response.content.decode()
+        self.assertIn('topTrack.volume = 0.5', body)
+        self.assertIn('mainTrack.volume = 0.5', body)
 
     def test_second_track_omitted_when_no_top_bgm_configured(self):
         with patch('thank_japan_app.views.get_bgm_url', side_effect=lambda t: 'https://example.com/game.mp3' if t == 'game' else None):
@@ -2507,3 +2509,31 @@ class GamePlayDualBgmTests(TestCase):
 
         self.assertIn('id="bgm-player"', body)
         self.assertNotIn('bgm-player-top', body)
+
+
+class GamePlayTabletElementScalingTests(TestCase):
+    """2026-09-05: the tablet full-height fix stretched .main2 but left the
+    image/tiles/timer at phone sizing, looking lost in the extra space.
+    Scaling is scoped to (min-width: 768px) and (orientation: portrait) -
+    tablets specifically, not wide/landscape PC windows or phones - so this
+    just pins the media query and a few of its key rules are present in
+    the rendered CSS (PC/phone sizing is asserted unchanged elsewhere by
+    every other test in this file rendering the same template)."""
+
+    def setUp(self):
+        for i in range(6):
+            ThankJapanModel.objects.create(
+                name=f'tablet-word-{i}', englishname=f'Word {i}', jpname='いぬ',
+                kanji_name='犬', katakana_name='イヌ', category='animal',
+                slug=f'tablet-word-{i}', description='d', history='h')
+        self.client.get(reverse('game_restart'))
+
+    def test_tablet_media_query_scales_up_key_gameplay_elements(self):
+        body = self.client.get(reverse('game_play')).content.decode()
+
+        self.assertIn('@media (min-width: 768px) and (orientation: portrait)', body)
+        # one representative rule per element family named in the request
+        self.assertIn('.prompt-card img { max-width: 380px; height: 240px; }', body)
+        self.assertIn('.tile, .slot { font-size: 1.5rem;', body)
+        self.assertIn('.ring-wrap { width: 96px; height: 96px; }', body)
+        self.assertIn('.ki-gauge-wrap { max-width: 380px; }', body)

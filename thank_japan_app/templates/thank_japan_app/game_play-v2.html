@@ -289,6 +289,36 @@ body {
     .main2 { margin-top: 24px !important; }
 }
 
+/* Tablet-only: the fix above already stretches .main2 to fill the full
+   tablet-portrait viewport height, but the image/tiles/timer inside kept
+   their phone sizing, looking small and lost in all that extra space.
+   Scoped to (min-width: 768px) + portrait rather than a max-width cap, so
+   it targets tablets specifically without also catching wide PC browser
+   windows (which are essentially never portrait-oriented) or phones. */
+@media (min-width: 768px) and (orientation: portrait) {
+    .ring-wrap { width: 96px; height: 96px; }
+    .ring-num { font-size: 1.8rem; }
+    .score-chip { font-size: 1.35rem; padding: 12px 26px; }
+    .score-chip .n { font-size: 1.7rem; }
+    .game-sound-toggle-btn { width: 48px; height: 48px; font-size: 1.4rem; }
+    .play-header { gap: 32px; }
+
+    .prompt-card { max-width: 460px; padding: 20px; }
+    .prompt-card img { max-width: 380px; height: 240px; }
+    .prompt-caption { font-size: 1.1rem; }
+
+    .ki-gauge-wrap { max-width: 380px; }
+    .ki-gauge-label { font-size: 0.85rem; }
+    .ki-gauge-track { height: 16px; }
+
+    .sugoroku-track { gap: 12px; }
+    .stone { width: 22px; height: 22px; }
+    .stone.gate { width: 36px; height: 36px; font-size: 1.8rem; }
+
+    .answer-row, .bank-row { max-width: 680px; gap: 14px; }
+    .tile, .slot { font-size: 1.5rem; padding: 14px 20px; min-width: 62px; min-height: 62px; }
+}
+
 /* ---------- time-up / "spend points to extend" modal ---------- */
 #timeup-modal-overlay {
   position: fixed; inset: 0; background: rgba(10,8,4,0.75); z-index: 700;
@@ -871,9 +901,10 @@ body {
     const mainTrack = document.getElementById('bgm-player');
     if (!topTrack) return;
 
-    topTrack.volume = 0.35;
+    topTrack.volume = 0.5;
 
     if (mainTrack) {
+        mainTrack.volume = 0.5; // roughly even 50/50 mix with the top track above
         topTrack.muted = mainTrack.muted;
         mainTrack.addEventListener('volumechange', function () {
             topTrack.muted = mainTrack.muted;
