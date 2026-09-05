@@ -2420,3 +2420,90 @@ class GamePlayTitleAndCountdownLocaleTests(TestCase):
 
                 self.assertIn(COUNTDOWN_GO_BY_LOCALE[lang], body, msg=f"lang={lang}")
                 self.assertIn("i18n('i18n-countdown-go')", body)
+
+
+class UntimedModeHidesTimerRingTests(TestCase):
+    """2026-09-05: first_taste (and mode=single) are untimed, but the ring
+    timer UI kept showing a frozen '60' since only the countdown *logic*
+    was skipped for those modes, not the ring markup itself. The ring
+    (id="ring-wrap") must be hidden whenever has_timer is False."""
+
+    def setUp(self):
+        for i in range(6):
+            ThankJapanModel.objects.create(
+                name=f'timer-word-{i}', englishname=f'Word {i}', jpname='いぬ',
+                kanji_name='犬', katakana_name='イヌ', category='animal',
+                slug=f'timer-word-{i}', description='d', history='h')
+
+    def test_first_taste_hides_the_ring(self):
+        self.client.get(reverse('game_restart'), {'difficulty': 'first_taste'})
+        response = self.client.get(reverse('game_play'))
+        self.assertFalse(response.context['has_timer'])
+        self.assertIn('class="ring-wrap" hidden', response.content.decode())
+
+    def test_single_mode_hides_the_ring(self):
+        word = ThankJapanModel.objects.get(name='timer-word-0')
+        self.client.get(reverse('game_restart'), {
+            'mode': 'single', 'model_type': 'free', 'slug': word.slug,
+        })
+        response = self.client.get(reverse('game_play'))
+        self.assertFalse(response.context['has_timer'])
+        self.assertIn('class="ring-wrap" hidden', response.content.decode())
+
+    def test_timeattack_still_shows_the_ring(self):
+        self.client.get(reverse('game_restart'))
+        response = self.client.get(reverse('game_play'))
+        self.assertTrue(response.context['has_timer'])
+        self.assertIn('class="ring-wrap">', response.content.decode())
+        self.assertNotIn('class="ring-wrap" hidden', response.content.decode())
+
+
+class GamePlayDualBgmTests(TestCase):
+    """2026-09-05: layer the top page's existing BGM in under the game
+    track (both existing audio files, no new asset) rather than replacing
+    it. The two must play independently-addressable <audio> elements so
+    the existing sound on/off toggle (which only knows the id #bgm-player)
+    keeps working, while a local script mirrors its mute state onto the
+    second track."""
+
+    def setUp(self):
+        for i in range(6):
+            ThankJapanModel.objects.create(
+                name=f'bgm-word-{i}', englishname=f'Word {i}', jpname='いぬ',
+                kanji_name='犬', katakana_name='イヌ', category='animal',
+                slug=f'bgm-word-{i}', description='d', history='h')
+        self.client.get(reverse('game_restart'))
+
+    def test_second_track_rendered_with_own_id_when_top_bgm_configured(self):
+        with patch('thank_japan_app.views.get_bgm_url', side_effect=lambda t: f'https://example.com/{t}.mp3'):
+            response = self.client.get(reverse('game_play'))
+        body = response.content.decode()
+
+        self.assertIn('id="bgm-player"', body)  # existing game track, untouched
+        self.assertIn('src="https://example.com/game.mp3"', body)
+        self.assertIn('id="bgm-player-top"', body)
+        self.assertIn('src="https://example.com/top.mp3"', body)
+        # both must autoplay muted (browser autoplay policy) and loop
+        self.assertIn('<audio id="bgm-player-top" src="https://example.com/top.mp3" loop autoplay muted>', body)
+
+    def test_mute_state_is_mirrored_from_main_track_to_top_track(self):
+        with patch('thank_japan_app.views.get_bgm_url', side_effect=lambda t: f'https://example.com/{t}.mp3'):
+            response = self.client.get(reverse('game_play'))
+        body = response.content.decode()
+
+        self.assertIn("getElementById('bgm-player-top')", body)
+        self.assertIn("mainTrack.addEventListener('volumechange'", body)
+        self.assertIn('topTrack.muted = mainTrack.muted', body)
+
+    def test_top_track_volume_is_reduced_relative_to_main_track(self):
+        with patch('thank_japan_app.views.get_bgm_url', side_effect=lambda t: f'https://example.com/{t}.mp3'):
+            response = self.client.get(reverse('game_play'))
+        self.assertIn('topTrack.volume = 0.35', response.content.decode())
+
+    def test_second_track_omitted_when_no_top_bgm_configured(self):
+        with patch('thank_japan_app.views.get_bgm_url', side_effect=lambda t: 'https://example.com/game.mp3' if t == 'game' else None):
+            response = self.client.get(reverse('game_play'))
+        body = response.content.decode()
+
+        self.assertIn('id="bgm-player"', body)
+        self.assertNotIn('bgm-player-top', body)

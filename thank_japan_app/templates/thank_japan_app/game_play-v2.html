@@ -56,7 +56,19 @@ body {
     background-color: #1f8f6f; overflow: hidden;
     display: flex; flex-direction: column; padding-top: 60px; box-sizing: border-box;
 }
-.app-content-fix { flex: 1; width: 100%; overflow-y: auto; padding-bottom: calc(100px + env(safe-area-inset-bottom)); -ms-overflow-style: none; scrollbar-width: none; }
+.app-content-fix {
+  flex: 1; width: 100%; overflow-y: auto; padding-bottom: calc(100px + env(safe-area-inset-bottom));
+  -ms-overflow-style: none; scrollbar-width: none;
+  /* Column flex so .main2 (its only in-flow child - the countdown/modal
+     overlays are position:fixed and the i18n text block is [hidden], so
+     neither participates) can stretch to the container's full height via
+     flex-grow below. On phones/PC the card's own content is already
+     roughly as tall as the viewport, so this is a no-op there; on tablets
+     (much taller viewport for a similar width) the card used to just sit
+     at the top of this scroll area with a large dead band of background
+     below it before the bottom nav - stretching it closes that gap. */
+  display: flex; flex-direction: column;
+}
 .app-content-fix::-webkit-scrollbar { display: none; }
 
 .main2 {
@@ -73,6 +85,7 @@ body {
   box-sizing: border-box;
   width: 95%;
   position: relative;
+  flex: 1 0 auto;
 }
 
 /* ---------- header: ring timer + score ---------- */
@@ -267,7 +280,10 @@ body {
    screen already shows score in the timer row), so hide it here and
    reclaim the 60px top padding reserved for it - matches the fix already
    applied to the old multiple-choice game_play for the same reason. */
-@media (min-width: 769px) {
+@media (min-width: 768px) {
+    /* 768px is the standard tablet-portrait width (e.g. iPad) - the
+       previous 769px threshold missed it by one pixel, leaving tablets
+       stuck with the phone-only header still taking up space. */
     .app-header { display: none !important; }
     #premium-auth-container { padding-top: 0 !important; }
     .main2 { margin-top: 24px !important; }
@@ -469,7 +485,7 @@ body {
 
 <div class="main2">
     <div class="play-header">
-        <div class="ring-wrap">
+        <div class="ring-wrap"{% if not has_timer %} hidden{% endif %}>
             <svg width="68" height="68" viewBox="0 0 68 68">
                 <circle class="ring-bg" cx="34" cy="34" r="28"></circle>
                 <circle class="ring-fg" id="ring-fg" cx="34" cy="34" r="28" stroke-dasharray="175.9" stroke-dashoffset="0"></circle>
@@ -836,4 +852,34 @@ body {
 </script>
 
 {% include 'includes/bgm_player.html' %}
+
+{% if top_bgm_url %}
+<audio id="bgm-player-top" src="{{ top_bgm_url }}" loop autoplay muted></audio>
+<script>
+(function () {
+    // Layers the top page's theme in underneath the game track (reusing
+    // both existing audio files as-is, no new asset) rather than replacing
+    // it. Kept quieter than the game track so it reads as ambience, not a
+    // second lead track competing with it. The sound on/off toggle
+    // (includes/sound_toggle.html) only knows about #bgm-player by id, so
+    // rather than touching that shared file (used on every other page too)
+    // this just mirrors #bgm-player's own muted state onto this second
+    // element whenever it changes - volumechange fires for every path that
+    // toggles it (the header button, and bgm_player.html's own first-click
+    // unmute), so this stays in sync without duplicating that logic.
+    const topTrack = document.getElementById('bgm-player-top');
+    const mainTrack = document.getElementById('bgm-player');
+    if (!topTrack) return;
+
+    topTrack.volume = 0.35;
+
+    if (mainTrack) {
+        topTrack.muted = mainTrack.muted;
+        mainTrack.addEventListener('volumechange', function () {
+            topTrack.muted = mainTrack.muted;
+        });
+    }
+})();
+</script>
+{% endif %}
 {% endblock %}

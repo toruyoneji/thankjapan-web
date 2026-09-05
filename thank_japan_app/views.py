@@ -1873,6 +1873,7 @@ def game_play(request):
         'score': request.session.get('game_score', 0),
         'bgm_url': get_bgm_url('game'),
         'bgm_page_type': 'game',
+        'top_bgm_url': get_bgm_url('top'),
         'fire_game_start_event': fire_game_start_event,
         'is_authenticated': request.user.is_authenticated,
         'point_balance': point_balance,
