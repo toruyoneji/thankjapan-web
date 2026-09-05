@@ -2348,3 +2348,75 @@ class GameExtendTimeEndpointTests(TestCase):
 
         player = Player.objects.get(username=self.user.username)
         self.assertEqual(player.total_score, 5)
+
+
+GAME_PLAY_TITLE_BY_LOCALE = {
+    'ja': '日本語クイズに挑戦！(Japanese Quiz) | ThankJapan',
+    'zh-hant': '挑戰日文小測驗！(Japanese Quiz) | ThankJapan',
+    'zh-cn': '挑战日语小测验！(Japanese Quiz) | ThankJapan',
+    'ko': '일본어 퀴즈에 도전!(Japanese Quiz) | ThankJapan',
+    'de': 'Japanisch-Quiz-Herausforderung! (Japanese Quiz) | ThankJapan',
+    'fr': 'Défie-toi en japonais ! (Japanese Quiz) | ThankJapan',
+    'es-es': '¡Desafía tu japonés! (Japanese Quiz) | ThankJapan',
+    'it': 'Sfida il tuo giapponese! (Japanese Quiz) | ThankJapan',
+    'pt': 'Desafie seu japonês! (Japanese Quiz) | ThankJapan',
+    'vi': 'Thử thách đố vui tiếng Nhật! (Japanese Quiz) | ThankJapan',
+    'th': 'ท้าทายควิซภาษาญี่ปุ่น! (Japanese Quiz) | ThankJapan',
+    'en': 'Japanese Quiz Challenge! | ThankJapan',
+}
+GAME_PLAY_TITLE_BY_LOCALE['es-mx'] = GAME_PLAY_TITLE_BY_LOCALE['es-es']
+GAME_PLAY_TITLE_BY_LOCALE['pt-br'] = GAME_PLAY_TITLE_BY_LOCALE['pt']
+GAME_PLAY_TITLE_BY_LOCALE['en-in'] = GAME_PLAY_TITLE_BY_LOCALE['en']
+
+COUNTDOWN_GO_BY_LOCALE = {
+    'ja': 'スタート！', 'zh-hant': '開始！', 'zh-cn': '开始！', 'ko': '시작!',
+    'de': 'Los!', 'fr': 'Go !', 'es-es': '¡Ya!', 'it': 'Via!', 'pt': 'Vai!',
+    'vi': 'Bắt đầu!', 'th': 'เริ่ม!', 'en': 'GO!',
+}
+COUNTDOWN_GO_BY_LOCALE['es-mx'] = COUNTDOWN_GO_BY_LOCALE['es-es']
+COUNTDOWN_GO_BY_LOCALE['pt-br'] = COUNTDOWN_GO_BY_LOCALE['pt']
+COUNTDOWN_GO_BY_LOCALE['en-in'] = COUNTDOWN_GO_BY_LOCALE['en']
+
+
+class GamePlayTitleAndCountdownLocaleTests(TestCase):
+    """2026-09-05: game_play's <title> used to interpolate the raw session
+    score ('Score {{ score }} | ThankJapan'), reported as reading like a
+    leaked internal variable rather than a meaningful page title - and it
+    never even reflected the *current* score anyway, since it's rendered
+    once at initial page load and never touched again by the AJAX-based
+    play loop. Replaced with a static, translated title per locale. Also
+    covers the 3-2-1-GO countdown's final beat being translated per locale
+    instead of a hardcoded English 'GO!'."""
+
+    def setUp(self):
+        ThankJapanModel.objects.create(
+            name='title-locale-word', englishname='Word', jpname='いぬ',
+            kanji_name='犬', katakana_name='イヌ', category='animal',
+            slug='title-locale-word', description='d', history='h')
+
+    @staticmethod
+    def _extract_title(body):
+        return body.split('<title>', 1)[1].split('</title>', 1)[0].strip()
+
+    def test_title_is_static_and_translated_per_locale(self):
+        for lang in LOCALE_QUERY_PARAMS:
+            with self.subTest(lang=lang):
+                client = Client()
+                client.get(reverse('game_restart'), {'lang': lang})
+                response = client.get(reverse('game_play'), {'lang': lang})
+                title = self._extract_title(response.content.decode())
+
+                self.assertEqual(title, GAME_PLAY_TITLE_BY_LOCALE[lang])
+                # the old bug: a raw score number leaking into the title
+                self.assertNotIn('0', title)
+
+    def test_countdown_go_text_translated_per_locale(self):
+        for lang in LOCALE_QUERY_PARAMS:
+            with self.subTest(lang=lang):
+                client = Client()
+                client.get(reverse('game_restart'), {'lang': lang})
+                response = client.get(reverse('game_play'), {'lang': lang})
+                body = response.content.decode()
+
+                self.assertIn(COUNTDOWN_GO_BY_LOCALE[lang], body, msg=f"lang={lang}")
+                self.assertIn("i18n('i18n-countdown-go')", body)

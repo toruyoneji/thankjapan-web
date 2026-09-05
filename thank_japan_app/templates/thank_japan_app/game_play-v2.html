@@ -3,18 +3,18 @@
 {% load static %}
 
 {% block title %}
-    {% if lang_code == 'ja' %}第 {{ score }} 点 | ThankJapan
-    {% elif lang_code == 'zh-hant' %}第 {{ score }} 分 | ThankJapan
-    {% elif lang_code == 'zh-cn' %}第 {{ score }} 分 | ThankJapan
-    {% elif lang_code == 'ko' %}{{ score }} 점 | ThankJapan
-    {% elif lang_code == 'fr' %}Score {{ score }} | ThankJapan
-    {% elif lang_code == 'th' %}คะแนน {{ score }} | ThankJapan
-    {% elif lang_code == 'vi' %}Điểm {{ score }} | ThankJapan
-    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Puntuación {{ score }} | ThankJapan
-    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Pontuação {{ score }} | ThankJapan
-    {% elif lang_code == 'de' %}Punkte {{ score }} | ThankJapan
-    {% elif lang_code == 'it' %}Punteggio {{ score }} | ThankJapan
-    {% else %}Score {{ score }} | ThankJapan{% endif %}
+    {% if lang_code == 'ja' %}日本語クイズに挑戦！(Japanese Quiz) | ThankJapan
+    {% elif lang_code == 'zh-hant' %}挑戰日文小測驗！(Japanese Quiz) | ThankJapan
+    {% elif lang_code == 'zh-cn' %}挑战日语小测验！(Japanese Quiz) | ThankJapan
+    {% elif lang_code == 'ko' %}일본어 퀴즈에 도전!(Japanese Quiz) | ThankJapan
+    {% elif lang_code == 'fr' %}Défie-toi en japonais ! (Japanese Quiz) | ThankJapan
+    {% elif lang_code == 'th' %}ท้าทายควิซภาษาญี่ปุ่น! (Japanese Quiz) | ThankJapan
+    {% elif lang_code == 'vi' %}Thử thách đố vui tiếng Nhật! (Japanese Quiz) | ThankJapan
+    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}¡Desafía tu japonés! (Japanese Quiz) | ThankJapan
+    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Desafie seu japonês! (Japanese Quiz) | ThankJapan
+    {% elif lang_code == 'de' %}Japanisch-Quiz-Herausforderung! (Japanese Quiz) | ThankJapan
+    {% elif lang_code == 'it' %}Sfida il tuo giapponese! (Japanese Quiz) | ThankJapan
+    {% else %}Japanese Quiz Challenge! | ThankJapan{% endif %}
 {% endblock %}
 
 {% block game_main %}
@@ -450,6 +450,21 @@ body {
         {% else %}Sign Up
         {% endif %}
     </span>
+    <span id="i18n-countdown-go">
+        {% if lang_code == 'ja' %}スタート！
+        {% elif lang_code == 'zh-hant' %}開始！
+        {% elif lang_code == 'zh-cn' %}开始！
+        {% elif lang_code == 'ko' %}시작!
+        {% elif lang_code == 'de' %}Los!
+        {% elif lang_code == 'fr' %}Go !
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}¡Ya!
+        {% elif lang_code == 'it' %}Via!
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Vai!
+        {% elif lang_code == 'vi' %}Bắt đầu!
+        {% elif lang_code == 'th' %}เริ่ม!
+        {% else %}GO!
+        {% endif %}
+    </span>
 </div>
 
 <div class="main2">
@@ -789,7 +804,7 @@ body {
     function runCountdown(done) {
         const overlay = document.getElementById('countdown-overlay');
         const numEl = document.getElementById('countdown-num');
-        const seq = ['3', '2', '1', 'GO!'];
+        const seq = ['3', '2', '1', i18n('i18n-countdown-go')];
         let i = 0;
         function step() {
             numEl.textContent = seq[i];
