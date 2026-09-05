@@ -3105,6 +3105,51 @@ class DailyQuestionTitleRemovedTests(TestCase):
         self.assertNotIn('dq-title', body)
 
 
+class DailyQuestionPromptSpacingTests(TestCase):
+    """2026-09-06: removing the title (see DailyQuestionTitleRemovedTests)
+    left .dq-prompt-card - the image/caption at the very top of the
+    in-progress question screen - sitting right where the fixed
+    .app-header (logo + pt badge) overlaps it. Given it top margin so the
+    whole question screen (image, caption, timer, tiles - all children of
+    or after .dq-prompt-card) clears the header. The result screen uses a
+    completely different element (.dq-result-image) and must be
+    untouched."""
+
+    def setUp(self):
+        self.today = timezone.localdate()
+        self.word = ThankJapanModel.objects.create(
+            name='prompt-spacing-word', englishname='Word', jpname='いぬ',
+            kanji_name='犬', katakana_name='イヌ', category='animal',
+            slug='prompt-spacing-word', description='d', history='h')
+        DailyQuestion.objects.create(date=self.today, word=self.word)
+
+    def test_prompt_card_has_top_margin_in_question_state(self):
+        response = self.client.get(reverse('daily_question'))
+        body = response.content.decode()
+
+        self.assertEqual(response.context['daily_state'], 'question')
+        self.assertIn('margin-top: 35px;', body)
+
+    def test_result_state_image_styling_is_unchanged(self):
+        # The stylesheet (with .dq-prompt-card's rule) is always present in
+        # the page source regardless of state, but .dq-prompt-card itself -
+        # and thus the extra top margin - must not appear as markup here;
+        # the result screen renders .dq-result-image instead, whose own
+        # rule must be untouched.
+        tiles = json.loads(self.client.get(reverse('daily_question')).context['tiles_json'])
+        response = self.client.post(reverse('daily_question'), {'answer_tiles': json.dumps(tiles)})
+        body = response.content.decode()
+
+        self.assertEqual(response.context['daily_state'], 'result')
+        self.assertNotIn('class="dq-prompt-card"', body)
+        self.assertIn('class="dq-badge', body)  # result state's correct/incorrect badge always renders
+        # .dq-result-image's own rule is untouched (no margin-top added)
+        self.assertIn(
+            '#daily-question-wrapper .dq-result-image {\n        display: block;\n        width: 100%;\n        max-width: 400px;\n        border-radius: 12px;\n        margin: 0 auto 15px;\n    }',
+            body,
+        )
+
+
 class GameStartBackHomeButtonMobileSpacingTests(TestCase):
     """2026-09-06: on real phones, the 'Back to Home' link's fixed 60px
     bottom margin wasn't always enough clearance above the site's fixed

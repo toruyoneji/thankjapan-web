@@ -124,7 +124,16 @@
     #daily-question-wrapper .dq-share-btn { background: #000; color: #fff; text-decoration: none; }
     #daily-question-wrapper .dq-skip-btn { background: transparent; color: #ccc; border: 1px solid rgba(255,255,255,0.3) !important; }
 
-    #daily-question-wrapper .dq-prompt-card { margin-bottom: 18px; }
+    #daily-question-wrapper .dq-prompt-card {
+        /* Only the in-progress question screen starts right at the top of
+           the scroll area (the result screen has its own unrelated
+           .dq-result-image, untouched here) - since the page's own title
+           was removed, this is now the first thing in that state, and
+           needs enough top clearance to clear the fixed .app-header (logo
+           + pt badge) sitting on top of it, on every screen size. */
+        margin-top: 35px;
+        margin-bottom: 18px;
+    }
     #daily-question-wrapper .dq-prompt-image { display: block; width: 100%; max-width: 320px; margin: 0 auto 10px; border-radius: 14px; border: 1px solid rgba(212, 175, 55, 0.3); }
     #daily-question-wrapper .dq-prompt-caption { color: #d4af37 !important; font-size: 0.95rem !important; letter-spacing: 1px !important; }
 
