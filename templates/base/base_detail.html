@@ -49,6 +49,15 @@
         z-index: 500 !important;
         text-decoration: none !important;
     }
+    /* PC/large-tablet only (>768px): nudge the button a bit further down
+       from the card's top edge - 15px reads fine on phones/small tablets
+       but sits a little too close to the top on wider screens. 768px and
+       below must stay exactly as-is. */
+    @media (min-width: 769px) {
+        .detail-back-close-btn {
+            top: 30px !important;
+        }
+    }
 </style>
 {% endif %}
 

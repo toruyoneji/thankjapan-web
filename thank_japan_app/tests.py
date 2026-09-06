@@ -1689,6 +1689,34 @@ class WordDetailStandaloneWidthTests(TestCase):
         content_fix_pos = body.index('class="app-content-fix"')
         self.assertGreater(btn_pos, content_fix_pos)
 
+    def test_close_button_nudges_down_only_above_768px(self):
+        """2026-09-06 follow-up x3: top: 15px reads fine on phones/small
+        tablets but sits a bit too close to the card's top edge on PC/large
+        tablet. >768px only pushes it down a little further; 768px and
+        below (phones, small tablets) must render byte-for-byte the same
+        base `top: 15px` as before this change."""
+        response = self.client.get(reverse('category_detail', kwargs={
+            'category': 'animal', 'slug': 'width-test-word',
+        }))
+        body = response.content.decode()
+
+        self.assertIn('top: 15px !important;', body)
+        self.assertIn('@media (min-width: 769px)', body)
+        self.assertIn(
+            '@media (min-width: 769px) {\n        .detail-back-close-btn {\n            top: 30px !important;\n        }\n    }',
+            body,
+        )
+
+    def test_premium_close_button_also_nudges_down_only_above_768px(self):
+        response = self.client.get(reverse('detail_premium', kwargs={
+            'category': 'TourismEtiquette', 'slug': 'width-test-premium',
+        }))
+        body = response.content.decode()
+
+        self.assertIn('top: 15px !important;', body)
+        self.assertIn('@media (min-width: 769px)', body)
+        self.assertIn('top: 30px !important;', body)
+
 
 class SelectLanguageHeadingLocalizationTests(TestCase):
     """2026-09-06: the language-picker modal's own heading ('Select
