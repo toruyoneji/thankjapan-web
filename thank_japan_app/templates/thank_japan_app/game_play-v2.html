@@ -512,6 +512,36 @@ body {
         {% else %}GO!
         {% endif %}
     </span>
+    <span id="i18n-single-finish-title">
+        {% if lang_code == 'ja' %}復習完了！
+        {% elif lang_code == 'zh-hant' %}復習完成！
+        {% elif lang_code == 'zh-cn' %}复习完成！
+        {% elif lang_code == 'ko' %}복습 완료!
+        {% elif lang_code == 'de' %}Wiederholung abgeschlossen!
+        {% elif lang_code == 'fr' %}Révision terminée !
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}¡Repaso completado!
+        {% elif lang_code == 'it' %}Ripasso completato!
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Revisão concluída!
+        {% elif lang_code == 'vi' %}Ôn tập hoàn tất!
+        {% elif lang_code == 'th' %}ทบทวนเสร็จสิ้น!
+        {% else %}Review Complete!
+        {% endif %}
+    </span>
+    <span id="i18n-single-finish-btn">
+        {% if lang_code == 'ja' %}✅ 完了してレッスンに戻る
+        {% elif lang_code == 'zh-hant' %}✅ 完成並返回課程
+        {% elif lang_code == 'zh-cn' %}✅ 完成并返回课程
+        {% elif lang_code == 'de' %}✅ Abschließen & zur Lektion zurück
+        {% elif lang_code == 'fr' %}✅ Terminer et revenir à la leçon
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}✅ Finalizar y volver a la lección
+        {% elif lang_code == 'it' %}✅ Completa e torna alla lezione
+        {% elif lang_code == 'ko' %}✅ 완료하고 레슨으로 돌아가기
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}✅ Concluir e voltar à lição
+        {% elif lang_code == 'vi' %}✅ Hoàn thành và quay lại bài học
+        {% elif lang_code == 'th' %}✅ เสร็จสิ้นและกลับไปที่บทเรียน
+        {% else %}✅ Finish & Back to Lesson
+        {% endif %}
+    </span>
 </div>
 
 <div class="main2">
@@ -562,6 +592,7 @@ body {
     const QUESTION_URL = '{% url "game_question_data" %}';
     const SUBMIT_URL = '{% url "game_submit_answer" %}';
     const RESULT_URL = '{% url "game_result" %}';
+    {% if single_return_url %}const SINGLE_RETURN_URL = "{{ single_return_url|escapejs }}";{% else %}const SINGLE_RETURN_URL = null;{% endif %}
     const SKIP_COUNTDOWN = {{ skip_countdown|yesno:'true,false' }};
     const HAS_TIMER = {{ has_timer|yesno:'true,false' }};
     const TOTAL_TIME = 60;
@@ -619,8 +650,25 @@ body {
 
     function showTimeUpModal() {
         const overlay = document.getElementById('timeup-modal-overlay');
+        document.querySelector('#timeup-modal-overlay .timeup-icon').textContent = '⏳';
         document.getElementById('timeup-modal-body').innerHTML = buildTimeUpModalContent();
         overlay.hidden = false;
+    }
+
+    function showSingleFinishModal() {
+        const overlay = document.getElementById('timeup-modal-overlay');
+        document.querySelector('#timeup-modal-overlay .timeup-icon').textContent = '✅';
+        document.getElementById('timeup-modal-body').innerHTML = buildSingleFinishContent();
+        overlay.hidden = false;
+    }
+
+    function buildSingleFinishContent() {
+        return (
+            '<p class="timeup-title">' + i18n('i18n-single-finish-title') + '</p>' +
+            '<div class="timeup-actions">' +
+                '<a href="' + SINGLE_RETURN_URL + '" class="timeup-btn timeup-btn-primary">' + i18n('i18n-single-finish-btn') + '</a>' +
+            '</div>'
+        );
     }
 
     function hideTimeUpModal() {
@@ -822,7 +870,11 @@ body {
                 } else {
                     answerRow.classList.add('wrong-shake');
                 }
-                setTimeout(fetchQuestion, res.is_correct ? 550 : 800);
+                if (SINGLE_RETURN_URL) {
+                    setTimeout(showSingleFinishModal, res.is_correct ? 550 : 800);
+                } else {
+                    setTimeout(fetchQuestion, res.is_correct ? 550 : 800);
+                }
             });
     }
 

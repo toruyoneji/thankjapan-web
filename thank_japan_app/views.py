@@ -1871,6 +1871,7 @@ def game_play(request):
         'difficulty': difficulty,
         'skip_countdown': difficulty in ('single', 'first_taste'),
         'has_timer': difficulty not in ('single', 'first_taste'),
+        'single_return_url': request.session.get('single_return_url'),
         'score': request.session.get('game_score', 0),
         'bgm_url': get_bgm_url('game'),
         'bgm_page_type': 'game',
@@ -2113,12 +2114,14 @@ def game_restart(request):
                         return redirect(url_name)
 
             questions = [{'id': question.id, 'model': 'premium'}]
+            single_return_url = reverse('detail_premium', kwargs={'category': question.category, 'slug': question.slug})
         else:
             try:
                 question = ThankJapanModel.objects.get(slug=val)
             except ThankJapanModel.DoesNotExist:
                 question = get_object_or_404(ThankJapanModel, name=val)
             questions = [{'id': question.id, 'model': 'free'}]
+            single_return_url = reverse('category_detail', kwargs={'category': question.category, 'slug': question.slug})
 
         game_difficulty = 'single'
     elif difficulty_param == 'first_taste':
@@ -2134,7 +2137,7 @@ def game_restart(request):
         'game_question_ids', 'game_current_index', 'game_score', 'game_difficulty',
         'game_history', 'score_saved', 'achievements_checked',
         'game_end_time', 'last_answered_index',
-        'game_combo', 'game_max_combo',
+        'game_combo', 'game_max_combo', 'single_return_url',
     ]
     for key in keys_to_clear:
         request.session.pop(key, None)
@@ -2144,6 +2147,12 @@ def game_restart(request):
     request.session['game_score'] = 0
     request.session['game_difficulty'] = game_difficulty
     request.session['game_history'] = []
+    if mode == 'single':
+        # Lets game_play's "finish review" button return the player to the
+        # exact word-detail page they came from, instead of the normal
+        # timed-game result screen (single is a one-question practice
+        # round, not a real playthrough).
+        request.session['single_return_url'] = single_return_url
     # Consumed once by game_play to fire the GA4 'game_start' event, so it fires
     # exactly once per new game rather than on every question fetch.
     request.session['ga_fire_game_start'] = True

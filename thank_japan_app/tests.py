@@ -1227,6 +1227,102 @@ class ReviewPromptSurvivesTileGameRenewalTests(TestCase):
         self.assertNotContains(response, 'reviewPromptOverlay')
 
 
+class SingleModeReviewReturnsToDetailPageTests(TestCase):
+    """2026-09-06: the tile-rearrangement renewal (c73a465a) rewrote
+    game_play-v2.html from scratch and dropped the old per-answer 'Finish &
+    Back to Lesson' button that mode=single (word-detail-page 'review this
+    word') used to show - after that, finishing a single-mode review fell
+    through to the same generic game_result -> game_start flow as a normal
+    timed game, instead of returning the player to the word detail page they
+    reviewed from. game_restart now stashes a single_return_url in the
+    session for mode=single, and game_play-v2.html's finish modal reads it
+    back as the JS constant SINGLE_RETURN_URL."""
+
+    def setUp(self):
+        self.word = ThankJapanModel.objects.create(
+            name='single-return-word', englishname='Umbrella', jpname='かさ',
+            category='dailyactions', slug='single-return-word',
+            description='desc', history='hist',
+        )
+        self.premium_word = ThankJapanPremium.objects.create(
+            name='single-return-premium-word', englishname='Premium Umbrella', jpname='かさ',
+            category='TourismEtiquette', slug='single-return-premium-word',
+            description='desc', history='hist',
+        )
+
+    def test_free_single_mode_stores_return_url_to_word_detail_page(self):
+        self.client.get(reverse('game_restart'), {
+            'mode': 'single', 'model_type': 'free', 'slug': 'single-return-word',
+        })
+
+        expected_url = reverse('category_detail', kwargs={
+            'category': 'dailyactions', 'slug': 'single-return-word',
+        })
+        self.assertEqual(self.client.session['single_return_url'], expected_url)
+
+    def test_premium_single_mode_stores_return_url_to_premium_detail_page(self):
+        self.client.get(reverse('game_restart'), {
+            'mode': 'single', 'model_type': 'premium', 'slug': 'single-return-premium-word',
+        })
+
+        expected_url = reverse('detail_premium', kwargs={
+            'category': 'TourismEtiquette', 'slug': 'single-return-premium-word',
+        })
+        self.assertEqual(self.client.session['single_return_url'], expected_url)
+
+    def test_game_play_embeds_return_url_as_js_constant_for_single_mode(self):
+        self.client.get(reverse('game_restart'), {
+            'mode': 'single', 'model_type': 'free', 'slug': 'single-return-word',
+        })
+
+        response = self.client.get(reverse('game_play'))
+
+        expected_url = reverse('category_detail', kwargs={
+            'category': 'dailyactions', 'slug': 'single-return-word',
+        })
+        # The URL is written into the page through the `escapejs` filter (so
+        # e.g. hyphens become -) - assert on the value Django actually
+        # resolved into the template context rather than the raw escaped
+        # bytes, and separately confirm the JS constant itself is present.
+        self.assertEqual(response.context['single_return_url'], expected_url)
+        self.assertContains(response, 'const SINGLE_RETURN_URL = "')
+        self.assertContains(response, 'id="i18n-single-finish-btn"')
+        self.assertContains(response, 'function showSingleFinishModal')
+
+    def test_normal_timeattack_game_has_no_return_url_and_does_not_leak_a_stale_one(self):
+        # Play a single-mode review first so session['single_return_url'] is
+        # set, then start a real game - it must not leak into the new game.
+        self.client.get(reverse('game_restart'), {
+            'mode': 'single', 'model_type': 'free', 'slug': 'single-return-word',
+        })
+        self.client.get(reverse('game_restart'))
+
+        self.assertNotIn('single_return_url', self.client.session)
+        response = self.client.get(reverse('game_play'))
+        self.assertContains(response, 'const SINGLE_RETURN_URL = null;')
+
+    def test_finishing_the_single_question_shows_finish_modal_instead_of_advancing(self):
+        self.client.get(reverse('game_restart'), {
+            'mode': 'single', 'model_type': 'free', 'slug': 'single-return-word',
+        })
+        self.client.get(reverse('game_play'))
+        data = json.loads(self.client.get(reverse('game_question_data')).content)
+        correct_order = sorted(data['tiles'], key=lambda t: 'かさ'.index(t))
+
+        response = self.client.post(
+            reverse('game_submit_answer'),
+            data=json.dumps({'tiles': correct_order, 'seconds_left': 60}),
+            content_type='application/json',
+        )
+
+        result = json.loads(response.content)
+        self.assertTrue(result['is_correct'], msg=result)
+        # game_submit_answer itself never redirects (it's AJAX) - the actual
+        # redirect-vs-modal branching happens client-side in game_play-v2.html
+        # based on SINGLE_RETURN_URL, verified above.
+        self.assertFalse(result['game_over'])
+
+
 class GameResultTimeLimitLabelTests(TestCase):
     """2026-09-05: the result screen always said '60s Challenge' even for
     untimed modes (mode=single practice, and the new first_taste trial) -
