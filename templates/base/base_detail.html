@@ -85,6 +85,15 @@
     -webkit-overflow-scrolling: touch;
 }
 
+/* Standalone (non-modal) word-detail pages only: the site's usual 700px
+   card cap looks noticeably narrower than the ~94vw full-screen modal used
+   when opening the same content from a category list, on wide screens.
+   Widened just for this direct-layout case to close most of that visual
+   gap without abandoning the site-wide 700px card convention outright. */
+#premium-auth-container.direct-layout .app-content-fix {
+    max-width: 960px;
+}
+
 #premium-auth-container.modal-layout {
     position: fixed;
     top: 0; 

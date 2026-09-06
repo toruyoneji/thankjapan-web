@@ -1584,6 +1584,86 @@ class WordDetailDirectLayoutCloseButtonTests(TestCase):
             self.assertIn(declaration, body)
 
 
+class WordDetailStandaloneWidthTests(TestCase):
+    """2026-09-06: on wide (PC/tablet) screens, the standalone word-detail
+    page (reached e.g. via the mode=single finish button) looked
+    noticeably narrower than the ~94vw full-screen modal the same content
+    renders in when opened from a category list - the standalone page used
+    the site-wide 700px card cap shared by every other direct-layout page.
+    Widened the cap to 960px for direct-layout word-detail pages only (a
+    deliberate partial narrowing of the gap, not full parity - see
+    conversation), leaving every other direct-layout page's 700px cap and
+    the modal's own ~94vw sizing untouched."""
+
+    def setUp(self):
+        self.word = ThankJapanModel.objects.create(
+            name='width-test-word', englishname='Cat', jpname='ねこ',
+            category='animal', slug='width-test-word',
+            description='desc', history='hist',
+        )
+        self.premium_word = ThankJapanPremium.objects.create(
+            name='width-test-premium', englishname='Premium Word', jpname='テスト',
+            category='TourismEtiquette', slug='width-test-premium',
+            description='desc', history='hist',
+        )
+
+    def test_free_direct_layout_gets_widened_cap(self):
+        response = self.client.get(reverse('category_detail', kwargs={
+            'category': 'animal', 'slug': 'width-test-word',
+        }))
+        body = response.content.decode()
+
+        self.assertIn('#premium-auth-container.direct-layout .app-content-fix {', body)
+        self.assertIn('max-width: 960px;', body)
+
+    def test_premium_direct_layout_gets_widened_cap(self):
+        response = self.client.get(reverse('detail_premium', kwargs={
+            'category': 'TourismEtiquette', 'slug': 'width-test-premium',
+        }))
+        body = response.content.decode()
+
+        self.assertIn('#premium-auth-container.direct-layout .app-content-fix {', body)
+        self.assertIn('max-width: 960px;', body)
+
+    def test_base_shared_700px_cap_is_unchanged(self):
+        # The site-wide default (used by modal-layout, and by every other
+        # direct-layout page that doesn't override it) must still be 700px -
+        # only word-detail's direct-layout case gets the wider cap.
+        response = self.client.get(reverse('category_detail', kwargs={
+            'category': 'animal', 'slug': 'width-test-word',
+        }))
+        body = response.content.decode()
+
+        self.assertIn('max-width: 700px;', body)
+
+
+class SelectLanguageHeadingLocalizationTests(TestCase):
+    """2026-09-06: the language-picker modal's own heading ('Select
+    Language', templates/base/basecategory_top.html) was hardcoded in
+    English while everything else on the page it lives on (bottom-nav
+    labels, the sibling learn/menu modals' own headings) was already fully
+    localized per lang_code - decided to fix the inconsistency rather than
+    treat it as an intentional 'pre-language-choice stays English'
+    convention, since by the time a visitor reaches this modal the
+    surrounding page is already rendered in their language."""
+
+    def setUp(self):
+        ThankJapanModel.objects.create(
+            name='lang-heading-test', englishname='Dog', jpname='いぬ',
+            category='animal', slug='lang-heading-test',
+            description='desc', history='hist',
+        )
+
+    def test_japanese_locale_shows_translated_heading(self):
+        response = self.client.get(reverse('animalpage'), {'lang': 'ja'})
+        self.assertContains(response, '言語を選択')
+        self.assertNotContains(response, '>Select Language<')
+
+    def test_default_locale_falls_back_to_english(self):
+        response = self.client.get(reverse('animalpage'))
+        self.assertContains(response, 'Select Language')
+
+
 class SingleModeIncorrectAnswerRevealTests(TestCase):
     """2026-09-06: a wrong answer during mode=single review (practicing one
     word from its detail page) silently moved on to the same generic
