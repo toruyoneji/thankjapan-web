@@ -1805,11 +1805,13 @@ def _model_for(question_model_tag):
     return ThankJapanPremium if question_model_tag == 'premium' else ThankJapanModel
 
 
-def _tiles_for_question(question_obj):
+def _tiles_for_question(question_obj, force_chunk=False):
     """Shuffled display tiles + the correct answer text for one question
     (works for both ThankJapanModel and ThankJapanPremium - both have
-    jpname/example_sentence_ja)."""
-    built = build_tiles(question_obj.jpname, question_obj.example_sentence_ja)
+    jpname/example_sentence_ja). force_chunk: see build_tiles - used for
+    premium-word review (mode=single) so every premium category is quizzed
+    on its example sentence regardless of how short the reading is."""
+    built = build_tiles(question_obj.jpname, question_obj.example_sentence_ja, force_chunk=force_chunk)
     shuffled = built['tiles'][:]
     random.shuffle(shuffled)
     # A shuffle landing back on the solved order isn't a bug, but for 3+
@@ -1910,7 +1912,11 @@ def game_question_data(request):
     q = questions[index]
     model = _model_for(q['model'])
     question = get_object_or_404(model, id=q['id'])
-    tile_data = _tiles_for_question(question)
+    # Premium word review (mode=single) always quizzes the example sentence,
+    # regardless of mora count - the main timed game's routing (any
+    # difficulty other than 'single') is untouched.
+    force_chunk = difficulty == 'single' and q['model'] == 'premium'
+    tile_data = _tiles_for_question(question, force_chunk=force_chunk)
 
     # Cache the canonical answer text computed *right now* against this
     # exact index, so game_submit_answer validates against the very same
@@ -1982,7 +1988,9 @@ def game_submit_answer(request):
     if request.session.get('current_answer_index') == index:
         answer_text = request.session['current_answer_text']
     else:
-        answer_text = _tiles_for_question(question)['answer_text']
+        difficulty = request.session.get('game_difficulty', 'timeattack')
+        force_chunk = difficulty == 'single' and q['model'] == 'premium'
+        answer_text = _tiles_for_question(question, force_chunk=force_chunk)['answer_text']
 
     submitted_text = ''.join(str(t) for t in submitted_tiles)
     correct_flag = submitted_text == answer_text

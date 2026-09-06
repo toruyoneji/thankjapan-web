@@ -177,7 +177,7 @@ def split_chunks(text):
     return chunks
 
 
-def build_tiles(jpname, example_sentence_ja):
+def build_tiles(jpname, example_sentence_ja, force_chunk=False):
     """Top-level entry point: decide the route and return its tiles.
 
     Returns {route, tiles, answer_text}. For 'chunk' routing, answer_text
@@ -191,8 +191,23 @@ def build_tiles(jpname, example_sentence_ja):
     space characters are baked into the "correct" string but literally
     unreachable from any tile. Deriving answer_text from the tiles
     guarantees it's always exactly what the tiles can reconstruct.
+
+    force_chunk: skip the mora-count shortcut and always build from
+    example_sentence_ja, even for a <=5-mora reading that would otherwise
+    route to 'mora' (single-word tiles, ignoring the example sentence
+    entirely). Used for premium word review (mode=single) so every premium
+    category is consistently quizzed on its example sentence rather than a
+    trivial reading-only puzzle for the shorter words. Falls back to the
+    normal mora route if the example sentence doesn't actually yield any
+    usable chunks (e.g. missing data), so a word is never left unplayable.
     """
     info = classify_route(jpname)
+
+    if info['route'] == 'mora' and force_chunk:
+        forced_tiles = split_chunks(strip_ruby_tags(example_sentence_ja))
+        if forced_tiles:
+            return {'route': 'chunk', 'tiles': forced_tiles, 'answer_text': ''.join(forced_tiles)}
+
     if info['route'] == 'mora':
         tiles = split_mora(jpname)
         return {'route': 'mora', 'tiles': tiles, 'answer_text': jpname}

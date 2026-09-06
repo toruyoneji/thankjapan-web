@@ -1690,11 +1690,12 @@ class WordDetailStandaloneWidthTests(TestCase):
         self.assertGreater(btn_pos, content_fix_pos)
 
     def test_close_button_nudges_down_only_above_768px(self):
-        """2026-09-06 follow-up x3: top: 15px reads fine on phones/small
+        """2026-09-06 follow-up x3/x4: top: 15px reads fine on phones/small
         tablets but sits a bit too close to the card's top edge on PC/large
-        tablet. >768px only pushes it down a little further; 768px and
-        below (phones, small tablets) must render byte-for-byte the same
-        base `top: 15px` as before this change."""
+        tablet. >768px only pushes it down further (30px, then 45px per a
+        second follow-up nudge); 768px and below (phones, small tablets)
+        must render byte-for-byte the same base `top: 15px` as before this
+        change."""
         response = self.client.get(reverse('category_detail', kwargs={
             'category': 'animal', 'slug': 'width-test-word',
         }))
@@ -1703,7 +1704,7 @@ class WordDetailStandaloneWidthTests(TestCase):
         self.assertIn('top: 15px !important;', body)
         self.assertIn('@media (min-width: 769px)', body)
         self.assertIn(
-            '@media (min-width: 769px) {\n        .detail-back-close-btn {\n            top: 30px !important;\n        }\n    }',
+            '@media (min-width: 769px) {\n        .detail-back-close-btn {\n            top: 45px !important;\n        }\n    }',
             body,
         )
 
@@ -1715,7 +1716,7 @@ class WordDetailStandaloneWidthTests(TestCase):
 
         self.assertIn('top: 15px !important;', body)
         self.assertIn('@media (min-width: 769px)', body)
-        self.assertIn('top: 30px !important;', body)
+        self.assertIn('top: 45px !important;', body)
 
 
 class SelectLanguageHeadingLocalizationTests(TestCase):
@@ -2042,6 +2043,36 @@ class TileSplitTests(SimpleTestCase):
         self.assertEqual(result['tiles'], ['と', 'ま', 'と'])
         self.assertEqual(result['answer_text'], 'とまと')
 
+    def test_build_tiles_force_chunk_overrides_a_short_mora_eligible_reading(self):
+        """2026-09-06: premium review (mode=single) wants every premium
+        category quizzed from its example sentence, even for a <=5-mora
+        reading that would otherwise fall back to a trivial single-word
+        mora puzzle (e.g. 'いわてけん', 5 mora) and ignore the example
+        sentence entirely - inconsistent with longer premium words like
+        'ほっかいどう' (6 mora) that already route to 'chunk' normally."""
+        html = '<ruby>岩手県<rt>いわてけん</rt></ruby>は<ruby>山<rt>やま</rt></ruby>が<ruby>多<rt>おお</rt></ruby>いです。'
+        without_force = tile_split.build_tiles('いわてけん', example_sentence_ja=html)
+        self.assertEqual(without_force['route'], 'mora')  # baseline: still mora without force_chunk
+
+        result = tile_split.build_tiles('いわてけん', example_sentence_ja=html, force_chunk=True)
+        self.assertEqual(result['route'], 'chunk')
+        self.assertEqual(result['tiles'], ['岩手県は', '山が', '多いです'])
+        self.assertEqual(result['answer_text'], ''.join(result['tiles']))
+
+    def test_build_tiles_force_chunk_falls_back_to_mora_when_no_example_sentence(self):
+        # Safety net: a premium record missing example_sentence_ja (data
+        # gap) must not become an unplayable empty-tile question just
+        # because force_chunk was requested.
+        result = tile_split.build_tiles('とまと', example_sentence_ja=None, force_chunk=True)
+        self.assertEqual(result['route'], 'mora')
+        self.assertEqual(result['tiles'], ['と', 'ま', 'と'])
+
+    def test_build_tiles_force_chunk_is_a_no_op_when_already_chunk_route(self):
+        html = '<ruby>建設現場<rt>けんせつげんば</rt></ruby>で<ruby>働<rt>はたら</rt></ruby>きます'
+        result = tile_split.build_tiles('けんせつげんば', example_sentence_ja=html, force_chunk=True)
+        self.assertEqual(result['route'], 'chunk')
+        self.assertEqual(result['tiles'], ['建設現場で', '働きます'])
+
     def test_build_tiles_chunk_route_uses_example_sentence_ja(self):
         html = '<ruby>建設現場<rt>けんせつげんば</rt></ruby>で<ruby>働<rt>はたら</rt></ruby>きます'
         result = tile_split.build_tiles('けんせつげんば', example_sentence_ja=html)
@@ -2288,6 +2319,95 @@ class ChunkAnswerAcrossSentenceBoundaryTests(TestCase):
         )
         result = json.loads(response.content)
         self.assertTrue(result['is_correct'], msg=f"tiles={data['tiles']} order_tried={correct_order} result={result}")
+
+
+class PremiumReviewAlwaysUsesExampleSentenceTests(TestCase):
+    """2026-09-06: reviewing a premium word (mode=single) used to route to
+    'mora' (single-word reading tiles, example sentence entirely ignored)
+    for any premium word whose reading is <=5 mora - e.g. 'いわてけん'
+    (Iwate Prefecture, 5 mora) - while a longer-reading premium word like
+    'ほっかいどう' (Hokkaido, 6 mora) already got the richer example-
+    sentence-based puzzle. Inconsistent for paid content, so mode=single
+    now always forces the chunk/example-sentence route for
+    ThankJapanPremium regardless of mora count. Free words and the main
+    timed game (any difficulty other than 'single') are unaffected -
+    see game_question_data/game_submit_answer's force_chunk wiring."""
+
+    def setUp(self):
+        self.user = User.objects.create_user(username='iwate_tester', password='pass12345')
+        self.user.profile.is_premium = True
+        self.user.profile.save()
+        self.premium_word = ThankJapanPremium.objects.create(
+            name='iwateken', englishname='Iwate Prefecture', jpname='いわてけん',
+            category='Prefectures', slug='iwateken', description='d', history='h',
+            example_sentence_ja=(
+                '<ruby>岩手県<rt>いわてけん</rt></ruby>は<ruby>山<rt>やま</rt></ruby>が'
+                '<ruby>多<rt>おお</rt></ruby>いです。'
+            ),
+        )
+        self.free_word = ThankJapanModel.objects.create(
+            name='tomato-review-test', englishname='Tomato', jpname='とまと',
+            category='food', slug='tomato-review-test', description='d', history='h',
+            example_sentence_ja='<ruby>使わない</ruby>',
+        )
+
+    def test_premium_single_mode_review_forces_chunk_route(self):
+        self.client.login(username='iwate_tester', password='pass12345')
+        self.client.get(reverse('game_restart'), {
+            'mode': 'single', 'model_type': 'premium', 'slug': 'iwateken',
+        })
+
+        data = json.loads(self.client.get(reverse('game_question_data')).content)
+
+        self.assertEqual(data['route'], 'chunk')
+        self.assertEqual(sorted(data['tiles']), sorted(['岩手県は', '山が', '多いです']))
+
+    def test_premium_single_mode_review_scores_the_forced_chunk_answer_correctly(self):
+        self.client.login(username='iwate_tester', password='pass12345')
+        self.client.get(reverse('game_restart'), {
+            'mode': 'single', 'model_type': 'premium', 'slug': 'iwateken',
+        })
+        data = json.loads(self.client.get(reverse('game_question_data')).content)
+        full_sentence = '岩手県は山が多いです'
+        correct_order = sorted(data['tiles'], key=lambda chunk: full_sentence.index(chunk))
+
+        response = self.client.post(
+            reverse('game_submit_answer'),
+            data=json.dumps({'tiles': correct_order, 'seconds_left': 60}),
+            content_type='application/json',
+        )
+        result = json.loads(response.content)
+
+        self.assertTrue(result['is_correct'], msg=result)
+        self.assertEqual(result['correct_answer'], full_sentence)
+
+    def test_free_single_mode_review_still_uses_mora_route(self):
+        self.client.get(reverse('game_restart'), {
+            'mode': 'single', 'model_type': 'free', 'slug': 'tomato-review-test',
+        })
+
+        data = json.loads(self.client.get(reverse('game_question_data')).content)
+
+        self.assertEqual(data['route'], 'mora')
+        self.assertEqual(sorted(data['tiles']), sorted(['と', 'ま', 'と']))
+
+    def test_main_timed_game_premium_word_still_uses_mora_route(self):
+        # Bypass the random question picker (_build_tile_game_questions) to
+        # deterministically exercise this exact premium word through the
+        # normal (non-single) game path.
+        self.client.login(username='iwate_tester', password='pass12345')
+        session = self.client.session
+        session['game_question_ids'] = [{'id': self.premium_word.id, 'model': 'premium'}]
+        session['game_current_index'] = 0
+        session['game_score'] = 0
+        session['game_difficulty'] = 'timeattack'
+        session['game_history'] = []
+        session.save()
+
+        data = json.loads(self.client.get(reverse('game_question_data')).content)
+
+        self.assertEqual(data['route'], 'mora')
+        self.assertEqual(sorted(data['tiles']), sorted(['い', 'わ', 'て', 'け', 'ん']))
 
 
 class DailyQuestionTileGameTests(TestCase):
