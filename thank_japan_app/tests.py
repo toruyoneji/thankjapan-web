@@ -1413,6 +1413,131 @@ class WordDetailPageTests(TestCase):
         self.assertIn('<meta name="description" content="What does Premium Word mean in Japanese?', body)
 
 
+class WordDetailReviewInviteTests(TestCase):
+    """2026-09-06: the word-detail page's 'Practice This Word' invite still
+    described the old 4-choice game ('choose one of the 2 images') even
+    though the tile-rearrangement renewal (c73a465a) replaced that game mode
+    weeks ago - fixed to describe the actual tile-rearrangement mechanic,
+    and the button itself was restyled to match the game's own C-plan
+    (sugoroku x jewel) look instead of the old flat gold pill."""
+
+    OLD_DESCRIPTION_SUBSTRINGS = ['2つの画像', '2 images', '2 imágenes', '2 Bilder']
+
+    def setUp(self):
+        self.word = ThankJapanModel.objects.create(
+            name='invite-test-cat', englishname='Cat', jpname='ねこ',
+            category='animal', slug='invite-test-cat',
+            description='desc', history='hist',
+        )
+        self.premium_word = ThankJapanPremium.objects.create(
+            name='invite-test-premium', englishname='Premium Word', jpname='テスト',
+            category='TourismEtiquette', slug='invite-test-premium',
+            description='desc', history='hist',
+        )
+
+    def _get_free(self, lang=None):
+        params = {'lang': lang} if lang else {}
+        return self.client.get(reverse('category_detail', kwargs={
+            'category': 'animal', 'slug': 'invite-test-cat',
+        }), params)
+
+    def _get_premium(self, lang=None):
+        params = {'lang': lang} if lang else {}
+        return self.client.get(reverse('detail_premium', kwargs={
+            'category': 'TourismEtiquette', 'slug': 'invite-test-premium',
+        }), params)
+
+    def test_old_four_choice_description_is_gone_free_and_premium(self):
+        free_body = self._get_free().content.decode()
+        premium_body = self._get_premium().content.decode()
+
+        for old_text in self.OLD_DESCRIPTION_SUBSTRINGS:
+            self.assertNotIn(old_text, free_body)
+            self.assertNotIn(old_text, premium_body)
+
+    def test_new_tile_rearrangement_description_present_per_locale(self):
+        expected_by_lang = {
+            'ja': '文字を並べ替えて正解を目指そう', 'zh-hant': '排列文字', 'zh-cn': '排列文字',
+            'ko': '글자를 배열해서', 'de': 'Ordne die Buchstaben',
+            'fr': 'Réorganise les lettres', 'es-es': 'Ordena las letras',
+            'it': 'Riordina le lettere', 'pt': 'Reorganize as letras',
+            'vi': 'Sắp xếp lại các chữ cái', 'th': 'เรียงตัวอักษรใหม่',
+            'en': 'Rearrange the tiles to find the correct answer',
+        }
+        for lang, expected in expected_by_lang.items():
+            with self.subTest(lang=lang, page='free'):
+                self.assertIn(expected, self._get_free(lang).content.decode())
+            with self.subTest(lang=lang, page='premium'):
+                self.assertIn(expected, self._get_premium(lang).content.decode())
+
+    def test_review_button_uses_tile_icon_not_old_keyboard_icon(self):
+        free_body = self._get_free().content.decode()
+        premium_body = self._get_premium().content.decode()
+
+        self.assertNotIn('⌨️', free_body)
+        self.assertNotIn('⌨️', premium_body)
+        self.assertIn('🧩', free_body)
+        self.assertIn('🧩', premium_body)
+
+    def test_review_button_has_new_gem_theme_animation(self):
+        free_body = self._get_free().content.decode()
+        premium_body = self._get_premium().content.decode()
+
+        for body in (free_body, premium_body):
+            self.assertIn('game-invite-btn-pulse', body)
+            self.assertIn('game-invite-btn-shine', body)
+            self.assertIn('rgba(46,196,182,', body)  # jewel-teal glow, matches the game's own palette
+
+
+class SingleModeIncorrectAnswerRevealTests(TestCase):
+    """2026-09-06: a wrong answer during mode=single review (practicing one
+    word from its detail page) silently moved on to the same generic
+    'Review Complete!' finish modal as a correct answer, with no way to
+    learn what the right answer actually was - defeats the point of a
+    'review' flow. game_play-v2.html's finish modal now takes is_correct/
+    correct_answer and shows the latter when wrong."""
+
+    def setUp(self):
+        self.word = ThankJapanModel.objects.create(
+            name='reveal-test-word', englishname='Umbrella', jpname='かさ',
+            category='dailyactions', slug='reveal-test-word',
+            description='desc', history='hist',
+        )
+
+    def test_game_play_wires_correct_answer_into_finish_modal(self):
+        self.client.get(reverse('game_restart'), {
+            'mode': 'single', 'model_type': 'free', 'slug': 'reveal-test-word',
+        })
+
+        response = self.client.get(reverse('game_play'))
+        body = response.content.decode()
+
+        self.assertIn('id="i18n-single-correct-answer-label"', body)
+        self.assertIn('showSingleFinishModal(res.is_correct, res.correct_answer)', body)
+        self.assertIn('function buildSingleFinishContent(isCorrect, correctAnswer)', body)
+        self.assertIn('function escapeHtml', body)
+
+    def test_submit_answer_response_includes_correct_answer_when_wrong(self):
+        self.client.get(reverse('game_restart'), {
+            'mode': 'single', 'model_type': 'free', 'slug': 'reveal-test-word',
+        })
+        self.client.get(reverse('game_play'))
+        data = json.loads(self.client.get(reverse('game_question_data')).content)
+        wrong_order = list(reversed(data['tiles']))
+        if wrong_order == sorted(data['tiles'], key=lambda t: 'かさ'.index(t)):
+            self.skipTest('reversed order happened to already be correct')
+
+        response = self.client.post(
+            reverse('game_submit_answer'),
+            data=json.dumps({'tiles': wrong_order, 'seconds_left': 60}),
+            content_type='application/json',
+        )
+        result = json.loads(response.content)
+
+        self.assertFalse(result['is_correct'])
+        self.assertEqual(result['correct_answer'], 'かさ')
+
+
 class TopPageSeoOverrideTests(SimpleTestCase):
     """The top page's <title>/<meta name="description"> switch to a
     bilingual "{local} (Learn Japanese) | ThankJapan" pair for visitors from

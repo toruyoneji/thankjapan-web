@@ -542,6 +542,21 @@ body {
         {% else %}✅ Finish & Back to Lesson
         {% endif %}
     </span>
+    <span id="i18n-single-correct-answer-label">
+        {% if lang_code == 'ja' %}正解:
+        {% elif lang_code == 'zh-hant' %}正確答案:
+        {% elif lang_code == 'zh-cn' %}正确答案:
+        {% elif lang_code == 'ko' %}정답:
+        {% elif lang_code == 'de' %}Richtige Antwort:
+        {% elif lang_code == 'fr' %}Bonne réponse :
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Respuesta correcta:
+        {% elif lang_code == 'it' %}Risposta corretta:
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Resposta correta:
+        {% elif lang_code == 'vi' %}Đáp án đúng:
+        {% elif lang_code == 'th' %}คำตอบที่ถูกต้อง:
+        {% else %}Correct answer:
+        {% endif %}
+    </span>
 </div>
 
 <div class="main2">
@@ -655,16 +670,27 @@ body {
         overlay.hidden = false;
     }
 
-    function showSingleFinishModal() {
+    function escapeHtml(str) {
+        const div = document.createElement('div');
+        div.textContent = str;
+        return div.innerHTML;
+    }
+
+    function showSingleFinishModal(isCorrect, correctAnswer) {
         const overlay = document.getElementById('timeup-modal-overlay');
-        document.querySelector('#timeup-modal-overlay .timeup-icon').textContent = '✅';
-        document.getElementById('timeup-modal-body').innerHTML = buildSingleFinishContent();
+        document.querySelector('#timeup-modal-overlay .timeup-icon').textContent = isCorrect ? '✅' : '📝';
+        document.getElementById('timeup-modal-body').innerHTML = buildSingleFinishContent(isCorrect, correctAnswer);
         overlay.hidden = false;
     }
 
-    function buildSingleFinishContent() {
+    function buildSingleFinishContent(isCorrect, correctAnswer) {
+        const answerLine = isCorrect ? '' : (
+            '<p class="timeup-desc">' + i18n('i18n-single-correct-answer-label') +
+            ' <strong>' + escapeHtml(correctAnswer) + '</strong></p>'
+        );
         return (
             '<p class="timeup-title">' + i18n('i18n-single-finish-title') + '</p>' +
+            answerLine +
             '<div class="timeup-actions">' +
                 '<a href="' + SINGLE_RETURN_URL + '" class="timeup-btn timeup-btn-primary">' + i18n('i18n-single-finish-btn') + '</a>' +
             '</div>'
@@ -871,7 +897,7 @@ body {
                     answerRow.classList.add('wrong-shake');
                 }
                 if (SINGLE_RETURN_URL) {
-                    setTimeout(showSingleFinishModal, res.is_correct ? 550 : 800);
+                    setTimeout(function () { showSingleFinishModal(res.is_correct, res.correct_answer); }, res.is_correct ? 550 : 800);
                 } else {
                     setTimeout(fetchQuestion, res.is_correct ? 550 : 800);
                 }

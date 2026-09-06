@@ -201,14 +201,48 @@
     }
 
     #detail-page-wrapper .game-invite-btn {
-        display: inline-block !important;
-        background: #d4af37 !important; 
-        color: #000 !important; 
-        padding: 12px 30px !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 8px !important;
+        position: relative !important;
+        overflow: hidden !important;
+        background: linear-gradient(135deg, #e8cf7a, #cda23f 55%, #a97c1f) !important;
+        color: #241b10 !important;
+        padding: 14px 34px !important;
         border-radius: 50px !important;
-        font-weight: bold !important;
-        box-shadow: 0 4px 10px rgba(212, 175, 55, 0.3) !important;
+        border: 2px solid rgba(255,255,255,0.35) !important;
+        font-weight: 800 !important;
+        font-size: 1.02rem !important;
+        box-shadow: 0 6px 18px rgba(0,0,0,0.35), 0 0 0 3px rgba(46,196,182,0.25) !important;
         text-decoration: none !important;
+        animation: game-invite-btn-pulse 2.4s ease-in-out infinite !important;
+        transition: transform 0.15s ease !important;
+    }
+
+    #detail-page-wrapper .game-invite-btn::after {
+        content: '' !important;
+        position: absolute !important;
+        top: 0 !important; left: -60% !important;
+        width: 40% !important; height: 100% !important;
+        background: linear-gradient(120deg, transparent, rgba(255,255,255,0.55), transparent) !important;
+        transform: skewX(-20deg) !important;
+        animation: game-invite-btn-shine 3.2s ease-in-out infinite !important;
+    }
+
+    #detail-page-wrapper .game-invite-btn:active {
+        transform: scale(0.96) !important;
+    }
+
+    @keyframes game-invite-btn-pulse {
+        0%, 100% { box-shadow: 0 6px 18px rgba(0,0,0,0.35), 0 0 0 3px rgba(46,196,182,0.25); }
+        50% { box-shadow: 0 6px 22px rgba(0,0,0,0.4), 0 0 0 6px rgba(46,196,182,0.12); }
+    }
+
+    @keyframes game-invite-btn-shine {
+        0% { left: -60%; }
+        35% { left: 130%; }
+        100% { left: 130%; }
     }
 
     #detail-page-wrapper .related-card-item {
@@ -551,57 +585,45 @@
 
         <p class="rule-caption">
             {% if lang_code == 'ja' %}
-                正しい日本語を選んでください！<br>
-                ・2つの画像から1つをタップ
+                文字を並べ替えて正解を目指そう！
             {% elif lang_code == 'zh-hant' %}
-                請選擇正確的日文！<br>
-                ・從 2 張圖片中點擊一個
+                排列文字,拼出正確答案吧！
             {% elif lang_code == 'zh-cn' %}
-                请选择正确的日文！<br>
-                ・从 2 张图片中点击一个
+                排列文字,拼出正确答案吧！
             {% elif lang_code == 'de' %}
-                Wähle das richtige Japanisch!<br>
-                - Tippe auf eines der 2 Bilder
+                Ordne die Buchstaben, um die richtige Antwort zu bilden!
             {% elif lang_code == 'fr' %}
-                Choisissez le bon japonais !<br>
-                - Appuyez sur l'une des 2 images
+                Réorganise les lettres pour trouver la bonne réponse !
             {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}
-                ¡Elige el japonés correcto!<br>
-                - Toca una de las 2 imágenes
+                ¡Ordena las letras para encontrar la respuesta correcta!
             {% elif lang_code == 'it' %}
-                Scegli il giapponese corretto!<br>
-                - Tocca una delle 2 immagini
+                Riordina le lettere per trovare la risposta corretta!
             {% elif lang_code == 'ko' %}
-                올바른 일본어를 선택하세요!<br>
-                ・2개의 이미지 중 하나를 터치
+                글자를 배열해서 정답을 맞혀보세요!
             {% elif lang_code == 'pt' or lang_code == 'pt-br' %}
-                Escolha o japonês correto!<br>
-                - Toque em uma das 2 imagens
+                Reorganize as letras para encontrar a resposta certa!
             {% elif lang_code == 'vi' %}
-                Chọn tiếng Nhật đúng!<br>
-                - Chạm vào 1 trong 2 hình ảnh
+                Sắp xếp lại các chữ cái để tìm đáp án đúng!
             {% elif lang_code == 'th' %}
-                เลือกภาษาญี่ปุ่นที่ถูกต้อง!<br>
-                - แตะหนึ่งใน 2 รูปภาพ
+                เรียงตัวอักษรใหม่เพื่อหาคำตอบที่ถูกต้อง!
             {% else %}
-                Choose the correct Japanese!<br>
-                - Tap one of the 2 images
+                Rearrange the tiles to find the correct answer!
             {% endif %}
         </p>
         
         <a href="{% url 'game_restart' %}?mode=single&model_type=premium&slug={{ object.slug }}&lang={{ lang_code }}" class="game-invite-btn">
-            {% if lang_code == 'ja' %}⌨️ このフレーズをマスターしよう
-            {% elif lang_code == 'zh-hant' %}⌨️ 掌握這個短語
-            {% elif lang_code == 'zh-cn' %}⌨️ 掌握这个短语
-            {% elif lang_code == 'de' %}⌨️ Diese Phrase meistern
-            {% elif lang_code == 'fr' %}⌨️ Maîtriser cette expression
-            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}⌨️ Domina esta frase
-            {% elif lang_code == 'it' %}⌨️ Padroneggia questa frase
-            {% elif lang_code == 'ko' %}⌨️ 이 문구를 마스터하세요
-            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}⌨️ Domine esta frase
-            {% elif lang_code == 'vi' %}⌨️ Thành thạo cụm từ này
-            {% elif lang_code == 'th' %}⌨️ ฝึกฝนวลีนี้ให้เชี่ยวชาญ
-            {% else %}⌨️ Master this Phrase
+            {% if lang_code == 'ja' %}🧩 このフレーズをマスターしよう
+            {% elif lang_code == 'zh-hant' %}🧩 掌握這個短語
+            {% elif lang_code == 'zh-cn' %}🧩 掌握这个短语
+            {% elif lang_code == 'de' %}🧩 Diese Phrase meistern
+            {% elif lang_code == 'fr' %}🧩 Maîtriser cette expression
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}🧩 Domina esta frase
+            {% elif lang_code == 'it' %}🧩 Padroneggia questa frase
+            {% elif lang_code == 'ko' %}🧩 이 문구를 마스터하세요
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}🧩 Domine esta frase
+            {% elif lang_code == 'vi' %}🧩 Thành thạo cụm từ này
+            {% elif lang_code == 'th' %}🧩 ฝึกฝนวลีนี้ให้เชี่ยวชาญ
+            {% else %}🧩 Master this Phrase
             {% endif %}
 
         </a>
