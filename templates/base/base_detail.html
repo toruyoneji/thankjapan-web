@@ -30,26 +30,44 @@
         display: none !important;
     }
     .detail-back-close-btn {
-        position: fixed;
-        top: 70px;
-        right: 14px;
-        z-index: 1500;
-        width: 38px;
-        height: 38px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: rgba(0,0,0,0.55);
-        border: 1px solid rgba(212,175,55,0.6);
-        border-radius: 50%;
-        color: #d4af37;
-        font-size: 1.1rem;
-        text-decoration: none;
-        backdrop-filter: blur(6px);
+        width: auto !important;
+        height: 36px !important;
+        padding: 0 15px !important;
+        border-radius: 20px !important;
+        background: #d4af37 !important;
+        color: #000000 !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 8px !important;
+        font-family: 'Inter', sans-serif !important;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.3) !important;
+        border: none !important;
+        position: fixed !important;
+        top: 15px !important;
+        right: 15px !important;
+        z-index: 10030 !important;
+        text-decoration: none !important;
     }
 </style>
 {% if object %}
-<a href="/{{ object.category }}/{% if lang_code %}?lang={{ lang_code }}{% endif %}" class="detail-back-close-btn" aria-label="Back">✕</a>
+<a href="/{{ object.category }}/{% if lang_code %}?lang={{ lang_code }}{% endif %}" class="detail-back-close-btn" aria-label="Close">
+    <span style="font-size: 0.7rem; font-weight: bold; letter-spacing: 1px;">
+        {% if lang_code == 'ja' %}閉じる
+        {% elif lang_code == 'zh-hant' %}關閉
+        {% elif lang_code == 'zh-cn' %}关闭
+        {% elif lang_code == 'ko' %}닫기
+        {% elif lang_code == 'fr' %}Fermer
+        {% elif lang_code == 'th' %}ปิด
+        {% elif lang_code == 'vi' %}Đóng
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Cerrar
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Fechar
+        {% elif lang_code == 'de' %}Schließen
+        {% elif lang_code == 'it' %}Chiudi
+        {% else %}CLOSE{% endif %}
+    </span>
+    <span style="font-size: 1.1rem; font-weight: bold;">✕</span>
+</a>
 {% endif %}
 {% endif %}
 

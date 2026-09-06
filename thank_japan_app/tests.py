@@ -1542,6 +1542,47 @@ class WordDetailDirectLayoutCloseButtonTests(TestCase):
         list_response = self.client.get('/animal/')
         self.assertEqual(list_response.status_code, 200)
 
+    def test_close_button_design_matches_the_category_list_modal_close_button(self):
+        """2026-09-06: the button initially shipped as a plain circular X,
+        visually inconsistent with the gold pill '[CLOSE] X' button every
+        category list page's own #detailModal already uses (see e.g.
+        animal.html's .modal-close-btn). Locked in here to the exact same
+        declarations so the two never drift apart again."""
+        response = self.client.get(reverse('category_detail', kwargs={
+            'category': 'animal', 'slug': 'close-btn-test-word',
+        }), {'lang': 'ja'})
+        body = response.content.decode()
+
+        for declaration in [
+            'height: 36px !important;',
+            'padding: 0 15px !important;',
+            'border-radius: 20px !important;',
+            'background: #d4af37 !important;',
+            'color: #000000 !important;',
+            'box-shadow: 0 4px 10px rgba(0,0,0,0.3) !important;',
+            'top: 15px !important;',
+            'right: 15px !important;',
+            'z-index: 10030 !important;',
+        ]:
+            self.assertIn(declaration, body)
+        self.assertIn('閉じる', body)  # ja CLOSE label, same wording as the modal button
+        self.assertIn('✕', body)
+
+    def test_premium_close_button_design_also_matches(self):
+        response = self.client.get(reverse('detail_premium', kwargs={
+            'category': 'TourismEtiquette', 'slug': 'close-btn-test-premium',
+        }))
+        body = response.content.decode()
+
+        for declaration in [
+            'height: 36px !important;',
+            'background: #d4af37 !important;',
+            'top: 15px !important;',
+            'right: 15px !important;',
+            'z-index: 10030 !important;',
+        ]:
+            self.assertIn(declaration, body)
+
 
 class SingleModeIncorrectAnswerRevealTests(TestCase):
     """2026-09-06: a wrong answer during mode=single review (practicing one
