@@ -1636,6 +1636,30 @@ class WordDetailStandaloneWidthTests(TestCase):
 
         self.assertIn('max-width: 700px;', body)
 
+    def test_close_button_tracks_the_960px_card_edge_on_tablet_and_up(self):
+        """2026-09-06 follow-up: with the card capped at 960px, the close
+        button (still `position: fixed; right: 15px` relative to the raw
+        viewport) started floating outside the card's own right edge on
+        wide screens instead of sitting at its top-right corner. Tablet/PC
+        only (>=768px) now computes `right` from the same 960px figure so
+        it tracks the card edge instead of the viewport edge."""
+        response = self.client.get(reverse('category_detail', kwargs={
+            'category': 'animal', 'slug': 'width-test-word',
+        }))
+        body = response.content.decode()
+
+        self.assertIn('@media (min-width: 768px)', body)
+        self.assertIn('right: max(15px, calc((100vw - 960px) / 2 + 15px)) !important;', body)
+
+    def test_premium_close_button_also_tracks_the_card_edge(self):
+        response = self.client.get(reverse('detail_premium', kwargs={
+            'category': 'TourismEtiquette', 'slug': 'width-test-premium',
+        }))
+        body = response.content.decode()
+
+        self.assertIn('@media (min-width: 768px)', body)
+        self.assertIn('right: max(15px, calc((100vw - 960px) / 2 + 15px)) !important;', body)
+
 
 class SelectLanguageHeadingLocalizationTests(TestCase):
     """2026-09-06: the language-picker modal's own heading ('Select
@@ -1998,6 +2022,38 @@ class TileSplitTests(SimpleTestCase):
         self.assertNotIn('。', result['answer_text'])
         self.assertEqual(result['answer_text'], ''.join(result['tiles']))
 
+    def test_build_tiles_handles_two_sentences_joined_by_period_and_space(self):
+        """2026-09-06: reported as a suspected regression of the same class
+        as the "エレキギター" space-drop bug (see
+        test_build_tiles_answer_text_matches_tiles_even_with_source_spaces)
+        and the punctuation-exclusion fix above - a real premium word
+        (ThankJapanPremium id=281, slug='niigataken', category=Prefectures)
+        whose example_sentence_ja is two full sentences joined by '。 '
+        (a sentence-final period followed by a literal space before the
+        second sentence starts). Confirmed via production data that this is
+        the exact live content. answer_text must still be exactly the
+        tile-reconstructible text with no leftover punctuation/whitespace,
+        and the chunk boundary at the sentence break must not swallow or
+        merge words from the following sentence."""
+        html = (
+            '<ruby>新潟県<rt>にいがたけん</rt></ruby>はお<ruby>米<rt>こめ</rt></ruby>と'
+            'お<ruby>酒<rt>さけ</rt></ruby>がとてもおいしいです。 '
+            '<ruby>冬<rt>ふゆ</rt></ruby>はスキーに<ruby>行<rt>い</rt></ruby>きたいですね。'
+        )
+        result = tile_split.build_tiles('にいがたけん', example_sentence_ja=html)
+
+        self.assertEqual(result['route'], 'chunk')
+        self.assertEqual(
+            result['tiles'],
+            ['新潟県は', 'お米と', 'お酒が', 'とても', 'おいしいです', '冬は', 'スキーに行きたいですね'],
+        )
+        self.assertEqual(result['answer_text'], ''.join(result['tiles']))
+        self.assertNotIn(' ', result['answer_text'])
+        self.assertNotIn('。', result['answer_text'])
+        # The word immediately after the period ('冬は') must be its own
+        # tile, not fused onto the end of the first sentence's last chunk.
+        self.assertIn('冬は', result['tiles'])
+
 
 class ComboBonusTests(SimpleTestCase):
     """2026-09-05: first bonus tier moved from a 3-streak to a 2-streak, so
@@ -2121,6 +2177,51 @@ class ChunkAnswerWithSourceSpacesTests(TestCase):
         self.assertEqual(data['route'], 'chunk')
 
         full_sentence = '指を切ったので絆創膏を貼りました。'
+        correct_order = sorted(data['tiles'], key=lambda chunk: full_sentence.index(chunk))
+
+        response = self.client.post(
+            reverse('game_submit_answer'),
+            data=json.dumps({'tiles': correct_order, 'seconds_left': 60}),
+            content_type='application/json',
+        )
+        result = json.loads(response.content)
+        self.assertTrue(result['is_correct'], msg=f"tiles={data['tiles']} order_tried={correct_order} result={result}")
+
+
+class ChunkAnswerAcrossSentenceBoundaryTests(TestCase):
+    """2026-09-06: reported bug - a real premium word (ThankJapanPremium
+    id=281, slug='niigataken', category=Prefectures) whose example_sentence_ja
+    is two sentences joined by '。 ' (period + literal space) was suspected
+    of scoring a correctly-ordered answer as wrong, by analogy with the
+    エレキギター space-drop bug. End-to-end reproduction with the exact
+    production content (verified against the live database) via mode=single,
+    same as ChunkAnswerWithSourceSpacesTests above but for a two-sentence
+    example instead of a single sentence with mid-sentence spaces."""
+
+    def setUp(self):
+        self.user = User.objects.create_user(username='niigata_tester', password='pass12345')
+        self.user.profile.is_premium = True
+        self.user.profile.save()
+        ThankJapanPremium.objects.create(
+            name='niigataken', englishname='Niigata Prefecture', jpname='にいがたけん',
+            category='Prefectures', slug='niigataken', description='d', history='h',
+            example_sentence_ja=(
+                '<ruby>新潟県<rt>にいがたけん</rt></ruby>はお<ruby>米<rt>こめ</rt></ruby>と'
+                'お<ruby>酒<rt>さけ</rt></ruby>がとてもおいしいです。 '
+                '<ruby>冬<rt>ふゆ</rt></ruby>はスキーに<ruby>行<rt>い</rt></ruby>きたいですね。'
+            ),
+        )
+
+    def test_correctly_reassembled_tiles_are_marked_correct(self):
+        self.client.login(username='niigata_tester', password='pass12345')
+        self.client.get(reverse('game_restart'), {
+            'mode': 'single', 'model_type': 'premium', 'slug': 'niigataken',
+        })
+        self.client.get(reverse('game_play'))
+        data = json.loads(self.client.get(reverse('game_question_data')).content)
+        self.assertEqual(data['route'], 'chunk')
+
+        full_sentence = '新潟県はお米とお酒がとてもおいしいです冬はスキーに行きたいですね'
         correct_order = sorted(data['tiles'], key=lambda chunk: full_sentence.index(chunk))
 
         response = self.client.post(
