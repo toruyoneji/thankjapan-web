@@ -1546,8 +1546,14 @@ class WordDetailDirectLayoutCloseButtonTests(TestCase):
         """2026-09-06: the button initially shipped as a plain circular X,
         visually inconsistent with the gold pill '[CLOSE] X' button every
         category list page's own #detailModal already uses (see e.g.
-        animal.html's .modal-close-btn). Locked in here to the exact same
-        declarations so the two never drift apart again."""
+        animal.html's .modal-close-btn). Locked in here to the same visual
+        declarations (color, shape, shadow, spacing) so the two never drift
+        apart again - positioning (`position`/`z-index`) is intentionally
+        NOT compared here: a later fix (see
+        WordDetailStandaloneWidthTests) deliberately made the standalone
+        page's button `position: absolute` inside the card instead of the
+        modal button's `position: fixed`, so it sits near the image instead
+        of floating level with the page header."""
         response = self.client.get(reverse('category_detail', kwargs={
             'category': 'animal', 'slug': 'close-btn-test-word',
         }), {'lang': 'ja'})
@@ -1560,9 +1566,6 @@ class WordDetailDirectLayoutCloseButtonTests(TestCase):
             'background: #d4af37 !important;',
             'color: #000000 !important;',
             'box-shadow: 0 4px 10px rgba(0,0,0,0.3) !important;',
-            'top: 15px !important;',
-            'right: 15px !important;',
-            'z-index: 10030 !important;',
         ]:
             self.assertIn(declaration, body)
         self.assertIn('閉じる', body)  # ja CLOSE label, same wording as the modal button
@@ -1577,9 +1580,6 @@ class WordDetailDirectLayoutCloseButtonTests(TestCase):
         for declaration in [
             'height: 36px !important;',
             'background: #d4af37 !important;',
-            'top: 15px !important;',
-            'right: 15px !important;',
-            'z-index: 10030 !important;',
         ]:
             self.assertIn(declaration, body)
 
@@ -1636,29 +1636,58 @@ class WordDetailStandaloneWidthTests(TestCase):
 
         self.assertIn('max-width: 700px;', body)
 
-    def test_close_button_tracks_the_960px_card_edge_on_tablet_and_up(self):
-        """2026-09-06 follow-up: with the card capped at 960px, the close
-        button (still `position: fixed; right: 15px` relative to the raw
-        viewport) started floating outside the card's own right edge on
-        wide screens instead of sitting at its top-right corner. Tablet/PC
-        only (>=768px) now computes `right` from the same 960px figure so
-        it tracks the card edge instead of the viewport edge."""
+    def test_close_button_is_positioned_inside_the_content_card_not_the_viewport(self):
+        """2026-09-06 follow-up x2: first made `position: fixed; right: 15px`
+        track the 960px card's edge via a tablet/PC-only calc() override -
+        that fixed the horizontal alignment, but the button was still
+        `position: fixed` relative to the raw viewport, so it landed level
+        with the page's own header (top of the screen) instead of near the
+        image, looking like part of the header bar rather than the word
+        card. Now `position: absolute` inside .app-content-fix (itself
+        `position: relative` only for direct-layout, see below), which
+        naturally sits just under the header at the card's own top-right
+        corner - near the image - at every viewport width, with no calc()
+        needed at all."""
         response = self.client.get(reverse('category_detail', kwargs={
             'category': 'animal', 'slug': 'width-test-word',
         }))
         body = response.content.decode()
 
-        self.assertIn('@media (min-width: 768px)', body)
-        self.assertIn('right: max(15px, calc((100vw - 960px) / 2 + 15px)) !important;', body)
+        self.assertIn('.detail-back-close-btn {', body)
+        self.assertIn('position: absolute !important;', body)
+        self.assertNotIn('position: fixed !important;\n        top: 15px !important;\n        right: 15px !important;', body)
+        # The button must be nested inside .app-content-fix (which carries
+        # its own position: relative for direct-layout) rather than sitting
+        # outside it, or absolute positioning would resolve against some
+        # unrelated ancestor instead of the card itself.
+        btn_pos = body.index('class="detail-back-close-btn"')
+        content_fix_pos = body.index('class="app-content-fix"')
+        self.assertGreater(btn_pos, content_fix_pos)
 
-    def test_premium_close_button_also_tracks_the_card_edge(self):
+    def test_app_content_fix_is_positioned_only_for_direct_layout(self):
+        response = self.client.get(reverse('category_detail', kwargs={
+            'category': 'animal', 'slug': 'width-test-word',
+        }))
+        body = response.content.decode()
+
+        self.assertIn(
+            '#premium-auth-container.direct-layout .app-content-fix {\n'
+            '    max-width: 960px;\n'
+            '    position: relative;\n'
+            '}',
+            body,
+        )
+
+    def test_premium_close_button_is_also_positioned_inside_the_content_card(self):
         response = self.client.get(reverse('detail_premium', kwargs={
             'category': 'TourismEtiquette', 'slug': 'width-test-premium',
         }))
         body = response.content.decode()
 
-        self.assertIn('@media (min-width: 768px)', body)
-        self.assertIn('right: max(15px, calc((100vw - 960px) / 2 + 15px)) !important;', body)
+        self.assertIn('position: absolute !important;', body)
+        btn_pos = body.index('class="detail-back-close-btn"')
+        content_fix_pos = body.index('class="app-content-fix"')
+        self.assertGreater(btn_pos, content_fix_pos)
 
 
 class SelectLanguageHeadingLocalizationTests(TestCase):

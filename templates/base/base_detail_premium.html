@@ -43,48 +43,36 @@
         font-family: 'Inter', sans-serif !important;
         box-shadow: 0 4px 10px rgba(0,0,0,0.3) !important;
         border: none !important;
-        position: fixed !important;
+        position: absolute !important;
         top: 15px !important;
         right: 15px !important;
-        z-index: 10030 !important;
+        z-index: 500 !important;
         text-decoration: none !important;
     }
-    /* Tablet/PC only: once the viewport is wide enough for the 960px card
-       cap (see .app-content-fix below) to actually kick in, the card's
-       right edge pulls inward from the viewport edge - track it instead of
-       staying pinned to the raw viewport corner, so the button stays at
-       the card's top-right corner instead of floating in the margin
-       beyond it. Below that width the card still spans the full viewport
-       (no cap in effect yet), so this resolves to the same 15px as before. */
-    @media (min-width: 768px) {
-        .detail-back-close-btn {
-            right: max(15px, calc((100vw - 960px) / 2 + 15px)) !important;
-        }
-    }
 </style>
-{% if object %}
-<a href="/{{ object.category|lower }}/{% if lang_code %}?lang={{ lang_code }}{% endif %}" class="detail-back-close-btn" aria-label="Close">
-    <span style="font-size: 0.7rem; font-weight: bold; letter-spacing: 1px;">
-        {% if lang_code == 'ja' %}閉じる
-        {% elif lang_code == 'zh-hant' %}關閉
-        {% elif lang_code == 'zh-cn' %}关闭
-        {% elif lang_code == 'ko' %}닫기
-        {% elif lang_code == 'fr' %}Fermer
-        {% elif lang_code == 'th' %}ปิด
-        {% elif lang_code == 'vi' %}Đóng
-        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Cerrar
-        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Fechar
-        {% elif lang_code == 'de' %}Schließen
-        {% elif lang_code == 'it' %}Chiudi
-        {% else %}CLOSE{% endif %}
-    </span>
-    <span style="font-size: 1.1rem; font-weight: bold;">✕</span>
-</a>
-{% endif %}
 {% endif %}
 
 <div id="premium-auth-container" class="{% if is_modal %}modal-layout{% else %}direct-layout{% endif %}">
     <div class="app-content-fix">
+        {% if object and not is_modal %}
+        <a href="/{{ object.category|lower }}/{% if lang_code %}?lang={{ lang_code }}{% endif %}" class="detail-back-close-btn" aria-label="Close">
+            <span style="font-size: 0.7rem; font-weight: bold; letter-spacing: 1px;">
+                {% if lang_code == 'ja' %}閉じる
+                {% elif lang_code == 'zh-hant' %}關閉
+                {% elif lang_code == 'zh-cn' %}关闭
+                {% elif lang_code == 'ko' %}닫기
+                {% elif lang_code == 'fr' %}Fermer
+                {% elif lang_code == 'th' %}ปิด
+                {% elif lang_code == 'vi' %}Đóng
+                {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Cerrar
+                {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Fechar
+                {% elif lang_code == 'de' %}Schließen
+                {% elif lang_code == 'it' %}Chiudi
+                {% else %}CLOSE{% endif %}
+            </span>
+            <span style="font-size: 1.1rem; font-weight: bold;">✕</span>
+        </a>
+        {% endif %}
         {% block detail_premium_main %}{% endblock %}
     </div>
 </div>
@@ -101,9 +89,13 @@
    card cap looks noticeably narrower than the ~94vw full-screen modal used
    when opening the same content from a category list, on wide screens.
    Widened just for this direct-layout case to close most of that visual
-   gap without abandoning the site-wide 700px card convention outright. */
+   gap without abandoning the site-wide 700px card convention outright.
+   position: relative also anchors .detail-back-close-btn (absolute) to
+   this same capped-width box, so the button's top-right corner tracks the
+   card's actual edge at every viewport width without any extra math. */
 #premium-auth-container.direct-layout .app-content-fix {
     max-width: 960px;
+    position: relative;
 }
 
 #premium-auth-container.modal-layout {
