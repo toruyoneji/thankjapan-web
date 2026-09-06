@@ -1489,6 +1489,60 @@ class WordDetailReviewInviteTests(TestCase):
             self.assertIn('rgba(46,196,182,', body)  # jewel-teal glow, matches the game's own palette
 
 
+class WordDetailDirectLayoutCloseButtonTests(TestCase):
+    """2026-09-06: mode=single's finish button (see
+    SingleModeReviewReturnsToDetailPageTests) navigates the browser straight
+    to the word-detail page's own URL - a real, standalone page load, not
+    the JS-driven modal (#detailModal in e.g. animal.html) that clicking a
+    flashcard from a category list normally opens. That standalone
+    'direct-layout' render had no close/back affordance of its own at all
+    (the modal's X button lives entirely in the category list page's own
+    markup, never in the detail template), leaving the player with no way
+    back to the word grid after finishing a review. base_detail.html/
+    base_detail_premium.html now render their own '<->' back-to-list button
+    whenever not embedded in that modal."""
+
+    def setUp(self):
+        self.word = ThankJapanModel.objects.create(
+            name='close-btn-test-word', englishname='Cat', jpname='ねこ',
+            category='animal', slug='close-btn-test-word',
+            description='desc', history='hist',
+        )
+        self.premium_word = ThankJapanPremium.objects.create(
+            name='close-btn-test-premium', englishname='Premium Word', jpname='テスト',
+            category='TourismEtiquette', slug='close-btn-test-premium',
+            description='desc', history='hist',
+        )
+
+    def test_direct_navigation_to_free_word_page_shows_close_button_to_category_list(self):
+        response = self.client.get(reverse('category_detail', kwargs={
+            'category': 'animal', 'slug': 'close-btn-test-word',
+        }))
+        body = response.content.decode()
+
+        self.assertIn('class="detail-back-close-btn"', body)
+        self.assertIn('href="/animal/', body)
+
+    def test_direct_navigation_to_premium_word_page_shows_close_button_to_category_list(self):
+        response = self.client.get(reverse('detail_premium', kwargs={
+            'category': 'TourismEtiquette', 'slug': 'close-btn-test-premium',
+        }))
+        body = response.content.decode()
+
+        self.assertIn('class="detail-back-close-btn"', body)
+        self.assertIn('href="/tourismetiquette/', body)
+
+    def test_close_button_link_actually_resolves_to_the_category_list_page(self):
+        response = self.client.get(reverse('category_detail', kwargs={
+            'category': 'animal', 'slug': 'close-btn-test-word',
+        }))
+        body = response.content.decode()
+        self.assertIn('href="/animal/', body)
+
+        list_response = self.client.get('/animal/')
+        self.assertEqual(list_response.status_code, 200)
+
+
 class SingleModeIncorrectAnswerRevealTests(TestCase):
     """2026-09-06: a wrong answer during mode=single review (practicing one
     word from its detail page) silently moved on to the same generic

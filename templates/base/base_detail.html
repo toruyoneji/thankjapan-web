@@ -29,7 +29,28 @@
     .bottom-nav {
         display: none !important;
     }
+    .detail-back-close-btn {
+        position: fixed;
+        top: 70px;
+        right: 14px;
+        z-index: 1500;
+        width: 38px;
+        height: 38px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(0,0,0,0.55);
+        border: 1px solid rgba(212,175,55,0.6);
+        border-radius: 50%;
+        color: #d4af37;
+        font-size: 1.1rem;
+        text-decoration: none;
+        backdrop-filter: blur(6px);
+    }
 </style>
+{% if object %}
+<a href="/{{ object.category }}/{% if lang_code %}?lang={{ lang_code }}{% endif %}" class="detail-back-close-btn" aria-label="Back">✕</a>
+{% endif %}
 {% endif %}
 
 <div id="premium-auth-container" class="{% if is_modal %}modal-layout{% else %}direct-layout{% endif %}">
