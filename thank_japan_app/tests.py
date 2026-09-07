@@ -2313,6 +2313,62 @@ class GameStartComboRuleTextTests(TestCase):
                 self.assertNotIn('+3pt', body)
 
 
+class TileGameDifficultyProgressionTests(TestCase):
+    """2026-09-06: PREMIUM (subscribers) / long-word (everyone else)
+    questions used to start at Q5 - pushed back to Q6 so NORMAL/HARD gets
+    a 3rd question (Q3=NORMAL, Q4=NORMAL, Q5=HARD) before the switch,
+    instead of just Q3=NORMAL/Q4=HARD."""
+
+    def setUp(self):
+        # EASY pool: category in easy's filter, <=4 mora reading.
+        ThankJapanModel.objects.create(
+            name='progress-easy-1', englishname='Easy1', jpname='いぬ',
+            category='animal', slug='progress-easy-1', description='d', history='h')
+        ThankJapanModel.objects.create(
+            name='progress-easy-2', englishname='Easy2', jpname='ねこ',
+            category='animal', slug='progress-easy-2', description='d', history='h')
+        # NORMAL pool: category in normal's filter, name <=9 chars.
+        ThankJapanModel.objects.create(
+            name='normal1', englishname='Normal1', jpname='のーまるいち',
+            category='cook', slug='progress-normal-1', description='d', history='h')
+        ThankJapanModel.objects.create(
+            name='normal2', englishname='Normal2', jpname='のーまるに',
+            category='cook', slug='progress-normal-2', description='d', history='h')
+        # HARD pool: any category, name <=9 chars.
+        ThankJapanModel.objects.create(
+            name='hardone', englishname='Hard1', jpname='はーどいち',
+            category='nature', slug='progress-hard-1', description='d', history='h')
+        self.premium_word = ThankJapanPremium.objects.create(
+            name='progress-premium-1', englishname='Premium1', jpname='ぷれみあむ',
+            category='TourismEtiquette', slug='progress-premium-1', description='d', history='h')
+
+        self.user = User.objects.create_user(username='progression_tester', password='pass12345')
+        self.user.profile.is_premium = True
+        self.user.profile.save()
+
+    def test_premium_player_gets_five_free_questions_then_switches_at_six(self):
+        self.client.login(username='progression_tester', password='pass12345')
+        self.client.get(reverse('game_restart'))
+
+        questions = self.client.session['game_question_ids']
+
+        self.assertEqual(len(questions), 6)
+        self.assertTrue(all(q['model'] == 'free' for q in questions[:5]), msg=questions)
+        self.assertEqual(questions[5]['model'], 'premium')
+
+    def test_non_premium_player_still_gets_five_tiered_free_questions_first(self):
+        # Everyone (premium or not) gets the same Q1-5 EASY/NORMAL/HARD
+        # progression - only what happens from Q6 onward differs.
+        guest_user = User.objects.create_user(username='progression_guest', password='pass12345')
+        self.client.login(username='progression_guest', password='pass12345')
+        self.client.get(reverse('game_restart'))
+
+        questions = self.client.session['game_question_ids']
+
+        self.assertGreaterEqual(len(questions), 5)
+        self.assertTrue(all(q['model'] == 'free' for q in questions[:5]), msg=questions)
+
+
 class EasyPoolMoraFilterTests(TestCase):
     """2026-09-05: the EASY tier's category filter alone let through rare
     long words in the right category (e.g. chinpanjii/chimpanzee is

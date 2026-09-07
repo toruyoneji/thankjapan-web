@@ -1765,14 +1765,14 @@ def _sample_easy_ids(category_filter, exclude_ids=(), count=1):
 
 def _build_tile_game_questions(is_premium):
     """Ordered question list for the tile-rearrangement time attack:
-    Q1-2 EASY, Q3-4 NORMAL/HARD, Q5+ PREMIUM (subscribers) or long free
-    words (everyone else). Returns [{'id', 'model': 'free'|'premium'}, ...]
-    - a game can mix both models, unlike the old single-model-per-game
+    Q1-2 EASY, Q3-5 NORMAL/NORMAL/HARD, Q6+ PREMIUM (subscribers) or long
+    free words (everyone else). Returns [{'id', 'model': 'free'|'premium'},
+    ...] - a game can mix both models, unlike the old single-model-per-game
     multiple-choice flow."""
     easy, normal, hard = DIFFICULTY_SETTINGS['easy'], DIFFICULTY_SETTINGS['normal'], DIFFICULTY_SETTINGS['hard']
 
     free_ids = _sample_easy_ids(easy['category_filter'], count=2)
-    free_ids += _sample_ids(ThankJapanModel, normal['category_filter'], normal['length_regex'], exclude_ids=free_ids, count=1)
+    free_ids += _sample_ids(ThankJapanModel, normal['category_filter'], normal['length_regex'], exclude_ids=free_ids, count=2)
     free_ids += _sample_ids(ThankJapanModel, hard['category_filter'], hard['length_regex'], exclude_ids=free_ids, count=1)
 
     questions = [{'id': pk, 'model': 'free'} for pk in free_ids]
