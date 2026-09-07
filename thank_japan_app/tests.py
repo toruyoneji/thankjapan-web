@@ -4257,7 +4257,7 @@ class GameStartBackHomeButtonMobileSpacingTests(TestCase):
 
         self.assertIn('class="back-home-wrap"', body)
         self.assertIn('@media (max-width: 767px)', body)
-        self.assertIn('margin-bottom: calc(75px + env(safe-area-inset-bottom) + 10px) !important;', body)
+        self.assertIn('margin-bottom: calc(75px + env(safe-area-inset-bottom) + 16px) !important;', body)
 
     def test_tablet_still_zeroes_out_the_same_wrapper(self):
         # the tablet block's `div[style*="margin"]` selector must still
