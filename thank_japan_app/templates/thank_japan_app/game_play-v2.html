@@ -135,37 +135,6 @@ body {
   transition: width 0.4s cubic-bezier(.34,1.2,.64,1);
 }
 .ki-gauge-fill.maxed { background: linear-gradient(90deg, var(--jewel-teal), var(--gold), #fff2c2); }
-.ki-tick { position: absolute; top: 0; bottom: 0; width: 2px; background: rgba(0,0,0,0.3); }
-
-.hanko-stamp {
-  position: fixed; top: 42%; left: 50%; transform: translate(-50%,-50%) scale(2) rotate(-14deg);
-  font-family: 'Kaisei Decol', 'Shippori Mincho', serif; font-weight: 700; font-size: 3.2rem; color: var(--jewel-ruby);
-  border: 6px solid var(--jewel-ruby); border-radius: 16px; padding: 4px 20px; opacity: 0;
-  z-index: 9998; pointer-events: none; background: rgba(250,246,236,0.05);
-}
-.hanko-stamp.show { animation: hankoStamp 1.3s ease-out forwards; }
-@keyframes hankoStamp {
-  0% { opacity: 0; transform: translate(-50%,-50%) scale(2.4) rotate(-14deg); }
-  35% { opacity: 0.95; transform: translate(-50%,-50%) scale(0.92) rotate(-8deg); }
-  50% { transform: translate(-50%,-50%) scale(1.04) rotate(-8deg); }
-  80% { opacity: 0.95; transform: translate(-50%,-50%) scale(1) rotate(-8deg); }
-  100% { opacity: 0; transform: translate(-50%,-50%) scale(1) rotate(-8deg); }
-}
-.coin-piece {
-  position: fixed; top: -5%; font-size: 1.3rem; z-index: 9997; pointer-events: none;
-  animation: coinFall linear forwards;
-}
-@keyframes coinFall { to { transform: translateY(110vh) rotate(720deg); opacity: 0; } }
-
-.ring-burst {
-  position: fixed; top: 40%; left: 50%; width: 20px; height: 20px;
-  border: 3px solid var(--gold-light); border-radius: 50%; opacity: 0; z-index: 9996; pointer-events: none;
-}
-.ring-burst.show { animation: ringBurstOut 0.9s ease-out; }
-@keyframes ringBurstOut {
-  0% { width: 20px; height: 20px; opacity: 0.9; transform: translate(-50%,-50%); }
-  100% { width: 340px; height: 340px; opacity: 0; transform: translate(-50%,-50%); }
-}
 
 /* ---------- prompt (image) ---------- */
 .prompt-card {
@@ -251,11 +220,6 @@ body {
 }
 .combo-popup.tier-yellow { color: #ffd700; }
 .combo-popup.tier-orange { color: #ff8c00; }
-.combo-popup.tier-rainbow {
-    background: linear-gradient(90deg, #ff3b3b, #ff9900, #ffee00, #33dd55, #33aaff, #a266ff, #ff4fd8);
-    background-size: 300% 100%; -webkit-background-clip: text; background-clip: text; color: transparent;
-    animation: comboPop 1.1s cubic-bezier(.34,1.56,.64,1) forwards, comboRainbow 1.1s linear infinite;
-}
 @keyframes comboPop {
     0%   { transform: translate(-50%, -50%) scale(0) rotate(-8deg); opacity: 0; }
     35%  { transform: translate(-50%, -50%) scale(1.3) rotate(4deg); opacity: 1; }
@@ -263,7 +227,6 @@ body {
     85%  { transform: translate(-50%, -50%) scale(1) rotate(0deg); opacity: 1; }
     100% { transform: translate(-50%, -50%) scale(0.9) rotate(0deg); opacity: 0; }
 }
-@keyframes comboRainbow { 0% { background-position: 0% 50%; } 100% { background-position: 100% 50%; } }
 
 .game-sound-toggle-btn {
     background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.3); border-radius: 50%;
@@ -367,7 +330,6 @@ body {
 <div id="countdown-overlay"{% if skip_countdown %} hidden{% endif %}>
     <div id="countdown-num">3</div>
 </div>
-<div class="hanko-stamp" id="hanko-stamp">極</div>
 
 <div id="timeup-modal-overlay" hidden>
     <div class="timeup-modal-card">
@@ -586,8 +548,6 @@ body {
     <div class="ki-gauge-wrap">
         <div class="ki-gauge-label"><span>{% if lang_code == 'ja' %}気(コンボ){% else %}COMBO{% endif %}</span><span id="ki-gauge-text">0</span></div>
         <div class="ki-gauge-track">
-            <div class="ki-tick" style="left: 28.6%;"></div>
-            <div class="ki-tick" style="left: 71.4%;"></div>
             <div class="ki-gauge-fill" id="ki-gauge-fill"></div>
         </div>
     </div>
@@ -843,30 +803,11 @@ body {
     }
 
     function updateKiGauge(combo) {
-        const capped = Math.min(combo, 7);
+        const capped = Math.min(combo, 3);
         const fill = document.getElementById('ki-gauge-fill');
-        fill.style.width = (capped / 7 * 100) + '%';
-        fill.classList.toggle('maxed', combo >= 7);
+        fill.style.width = (capped / 3 * 100) + '%';
+        fill.classList.toggle('maxed', combo >= 3);
         document.getElementById('ki-gauge-text').textContent = combo;
-    }
-
-    function playGokuCelebration() {
-        const stamp = document.getElementById('hanko-stamp');
-        stamp.classList.remove('show'); void stamp.offsetWidth; stamp.classList.add('show');
-        const ring = document.createElement('div');
-        ring.className = 'ring-burst show';
-        document.body.appendChild(ring);
-        setTimeout(() => ring.remove(), 950);
-        for (let i = 0; i < 12; i++) {
-            const coin = document.createElement('div');
-            coin.className = 'coin-piece';
-            coin.textContent = '🪙';
-            coin.style.left = (10 + Math.random() * 80) + '%';
-            coin.style.animationDuration = (1 + Math.random() * 0.6) + 's';
-            coin.style.animationDelay = (Math.random() * 0.3) + 's';
-            document.body.appendChild(coin);
-            setTimeout(() => coin.remove(), 2200);
-        }
     }
 
     function submitAnswer() {
@@ -885,14 +826,14 @@ body {
                 updateKiGauge(res.combo);
                 if (res.is_correct) {
                     answerRow.querySelectorAll('.tile').forEach((t) => t.classList.add('tile-correct'));
+                    // Two states only, matching the flat combo bonus: a modest
+                    // burst below the bonus threshold, a bigger one once it's
+                    // active (combo >= 3) - no further escalation beyond that.
                     let comboColors = ['#2ec4b6', '#7fe0d5', '#faf6ec', '#cda23f'];
                     let particleCount = 100;
-                    if (res.combo >= 7) { comboColors = ['#e63946', '#ffd873', '#2ec4b6', '#6a4c93', '#fff2c2']; particleCount = 220; }
-                    else if (res.combo >= 5) { comboColors = ['#cda23f', '#e8cf7a', '#2ec4b6', '#ffffff']; particleCount = 160; }
-                    else if (res.combo >= 2) { comboColors = ['#2ec4b6', '#7fe0d5', '#e8cf7a']; particleCount = 130; }
+                    if (res.combo >= 3) { comboColors = ['#cda23f', '#e8cf7a', '#2ec4b6', '#ffffff']; particleCount = 160; }
                     if (window.confetti) confetti({ particleCount, spread: 80, origin: { y: 0.5 }, colors: comboColors });
-                    if (res.combo >= 2 && res.combo < 7) showComboPopup(res.combo);
-                    if (res.combo >= 7) playGokuCelebration();
+                    if (res.combo >= 2) showComboPopup(res.combo);
                 } else {
                     answerRow.classList.add('wrong-shake');
                 }
@@ -905,7 +846,8 @@ body {
     }
 
     function showComboPopup(combo) {
-        const tier = combo >= 7 ? 'tier-rainbow' : (combo >= 5 ? 'tier-orange' : 'tier-yellow');
+        // Two states only: below the bonus threshold vs. bonus active (>=3).
+        const tier = combo >= 3 ? 'tier-orange' : 'tier-yellow';
         const el = document.createElement('div');
         el.className = 'combo-popup ' + tier;
         el.textContent = combo + ' COMBO!';

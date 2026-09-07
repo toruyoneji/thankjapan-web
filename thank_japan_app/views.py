@@ -1790,15 +1790,11 @@ def _build_tile_game_questions(is_premium):
 
 
 def combo_bonus_for_streak(combo):
-    """Bonus points on top of the base per-question points, keyed to the
-    current consecutive-correct streak: 2-4 in a row +1 / 5-6 +2 / 7+ +3."""
-    if combo >= 7:
-        return 3
-    if combo >= 5:
-        return 2
-    if combo >= 2:
-        return 1
-    return 0
+    """Bonus points on top of the base per-question points: a flat +1 once
+    the consecutive-correct streak reaches 3, no further escalation no
+    matter how long the streak runs (simplified from the old tiered
+    2:+1/5:+2/7:+3 escalation)."""
+    return 1 if combo >= 3 else 0
 
 
 def _model_for(question_model_tag):
@@ -2433,7 +2429,10 @@ COMBO_SHARE_CTA = {
 
 def build_combo_share_message(lang_code, max_combo, score):
     lang = {'es-mx': 'es-es', 'pt-br': 'pt', 'en-in': 'en'}.get(lang_code, lang_code)
-    tier = 'high' if max_combo >= 7 else ('mid' if max_combo >= 2 else 'none')
+    # 'mid' now starts where the combo bonus actually kicks in (3), matching
+    # combo_bonus_for_streak - 'high' (7+) stays as an aspirational streak
+    # length unrelated to the (now flat) scoring bonus.
+    tier = 'high' if max_combo >= 7 else ('mid' if max_combo >= 3 else 'none')
     achievement = COMBO_SHARE_ACHIEVEMENTS[tier].get(lang, COMBO_SHARE_ACHIEVEMENTS[tier]['en'])
     cta = COMBO_SHARE_CTA.get(lang, COMBO_SHARE_CTA['en'])
     return f"{achievement.format(max_combo=max_combo, score=score)} {cta}"
@@ -2539,7 +2538,7 @@ def game_result(request):
         'score': score,
         'combo_bonus_total': combo_bonus_total,
         'max_combo': max_combo,
-        'combo_gauge_capped': min(max_combo, 7),
+        'combo_gauge_capped': min(max_combo, 3),
         'all_correct': total_played > 0 and correct_count == total_played,
         'share_message': build_combo_share_message(lang_code, max_combo, score),
         'share_url': 'https://www.thankjapan.com',

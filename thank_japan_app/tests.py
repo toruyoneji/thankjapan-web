@@ -17,7 +17,7 @@ from django.utils import timezone
 from . import context_processors, tile_split
 from .models import DailyQuestion, Player, Profile, PremiumRenewalReward, ThankJapanModel, ThankJapanPremium
 from .views import (
-    combo_bonus_for_streak, _sample_easy_ids, FIRST_TASTE_QUESTION_COUNT,
+    combo_bonus_for_streak, build_combo_share_message, _sample_easy_ids, FIRST_TASTE_QUESTION_COUNT,
     grant_renewal_rewards_if_due, PREMIUM_RENEWAL_REWARD_POINTS, PREMIUM_RENEWAL_REWARD_MAX_CATCHUP,
 )
 from .pricing import (
@@ -1746,6 +1746,32 @@ class SelectLanguageHeadingLocalizationTests(TestCase):
         self.assertContains(response, 'Select Language')
 
 
+SELECT_LANGUAGE_HEADING_BY_LOCALE = {
+    'en': 'Select Language', 'ja': '言語を選択', 'de': 'Sprache auswählen',
+    'en-in': 'Select Language', 'es-es': 'Seleccionar idioma', 'es-mx': 'Seleccionar idioma',
+    'fr': 'Choisir la langue', 'it': 'Seleziona lingua', 'ko': '언어 선택',
+    'pt': 'Selecionar idioma', 'pt-br': 'Selecionar idioma', 'th': 'เลือกภาษา',
+    'vi': 'Chọn ngôn ngữ', 'zh-hant': '選擇語言', 'zh-cn': '选择语言',
+}
+
+
+class SelectLanguageHeadingOnBaseTopTests(TestCase):
+    """2026-09-06: the 'Select Language' gap fixed above only covered
+    templates/base/basecategory_top.html (used by the per-category list
+    pages like animal.html). base/base_top.html - the base actually used
+    by the top page, account settings, category_list, legal/info/thank-you
+    pages, and more - had the exact same hardcoded English h3 and was
+    missed entirely. Fixed there too; this locks in all 15 locales so a
+    future edit to one base template doesn't quietly leave the other one
+    English-only again."""
+
+    def test_all_15_locales_render_translated_heading_on_toppage(self):
+        for lang in LOCALE_QUERY_PARAMS:
+            with self.subTest(lang=lang):
+                response = self.client.get(reverse('toppage'), {'lang': lang})
+                self.assertContains(response, SELECT_LANGUAGE_HEADING_BY_LOCALE[lang])
+
+
 class SingleModeIncorrectAnswerRevealTests(TestCase):
     """2026-09-06: a wrong answer during mode=single review (practicing one
     word from its detail page) silently moved on to the same generic
@@ -2144,13 +2170,147 @@ class TileSplitTests(SimpleTestCase):
 
 
 class ComboBonusTests(SimpleTestCase):
-    """2026-09-05: first bonus tier moved from a 3-streak to a 2-streak, so
-    a 2nd consecutive correct answer already earns +1."""
+    """2026-09-06: simplified from the tiered escalation (2:+1/5:+2/7:+3)
+    to a flat +1 once the streak reaches 3, with no further increase no
+    matter how long the streak runs - no negative bonus for a miss either,
+    that was explicitly left out of scope."""
 
-    def test_combo_bonus_ladder(self):
-        expected = {1: 0, 2: 1, 3: 1, 4: 1, 5: 2, 6: 2, 7: 3, 8: 3, 20: 3}
+    def test_combo_bonus_is_flat_one_from_three_onward(self):
+        expected = {1: 0, 2: 0, 3: 1, 4: 1, 5: 1, 6: 1, 7: 1, 8: 1, 20: 1, 100: 1}
         for combo, bonus in expected.items():
             self.assertEqual(combo_bonus_for_streak(combo), bonus, f"combo={combo}")
+
+    def test_share_message_mid_tier_now_starts_at_three_not_two(self):
+        # 'mid' tier ('Max combo achieved!' style message) used to fire from
+        # max_combo>=2 (the old first bonus tier) - moved to >=3 to match
+        # where the (now flat) bonus actually starts, so the share text
+        # never brags about a bonus that wasn't actually earned.
+        none_msg = build_combo_share_message('en', 2, 10)
+        mid_msg = build_combo_share_message('en', 3, 10)
+        high_msg = build_combo_share_message('en', 7, 10)
+
+        self.assertNotIn('combo', none_msg.lower())
+        self.assertIn('Max combo', mid_msg)
+        self.assertIn('combo streak', high_msg)
+
+
+class GamePlayComboEffectsSimplificationTests(TestCase):
+    """2026-09-06: the confetti color/size tiers, the 'X COMBO!' popup
+    color tiers, and the ki(combo) gauge were all keyed to the old tiered
+    bonus escalation (2/5/7) - simplified to match the new flat +1-at-3+
+    bonus: two states only (below the bonus threshold vs. at/above it), and
+    the once-only 'combo>=7' hanko-stamp celebration (tied to a tier that
+    no longer exists) removed outright rather than left dangling on a
+    threshold with no scoring meaning."""
+
+    def setUp(self):
+        ThankJapanModel.objects.create(
+            name='combo-fx-word', englishname='Word', jpname='いぬ',
+            kanji_name='犬', katakana_name='イヌ', category='animal',
+            slug='combo-fx-word', description='d', history='h')
+
+    def test_ki_gauge_js_is_capped_at_three_not_seven(self):
+        self.client.get(reverse('game_restart'))
+        response = self.client.get(reverse('game_play'))
+        body = response.content.decode()
+
+        self.assertIn('Math.min(combo, 3)', body)
+        self.assertIn("fill.style.width = (capped / 3 * 100)", body)
+        self.assertIn("fill.classList.toggle('maxed', combo >= 3)", body)
+        self.assertNotIn('Math.min(combo, 7)', body)
+
+    def test_old_ki_gauge_tick_marks_are_gone(self):
+        self.client.get(reverse('game_restart'))
+        response = self.client.get(reverse('game_play'))
+        self.assertNotContains(response, 'ki-tick')
+
+    def test_confetti_and_popup_tiers_are_two_state_not_three(self):
+        self.client.get(reverse('game_restart'))
+        response = self.client.get(reverse('game_play'))
+        body = response.content.decode()
+
+        self.assertIn("if (res.combo >= 3) { comboColors", body)
+        self.assertNotIn("res.combo >= 7", body)
+        self.assertNotIn("res.combo >= 5", body)
+        self.assertIn("const tier = combo >= 3 ? 'tier-orange' : 'tier-yellow'", body)
+        self.assertNotIn('tier-rainbow', body)
+
+    def test_combo_popup_shows_starting_at_two_with_no_upper_cutoff(self):
+        self.client.get(reverse('game_restart'))
+        response = self.client.get(reverse('game_play'))
+        body = response.content.decode()
+
+        self.assertIn('if (res.combo >= 2) showComboPopup(res.combo)', body)
+
+    def test_goku_celebration_removed(self):
+        self.client.get(reverse('game_restart'))
+        response = self.client.get(reverse('game_play'))
+        body = response.content.decode()
+
+        self.assertNotIn('playGokuCelebration', body)
+        self.assertNotIn('hanko-stamp"', body)
+
+
+class GameResultComboGaugeAndMessageTests(TestCase):
+    """2026-09-06: the result screen's own 'max combo' gauge/message used
+    the same old /7 scale and >=2 bonus-earned gate as the in-game HUD -
+    updated in lockstep so a max_combo of 3-6 doesn't show a half-empty
+    gauge despite the bonus having been active the whole time."""
+
+    def _play_with_combo(self, combo_len):
+        self.client.get(reverse('game_restart'))
+        self.client.get(reverse('game_play'))
+        history = []
+        for i in range(combo_len):
+            combo = i + 1
+            bonus = combo_bonus_for_streak(combo)
+            history.append({
+                'index': i, 'question_id': 1, 'question_model': 'free',
+                'is_correct': True, 'user_input': 'x', 'correct_answer': 'x',
+                'combo': combo, 'combo_bonus': bonus, 'points': 1 + bonus,
+            })
+        session = self.client.session
+        session['game_history'] = history
+        session['game_max_combo'] = combo_len
+        session['game_difficulty'] = 'timeattack'
+        session.save()
+        return self.client.get(reverse('game_result'))
+
+    def test_gauge_is_full_and_maxed_at_combo_three(self):
+        response = self._play_with_combo(3)
+        self.assertEqual(response.context['combo_gauge_capped'], 3)
+        self.assertContains(response, 'ki-result-fill maxed')
+        self.assertContains(response, 'width: 100%')
+
+    def test_gauge_is_not_maxed_at_combo_two(self):
+        response = self._play_with_combo(2)
+        self.assertEqual(response.context['combo_gauge_capped'], 2)
+        self.assertNotContains(response, 'ki-result-fill maxed')
+
+    def test_bonus_message_shows_from_combo_three_not_two(self):
+        response_two = self._play_with_combo(2)
+        response_three = self._play_with_combo(3)
+
+        self.assertNotContains(response_two, 'Combo Bonus')
+        self.assertContains(response_three, 'Combo Bonus')
+
+
+class GameStartComboRuleTextTests(TestCase):
+    """2026-09-06: the game_start rules caption spelled out the old tiered
+    escalation (2問+1点/5問+2点/7問+3点等) in all 15 locales - rewritten to
+    describe the new flat +1-at-3+ bonus, and the old text must be gone so
+    a returning player isn't told a rule that no longer applies."""
+
+    def test_new_flat_bonus_text_present_and_old_tiers_gone(self):
+        for lang in LOCALE_QUERY_PARAMS:
+            with self.subTest(lang=lang):
+                response = self.client.get(reverse('game_start'), {'lang': lang})
+                body = response.content.decode()
+                self.assertIn('+1', body)
+                self.assertNotIn('5問+2点', body)
+                self.assertNotIn('7問+3点', body)
+                self.assertNotIn('+2pt', body)
+                self.assertNotIn('+3pt', body)
 
 
 class EasyPoolMoraFilterTests(TestCase):

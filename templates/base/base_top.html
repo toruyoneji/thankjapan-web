@@ -760,7 +760,20 @@
 
     <div id="modalOverlay" class="modal-overlay" onclick="toggleLangModal()"></div>
     <div id="langModal" class="lang-modal">
-        <h3 style="color:#d4af37; text-align:center; margin-bottom:20px;">Select Language</h3>
+        <h3 style="color:#d4af37; text-align:center; margin-bottom:20px;">
+            {% if lang_code == 'ja' %}言語を選択
+            {% elif lang_code == 'ko' %}언어 선택
+            {% elif lang_code == 'zh-cn' %}选择语言
+            {% elif lang_code == 'zh-hant' %}選擇語言
+            {% elif lang_code == 'th' %}เลือกภาษา
+            {% elif lang_code == 'vi' %}Chọn ngôn ngữ
+            {% elif lang_code == 'fr' %}Choisir la langue
+            {% elif lang_code == 'de' %}Sprache auswählen
+            {% elif lang_code == 'it' %}Seleziona lingua
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Seleccionar idioma
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Selecionar idioma
+            {% else %}Select Language{% endif %}
+        </h3>
         <div class="lang-list">
             <a href="{% url 'toppageja' %}?lang=ja" class="lang-item">日本語</a>
             <a href="{% url 'toppage' %}?lang=en" class="lang-item">English</a>
