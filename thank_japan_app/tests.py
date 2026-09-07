@@ -2313,6 +2313,94 @@ class GameStartComboRuleTextTests(TestCase):
                 self.assertNotIn('+3pt', body)
 
 
+GAME_START_DOUBLE_POINTS_TEXT_BY_LOCALE = {
+    'en': 'Premium words earn double points', 'ja': 'プレミアム単語は2倍ポイント',
+    'de': 'Premium-Wörter geben doppelte Punkte', 'en-in': 'Premium words earn double points',
+    'es-es': 'Las palabras premium dan el doble de puntos',
+    'es-mx': 'Las palabras premium dan el doble de puntos',
+    'fr': 'Les mots premium rapportent le double de points',
+    'it': 'Le parole premium danno il doppio dei punti', 'ko': '프리미엄 단어는 2배 포인트',
+    'pt': 'Palavras premium dão pontos em dobro', 'pt-br': 'Palavras premium dão pontos em dobro',
+    'th': 'คำศัพท์พรีเมียมได้คะแนนเป็น 2 เท่า', 'vi': 'Từ premium được gấp đôi điểm',
+    'zh-hant': '進階單字可獲得雙倍分數！', 'zh-cn': '进阶单词可获得双倍分数！',
+}
+
+# premium_info's plan-features <li> wraps the key phrase in <strong> with an
+# &nbsp; before it (e.g. 'Premium Words Give&nbsp;<strong>Double
+# Points</strong>') - assert on just the <strong>-wrapped phrase itself
+# rather than the full sentence, since &nbsp;/tag markup between words
+# means the full sentence is never one contiguous substring of the raw HTML.
+PREMIUM_INFO_DOUBLE_POINTS_PHRASE_BY_LOCALE = {
+    'en': 'Double Points', 'ja': '2倍ポイント', 'de': 'doppelte Punkte',
+    'en-in': 'Double Points', 'es-es': 'el doble de puntos', 'es-mx': 'el doble de puntos',
+    'fr': 'points doublés', 'it': 'punti doppi', 'ko': '2배 포인트',
+    'pt': 'pontos em dobro', 'pt-br': 'pontos em dobro',
+    'th': 'คะแนน 2 เท่า', 'vi': 'gấp đôi điểm',
+    'zh-hant': '雙倍點數', 'zh-cn': '双倍积分',
+}
+
+
+class GameStartAndPremiumInfoDoublePointsDisclosureTests(TestCase):
+    """2026-09-06: the 'premium words earn double points' scoring rule was
+    never documented anywhere on the site - added to game_start's rules
+    caption (right under the combo bonus line) and to the premium_info
+    plan-features list (both the free 'web' branch and the TWA branch), in
+    all 15 locales."""
+
+    def test_game_start_discloses_double_points_per_locale(self):
+        for lang in LOCALE_QUERY_PARAMS:
+            with self.subTest(lang=lang):
+                response = self.client.get(reverse('game_start'), {'lang': lang})
+                self.assertContains(response, GAME_START_DOUBLE_POINTS_TEXT_BY_LOCALE[lang])
+
+    def test_premium_info_discloses_double_points_per_locale_both_branches(self):
+        for url_name in PREMIUM_INFO_URL_NAMES:
+            lang = 'en' if url_name == 'premium_info' else url_name.replace('premium_info', '')
+            lang_key = {
+                'de': 'de', 'enIN': 'en-in', 'esES': 'es-es', 'esMX': 'es-mx', 'fr': 'fr',
+                'it': 'it', 'ja': 'ja', 'ko': 'ko', 'pt': 'pt', 'ptBR': 'pt-br', 'th': 'th',
+                'vi': 'vi', 'zhHANT': 'zh-hant', 'zhCN': 'zh-cn',
+            }.get(lang, 'en')
+            expected = PREMIUM_INFO_DOUBLE_POINTS_PHRASE_BY_LOCALE[lang_key]
+            with self.subTest(url_name=url_name, branch='web'):
+                response = self.client.get(reverse(url_name))
+                self.assertContains(response, expected)
+            with self.subTest(url_name=url_name, branch='twa'):
+                session = self.client.session
+                session['is_twa'] = True
+                session.save()
+                response = self.client.get(reverse(url_name))
+                self.assertContains(response, expected)
+                session = self.client.session
+                del session['is_twa']
+                session.save()
+
+
+class GameStartLongLocaleTextScrollFixTests(TestCase):
+    """2026-09-06 (mode=single game_start page): reported bug - the 'Back
+    to Home' link fell off the bottom of the screen and was completely
+    unreachable (not just requiring a scroll) on longer-text locales like
+    French/Vietnamese, worse now that the rules caption grew an extra line
+    for the double-points disclosure above. Root cause: the shared base
+    template sets html{overflow:hidden;height:100vh} for pages meant to
+    fit one viewport; game_start's own body{overflow-y:auto} override was
+    silently neutralized because the ROOT element's overflow (not body's)
+    governs whether the viewport can scroll at all. Fixed by also
+    overriding html's overflow here."""
+
+    def test_html_overflow_override_present(self):
+        response = self.client.get(reverse('game_start'))
+        self.assertContains(response, 'overflow-y: auto !important;')
+        # Must appear inside an `html { ... }` rule, not just anywhere on
+        # the page (e.g. some unrelated scrollable inner panel).
+        body = response.content.decode()
+        html_rule_start = body.index('html {')
+        self.assertIn(
+            'overflow-y: auto !important;',
+            body[html_rule_start:html_rule_start + 1200],
+        )
+
+
 class TileGameDifficultyProgressionTests(TestCase):
     """2026-09-06: PREMIUM (subscribers) / long-word (everyone else)
     questions used to start at Q5 - pushed back to Q6 so NORMAL/HARD gets
