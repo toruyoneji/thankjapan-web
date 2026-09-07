@@ -2401,6 +2401,54 @@ class GameStartLongLocaleTextScrollFixTests(TestCase):
         )
 
 
+class GameStartPhoneCompactionTests(TestCase):
+    """2026-09-06 follow-up: rather than rely solely on the scroll fallback
+    above, the phone layout (both the general <=767px rules and the extra
+    <=359px squeeze for the smallest common width) was tightened - smaller
+    fonts, reduced margins/padding throughout the title/play-button/rules-
+    card/player-info/back-home stack - so that on real small AND large
+    phones, everything from the title through 'Back to Home' fits in one
+    viewport without scrolling, even for the longest-text locales (French,
+    German, Vietnamese...), which was verified by hand against a live
+    local server at 320-390px widths. This test locks in that the compact
+    ruleset stays present and the scroll-safety-net from the previous fix
+    isn't accidentally removed while iterating on it further."""
+
+    def test_phone_media_query_has_the_compact_overrides(self):
+        response = self.client.get(reverse('game_start'))
+        body = response.content.decode()
+
+        media_start = body.index('@media (max-width: 767px)')
+        # Only need to reach the closing brace of this block, not the next
+        # media block too - 2000 chars comfortably covers it.
+        block = body[media_start:media_start + 2000]
+
+        for declaration in [
+            '.container { margin-top:', '.start-game-title { font-size:',
+            '.play-btn { font-size:', '.rules-card { margin-top:',
+            '.rules-caption { font-size:', '.player-info { margin-top:',
+            '.back-home-wrap {', '.btn-more { padding:',
+        ]:
+            self.assertIn(declaration, block, msg=f"missing {declaration!r} in phone media block")
+
+    def test_extra_small_phone_breakpoint_present(self):
+        response = self.client.get(reverse('game_start'))
+        self.assertContains(response, '@media (max-width: 359px)')
+
+    def test_scroll_safety_net_still_present_alongside_compaction(self):
+        # The compaction is a best-effort fit - html/body must still allow
+        # scrolling for whatever combination doesn't quite make it (see
+        # GameStartLongLocaleTextScrollFixTests).
+        response = self.client.get(reverse('game_start'))
+        self.assertContains(response, 'overflow-y: auto !important;')
+
+    def test_all_locales_still_render_successfully(self):
+        for lang in LOCALE_QUERY_PARAMS:
+            with self.subTest(lang=lang):
+                response = self.client.get(reverse('game_start'), {'lang': lang})
+                self.assertEqual(response.status_code, 200)
+
+
 class TileGameDifficultyProgressionTests(TestCase):
     """2026-09-06: PREMIUM (subscribers) / long-word (everyone else)
     questions used to start at Q5 - pushed back to Q6 so NORMAL/HARD gets
@@ -4199,12 +4247,17 @@ class GameStartBackHomeButtonMobileSpacingTests(TestCase):
     it. Fixed with a phone-only (<768px) media query; tablet/PC untouched."""
 
     def test_wrapper_has_dedicated_class_and_mobile_override_present(self):
+        # 2026-09-06 follow-up: the exact buffer shrank from +20px to +10px
+        # as part of the broader phone-compaction pass (see
+        # GameStartPhoneCompactionTests) - only the calc()'s shape (still
+        # clearing the 75px bottom-nav + safe-area-inset-bottom) matters
+        # here, not the specific buffer constant.
         response = self.client.get(reverse('game_start'))
         body = response.content.decode()
 
         self.assertIn('class="back-home-wrap"', body)
         self.assertIn('@media (max-width: 767px)', body)
-        self.assertIn('.back-home-wrap { margin-bottom: calc(75px + env(safe-area-inset-bottom) + 20px) !important; }', body)
+        self.assertIn('margin-bottom: calc(75px + env(safe-area-inset-bottom) + 10px) !important;', body)
 
     def test_tablet_still_zeroes_out_the_same_wrapper(self):
         # the tablet block's `div[style*="margin"]` selector must still
