@@ -286,6 +286,9 @@
             document.head.appendChild(gtagScript);
 
             gtag('js', new Date());
+            try {
+                gtag('set', 'user_properties', { app_platform: '{{ ga_platform }}' });
+            } catch (e) {}
             gtag('config', '{{ GA_TRACKING_ID }}');
         }
     </script>
