@@ -1938,13 +1938,21 @@ class DailyQuestionOgpCacheBustTests(TestCase):
         expected_url = f"https://www.thankjapan.com/daily/?lang=en&date={self.today.isoformat()}"
         self.assertIn(f'<meta property="og:url" content="{expected_url.replace("&", "&amp;")}" />', body)
 
-    def test_result_state_share_link_and_og_url_include_todays_date(self):
+    def test_result_state_og_url_includes_todays_date(self):
         response = self.client.post(reverse('daily_question'), {'choice_id': self.word.id})
         body = response.content.decode()
 
         expected_url = f"https://www.thankjapan.com/daily/?lang=en&date={self.today.isoformat()}"
         self.assertIn(f'<meta property="og:url" content="{expected_url.replace("&", "&amp;")}" />', body)
-        self.assertIn(f'url={urlquote(expected_url, safe="/")}', body)
+
+        # 2026-09-12: the share button's own url= now points at the word's
+        # permanent detail page instead of this dated /daily/ URL - see
+        # DailyQuestionShareLinksToWordDetailPageTests for that behavior.
+        expected_share_url = (
+            f"https://www.thankjapan.com{reverse('category_detail', kwargs={'category': 'culture', 'slug': 'daily-test-word'})}"
+            f"?lang=en"
+        )
+        self.assertIn(f'url={urlquote(expected_share_url, safe="/")}', body)
 
     def test_og_image_reflects_todays_actual_word(self):
         response = self.client.get(reverse('daily_question'))
@@ -3061,11 +3069,25 @@ class DailyQuestionShareAfterTileConversionTests(TestCase):
         # shared default rather than break/omit the tag entirely.
         self.assertIn('<meta property="og:image" content="https://res.cloudinary.com', body)
 
-    def test_share_url_matches_todays_dated_daily_url(self):
+    def test_share_url_is_the_words_own_detail_page_not_daily(self):
+        # 2026-09-12: the share link now points at the word's permanent
+        # detail page, not the dated /daily/ URL - an old tweet's card would
+        # otherwise keep showing this word/image forever (X's per-URL OGP
+        # cache) while the link led to whatever word is live *today*. The
+        # /daily/ page's own og:url (unrelated to the share button) still
+        # uses the dated daily_url, confirmed by the second assertion below.
         response = self._answer(correct=True)
         body = response.content.decode()
-        expected_share_url = f"https://www.thankjapan.com/daily/?lang=en&date={self.today.isoformat()}"
-        self.assertIn(f'url={urlquote(expected_share_url, safe="/")}', body)
+
+        expected_share_url = (
+            f"https://www.thankjapan.com{reverse('category_detail', kwargs={'category': 'appliances', 'slug': 'daily-share-word'})}"
+            f"?lang=en"
+        )
+        self.assertIn(f'url={urlquote(expected_share_url, safe="/")}', body, msg=body)
+
+        # Rendered HTML entity-escapes the '&' in the query string.
+        expected_daily_url = f"https://www.thankjapan.com/daily/?lang=en&amp;date={self.today.isoformat()}"
+        self.assertIn(f'<meta property="og:url" content="{expected_daily_url}"', body, msg=body)
 
 
 class DailyQuestionChunkRouteShareTests(TestCase):
@@ -3101,6 +3123,57 @@ class DailyQuestionChunkRouteShareTests(TestCase):
 
         self.assertIn(urlquote(expected_step_line, safe=''), body, msg=body)
         self.assertNotIn(urlquote(tile_data['answer_text'], safe=''), body)
+
+
+class DailyQuestionShareLinksToWordDetailPageTests(TestCase):
+    """2026-09-12: the X share button's link (and therefore the card
+    image's click-through target, since that comes from whatever page X
+    crawls at that link's own og:url) now points at the word's own
+    permanent detail page instead of /daily/. Covers both tables that
+    今日の一問 can now select from - a free ThankJapanModel word
+    (category_detail) and a free-preview ThankJapanPremium word
+    (detail_premium) - since the URL pattern differs by which table the
+    word lives in, not by its mora/chunk tile route."""
+
+    def test_free_thankjapanmodel_word_links_to_category_detail(self):
+        today = timezone.localdate()
+        word = ThankJapanModel.objects.create(
+            name='sharelinkfree', englishname='ShareLinkFree', jpname='しぇあ',
+            category='food', slug='sharelink-free-word', description='d', history='h')
+        DailyQuestion.objects.create(date=today, word=word)
+
+        tiles = json.loads(self.client.get(reverse('daily_question')).context['tiles_json'])
+        correct_order = sorted(tiles, key=lambda t: word.jpname.index(t))
+        response = self.client.post(reverse('daily_question'), {'answer_tiles': json.dumps(correct_order)})
+        body = response.content.decode()
+
+        expected_url = (
+            f"https://www.thankjapan.com{reverse('category_detail', kwargs={'category': 'food', 'slug': 'sharelink-free-word'})}"
+            f"?lang=en"
+        )
+        self.assertIn(f'url={urlquote(expected_url, safe="/")}', body, msg=body)
+
+    def test_premium_thankjapanpremium_word_links_to_detail_premium(self):
+        today = timezone.localdate()
+        word = ThankJapanPremium.objects.create(
+            name='sharelinkpr', englishname='ShareLinkPremium', jpname='しぇありんくぷれみあむてすと',
+            category='slang', slug='sharelink-premium-word', description='d', history='h',
+            example_sentence_ja='<ruby>共有<rt>きょうゆう</rt></ruby>リンクのテストです。',
+        )
+        DailyQuestion.objects.create(date=today, premium_word=word)
+
+        tile_data = tile_split.build_tiles(word.jpname, word.example_sentence_ja)
+        self.assertEqual(tile_data['route'], 'chunk', msg='fixture must exercise the chunk route')
+        tiles = json.loads(self.client.get(reverse('daily_question')).context['tiles_json'])
+        correct_order = sorted(tiles, key=lambda t: tile_data['answer_text'].index(t))
+        response = self.client.post(reverse('daily_question'), {'answer_tiles': json.dumps(correct_order)})
+        body = response.content.decode()
+
+        expected_url = (
+            f"https://www.thankjapan.com{reverse('detail_premium', kwargs={'category': 'slang', 'slug': 'sharelink-premium-word'})}"
+            f"?lang=en"
+        )
+        self.assertIn(f'url={urlquote(expected_url, safe="/")}', body, msg=body)
 
 
 class RenewalMultiLanguageAuditTests(TestCase):

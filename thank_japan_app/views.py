@@ -2289,6 +2289,23 @@ DAILY_QUESTION_SHARE_ANSWER_LABEL = {
 }
 
 
+def _daily_question_word_detail_url(word, lang_code):
+    """Permanent detail-page URL for today's word - the X share button's
+    link target (2026-09-12), replacing the old dated /daily/ URL. Rationale:
+    /daily/ rotates to a new word every day, so an old tweet's card would
+    keep showing (via X's per-URL OGP cache) the word/image from the day it
+    was posted while the link itself led to whatever word is live *now* - a
+    permanent mismatch for anyone clicking days later. The word's own detail
+    page never changes what it shows, so its image/url stay correct forever
+    with no date-stamping needed (unlike /daily/ itself, which still uses
+    the dated daily_url for its own og:url/og:image - unrelated to this)."""
+    if isinstance(word, ThankJapanPremium):
+        path = reverse('detail_premium', kwargs={'category': word.category, 'slug': word.slug})
+    else:
+        path = reverse('category_detail', kwargs={'category': word.category, 'slug': word.slug})
+    return f"https://www.thankjapan.com{path}?lang={lang_code}"
+
+
 def _daily_question_assembly_process(word):
     """The '組み立て過程' line: mora-route words spell out every tile
     (す→し→寿司), chunk-route words (long premium phrases) collapse to a
@@ -2430,13 +2447,14 @@ def daily_question_view(request):
 
         share_text = _daily_question_share_text(lang_code, word)
         share_hashtags = _daily_question_hashtags(lang_code, word)
+        share_url = _daily_question_word_detail_url(word, lang_code)
 
         return render(request, 'thank_japan_app/daily_question.html', {
             'daily_state': 'result',
             'is_correct': is_correct,
             'object': word,
             'share_text': share_text,
-            'share_url': daily_url,
+            'share_url': share_url,
             'share_hashtags': share_hashtags,
             'lang_code': lang_code,
             'top_page_url': top_page_url,
