@@ -3014,15 +3014,28 @@ class DailyQuestionFreePreviewPremiumInclusionTests(TestCase):
     def test_daily_question_page_renders_correctly_when_todays_word_is_a_free_preview_premium_word(self):
         premium_word = ThankJapanPremium.objects.create(
             name='renderpremium1', englishname='Render Premium', jpname='がち',
-            category='slang', slug='renderpremium1', description='d', history='h')
+            category='slang', slug='renderpremium1', description='d', history='h',
+            image='thankjapan/premium/dummy_test_asset')
+        premium_word.refresh_from_db()  # image needs a DB round-trip to become a usable CloudinaryResource
         DailyQuestion.objects.create(date=timezone.localdate(), premium_word=premium_word)
 
         response = self.client.get(reverse('daily_question'))
+        body = response.content.decode()
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.context['daily_state'], 'question')
         tiles = json.loads(response.context['tiles_json'])
         self.assertEqual(sorted(tiles), sorted(['が', 'ち']))
+        # The image safety net (.exclude(image='')) only stops an
+        # image-less word from being selected in the first place - this
+        # separately confirms that once a premium_word IS selected, its
+        # image actually renders in the page (og:image + the on-page
+        # prompt image), not just in the JSON tile data.
+        self.assertIn(premium_word.image.url, body)
+        self.assertEqual(
+            body.count(premium_word.image.url), 3,
+            msg='expected twitter:image + og:image meta tags + the on-page prompt image',
+        )
 
 
 class DailyQuestionShareAfterTileConversionTests(TestCase):
