@@ -19,6 +19,9 @@ from .models import DailyQuestion, Player, Profile, PremiumRenewalReward, ThankJ
 from .views import (
     combo_bonus_for_streak, build_combo_share_message, _sample_easy_ids, FIRST_TASTE_QUESTION_COUNT,
     grant_renewal_rewards_if_due, PREMIUM_RENEWAL_REWARD_POINTS, PREMIUM_RENEWAL_REWARD_MAX_CATCHUP,
+    DAILY_QUESTION_SHARE_LOCALE_ALIAS, DAILY_QUESTION_SHARE_HEADING, DAILY_QUESTION_SHARE_INVITE,
+    DAILY_QUESTION_SHARE_CTA, DAILY_QUESTION_SHARE_CHUNK_STEPS, DAILY_QUESTION_SHARE_ANSWER_LABEL,
+    DAILY_QUESTION_HASHTAG_TERM,
 )
 from .pricing import (
     get_premium_price, get_top_page_seo_override,
@@ -954,49 +957,11 @@ LOCALE_QUERY_PARAMS = [
 # per supported locale - used by the 2026-09-05 renewal's multi-language
 # audit tests below to catch a silent English fallback (the exact bug
 # reported for Korean before the tile-game rewrite), not just a crash.
-DAILY_LOCALE_ALIAS = {'es-mx': 'es-es', 'pt-br': 'pt', 'en-in': 'en'}
-
-DAILY_SHARE_TEXT_BY_LOCALE = {
-    'ja': ('「今日の一問」で「{word}」正解しました🎉 ThankJapanで日本語クイズに挑戦しよう！',
-           '「今日の一問」で「{word}」不正解でした…😢 ThankJapanで日本語クイズに挑戦しよう！'),
-    'zh-hant': ('「今日一題」答對了「{word}」🎉 到ThankJapan挑戰日文小測驗吧！',
-                '「今日一題」答錯了「{word}」…😢 到ThankJapan挑戰日文小測驗吧！'),
-    'zh-cn': ('「今日一题」答对了「{word}」🎉 到ThankJapan挑战日语小测验吧！',
-              '「今日一题」答错了「{word}」…😢 到ThankJapan挑战日语小测验吧！'),
-    'ko': ('오늘의 한 문제에서 「{word}」 정답! 🎉 ThankJapan에서 일본어 퀴즈에 도전해보세요!',
-           '오늘의 한 문제에서 「{word}」 오답…😢 ThankJapan에서 일본어 퀴즈에 도전해보세요!'),
-    'de': ('Bei der "Frage des Tages" "{word}" richtig beantwortet 🎉 Probier das Japanisch-Quiz auf ThankJapan!',
-           'Bei der "Frage des Tages" "{word}" leider falsch…😢 Probier das Japanisch-Quiz auf ThankJapan!'),
-    'fr': ('Question du jour : "{word}" trouvée 🎉 Essaie le quiz de japonais sur ThankJapan !',
-           'Question du jour : "{word}" ratée…😢 Essaie le quiz de japonais sur ThankJapan !'),
-    'es-es': ('¡Pregunta del día "{word}" acertada! 🎉 ¡Prueba el quiz de japonés en ThankJapan!',
-              'Pregunta del día "{word}" fallada…😢 ¡Prueba el quiz de japonés en ThankJapan!'),
-    'it': ('Domanda del giorno "{word}" indovinata 🎉 Prova il quiz di giapponese su ThankJapan!',
-           'Domanda del giorno "{word}" sbagliata…😢 Prova il quiz di giapponese su ThankJapan!'),
-    'pt': ('Pergunta do dia "{word}" acertada 🎉 Experimente o quiz de japonês no ThankJapan!',
-           'Pergunta do dia "{word}" errada…😢 Experimente o quiz de japonês no ThankJapan!'),
-    'vi': ('Câu hỏi hôm nay "{word}" trả lời đúng 🎉 Hãy thử quiz tiếng Nhật trên ThankJapan!',
-           'Câu hỏi hôm nay "{word}" trả lời sai…😢 Hãy thử quiz tiếng Nhật trên ThankJapan!'),
-    'th': ('คำถามประจำวัน "{word}" ตอบถูก🎉 ลองเล่นควิซภาษาญี่ปุ่นที่ ThankJapan สิ!',
-           'คำถามประจำวัน "{word}" ตอบผิด…😢 ลองเล่นควิซภาษาญี่ปุ่นที่ ThankJapan สิ!'),
-    'en': ('Got today\'s ThankJapan Daily Question "{word}" right! 🎉 Try the Japanese quiz yourself!',
-           'Missed today\'s ThankJapan Daily Question "{word}"…😢 Try the Japanese quiz yourself!'),
-}
-
-DAILY_HASHTAGS_BY_LOCALE = {
-    'ja': 'ThankJapan,今日の一問,日本語学習',
-    'zh-hant': 'ThankJapan,學日文',
-    'zh-cn': 'ThankJapan,学日语',
-    'ko': 'ThankJapan,일본어공부',
-    'de': 'ThankJapan,JapanischLernen',
-    'fr': 'ThankJapan,ApprendreLeJaponais',
-    'es-es': 'ThankJapan,AprenderJapones',
-    'it': 'ThankJapan,ImparaGiapponese',
-    'pt': 'ThankJapan,AprenderJapones',
-    'vi': 'ThankJapan,HocTiengNhat',
-    'th': 'ThankJapan,เรียนภาษาญี่ปุ่น',
-    'en': 'ThankJapan,LearnJapanese',
-}
+# 2026-09-12: DAILY_SHARE_TEXT_BY_LOCALE/DAILY_HASHTAGS_BY_LOCALE (word-
+# centric "assembly process" reveal, same text for correct/incorrect) is
+# built directly from views.py's own per-piece dicts (imported above) rather
+# than duplicated here - see DailyQuestionShareAfterTileConversionTests and
+# RenewalMultiLanguageAuditTests.test_daily_question_share_text_and_hashtags_per_locale.
 
 DAILY_CAPTION_BY_LOCALE = {
     'ja': 'タイルを正しい順番に並べ替えてください',
@@ -3039,11 +3004,12 @@ class DailyQuestionFreePreviewPremiumInclusionTests(TestCase):
 
 
 class DailyQuestionShareAfterTileConversionTests(TestCase):
-    """2026-09-05: verifies the X/Twitter share flow on the daily question
-    result screen still works correctly now that correctness is judged from
-    tile order instead of a chosen choice_id - share_text/hashtags/og:image
-    are all derived from `word` and `is_correct`, neither of which changed
-    shape, but this pins that down explicitly rather than relying on it."""
+    """2026-09-12: X share text redesigned around a word-centric 'assembly
+    process' reveal (す→し→寿司(正解)🀄 for mora-route words, an 'N steps'
+    summary for chunk-route ones) rather than the old 'I got it right/wrong'
+    framing. The same text is used regardless of is_correct - see
+    _daily_question_share_text - so these tests answer both ways and expect
+    an identical share body each time."""
 
     def setUp(self):
         self.today = timezone.localdate()
@@ -3054,28 +3020,25 @@ class DailyQuestionShareAfterTileConversionTests(TestCase):
         )
         DailyQuestion.objects.create(date=self.today, word=self.word)
 
-    def _answer(self, correct):
+    def _answer(self, correct, client=None):
         # tiles_json is shuffled display order, not the solved order - sort
         # by position in the word's own reading to get the actual answer.
-        tiles = json.loads(self.client.get(reverse('daily_question')).context['tiles_json'])
+        client = client or self.client
+        tiles = json.loads(client.get(reverse('daily_question')).context['tiles_json'])
         correct_order = sorted(tiles, key=lambda t: self.word.jpname.index(t))
         submitted = correct_order if correct else list(reversed(correct_order))
-        return self.client.post(reverse('daily_question'), {'answer_tiles': json.dumps(submitted)})
+        return client.post(reverse('daily_question'), {'answer_tiles': json.dumps(submitted)})
 
-    def test_correct_answer_share_text_mentions_word_and_success(self):
-        # test client defaults to lang=en (see DailyQuestionOgpCacheBustTests)
-        response = self._answer(correct=True)
-        body = response.content.decode()
-        self.assertTrue(response.context['is_correct'])
-        expected_text = 'Got today\'s ThankJapan Daily Question "ぎたー (test-daily-share)" right!'
-        self.assertIn(urlquote(expected_text, safe=''), body)
-
-    def test_incorrect_answer_share_text_mentions_word_and_failure(self):
-        response = self._answer(correct=False)
-        body = response.content.decode()
-        self.assertFalse(response.context['is_correct'])
-        expected_text = 'Missed today\'s ThankJapan Daily Question "ぎたー (test-daily-share)"'
-        self.assertIn(urlquote(expected_text, safe=''), body)
+    def test_mora_route_assembly_process_is_identical_for_correct_and_incorrect(self):
+        # ぎたー splits into 3 mora tiles (ぎ/た/ー); kanji_name 'ギター' is
+        # the final reveal after the arrows.
+        expected_process = 'ぎ→た→ー→ギター(Answer)🀄'
+        for correct in (True, False):
+            with self.subTest(correct=correct):
+                response = self._answer(correct=correct, client=Client())
+                body = response.content.decode()
+                self.assertEqual(response.context['is_correct'], correct)
+                self.assertIn(urlquote(expected_process, safe=''), body, msg=body)
 
     def test_share_hashtags_include_word_specific_tag(self):
         response = self._answer(correct=True)
@@ -3083,7 +3046,7 @@ class DailyQuestionShareAfterTileConversionTests(TestCase):
         # _daily_question_hashtags appends the word's englishname (spaces
         # stripped) as a dynamic hashtag on top of the fixed daily-question
         # tags - confirms that per-word dynamic portion still comes through.
-        self.assertIn(urlquote('ThankJapan,LearnJapanese,Guitar', safe=''), body)
+        self.assertIn(urlquote('ThankJapan,DailyQuestion,Guitar', safe=''), body)
 
     def test_share_intent_url_and_og_image_are_well_formed(self):
         response = self._answer(correct=True)
@@ -3103,6 +3066,41 @@ class DailyQuestionShareAfterTileConversionTests(TestCase):
         body = response.content.decode()
         expected_share_url = f"https://www.thankjapan.com/daily/?lang=en&date={self.today.isoformat()}"
         self.assertIn(f'url={urlquote(expected_share_url, safe="/")}', body)
+
+
+class DailyQuestionChunkRouteShareTests(TestCase):
+    """2026-09-12: a chunk-route word (long premium-style reading, >5 mora)
+    would make the share text balloon if every chunk were spelled out
+    arrow-by-arrow, so it collapses to an 'N steps to complete' summary
+    instead - this pins down that the step count matches the real number of
+    chunks build_tiles produces, and the full phrase is NOT dumped into the
+    tweet text."""
+
+    def setUp(self):
+        self.today = timezone.localdate()
+        self.example_sentence = (
+            '<ruby>鹿児島県<rt>かごしまけん</rt></ruby>は<ruby>桜島<rt>さくらじま</rt></ruby>が'
+            '<ruby>有名<rt>ゆうめい</rt></ruby>です。'
+        )
+        self.word = ThankJapanModel.objects.create(
+            name='test-daily-chunk', englishname='Kagoshima', jpname='かごしまけん',
+            category='live', slug='daily-chunk-word', description='d', history='h',
+            example_sentence_ja=self.example_sentence,
+        )
+        DailyQuestion.objects.create(date=self.today, word=self.word)
+
+    def test_chunk_route_share_text_uses_step_count_not_full_phrase(self):
+        tile_data = tile_split.build_tiles(self.word.jpname, self.word.example_sentence_ja)
+        self.assertEqual(tile_data['route'], 'chunk', msg='fixture must exercise the chunk route')
+        expected_step_line = f"Completed in {len(tile_data['tiles'])} steps!(Answer)🀄"
+
+        tiles = json.loads(self.client.get(reverse('daily_question')).context['tiles_json'])
+        correct_order = sorted(tiles, key=lambda t: tile_data['answer_text'].index(t))
+        response = self.client.post(reverse('daily_question'), {'answer_tiles': json.dumps(correct_order)})
+        body = response.content.decode()
+
+        self.assertIn(urlquote(expected_step_line, safe=''), body, msg=body)
+        self.assertNotIn(urlquote(tile_data['answer_text'], safe=''), body)
 
 
 class RenewalMultiLanguageAuditTests(TestCase):
@@ -3144,12 +3142,20 @@ class RenewalMultiLanguageAuditTests(TestCase):
                 self.assertTrue(response.context['is_correct'], msg=f"lang={lang}")
                 body = response.content.decode()
 
-                share_key = DAILY_LOCALE_ALIAS.get(lang, lang)
-                expected_text = DAILY_SHARE_TEXT_BY_LOCALE[share_key][0].format(
-                    word=f"{self.word.jpname} ({self.word.name})")
+                # Umbrella/かさ is a 2-mora word with kanji_name='傘' - the
+                # mora-route assembly process is か→さ→傘 for every locale
+                # (the process itself isn't translated, only the surrounding
+                # text is).
+                share_key = DAILY_QUESTION_SHARE_LOCALE_ALIAS.get(lang, lang)
+                heading = DAILY_QUESTION_SHARE_HEADING.get(share_key, DAILY_QUESTION_SHARE_HEADING['en'])
+                invite = DAILY_QUESTION_SHARE_INVITE.get(share_key, DAILY_QUESTION_SHARE_INVITE['en'])
+                cta = DAILY_QUESTION_SHARE_CTA.get(share_key, DAILY_QUESTION_SHARE_CTA['en'])
+                answer_label = DAILY_QUESTION_SHARE_ANSWER_LABEL.get(share_key, DAILY_QUESTION_SHARE_ANSWER_LABEL['en'])
+                expected_text = f"{heading}\n\nか→さ→傘({answer_label})🀄\n\n{invite}\n\n{cta}"
                 self.assertIn(urlquote(expected_text, safe=''), body, msg=f"lang={lang}")
 
-                expected_hashtags = f"{DAILY_HASHTAGS_BY_LOCALE[share_key]},Umbrella"
+                term = DAILY_QUESTION_HASHTAG_TERM.get(share_key, DAILY_QUESTION_HASHTAG_TERM['en'])
+                expected_hashtags = f"ThankJapan,{term},Umbrella"
                 self.assertIn(urlquote(expected_hashtags, safe=''), body, msg=f"lang={lang}")
 
     def test_game_result_no_time_limit_label_per_locale(self):

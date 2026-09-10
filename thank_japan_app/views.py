@@ -2202,62 +2202,145 @@ DAILY_QUESTION_SESSION_ANSWERED_KEY = 'daily_question_answered_date'
 DAILY_QUESTION_BANNER_DISMISSED_KEY = 'daily_question_banner_dismissed'
 DAILY_QUESTION_TIME_LIMIT = 30  # seconds - a single question doesn't need the main game's 60s
 
-DAILY_QUESTION_SHARE_TEXT = {
-    'ja': {'correct': '「今日の一問」で「{word}」正解しました🎉 ThankJapanで日本語クイズに挑戦しよう！',
-           'incorrect': '「今日の一問」で「{word}」不正解でした…😢 ThankJapanで日本語クイズに挑戦しよう！'},
-    'zh-hant': {'correct': '「今日一題」答對了「{word}」🎉 到ThankJapan挑戰日文小測驗吧！',
-                'incorrect': '「今日一題」答錯了「{word}」…😢 到ThankJapan挑戰日文小測驗吧！'},
-    'zh-cn': {'correct': '「今日一题」答对了「{word}」🎉 到ThankJapan挑战日语小测验吧！',
-              'incorrect': '「今日一题」答错了「{word}」…😢 到ThankJapan挑战日语小测验吧！'},
-    'ko': {'correct': '오늘의 한 문제에서 「{word}」 정답! 🎉 ThankJapan에서 일본어 퀴즈에 도전해보세요!',
-           'incorrect': '오늘의 한 문제에서 「{word}」 오답…😢 ThankJapan에서 일본어 퀴즈에 도전해보세요!'},
-    'de': {'correct': 'Bei der "Frage des Tages" "{word}" richtig beantwortet 🎉 Probier das Japanisch-Quiz auf ThankJapan!',
-           'incorrect': 'Bei der "Frage des Tages" "{word}" leider falsch…😢 Probier das Japanisch-Quiz auf ThankJapan!'},
-    'fr': {'correct': 'Question du jour : "{word}" trouvée 🎉 Essaie le quiz de japonais sur ThankJapan !',
-           'incorrect': 'Question du jour : "{word}" ratée…😢 Essaie le quiz de japonais sur ThankJapan !'},
-    'es-es': {'correct': '¡Pregunta del día "{word}" acertada! 🎉 ¡Prueba el quiz de japonés en ThankJapan!',
-              'incorrect': 'Pregunta del día "{word}" fallada…😢 ¡Prueba el quiz de japonés en ThankJapan!'},
-    'it': {'correct': 'Domanda del giorno "{word}" indovinata 🎉 Prova il quiz di giapponese su ThankJapan!',
-           'incorrect': 'Domanda del giorno "{word}" sbagliata…😢 Prova il quiz di giapponese su ThankJapan!'},
-    'pt': {'correct': 'Pergunta do dia "{word}" acertada 🎉 Experimente o quiz de japonês no ThankJapan!',
-           'incorrect': 'Pergunta do dia "{word}" errada…😢 Experimente o quiz de japonês no ThankJapan!'},
-    'vi': {'correct': 'Câu hỏi hôm nay "{word}" trả lời đúng 🎉 Hãy thử quiz tiếng Nhật trên ThankJapan!',
-           'incorrect': 'Câu hỏi hôm nay "{word}" trả lời sai…😢 Hãy thử quiz tiếng Nhật trên ThankJapan!'},
-    'th': {'correct': 'คำถามประจำวัน "{word}" ตอบถูก🎉 ลองเล่นควิซภาษาญี่ปุ่นที่ ThankJapan สิ!',
-           'incorrect': 'คำถามประจำวัน "{word}" ตอบผิด…😢 ลองเล่นควิซภาษาญี่ปุ่นที่ ThankJapan สิ!'},
-    'en': {'correct': 'Got today\'s ThankJapan Daily Question "{word}" right! 🎉 Try the Japanese quiz yourself!',
-           'incorrect': 'Missed today\'s ThankJapan Daily Question "{word}"…😢 Try the Japanese quiz yourself!'},
+DAILY_QUESTION_SHARE_LOCALE_ALIAS = {'es-mx': 'es-es', 'pt-br': 'pt', 'en-in': 'en'}
+
+# 2026-09-12: share text redesigned around a word-centric "assembly process"
+# reveal (mirrors the notification titles below for the heading) rather
+# than the previous "I got it right/wrong" framing - the same text is used
+# whether the player answered correctly or not (see _daily_question_share_text),
+# since inviting friends to comment Yes/No about their own attempt reads
+# fine either way without singling out a personal result.
+DAILY_QUESTION_SHARE_HEADING = {
+    'ja': '今日の一問',
+    'zh-hant': '今日一題',
+    'zh-cn': '今日一题',
+    'ko': '오늘의 한 문제',
+    'de': 'Deine Frage des Tages',
+    'fr': 'La question du jour',
+    'es-es': 'Tu pregunta del día',
+    'it': 'La tua domanda del giorno',
+    'pt': 'A sua pergunta do dia',
+    'vi': 'Câu hỏi hôm nay',
+    'th': 'คำถามประจำวันของคุณ',
+    'en': "Today's Daily Question",
+}
+
+DAILY_QUESTION_SHARE_INVITE = {
+    'ja': '正解できた人は「Yes」、できなかった人は「No」って教えてください！',
+    'zh-hant': '答對的人請留言「Yes」，答錯的人請留言「No」！',
+    'zh-cn': '答对的人请留言「Yes」，答错的人请留言「No」！',
+    'ko': '정답을 맞힌 사람은 "Yes", 틀린 사람은 "No"라고 댓글 남겨주세요!',
+    'de': 'Wer\'s richtig hatte, schreibt "Yes" – wer nicht, schreibt "No"!',
+    'fr': 'Si tu as trouvé, commente "Yes" – sinon, commente "No" !',
+    'es-es': 'Si acertaste, comenta "Yes"; si no, comenta "No"!',
+    'it': 'Se hai indovinato, commenta "Yes" – altrimenti "No"!',
+    'pt': 'Se acertou, comente "Yes" – se não, comente "No"!',
+    'vi': 'Nếu trả lời đúng, hãy bình luận "Yes" – nếu sai thì "No"!',
+    'th': 'ถ้าตอบถูกคอมเมนต์ "Yes" ถ้าตอบผิดคอมเมนต์ "No" นะ!',
+    'en': 'Got it right? Comment "Yes"! Got it wrong? Comment "No"!',
+}
+
+DAILY_QUESTION_SHARE_CTA = {
+    'ja': 'あなたも挑戦してみて👇',
+    'zh-hant': '你也來挑戰看看👇',
+    'zh-cn': '你也来挑战看看👇',
+    'ko': '당신도 도전해보세요👇',
+    'de': "Versuch's auch mal👇",
+    'fr': 'Essaie toi aussi👇',
+    'es-es': '¡Pruébalo tú también!👇',
+    'it': 'Prova anche tu👇',
+    'pt': 'Experimente você também👇',
+    'vi': 'Bạn cũng thử xem nhé👇',
+    'th': 'ลองท้าทายดูสิ👇',
+    'en': 'Try it yourself too👇',
+}
+
+# Chunk-route words (long premium example-sentence phrases) would make the
+# tweet too long if every chunk were spelled out arrow-by-arrow, so they get
+# a step-count summary instead of the mora route's full す→し→寿司 reveal.
+DAILY_QUESTION_SHARE_CHUNK_STEPS = {
+    'ja': '{n}ステップで完成！',
+    'zh-hant': '{n}個步驟完成！',
+    'zh-cn': '{n}个步骤完成！',
+    'ko': '{n}단계로 완성!',
+    'de': 'In {n} Schritten fertig!',
+    'fr': 'Terminé en {n} étapes !',
+    'es-es': '¡Completado en {n} pasos!',
+    'it': 'Completato in {n} passaggi!',
+    'pt': 'Completo em {n} passos!',
+    'vi': 'Hoàn thành trong {n} bước!',
+    'th': 'เสร็จใน {n} ขั้นตอน!',
+    'en': 'Completed in {n} steps!',
+}
+
+DAILY_QUESTION_SHARE_ANSWER_LABEL = {
+    'ja': '正解',
+    'zh-hant': '答案',
+    'zh-cn': '答案',
+    'ko': '정답',
+    'de': 'Lösung',
+    'fr': 'Réponse',
+    'es-es': 'Respuesta',
+    'it': 'Risposta',
+    'pt': 'Resposta',
+    'vi': 'Đáp án',
+    'th': 'คำตอบ',
+    'en': 'Answer',
 }
 
 
-def _daily_question_share_text(lang_code, is_correct, word):
-    lang = {'es-mx': 'es-es', 'pt-br': 'pt', 'en-in': 'en'}.get(lang_code, lang_code)
-    texts = DAILY_QUESTION_SHARE_TEXT.get(lang, DAILY_QUESTION_SHARE_TEXT['en'])
-    template = texts['correct'] if is_correct else texts['incorrect']
-    return template.format(word=f"{word.jpname} ({word.name})")
+def _daily_question_assembly_process(word):
+    """The '組み立て過程' line: mora-route words spell out every tile
+    (す→し→寿司), chunk-route words (long premium phrases) collapse to a
+    step count instead so the tweet doesn't balloon in length. Always
+    reflects the correct order, regardless of what the player submitted -
+    this is a reveal of today's answer, not a replay of their attempt."""
+    tile_data = build_tiles(word.jpname, word.example_sentence_ja)
+    if tile_data['route'] == 'mora':
+        final_display = word.kanji_name or word.jpname
+        return '→'.join(tile_data['tiles'] + [final_display])
+    return len(tile_data['tiles'])  # caller formats this into the step-count template
 
 
-DAILY_QUESTION_HASHTAGS = {
-    'ja': 'ThankJapan,今日の一問,日本語学習',
-    'zh-hant': 'ThankJapan,學日文',
-    'zh-cn': 'ThankJapan,学日语',
-    'ko': 'ThankJapan,일본어공부',
-    'de': 'ThankJapan,JapanischLernen',
-    'fr': 'ThankJapan,ApprendreLeJaponais',
-    'es-es': 'ThankJapan,AprenderJapones',
-    'it': 'ThankJapan,ImparaGiapponese',
-    'pt': 'ThankJapan,AprenderJapones',
-    'vi': 'ThankJapan,HocTiengNhat',
-    'th': 'ThankJapan,เรียนภาษาญี่ปุ่น',
-    'en': 'ThankJapan,LearnJapanese',
+def _daily_question_share_text(lang_code, word):
+    lang = DAILY_QUESTION_SHARE_LOCALE_ALIAS.get(lang_code, lang_code)
+    heading = DAILY_QUESTION_SHARE_HEADING.get(lang, DAILY_QUESTION_SHARE_HEADING['en'])
+    invite = DAILY_QUESTION_SHARE_INVITE.get(lang, DAILY_QUESTION_SHARE_INVITE['en'])
+    cta = DAILY_QUESTION_SHARE_CTA.get(lang, DAILY_QUESTION_SHARE_CTA['en'])
+    answer_label = DAILY_QUESTION_SHARE_ANSWER_LABEL.get(lang, DAILY_QUESTION_SHARE_ANSWER_LABEL['en'])
+
+    process = _daily_question_assembly_process(word)
+    if isinstance(process, int):
+        step_template = DAILY_QUESTION_SHARE_CHUNK_STEPS.get(lang, DAILY_QUESTION_SHARE_CHUNK_STEPS['en'])
+        process = step_template.format(n=process)
+
+    return f"{heading}\n\n{process}({answer_label})🀄\n\n{invite}\n\n{cta}"
+
+
+DAILY_QUESTION_HASHTAG_TERM = {
+    'ja': '今日の一問',
+    'zh-hant': '今日一題',
+    'zh-cn': '今日一题',
+    'ko': '오늘의한문제',
+    'de': 'FrageDesTages',
+    'fr': 'QuestionDuJour',
+    'es-es': 'PreguntaDelDia',
+    'it': 'DomandaDelGiorno',
+    'pt': 'PerguntaDoDia',
+    'vi': 'CauHoiHomNay',
+    'th': 'คำถามประจำวัน',
+    'en': 'DailyQuestion',
 }
 
 
 def _daily_question_hashtags(lang_code, word):
-    lang = {'es-mx': 'es-es', 'pt-br': 'pt', 'en-in': 'en'}.get(lang_code, lang_code)
-    base = DAILY_QUESTION_HASHTAGS.get(lang, DAILY_QUESTION_HASHTAGS['en'])
+    lang = DAILY_QUESTION_SHARE_LOCALE_ALIAS.get(lang_code, lang_code)
+    term = DAILY_QUESTION_HASHTAG_TERM.get(lang, DAILY_QUESTION_HASHTAG_TERM['en'])
     word_tag = ''.join(word.englishname.split())  # hashtags can't contain spaces
-    return f"{base},{word_tag}" if word_tag else base
+    tags = ['ThankJapan', term]
+    if word_tag:
+        tags.append(word_tag)
+    return ','.join(tags)
 
 
 def _daily_question_tiles(request, word, today):
@@ -2345,7 +2428,7 @@ def daily_question_view(request):
             weekly_record.score += 1
             weekly_record.save()
 
-        share_text = _daily_question_share_text(lang_code, is_correct, word)
+        share_text = _daily_question_share_text(lang_code, word)
         share_hashtags = _daily_question_hashtags(lang_code, word)
 
         return render(request, 'thank_japan_app/daily_question.html', {
