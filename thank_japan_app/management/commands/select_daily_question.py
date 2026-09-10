@@ -18,11 +18,11 @@ class Command(BaseCommand):
         today = timezone.localdate()  # TIME_ZONE='Asia/Tokyo' -> this is already JST "today"
 
         if dry_run:
-            existing = DailyQuestion.objects.filter(date=today).select_related('word').first()
+            existing = DailyQuestion.objects.filter(date=today).select_related('word', 'premium_word').first()
             if existing:
                 self.stdout.write(
                     f"Dry run - DailyQuestion for {today} already exists: "
-                    f"{existing.word.englishname} (slug={existing.word.slug})"
+                    f"{existing.selected_word.englishname} (slug={existing.selected_word.slug})"
                 )
                 return
             # Dry run must not write, so just preview a candidate without saving.
@@ -39,10 +39,10 @@ class Command(BaseCommand):
 
         if created:
             self.stdout.write(self.style.SUCCESS(
-                f"Created DailyQuestion for {today}: {dq.word.englishname} (slug={dq.word.slug})"
+                f"Created DailyQuestion for {today}: {dq.selected_word.englishname} (slug={dq.selected_word.slug})"
             ))
         else:
             self.stdout.write(self.style.WARNING(
-                f"DailyQuestion for {today} already exists (word={dq.word.englishname}, "
-                f"slug={dq.word.slug}) - not overwriting."
+                f"DailyQuestion for {today} already exists (word={dq.selected_word.englishname}, "
+                f"slug={dq.selected_word.slug}) - not overwriting."
             ))

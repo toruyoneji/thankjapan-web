@@ -402,6 +402,16 @@ class FCMDevice(models.Model):
         return f"{self.user} ({self.lang})"
 
 
+# Premium-table categories that are free for everyone to browse/review (see
+# thank_japan_app.views: game_play's mode=single handling and
+# ImgPremiumDetailView.get_object, neither of which gates them behind
+# is_premium). Shared with views.py's _build_tile_game_questions so both the
+# main game and 今日の一問 agree on what counts as "free preview" content -
+# defined here (not views.py) since views.py already imports from this
+# module and the reverse would be circular.
+FREE_PREVIEW_PREMIUM_CATEGORIES = ['DailyConversation', 'slang', 'TourismEtiquette', 'Entertainment']
+
+
 class DailyQuestionManager(models.Manager):
     # Mirrors DIFFICULTY_SETTINGS['normal'] in thank_japan_app/views.py so
     # "today's question" always matches the site-wide notion of normal difficulty.
@@ -414,37 +424,67 @@ class DailyQuestionManager(models.Manager):
 
         Single source of truth for both the daily selection batch and the
         page view's on-the-fly fallback, so they can never pick differently.
+
+        2026-09-11: candidates now come from two tables - ThankJapanModel
+        (as before) and the free-preview ThankJapanPremium categories - each
+        candidate is picked with equal probability regardless of which table
+        it's from, matching the same policy just adopted for the main game's
+        non-premium pool (see _build_tile_game_questions). A chosen
+        ThankJapanModel word is saved to `word`; a chosen ThankJapanPremium
+        word is saved to `premium_word` - `word` stays null for those rows,
+        `premium_word` stays null for classic ThankJapanModel-selected rows.
         """
-        existing = self.filter(date=date).select_related('word').first()
+        existing = self.filter(date=date).select_related('word', 'premium_word').first()
         if existing:
             return existing, False
 
-        pool = ThankJapanModel.objects.filter(
+        free_pool_ids = list(ThankJapanModel.objects.filter(
             category__in=self.NORMAL_CATEGORY_FILTER,
             name__iregex=self.NORMAL_LENGTH_REGEX,
-        ).exclude(image='')
-        recent_word_ids = list(
-            self.order_by('-date')[:self.RECENT_EXCLUSION_DAYS].values_list('word_id', flat=True)
-        )
-        candidates = pool.exclude(id__in=recent_word_ids)
-        if not candidates.exists():
-            candidates = pool
+        ).exclude(image='').values_list('id', flat=True))
+        premium_pool_ids = list(ThankJapanPremium.objects.filter(
+            category__in=FREE_PREVIEW_PREMIUM_CATEGORIES,
+            name__iregex=self.NORMAL_LENGTH_REGEX,
+        ).exclude(image='').values_list('id', flat=True))
 
-        candidate_ids = list(candidates.values_list('id', flat=True))
-        if not candidate_ids:
+        recent = self.order_by('-date')[:self.RECENT_EXCLUSION_DAYS]
+        recent_free_ids = {i for i in recent.values_list('word_id', flat=True) if i}
+        recent_premium_ids = {i for i in recent.values_list('premium_word_id', flat=True) if i}
+
+        free_candidates = [pk for pk in free_pool_ids if pk not in recent_free_ids]
+        premium_candidates = [pk for pk in premium_pool_ids if pk not in recent_premium_ids]
+        combined = [('free', pk) for pk in free_candidates] + [('premium', pk) for pk in premium_candidates]
+        if not combined:
+            # Recency exclusion emptied both pools - ignore it entirely
+            # rather than refuse to select anything (same fallback the
+            # single-table version always used).
+            combined = [('free', pk) for pk in free_pool_ids] + [('premium', pk) for pk in premium_pool_ids]
+
+        if not combined:
             return None, False
 
-        word = ThankJapanModel.objects.get(id=random.choice(candidate_ids))
-        return self.get_or_create(date=date, defaults={'word': word})
+        model_type, chosen_id = random.choice(combined)
+        if model_type == 'free':
+            return self.get_or_create(date=date, defaults={'word': ThankJapanModel.objects.get(id=chosen_id)})
+        return self.get_or_create(date=date, defaults={'premium_word': ThankJapanPremium.objects.get(id=chosen_id)})
 
 
 class DailyQuestion(models.Model):
     date = models.DateField(unique=True)  # JST基準の日付
-    word = models.ForeignKey(ThankJapanModel, on_delete=models.CASCADE, related_name='daily_appearances')
+    # Exactly one of word/premium_word is set per row - both nullable so
+    # either table can be the source (see FREE_PREVIEW_PREMIUM_CATEGORIES
+    # above and get_or_create_for_date). Use `selected_word` rather than
+    # either field directly.
+    word = models.ForeignKey(ThankJapanModel, on_delete=models.CASCADE, related_name='daily_appearances', null=True, blank=True)
+    premium_word = models.ForeignKey(ThankJapanPremium, on_delete=models.CASCADE, related_name='daily_appearances', null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     objects = DailyQuestionManager()
 
+    @property
+    def selected_word(self):
+        return self.word or self.premium_word
+
     def __str__(self):
-        return f"{self.date} - {self.word.englishname}"
+        return f"{self.date} - {self.selected_word.englishname}"
 

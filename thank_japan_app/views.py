@@ -26,7 +26,7 @@ from django.utils.dateparse import parse_datetime
 from django.utils.http import urlencode
 from django.contrib.auth.views import PasswordResetView, PasswordResetConfirmView
 from .context_processors import language_context
-from .models import WeeklyScore, ThankJapanBackgroundModel, FCMDevice, DailyQuestion, PremiumRenewalReward
+from .models import WeeklyScore, ThankJapanBackgroundModel, FCMDevice, DailyQuestion, PremiumRenewalReward, FREE_PREVIEW_PREMIUM_CATEGORIES
 from .pricing import get_premium_price, get_top_page_seo_override
 from google.oauth2 import service_account
 from googleapiclient.discovery import build
@@ -1720,13 +1720,6 @@ FIRST_TASTE_QUESTION_COUNT = 3  # first-visit guest trial: 3 EASY-tier words, un
 TIME_EXTEND_COST = 10  # points spent per "add more time" purchase, no cap on repeat use
 TIME_EXTEND_SECONDS = 10
 
-# Premium-table categories that are free for everyone to browse/review (see
-# game_play's mode=single handling and ImgPremiumDetailView's get_object) -
-# not gated behind a subscription like the rest of ThankJapanPremium. Mixed
-# into the non-premium tile-game pool below (2026-09-11) so they're not
-# limited to detail-page/single-mode discovery only.
-FREE_PREVIEW_PREMIUM_CATEGORIES = ['DailyConversation', 'slang', 'TourismEtiquette', 'Entertainment']
-
 
 def _sample_ids(model, category_filter=None, length_regex=None, exclude_ids=(), count=1):
     """Random id sample from `model`, honoring the same category/length
@@ -2304,7 +2297,7 @@ def daily_question_view(request):
             'daily_url': daily_url,
         })
 
-    word = daily_question.word
+    word = daily_question.selected_word
 
     if request.method == 'POST':
         if already_answered:

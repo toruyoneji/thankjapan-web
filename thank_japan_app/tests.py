@@ -2945,6 +2945,86 @@ class DailyQuestionImageSafetyNetTests(TestCase):
         self.assertEqual(dq.word_id, good_word.id)
 
 
+class DailyQuestionFreePreviewPremiumInclusionTests(TestCase):
+    """2026-09-11: DailyConversation/slang/TourismEtiquette/Entertainment are
+    completely free to browse, but 今日の一問 could never select them -
+    DailyQuestion.word was a ForeignKey scoped specifically to
+    ThankJapanModel, so a ThankJapanPremium row couldn't be referenced at
+    all regardless of category filters. Fixed by widening `word` to
+    nullable and adding a parallel nullable `premium_word` FK, unified via
+    the `selected_word` property (see thank_japan_app/models.py)."""
+
+    def test_selected_word_resolves_to_word_when_set(self):
+        free_word = ThankJapanModel.objects.create(
+            name='selresolve-free', englishname='Free', jpname='ふりー',
+            category='food', slug='selresolve-free', description='d', history='h')
+        dq = DailyQuestion.objects.create(date=timezone.localdate(), word=free_word)
+
+        self.assertEqual(dq.selected_word, free_word)
+        self.assertIn('Free', str(dq))
+
+    def test_selected_word_resolves_to_premium_word_when_set(self):
+        premium_word = ThankJapanPremium.objects.create(
+            name='selresolve-premium', englishname='Premium', jpname='ぷれみあむ',
+            category='slang', slug='selresolve-premium', description='d', history='h')
+        dq = DailyQuestion.objects.create(date=timezone.localdate(), premium_word=premium_word)
+
+        self.assertEqual(dq.selected_word, premium_word)
+        self.assertIn('Premium', str(dq))
+
+    def test_only_free_preview_premium_candidate_available_gets_saved_to_premium_word_field(self):
+        # name must be <=9 chars to pass NORMAL_LENGTH_REGEX (it filters on
+        # `name`, not `jpname` - see the memory note on this exact pitfall).
+        premium_word = ThankJapanPremium.objects.create(
+            name='onlycand1', englishname='OnlyCandidate', jpname='おんりー',
+            category='slang', slug='onlycand-premium', description='d', history='h',
+            image='thankjapan/premium/dummy_test_asset')
+        today = timezone.localdate()
+
+        dq, created = DailyQuestion.objects.get_or_create_for_date(today)
+
+        self.assertTrue(created)
+        self.assertIsNone(dq.word)
+        self.assertEqual(dq.premium_word_id, premium_word.id)
+        self.assertEqual(dq.selected_word, premium_word)
+
+    def test_recent_exclusion_tracks_each_table_separately(self):
+        # A premium word used yesterday must not repeat today, even though
+        # it's a totally different table from the free word pool - the two
+        # recency lists (word_id / premium_word_id) must not cross-
+        # contaminate each other, and only the free word should remain a
+        # valid candidate today.
+        premium_word = ThankJapanPremium.objects.create(
+            name='recentpre', englishname='RecentPremium', jpname='さいきん',
+            category='slang', slug='recenttest-premium', description='d', history='h',
+            image='thankjapan/premium/dummy_test_asset')
+        free_word = ThankJapanModel.objects.create(
+            name='recentfre', englishname='RecentFree', jpname='さいきんに',
+            category='food', slug='recenttest-free', description='d', history='h',
+            image='thankjapan/images/dummy_test_asset')
+        yesterday = timezone.localdate() - timedelta(days=1)
+        DailyQuestion.objects.create(date=yesterday, premium_word=premium_word)
+
+        today = timezone.localdate()
+        dq, created = DailyQuestion.objects.get_or_create_for_date(today)
+
+        self.assertTrue(created)
+        self.assertEqual(dq.selected_word, free_word)
+
+    def test_daily_question_page_renders_correctly_when_todays_word_is_a_free_preview_premium_word(self):
+        premium_word = ThankJapanPremium.objects.create(
+            name='renderpremium1', englishname='Render Premium', jpname='がち',
+            category='slang', slug='renderpremium1', description='d', history='h')
+        DailyQuestion.objects.create(date=timezone.localdate(), premium_word=premium_word)
+
+        response = self.client.get(reverse('daily_question'))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.context['daily_state'], 'question')
+        tiles = json.loads(response.context['tiles_json'])
+        self.assertEqual(sorted(tiles), sorted(['が', 'ち']))
+
+
 class DailyQuestionShareAfterTileConversionTests(TestCase):
     """2026-09-05: verifies the X/Twitter share flow on the daily question
     result screen still works correctly now that correctness is judged from

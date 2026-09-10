@@ -40,8 +40,8 @@ class Command(BaseCommand):
         devices = FCMDevice.objects.filter(user__profile__daily_question_notify=True)
 
         if dry_run:
-            existing = DailyQuestion.objects.filter(date=today).select_related('word').first()
-            word_desc = existing.word.englishname if existing else '(not selected yet)'
+            existing = DailyQuestion.objects.filter(date=today).select_related('word', 'premium_word').first()
+            word_desc = existing.selected_word.englishname if existing else '(not selected yet)'
             self.stdout.write(
                 f"Dry run - would send to {devices.count()} device(s) for {today} (word={word_desc})."
             )
