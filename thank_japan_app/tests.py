@@ -2830,6 +2830,44 @@ class DailyQuestionTileGameTests(TestCase):
         self.assertEqual(second_get.context['daily_state'], 'already_answered')
 
 
+class DailyQuestionImageSafetyNetTests(TestCase):
+    """2026-09-11: a batch of newly-added words was found with a real,
+    working image, but the incident prompted adding a safety net anyway -
+    DailyQuestionManager's candidate pool now excludes any word whose
+    `image` field is blank, so a future word added without an image (e.g.
+    via a bulk-import path that bypasses ModelForm validation) can never be
+    picked as '今日の一問'."""
+
+    def test_word_with_blank_image_is_excluded_from_candidate_pool(self):
+        ThankJapanModel.objects.create(
+            name='blankimg1', englishname='No Image Word', jpname='がぞうなし',
+            category='food', slug='blank-image-word', description='d', history='h',
+        )
+        today = timezone.localdate()
+
+        dq, created = DailyQuestion.objects.get_or_create_for_date(today)
+
+        self.assertIsNone(dq)
+        self.assertFalse(created)
+
+    def test_word_with_image_is_still_selected_alongside_a_blank_image_word(self):
+        ThankJapanModel.objects.create(
+            name='blankimg2', englishname='No Image Word', jpname='がぞうなし',
+            category='food', slug='blank-image-word-2', description='d', history='h',
+        )
+        good_word = ThankJapanModel.objects.create(
+            name='hasimage1', englishname='Has Image Word', jpname='がぞうあり',
+            category='food', slug='has-image-word', description='d', history='h',
+            image='thankjapan/images/dummy_test_asset',
+        )
+        today = timezone.localdate()
+
+        dq, created = DailyQuestion.objects.get_or_create_for_date(today)
+
+        self.assertTrue(created)
+        self.assertEqual(dq.word_id, good_word.id)
+
+
 class DailyQuestionShareAfterTileConversionTests(TestCase):
     """2026-09-05: verifies the X/Twitter share flow on the daily question
     result screen still works correctly now that correctness is judged from

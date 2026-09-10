@@ -422,7 +422,7 @@ class DailyQuestionManager(models.Manager):
         pool = ThankJapanModel.objects.filter(
             category__in=self.NORMAL_CATEGORY_FILTER,
             name__iregex=self.NORMAL_LENGTH_REGEX,
-        )
+        ).exclude(image='')
         recent_word_ids = list(
             self.order_by('-date')[:self.RECENT_EXCLUSION_DAYS].values_list('word_id', flat=True)
         )
