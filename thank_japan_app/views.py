@@ -1720,6 +1720,13 @@ FIRST_TASTE_QUESTION_COUNT = 3  # first-visit guest trial: 3 EASY-tier words, un
 TIME_EXTEND_COST = 10  # points spent per "add more time" purchase, no cap on repeat use
 TIME_EXTEND_SECONDS = 10
 
+# Premium-table categories that are free for everyone to browse/review (see
+# game_play's mode=single handling and ImgPremiumDetailView's get_object) -
+# not gated behind a subscription like the rest of ThankJapanPremium. Mixed
+# into the non-premium tile-game pool below (2026-09-11) so they're not
+# limited to detail-page/single-mode discovery only.
+FREE_PREVIEW_PREMIUM_CATEGORIES = ['DailyConversation', 'slang', 'TourismEtiquette', 'Entertainment']
+
 
 def _sample_ids(model, category_filter=None, length_regex=None, exclude_ids=(), count=1):
     """Random id sample from `model`, honoring the same category/length
@@ -1736,11 +1743,17 @@ def _sample_ids(model, category_filter=None, length_regex=None, exclude_ids=(), 
     return ids[:count]
 
 
+def _long_word_candidate_ids(exclude_ids=()):
+    """All free-tier 'long word' ids (chunk-split route: >5 mora or contains
+    alphabet), unshuffled and uncapped - callers shuffle/slice themselves."""
+    qs = ThankJapanModel.objects.exclude(id__in=exclude_ids).values_list('id', 'jpname')
+    return [pk for pk, jpname in qs if classify_route(jpname)['route'] == 'chunk']
+
+
 def _sample_long_word_ids(exclude_ids=(), count=1):
     """Free-tier 'long word' pool (chunk-split route: >5 mora or contains
     alphabet) used from Q5 onward for players without premium access."""
-    qs = ThankJapanModel.objects.exclude(id__in=exclude_ids).values_list('id', 'jpname')
-    long_ids = [pk for pk, jpname in qs if classify_route(jpname)['route'] == 'chunk']
+    long_ids = _long_word_candidate_ids(exclude_ids)
     random.shuffle(long_ids)
     return long_ids[:count]
 
@@ -1766,9 +1779,9 @@ def _sample_easy_ids(category_filter, exclude_ids=(), count=1):
 def _build_tile_game_questions(is_premium):
     """Ordered question list for the tile-rearrangement time attack:
     Q1-2 EASY, Q3-5 NORMAL/NORMAL/HARD, Q6+ PREMIUM (subscribers) or long
-    free words (everyone else). Returns [{'id', 'model': 'free'|'premium'},
-    ...] - a game can mix both models, unlike the old single-model-per-game
-    multiple-choice flow."""
+    free words + the free-preview premium categories (everyone else).
+    Returns [{'id', 'model': 'free'|'premium'}, ...] - a game can mix both
+    models, unlike the old single-model-per-game multiple-choice flow."""
     easy, normal, hard = DIFFICULTY_SETTINGS['easy'], DIFFICULTY_SETTINGS['normal'], DIFFICULTY_SETTINGS['hard']
 
     free_ids = _sample_easy_ids(easy['category_filter'], count=2)
@@ -1783,8 +1796,20 @@ def _build_tile_game_questions(is_premium):
         random.shuffle(premium_ids)
         questions += [{'id': pk, 'model': 'premium'} for pk in premium_ids[:remaining]]
     else:
-        long_ids = _sample_long_word_ids(exclude_ids=free_ids, count=remaining)
-        questions += [{'id': pk, 'model': 'free'} for pk in long_ids]
+        # Non-subscribers' Q6+ pool: free "long word" content plus the
+        # premium-table categories that are free for everyone (2026-09-11 -
+        # these were previously reachable only via each word's own detail
+        # page/single-mode review, never from the main game for guests).
+        # Tagged 'premium' since they live in ThankJapanPremium (same as
+        # single-mode review already does for them) - scored the same 2pt
+        # as any other premium-model question, by explicit product decision.
+        long_free_ids = _long_word_candidate_ids(exclude_ids=free_ids)
+        free_preview_ids = list(
+            ThankJapanPremium.objects.filter(category__in=FREE_PREVIEW_PREMIUM_CATEGORIES).values_list('id', flat=True)
+        )
+        combined = [('free', pk) for pk in long_free_ids] + [('premium', pk) for pk in free_preview_ids]
+        random.shuffle(combined)
+        questions += [{'id': pk, 'model': model_tag} for model_tag, pk in combined[:remaining]]
 
     return questions
 

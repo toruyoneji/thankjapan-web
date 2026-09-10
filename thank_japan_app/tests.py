@@ -2762,6 +2762,83 @@ class PremiumReviewAlwaysUsesExampleSentenceTests(TestCase):
         self.assertEqual(sorted(data['tiles']), sorted(['い', 'わ', 'て', 'け', 'ん']))
 
 
+class TileGameFreePreviewPremiumInclusionTests(TestCase):
+    """2026-09-11: DailyConversation/slang/TourismEtiquette/Entertainment
+    are completely free to browse (see game_play's mode=single handling and
+    ImgPremiumDetailView.get_object, neither of which gates them behind
+    is_premium), but the main timed game's non-premium Q6+ pool used to
+    pull only from ThankJapanModel - these categories were reachable only
+    via each word's own detail page / single-mode review, never from the
+    main game, unless the player was a paying subscriber (whose Q6+ pool
+    was always unfiltered ThankJapanPremium and so already included them).
+    Now mixed into the non-premium pool too, scored the same 2pt as any
+    other premium-model question (explicit product decision - not
+    special-cased to 1pt despite being free content)."""
+
+    def setUp(self):
+        ThankJapanModel.objects.create(
+            name='preview-easy-1', englishname='Easy1', jpname='いぬ',
+            category='animal', slug='preview-easy-1', description='d', history='h')
+        ThankJapanModel.objects.create(
+            name='preview-easy-2', englishname='Easy2', jpname='ねこ',
+            category='animal', slug='preview-easy-2', description='d', history='h')
+        ThankJapanModel.objects.create(
+            name='normal1', englishname='Normal1', jpname='のーまるいち',
+            category='cook', slug='preview-normal-1', description='d', history='h')
+        ThankJapanModel.objects.create(
+            name='normal2', englishname='Normal2', jpname='のーまるに',
+            category='cook', slug='preview-normal-2', description='d', history='h')
+        ThankJapanModel.objects.create(
+            name='hardone', englishname='Hard1', jpname='はーどいち',
+            category='nature', slug='preview-hard-1', description='d', history='h')
+        self.slang_word = ThankJapanPremium.objects.create(
+            name='preview-slang-1', englishname='Slang1', jpname='がち',
+            category='slang', slug='preview-slang-1', description='d', history='h')
+        self.entertainment_word = ThankJapanPremium.objects.create(
+            name='preview-ent-1', englishname='Ent1', jpname='えんため',
+            category='Entertainment', slug='preview-ent-1', description='d', history='h')
+
+    def test_free_preview_categories_appear_in_non_premium_main_game_pool(self):
+        guest = User.objects.create_user(username='preview_guest', password='pass12345')
+        self.client.login(username='preview_guest', password='pass12345')
+        self.client.get(reverse('game_restart'))
+
+        questions = self.client.session['game_question_ids']
+
+        self.assertEqual(len(questions), 7, msg=questions)
+        self.assertTrue(all(q['model'] == 'free' for q in questions[:5]), msg=questions)
+        remaining_pairs = {(q['id'], q['model']) for q in questions[5:]}
+        self.assertIn((self.slang_word.id, 'premium'), remaining_pairs)
+        self.assertIn((self.entertainment_word.id, 'premium'), remaining_pairs)
+
+    def test_free_preview_premium_question_still_scores_two_points(self):
+        user = User.objects.create_user(username='preview_scorer', password='pass12345')
+        self.client.login(username='preview_scorer', password='pass12345')
+        session = self.client.session
+        session['game_question_ids'] = [{'id': self.slang_word.id, 'model': 'premium'}]
+        session['game_current_index'] = 0
+        session['game_score'] = 0
+        session['game_difficulty'] = 'timeattack'
+        session['game_history'] = []
+        session['game_combo'] = 0
+        session['game_max_combo'] = 0
+        session.save()
+
+        data = json.loads(self.client.get(reverse('game_question_data')).content)
+        full_reading = 'がち'
+        correct_order = sorted(data['tiles'], key=lambda t: full_reading.index(t))
+
+        response = self.client.post(
+            reverse('game_submit_answer'),
+            data=json.dumps({'tiles': correct_order, 'seconds_left': 60}),
+            content_type='application/json',
+        )
+        result = json.loads(response.content)
+
+        self.assertTrue(result['is_correct'], msg=result)
+        self.assertEqual(result['points'], 2)
+
+
 class DailyQuestionTileGameTests(TestCase):
     """2026-09-05: '今日の一問' converted from 4-choice to the same
     tile-rearrangement mechanic as the main game (mora/chunk routing,
