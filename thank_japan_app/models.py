@@ -1,6 +1,7 @@
 import random
 
 from django.db import models
+from django.db.models import F
 from cloudinary.models import CloudinaryField
 from thank_japan_app.fields import OptimizedCloudinaryField
 from django.contrib.auth.hashers import make_password, check_password
@@ -489,14 +490,18 @@ class DailyQuestion(models.Model):
         return f"{self.date} - {self.selected_word.englishname}"
 
 
-class GameActivityLog(models.Model):
-    """One row per completed tile-rearrangement submission (2026-09-12) -
-    written only from inside game_submit_answer/daily_question_view's POST
-    handler, i.e. only once a real tile submission has actually gone
-    through, never on a bare page view. This is the ground-truth usage log
-    real_usage_report reads from; it exists specifically because GA4/
-    Cloudflare-visible traffic can be inflated by crawlers that never
-    complete this interaction."""
+class DailyActivitySummary(models.Model):
+    """One row per (date, activity_type) - a running aggregate, not a
+    per-event log (2026-09-12, replacing the short-lived GameActivityLog
+    which recorded one row per submission and was judged an unbounded-growth/
+    privacy risk before it ever left QA). `record()` is called only from
+    inside game_submit_answer/daily_question_view's POST handler, i.e. only
+    once a real tile submission has actually gone through, never on a bare
+    page view - this is the ground-truth usage log real_usage_report reads
+    from, since GA4/Cloudflare-visible traffic can be inflated by crawlers
+    that never complete that interaction. No per-user/per-event data is
+    kept - just same-day running totals, updated via F() so concurrent
+    submissions on the same day can never clobber each other's increment."""
     ACTIVITY_DAILY_QUESTION = 'daily_question'
     ACTIVITY_MAIN_GAME = 'main_game'
     ACTIVITY_CHOICES = [
@@ -504,13 +509,30 @@ class GameActivityLog(models.Model):
         (ACTIVITY_MAIN_GAME, 'Main Game'),
     ]
 
-    activity_type = models.CharField(max_length=20, choices=ACTIVITY_CHOICES, db_index=True)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True)
-    is_guest = models.BooleanField()
-    is_correct = models.BooleanField()
-    created_at = models.DateTimeField(auto_now_add=True, db_index=True)
+    date = models.DateField(db_index=True)
+    activity_type = models.CharField(max_length=20, choices=ACTIVITY_CHOICES)
+    total_count = models.PositiveIntegerField(default=0)
+    correct_count = models.PositiveIntegerField(default=0)
+    guest_count = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        unique_together = ('date', 'activity_type')
+        ordering = ['-date']
+
+    @property
+    def member_count(self):
+        return self.total_count - self.guest_count
+
+    @classmethod
+    def record(cls, activity_type, is_guest, is_correct):
+        today = timezone.localdate()
+        obj, _ = cls.objects.get_or_create(date=today, activity_type=activity_type)
+        cls.objects.filter(pk=obj.pk).update(
+            total_count=F('total_count') + 1,
+            correct_count=F('correct_count') + (1 if is_correct else 0),
+            guest_count=F('guest_count') + (1 if is_guest else 0),
+        )
 
     def __str__(self):
-        who = self.user.username if self.user_id else 'guest'
-        return f"{self.get_activity_type_display()} - {who} - {self.created_at:%Y-%m-%d}"
+        return f"{self.date} - {self.get_activity_type_display()} ({self.total_count})"
 

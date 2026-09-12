@@ -15,7 +15,7 @@ from django.urls import reverse
 from django.utils import timezone
 
 from . import context_processors, tile_split
-from .models import DailyQuestion, Player, Profile, PremiumRenewalReward, ThankJapanModel, ThankJapanPremium, GameActivityLog
+from .models import DailyQuestion, Player, Profile, PremiumRenewalReward, ThankJapanModel, ThankJapanPremium, DailyActivitySummary
 from .views import (
     combo_bonus_for_streak, build_combo_share_message, _sample_easy_ids, FIRST_TASTE_QUESTION_COUNT,
     grant_renewal_rewards_if_due, PREMIUM_RENEWAL_REWARD_POINTS, PREMIUM_RENEWAL_REWARD_MAX_CATCHUP,
@@ -3176,14 +3176,17 @@ class DailyQuestionShareLinksToWordDetailPageTests(TestCase):
         self.assertIn(f'url={urlquote(expected_url, safe="/")}', body, msg=body)
 
 
-class GameActivityLogTests(TestCase):
-    """2026-09-12: GameActivityLog is the ground-truth usage log introduced
-    after a GA4-reported "2,295 sessions from Singapore, 90% bounce" anomaly
-    turned out to have no corresponding real registered-user growth -
-    written only from inside daily_question_view's POST handler and
-    game_submit_answer, i.e. only once a real tile submission has been
-    received and judged, never on a bare page view (crawlers that never
-    complete that interaction leave no trace here)."""
+class DailyActivitySummaryTests(TestCase):
+    """2026-09-12: DailyActivitySummary is the ground-truth usage counter
+    introduced after a GA4-reported "2,295 sessions from Singapore, 90%
+    bounce" anomaly turned out to have no corresponding real registered-user
+    growth. Replaces the short-lived GameActivityLog (one row per event) -
+    that design was judged an unbounded-growth/privacy risk before it ever
+    left QA, so this instead keeps one running-total row per (date,
+    activity_type), incremented via record() only from inside
+    daily_question_view's POST handler and game_submit_answer, i.e. only
+    once a real tile submission has been received and judged, never on a
+    bare page view."""
 
     def setUp(self):
         self.today = timezone.localdate()
@@ -3200,40 +3203,57 @@ class GameActivityLogTests(TestCase):
         submitted = correct_order if correct else list(reversed(correct_order))
         return client.post(reverse('daily_question'), {'answer_tiles': json.dumps(submitted)})
 
-    def test_daily_question_correct_guest_answer_is_logged(self):
+    def test_daily_question_correct_guest_answer_increments_summary_row(self):
         DailyQuestion.objects.create(date=self.today, word=self.word)
 
         self._daily_answer(correct=True)
 
-        log = GameActivityLog.objects.get()
-        self.assertEqual(log.activity_type, GameActivityLog.ACTIVITY_DAILY_QUESTION)
-        self.assertTrue(log.is_guest)
-        self.assertIsNone(log.user)
-        self.assertTrue(log.is_correct)
+        row = DailyActivitySummary.objects.get()
+        self.assertEqual(row.date, self.today)
+        self.assertEqual(row.activity_type, DailyActivitySummary.ACTIVITY_DAILY_QUESTION)
+        self.assertEqual(row.total_count, 1)
+        self.assertEqual(row.correct_count, 1)
+        self.assertEqual(row.guest_count, 1)
+        self.assertEqual(row.member_count, 0)
 
-    def test_daily_question_incorrect_member_answer_is_logged(self):
-        user = User.objects.create_user(username='activitylog_member', password='pass12345')
+    def test_daily_question_incorrect_member_answer_increments_summary_row(self):
+        User.objects.create_user(username='activitylog_member', password='pass12345')
         self.client.login(username='activitylog_member', password='pass12345')
         DailyQuestion.objects.create(date=self.today, word=self.word)
 
         self._daily_answer(correct=False)
 
-        log = GameActivityLog.objects.get()
-        self.assertEqual(log.activity_type, GameActivityLog.ACTIVITY_DAILY_QUESTION)
-        self.assertFalse(log.is_guest)
-        self.assertEqual(log.user, user)
-        self.assertFalse(log.is_correct)
+        row = DailyActivitySummary.objects.get()
+        self.assertEqual(row.activity_type, DailyActivitySummary.ACTIVITY_DAILY_QUESTION)
+        self.assertEqual(row.total_count, 1)
+        self.assertEqual(row.correct_count, 0)
+        self.assertEqual(row.guest_count, 0)
+        self.assertEqual(row.member_count, 1)
 
-    def test_daily_question_already_answered_replay_does_not_log_again(self):
+    def test_multiple_daily_question_answers_the_same_day_keep_accumulating(self):
+        # Three independent guest sessions answering the same day's word -
+        # simulates real concurrent usage, not just "does it fire once".
+        DailyQuestion.objects.create(date=self.today, word=self.word)
+
+        self._daily_answer(correct=True, client=Client())
+        self._daily_answer(correct=False, client=Client())
+        self._daily_answer(correct=True, client=Client())
+
+        row = DailyActivitySummary.objects.get()
+        self.assertEqual(row.total_count, 3)
+        self.assertEqual(row.correct_count, 2)
+        self.assertEqual(row.guest_count, 3)
+
+    def test_daily_question_already_answered_replay_does_not_increment_again(self):
         DailyQuestion.objects.create(date=self.today, word=self.word)
         self._daily_answer(correct=True)
-        self.assertEqual(GameActivityLog.objects.count(), 1)
+        self.assertEqual(DailyActivitySummary.objects.get().total_count, 1)
 
         # Same client, same day - hits the already_answered gate, which
-        # returns before the logging line runs.
+        # returns before record() runs.
         response = self.client.post(reverse('daily_question'), {'answer_tiles': '[]'})
         self.assertEqual(response.context['daily_state'], 'already_answered')
-        self.assertEqual(GameActivityLog.objects.count(), 1)
+        self.assertEqual(DailyActivitySummary.objects.get().total_count, 1)
 
     def _submit_main_game(self, difficulty, client=None):
         client = client or self.client
@@ -3255,38 +3275,59 @@ class GameActivityLogTests(TestCase):
             content_type='application/json',
         )
 
-    def test_timeattack_submission_is_logged_as_main_game(self):
+    def test_timeattack_submission_increments_main_game_summary_row(self):
         self._submit_main_game('timeattack')
 
-        log = GameActivityLog.objects.get()
-        self.assertEqual(log.activity_type, GameActivityLog.ACTIVITY_MAIN_GAME)
-        self.assertTrue(log.is_correct)
-        self.assertTrue(log.is_guest)
+        row = DailyActivitySummary.objects.get()
+        self.assertEqual(row.activity_type, DailyActivitySummary.ACTIVITY_MAIN_GAME)
+        self.assertEqual(row.total_count, 1)
+        self.assertEqual(row.correct_count, 1)
+        self.assertEqual(row.guest_count, 1)
 
-    def test_first_taste_submission_is_logged_as_main_game(self):
+    def test_first_taste_submission_increments_main_game_summary_row(self):
         self._submit_main_game('first_taste')
 
-        log = GameActivityLog.objects.get()
-        self.assertEqual(log.activity_type, GameActivityLog.ACTIVITY_MAIN_GAME)
+        row = DailyActivitySummary.objects.get()
+        self.assertEqual(row.activity_type, DailyActivitySummary.ACTIVITY_MAIN_GAME)
+        self.assertEqual(row.total_count, 1)
 
-    def test_single_mode_review_is_not_logged(self):
+    def test_single_mode_review_does_not_create_a_summary_row(self):
         self._submit_main_game('single')
 
-        self.assertEqual(GameActivityLog.objects.count(), 0)
+        self.assertEqual(DailyActivitySummary.objects.count(), 0)
 
-    def test_resubmitting_the_same_question_index_does_not_log_twice(self):
+    def test_resubmitting_the_same_question_index_does_not_increment_again(self):
         self._submit_main_game('timeattack')
-        self.assertEqual(GameActivityLog.objects.count(), 1)
+        self.assertEqual(DailyActivitySummary.objects.get().total_count, 1)
 
         # Same session, same (now-already-answered) index 0 - game_submit_answer
-        # returns the cached result before the logging line runs.
+        # returns the cached result before record() runs.
         response = self.client.post(
             reverse('game_submit_answer'),
             data=json.dumps({'tiles': ['x'], 'seconds_left': 60}),
             content_type='application/json',
         )
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(GameActivityLog.objects.count(), 1)
+        self.assertEqual(DailyActivitySummary.objects.get().total_count, 1)
+
+    def test_multiple_main_game_submissions_across_sessions_keep_accumulating(self):
+        self._submit_main_game('timeattack', client=Client())
+        self._submit_main_game('timeattack', client=Client())
+        self._submit_main_game('first_taste', client=Client())
+
+        row = DailyActivitySummary.objects.get(activity_type=DailyActivitySummary.ACTIVITY_MAIN_GAME)
+        self.assertEqual(row.total_count, 3)
+
+    def test_daily_question_and_main_game_get_separate_rows(self):
+        DailyQuestion.objects.create(date=self.today, word=self.word)
+        self._daily_answer(correct=True)
+        self._submit_main_game('timeattack', client=Client())
+
+        self.assertEqual(DailyActivitySummary.objects.count(), 2)
+        daily_row = DailyActivitySummary.objects.get(activity_type=DailyActivitySummary.ACTIVITY_DAILY_QUESTION)
+        game_row = DailyActivitySummary.objects.get(activity_type=DailyActivitySummary.ACTIVITY_MAIN_GAME)
+        self.assertEqual(daily_row.total_count, 1)
+        self.assertEqual(game_row.total_count, 1)
 
 
 class RenewalMultiLanguageAuditTests(TestCase):

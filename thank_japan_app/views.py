@@ -26,7 +26,7 @@ from django.utils.dateparse import parse_datetime
 from django.utils.http import urlencode
 from django.contrib.auth.views import PasswordResetView, PasswordResetConfirmView
 from .context_processors import language_context
-from .models import WeeklyScore, ThankJapanBackgroundModel, FCMDevice, DailyQuestion, PremiumRenewalReward, FREE_PREVIEW_PREMIUM_CATEGORIES, GameActivityLog
+from .models import WeeklyScore, ThankJapanBackgroundModel, FCMDevice, DailyQuestion, PremiumRenewalReward, FREE_PREVIEW_PREMIUM_CATEGORIES, DailyActivitySummary
 from .pricing import get_premium_price, get_top_page_seo_override
 from google.oauth2 import service_account
 from googleapiclient.discovery import build
@@ -2010,15 +2010,15 @@ def game_submit_answer(request):
     correct_flag = submitted_text == answer_text
     is_premium_question = q['model'] == 'premium'
 
-    # Ground-truth usage log (see real_usage_report) - only for the actual
-    # "game" difficulties, not 'single' (word-review from a detail page,
-    # a different intent than "playing the game"). Written only here, once
-    # a real tile submission has been received and judged.
+    # Ground-truth usage counter (see real_usage_report) - only for the
+    # actual "game" difficulties, not 'single' (word-review from a detail
+    # page, a different intent than "playing the game"). Incremented only
+    # here, once a real tile submission has been received and judged.
+    # Aggregate-only, no per-user row (see DailyActivitySummary).
     game_difficulty = request.session.get('game_difficulty', 'timeattack')
     if game_difficulty in ('timeattack', 'first_taste'):
-        GameActivityLog.objects.create(
-            activity_type=GameActivityLog.ACTIVITY_MAIN_GAME,
-            user=request.user if request.user.is_authenticated else None,
+        DailyActivitySummary.record(
+            activity_type=DailyActivitySummary.ACTIVITY_MAIN_GAME,
             is_guest=not request.user.is_authenticated,
             is_correct=correct_flag,
         )
@@ -2439,12 +2439,12 @@ def daily_question_view(request):
         is_correct = submitted_text == correct_answer_text
         request.session[DAILY_QUESTION_SESSION_ANSWERED_KEY] = today.isoformat()
 
-        # Ground-truth usage log (see real_usage_report) - written only here,
-        # after a real tile submission has been received and judged, never
-        # on a bare page view.
-        GameActivityLog.objects.create(
-            activity_type=GameActivityLog.ACTIVITY_DAILY_QUESTION,
-            user=request.user if request.user.is_authenticated else None,
+        # Ground-truth usage counter (see real_usage_report) - incremented
+        # only here, after a real tile submission has been received and
+        # judged, never on a bare page view. Aggregate-only, no per-user
+        # row (see DailyActivitySummary).
+        DailyActivitySummary.record(
+            activity_type=DailyActivitySummary.ACTIVITY_DAILY_QUESTION,
             is_guest=not request.user.is_authenticated,
             is_correct=is_correct,
         )
