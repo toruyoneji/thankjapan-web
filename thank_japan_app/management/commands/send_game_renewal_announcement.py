@@ -34,6 +34,14 @@ class Command(BaseCommand):
             '--dry-run', action='store_true',
             help='Show target device count and per-locale breakdown without sending or prompting.',
         )
+        parser.add_argument(
+            '--yes', action='store_true',
+            help=(
+                'Skip the interactive y/N confirmation prompt. Piping "y" into '
+                'heroku run\'s stdin is unreliable (see project memory on this) - '
+                'use this flag instead for a non-interactive confirmed send.'
+            ),
+        )
 
     def handle(self, *args, **options):
         devices = FCMDevice.objects.all()
@@ -49,10 +57,13 @@ class Command(BaseCommand):
                 firebase_admin.initialize_app(cred)
 
         self.stdout.write(f'{target_count} 件の登録デバイスにゲームリニューアル告知を送信しようとしています。')
-        confirm = input('本当に送信しますか? (y/N): ').strip().lower()
-        if confirm != 'y':
-            self.stdout.write(self.style.WARNING('キャンセルしました。通知は送信されていません。'))
-            return
+        if options['yes']:
+            self.stdout.write('--yes が指定されたため、確認プロンプトをスキップします。')
+        else:
+            confirm = input('本当に送信しますか? (y/N): ').strip().lower()
+            if confirm != 'y':
+                self.stdout.write(self.style.WARNING('キャンセルしました。通知は送信されていません。'))
+                return
 
         sent_count = 0
         failed_count = 0
