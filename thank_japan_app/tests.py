@@ -15,7 +15,7 @@ from django.urls import reverse
 from django.utils import timezone
 
 from . import context_processors, tile_split
-from .models import DailyQuestion, Player, Profile, PremiumRenewalReward, ThankJapanModel, ThankJapanPremium
+from .models import DailyQuestion, Player, Profile, PremiumRenewalReward, ThankJapanModel, ThankJapanPremium, GameActivityLog
 from .views import (
     combo_bonus_for_streak, build_combo_share_message, _sample_easy_ids, FIRST_TASTE_QUESTION_COUNT,
     grant_renewal_rewards_if_due, PREMIUM_RENEWAL_REWARD_POINTS, PREMIUM_RENEWAL_REWARD_MAX_CATCHUP,
@@ -3174,6 +3174,119 @@ class DailyQuestionShareLinksToWordDetailPageTests(TestCase):
             f"?lang=en"
         )
         self.assertIn(f'url={urlquote(expected_url, safe="/")}', body, msg=body)
+
+
+class GameActivityLogTests(TestCase):
+    """2026-09-12: GameActivityLog is the ground-truth usage log introduced
+    after a GA4-reported "2,295 sessions from Singapore, 90% bounce" anomaly
+    turned out to have no corresponding real registered-user growth -
+    written only from inside daily_question_view's POST handler and
+    game_submit_answer, i.e. only once a real tile submission has been
+    received and judged, never on a bare page view (crawlers that never
+    complete that interaction leave no trace here)."""
+
+    def setUp(self):
+        self.today = timezone.localdate()
+        self.word = ThankJapanModel.objects.create(
+            name='activitylog1', englishname='ActivityLog',
+            jpname='あいう', category='food', slug='activitylog-word',
+            description='d', history='h',
+        )
+
+    def _daily_answer(self, correct, client=None):
+        client = client or self.client
+        tiles = json.loads(client.get(reverse('daily_question')).context['tiles_json'])
+        correct_order = sorted(tiles, key=lambda t: self.word.jpname.index(t))
+        submitted = correct_order if correct else list(reversed(correct_order))
+        return client.post(reverse('daily_question'), {'answer_tiles': json.dumps(submitted)})
+
+    def test_daily_question_correct_guest_answer_is_logged(self):
+        DailyQuestion.objects.create(date=self.today, word=self.word)
+
+        self._daily_answer(correct=True)
+
+        log = GameActivityLog.objects.get()
+        self.assertEqual(log.activity_type, GameActivityLog.ACTIVITY_DAILY_QUESTION)
+        self.assertTrue(log.is_guest)
+        self.assertIsNone(log.user)
+        self.assertTrue(log.is_correct)
+
+    def test_daily_question_incorrect_member_answer_is_logged(self):
+        user = User.objects.create_user(username='activitylog_member', password='pass12345')
+        self.client.login(username='activitylog_member', password='pass12345')
+        DailyQuestion.objects.create(date=self.today, word=self.word)
+
+        self._daily_answer(correct=False)
+
+        log = GameActivityLog.objects.get()
+        self.assertEqual(log.activity_type, GameActivityLog.ACTIVITY_DAILY_QUESTION)
+        self.assertFalse(log.is_guest)
+        self.assertEqual(log.user, user)
+        self.assertFalse(log.is_correct)
+
+    def test_daily_question_already_answered_replay_does_not_log_again(self):
+        DailyQuestion.objects.create(date=self.today, word=self.word)
+        self._daily_answer(correct=True)
+        self.assertEqual(GameActivityLog.objects.count(), 1)
+
+        # Same client, same day - hits the already_answered gate, which
+        # returns before the logging line runs.
+        response = self.client.post(reverse('daily_question'), {'answer_tiles': '[]'})
+        self.assertEqual(response.context['daily_state'], 'already_answered')
+        self.assertEqual(GameActivityLog.objects.count(), 1)
+
+    def _submit_main_game(self, difficulty, client=None):
+        client = client or self.client
+        session = client.session
+        session['game_question_ids'] = [{'id': self.word.id, 'model': 'free'}]
+        session['game_current_index'] = 0
+        session['game_score'] = 0
+        session['game_difficulty'] = difficulty
+        session['game_history'] = []
+        session['game_combo'] = 0
+        session['game_max_combo'] = 0
+        session.save()
+
+        data = json.loads(client.get(reverse('game_question_data')).content)
+        correct_order = sorted(data['tiles'], key=lambda t: self.word.jpname.index(t))
+        return client.post(
+            reverse('game_submit_answer'),
+            data=json.dumps({'tiles': correct_order, 'seconds_left': 60}),
+            content_type='application/json',
+        )
+
+    def test_timeattack_submission_is_logged_as_main_game(self):
+        self._submit_main_game('timeattack')
+
+        log = GameActivityLog.objects.get()
+        self.assertEqual(log.activity_type, GameActivityLog.ACTIVITY_MAIN_GAME)
+        self.assertTrue(log.is_correct)
+        self.assertTrue(log.is_guest)
+
+    def test_first_taste_submission_is_logged_as_main_game(self):
+        self._submit_main_game('first_taste')
+
+        log = GameActivityLog.objects.get()
+        self.assertEqual(log.activity_type, GameActivityLog.ACTIVITY_MAIN_GAME)
+
+    def test_single_mode_review_is_not_logged(self):
+        self._submit_main_game('single')
+
+        self.assertEqual(GameActivityLog.objects.count(), 0)
+
+    def test_resubmitting_the_same_question_index_does_not_log_twice(self):
+        self._submit_main_game('timeattack')
+        self.assertEqual(GameActivityLog.objects.count(), 1)
+
+        # Same session, same (now-already-answered) index 0 - game_submit_answer
+        # returns the cached result before the logging line runs.
+        response = self.client.post(
+            reverse('game_submit_answer'),
+            data=json.dumps({'tiles': ['x'], 'seconds_left': 60}),
+            content_type='application/json',
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(GameActivityLog.objects.count(), 1)
 
 
 class RenewalMultiLanguageAuditTests(TestCase):

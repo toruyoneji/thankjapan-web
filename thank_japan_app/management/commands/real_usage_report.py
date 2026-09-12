@@ -2,20 +2,31 @@ import datetime
 
 from django.contrib.auth.models import User
 from django.core.management.base import BaseCommand
-from django.db.models import Sum
 from django.utils import timezone
 
-from thank_japan_app.models import Profile, WeeklyScore
+from thank_japan_app.models import GameActivityLog, Profile
 
 
 class Command(BaseCommand):
     help = (
         "Ground-truth usage metrics that bot/crawler traffic cannot inflate, "
-        "for cross-checking against GA4/Cloudflare-reported anomalies: "
-        "real registered-user growth, premium user count, and an honest "
-        "accounting of which requested metrics the current DB schema "
-        "actually can (and cannot) answer at day-level granularity."
+        "for cross-checking against GA4/Cloudflare-reported anomalies: real "
+        "registered-user growth, real daily-question/main-game activity "
+        "(from GameActivityLog, logged only on a completed tile submission - "
+        "never a bare page view), and the current premium user count."
     )
+
+    GAME_ACTIVITY_LOG_STARTED = datetime.date(2026, 9, 12)
+
+    def _print_activity_series(self, activity_type, today):
+        for i in range(6, -1, -1):
+            day = today - datetime.timedelta(days=i)
+            qs = GameActivityLog.objects.filter(activity_type=activity_type, created_at__date=day)
+            total = qs.count()
+            correct = qs.filter(is_correct=True).count()
+            guest = qs.filter(is_guest=True).count()
+            note = '' if day >= self.GAME_ACTIVITY_LOG_STARTED else '(記録開始前)'
+            self.stdout.write(f"  {day.isoformat()}: {total}件 (正解{correct}件 / ゲスト{guest}件) {note}".rstrip())
 
     def handle(self, *args, **options):
         today = timezone.localdate()
@@ -28,37 +39,20 @@ class Command(BaseCommand):
         self.stdout.write(f"  (参考: 登録ユーザー累計 {User.objects.count()}人)")
         self.stdout.write("")
 
-        self.stdout.write(self.style.WARNING("=== 2. 今日の一問への回答数の推移(過去7日間、1日ごと) ==="))
+        self.stdout.write(self.style.SUCCESS("=== 2. 今日の一問への回答数の推移(過去7日間、1日ごと) ==="))
         self.stdout.write(
-            "  現状のDBスキーマでは算出できません。回答の正誤判定はセッション内\n"
-            "  (daily_question_answered_date)でのみ完結し、ゲスト・会員を問わず\n"
-            "  「いつ・何件・正解/不正解どちらだったか」を記録するテーブルが\n"
-            "  存在しないためです。会員が正解した場合のみ+1ptがWeeklyScoreに\n"
-            "  加算されますが、これは日別ではなく週単位、かつ通常ゲームの得点と\n"
-            "  合算されるため、今日の一問だけの日別回答数には使えません。"
+            "  GameActivityLog(2026-09-12導入、タイル送信を実際に完了した場合のみ記録)"
+            "に基づく実測値。導入前の日付は記録が存在しないため0件になります。"
         )
-        current_week_start = WeeklyScore.get_current_week_start()
-        current_week_total = WeeklyScore.objects.filter(week_start=current_week_start).aggregate(
-            total=Sum('score')
-        )['total'] or 0
-        self.stdout.write(
-            f"  (参考・日別ではない: 今週({current_week_start.isoformat()}〜)の"
-            f"WeeklyScore合計 {current_week_total}pt - 通常ゲームと今日の一問の得点が"
-            f"合算された数字で、今日の一問単体の回答数ではありません)"
-        )
+        self._print_activity_series(GameActivityLog.ACTIVITY_DAILY_QUESTION, today)
         self.stdout.write("")
 
-        self.stdout.write(self.style.WARNING("=== 3. 通常ゲームのプレイ回数の推移(過去7日間、1日ごと) ==="))
+        self.stdout.write(self.style.SUCCESS("=== 3. 通常ゲームのプレイ回数の推移(過去7日間、1日ごと) ==="))
         self.stdout.write(
-            "  現状のDBスキーマでは算出できません。Profile.games_playedは会員ごとの\n"
-            "  累計カウンタで、いつプレイしたかの日付情報を持たず、ゲストのプレイは\n"
-            "  そもそもカウントされません。"
+            "  同じくGameActivityLogに基づく実測値(timeattack/first_taste、"
+            "1問の送信ごとに1件)。singleモード(単語復習)は含みません。"
         )
-        total_games_played = Profile.objects.aggregate(total=Sum('games_played'))['total'] or 0
-        self.stdout.write(
-            f"  (参考・日別ではない: 全会員のgames_played累計 {total_games_played}回 - "
-            f"日付なし、ゲスト分は含まれません)"
-        )
+        self._print_activity_series(GameActivityLog.ACTIVITY_MAIN_GAME, today)
         self.stdout.write("")
 
         self.stdout.write(self.style.SUCCESS("=== 4. is_premium=True のユーザー数(現在の合計) ==="))

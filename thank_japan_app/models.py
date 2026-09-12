@@ -488,3 +488,29 @@ class DailyQuestion(models.Model):
     def __str__(self):
         return f"{self.date} - {self.selected_word.englishname}"
 
+
+class GameActivityLog(models.Model):
+    """One row per completed tile-rearrangement submission (2026-09-12) -
+    written only from inside game_submit_answer/daily_question_view's POST
+    handler, i.e. only once a real tile submission has actually gone
+    through, never on a bare page view. This is the ground-truth usage log
+    real_usage_report reads from; it exists specifically because GA4/
+    Cloudflare-visible traffic can be inflated by crawlers that never
+    complete this interaction."""
+    ACTIVITY_DAILY_QUESTION = 'daily_question'
+    ACTIVITY_MAIN_GAME = 'main_game'
+    ACTIVITY_CHOICES = [
+        (ACTIVITY_DAILY_QUESTION, 'Daily Question'),
+        (ACTIVITY_MAIN_GAME, 'Main Game'),
+    ]
+
+    activity_type = models.CharField(max_length=20, choices=ACTIVITY_CHOICES, db_index=True)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True)
+    is_guest = models.BooleanField()
+    is_correct = models.BooleanField()
+    created_at = models.DateTimeField(auto_now_add=True, db_index=True)
+
+    def __str__(self):
+        who = self.user.username if self.user_id else 'guest'
+        return f"{self.get_activity_type_display()} - {who} - {self.created_at:%Y-%m-%d}"
+
