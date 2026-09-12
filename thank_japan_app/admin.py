@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.models import User
 from .models import ThankJapanModel, ThankJapanBackgroundModel, Player, Profile, ThankJapanPremium
-from .models import FCMDevice, Achievement, WeeklyScore
+from .models import FCMDevice, Achievement, WeeklyScore, GameActivityLog
 import logging
 from django.core.exceptions import ValidationError
 
@@ -77,6 +77,14 @@ class WeeklyScoreAdmin(admin.ModelAdmin):
     list_display = ('user', 'week_start', 'score', 'country')
     list_filter = ('week_start',)
     search_fields = ('user__username',)
+
+
+@admin.register(GameActivityLog)
+class GameActivityLogAdmin(admin.ModelAdmin):
+    list_display = ('activity_type', 'user', 'is_guest', 'is_correct', 'created_at')
+    list_filter = ('activity_type', 'is_guest', 'is_correct')
+    search_fields = ('user__username',)
+    date_hierarchy = 'created_at'
 
 
 admin.site.unregister(User)
