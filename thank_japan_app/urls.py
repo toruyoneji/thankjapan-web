@@ -13,7 +13,7 @@ from .views import (TopView, TopViewFR, TopViewIT, TopViewPT, TopViewZHHANT,TopV
                     category_list_ja, category_list_it, category_list_fr, category_list_es_mx, category_list_es_es,
                     category_list_en_in, category_list_de, DailyConversationView, BusinessJapaneseView, 
                     LivingInJapanView, MedicalEmergencyView, RealestateRulesView, TourismEtiquetteView, 
-                    PrefectureView, EntertainmentView, SlangView, ImgPremiumDetailView,
+                    PrefectureView, EntertainmentView, SlangView, RomanceRelationshipsView, ImgPremiumDetailView,
                     JapanFoodView, 
                     PrefectureListView,IshikawaView, ToyamaView, FukuiView, CompanyFormView, CompanyFormDEView, CompanyFormENINView, CompanyFormESESView,
                     CompanyFormESMXView, CompanyFormFRView, CompanyFormITView, CompanyFormJAView, CompanyFormKOView,
@@ -197,6 +197,7 @@ urlpatterns = [
     path('prefectures/', PrefectureView.as_view(), name='prefectures'),
     path('entertainment/', EntertainmentView.as_view(), name='entertainment'),
     path('slang/', SlangView.as_view(), name='slang'),
+    path('romancerelationships/', RomanceRelationshipsView.as_view(), name='romance_relationships'),
     
     
     #japanfood

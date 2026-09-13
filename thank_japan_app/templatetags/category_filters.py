@@ -39,6 +39,7 @@ def format_category(value, lang_code='en'):
         'prefectures': {'ja': '都道府県', 'en': 'Prefectures', 'de': 'Präfekturen', 'fr': 'Préfectures', 'es': 'Prefecturas', 'it': 'Prefetture', 'ko': '도도부현', 'zh-hans': '都道府县', 'zh-hant': '都道府縣', 'vi': 'Tỉnh thành', 'th': 'จังหวัด', 'pt': 'Províncias'},
         'entertainment': {'ja': '娯楽', 'en': 'Entertainment', 'de': 'Unterhaltung', 'fr': 'Divertissement', 'es': 'Entretenimiento', 'it': 'Intrattenimento', 'ko': '엔터테인먼트', 'zh-hans': '娱乐', 'zh-hant': '娛樂', 'vi': 'Giải trí', 'th': 'ความบันเทิง', 'pt': 'Entretenimento'},
         'slang': {'ja': 'スラング', 'en': 'Slang', 'de': 'Slang', 'fr': 'Argot', 'es': 'Argot', 'it': 'Gergo', 'ko': '속어', 'zh-hans': '俚语', 'zh-hant': '俚語', 'vi': 'Tiếng lóng', 'th': 'สแลง', 'pt': 'Gíria'},
+        'romancerelationships': {'ja': '恋愛・人間関係', 'en': 'Romance & Relationships', 'de': 'Liebe & Beziehungen', 'fr': 'Amour et relations', 'es': 'Amor y relaciones', 'it': 'Amore e relazioni', 'ko': '연애・인간관계', 'zh-hans': '恋爱与人际关系', 'zh-hant': '戀愛與人際關係', 'vi': 'Tình yêu & Mối quan hệ', 'th': 'ความรักและความสัมพันธ์', 'pt': 'Amor e relacionamentos'},
     }
 
     

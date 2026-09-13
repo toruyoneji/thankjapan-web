@@ -407,6 +407,7 @@ CATEGORY_URL_MAP = {
     'Prefectures': 'prefectures',
     'Entertainment': 'entertainment',
     'slang': 'slang',
+    'RomanceRelationships': 'romance_relationships',
 }
 
 
@@ -1703,7 +1704,7 @@ DIFFICULTY_SETTINGS = {
     },
 
 
-    'sample_premium': {'category_filter': ['DailyConversation', 'slang', 'TourismEtiquette' ,'Entertainment'], 'jlpt_level': ['N5', 'N4', 'N3'], 'num_questions': 550, 'model_type': 'premium', 'dummy_count': 3},
+    'sample_premium': {'category_filter': ['DailyConversation', 'slang', 'TourismEtiquette' ,'Entertainment', 'RomanceRelationships'], 'jlpt_level': ['N5', 'N4', 'N3'], 'num_questions': 550, 'model_type': 'premium', 'dummy_count': 3},
     'n5_premium': {'jlpt_level': 'N5', 'num_questions': 50, 'model_type': 'premium', 'dummy_count': 3},
     'n4_premium': {'jlpt_level': 'N4', 'num_questions': 50, 'model_type': 'premium', 'dummy_count': 3},
     'n3_premium': {'jlpt_level': 'N3', 'num_questions': 50, 'model_type': 'premium', 'dummy_count': 3},
@@ -2138,7 +2139,7 @@ def game_restart(request):
         if model_type == 'premium':
             question = get_object_or_404(ThankJapanPremium, slug=val)
 
-            if question.category not in ["DailyConversation", "slang", "TourismEtiquette", "Entertainment"]:
+            if question.category not in ["DailyConversation", "slang", "TourismEtiquette", "Entertainment", "RomanceRelationships"]:
                 if not is_premium:
                     free_sample_ids = ThankJapanPremium.objects.filter(
                         category=question.category
@@ -5007,7 +5008,7 @@ class SlangView(BGMContextMixin, ListView):
     template_name = "thank_japan_app/slang.html"
     paginate_by = 200
     bgm_page_type = 'study_select'
-    
+
     def get_queryset(self):
         return ThankJapanPremium.objects.filter(category="slang").order_by('timestamp')
 
@@ -5015,7 +5016,22 @@ class SlangView(BGMContextMixin, ListView):
         context = super().get_context_data(**kwargs)
         _, lang_code = get_lang_info(self.request)
         context['lang_code'] = lang_code
-        return context    
+        return context
+
+
+class RomanceRelationshipsView(BGMContextMixin, ListView):
+    template_name = "thank_japan_app/romance_relationships.html"
+    paginate_by = 200
+    bgm_page_type = 'study_select'
+
+    def get_queryset(self):
+        return ThankJapanPremium.objects.filter(category="RomanceRelationships").order_by('timestamp')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        _, lang_code = get_lang_info(self.request)
+        context['lang_code'] = lang_code
+        return context
     
     
 
@@ -5360,7 +5376,7 @@ class ImgPremiumDetailView(DetailView):
     def get_object(self, queryset=None):
         obj = super().get_object(queryset)
         is_premium = self.request.user.is_authenticated and getattr(self.request.user.profile, 'has_premium_access', False)
-        if obj.category not in ["DailyConversation", "slang", "TourismEtiquette" ,"Entertainment"] and not is_premium:
+        if obj.category not in ["DailyConversation", "slang", "TourismEtiquette" ,"Entertainment", "RomanceRelationships"] and not is_premium:
             free_sample_ids = ThankJapanPremium.objects.filter(
                 category__iexact=obj.category
             ).order_by('timestamp').values_list('id', flat=True)[:12]
@@ -5391,7 +5407,7 @@ class ImgPremiumDetailView(DetailView):
                     slug__icontains=search_key
                 ).first()
             if moved_item:
-                if moved_item.category in ["DailyConversation", "slang", "TourismEtiquette" ,"Entertainment"] or is_premium:
+                if moved_item.category in ["DailyConversation", "slang", "TourismEtiquette" ,"Entertainment", "RomanceRelationships"] or is_premium:
                     lang_param = request.GET.get('lang')
                     new_url = reverse('detail_premium', kwargs={
                         'category': moved_item.category,
@@ -5421,7 +5437,7 @@ class ImgPremiumDetailView(DetailView):
         except:
             base_category_url = "/"
         context['category_list_url'] = f"{base_category_url}?lang={lang_code}"
-        if current_item.category in ["DailyConversation", "slang", "TourismEtiquette" ,"Entertainment"] or is_premium:
+        if current_item.category in ["DailyConversation", "slang", "TourismEtiquette" ,"Entertainment", "RomanceRelationships"] or is_premium:
             context['free_sample_ids'] = ThankJapanPremium.objects.filter(
                 category=current_item.category
             ).values_list('id', flat=True)
@@ -5447,10 +5463,10 @@ def sitemap_view(request):
     
     public_premium_items = []
     
-    free_samples = ThankJapanPremium.objects.filter(category__in=["DailyConversation", "slang", "TourismEtiquette" ,"Entertainment"]).order_by('timestamp')
+    free_samples = ThankJapanPremium.objects.filter(category__in=["DailyConversation", "slang", "TourismEtiquette" ,"Entertainment", "RomanceRelationships"]).order_by('timestamp')
     public_premium_items.extend(list(free_samples))
-    
-    other_categories = ThankJapanPremium.objects.exclude(category__in=["DailyConversation", "slang", "TourismEtiquette" ,"Entertainment"]).values_list('category', flat=True).distinct()
+
+    other_categories = ThankJapanPremium.objects.exclude(category__in=["DailyConversation", "slang", "TourismEtiquette" ,"Entertainment", "RomanceRelationships"]).values_list('category', flat=True).distinct()
     
     for cat in other_categories:
         samples = ThankJapanPremium.objects.filter(category=cat).order_by('timestamp')[:12]

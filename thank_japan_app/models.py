@@ -410,7 +410,7 @@ class FCMDevice(models.Model):
 # main game and 今日の一問 agree on what counts as "free preview" content -
 # defined here (not views.py) since views.py already imports from this
 # module and the reverse would be circular.
-FREE_PREVIEW_PREMIUM_CATEGORIES = ['DailyConversation', 'slang', 'TourismEtiquette', 'Entertainment']
+FREE_PREVIEW_PREMIUM_CATEGORIES = ['DailyConversation', 'slang', 'TourismEtiquette', 'Entertainment', 'RomanceRelationships']
 
 
 class DailyQuestionManager(models.Manager):

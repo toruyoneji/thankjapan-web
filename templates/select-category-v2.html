@@ -294,6 +294,14 @@
                 </span>
             </a>
 
+            <a href="{% url 'romance_relationships' %}?lang={{ lang_code }}" class="cat-card-new">
+                <div class="badge-new badge-free">FREE</div>
+                <div class="icon-wrapper">💖</div>
+                <span class="cat-name-new">
+                    {% if lang_code == 'ja' %}恋愛・人間関係{% elif lang_code == 'ko' %}연애・인간관계{% elif lang_code == 'zh-cn' %}恋爱与人际关系{% elif lang_code == 'zh-hant' %}戀愛與人際關係{% elif lang_code == 'th' %}ความรักและความสัมพันธ์{% elif lang_code == 'vi' %}Tình yêu & Mối quan hệ{% elif lang_code == 'fr' %}Amour et relations{% elif lang_code == 'de' %}Liebe & Beziehungen{% elif lang_code == 'it' %}Amore e relazioni{% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Amor y relaciones{% elif lang_code == 'pt' or lang_code == 'pt-br' %}Amor e relacionamentos{% else %}Romance & Relationships{% endif %}
+                </span>
+            </a>
+
             <a href="{% url 'businessjapanese' %}?lang={{ lang_code }}" class="cat-card-new">
                 <div class="badge-new badge-special">{% if is_premium %}ACTIVE{% else %}Special{% endif %}</div>
                 <div class="icon-wrapper">👔</div>
