@@ -71,16 +71,24 @@ def daily_question_banner_status(request):
     answered" / "dismissed for today" are tracked in the session only, the
     same lightweight pattern as email_prompt_status below.
 
-    2026-09-13: shown on every top-page render regardless of guest/logged-in
-    status or first-taste-trial progress - it used to be hidden from brand-new
-    guests (no tj_has_played cookie yet) as an "extra way to enjoy the site"
-    nudge reserved for people who'd already gotten a taste of the app, but
-    that meant guests who land on the top page and haven't played yet never
-    saw it either, which wasn't the intent. The only remaining gate is once
+    Brand-new guests who haven't finished the first-taste 3-question trial
+    yet never see this banner: that top-page state already leads with its own
+    "Let's try 3 questions first" CTA (has_played, same tj_has_played cookie,
+    in TopView's get_context_data et al.), and stacking the Daily Question
+    prompt underneath it competes with that primary call to action rather
+    than complementing it. Every other top-page state (guest who's played the
+    trial at least once, or a logged-in user) shows it, gated only by once
     per calendar day: hidden once the visitor has answered or dismissed
-    ("later") today."""
+    ("later") today.
+
+    2026-09-13: briefly removed the tj_has_played gate entirely (shown on
+    literally every top-page render), which was a misreading of the request -
+    it stacked the banner onto the untried-guest CTA state instead of leaving
+    that state alone. Restored to the original guest-gated behavior."""
     from django.utils import timezone
     from .views import DAILY_QUESTION_SESSION_ANSWERED_KEY, DAILY_QUESTION_BANNER_DISMISSED_KEY
+    if not request.user.is_authenticated and request.COOKIES.get('tj_has_played') != '1':
+        return {'show_daily_question_banner': False}
     today = timezone.localdate().isoformat()
     answered = request.session.get(DAILY_QUESTION_SESSION_ANSWERED_KEY) == today
     dismissed = request.session.get(DAILY_QUESTION_BANNER_DISMISSED_KEY) == today
