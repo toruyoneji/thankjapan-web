@@ -539,7 +539,7 @@
                 {% else %}📅 You haven't answered today's Daily Question yet!
                 {% endif %}
             </p>
-            <a href="{% url 'daily_question' %}?lang={{ lang_code }}" class="explore-btn btn-gold" style="width: 85%; max-width: 300px;">
+            <a href="{% url 'daily_question' %}?lang={{ lang_code }}" id="dailyQuestionBannerCta" class="explore-btn btn-gold" style="width: 85%; max-width: 300px;">
                 {% if lang_code == 'ja' %}今すぐ挑戦する 🐾
                 {% elif lang_code == 'zh-hant' %}立即挑戰 🐾
                 {% elif lang_code == 'zh-cn' %}立即挑战 🐾
@@ -580,6 +580,23 @@
                     headers: { 'X-CSRFToken': '{{ csrf_token }}' }
                 }).finally(function() { if (banner) banner.style.display = 'none'; });
             });
+
+            var ctaBtn = document.getElementById('dailyQuestionBannerCta');
+            if (ctaBtn && typeof gtag === 'function') {
+                ctaBtn.addEventListener('click', function() {
+                    gtag('event', 'daily_question_banner_cta_click');
+                });
+            }
+
+            {% if not bonus_received %}
+            // Impression: fires once, right when the banner is actually visible.
+            // For the bonus_received case, the matching call further below fires
+            // instead, at the same moment the banner's display is switched on -
+            // see that block for why immediate firing here would be wrong (the
+            // banner starts hidden and may never actually be shown to the user
+            // if they navigate away before the 2800ms reveal).
+            if (typeof gtag === 'function') { gtag('event', 'daily_question_banner_shown'); }
+            {% endif %}
 
             // The base CSS margin-bottom on .daily-question-banner covers the
             // common case, but content above it (greeting length, streak badge,
@@ -667,6 +684,7 @@
         setTimeout(function() {
             var banner = document.getElementById('dailyQuestionBanner');
             if (banner) banner.style.display = 'flex';
+            if (typeof gtag === 'function') { gtag('event', 'daily_question_banner_shown'); }
         }, 2800);
         </script>
         {% endif %}
