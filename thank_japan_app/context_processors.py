@@ -71,14 +71,16 @@ def daily_question_banner_status(request):
     answered" / "dismissed for today" are tracked in the session only, the
     same lightweight pattern as email_prompt_status below.
 
-    Brand-new guests who haven't finished the first-taste 3-question trial
-    yet never see this banner - it's an "extra way to enjoy the site" nudge,
-    shown only once someone has already gotten a taste of the app (played
-    the trial, tj_has_played cookie) or is a logged-in user."""
+    2026-09-13: shown on every top-page render regardless of guest/logged-in
+    status or first-taste-trial progress - it used to be hidden from brand-new
+    guests (no tj_has_played cookie yet) as an "extra way to enjoy the site"
+    nudge reserved for people who'd already gotten a taste of the app, but
+    that meant guests who land on the top page and haven't played yet never
+    saw it either, which wasn't the intent. The only remaining gate is once
+    per calendar day: hidden once the visitor has answered or dismissed
+    ("later") today."""
     from django.utils import timezone
     from .views import DAILY_QUESTION_SESSION_ANSWERED_KEY, DAILY_QUESTION_BANNER_DISMISSED_KEY
-    if not request.user.is_authenticated and request.COOKIES.get('tj_has_played') != '1':
-        return {'show_daily_question_banner': False}
     today = timezone.localdate().isoformat()
     answered = request.session.get(DAILY_QUESTION_SESSION_ANSWERED_KEY) == today
     dismissed = request.session.get(DAILY_QUESTION_BANNER_DISMISSED_KEY) == today
