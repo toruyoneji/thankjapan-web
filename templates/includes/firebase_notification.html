@@ -81,6 +81,22 @@ async function setupNotifications() {
 
 
 window.addEventListener('load', () => {
-    setTimeout(setupNotifications, 2000);
+    // Only auto-run for users who already granted permission on some earlier
+    // visit - this just refreshes their FCM token and re-wires the foreground
+    // onMessage listener, with no prompt shown (Notification.requestPermission()
+    // is a silent instant no-op once permission is anything but 'default').
+    // Deliberately skip auto-running for 'default' (never asked) so brand-new
+    // visitors are no longer hit with an unprompted, context-free permission
+    // dialog on every page - that unconditional behavior (pre-dating the Daily
+    // Question feature) is what left daily_question_notify=True at 0 users
+    // site-wide, since a 'denied' answer here made the Daily Question toggle's
+    // own soft-ask permanently unable to succeed for that browser afterward.
+    // 'default' users are now only ever asked via an explicit, contextual
+    // soft-ask elsewhere (e.g. the Daily Question notify toggle in Account
+    // Settings, which calls requestNotificationPermissionAndSaveToken directly
+    // and is unaffected by this change).
+    if ('Notification' in window && Notification.permission === 'granted') {
+        setTimeout(setupNotifications, 2000);
+    }
 });
 </script>
