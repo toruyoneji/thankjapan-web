@@ -86,13 +86,30 @@ def daily_question_banner_status(request):
     it stacked the banner onto the untried-guest CTA state instead of leaving
     that state alone. Restored to the original guest-gated behavior."""
     from django.utils import timezone
+    from .models import DailyActivitySummary
     from .views import DAILY_QUESTION_SESSION_ANSWERED_KEY, DAILY_QUESTION_BANNER_DISMISSED_KEY
     if not request.user.is_authenticated and request.COOKIES.get('tj_has_played') != '1':
         return {'show_daily_question_banner': False}
-    today = timezone.localdate().isoformat()
+    today_date = timezone.localdate()
+    today = today_date.isoformat()
     answered = request.session.get(DAILY_QUESTION_SESSION_ANSWERED_KEY) == today
     dismissed = request.session.get(DAILY_QUESTION_BANNER_DISMISSED_KEY) == today
-    return {'show_daily_question_banner': not answered and not dismissed}
+    show = not answered and not dismissed
+    context = {'show_daily_question_banner': show}
+    if show:
+        # Real-time participation stats shown in the banner CTA (e.g. "127
+        # people have joined today! 89 got it right."). Only surfaced once
+        # someone has actually submitted today - at total_count=0 (right
+        # after the daily midnight rollover) there's nothing to brag about,
+        # so the template hides the stats line entirely rather than show a
+        # "0 out of 0" line.
+        stats = DailyActivitySummary.objects.filter(
+            date=today_date, activity_type=DailyActivitySummary.ACTIVITY_DAILY_QUESTION,
+        ).only('total_count', 'correct_count').first()
+        if stats and stats.total_count > 0:
+            context['daily_question_total_count'] = stats.total_count
+            context['daily_question_correct_count'] = stats.correct_count
+    return context
 
 
 def trial_ended_popup_status(request):

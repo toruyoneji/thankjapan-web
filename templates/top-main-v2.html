@@ -251,6 +251,11 @@
     margin: 0;
 }
 
+.daily-question-banner-stats {
+    color: #d4af37 !important;
+    font-size: 0.8rem !important;
+}
+
 .daily-question-banner-dismiss {
     background: none;
     border: none;
@@ -539,6 +544,23 @@
                 {% else %}📅 You haven't answered today's Daily Question yet!
                 {% endif %}
             </p>
+            {% if daily_question_total_count %}
+            <p class="daily-question-banner-stats">
+                {% if lang_code == 'ja' %}今日、{{ daily_question_total_count }}人が挑戦中!{{ daily_question_correct_count }}人が正解しました🀄
+                {% elif lang_code == 'zh-hant' %}今天已有 {{ daily_question_total_count }} 人挑戰!{{ daily_question_correct_count }} 人答對了🀄
+                {% elif lang_code == 'zh-cn' %}今天已有 {{ daily_question_total_count }} 人挑战!{{ daily_question_correct_count }} 人答对了🀄
+                {% elif lang_code == 'ko' %}오늘 {{ daily_question_total_count }}명이 도전 중! {{ daily_question_correct_count }}명이 정답을 맞췄어요🀄
+                {% elif lang_code == 'de' %}Heute haben schon {{ daily_question_total_count }} Personen mitgemacht! {{ daily_question_correct_count }} haben richtig geantwortet🀄
+                {% elif lang_code == 'fr' %}Aujourd'hui, {{ daily_question_total_count }} personnes ont déjà participé ! {{ daily_question_correct_count }} ont trouvé la bonne réponse🀄
+                {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}¡Hoy ya participaron {{ daily_question_total_count }} personas! {{ daily_question_correct_count }} acertaron🀄
+                {% elif lang_code == 'it' %}Oggi hanno già partecipato {{ daily_question_total_count }} persone! {{ daily_question_correct_count }} hanno risposto correttamente🀄
+                {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Hoje, {{ daily_question_total_count }} pessoas já participaram! {{ daily_question_correct_count }} acertaram🀄
+                {% elif lang_code == 'vi' %}Hôm nay đã có {{ daily_question_total_count }} người tham gia! {{ daily_question_correct_count }} người trả lời đúng🀄
+                {% elif lang_code == 'th' %}วันนี้มีคนร่วมสนุกแล้ว {{ daily_question_total_count }} คน! ตอบถูก {{ daily_question_correct_count }} คน🀄
+                {% else %}{{ daily_question_total_count }} people have joined today! {{ daily_question_correct_count }} got it right🀄
+                {% endif %}
+            </p>
+            {% endif %}
             <a href="{% url 'daily_question' %}?lang={{ lang_code }}" id="dailyQuestionBannerCta" class="explore-btn btn-gold" style="width: 85%; max-width: 300px;">
                 {% if lang_code == 'ja' %}今すぐ挑戦する 🐾
                 {% elif lang_code == 'zh-hant' %}立即挑戰 🐾
