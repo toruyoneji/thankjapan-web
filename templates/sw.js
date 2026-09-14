@@ -13,7 +13,7 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const messaging = firebase.messaging();
 
-const CACHE_NAME = 'thankjapan-v2';
+const CACHE_NAME = 'thankjapan-v3';
 const ASSETS_TO_CACHE = [
   '/',
   '/static/css/main.css'
@@ -26,6 +26,23 @@ self.addEventListener('install', (event) => {
     })
   );
   self.skipWaiting();
+});
+
+// Without this, a new SW version activates (skipWaiting above) but keeps
+// deferring to whatever SW instance already controls each open tab until
+// that tab is closed or hard-reloaded - so a page left open across a
+// deploy can keep being served by stale cached fallback responses from the
+// previous SW. clients.claim() makes the new SW take over every open tab
+// as soon as it activates, and deleting old-named caches here stops
+// previous deploys' cached entries from lingering indefinitely.
+self.addEventListener('activate', (event) => {
+  event.waitUntil(
+    caches.keys().then((names) => {
+      return Promise.all(
+        names.filter((name) => name !== CACHE_NAME).map((name) => caches.delete(name))
+      );
+    }).then(() => self.clients.claim())
+  );
 });
 
 self.addEventListener('fetch', (event) => {
