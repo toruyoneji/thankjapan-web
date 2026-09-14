@@ -83,11 +83,7 @@
     padding-top: 60px;
     padding-bottom: 100px; 
     min-height: 100vh;
-    background: linear-gradient(to bottom, rgba(0,0,0,0.6), rgba(0,0,0,0.8)),
-                url('https://res.cloudinary.com/dotekofm5/image/upload/f_auto,q_auto/v1761842722/thankjapan/backgrounds/p2uktlwymnjdmhy5w2sd.jpg');
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed; 
+    background: #ffffff;
 }
 
 .app-content-fix {
@@ -96,11 +92,7 @@
     overflow-y: auto; 
     -webkit-overflow-scrolling: touch;
     padding-bottom: 50px;
-    background: linear-gradient(to bottom, rgba(0,0,0,0.6), rgba(0,0,0,0.8)),
-                url('https://res.cloudinary.com/dotekofm5/image/upload/f_auto,q_auto/v1761842722/thankjapan/backgrounds/p2uktlwymnjdmhy5w2sd.jpg');
-    background-size: cover;
-    background-position: center;
-    background-attachment: local;
+    background: #ffffff;
 }
 
 .app-content-fix::-webkit-scrollbar { display: none; }
@@ -113,13 +105,13 @@
 .category-header {
     text-align: center;
     padding: 30px 15px 15px;
-    color: #fff;
+    color: #1a1a1a;
 }
 
 .category-header {
     text-align: center;
     padding: 80px 15px 10px; 
-    color: #fff;
+    color: #1a1a1a;
 }
 
 .main2 {
@@ -132,7 +124,7 @@
 }
 
 .flashcard {
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(0, 0, 0, 0.04);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border: 1px solid rgba(212, 175, 55, 0.3);
@@ -182,7 +174,7 @@
 }
 
 .card-info { padding: 10px 5px; text-align: center; }
-.card-english { font-size: 0.9rem; font-weight: bold; color: #fff; line-height: 1.2; }
+.card-english { font-size: 0.9rem; font-weight: bold; color: #1a1a1a; line-height: 1.2; }
 
 #detailModal {
     display: none;
@@ -190,27 +182,27 @@
     z-index: 11000;
     left: 0; top: 0; 
     width: 100%; height: 100%;
-    background-color: rgba(0, 0, 0, 0.95);
+    background-color: rgba(255, 255, 255, 0.97);
     overflow-y: auto; 
     -webkit-overflow-scrolling: touch;
 }
 
 
 .modal-body-content {
-    background-color: #1a1a1a !important;
+    background-color: #ffffff !important;
     width: 94%;
     margin: 40px auto;
     border-radius: 20px;
     border: 1px solid #d4af37;
-    color: #fff !important;
+    color: #1a1a1a !important;
     min-height: 200px; 
 }
 
 
 .modal-detail-wrapper .card {
-    background-color: rgba(255, 255, 255, 0.05) !important;
+    background-color: rgba(0, 0, 0, 0.03) !important;
     border: 1px solid rgba(212, 175, 55, 0.3) !important;
-    color: #fff !important;
+    color: #1a1a1a !important;
     padding: 15px !important;
     margin: 10px !important;
     display: block !important; 
@@ -223,7 +215,7 @@
 
 .modal-detail-wrapper .jpname-text {
     font-size: 2.2rem !important;
-    color: #fff !important;
+    color: #1a1a1a !important;
     margin: 10px 0 !important;
 }
 
@@ -470,7 +462,7 @@ function openDetailModal(url) {
     
     modal.style.display = 'block';
     document.body.classList.add('modal-open');
-    modalBody.innerHTML = '<div style="text-align:center;padding:100px;color:white;">Loading...</div>';
+    modalBody.innerHTML = '<div style="text-align:center;padding:100px;color:#1a1a1a;">Loading...</div>';
 
     fetch(url)
         .then(response => response.text())

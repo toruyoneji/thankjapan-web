@@ -12,8 +12,8 @@
 
     <style>
     #detail-page-wrapper.main2 {
-        background: #0a0a0a !important;
-        color: #ffffff !important;
+        background: #ffffff !important;
+        color: #1a1a1a !important;
         padding: 20px 15px 120px !important;
         text-align: center !important;
         width: 100% !important;
@@ -27,7 +27,7 @@
     #detail-page-wrapper li,
     #detail-page-wrapper .romaji-text,
     #detail-page-wrapper p {
-        color: #ffffff !important;
+        color: #1a1a1a !important;
     }
 
     #detail-page-wrapper .image-wrapper {
@@ -107,7 +107,7 @@
     }
 
     #detail-page-wrapper .card {
-        background: rgba(255, 255, 255, 0.05) !important;
+        background: rgba(0, 0, 0, 0.03) !important;
         backdrop-filter: blur(10px) !important;
         border: 1px solid rgba(212, 175, 55, 0.2) !important;
         border-radius: 16px !important;
@@ -143,16 +143,16 @@
         display: inline-flex !important;
         align-items: center !important;
         justify-content: center !important;
-        color: #ffffff !important;
+        color: #1a1a1a !important;
         text-decoration: none !important;
-        border: 1px solid rgba(255, 255, 255, 0.3) !important;
+        border: 1px solid rgba(0, 0, 0, 0.2) !important;
         padding: 10px 24px !important;
         border-radius: 50px !important;
-        background: rgba(255, 255, 255, 0.05) !important;
+        background: rgba(0, 0, 0, 0.03) !important;
     }
 
     #detail-page-wrapper .x-icon-white {
-        fill: #ffffff !important;
+        fill: #1a1a1a !important;
         width: 16px !important;
         height: 16px !important;
         margin-right: 10px !important;
@@ -176,7 +176,7 @@
 
     #detail-page-wrapper .game-invite-box {
         width: 100% !important;
-        background: linear-gradient(135deg, rgba(212, 175, 55, 0.1), rgba(0,0,0,0.5)) !important;
+        background: linear-gradient(135deg, rgba(212, 175, 55, 0.15), rgba(212, 175, 55, 0.03)) !important;
         border: 1px solid rgba(212, 175, 55, 0.3) !important;
         border-radius: 20px !important;
         padding: 30px 20px !important;
@@ -244,18 +244,18 @@
     }
 
     #detail-page-wrapper .related-card-item {
-    background: rgba(255, 255, 255, 0.05) !important;
+    background: rgba(0, 0, 0, 0.03) !important;
     border: 1px solid rgba(212, 175, 55, 0.2) !important;
     border-radius: 12px !important;
     overflow: hidden !important;
     display: block !important;
-    text-decoration: none !important; 
+    text-decoration: none !important;
     transition: transform 0.2s !important;
-    color: #ffffff !important;
+    color: #1a1a1a !important;
     }
 
     #detail-page-wrapper .related-card-text {
-    color: #ffffff !important; 
+    color: #1a1a1a !important;
     font-size: 0.7rem !important;
     padding: 8px 4px !important;
     text-align: center !important;
@@ -274,9 +274,9 @@
     #detail-page-wrapper .related-card-item:hover,
     #detail-page-wrapper .related-card-item:active,
     #detail-page-wrapper .related-card-item:visited {
-    color: #ffffff !important;
+    color: #1a1a1a !important;
     text-decoration: none !important;
-    }   
+    }
 
     @media screen and (max-width: 768px) {
         #detail-page-wrapper .jpname-text { 
@@ -543,11 +543,11 @@
 
             <div style="padding: 0 10px;">
 
-                <p style="font-size: 1.5em; margin-bottom: 15px; color: #fff;">
+                <p style="font-size: 1.5em; margin-bottom: 15px; color: #1a1a1a;">
                     {{ object.example_sentence_ja|safe }}
                 </p>
 
-                <p style="font-weight: bold; color: #fff; margin-bottom: 5px; font-size: 0.9em;">
+                <p style="font-weight: bold; color: #1a1a1a; margin-bottom: 5px; font-size: 0.9em;">
                     {% if lang_code == 'ja' %}発音
                     {% elif lang_code == 'zh-cn' %}发音
                     {% elif lang_code == 'zh-hant' %}發音
@@ -563,7 +563,7 @@
                 </p>
         
         
-                <p style="color: rgba(255,255,255,0.7); margin-bottom: 15px; font-size: 1.1rem; font-style: italic; display: flex; align-items: center; flex-wrap: wrap;">
+                <p style="color: rgba(0,0,0,0.65); margin-bottom: 15px; font-size: 1.1rem; font-style: italic; display: flex; align-items: center; flex-wrap: wrap;">
                     {{ object.example_sentence_romaji }}
     
     
@@ -590,7 +590,7 @@
                         {% else %}Meaning{% endif %}
                     </p>
 
-                     <p style="font-weight: bold; font-size: 1.2em; color: #fff;">
+                     <p style="font-weight: bold; font-size: 1.2em; color: #1a1a1a;">
                         {% if lang_code == 'en-in' and object.example_sentence_en_in %}
                             {{ object.example_sentence_en_in }}
                         {% elif lang_code == 'zh-cn' and object.example_sentence_zh_cn %}

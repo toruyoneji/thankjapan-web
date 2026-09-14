@@ -12,8 +12,8 @@
     
    <style>
     #detail-page-wrapper.main2 {
-        background: #0a0a0a !important;
-        color: #ffffff !important;
+        background: #ffffff !important;
+        color: #1a1a1a !important;
         padding: 20px 15px 120px !important;
         text-align: center !important;
         width: 100% !important;
@@ -26,7 +26,7 @@
     #detail-page-wrapper .card,
     #detail-page-wrapper li,
     #detail-page-wrapper .romaji-text {
-        color: #ffffff !important;
+        color: #1a1a1a !important;
     }
 
     #detail-page-wrapper .image-wrapper {
@@ -108,7 +108,7 @@
     }
 
     #detail-page-wrapper .card {
-        background: rgba(255, 255, 255, 0.05) !important;
+        background: rgba(0, 0, 0, 0.03) !important;
         backdrop-filter: blur(10px) !important;
         border: 1px solid rgba(212, 175, 55, 0.2) !important;
         border-radius: 16px !important;
@@ -129,7 +129,7 @@
 
     #detail-page-wrapper .game-invite-box {
         width: 100% !important;
-        background: linear-gradient(135deg, rgba(212, 175, 55, 0.1), rgba(0,0,0,0.5)) !important;
+        background: linear-gradient(135deg, rgba(212, 175, 55, 0.15), rgba(212, 175, 55, 0.03)) !important;
         border: 1px solid rgba(212, 175, 55, 0.3) !important;
         border-radius: 20px !important;
         padding: 30px 20px !important;
@@ -202,20 +202,20 @@
         display: inline-flex !important;
         align-items: center !important;
         justify-content: center !important;
-        color: #ffffff !important; 
-        text-decoration: none !important; 
-        border: 1px solid rgba(255, 255, 255, 0.3) !important;
+        color: #1a1a1a !important;
+        text-decoration: none !important;
+        border: 1px solid rgba(0, 0, 0, 0.2) !important;
         padding: 8px 20px !important;
         border-radius: 50px !important;
         font-size: 0.9rem !important;
     }
 
     #detail-page-wrapper .related-card-item {
-        background: rgba(255, 255, 255, 0.05) !important;
+        background: rgba(0, 0, 0, 0.03) !important;
         border: 1px solid rgba(212, 175, 55, 0.2) !important;
         border-radius: 12px !important;
         overflow: hidden !important;
-        text-decoration: none !important; 
+        text-decoration: none !important;
         display: block !important;
         transition: transform 0.2s !important;
     }
@@ -233,19 +233,19 @@
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
-    color: #ffffff !important; 
-    text-decoration: none !important; 
-    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+    color: #1a1a1a !important;
+    text-decoration: none !important;
+    border: 1px solid rgba(0, 0, 0, 0.2) !important;
     padding: 10px 24px !important;
     border-radius: 50px !important;
     font-size: 0.9rem !important;
     font-weight: 600 !important;
-    background: rgba(255, 255, 255, 0.05) !important;
+    background: rgba(0, 0, 0, 0.03) !important;
     }
 
 
     #detail-page-wrapper .x-icon-white {
-    fill: #ffffff !important; 
+    fill: #1a1a1a !important;
     width: 16px !important;
     height: 16px !important;
     margin-right: 10px !important;
@@ -318,7 +318,7 @@
     </div>
 
     <div class="game-invite-box">
-        <h3 class="game-invite-title" style="color: #ffffff; font-size: 1.2rem; margin-bottom: 15px;">
+        <h3 class="game-invite-title" style="color: #1a1a1a; font-size: 1.2rem; margin-bottom: 15px;">
             {% if lang_code == 'ja' %}この単語を練習する準備はいい？
             {% elif lang_code == 'zh-hant' %}準備好練習這個單字了嗎？
             {% elif lang_code == 'zh-cn' %}准备好练习这个单词了吗？
@@ -335,7 +335,7 @@
 
         </h3>
         
-        <p class="rule-caption" style="color: rgba(255,255,255,0.6); font-size: 0.85rem; margin-bottom: 25px;">
+        <p class="rule-caption" style="color: rgba(0,0,0,0.6); font-size: 0.85rem; margin-bottom: 25px;">
             {% if lang_code == 'ja' %}
                 文字を並べ替えて正解を目指そう！
             {% elif lang_code == 'zh-hant' %}
@@ -495,7 +495,7 @@
                     {% else %}Meaning{% endif %}
                 </div>
 
-                <div style="font-size: 1.1rem; font-weight: 500; color: #fff; line-height: 1.4;">
+                <div style="font-size: 1.1rem; font-weight: 500; color: #1a1a1a; line-height: 1.4;">
                     {% if lang_code == 'en-in' and object.example_sentence_en_in %}
                         {{ object.example_sentence_en_in }}
                     {% elif lang_code == 'zh-cn' and object.example_sentence_zh_cn %}
@@ -561,7 +561,7 @@
                             {% if item.image %}
                                 <img src="{{ item.image.url }}" style="width:100%; height:100px; object-fit:cover; opacity:0.9;">
                             {% endif %}
-                            <div style="padding:10px 8px; font-size:0.85rem; font-weight:600; color:#fff;">{{ item.englishname }}</div>
+                            <div style="padding:10px 8px; font-size:0.85rem; font-weight:600; color:#1a1a1a;">{{ item.englishname }}</div>
                         </a>
                     {% endwith %}
                 {% endfor %}
@@ -616,7 +616,7 @@
 
     
     
-    <footer style="margin-top: 40px; font-size: 0.7rem; color: rgba(255,255,255,0.3); padding-bottom: 60px; text-align: center;">
+    <footer style="margin-top: 40px; font-size: 0.7rem; color: rgba(0,0,0,0.35); padding-bottom: 60px; text-align: center;">
         © 2025 Thank Japan All Rights Reserved.
     </footer>
 </div>
