@@ -138,6 +138,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'thank_japan_app.middleware.RedirectToWwwMiddleware',
+    'thank_japan_app.middleware.HasAccountCookieMiddleware',
     'thank_japan_app.middleware.GAOptOutMiddleware',
     'corsheaders.middleware.CorsMiddleware',
 ]
@@ -159,6 +160,7 @@ TEMPLATES = [
                 'thank_japan_app.context_processors.ga_platform',
                 'thank_japan_app.context_processors.email_prompt_status',
                 'thank_japan_app.context_processors.daily_question_banner_status',
+                'thank_japan_app.context_processors.login_cta_status',
                 'thank_japan_app.context_processors.trial_ended_popup_status',
             ],
         },

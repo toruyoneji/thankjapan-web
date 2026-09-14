@@ -32,6 +32,36 @@ class EnsureLangCodeMiddleware:
         return self.get_response(request)
 
 
+class HasAccountCookieMiddleware:
+    """Marks this device as having a real account at least once, so the top
+    page can offer "Login" instead of "Register" as its big CTA on a later
+    visit (see daily_question_banner_status-style context processors for the
+    read side: thank_japan_app.context_processors.login_cta_status).
+
+    Set from middleware rather than inside player_login/player_register
+    directly so it also catches social login (Google/X/Facebook via
+    allauth) - allauth's OAuth callback view runs outside our own view code,
+    but every successful login of any kind still comes through here as an
+    authenticated request. Deliberately never cleared on logout: unlike
+    tj_has_played (a UX nicety), this is meant to persist as a durable
+    "this device belongs to someone with an account" signal."""
+    COOKIE_NAME = 'tj_has_account'
+    COOKIE_MAX_AGE = 34560000  # ~400 days, same cap used for tj_has_played
+
+    def __init__(self, get_response):
+        self.get_response = get_response
+
+    def __call__(self, request):
+        response = self.get_response(request)
+        if request.user.is_authenticated and request.COOKIES.get(self.COOKIE_NAME) != '1':
+            response.set_cookie(
+                self.COOKIE_NAME, '1',
+                max_age=self.COOKIE_MAX_AGE,
+                httponly=True, samesite='Lax', secure=request.is_secure(),
+            )
+        return response
+
+
 class GAOptOutMiddleware:
     """Lets a browser opt out of GA4 tracking permanently via ?ga_opt_out=1
     (and back in via ?ga_opt_out=0). IP-independent, so it works the same on

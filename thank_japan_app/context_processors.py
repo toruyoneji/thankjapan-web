@@ -112,6 +112,22 @@ def daily_question_banner_status(request):
     return context
 
 
+def login_cta_status(request):
+    """Whether the top page's big "start" CTA (shown to a not-logged-in
+    visitor who has already played the first-taste trial - see has_played in
+    TopView.get_context_data et al.) should read "Login" instead of the
+    default "Register". Driven purely by HasAccountCookieMiddleware's
+    tj_has_account cookie, which is set the moment this device has ever
+    completed any login (password, or Google/X/Facebook via allauth) and is
+    never cleared on logout - so a visitor who registered/logged in before,
+    then logged out, still sees "Login" here rather than being pushed back
+    through registration. A brand-new device with no such cookie keeps
+    seeing "Register", same as before this feature existed."""
+    if request.user.is_authenticated:
+        return {'show_login_cta': False}
+    return {'show_login_cta': request.COOKIES.get('tj_has_account') == '1'}
+
+
 def trial_ended_popup_status(request):
     """Whether to show the "continue with Premium?" popup on the top page,
     after someone's 7-day free trial has ended (Phase design step 5 - see
