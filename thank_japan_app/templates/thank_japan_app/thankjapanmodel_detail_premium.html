@@ -356,6 +356,70 @@
 
     </div>
 
+    <div class="game-invite-box" style="text-align: center; width: 100%; display: flex; flex-direction: column; align-items: center;">
+        <h3 class="game-invite-title">
+            {% if lang_code == 'ja' %}この単語を練習する準備はいい？
+            {% elif lang_code == 'zh-hant' %}準備好練習這個單字了嗎？
+            {% elif lang_code == 'zh-cn' %}准备好练习这个单词了吗？
+            {% elif lang_code == 'de' %}Bereit, dieses Wort zu üben?
+            {% elif lang_code == 'fr' %}Prêt à pratiquer ce mot ?
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}¿Listo para practicar esta palabra?
+            {% elif lang_code == 'it' %}Pronto a esercitarti con questa parola?
+            {% elif lang_code == 'ko' %}이 단어를 연습할 준비가 되었나요?
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Pronto para praticar esta palavra?
+            {% elif lang_code == 'vi' %}Sẵn sàng luyện tập từ này chưa?
+            {% elif lang_code == 'th' %}พร้อมฝึกคำนี้แล้วหรือยัง?
+            {% else %}Ready to Practice this Word?
+            {% endif %}
+
+        </h3>
+
+        <p class="rule-caption">
+            {% if lang_code == 'ja' %}
+                文字を並べ替えて正解を目指そう！
+            {% elif lang_code == 'zh-hant' %}
+                排列文字,拼出正確答案吧！
+            {% elif lang_code == 'zh-cn' %}
+                排列文字,拼出正确答案吧！
+            {% elif lang_code == 'de' %}
+                Ordne die Buchstaben, um die richtige Antwort zu bilden!
+            {% elif lang_code == 'fr' %}
+                Réorganise les lettres pour trouver la bonne réponse !
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}
+                ¡Ordena las letras para encontrar la respuesta correcta!
+            {% elif lang_code == 'it' %}
+                Riordina le lettere per trovare la risposta corretta!
+            {% elif lang_code == 'ko' %}
+                글자를 배열해서 정답을 맞혀보세요!
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}
+                Reorganize as letras para encontrar a resposta certa!
+            {% elif lang_code == 'vi' %}
+                Sắp xếp lại các chữ cái để tìm đáp án đúng!
+            {% elif lang_code == 'th' %}
+                เรียงตัวอักษรใหม่เพื่อหาคำตอบที่ถูกต้อง!
+            {% else %}
+                Rearrange the tiles to find the correct answer!
+            {% endif %}
+        </p>
+        
+        <a href="{% url 'game_restart' %}?mode=single&model_type=premium&slug={{ object.slug }}&lang={{ lang_code }}" class="game-invite-btn">
+            {% if lang_code == 'ja' %}🧩 このフレーズをマスターしよう
+            {% elif lang_code == 'zh-hant' %}🧩 掌握這個短語
+            {% elif lang_code == 'zh-cn' %}🧩 掌握这个短语
+            {% elif lang_code == 'de' %}🧩 Diese Phrase meistern
+            {% elif lang_code == 'fr' %}🧩 Maîtriser cette expression
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}🧩 Domina esta frase
+            {% elif lang_code == 'it' %}🧩 Padroneggia questa frase
+            {% elif lang_code == 'ko' %}🧩 이 문구를 마스터하세요
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}🧩 Domine esta frase
+            {% elif lang_code == 'vi' %}🧩 Thành thạo cụm từ này
+            {% elif lang_code == 'th' %}🧩 ฝึกฝนวลีนี้ให้เชี่ยวชาญ
+            {% else %}🧩 Master this Phrase
+            {% endif %}
+
+        </a>
+    </div>
+
     <div class="cards">
         <div class="card">
             <h2>
@@ -565,69 +629,57 @@
         {% endif %}
     </div>
 
-    <div class="game-invite-box" style="text-align: center; width: 100%; display: flex; flex-direction: column; align-items: center;">
-        <h3 class="game-invite-title">
-            {% if lang_code == 'ja' %}この単語を練習する準備はいい？
-            {% elif lang_code == 'zh-hant' %}準備好練習這個單字了嗎？
-            {% elif lang_code == 'zh-cn' %}准备好练习这个单词了吗？
-            {% elif lang_code == 'de' %}Bereit, dieses Wort zu üben?
-            {% elif lang_code == 'fr' %}Prêt à pratiquer ce mot ?
-            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}¿Listo para practicar esta palabra?
-            {% elif lang_code == 'it' %}Pronto a esercitarti con questa parola?
-            {% elif lang_code == 'ko' %}이 단어를 연습할 준비가 되었나요?
-            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Pronto para praticar esta palavra?
-            {% elif lang_code == 'vi' %}Sẵn sàng luyện tập từ này chưa?
-            {% elif lang_code == 'th' %}พร้อมฝึกคำนี้แล้วหรือยัง?
-            {% else %}Ready to Practice this Word?
-            {% endif %}
+    {% if related_items %}
+    <div class="related-section" style="width: 100%; margin-top: 40px; padding-top: 30px; border-top: 1px solid rgba(212, 175, 55, 0.25);">
+        <div class="related-header">
+            <h3 style="color: #d4af37; font-size: 1.3rem; letter-spacing: 2px; margin-bottom: 20px; text-transform: uppercase; font-weight: 700;">
+                {% if lang_code == 'ja' %}関連する単語
+                {% elif lang_code == 'zh-hant' %}相關單字
+                {% elif lang_code == 'zh-cn' %}相关单词
+                {% elif lang_code == 'de' %}Verwandte Wörter
+                {% elif lang_code == 'fr' %}Mots associés
+                {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Palabras relacionadas
+                {% elif lang_code == 'it' %}Parole correlate
+                {% elif lang_code == 'ko' %}관련 단어
+                {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Palavras relacionadas
+                {% elif lang_code == 'vi' %}Từ liên quan
+                {% elif lang_code == 'th' %}คำที่เกี่ยวข้อง
+                {% else %}Related Words
+                {% endif %}
 
-        </h3>
+            </h3>
+        </div>
 
-        <p class="rule-caption">
-            {% if lang_code == 'ja' %}
-                文字を並べ替えて正解を目指そう！
-            {% elif lang_code == 'zh-hant' %}
-                排列文字,拼出正確答案吧！
-            {% elif lang_code == 'zh-cn' %}
-                排列文字,拼出正确答案吧！
-            {% elif lang_code == 'de' %}
-                Ordne die Buchstaben, um die richtige Antwort zu bilden!
-            {% elif lang_code == 'fr' %}
-                Réorganise les lettres pour trouver la bonne réponse !
-            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}
-                ¡Ordena las letras para encontrar la respuesta correcta!
-            {% elif lang_code == 'it' %}
-                Riordina le lettere per trovare la risposta corretta!
-            {% elif lang_code == 'ko' %}
-                글자를 배열해서 정답을 맞혀보세요!
-            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}
-                Reorganize as letras para encontrar a resposta certa!
-            {% elif lang_code == 'vi' %}
-                Sắp xếp lại các chữ cái để tìm đáp án đúng!
-            {% elif lang_code == 'th' %}
-                เรียงตัวอักษรใหม่เพื่อหาคำตอบที่ถูกต้อง!
+        <div class="related-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px;">
+            {% for item in related_items %}
+
+            {% if is_twa or request.user.profile.is_premium or item.id in free_sample_ids %}
+
+                {% url 'detail_premium' category=item.category slug=item.slug as rel_url %}
+                <a href="{{ rel_url }}?lang={{ lang_code }}" onclick="openDetailModal('{{ rel_url }}?lang={{ lang_code }}'); return false;" class="related-card-item">
+                    {% if item.image %}
+                        <img src="{{ item.image.url }}" alt="{{ item.englishname }}" style="width:100%; height:100px; object-fit:cover; opacity:0.9;">
+                    {% endif %}
+                    <span class="related-card-text" style="font-size:0.85rem; font-weight:600; padding:10px 8px;">{{ item.englishname }}</span>
+                </a>
             {% else %}
-                Rearrange the tiles to find the correct answer!
-            {% endif %}
-        </p>
-        
-        <a href="{% url 'game_restart' %}?mode=single&model_type=premium&slug={{ object.slug }}&lang={{ lang_code }}" class="game-invite-btn">
-            {% if lang_code == 'ja' %}🧩 このフレーズをマスターしよう
-            {% elif lang_code == 'zh-hant' %}🧩 掌握這個短語
-            {% elif lang_code == 'zh-cn' %}🧩 掌握这个短语
-            {% elif lang_code == 'de' %}🧩 Diese Phrase meistern
-            {% elif lang_code == 'fr' %}🧩 Maîtriser cette expression
-            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}🧩 Domina esta frase
-            {% elif lang_code == 'it' %}🧩 Padroneggia questa frase
-            {% elif lang_code == 'ko' %}🧩 이 문구를 마스터하세요
-            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}🧩 Domine esta frase
-            {% elif lang_code == 'vi' %}🧩 Thành thạo cụm từ này
-            {% elif lang_code == 'th' %}🧩 ฝึกฝนวลีนี้ให้เชี่ยวชาญ
-            {% else %}🧩 Master this Phrase
+
+                <a href="{% url premium_url_name %}?lang={{ lang_code }}" class="related-card-item">
+                    <div style="position: relative; overflow: hidden; height:100px;">
+                        {% if item.image %}
+                            <img src="{{ item.image.url }}" alt="{{ item.englishname }}" class="blurred-img" style="width:100%; height:100%; object-fit:cover;">
+                        {% endif %}
+                        <div class="lock-overlay" style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);">🔒</div>
+                    </div>
+                    <span class="related-card-text" style="opacity:0.5; font-size:0.85rem; padding:10px 8px;">Premium</span>
+                </a>
+
             {% endif %}
 
-        </a>
+            {% endfor %}
+        </div>
     </div>
+    {% endif %}
 
     <div style="margin: 30px 0; text-align: center;">
         <a href="https://twitter.com/intent/tweet?text=Discovering Japanese Culture: {{ object.englishname }} 🇯🇵 Check this out!&url={{ request.build_absolute_uri }}&hashtags=ThankJapan,LearnJapanese,JapanCulture" 
@@ -657,59 +709,24 @@
         </a>
     </div>
 
-
-
-    {% if related_items %}
-    <div class="related-section">
-        <div class="related-header">
-            <h3>
-                {% if lang_code == 'ja' %}関連する単語
-                {% elif lang_code == 'zh-hant' %}相關單字
-                {% elif lang_code == 'zh-cn' %}相关单词
-                {% elif lang_code == 'de' %}Verwandte Wörter
-                {% elif lang_code == 'fr' %}Mots associés
-                {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Palabras relacionadas
-                {% elif lang_code == 'it' %}Parole correlate
-                {% elif lang_code == 'ko' %}관련 단어
-                {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Palavras relacionadas
-                {% elif lang_code == 'vi' %}Từ liên quan
-                {% elif lang_code == 'th' %}คำที่เกี่ยวข้อง
-                {% else %}Related Words
-                {% endif %}
-
-            </h3>
-        </div>
-
-        <div class="related-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;">
-            {% for item in related_items %}
-            
-            {% if is_twa or request.user.profile.is_premium or item.id in free_sample_ids %}
-
-                {% url 'detail_premium' category=item.category slug=item.slug as rel_url %}
-                <a href="{{ rel_url }}?lang={{ lang_code }}" onclick="openDetailModal('{{ rel_url }}?lang={{ lang_code }}'); return false;" class="related-card-item">
-                    {% if item.image %}
-                        <img src="{{ item.image.url }}" alt="{{ item.englishname }}" style="width:100%; height:70px; object-fit:cover; opacity:0.8;">
-                    {% endif %}
-                    <span class="related-card-text">{{ item.englishname }}</span>
-                </a>
-            {% else %}
-                
-                <a href="{% url premium_url_name %}?lang={{ lang_code }}" class="related-card-item">
-                    <div style="position: relative; overflow: hidden; height:70px;">
-                        {% if item.image %}
-                            <img src="{{ item.image.url }}" alt="{{ item.englishname }}" class="blurred-img" style="width:100%; height:100%; object-fit:cover;">
-                        {% endif %}
-                        <div class="lock-overlay" style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);">🔒</div>
-                    </div>
-                    <span class="related-card-text" style="opacity:0.5;">Premium</span>
-                </a>
-
+    <div style="width: 100%; text-align: center; margin: 40px 0 10px; padding-top: 30px; border-top: 1px solid rgba(212, 175, 55, 0.15);">
+        <a href="{% url 'game_start' %}?lang={{ lang_code }}" class="game-invite-btn">
+            {% if lang_code == 'ja' %}🎮 もっと単語を学ぼう
+            {% elif lang_code == 'zh-hant' %}🎮 學習更多單字
+            {% elif lang_code == 'zh-cn' %}🎮 学习更多单词
+            {% elif lang_code == 'de' %}🎮 Mehr Wörter lernen
+            {% elif lang_code == 'fr' %}🎮 Apprendre plus de mots
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}🎮 Aprender más palabras
+            {% elif lang_code == 'it' %}🎮 Impara altre parole
+            {% elif lang_code == 'ko' %}🎮 더 많은 단어 배우기
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}🎮 Aprender mais palavras
+            {% elif lang_code == 'vi' %}🎮 Học thêm từ vựng
+            {% elif lang_code == 'th' %}🎮 เรียนรู้คำศัพท์เพิ่มเติม
+            {% else %}🎮 Learn More Words
             {% endif %}
-
-            {% endfor %}
-        </div>
+        </a>
     </div>
-    {% endif %}
+
 
 
     <footer style="margin-top: 50px; opacity: 0.5; font-size: 0.8rem;">

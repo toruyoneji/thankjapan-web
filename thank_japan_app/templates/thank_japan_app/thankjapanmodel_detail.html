@@ -325,6 +325,71 @@
 
     </div>
 
+    <div class="game-invite-box">
+        <h3 class="game-invite-title" style="color: #ffffff; font-size: 1.2rem; margin-bottom: 15px;">
+            {% if lang_code == 'ja' %}この単語を練習する準備はいい？
+            {% elif lang_code == 'zh-hant' %}準備好練習這個單字了嗎？
+            {% elif lang_code == 'zh-cn' %}准备好练习这个单词了吗？
+            {% elif lang_code == 'de' %}Bereit, dieses Wort zu üben?
+            {% elif lang_code == 'fr' %}Prêt à pratiquer ce mot ?
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}¿Listo para practicar esta palabra?
+            {% elif lang_code == 'it' %}Pronto a esercitarti con questa parola?
+            {% elif lang_code == 'ko' %}이 단어를 연습할 준비가 되었나요?
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Pronto para praticar esta palavra?
+            {% elif lang_code == 'vi' %}Sẵn sàng luyện tập từ này chưa?
+            {% elif lang_code == 'th' %}พร้อมฝึกคำนี้แล้วหรือยัง?
+            {% else %}Ready to Practice this Word?
+            {% endif %}
+
+        </h3>
+        
+        <p class="rule-caption" style="color: rgba(255,255,255,0.6); font-size: 0.85rem; margin-bottom: 25px;">
+            {% if lang_code == 'ja' %}
+                文字を並べ替えて正解を目指そう！
+            {% elif lang_code == 'zh-hant' %}
+                排列文字,拼出正確答案吧！
+            {% elif lang_code == 'zh-cn' %}
+                排列文字,拼出正确答案吧！
+            {% elif lang_code == 'de' %}
+                Ordne die Buchstaben, um die richtige Antwort zu bilden!
+            {% elif lang_code == 'fr' %}
+                Réorganise les lettres pour trouver la bonne réponse !
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}
+                ¡Ordena las letras para encontrar la respuesta correcta!
+            {% elif lang_code == 'it' %}
+                Riordina le lettere per trovare la risposta corretta!
+            {% elif lang_code == 'ko' %}
+                글자를 배열해서 정답을 맞혀보세요!
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}
+                Reorganize as letras para encontrar a resposta certa!
+            {% elif lang_code == 'vi' %}
+                Sắp xếp lại các chữ cái để tìm đáp án đúng!
+            {% elif lang_code == 'th' %}
+                เรียงตัวอักษรใหม่เพื่อหาคำตอบที่ถูกต้อง!
+            {% else %}
+                Rearrange the tiles to find the correct answer!
+            {% endif %}
+        </p>
+        
+        <div style="text-align: center; margin-top: 20px;">
+            <a href="{% url 'game_restart' %}?mode=single&model_type=free&slug={{ object.slug }}" class="game-invite-btn">
+            {% if lang_code == 'ja' %}🧩 この単語を練習する
+            {% elif lang_code == 'zh-hant' %}🧩 練習這個單字
+            {% elif lang_code == 'zh-cn' %}🧩 练习这个单词
+            {% elif lang_code == 'de' %}🧩 Dieses Wort üben
+            {% elif lang_code == 'fr' %}🧩 Pratiquer ce mot
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}🧩 Practicar esta palabra
+            {% elif lang_code == 'it' %}🧩 Esercitati con questa parola
+            {% elif lang_code == 'ko' %}🧩 이 단어 연습하기
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}🧩 Praticar esta palavra
+            {% elif lang_code == 'vi' %}🧩 Luyện tập từ này
+            {% elif lang_code == 'th' %}🧩 ฝึกคำนี้
+            {% else %}🧩 Practice This Word
+            {% endif %}
+
+            </a>
+        </div>
+    </div>
 
     <div class="cards">
         <div class="card">
@@ -474,75 +539,44 @@
         {% endif %}
     </div>
 
-    
+    {% if related_items %}
+        <div style="width: 100%; margin-top: 40px; padding-top: 30px; border-top: 1px solid rgba(212, 175, 55, 0.25);">
+            <h3 style="color: #d4af37; font-size: 1.3rem; letter-spacing: 2px; margin-bottom: 20px; text-transform: uppercase; font-weight: 700;">
+                {% if lang_code == 'ja' %}関連する単語
+                {% elif lang_code == 'zh-hant' %}相關單字
+                {% elif lang_code == 'zh-cn' %}相关单词
+                {% elif lang_code == 'de' %}Verwandte Wörter
+                {% elif lang_code == 'fr' %}Mots associés
+                {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Palabras relacionadas
+                {% elif lang_code == 'it' %}Parole correlate
+                {% elif lang_code == 'ko' %}관련 단어
+                {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Palavras relacionadas
+                {% elif lang_code == 'vi' %}Từ liên quan
+                {% elif lang_code == 'th' %}คำที่เกี่ยวข้อง
+                {% else %}Related Words
+                {% endif %}
 
-    <div class="game-invite-box">
-        <h3 class="game-invite-title" style="color: #ffffff; font-size: 1.2rem; margin-bottom: 15px;">
-            {% if lang_code == 'ja' %}この単語を練習する準備はいい？
-            {% elif lang_code == 'zh-hant' %}準備好練習這個單字了嗎？
-            {% elif lang_code == 'zh-cn' %}准备好练习这个单词了吗？
-            {% elif lang_code == 'de' %}Bereit, dieses Wort zu üben?
-            {% elif lang_code == 'fr' %}Prêt à pratiquer ce mot ?
-            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}¿Listo para practicar esta palabra?
-            {% elif lang_code == 'it' %}Pronto a esercitarti con questa parola?
-            {% elif lang_code == 'ko' %}이 단어를 연습할 준비가 되었나요?
-            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Pronto para praticar esta palavra?
-            {% elif lang_code == 'vi' %}Sẵn sàng luyện tập từ này chưa?
-            {% elif lang_code == 'th' %}พร้อมฝึกคำนี้แล้วหรือยัง?
-            {% else %}Ready to Practice this Word?
-            {% endif %}
+            </h3>
 
-        </h3>
-        
-        <p class="rule-caption" style="color: rgba(255,255,255,0.6); font-size: 0.85rem; margin-bottom: 25px;">
-            {% if lang_code == 'ja' %}
-                文字を並べ替えて正解を目指そう！
-            {% elif lang_code == 'zh-hant' %}
-                排列文字,拼出正確答案吧！
-            {% elif lang_code == 'zh-cn' %}
-                排列文字,拼出正确答案吧！
-            {% elif lang_code == 'de' %}
-                Ordne die Buchstaben, um die richtige Antwort zu bilden!
-            {% elif lang_code == 'fr' %}
-                Réorganise les lettres pour trouver la bonne réponse !
-            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}
-                ¡Ordena las letras para encontrar la respuesta correcta!
-            {% elif lang_code == 'it' %}
-                Riordina le lettere per trovare la risposta corretta!
-            {% elif lang_code == 'ko' %}
-                글자를 배열해서 정답을 맞혀보세요!
-            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}
-                Reorganize as letras para encontrar a resposta certa!
-            {% elif lang_code == 'vi' %}
-                Sắp xếp lại các chữ cái để tìm đáp án đúng!
-            {% elif lang_code == 'th' %}
-                เรียงตัวอักษรใหม่เพื่อหาคำตอบที่ถูกต้อง!
-            {% else %}
-                Rearrange the tiles to find the correct answer!
-            {% endif %}
-        </p>
-        
-        <div style="text-align: center; margin-top: 20px;">
-            <a href="{% url 'game_restart' %}?mode=single&model_type=free&slug={{ object.slug }}" class="game-invite-btn">
-            {% if lang_code == 'ja' %}🧩 この単語を練習する
-            {% elif lang_code == 'zh-hant' %}🧩 練習這個單字
-            {% elif lang_code == 'zh-cn' %}🧩 练习这个单词
-            {% elif lang_code == 'de' %}🧩 Dieses Wort üben
-            {% elif lang_code == 'fr' %}🧩 Pratiquer ce mot
-            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}🧩 Practicar esta palabra
-            {% elif lang_code == 'it' %}🧩 Esercitati con questa parola
-            {% elif lang_code == 'ko' %}🧩 이 단어 연습하기
-            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}🧩 Praticar esta palavra
-            {% elif lang_code == 'vi' %}🧩 Luyện tập từ này
-            {% elif lang_code == 'th' %}🧩 ฝึกคำนี้
-            {% else %}🧩 Practice This Word
-            {% endif %}
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px;">
+                {% for item in related_items %}
+                    {% url 'category_detail' item.category item.slug as the_url %}
+                    {% with related_href=the_url|add:"?lang="|add:lang_code %}
+                        <a href="{{ related_href }}"
+                        onclick="openDetailModal('{{ related_href }}'); return false;"
+                        class="related-card-item">
 
-            </a>
+                            {% if item.image %}
+                                <img src="{{ item.image.url }}" style="width:100%; height:100px; object-fit:cover; opacity:0.9;">
+                            {% endif %}
+                            <div style="padding:10px 8px; font-size:0.85rem; font-weight:600; color:#fff;">{{ item.englishname }}</div>
+                        </a>
+                    {% endwith %}
+                {% endfor %}
+            </div>
         </div>
-    </div>
+    {% endif %}
 
-    
     <div style="margin: 25px 0; text-align: center;">
         <a href="https://twitter.com/intent/tweet?text=Discovering Japanese Culture: {{ object.englishname }} 🇯🇵 Check this out!&url={{ request.build_absolute_uri }}&hashtags=ThankJapan,LearnJapanese,JapanCulture" 
            target="_blank" 
@@ -569,46 +603,24 @@
         </a>
     </div>
 
-    
-    {% if related_items %}
-        <div style="width: 100%; margin-top: 60px; padding-top: 40px; border-top: 1px solid rgba(212, 175, 55, 0.2);">
-            <h3 style="color: #d4af37; font-size: 1.1rem; letter-spacing: 2px; margin-bottom: 20px; text-transform: uppercase;">
-                {% if lang_code == 'ja' %}関連する単語
-                {% elif lang_code == 'zh-hant' %}相關單字
-                {% elif lang_code == 'zh-cn' %}相关单词
-                {% elif lang_code == 'de' %}Verwandte Wörter
-                {% elif lang_code == 'fr' %}Mots associés
-                {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Palabras relacionadas
-                {% elif lang_code == 'it' %}Parole correlate
-                {% elif lang_code == 'ko' %}관련 단어
-                {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Palavras relacionadas
-                {% elif lang_code == 'vi' %}Từ liên quan
-                {% elif lang_code == 'th' %}คำที่เกี่ยวข้อง
-                {% else %}Related Words
-                {% endif %}
-
-            </h3>
-        </div>
-
-        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;">
-            {% for item in related_items %}
-                {% url 'category_detail' item.category item.slug as the_url %}
-                {% with related_href=the_url|add:"?lang="|add:lang_code %}
-                    <a href="{{ related_href }}"
-                    onclick="openDetailModal('{{ related_href }}'); return false;"
-                    class="related-card-item">
-
-                        {% if item.image %}
-                            <img src="{{ item.image.url }}" style="width:100%; height:60px; object-fit:cover; opacity:0.6;">
-                        {% endif %}
-                        <div style="padding:5px; font-size:0.6rem; color:#fff;">{{ item.englishname }}</div>
-                    </a>
-                {% endwith %}
-            {% endfor %}
-        </div>
-
+    <div style="width: 100%; text-align: center; margin: 40px 0 10px; padding-top: 30px; border-top: 1px solid rgba(212, 175, 55, 0.15);">
+        <a href="{% url 'game_start' %}?lang={{ lang_code }}" class="game-invite-btn">
+            {% if lang_code == 'ja' %}🎮 もっと単語を学ぼう
+            {% elif lang_code == 'zh-hant' %}🎮 學習更多單字
+            {% elif lang_code == 'zh-cn' %}🎮 学习更多单词
+            {% elif lang_code == 'de' %}🎮 Mehr Wörter lernen
+            {% elif lang_code == 'fr' %}🎮 Apprendre plus de mots
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}🎮 Aprender más palabras
+            {% elif lang_code == 'it' %}🎮 Impara altre parole
+            {% elif lang_code == 'ko' %}🎮 더 많은 단어 배우기
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}🎮 Aprender mais palavras
+            {% elif lang_code == 'vi' %}🎮 Học thêm từ vựng
+            {% elif lang_code == 'th' %}🎮 เรียนรู้คำศัพท์เพิ่มเติม
+            {% else %}🎮 Learn More Words
+            {% endif %}
+        </a>
     </div>
-    {% endif %}
+
 
     
     
