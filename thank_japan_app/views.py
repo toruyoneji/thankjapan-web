@@ -5296,6 +5296,19 @@ class CategoryDetailView(DetailView):
     slug_field = "slug"
     slug_url_kwarg = "slug"
 
+    def get_template_names(self):
+        # is_modal (X-Requested-With: XMLHttpRequest) renders the bare
+        # detail_main content with no site-chrome wrapper - Django's
+        # {% extends %} can't conditionally resolve to "nothing" inside one
+        # template (that used to be attempted via `is_modal|yesno:",base/..."`,
+        # which raised TemplateSyntaxError on every modal request - see
+        # thankjapanmodel_detail_modal.html for the fix), so the two cases
+        # are two separate template files that both {% include %} the same
+        # shared body partial (thankjapanmodel_detail_body.html).
+        if self.is_modal:
+            return ["thank_japan_app/thankjapanmodel_detail_modal.html"]
+        return [self.template_name]
+
     def get(self, request, lang=None, *args, **kwargs):
         category = self.kwargs.get('category')
         slug = self.kwargs.get('slug')
@@ -5368,6 +5381,12 @@ class ImgPremiumDetailView(DetailView):
     model = ThankJapanPremium
     slug_field = 'slug'
     slug_url_kwarg = 'slug'
+
+    def get_template_names(self):
+        # See CategoryDetailView.get_template_names - same fix, same reason.
+        if self.is_modal:
+            return ["thank_japan_app/thankjapanmodel_detail_premium_modal.html"]
+        return [self.template_name]
 
     def get_queryset(self):
         category = self.kwargs.get('category')

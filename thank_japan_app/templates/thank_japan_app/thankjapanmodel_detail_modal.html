@@ -1,0 +1,698 @@
+{% load category_filters %}
+{% load static %}
+
+<script>
+    if (typeof gtag === 'function') {
+        gtag('event', 'word_detail_view', { platform: '{{ ga_platform }}', category: '{{ object.category }}', is_premium: false });
+    }
+</script>
+
+
+<div class="main2" id="detail-page-wrapper">
+    
+   <style>
+    #detail-page-wrapper.main2 {
+        background: #0a0a0a !important;
+        color: #ffffff !important;
+        padding: 20px 15px 120px !important;
+        text-align: center !important;
+        width: 100% !important;
+        display: block !important;
+        margin: 0 auto !important;
+    }
+
+    #detail-page-wrapper .jpname-text,
+    #detail-page-wrapper .detaildt,
+    #detail-page-wrapper .card,
+    #detail-page-wrapper li,
+    #detail-page-wrapper .romaji-text {
+        color: #ffffff !important;
+    }
+
+    #detail-page-wrapper .image-wrapper {
+        width: 100% !important;
+        height: auto !important;
+        border-radius: 15px !important;
+        overflow: hidden !important;
+        margin-bottom: 25px !important;
+        border: 1px solid rgba(212, 175, 55, 0.4) !important;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.5) !important;
+    }
+
+    .detailgazou {
+        width: 100% !important;
+        display: block !important;
+        object-fit: cover !important;
+    }
+
+    #premium-auth-container.direct-layout .detailgazou {
+        height: 300px !important;
+    }
+
+    @media screen and (min-width: 768px) {
+        #premium-auth-container.direct-layout .detailgazou {
+            height: 420px !important;
+        }
+    }
+
+    #premium-auth-container.modal-layout .detailgazou {
+        height: 280px !important;
+        min-height: 250px !important;
+    }
+
+    #detail-page-wrapper .detaildt {
+        color: #d4af37 !important;
+        font-size: 1rem !important;
+        letter-spacing: 5px !important;
+        text-transform: uppercase !important;
+        margin: 15px 0 5px !important;
+    }
+
+    #detail-page-wrapper .jpname-container {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        margin-bottom: 30px !important;
+    }
+
+    #detail-page-wrapper .jpname-text {
+        font-size: 3.2rem !important;
+        font-weight: 700 !important;
+        line-height: 1.2 !important;
+        margin: 10px 0 !important;
+    }
+
+    #detail-page-wrapper .jpname-text ruby rt {
+        font-size: 0.9rem !important;
+        color: #d4af37 !important;
+        letter-spacing: 1px !important;
+    }
+
+    #detail-page-wrapper .voice-btn, 
+    #detail-page-wrapper .voice-btn-modern {
+        background: rgba(212, 175, 55, 0.1) !important;
+        border: 1px solid rgba(212, 175, 55, 0.6) !important;
+        color: #d4af37 !important;
+        width: 46px !important;
+        height: 46px !important;
+        border-radius: 50% !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        cursor: pointer !important;
+        font-size: 1.1rem !important;
+        transition: 0.3s !important;
+        padding: 0 !important;
+        outline: none !important;
+        margin-left: 10px !important;
+    }
+
+    #detail-page-wrapper .card {
+        background: rgba(255, 255, 255, 0.05) !important;
+        backdrop-filter: blur(10px) !important;
+        border: 1px solid rgba(212, 175, 55, 0.2) !important;
+        border-radius: 16px !important;
+        padding: 20px !important;
+        margin-bottom: 20px !important;
+        text-align: left !important;
+    }
+
+    #detail-page-wrapper .card h2 {
+        color: #d4af37 !important;
+        font-size: 0.9rem !important;
+        text-transform: uppercase !important;
+        letter-spacing: 2px !important;
+        border-bottom: 1px solid rgba(212, 175, 55, 0.2) !important;
+        padding-bottom: 10px !important;
+        margin-bottom: 15px !important;
+    }
+
+    #detail-page-wrapper .game-invite-box {
+        width: 100% !important;
+        background: linear-gradient(135deg, rgba(212, 175, 55, 0.1), rgba(0,0,0,0.5)) !important;
+        border: 1px solid rgba(212, 175, 55, 0.3) !important;
+        border-radius: 20px !important;
+        padding: 30px 20px !important;
+        box-sizing: border-box !important;
+    }
+
+    #detail-page-wrapper .game-invite-btn {
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 8px !important;
+        position: relative !important;
+        overflow: hidden !important;
+        background: linear-gradient(135deg, #e8cf7a, #cda23f 55%, #a97c1f) !important;
+        color: #241b10 !important;
+        padding: 14px 34px !important;
+        border-radius: 50px !important;
+        border: 2px solid rgba(255,255,255,0.35) !important;
+        text-decoration: none !important;
+        font-weight: 800 !important;
+        font-size: 1.02rem !important;
+        margin-top: 15px !important;
+        box-shadow: 0 6px 18px rgba(0,0,0,0.35), 0 0 0 3px rgba(46,196,182,0.25) !important;
+        animation: game-invite-btn-pulse 2.4s ease-in-out infinite !important;
+        transition: transform 0.15s ease !important;
+    }
+
+    #detail-page-wrapper .game-invite-btn::after {
+        content: '' !important;
+        position: absolute !important;
+        top: 0 !important; left: -60% !important;
+        width: 40% !important; height: 100% !important;
+        background: linear-gradient(120deg, transparent, rgba(255,255,255,0.55), transparent) !important;
+        transform: skewX(-20deg) !important;
+        animation: game-invite-btn-shine 3.2s ease-in-out infinite !important;
+    }
+
+    #detail-page-wrapper .game-invite-btn:active {
+        transform: scale(0.96) !important;
+    }
+
+    @keyframes game-invite-btn-pulse {
+        0%, 100% { box-shadow: 0 6px 18px rgba(0,0,0,0.35), 0 0 0 3px rgba(46,196,182,0.25); }
+        50% { box-shadow: 0 6px 22px rgba(0,0,0,0.4), 0 0 0 6px rgba(46,196,182,0.12); }
+    }
+
+    @keyframes game-invite-btn-shine {
+        0% { left: -60%; }
+        35% { left: 130%; }
+        100% { left: 130%; }
+    }
+
+    #detail-page-wrapper .twitter-share-btn-white {
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        color: #ffffff !important; 
+        text-decoration: none !important; 
+        border: 1px solid rgba(255, 255, 255, 0.3) !important;
+        padding: 8px 20px !important;
+        border-radius: 50px !important;
+        font-size: 0.9rem !important;
+    }
+
+    #detail-page-wrapper .related-card-item {
+        background: rgba(255, 255, 255, 0.05) !important;
+        border: 1px solid rgba(212, 175, 55, 0.2) !important;
+        border-radius: 12px !important;
+        overflow: hidden !important;
+        text-decoration: none !important; 
+        display: block !important;
+        transition: transform 0.2s !important;
+    }
+
+    #detail-page-wrapper .related-card-item img {
+        width: 100% !important;
+        height: 70px !important;
+        object-fit: cover !important;
+        opacity: 0.8 !important;
+        display: block !important;
+    }
+
+
+    #detail-page-wrapper .twitter-share-btn-white {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    color: #ffffff !important; 
+    text-decoration: none !important; 
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+    padding: 10px 24px !important;
+    border-radius: 50px !important;
+    font-size: 0.9rem !important;
+    font-weight: 600 !important;
+    background: rgba(255, 255, 255, 0.05) !important;
+    }
+
+
+    #detail-page-wrapper .x-icon-white {
+    fill: #ffffff !important; 
+    width: 16px !important;
+    height: 16px !important;
+    margin-right: 10px !important;
+    display: inline-block !important;
+    vertical-align: middle !important;
+    }
+
+    @media screen and (max-width: 768px) {
+        #detail-page-wrapper .jpname-text { 
+            font-size: 2.5rem !important; 
+        }
+    }
+</style>
+
+    <div class="image-wrapper">
+        {% if object.image and object.image.url %}
+            <img class="detailgazou" src="{{ object.image.url }}" alt="{{ object.englishname }}">
+        {% endif %}
+    </div>
+
+    <h1 class="detaildt">
+        {% if lang_code == 'en-in' %}{{ object.englishname_en_in }}
+        {% elif lang_code == 'zh-hant' %}{{ object.englishname_zh_hant }}
+        {% elif lang_code == 'zh-cn' %}{{ object.englishname_zh_cn }}
+        {% elif lang_code == 'ko' %}{{ object.englishname_ko }}
+        {% elif lang_code == 'fr' %}{{ object.englishname_fr }}
+        {% elif lang_code == 'de' %}{{ object.englishname_de }}
+        {% elif lang_code == 'it' %}{{ object.englishname_it }}
+        {% elif lang_code == 'es-es' %}{{ object.englishname_es_es }}
+        {% elif lang_code == 'es-mx' %}{{ object.englishname_es_mx }}
+        {% elif lang_code == 'pt' %}{{ object.englishname_pt }}
+        {% elif lang_code == 'pt-br' %}{{ object.englishname_pt_br }}
+        {% elif lang_code == 'th' %}{{ object.englishname_th }}
+        {% elif lang_code == 'vi' %}{{ object.englishname_vi }}
+        {% else %}{{ object.englishname }}
+        {% endif %}
+    </h1>
+
+    <div class="jpname-container">
+        <span class="label-text">
+            {% if lang_code == 'ja' %}日本語名
+            {% elif lang_code == 'zh-hant' %}日文名稱
+            {% elif lang_code == 'zh-cn' %}日文名称
+            {% elif lang_code == 'de' %}Japanischer Name
+            {% elif lang_code == 'fr' %}Nom japonais
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Nombre japonés
+            {% elif lang_code == 'it' %}Nome giapponese
+            {% elif lang_code == 'ko' %}일본어 이름
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Nome japonês
+            {% elif lang_code == 'vi' %}Tên tiếng Nhật
+            {% elif lang_code == 'th' %}ชื่อภาษาญี่ปุ่น
+            {% else %}Japanese Name
+            {% endif %}
+
+        </span>
+
+         <div class="jpname-wrapper">
+            <span class="jpname-text">
+                {% if object.kanji_name %}{{ object.kanji_name|ruby_smart:object.jpname }}{% else %}{{ object.jpname }}{% endif %}
+            </span>
+            <button type="button" class="voice-btn-modern" onclick="speakJapanese('{{ object.jpname }}')">
+                🔊
+            </button>
+        </div>
+    
+        <div class="romaji-container">
+            <span class="romaji-text">{{ object.name }}</span>
+        </div>
+
+    </div>
+
+    <div class="game-invite-box">
+        <h3 class="game-invite-title" style="color: #ffffff; font-size: 1.2rem; margin-bottom: 15px;">
+            {% if lang_code == 'ja' %}この単語を練習する準備はいい？
+            {% elif lang_code == 'zh-hant' %}準備好練習這個單字了嗎？
+            {% elif lang_code == 'zh-cn' %}准备好练习这个单词了吗？
+            {% elif lang_code == 'de' %}Bereit, dieses Wort zu üben?
+            {% elif lang_code == 'fr' %}Prêt à pratiquer ce mot ?
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}¿Listo para practicar esta palabra?
+            {% elif lang_code == 'it' %}Pronto a esercitarti con questa parola?
+            {% elif lang_code == 'ko' %}이 단어를 연습할 준비가 되었나요?
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Pronto para praticar esta palavra?
+            {% elif lang_code == 'vi' %}Sẵn sàng luyện tập từ này chưa?
+            {% elif lang_code == 'th' %}พร้อมฝึกคำนี้แล้วหรือยัง?
+            {% else %}Ready to Practice this Word?
+            {% endif %}
+
+        </h3>
+        
+        <p class="rule-caption" style="color: rgba(255,255,255,0.6); font-size: 0.85rem; margin-bottom: 25px;">
+            {% if lang_code == 'ja' %}
+                文字を並べ替えて正解を目指そう！
+            {% elif lang_code == 'zh-hant' %}
+                排列文字,拼出正確答案吧！
+            {% elif lang_code == 'zh-cn' %}
+                排列文字,拼出正确答案吧！
+            {% elif lang_code == 'de' %}
+                Ordne die Buchstaben, um die richtige Antwort zu bilden!
+            {% elif lang_code == 'fr' %}
+                Réorganise les lettres pour trouver la bonne réponse !
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}
+                ¡Ordena las letras para encontrar la respuesta correcta!
+            {% elif lang_code == 'it' %}
+                Riordina le lettere per trovare la risposta corretta!
+            {% elif lang_code == 'ko' %}
+                글자를 배열해서 정답을 맞혀보세요!
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}
+                Reorganize as letras para encontrar a resposta certa!
+            {% elif lang_code == 'vi' %}
+                Sắp xếp lại các chữ cái để tìm đáp án đúng!
+            {% elif lang_code == 'th' %}
+                เรียงตัวอักษรใหม่เพื่อหาคำตอบที่ถูกต้อง!
+            {% else %}
+                Rearrange the tiles to find the correct answer!
+            {% endif %}
+        </p>
+        
+        <div style="text-align: center; margin-top: 20px;">
+            <a href="{% url 'game_restart' %}?mode=single&model_type=free&slug={{ object.slug }}" class="game-invite-btn">
+            {% if lang_code == 'ja' %}🧩 この単語を練習する
+            {% elif lang_code == 'zh-hant' %}🧩 練習這個單字
+            {% elif lang_code == 'zh-cn' %}🧩 练习这个单词
+            {% elif lang_code == 'de' %}🧩 Dieses Wort üben
+            {% elif lang_code == 'fr' %}🧩 Pratiquer ce mot
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}🧩 Practicar esta palabra
+            {% elif lang_code == 'it' %}🧩 Esercitati con questa parola
+            {% elif lang_code == 'ko' %}🧩 이 단어 연습하기
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}🧩 Praticar esta palavra
+            {% elif lang_code == 'vi' %}🧩 Luyện tập từ này
+            {% elif lang_code == 'th' %}🧩 ฝึกคำนี้
+            {% else %}🧩 Practice This Word
+            {% endif %}
+
+            </a>
+        </div>
+    </div>
+
+    <div class="cards">
+        <div class="card">
+            <h2>
+                {% if lang_code == 'ja' %}説明
+                {% elif lang_code == 'zh-hant' %}說明
+                {% elif lang_code == 'zh-cn' %}说明
+                {% elif lang_code == 'de' %}Beschreibung
+                {% elif lang_code == 'fr' %}Description
+                {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Descripción
+                {% elif lang_code == 'it' %}Descrizione
+                {% elif lang_code == 'ko' %}설명
+                {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Descrição
+                {% elif lang_code == 'vi' %}Mô tả
+                {% elif lang_code == 'th' %}คำอธิบาย
+                {% else %}Description
+                {% endif %}
+            </h2>
+            
+            <ul>
+                {% if lang_code == 'ja' and object.description_ja %}
+                    {% for line in object.description_ja.splitlines %}<li>{{ line }}</li>{% endfor %}
+                {% elif lang_code == 'en-in' and object.description_en_in %}
+                    {% for line in object.description_en_in.splitlines %}<li>{{ line }}</li>{% endfor %}
+                {% elif lang_code == 'zh-cn' and object.description_zh_cn %}
+                    {% for line in object.description_zh_cn.splitlines %}<li>{{ line }}</li>{% endfor %}
+                {% elif lang_code == 'zh-hant' and object.description_zh_hant %}
+                    {% for line in object.description_zh_hant.splitlines %}<li>{{ line }}</li>{% endfor %}
+                {% elif lang_code == 'ko' and object.description_ko %}
+                    {% for line in object.description_ko.splitlines %}<li>{{ line }}</li>{% endfor %}
+                {% elif lang_code == 'fr' and object.description_fr %}
+                    {% for line in object.description_fr.splitlines %}<li>{{ line }}</li>{% endfor %}
+                {% elif lang_code == 'de' and object.description_de %}
+                    {% for line in object.description_de.splitlines %}<li>{{ line }}</li>{% endfor %}
+                {% elif lang_code == 'it' and object.description_it %}
+                    {% for line in object.description_it.splitlines %}<li>{{ line }}</li>{% endfor %}
+                {% elif lang_code == 'es-es' and object.description_es_es %}
+                    {% for line in object.description_es_es.splitlines %}<li>{{ line }}</li>{% endfor %}
+                {% elif lang_code == 'es-mx' and object.description_es_mx %}
+                    {% for line in object.description_es_mx.splitlines %}<li>{{ line }}</li>{% endfor %}
+                {% elif lang_code == 'pt' and object.description_pt %}
+                    {% for line in object.description_pt.splitlines %}<li>{{ line }}</li>{% endfor %}
+                {% elif lang_code == 'pt-br' and object.description_pt_br %}
+                    {% for line in object.description_pt_br.splitlines %}<li>{{ line }}</li>{% endfor %}
+                {% elif lang_code == 'th' and object.description_th %}
+                    {% for line in object.description_th.splitlines %}<li>{{ line }}</li>{% endfor %}
+                {% elif lang_code == 'vi' and object.description_vi %}
+                    {% for line in object.description_vi.splitlines %}<li>{{ line }}</li>{% endfor %}
+                {% else %}
+                    {% for line in object.description.splitlines %}<li>{{ line }}</li>{% endfor %}
+                {% endif %}
+            </ul>
+        </div>
+
+        {% if object.example_sentence_ja %}
+        <div class="card">
+            <h2>
+                {% if lang_code == 'ja' %}例文
+                {% elif lang_code == 'zh-hant' %}例句
+                {% elif lang_code == 'zh-cn' %}例句
+                {% elif lang_code == 'de' %}Beispielsatz
+                {% elif lang_code == 'fr' %}Phrase d'exemple
+                {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Frase de ejemplo
+                {% elif lang_code == 'it' %}Frase di esempio
+                {% elif lang_code == 'ko' %}예문
+                {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Frase de exemplo
+                {% elif lang_code == 'vi' %}Câu ví dụ
+                {% elif lang_code == 'th' %}ประโยคตัวอย่าง
+                {% else %}Example Sentence
+                {% endif %}
+            </h2>
+
+            <div class="example-japanese">
+                {{ object.example_sentence_ja|safe }}
+            </div>
+
+            <div class="example-meta-label">
+                {% if lang_code == 'ja' %}発音
+                {% elif lang_code == 'zh-cn' %}发音
+                {% elif lang_code == 'zh-hant' %}發音
+                {% elif lang_code == 'ko' %}발음
+                {% elif lang_code == 'fr' %}Prononciation
+                {% elif lang_code == 'de' %}Aussprache
+                {% elif lang_code == 'it' %}Pronuncia
+                {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Pronunciación
+                {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Pronúncia
+                {% elif lang_code == 'th' %}การออกเสียง
+                {% elif lang_code == 'vi' %}Phát âm
+                {% else %}Pronunciation{% endif %}
+            </div>
+    
+            <div class="example-romaji">
+                {{ object.example_sentence_romaji }}
+                <button type="button" class="voice-btn" style="display:inline-flex; margin-left:10px; width:36px; height:36px; font-size:1rem;" 
+                    onclick="speakJapanese('{{ object.example_sentence_ja|escapejs }}'.replace(/<rt>.*?<\/rt>/g, '').replace(/<[^>]+>/g, ''))">
+                    🔊
+                </button>
+            </div>
+    
+            {% if lang_code != 'ja' %}
+                <div class="example-meta-label">
+                    {% if lang_code == 'zh-cn' or lang_code == 'zh-hant' %}意思
+                    {% elif lang_code == 'ko' %}의미
+                    {% elif lang_code == 'fr' %}Signification
+                    {% elif lang_code == 'de' %}Bedeutung
+                    {% elif lang_code == 'it' %}Significato
+                    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Significado
+                    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Significado
+                    {% elif lang_code == 'th' %}ความหมาย
+                    {% elif lang_code == 'vi' %}Ý nghĩa
+                    {% else %}Meaning{% endif %}
+                </div>
+
+                <div style="font-size: 1.1rem; font-weight: 500; color: #fff; line-height: 1.4;">
+                    {% if lang_code == 'en-in' and object.example_sentence_en_in %}
+                        {{ object.example_sentence_en_in }}
+                    {% elif lang_code == 'zh-cn' and object.example_sentence_zh_cn %}
+                        {{ object.example_sentence_zh_cn }}
+                    {% elif lang_code == 'zh-hant' and object.example_sentence_zh_hant %}
+                        {{ object.example_sentence_zh_hant }}
+                    {% elif lang_code == 'ko' and object.example_sentence_ko %}
+                        {{ object.example_sentence_ko }}
+                    {% elif lang_code == 'fr' and object.example_sentence_fr %}
+                        {{ object.example_sentence_fr }}
+                    {% elif lang_code == 'de' and object.example_sentence_de %}
+                        {{ object.example_sentence_de }}
+                    {% elif lang_code == 'it' and object.example_sentence_it %}
+                        {{ object.example_sentence_it }}
+                    {% elif lang_code == 'es-es' and object.example_sentence_es_es %}
+                        {{ object.example_sentence_es_es }}
+                    {% elif lang_code == 'es-mx' and object.example_sentence_es_mx %}
+                        {{ object.example_sentence_es_mx }}
+                    {% elif lang_code == 'pt' and object.example_sentence_pt %}
+                        {{ object.example_sentence_pt }}
+                    {% elif lang_code == 'pt-br' and object.example_sentence_pt_br %}
+                        {{ object.example_sentence_pt_br }}
+                    {% elif lang_code == 'th' and object.example_sentence_th %}
+                        {{ object.example_sentence_th }}
+                    {% elif lang_code == 'vi' and object.example_sentence_vi %}
+                        {{ object.example_sentence_vi }}
+                    {% else %}
+                        {{ object.example_sentence }} 
+                    {% endif %}
+                </div>
+            {% endif %}
+        </div>
+        {% endif %}
+    </div>
+
+    {% if related_items %}
+        <div style="width: 100%; margin-top: 40px; padding-top: 30px; border-top: 1px solid rgba(212, 175, 55, 0.25);">
+            <h3 style="color: #d4af37; font-size: 1.3rem; letter-spacing: 2px; margin-bottom: 20px; text-transform: uppercase; font-weight: 700;">
+                {% if lang_code == 'ja' %}関連する単語
+                {% elif lang_code == 'zh-hant' %}相關單字
+                {% elif lang_code == 'zh-cn' %}相关单词
+                {% elif lang_code == 'de' %}Verwandte Wörter
+                {% elif lang_code == 'fr' %}Mots associés
+                {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Palabras relacionadas
+                {% elif lang_code == 'it' %}Parole correlate
+                {% elif lang_code == 'ko' %}관련 단어
+                {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Palavras relacionadas
+                {% elif lang_code == 'vi' %}Từ liên quan
+                {% elif lang_code == 'th' %}คำที่เกี่ยวข้อง
+                {% else %}Related Words
+                {% endif %}
+
+            </h3>
+
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px;">
+                {% for item in related_items %}
+                    {% url 'category_detail' item.category item.slug as the_url %}
+                    {% with related_href=the_url|add:"?lang="|add:lang_code %}
+                        <a href="{{ related_href }}"
+                        onclick="openDetailModal('{{ related_href }}'); return false;"
+                        class="related-card-item">
+
+                            {% if item.image %}
+                                <img src="{{ item.image.url }}" style="width:100%; height:100px; object-fit:cover; opacity:0.9;">
+                            {% endif %}
+                            <div style="padding:10px 8px; font-size:0.85rem; font-weight:600; color:#fff;">{{ item.englishname }}</div>
+                        </a>
+                    {% endwith %}
+                {% endfor %}
+            </div>
+        </div>
+    {% endif %}
+
+    <div style="margin: 25px 0; text-align: center;">
+        <a href="https://twitter.com/intent/tweet?text=Discovering Japanese Culture: {{ object.englishname }} 🇯🇵 Check this out!&url={{ request.build_absolute_uri }}&hashtags=ThankJapan,LearnJapanese,JapanCulture" 
+           target="_blank" 
+           class="twitter-share-btn-white">
+           
+            <svg viewBox="0 0 24 24" aria-hidden="true" class="x-icon-white">
+                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path>
+            </svg>
+           
+            {% if lang_code == 'ja' %}Xでシェア
+            {% elif lang_code == 'zh-hant' %}在 X 分享
+            {% elif lang_code == 'zh-cn' %}在 X 分享
+            {% elif lang_code == 'de' %}Auf X teilen
+            {% elif lang_code == 'fr' %}Partager sur X
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Compartir en X
+            {% elif lang_code == 'it' %}Condividi su X
+            {% elif lang_code == 'ko' %}X에 공유
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Compartilhar no X
+            {% elif lang_code == 'vi' %}Chia sẻ trên X
+            {% elif lang_code == 'th' %}แชร์บน X
+            {% else %}Share on X
+            {% endif %}
+
+        </a>
+    </div>
+
+    <div style="width: 100%; text-align: center; margin: 40px 0 10px; padding-top: 30px; border-top: 1px solid rgba(212, 175, 55, 0.15);">
+        <a href="{% url 'game_start' %}?lang={{ lang_code }}" class="game-invite-btn">
+            {% if lang_code == 'ja' %}🎮 もっと単語を学ぼう
+            {% elif lang_code == 'zh-hant' %}🎮 學習更多單字
+            {% elif lang_code == 'zh-cn' %}🎮 学习更多单词
+            {% elif lang_code == 'de' %}🎮 Mehr Wörter lernen
+            {% elif lang_code == 'fr' %}🎮 Apprendre plus de mots
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}🎮 Aprender más palabras
+            {% elif lang_code == 'it' %}🎮 Impara altre parole
+            {% elif lang_code == 'ko' %}🎮 더 많은 단어 배우기
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}🎮 Aprender mais palavras
+            {% elif lang_code == 'vi' %}🎮 Học thêm từ vựng
+            {% elif lang_code == 'th' %}🎮 เรียนรู้คำศัพท์เพิ่มเติม
+            {% else %}🎮 Learn More Words
+            {% endif %}
+        </a>
+    </div>
+
+
+    
+    
+    <footer style="margin-top: 40px; font-size: 0.7rem; color: rgba(255,255,255,0.3); padding-bottom: 60px; text-align: center;">
+        © 2025 Thank Japan All Rights Reserved.
+    </footer>
+</div>
+
+
+<script>
+function speakJapanese(text) {
+    if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+        const utterance = new SpeechSynthesisUtterance(text);
+        let voices = window.speechSynthesis.getVoices();
+
+        let selectedVoice = voices.find(voice => {
+            const name = voice.name;
+            const lang = voice.lang;
+            if (lang !== 'ja-JP' && lang !== 'ja_JP') return false;
+            return name.includes('Google') || 
+                   name.includes('Natural') || 
+                   name.includes('Siri') || 
+                   name.includes('Premium') ||
+                   name.includes('O-ren') ||
+                   name.includes('Hattori');
+        });
+
+        if (!selectedVoice) {
+            selectedVoice = voices.find(voice => voice.lang.startsWith('ja'));
+        }
+
+        if (selectedVoice) {
+            utterance.voice = selectedVoice;
+            console.log("Selected voice:", selectedVoice.name); 
+        }
+
+        utterance.lang = 'ja-JP';
+        utterance.rate = 1.0; 
+        utterance.pitch = 1.0;
+        utterance.volume = 1.0;
+
+        window.speechSynthesis.speak(utterance);
+    }
+}
+
+window.speechSynthesis.onvoiceschanged = () => {
+    window.speechSynthesis.getVoices();
+};
+
+
+function smartBack(categoryListUrl) {
+    const params = new URLSearchParams(window.location.search);
+    const referrer = document.referrer;
+
+    if (params.get('from') === 'game') {
+        window.close();
+        setTimeout(() => {
+            window.location.href = "/game/result/";
+        }, 100);
+        return;
+    }
+
+    if (params.get('mode') === 'single' || params.get('origin') === 'category') {
+        window.location.href = categoryListUrl;
+        return;
+    }
+
+    if (window.history.length > 1) {
+        window.history.back();
+    } else {
+        window.location.href = categoryListUrl;
+    }
+
+    setTimeout(() => {
+        if (window.location.href.includes(window.location.pathname)) {
+            window.location.href = categoryListUrl;
+        }
+    }, 300);
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('from') === 'game') {
+        const btn = document.getElementById('back-btn');
+        if (btn) {
+            const closeLabels = {
+                'ja': '× 閉じる', 'zh-hant': '× 關閉', 'zh-cn': '× 关闭',
+                'ko': '× 닫기', 'fr': '× Fermer', 'th': '× ปิด',
+                'vi': '× Đóng', 'es-es': '× Cerrar', 'es-mx': '× Cerrar',
+                'pt': '× Fechar', 'pt-br': '× Fechar', 'de': '× Schließen',
+                'it': '× Chiudi', 'en-in': '× Close'
+            };
+            const lang = "{{ lang_code }}";
+            btn.textContent = closeLabels[lang] || '× Close';
+        }
+    }
+});
+</script>
