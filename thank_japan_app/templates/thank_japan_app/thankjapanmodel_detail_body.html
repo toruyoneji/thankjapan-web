@@ -182,6 +182,22 @@
         100% { left: 130%; }
     }
 
+    /* One-shot "look here" flourish, layered on top of the always-on pulse
+       above via JS adding this class ~1.8s after page load (see the script
+       near the end of this file). Animates transform/filter only - the
+       pulse animation only touches box-shadow, so the two run together
+       without fighting over the same property. iteration-count defaults to
+       1 (no "infinite"), so it plays once and settles back to normal. */
+    #detail-page-wrapper .game-invite-btn.game-invite-btn-attention {
+        animation: game-invite-btn-pulse 2.4s ease-in-out infinite, game-invite-btn-attention 0.7s ease-out !important;
+    }
+
+    @keyframes game-invite-btn-attention {
+        0% { transform: scale(1); filter: brightness(1); }
+        50% { transform: scale(1.15); filter: brightness(1.5); }
+        100% { transform: scale(1); filter: brightness(1); }
+    }
+
     #detail-page-wrapper .twitter-share-btn-white {
         display: inline-flex !important;
         align-items: center !important;
@@ -694,5 +710,19 @@ document.addEventListener('DOMContentLoaded', function() {
             btn.textContent = closeLabels[lang] || '× Close';
         }
     }
+});
+</script>
+
+<!-- One-shot attention flourish on the top "practice this word" CTA, ~1.8s
+     after the page loads. Scoped to .game-invite-box specifically so it
+     never touches the separate "Learn More Words" CTA further down the
+     page. -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var practiceBtn = document.querySelector('.game-invite-box .game-invite-btn');
+    if (!practiceBtn) return;
+    setTimeout(function() {
+        practiceBtn.classList.add('game-invite-btn-attention');
+    }, 1800);
 });
 </script>
