@@ -22,19 +22,24 @@
            errors, etc) was silently clipped with no way to reach it.
 
            First fix attempt used position:fixed + overflow-y:auto (the
-           pattern daily_question.html uses) - that measured as scrollable
-           (scrollHeight > clientHeight, synthetic wheel events moved it)
-           but real-world trackpad gesture scrolling on desktop Chrome still
-           didn't reach the bottom of the page. Switched instead to the
-           pattern player_login-v2.html's #premium-auth-container already
-           uses successfully: no position:fixed at all - just a normal flex
-           child of .app-content (which base_top.html's .app-wrapper, a
-           height:100vh flex column, already bounds to the remaining
-           viewport height), sized with height:100% and its own
-           overflow-y:auto. overscroll-behavior/touch-action added as extra
-           insurance so the browser treats this element as the definitive
-           scroll owner regardless of input device. */
-        height: 100%;
+           pattern daily_question.html uses) - measured as scrollable via
+           synthetic wheel events, but real-world trackpad scrolling on
+           desktop Chrome reportedly still didn't reach the page bottom.
+
+           Second attempt dropped position:fixed and used height:100% on
+           the theory that .app-content's flexbox sizing would bound it -
+           wrong: .app-content is a flex:1 item with no min-height:0, so by
+           default it grows to fit whatever height its child computes to
+           (the flexbox "min-height:auto" quirk) instead of capping it.
+           height:100% on this element then just inherits that already-
+           unbounded parent height, so scrollHeight ends up equal to
+           clientHeight - literally zero overflow ever gets registered
+           here, confirmed by direct measurement. The actual working detail
+           in player_login-v2.html's #premium-auth-container (which this
+           was meant to copy) is height:100vh - an absolute, viewport-
+           anchored unit that doesn't depend on the parent's own auto-sized
+           height, forcing a real ceiling regardless of flexbox quirks. */
+        height: 100vh;
         overflow-y: auto;
         -webkit-overflow-scrolling: touch;
         overscroll-behavior: contain;
