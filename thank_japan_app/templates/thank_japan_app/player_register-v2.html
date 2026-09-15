@@ -34,13 +34,13 @@
   }
 
   body {
-    background: radial-gradient(circle at center, #2c2c2c 0%, #0a0a0a 100%) !important;
+    background: #faf6ec !important;
     background-attachment: fixed !important;
   }
 
   #premium-auth-container {
   font-family: 'Sawarabi Mincho', serif;
-  color: #eee;
+  color: #1a1a1a;
   display: flex;
   justify-content: center;
   align-items: flex-start;
@@ -59,7 +59,7 @@
   .app-content-fix {
   width: 92%;
   max-width: 450px;
-  background: rgba(10, 10, 10, 0.85);
+  background: rgba(255, 255, 255, 0.75);
   backdrop-filter: blur(15px);
   border: 2px solid #d4af37;
   border-radius: 20px;
@@ -81,7 +81,7 @@
   }
   h2.premium-title {
     text-align: center;
-    color: #ffffff;
+    color: #1a1a1a;
     font-size: 1.6rem;
     margin-bottom: 20px;
     letter-spacing: 2px;
@@ -142,8 +142,8 @@
   .btn-home {
     display: inline-block;
     padding: 12px 30px;
-    background: #000;
-    color: #d4af37;
+    background: transparent;
+    color: #1a1a1a;
     border: 1px solid #d4af37;
     border-radius: 25px;
     text-decoration: none;
@@ -162,7 +162,7 @@
     text-decoration: underline;
   }
   .error-msg {
-    color: #ff6b6b;
+    color: #e24b4a;
     font-size: 0.85em;
     list-style: none;
     padding: 0;
@@ -263,8 +263,8 @@
             </span>
           </a>
 
-          <div style="margin-top: 25px; display: flex; align-items: center; color: #888; font-size: 0.8rem;">
-            <div style="flex: 1; height: 1px; background: #444;"></div>
+          <div style="margin-top: 25px; display: flex; align-items: center; color: #6b6b6b; font-size: 0.8rem;">
+            <div style="flex: 1; height: 1px; background: rgba(192, 57, 43, 0.3);"></div>
             <div style="padding: 0 15px;">
               {% if lang_code == 'ja' %}または
               {% elif lang_code == 'zh-hant' %}或
@@ -280,7 +280,7 @@
               {% else %}or
               {% endif %}
             </div>
-            <div style="flex: 1; height: 1px; background: #444;"></div>
+            <div style="flex: 1; height: 1px; background: rgba(192, 57, 43, 0.3);"></div>
           </div>
         </div>
 
@@ -990,7 +990,7 @@
       </form>
 
       
-      <div style="margin-top: 25px; font-size: 0.8rem; color: #aaa; text-align: center; line-height: 1.6;">
+      <div style="margin-top: 25px; font-size: 0.8rem; color: #6b6b6b; text-align: center; line-height: 1.6;">
         {% if lang_code == 'ja' %}
           登録（またはログイン）することにより、Thank Japanの<a href="{% url 'riyoukiyakuja' %}">利用規約</a>および<a href="{% url 'privacy_policyja' %}">プライバシー規約</a>に同意したものとみなされます。
         {% elif lang_code == 'zh-hant' %}
@@ -1026,7 +1026,7 @@
 
 
       
-      <div style="margin-top: 25px; font-size: 0.9rem; color: #bbb; text-align: center; line-height: 1.6;">
+      <div style="margin-top: 25px; font-size: 0.9rem; color: #6b6b6b; text-align: center; line-height: 1.6;">
         {% if lang_code == 'ja' %}すでにアカウントをお持ちですか？ <a href="{% url 'player_login' %}?lang={{ lang_code }}" style="font-weight: bold; color: #d4af37;">ログインはこちら</a>
         {% elif lang_code == 'zh-hant' %}已經有帳號了？ <a href="{% url 'player_login' %}?lang={{ lang_code }}" style="font-weight: bold; color: #d4af37;">在此登入</a>
         {% elif lang_code == 'zh-cn' %}已经有账号了？ <a href="{% url 'player_login' %}?lang={{ lang_code }}" style="font-weight: bold; color: #d4af37;">在此登录</a>

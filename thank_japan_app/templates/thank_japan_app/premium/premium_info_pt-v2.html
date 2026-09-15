@@ -31,10 +31,11 @@
 
 <style>
 :root {
-    --page-bg: linear-gradient(135deg, #0f0f0f 0%, #1a1a2e 50%, #2d1b2d 100%);
-    --card-bg: rgba(51, 36, 26, 0.85);
-    --ink: #ffffff;
-    --ink-soft: #e0e0e0;
+    --page-bg: linear-gradient(135deg, #faf6ec 0%, #f7f0dd 50%, #faf3e2 100%);
+    --card-bg: rgba(255, 255, 255, 0.7);
+    --ink: #1a1a1a;
+    --ink-soft: #5a5248;
+    --ink-faint: #8a8272;
     --border: rgba(212, 175, 55, 0.4);
     --accent: #d4af37;
     --accent-bg: rgba(212, 175, 55, 0.2);
@@ -46,9 +47,9 @@
     top: 0; left: 0;
     width: 100% !important;
     height: 100dvh;
-    background: repeating-radial-gradient(circle at 50% 100%, transparent 0, transparent 18px, rgba(212, 175, 55, 0.035) 19px, rgba(212, 175, 55, 0.035) 20px),
-                radial-gradient(circle at top right, #2d1b2d, #0f0f0f 60%),
-                radial-gradient(circle at bottom left, #241a12, #0f0f0f 60%) !important;
+    background: repeating-radial-gradient(circle at 50% 100%, transparent 0, transparent 18px, rgba(212, 175, 55, 0.05) 19px, rgba(212, 175, 55, 0.05) 20px),
+                radial-gradient(circle at top right, #faf3e0, #faf6ec 60%),
+                radial-gradient(circle at bottom left, #f7f0dd, #faf6ec 60%) !important;
     background-size: 60px 30px, auto, auto;
     overflow: hidden;
     z-index: 1;
@@ -97,7 +98,7 @@
     display: block;
     width: fit-content;
     margin: 0 auto 16px;
-    background: rgba(255, 255, 255, 0.9) !important;
+    background: #ffffff !important;
     color: #111111 !important; 
     font-size: 0.75rem;
     font-weight: 800; 
@@ -119,7 +120,7 @@
     width: fit-content;
     margin: 0 auto 18px;
     background: var(--accent-bg);
-    color: var(--accent);
+    color: var(--ink);
     font-size: 0.7rem;
     font-weight: 700;
     padding: 5px 14px;
@@ -134,7 +135,7 @@
 }
 
 .plan-card {
-    background: rgba(20, 20, 25, 0.85) !important;
+    background: rgba(255, 255, 255, 0.65) !important;
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
     border: 2px solid rgba(212, 175, 55, 0.5); 
@@ -215,9 +216,9 @@
     justify-content: center;
     text-align: center;
     gap: 8px;
-    color: #ffffff;
+    color: #1a1a1a;
     line-height: 1.35;
-    background: rgba(51, 36, 26, 0.55);
+    background: rgba(212, 175, 55, 0.08);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border: 1px solid rgba(212, 175, 55, 0.2);
@@ -336,7 +337,7 @@
     transform: translate(-50%, -50%);
     width: 90%;
     max-width: 380px;
-    background: #1a1a1a;
+    background: #faf6ec;
     border: 1px solid var(--border);
     border-radius: 20px;
     padding: 28px 22px;
@@ -354,8 +355,8 @@
     cursor: pointer; margin-bottom: 10px; box-sizing: border-box;
 }
 .trial-confirm-btn-no {
-    display: block; width: 100%; padding: 12px; border: 1px solid #444; border-radius: 10px;
-    background: none; color: #999; font-size: 0.85rem; cursor: pointer; box-sizing: border-box;
+    display: block; width: 100%; padding: 12px; border: 1px solid rgba(0,0,0,0.15); border-radius: 10px;
+    background: none; color: #6b6b6b; font-size: 0.85rem; cursor: pointer; box-sizing: border-box;
 }
 
 #paypal-button-container {
@@ -411,7 +412,7 @@
 
 .btn-back-home {
     display: inline-block;
-    color: #b0b0b0 !important; 
+    color: #6b6b6b !important;
     text-decoration: underline;
     font-weight: 600;
     font-size: 0.85rem;
@@ -426,7 +427,7 @@
     padding: 16px;
     background: var(--accent-bg);
     border-radius: 12px;
-    color: var(--accent);
+    color: var(--ink);
     font-weight: 700;
     font-size: 0.9rem;
 }

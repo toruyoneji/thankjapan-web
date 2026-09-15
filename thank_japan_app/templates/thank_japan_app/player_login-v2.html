@@ -32,13 +32,13 @@
     display: none;
   }
   body {
-    background: radial-gradient(circle at center, #2c2c2c 0%, #0a0a0a 100%) !important;
+    background: #faf6ec !important;
     background-attachment: fixed !important;
   }
 
   #premium-auth-container {
     font-family: 'Sawarabi Mincho', serif;
-    color: #eee;
+    color: #1a1a1a;
     display: flex;
     justify-content: center;
     align-items: flex-start;
@@ -56,7 +56,7 @@
   .app-content-fix {
     width: 92%;
     max-width: 450px;
-    background: rgba(10, 10, 10, 0.85);
+    background: rgba(255, 255, 255, 0.75);
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
     border: 2px solid #d4af37;
@@ -70,7 +70,7 @@
 
   h2.premium-title {
     text-align: center;
-    color: #ffffff;
+    color: #1a1a1a;
     font-size: 1.6rem;
     margin-bottom: 25px;
     letter-spacing: 2px;
@@ -128,8 +128,8 @@
   .btn-home {
     display: inline-block;
     padding: 12px 30px;
-    background: #000;
-    color: #d4af37;
+    background: transparent;
+    color: #1a1a1a;
     border: 1px solid #d4af37;
     border-radius: 25px;
     text-decoration: none;
@@ -146,16 +146,16 @@
   }
 
   .rank-table-card {
-    background: #ffffff;
+    background: #faf6ec;
     border-radius: 15px;
     overflow: hidden;
     border: 2px solid #d4af37;
-    color: #333;
+    color: #1a1a1a;
     margin-top: 20px;
   }
 
   a { color: #d4af37; text-decoration: none; }
-  .error-msg { color: #ff6b6b; font-size: 0.85em; list-style: none; padding: 0; }
+  .error-msg { color: #e24b4a; font-size: 0.85em; list-style: none; padding: 0; }
 </style>
 
 <div id="premium-auth-container">
@@ -249,8 +249,8 @@
           </span>
         </a>
 
-        <div style="margin-top: 25px; display: flex; align-items: center; color: #666; font-size: 0.8rem;">
-          <div style="flex: 1; height: 1px; background: #444;"></div>
+        <div style="margin-top: 25px; display: flex; align-items: center; color: #6b6b6b; font-size: 0.8rem;">
+          <div style="flex: 1; height: 1px; background: rgba(192, 57, 43, 0.3);"></div>
           <div style="padding: 0 15px;">
             {% if lang_code == 'ja' %}または
             {% elif lang_code == 'zh-hant' %}或
@@ -266,7 +266,7 @@
             {% else %}or
             {% endif %}
           </div>
-          <div style="flex: 1; height: 1px; background: #444;"></div>
+          <div style="flex: 1; height: 1px; background: rgba(192, 57, 43, 0.3);"></div>
         </div>
       </div>
 
@@ -409,7 +409,7 @@
         <input type="password" name="password" id="id_password" required placeholder="{% if lang_code == 'ja' %}パスワードを入力{% elif lang_code == 'zh-hant' %}輸入密碼{% elif lang_code == 'zh-cn' %}输入密码{% elif lang_code == 'ko' %}비밀번호 입력{% elif lang_code == 'de' %}Passwort eingeben{% elif lang_code == 'fr' %}Entrez votre mot de passe{% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Introduce tu contraseña{% elif lang_code == 'it' %}Inserisci la password{% elif lang_code == 'pt' or lang_code == 'pt-br' %}Digite sua senha{% elif lang_code == 'vi' %}Nhập mật khẩu{% elif lang_code == 'th' %}ป้อนรหัสผ่านของคุณ{% else %}Enter your password{% endif %}">
 
         <div style="margin-top: 15px; text-align: right;">
-          <a href="{% url 'password_reset' %}?lang={{ lang_code }}" style="font-size: 0.85rem; color: #aaa; text-decoration: underline;">
+          <a href="{% url 'password_reset' %}?lang={{ lang_code }}" style="font-size: 0.85rem; color: #6b6b6b; text-decoration: underline;">
             {% if lang_code == 'ja' %}パスワードをお忘れですか？
             {% elif lang_code == 'zh-hant' or lang_code == 'zh-cn' %}忘記密碼？
             {% elif lang_code == 'ko' %}비밀번호를 잊으셨나요?
@@ -441,7 +441,7 @@
         </button>
       </form>
 
-      <div style="margin-top: 25px; font-size: 0.8rem; color: #aaa; text-align: center; line-height: 1.6;">
+      <div style="margin-top: 25px; font-size: 0.8rem; color: #6b6b6b; text-align: center; line-height: 1.6;">
         {% if lang_code == 'ja' %}
           ログインすることにより、Thank Japanの<a href="{% url 'riyoukiyakuja' %}">利用規約</a>および<a href="{% url 'privacy_policyja' %}">プライバシー規約</a>に同意したものとみなされます。
         {% elif lang_code == 'zh-hant' %}
@@ -478,7 +478,7 @@
 
       <!-- 遊び方ガイド -->
       <div style="text-align: center; margin-top: 40px;">
-        <p style="color: #bbb; font-size: 0.9rem;">
+        <p style="color: #6b6b6b; font-size: 0.9rem;">
           {% if lang_code == 'ja' %}
             👇 ゲームを極めてランクアップしよう！
           {% elif lang_code == 'zh-hant' %}
