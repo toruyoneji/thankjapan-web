@@ -14,6 +14,22 @@
         background-attachment: fixed !important;
     }
     #connections-container {
+        /* base_top.html sets html/body/.app-wrapper to a fixed 100vh with
+           overflow:hidden (no page-level scroll) - the same pattern that
+           previously broke scrolling on the login/premium/daily-question
+           pages until each got its own self-scrolling wrapper. This page
+           never got that fix, so tall content (many connected accounts,
+           errors, etc) was silently clipped with no way to reach it -
+           invisible on mobile (touch rubber-banding partially masks
+           overflow:hidden) but fully broken on desktop mouse-wheel scroll. */
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100dvh;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        z-index: 1;
         font-family: 'Zen Antique', 'Shippori Mincho', serif;
         display: flex;
         justify-content: center;
@@ -123,12 +139,15 @@
         margin: 10px 0 20px;
     }
     .back-link {
-        color: #1a1a1a !important;
+        background: var(--tj-gold);
+        color: var(--tj-tea-dark) !important;
         font-weight: bold;
         text-decoration: none;
         display: block;
         text-align: center;
         margin-top: 30px;
+        padding: 14px;
+        border-radius: 999px;
         font-size: 1rem;
     }
 </style>
