@@ -19,17 +19,26 @@
            previously broke scrolling on the login/premium/daily-question
            pages until each got its own self-scrolling wrapper. This page
            never got that fix, so tall content (many connected accounts,
-           errors, etc) was silently clipped with no way to reach it -
-           invisible on mobile (touch rubber-banding partially masks
-           overflow:hidden) but fully broken on desktop mouse-wheel scroll. */
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100dvh;
+           errors, etc) was silently clipped with no way to reach it.
+
+           First fix attempt used position:fixed + overflow-y:auto (the
+           pattern daily_question.html uses) - that measured as scrollable
+           (scrollHeight > clientHeight, synthetic wheel events moved it)
+           but real-world trackpad gesture scrolling on desktop Chrome still
+           didn't reach the bottom of the page. Switched instead to the
+           pattern player_login-v2.html's #premium-auth-container already
+           uses successfully: no position:fixed at all - just a normal flex
+           child of .app-content (which base_top.html's .app-wrapper, a
+           height:100vh flex column, already bounds to the remaining
+           viewport height), sized with height:100% and its own
+           overflow-y:auto. overscroll-behavior/touch-action added as extra
+           insurance so the browser treats this element as the definitive
+           scroll owner regardless of input device. */
+        height: 100%;
         overflow-y: auto;
         -webkit-overflow-scrolling: touch;
-        z-index: 1;
+        overscroll-behavior: contain;
+        touch-action: pan-y;
         font-family: 'Zen Antique', 'Shippori Mincho', serif;
         display: flex;
         justify-content: center;
