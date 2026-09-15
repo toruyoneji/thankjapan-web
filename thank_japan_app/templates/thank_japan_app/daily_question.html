@@ -128,8 +128,25 @@
         font-size: 0.95rem;
     }
 
-    #daily-question-wrapper .dq-share-btn { background: #d4af37; color: #000; text-decoration: none; }
-    #daily-question-wrapper .dq-skip-btn { background: transparent; color: #8a7038; border: 1px solid rgba(212,175,55,0.4) !important; }
+    #daily-question-wrapper .dq-share-btn {
+        background: linear-gradient(180deg, #e8cf7a, #c9a227); color: #2a1d13; text-decoration: none;
+        border-bottom: 4px solid #90741c; box-shadow: 0 0 0 0 rgba(201,162,39,0.55);
+        transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        animation: dqSharePulse 2.1s ease-in-out infinite;
+    }
+    #daily-question-wrapper .dq-share-btn:hover,
+    #daily-question-wrapper .dq-share-btn:active {
+        transform: translateY(2px); border-bottom-width: 2px;
+    }
+    @keyframes dqSharePulse {
+        0%, 100% { box-shadow: 0 0 0 0 rgba(201,162,39,0.5); }
+        50% { box-shadow: 0 0 0 10px rgba(201,162,39,0); }
+    }
+    #daily-question-wrapper .dq-skip-btn {
+        background: transparent; color: #8a7038; border: 1px solid rgba(212,175,55,0.4) !important;
+        transition: transform 0.15s ease;
+    }
+    #daily-question-wrapper .dq-skip-btn:active { transform: scale(0.97); }
 
     #daily-question-wrapper .dq-prompt-card {
         /* Only the in-progress question screen starts right at the top of

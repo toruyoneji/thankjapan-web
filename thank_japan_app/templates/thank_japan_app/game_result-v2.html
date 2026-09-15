@@ -444,7 +444,10 @@ tbody td { padding: 8px; border: none; font-size: 0.82rem; color: var(--ink); }
 }
 .review-toggle-btn:active { transform: scale(0.95); }
 
-.review-section { display: none; text-align: left; margin: 10px auto; max-width: 550px; }
+.review-section {
+    display: none; text-align: left; margin: 10px auto; max-width: 550px;
+    border: 1.5px solid var(--ink); border-radius: 18px; padding: 14px;
+}
 .review-section.open { display: block; }
 
 .review-list { 
@@ -583,9 +586,11 @@ tbody td { padding: 8px; border: none; font-size: 0.82rem; color: var(--ink); }
 }
 
 .btn-more {
-    display: inline-block; background: transparent; color: var(--ink-soft-on-dark);
-    padding: 8px; text-decoration: underline; font-weight: 600; margin-top: 6px; font-size: 0.85rem;
+    display: inline-block; background: var(--gold); color: var(--ink); padding: 12px 28px;
+    border-radius: 999px; text-decoration: none; font-weight: 800; border-bottom: 4px solid var(--gold-dark);
+    transition: transform 0.1s ease;
 }
+.btn-more:active { transform: translateY(2px); border-bottom-width: 2px; }
 
 .study-more-btn {
     display: inline-flex;
