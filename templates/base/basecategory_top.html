@@ -134,7 +134,7 @@
             left: 0 !important;
             width: 100% !important;
             height: 75px !important;
-            background: #111 !important;  
+            background: linear-gradient(135deg, #5dade2, #87ceeb) !important;
             border-top: 1px solid #d4af37 !important;
             display: flex !important;
             justify-content: space-around !important;
@@ -161,7 +161,8 @@
         }
 
         .nav-item {
-            color: #d4af37;
+            color: #ffffff;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.5);
             text-decoration: none;
             font-size: 0.7rem;
             display: flex;
@@ -172,8 +173,12 @@
             transition: 0.3s;
         }
 
-        .nav-item i { font-size: 1.5rem; }
-        .nav-item:active { transform: scale(0.9); opacity: 0.7; }
+        .nav-item i {
+            font-size: 1.5rem;
+            transition: filter 0.15s ease;
+        }
+        .nav-item:active { transform: scale(0.9); }
+        .nav-item:active i { filter: drop-shadow(0 0 6px rgba(255,255,255,0.9)); }
 
         
        
@@ -234,7 +239,7 @@
             left: 0;
             width: 100%;
             max-height: 70vh;
-            background: #1a1a1a;
+            background: #faf6ec;
             border-top: 3px solid #d4af37;
             border-radius: 20px 20px 0 0;
             padding: 20px;
@@ -260,14 +265,14 @@
         }
 
         .lang-item {
-            color: #fff;
+            color: #1a1a1a;
             text-decoration: none;
             padding: 15px;
-            background: #222;
+            background: rgba(212, 175, 55, 0.08);
             border-radius: 10px;
             text-align: center;
             font-size: 0.9rem;
-            border: 1px solid #333;
+            border: 1px solid rgba(212, 175, 55, 0.4);
         }
 
 
@@ -554,8 +559,8 @@
         <div style="display: flex; flex-direction: column; gap: 15px;">
         
         
-            <div style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 15px; border: 1px solid rgba(212,175,55,0.3);">
-                <p style="color:#fff; font-size:0.8rem; margin-bottom:10px; opacity:0.8;">
+            <div style="background: rgba(212,175,55,0.05); padding: 15px; border-radius: 15px; border: 1px solid rgba(212,175,55,0.3);">
+                <p style="color:#1a1a1a; font-size:0.8rem; margin-bottom:10px; opacity:0.8;">
                     {% if lang_code == 'ja' %}日本を旅する
                     {% elif lang_code == 'ko' %}일본을 발견하다
                     {% elif lang_code == 'zh-cn' %}探索日本
@@ -605,8 +610,8 @@
             </div>
 
         
-            <div style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 15px; border: 1px solid rgba(255,255,255,0.2);">
-                <p style="color:#fff; font-size:0.8rem; margin-bottom:10px; opacity:0.8;">
+            <div style="background: rgba(212,175,55,0.06); padding: 15px; border-radius: 15px; border: 1px solid rgba(212,175,55,0.4);">
+                <p style="color:#1a1a1a; font-size:0.8rem; margin-bottom:10px; opacity:0.8;">
                     {% if lang_code == 'ja' %}日本語を学ぼう
                     {% elif lang_code == 'ko' %}일본어를 배워보세요
                     {% elif lang_code == 'zh-cn' %}学习日语吧
@@ -620,7 +625,7 @@
                     {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Vamos aprender japonês
                     {% else %}Let's Learn Japanese{% endif %}
                 </p>
-                <a href="{% url 'category_list' %}?lang={{ lang_code }}" class="lang-item" style="width:100%; background: #222; border: 1px solid #d4af37;">
+                <a href="{% url 'category_list' %}?lang={{ lang_code }}" class="lang-item" style="width:100%; background: #d4af37; color: #1a1a1a; border: 1px solid #d4af37;">
                     📖 
                     {% if lang_code == 'ja' %}語彙カテゴリー一覧
                     {% elif lang_code == 'ko' %}어휘 카테고리 목록
@@ -639,7 +644,7 @@
 
         </div>
     
-        <button onclick="toggleLearnModal()" style="width:100%; margin-top:20px; padding:12px; background:none; border:1px solid #444; color:#777; border-radius:10px;">Close</button>
+        <button onclick="toggleLearnModal()" style="width:100%; margin-top:20px; padding:12px; background:none; border:1px solid rgba(0,0,0,0.15); color:#6b6b6b; border-radius:10px;">Close</button>
     </div>
 
 
@@ -679,7 +684,7 @@
             <a href="{% url 'toppageth' %}?lang=th" class="lang-item">ภาษาไทย</a>
 
         </div>
-        <button onclick="toggleLangModal()" style="width:100%; margin-top:20px; padding:15px; background:#333; color:#fff; border:none; border-radius:10px;">Close</button>
+        <button onclick="toggleLangModal()" style="width:100%; margin-top:20px; padding:15px; background:none; border:1px solid rgba(0,0,0,0.15); color:#6b6b6b; border-radius:10px;">Close</button>
     </div>
 
 
@@ -717,7 +722,7 @@
                     {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Gerenciar conta ⚙️
                     {% else %}Manage Account ⚙️{% endif %}
                 </a>
-                <a href="{% url 'player_logout' %}?lang={{ lang_code }}" class="lang-item" style="width:100%; background:#a63737;">🚪 
+                <a href="{% url 'player_logout' %}?lang={{ lang_code }}" class="lang-item" style="width:100%; background:#d4af37; color:#1a1a1a; border:none;">🚪
                     {% if lang_code == 'ja' %}ログアウト
                     {% elif lang_code == 'ko' %}로그아웃
                     {% elif lang_code == 'zh-cn' %}退出
@@ -748,7 +753,7 @@
                 </a>
             {% endif %}
 
-            <hr style="border:0; border-top:1px solid #333; margin:10px 0;">
+            <hr style="border:0; border-top:1px solid rgba(0,0,0,0.1); margin:10px 0;">
 
         
             <div class="lang-list">
@@ -813,7 +818,7 @@
             </div>
         </div>
     
-        <button onclick="toggleMenuModal()" style="width:100%; margin-top:20px; padding:15px; background:none; border:1px solid #444; color:#777; border-radius:10px;">Close</button>
+        <button onclick="toggleMenuModal()" style="width:100%; margin-top:20px; padding:15px; background:none; border:1px solid rgba(0,0,0,0.15); color:#6b6b6b; border-radius:10px;">Close</button>
     </div>
 
     <script>
@@ -915,6 +920,81 @@
             if (banner) banner.style.display = 'none';
         }
     });
+</script>
+
+<script>
+(function() {
+    // Bottom-nav background rotates through 3 sky-color bands keyed to the
+    // *device's* local time (not server/JST) - 0-8 night navy, 8-16 day sky
+    // blue, 16-24 sunset orange. Each band is a 2-stop gradient; on a band
+    // change we don't just swap the CSS value (an instant cut - browsers
+    // can't tween two different `background: linear-gradient(...)` values
+    // via a plain CSS transition, they just snap), we manually interpolate
+    // each stop's RGB across ~3 minutes with requestAnimationFrame so the
+    // boundary crossing (00:00/08:00/16:00) reads as a smooth dawn/dusk
+    // fade rather than a jarring flip. The initial paint on page load skips
+    // the fade (applies the current band instantly) - only a later boundary
+    // crossed while the tab stays open gets animated.
+    var nav = document.querySelector('.bottom-nav');
+    if (!nav) return;
+
+    var BAND_COLORS = [
+        ['#0f2350', '#1a2a6c'], // 0:00-8:00 - night navy
+        ['#5dade2', '#87ceeb'], // 8:00-16:00 - day sky blue
+        ['#ff7e5f', '#e8590c']  // 16:00-24:00 - sunset orange/red
+    ];
+    function bandIndexForHour(h) { return h < 8 ? 0 : (h < 16 ? 1 : 2); }
+
+    function hexToRgb(hex) {
+        var n = parseInt(hex.slice(1), 16);
+        return [(n >> 16) & 255, (n >> 8) & 255, n & 255];
+    }
+    function rgbToHex(rgb) {
+        return '#' + rgb.map(function(v) {
+            var c = Math.round(Math.max(0, Math.min(255, v))).toString(16);
+            return c.length < 2 ? '0' + c : c;
+        }).join('');
+    }
+    function lerpColor(hexA, hexB, t) {
+        var a = hexToRgb(hexA), b = hexToRgb(hexB);
+        return rgbToHex([a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t, a[2] + (b[2] - a[2]) * t]);
+    }
+    function applyGradient(colors) {
+        nav.style.background = 'linear-gradient(135deg, ' + colors[0] + ', ' + colors[1] + ')';
+    }
+
+    var currentColors = BAND_COLORS[bandIndexForHour(new Date().getHours())];
+    applyGradient(currentColors);
+
+    var TRANSITION_MS = 180000; // ~3 minutes
+    var animFrame = null;
+    function transitionTo(targetColors) {
+        if (animFrame) cancelAnimationFrame(animFrame);
+        var startColors = currentColors.slice();
+        var startTime = performance.now();
+        function step(now) {
+            var t = Math.min(1, (now - startTime) / TRANSITION_MS);
+            applyGradient([lerpColor(startColors[0], targetColors[0], t), lerpColor(startColors[1], targetColors[1], t)]);
+            if (t < 1) {
+                animFrame = requestAnimationFrame(step);
+            } else {
+                currentColors = targetColors;
+                animFrame = null;
+            }
+        }
+        animFrame = requestAnimationFrame(step);
+    }
+
+    var lastBand = bandIndexForHour(new Date().getHours());
+    setInterval(function() {
+        var h = new Date().getHours();
+        var band = bandIndexForHour(h);
+        if (band !== lastBand) {
+            lastBand = band;
+            transitionTo(BAND_COLORS[band]);
+        }
+    }, 30000);
+})();
 </script>
 
 {% include 'includes/firebase_notification.html' %}

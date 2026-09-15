@@ -1948,9 +1948,12 @@ class DailyQuestionOgpCacheBustTests(TestCase):
         # 2026-09-12: the share button's own url= now points at the word's
         # permanent detail page instead of this dated /daily/ URL - see
         # DailyQuestionShareLinksToWordDetailPageTests for that behavior.
+        # 2026-09-15: carries a &scb=<today> cache-buster too (see
+        # _daily_question_word_detail_url) so a permanent URL crawled once
+        # with a broken OGP card can't stay stuck showing it forever.
         expected_share_url = (
             f"https://www.thankjapan.com{reverse('category_detail', kwargs={'category': 'culture', 'slug': 'daily-test-word'})}"
-            f"?lang=en"
+            f"?lang=en&scb={self.today.isoformat()}"
         )
         self.assertIn(f'url={urlquote(expected_share_url, safe="/")}', body)
 
@@ -3081,7 +3084,7 @@ class DailyQuestionShareAfterTileConversionTests(TestCase):
 
         expected_share_url = (
             f"https://www.thankjapan.com{reverse('category_detail', kwargs={'category': 'appliances', 'slug': 'daily-share-word'})}"
-            f"?lang=en"
+            f"?lang=en&scb={self.today.isoformat()}"
         )
         self.assertIn(f'url={urlquote(expected_share_url, safe="/")}', body, msg=body)
 

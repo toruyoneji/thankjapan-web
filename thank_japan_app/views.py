@@ -2303,21 +2303,35 @@ DAILY_QUESTION_SHARE_ANSWER_LABEL = {
 }
 
 
-def _daily_question_word_detail_url(word, lang_code):
+def _daily_question_word_detail_url(word, lang_code, share_date):
     """Permanent detail-page URL for today's word - the X share button's
     link target (2026-09-12), replacing the old dated /daily/ URL. Rationale:
     /daily/ rotates to a new word every day, so an old tweet's card would
     keep showing (via X's per-URL OGP cache) the word/image from the day it
     was posted while the link itself led to whatever word is live *now* - a
     permanent mismatch for anyone clicking days later. The word's own detail
-    page never changes what it shows, so its image/url stay correct forever
-    with no date-stamping needed (unlike /daily/ itself, which still uses
-    the dated daily_url for its own og:url/og:image - unrelated to this)."""
+    page never changes what it shows, so the link target stays correct
+    forever with no date-stamping needed for *navigation* purposes.
+
+    2026-09-15 fix: a bare permanent URL reintroduces the exact OGP-caching
+    bug the dated /daily/ URL was built to avoid (see the 2026-09-04 fix
+    referenced in project memory) - if this exact word/detail URL was ever
+    crawled by X at a time its og:image was missing/broken (template bug,
+    empty image field, etc, at any point in this URL's history), X keeps
+    serving that broken cached card forever, even though the page is 100%
+    correct now. Appending today's date as a harmless query param (Django
+    ignores unknown params, so the page/content shown is unaffected) makes
+    each day's share a syntactically distinct URL, so a stale per-URL cache
+    from the past can never stick around - every day's share gets its own
+    fresh crawl. Unlike /daily/'s own dated URL, this doesn't reflect the
+    *word* changing (the word's own page never changes) - it's purely a
+    cache-buster for X's crawler, so the plain undated path keeps working
+    correctly for anyone who bookmarks/revisits it later."""
     if isinstance(word, ThankJapanPremium):
         path = reverse('detail_premium', kwargs={'category': word.category, 'slug': word.slug})
     else:
         path = reverse('category_detail', kwargs={'category': word.category, 'slug': word.slug})
-    return f"https://www.thankjapan.com{path}?lang={lang_code}"
+    return f"https://www.thankjapan.com{path}?lang={lang_code}&scb={share_date.isoformat()}"
 
 
 def _daily_question_assembly_process(word):
@@ -2471,7 +2485,7 @@ def daily_question_view(request):
 
         share_text = _daily_question_share_text(lang_code, word)
         share_hashtags = _daily_question_hashtags(lang_code, word)
-        share_url = _daily_question_word_detail_url(word, lang_code)
+        share_url = _daily_question_word_detail_url(word, lang_code, today)
 
         return render(request, 'thank_japan_app/daily_question.html', {
             'daily_state': 'result',
