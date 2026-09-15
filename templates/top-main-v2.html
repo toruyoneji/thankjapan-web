@@ -38,7 +38,7 @@
     align-items: center;
     overflow: visible;
     padding: 20px 10px;
-    background-color: #ffffff;
+    background-color: #faf6ec;
     z-index: 1;
 }
 
@@ -348,7 +348,7 @@
     transform: translate(-50%, -50%);
     width: 90%;
     max-width: 380px;
-    background: #ffffff;
+    background: #faf6ec;
     border: 1px solid rgba(212, 175, 55, 0.4);
     border-radius: 20px;
     padding: 28px 22px;
@@ -533,7 +533,7 @@
 
     
                 {% if user.profile.streak_count > 0 %}
-                <div class="streak-badge" style="color: gold; font-weight: bold; margin-top: 3px; font-size: 1rem; text-shadow: 0 0 10px rgba(0,0,0,0.5);">
+                <div class="streak-badge" style="color: #1a1a1a; font-weight: bold; margin-top: 3px; font-size: 1rem;">
                     <span class="fire-icon">🔥</span>
                     {% if lang_code == 'ja' %}{{ user.profile.streak_count }} 日連続プレイ中！
                     {% elif lang_code == 'ko' %}{{ user.profile.streak_count }}일 연속 플레이 중!
