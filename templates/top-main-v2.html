@@ -30,37 +30,29 @@
     font-family: 'Inter', 'Noto Sans JP', sans-serif !important;
     position: relative;
     width: 100%;
-    min-height: calc(100dvh - 80px);  
-    height: auto !important; 
+    min-height: calc(100dvh - 80px);
+    height: auto !important;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    overflow: visible; 
+    overflow: visible;
     padding: 20px 10px;
-    background-color: #111; 
-    z-index: 1; 
+    background-color: #ffffff;
+    z-index: 1;
 }
 
-.hero-bg-layer {
+.hero-icon-decoration {
     position: absolute;
-    top: 0; 
-    left: 0;
-    width: 100%; 
-    height: 100%;
-    z-index: -1; 
-    background-size: cover;
-    background-position: center center;
-    background-repeat: no-repeat;
-    transition: opacity 2s ease-in-out; 
-}
-
-.hero-bg-layer::after {
-    content: "";
-    position: absolute;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.5));
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 340px;
+    max-width: 70vw;
+    opacity: 0.05;
+    z-index: 0;
+    pointer-events: none;
+    user-select: none;
 }
 
 .hero-container {
@@ -78,37 +70,36 @@
 
 .welcome-greeting {
     font-family: 'Poppins', 'Noto Sans JP', sans-serif !important;
-    font-size: 1.6rem; 
-    margin-top: 45px;  
+    font-size: 1.6rem;
+    margin-top: 45px;
     margin-bottom: 25px;
-    font-weight: 800;  
-    display: block !important;      
-    width: 100% !important;         
-    text-align: center !important;  
-    color: #ffffff;    
-    letter-spacing: 0.02em; 
-    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.8)) drop-shadow(0 0 10px rgba(0,0,0,0.3));
+    font-weight: 800;
+    display: block !important;
+    width: 100% !important;
+    text-align: center !important;
+    color: #1a1a1a;
+    letter-spacing: 0.02em;
     word-wrap: break-word;
     overflow-wrap: break-word;
 }
 
 .username-accent {
-    
-    background: linear-gradient(135deg, #ffffff 0%, #ff4d4d 100%);
+
+    background: linear-gradient(135deg, #d4af37 0%, #a9791f 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
     padding: 0 2px;
 }
 .hero-description-list {
-    background: rgba(0, 0, 0, 0.3) !important; 
-    backdrop-filter: blur(8px) !important; 
+    background: rgba(0, 0, 0, 0.03) !important;
+    backdrop-filter: blur(8px) !important;
     -webkit-backdrop-filter: blur(8px) !important;
-    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    border: 1px solid rgba(212, 175, 55, 0.3) !important;
     border-radius: 20px !important;
     padding: 15px 25px !important;
     width: 90%;
-    margin-bottom: 20px !important; 
+    margin-bottom: 20px !important;
 }
 
 
@@ -117,7 +108,7 @@
 .hero-description-list li {
     font-size: 0.8rem !important;
     line-height: 1.5 !important;
-    color: #fff;
+    color: #1a1a1a;
     margin-bottom: 6px;
     text-align: left;
     display: flex;
@@ -136,7 +127,7 @@
 .cta-subtext {
     margin: -14px 0 0;
     font-size: 0.8rem;
-    color: rgba(255, 255, 255, 0.75);
+    color: rgba(0, 0, 0, 0.6);
     text-align: center;
 }
 
@@ -155,17 +146,17 @@
 }
 
 .btn-red {
-    background: rgba(255, 255, 255, 0.1) !important;
+    background: rgba(212, 175, 55, 0.08) !important;
     backdrop-filter: blur(5px);
-    color: #fff !important;
-    border: 1px solid rgba(255, 255, 255, 0.5) !important;
+    color: #1a1a1a !important;
+    border: 1px solid rgba(212, 175, 55, 0.6) !important;
     box-shadow: none !important;
 }
 
 .btn-red:active, .btn-red:hover {
-    background: rgba(255, 255, 255, 0.15) !important;
-    border: 1px solid rgba(212, 175, 55, 0.8) !important; 
-    box-shadow: 0 0 12px rgba(212, 175, 55, 0.3) !important; 
+    background: rgba(212, 175, 55, 0.15) !important;
+    border: 1px solid rgba(212, 175, 55, 0.9) !important;
+    box-shadow: 0 0 12px rgba(212, 175, 55, 0.3) !important;
     transform: translateY(-1px);
 }
 
@@ -205,8 +196,8 @@
 }
 
 .btn-yellow {
-    background: linear-gradient(to bottom, #f18e04, #ff8c00) !important;
-    color: #fff !important;
+    background: linear-gradient(135deg, #f4d58d, #d4af37) !important;
+    color: #1a1a1a !important;
 }
 
 
@@ -232,7 +223,7 @@
     margin-bottom: 200px;
     width: 90%;
     max-width: 420px;
-    background: rgba(0, 0, 0, 0.35) !important;
+    background: rgba(212, 175, 55, 0.06) !important;
     backdrop-filter: blur(8px) !important;
     -webkit-backdrop-filter: blur(8px) !important;
     border: 1px solid rgba(212, 175, 55, 0.5) !important;
@@ -246,20 +237,20 @@
 }
 
 .daily-question-banner p {
-    color: #fff;
+    color: #1a1a1a;
     font-size: 0.85rem;
     margin: 0;
 }
 
 .daily-question-banner-stats {
-    color: #d4af37 !important;
+    color: #1a1a1a !important;
     font-size: 0.8rem !important;
 }
 
 .daily-question-banner-dismiss {
     background: none;
     border: none;
-    color: rgba(255, 255, 255, 0.6);
+    color: rgba(0, 0, 0, 0.55);
     font-size: 0.75rem;
     text-decoration: underline;
     cursor: pointer;
@@ -341,35 +332,34 @@
     transform: translate(-50%, -50%);
     width: 90%;
     max-width: 380px;
-    background: #1a1a1a;
+    background: #ffffff;
     border: 1px solid rgba(212, 175, 55, 0.4);
     border-radius: 20px;
     padding: 28px 22px;
     box-sizing: border-box;
     z-index: 20001;
     text-align: center;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.25);
 }
 .trial-ended-modal.show { display: block; }
 .trial-ended-modal .trial-ended-icon { font-size: 2rem; margin-bottom: 10px; }
-.trial-ended-modal h3 { color: #fff; font-size: 1.05rem; margin: 0 0 10px; }
-.trial-ended-modal p { color: #ccc; font-size: 0.85rem; line-height: 1.5; margin: 0 0 22px; }
+.trial-ended-modal h3 { color: #1a1a1a; font-size: 1.05rem; margin: 0 0 10px; }
+.trial-ended-modal p { color: rgba(0,0,0,0.65); font-size: 0.85rem; line-height: 1.5; margin: 0 0 22px; }
 .trial-ended-btn-yes {
     display: block; width: 100%; padding: 14px; border: none; border-radius: 10px;
     background: #d4af37; color: #000; font-weight: bold; font-size: 0.95rem;
     cursor: pointer; margin-bottom: 10px; box-sizing: border-box; text-decoration: none;
 }
 .trial-ended-btn-no {
-    display: block; width: 100%; padding: 12px; border: 1px solid #444; border-radius: 10px;
-    background: none; color: #999; font-size: 0.85rem; cursor: pointer; box-sizing: border-box;
+    display: block; width: 100%; padding: 12px; border: 1px solid rgba(212, 175, 55, 0.4); border-radius: 10px;
+    background: none; color: #8a7038; font-size: 0.85rem; cursor: pointer; box-sizing: border-box;
 }
 
 </style>
 
 <section class="hero" id="hero-slider">
-    
-    <div class="hero-bg-layer" id="bg-1" style="background-image: url('https://res.cloudinary.com/dotekofm5/image/upload/f_auto,q_auto/v1778602671/thankjapan/backgrounds/ljw4gmp1ejmlh7qxnfcl.jpg'); opacity: 1;"></div>
-    <div class="hero-bg-layer" id="bg-2" style="background-image: url('https://res.cloudinary.com/dotekofm5/image/upload/f_auto,q_auto/v1761842722/thankjapan/backgrounds/p2uktlwymnjdmhy5w2sd.jpg'); opacity: 0;"></div>
-    <div class="hero-bg-layer" id="bg-3" style="background-image: url('https://res.cloudinary.com/dotekofm5/image/upload/f_auto,q_auto/v1779246274/thankjapan/backgrounds/rwra8lolzbyp0kn6cs25.jpg'); opacity: 0;"></div>
+
+    <img src="{% static 'images/icons/thankjapanicon512.png' %}" alt="" aria-hidden="true" class="hero-icon-decoration">
 
     <div class="hero-container">
 
@@ -427,7 +417,7 @@
                     {% else %}Log In{% endif %}
                 </a>
                 <p class="cta-subtext">
-                    <a href="{% url 'player_register' %}?lang={{ lang_code }}" style="color: rgba(255,255,255,0.75); text-decoration: underline;">
+                    <a href="{% url 'player_register' %}?lang={{ lang_code }}" style="color: rgba(0,0,0,0.65); text-decoration: underline;">
                     {% if lang_code == 'ja' %}アカウントをお持ちでない方はこちら
                     {% elif lang_code == 'ko' %}계정이 없으신가요? 회원가입은 여기
                     {% elif lang_code == 'zh-cn' %}还没有账号？点击注册
@@ -458,7 +448,7 @@
                     {% else %}Start for Free{% endif %}
                 </a>
                 <p class="cta-subtext">
-                    <a href="{% url 'player_login' %}?lang={{ lang_code }}" style="color: rgba(255,255,255,0.75); text-decoration: underline;">
+                    <a href="{% url 'player_login' %}?lang={{ lang_code }}" style="color: rgba(0,0,0,0.65); text-decoration: underline;">
                     {% if lang_code == 'ja' %}すでにアカウントをお持ちの方はこちら
                     {% elif lang_code == 'ko' %}이미 계정이 있으신가요? 로그인은 여기
                     {% elif lang_code == 'zh-cn' %}已有账号？点击登录
@@ -875,22 +865,6 @@
 })();
 </script>
 {% endif %}
-
-<script>
-    (function() {
-        const layers = document.querySelectorAll('.hero-bg-layer');
-        if (layers.length > 0) {
-            let currentIndex = 0; 
-            function rotateBackgrounds() {
-                layers[currentIndex].style.opacity = "0";
-                currentIndex = (currentIndex + 1) % layers.length;
-                layers[currentIndex].style.opacity = "1";
-            }
-            setInterval(rotateBackgrounds, 7000);
-        }
-    })();
-</script>
-
 
 {% if user.is_authenticated and user.profile.is_premium %}
 <script src="{% static 'js/confetti.browser.min.js' %}"></script>

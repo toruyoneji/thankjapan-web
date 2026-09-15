@@ -56,8 +56,8 @@
         overflow-y: auto;
         -webkit-overflow-scrolling: touch;
         z-index: 1;
-        background: #0a0a0a !important;
-        color: #ffffff !important;
+        background: #ffffff !important;
+        color: #1a1a1a !important;
         padding: 30px 15px 100px !important;
         text-align: center !important;
         display: block !important;
@@ -79,11 +79,11 @@
 
     #daily-question-wrapper .dq-jpname ruby rt {
         font-size: 0.85rem !important;
-        color: #d4af37 !important;
+        color: #1a1a1a !important;
     }
 
     #daily-question-wrapper .dq-card {
-        background: rgba(255, 255, 255, 0.05) !important;
+        background: rgba(0, 0, 0, 0.03) !important;
         border: 1px solid rgba(212, 175, 55, 0.2) !important;
         border-radius: 16px !important;
         padding: 25px !important;
@@ -128,8 +128,8 @@
         font-size: 0.95rem;
     }
 
-    #daily-question-wrapper .dq-share-btn { background: #000; color: #fff; text-decoration: none; }
-    #daily-question-wrapper .dq-skip-btn { background: transparent; color: #ccc; border: 1px solid rgba(255,255,255,0.3) !important; }
+    #daily-question-wrapper .dq-share-btn { background: #d4af37; color: #000; text-decoration: none; }
+    #daily-question-wrapper .dq-skip-btn { background: transparent; color: #8a7038; border: 1px solid rgba(212,175,55,0.4) !important; }
 
     #daily-question-wrapper .dq-prompt-card {
         /* Only the in-progress question screen starts right at the top of
@@ -145,7 +145,7 @@
     #daily-question-wrapper .dq-prompt-caption { color: #d4af37 !important; font-size: 0.95rem !important; letter-spacing: 1px !important; }
 
     #daily-question-wrapper .dq-timer-wrap { display: flex; align-items: center; gap: 10px; max-width: 320px; margin: 0 auto 18px; }
-    #daily-question-wrapper .dq-timer-bar { flex: 1; height: 8px; border-radius: 4px; background: rgba(255,255,255,0.12); overflow: hidden; }
+    #daily-question-wrapper .dq-timer-bar { flex: 1; height: 8px; border-radius: 4px; background: rgba(0,0,0,0.08); overflow: hidden; }
     #daily-question-wrapper .dq-timer-fill { height: 100%; width: 100%; background: #d4af37; transition: width 1s linear; }
     #daily-question-wrapper .dq-timer-num { font-variant-numeric: tabular-nums; color: #d4af37; font-weight: 700; min-width: 1.6em; text-align: right; }
 
@@ -162,20 +162,20 @@
     #daily-question-wrapper .dq-tile {
         background: rgba(212, 175, 55, 0.15);
         border: 1px solid #d4af37;
-        color: #fff;
+        color: #1a1a1a;
         cursor: pointer;
     }
     #daily-question-wrapper .dq-tile.dq-tile-correct { background: rgba(99, 153, 34, 0.35); border-color: #8bc34a; }
     #daily-question-wrapper .dq-tile.dq-tile-wrong { background: rgba(226, 75, 74, 0.35); border-color: #e24b4a; }
     #daily-question-wrapper .dq-slot {
-        background: rgba(255,255,255,0.03);
-        border: 1px dashed rgba(255,255,255,0.25);
+        background: rgba(0,0,0,0.02);
+        border: 1px dashed rgba(0,0,0,0.15);
     }
 </style>
 
 <div class="dq-inner">
     {% if daily_state == 'unavailable' %}
-        <p style="color:#ccc; margin-bottom: 30px;">
+        <p style="color:rgba(0,0,0,0.65); margin-bottom: 30px;">
             {% if lang_code == 'ja' %}本日の問題を準備できませんでした。しばらくしてから、もう一度お試しください。
             {% elif lang_code == 'zh-hant' %}今日的題目尚未準備好，請稍後再試。
             {% elif lang_code == 'zh-cn' %}今天的题目尚未准备好，请稍后再试。
@@ -223,7 +223,7 @@
                 {% else %}You've already answered today's question
                 {% endif %}
             </p>
-            <p style="color:#999; font-size: 0.85rem;">
+            <p style="color:rgba(0,0,0,0.6); font-size: 0.85rem;">
                 {% if lang_code == 'ja' %}また明日、新しい問題でお会いしましょう(JST 0:00更新)
                 {% elif lang_code == 'zh-hant' %}明天再來挑戰新的題目吧(JST 0:00更新)
                 {% elif lang_code == 'zh-cn' %}明天再来挑战新的题目吧(JST 0:00更新)
@@ -296,7 +296,7 @@
             <div class="dq-jpname" style="font-size: 1.8rem;">
                 {% if object.kanji_name %}{{ object.kanji_name|ruby_smart:object.jpname }}{% else %}{{ object.jpname }}{% endif %}
             </div>
-            <p style="color:#999;">{{ object.name }} / {{ object.englishname }}</p>
+            <p style="color:rgba(0,0,0,0.6);">{{ object.name }} / {{ object.englishname }}</p>
         </div>
 
         <a href="https://x.com/intent/tweet?text={{ share_text|urlencode }}&url={{ share_url|urlencode }}&hashtags={{ share_hashtags|urlencode }}"
@@ -375,7 +375,7 @@
             <span class="dq-timer-num" id="dq-timer-num">{{ time_limit }}</span>
         </div>
 
-        <p style="color:#ccc; margin-bottom: 16px;">
+        <p style="color:rgba(0,0,0,0.65); margin-bottom: 16px;">
             {% if lang_code == 'ja' %}タイルを正しい順番に並べ替えてください
             {% elif lang_code == 'zh-hant' %}請將方塊排成正確的順序
             {% elif lang_code == 'zh-cn' %}请将方块排成正确的顺序
