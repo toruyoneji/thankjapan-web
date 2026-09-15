@@ -960,7 +960,7 @@
         return rgbToHex([a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t, a[2] + (b[2] - a[2]) * t]);
     }
     function applyGradient(colors) {
-        nav.style.background = 'linear-gradient(135deg, ' + colors[0] + ', ' + colors[1] + ')';
+        nav.style.setProperty('background', 'linear-gradient(135deg, ' + colors[0] + ', ' + colors[1] + ')', 'important');
     }
 
     var currentColors = BAND_COLORS[bandIndexForHour(new Date().getHours())];
