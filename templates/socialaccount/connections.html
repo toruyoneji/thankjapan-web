@@ -21,38 +21,43 @@
            never got that fix, so tall content (many connected accounts,
            errors, etc) was silently clipped with no way to reach it.
 
-           First fix attempt used position:fixed + overflow-y:auto (the
-           pattern daily_question.html uses) - measured as scrollable via
-           synthetic wheel events, but real-world trackpad scrolling on
-           desktop Chrome reportedly still didn't reach the page bottom.
+           height:100vh (an absolute, viewport-anchored unit) plus
+           overflow-y:auto is the correct base, matching player_login-v2's
+           proven-working #premium-auth-container.
 
-           Second attempt dropped position:fixed and used height:100% on
-           the theory that .app-content's flexbox sizing would bound it -
-           wrong: .app-content is a flex:1 item with no min-height:0, so by
-           default it grows to fit whatever height its child computes to
-           (the flexbox "min-height:auto" quirk) instead of capping it.
-           height:100% on this element then just inherits that already-
-           unbounded parent height, so scrollHeight ends up equal to
-           clientHeight - literally zero overflow ever gets registered
-           here, confirmed by direct measurement. The actual working detail
-           in player_login-v2.html's #premium-auth-container (which this
-           was meant to copy) is height:100vh - an absolute, viewport-
-           anchored unit that doesn't depend on the parent's own auto-sized
-           height, forcing a real ceiling regardless of flexbox quirks. */
+           The remaining bug was NOT scrolling itself - direct measurement
+           confirmed scrollHeight > clientHeight and scrollTop did move.
+           The bug was that even at max scrollTop, the "Back to Account
+           Settings" link (and part of the last connect row) stayed hidden
+           behind the fixed .bottom-nav. Root cause: this container used
+           display:flex; justify-content:center to horizontally center its
+           single child, with no align-items override (default: stretch).
+           Combining flex centering/stretch with overflow:auto on
+           over-height content is a well-known browser quirk where the
+           reported scroll range doesn't actually let the trailing padding
+           fully clear - the last ~50-70px of intended bottom padding never
+           became reachable no matter how far you scrolled, confirmed by
+           measuring the back-link's rect at scrollTop===scrollHeight.
+
+           Fixed by dropping flex entirely for plain block flow (margin:
+           0 auto on .connections-wrap for horizontal centering instead),
+           which has no such quirk, and bumping the bottom padding to a
+           generous 160px (well past the 75px nav height) as safety
+           margin, matching the other self-scrolling pages' generous
+           padding (e.g. base_contact.html uses 180px). */
         height: 100vh;
         overflow-y: auto;
         -webkit-overflow-scrolling: touch;
         overscroll-behavior: contain;
         touch-action: pan-y;
         font-family: 'Zen Antique', 'Shippori Mincho', serif;
-        display: flex;
-        justify-content: center;
-        padding: 90px 0 80px;
+        padding: 90px 0 160px;
         box-sizing: border-box;
     }
     .connections-wrap {
         width: 92%;
         max-width: 480px;
+        margin: 0 auto;
     }
     :root {
         --tj-ink: #2a1d13;
