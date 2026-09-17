@@ -21,7 +21,7 @@ from .views import (
     grant_renewal_rewards_if_due, PREMIUM_RENEWAL_REWARD_POINTS, PREMIUM_RENEWAL_REWARD_MAX_CATCHUP,
     DAILY_QUESTION_SHARE_LOCALE_ALIAS, DAILY_QUESTION_SHARE_HEADING, DAILY_QUESTION_SHARE_INVITE,
     DAILY_QUESTION_SHARE_CTA, DAILY_QUESTION_SHARE_CHUNK_STEPS, DAILY_QUESTION_SHARE_ANSWER_LABEL,
-    DAILY_QUESTION_HASHTAG_TERM,
+    DAILY_QUESTION_HASHTAG_TERM, NAV_TUTORIAL_TARGET_SLUG, _nav_tutorial_eligible,
 )
 from .pricing import (
     get_premium_price, get_top_page_seo_override,
@@ -3657,6 +3657,252 @@ class FirstTasteTileGameTests(TestCase):
         data = json.loads(self.client.get(reverse('game_question_data')).content)
         self.assertIsNone(data.get('tutorial_order'))
         self.assertIsNone(data.get('tutorial_wrong_order'))
+
+
+class NavigationTutorialTests(TestCase):
+    """2026-09-17: the second, returning-guest-only tutorial (Learn ->
+    Category list -> Cook -> つけ麺's detail page -> practice it in single
+    mode -> back to top), gated on tj_has_played=1 + no tj_nav_tutorial_seen
+    cookie yet. Separate from FirstTasteTileGameTests above, which covers
+    the unrelated first-visit tutorial."""
+
+    def setUp(self):
+        self.tsukemen = ThankJapanModel.objects.create(
+            name='tsukemen-test', englishname='Tsukemen', jpname='つけめん',
+            kanji_name='つけ麺', katakana_name='ツケメン', category='cook',
+            slug=NAV_TUTORIAL_TARGET_SLUG, description='d', history='h',
+        )
+
+    # --- 1. shown only to a returning, not-yet-seen guest ---
+
+    def test_hint_hidden_for_a_brand_new_guest(self):
+        response = self.client.get(reverse('toppage'))
+        self.assertFalse(response.context['show_nav_tutorial_hint'])
+
+    def test_hint_shown_for_a_returning_guest(self):
+        self.client.cookies['tj_has_played'] = '1'
+        response = self.client.get(reverse('toppage'))
+        self.assertTrue(response.context['show_nav_tutorial_hint'])
+
+    def test_hint_hidden_once_already_seen(self):
+        self.client.cookies['tj_has_played'] = '1'
+        self.client.cookies['tj_nav_tutorial_seen'] = '1'
+        response = self.client.get(reverse('toppage'))
+        self.assertFalse(response.context['show_nav_tutorial_hint'])
+
+    def test_hint_hidden_for_a_logged_in_user_even_with_has_played(self):
+        User.objects.create_user(username='nav_tutorial_login_test', password='pass12345')
+        self.client.login(username='nav_tutorial_login_test', password='pass12345')
+        self.client.cookies['tj_has_played'] = '1'
+        response = self.client.get(reverse('toppage'))
+        self.assertFalse(response.context['show_nav_tutorial_hint'])
+
+    def test_hint_flag_also_reaches_category_list_and_cook_page(self):
+        self.client.cookies['tj_has_played'] = '1'
+        cat_response = self.client.get(reverse('category_list'))
+        self.assertTrue(cat_response.context['show_nav_tutorial_hint'])
+        cook_response = self.client.get(reverse('cookpage'))
+        self.assertTrue(cook_response.context['show_nav_tutorial_hint'])
+        self.assertEqual(cook_response.context['nav_tutorial_target_slug'], NAV_TUTORIAL_TARGET_SLUG)
+
+    # --- 2. all seven steps, in order ---
+
+    def test_full_seven_step_flow_in_order(self):
+        self.client.cookies['tj_has_played'] = '1'
+
+        # Steps 1-2: top page carries both the "Learn" nav-button hint and
+        # the "Category list" link hint inside the Learn modal.
+        top_html = self.client.get(reverse('toppage')).content.decode()
+        self.assertIn('id="learn-modal-btn"', top_html)
+        self.assertGreaterEqual(top_html.count('tutorial-hint-bubble'), 2)
+
+        # Step 3: category list page guides to the 料理(cook) card.
+        cat_html = self.client.get(reverse('category_list')).content.decode()
+        self.assertIn('tutorial-hint-target', cat_html)
+
+        # Step 4: cook page tags the つけめん card specifically (by slug,
+        # not grid position) with both the finger-guide and the explanatory
+        # overlay.
+        cook_html = self.client.get(reverse('cookpage')).content.decode()
+        self.assertIn('id="nav-tutorial-target-guide"', cook_html)
+        self.assertIn('tutorial-overlay-cook-target', cook_html)
+
+        # Step 5 (clicking "practice this word") / step 6 setup: game_restart
+        # recognizes the target slug and flags this single-mode session as
+        # guided.
+        self.client.get(reverse('game_restart'), {
+            'mode': 'single', 'model_type': 'free', 'slug': NAV_TUTORIAL_TARGET_SLUG,
+        })
+        session = self.client.session
+        self.assertTrue(session['nav_tutorial_single_active'])
+        self.assertEqual(session['game_difficulty'], 'single')
+
+        play_response = self.client.get(reverse('game_play'))
+        self.assertTrue(play_response.context['is_nav_tutorial_single'])
+        self.assertIn('tutorial-overlay-nav-single', play_response.content.decode())
+
+        # Step 6: the tile order is guided to the correct つけめん spelling.
+        data = json.loads(self.client.get(reverse('game_question_data')).content)
+        self.assertIsNotNone(data['tutorial_order'])
+        reconstructed = ''.join(data['tiles'][i] for i in data['tutorial_order'])
+        self.assertEqual(reconstructed, 'つけめん')
+
+        # Step 7: the guided (guaranteed-correct) submission is what sets
+        # the one-time cookie.
+        submit_response = self.client.post(
+            reverse('game_submit_answer'),
+            data=json.dumps({
+                'tiles': [data['tiles'][i] for i in data['tutorial_order']],
+                'seconds_left': 60,
+            }),
+            content_type='application/json',
+        )
+        submit_data = json.loads(submit_response.content)
+        self.assertTrue(submit_data['is_correct'])
+        self.assertEqual(submit_response.cookies['tj_nav_tutorial_seen'].value, '1')
+
+    # --- 3. safe fallback if つけ麺 is ever removed ---
+
+    def test_fallback_when_tsukemen_word_is_missing(self):
+        self.tsukemen.delete()
+        self.client.cookies['tj_has_played'] = '1'
+
+        cook_html = self.client.get(reverse('cookpage')).content.decode()
+        self.assertNotIn('id="nav-tutorial-target-guide"', cook_html)
+
+        # mode=single for the now-nonexistent slug 404s normally, rather
+        # than silently activating the guide for some other word.
+        response = self.client.get(reverse('game_restart'), {
+            'mode': 'single', 'model_type': 'free', 'slug': NAV_TUTORIAL_TARGET_SLUG,
+        })
+        self.assertEqual(response.status_code, 404)
+
+    # --- 4. no double "Tap!" guide on the target card ---
+
+    def test_no_double_tap_guide_when_target_word_is_also_the_first_card(self):
+        # setUp() created only つけめん so far - it's necessarily
+        # forloop.first in the cook queryset (ordered by -timestamp).
+        self.client.cookies['tj_has_played'] = '1'
+        cook_html = self.client.get(reverse('cookpage')).content.decode()
+        self.assertEqual(cook_html.count('id="first-card-guide"'), 0)
+        self.assertEqual(cook_html.count('id="nav-tutorial-target-guide"'), 1)
+
+    def test_generic_tap_guide_still_shows_when_it_is_a_different_card(self):
+        # A newer word becomes forloop.first instead - the generic guide
+        # must still show on THAT card, since it no longer overlaps with
+        # the nav-tutorial's own target card.
+        ThankJapanModel.objects.create(
+            name='newer-cook-word', englishname='Newer', jpname='てんぷら',
+            kanji_name='天ぷら', katakana_name='テンプラ', category='cook',
+            slug='cook-newer-word', description='d', history='h',
+        )
+        self.client.cookies['tj_has_played'] = '1'
+        cook_html = self.client.get(reverse('cookpage')).content.decode()
+        self.assertEqual(cook_html.count('id="first-card-guide"'), 1)
+        self.assertEqual(cook_html.count('id="nav-tutorial-target-guide"'), 1)
+
+    def test_not_eligible_guest_gets_the_plain_generic_guide_only(self):
+        # No tj_has_played cookie at all - not a returning guest, so none of
+        # the nav-tutorial markup should appear, only the pre-existing
+        # generic first-card guide.
+        cook_html = self.client.get(reverse('cookpage')).content.decode()
+        self.assertEqual(cook_html.count('id="first-card-guide"'), 1)
+        self.assertNotIn('id="nav-tutorial-target-guide"', cook_html)
+
+    # --- 5. cookie set only on completion, making it one-time-only ---
+
+    def test_cookie_not_set_until_the_guided_round_is_actually_completed(self):
+        self.client.cookies['tj_has_played'] = '1'
+        self.client.get(reverse('game_restart'), {
+            'mode': 'single', 'model_type': 'free', 'slug': NAV_TUTORIAL_TARGET_SLUG,
+        })
+        # Merely starting the guided round must not itself set the cookie -
+        # see the "set on completion, not on start" decision (unlike
+        # tj_has_played), so a guest who drops off mid-flow still gets
+        # offered the tutorial again on a later visit.
+        restart_response = self.client.get(reverse('game_play'))
+        self.assertNotIn('tj_nav_tutorial_seen', restart_response.cookies)
+
+    def test_cookie_makes_it_one_time_only(self):
+        self.client.cookies['tj_has_played'] = '1'
+        self.client.get(reverse('game_restart'), {
+            'mode': 'single', 'model_type': 'free', 'slug': NAV_TUTORIAL_TARGET_SLUG,
+        })
+        data = json.loads(self.client.get(reverse('game_question_data')).content)
+        submit_response = self.client.post(
+            reverse('game_submit_answer'),
+            data=json.dumps({
+                'tiles': [data['tiles'][i] for i in data['tutorial_order']],
+                'seconds_left': 60,
+            }),
+            content_type='application/json',
+        )
+        self.client.cookies['tj_nav_tutorial_seen'] = submit_response.cookies['tj_nav_tutorial_seen'].value
+
+        top_response = self.client.get(reverse('toppage'))
+        self.assertFalse(top_response.context['show_nav_tutorial_hint'])
+
+    def test_cookie_not_set_for_ordinary_single_mode_practice_on_another_word(self):
+        # The "practice this word" button is the same generic single-mode
+        # link on every word's detail page - practicing anything other than
+        # つけめん must never set the nav-tutorial cookie.
+        other_word = ThankJapanModel.objects.create(
+            name='other-word', englishname='Cat', jpname='ねこ',
+            kanji_name='猫', katakana_name='ネコ', category='animal',
+            slug='other-word-slug', description='d', history='h',
+        )
+        self.client.cookies['tj_has_played'] = '1'
+        self.client.get(reverse('game_restart'), {
+            'mode': 'single', 'model_type': 'free', 'slug': other_word.slug,
+        })
+        session = self.client.session
+        self.assertNotIn('nav_tutorial_single_active', session)
+
+        data = json.loads(self.client.get(reverse('game_question_data')).content)
+        self.assertIsNone(data.get('tutorial_order'))
+        submit_response = self.client.post(
+            reverse('game_submit_answer'),
+            data=json.dumps({'tiles': data['tiles'], 'seconds_left': 60}),
+            content_type='application/json',
+        )
+        self.assertNotIn('tj_nav_tutorial_seen', submit_response.cookies)
+
+    def test_not_activated_for_a_logged_in_user_even_with_matching_slug(self):
+        User.objects.create_user(username='nav_tutorial_single_login_test', password='pass12345')
+        self.client.login(username='nav_tutorial_single_login_test', password='pass12345')
+        self.client.cookies['tj_has_played'] = '1'
+        self.client.get(reverse('game_restart'), {
+            'mode': 'single', 'model_type': 'free', 'slug': NAV_TUTORIAL_TARGET_SLUG,
+        })
+        session = self.client.session
+        self.assertNotIn('nav_tutorial_single_active', session)
+
+    # --- 6. 15-language coverage: every gated page renders cleanly in all
+    # of them, the same crash-catching pattern as
+    # test_renders_without_error_in_all_15_locales elsewhere in this file ---
+
+    def test_renders_without_error_in_all_15_locales(self):
+        self.client.cookies['tj_has_played'] = '1'
+        for lang in LOCALE_QUERY_PARAMS:
+            with self.subTest(lang=lang, page='top'):
+                response = self.client.get(reverse('toppage'), {'lang': lang})
+                self.assertEqual(response.status_code, 200)
+            with self.subTest(lang=lang, page='category_list'):
+                response = self.client.get(reverse('category_list'), {'lang': lang})
+                self.assertEqual(response.status_code, 200)
+            with self.subTest(lang=lang, page='cook'):
+                response = self.client.get(reverse('cookpage'), {'lang': lang})
+                self.assertEqual(response.status_code, 200)
+                self.assertContains(response, 'id="nav-tutorial-target-guide"')
+
+        self.client.get(reverse('game_restart'), {
+            'mode': 'single', 'model_type': 'free', 'slug': NAV_TUTORIAL_TARGET_SLUG,
+        })
+        for lang in LOCALE_QUERY_PARAMS:
+            with self.subTest(lang=lang, page='game_play'):
+                response = self.client.get(reverse('game_play'), {'lang': lang})
+                self.assertEqual(response.status_code, 200)
+                self.assertContains(response, 'tutorial-overlay-nav-single')
 
 
 EXTEND_TIME_TEXT_BY_LOCALE = {

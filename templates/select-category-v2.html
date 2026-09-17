@@ -133,6 +133,47 @@
         border-radius: 25px;
         transition: 0.3s;
     }
+
+    /* Nav-tutorial step 3 (returning-guest-only) - same
+       .tutorial-hint-target/.tutorial-hint-bubble pair used on the top
+       page's own CTA hint, gated by show_nav_tutorial_hint. */
+    .tutorial-hint-target {
+        position: relative;
+    }
+    .tutorial-hint-bubble {
+        position: absolute;
+        top: -38px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        white-space: nowrap;
+        font-size: 0.8rem;
+        font-weight: 700;
+        color: #2a1d13;
+        background: #fff8e0;
+        border: 1px solid rgba(212, 175, 55, 0.6);
+        border-radius: 20px;
+        padding: 4px 12px 4px 8px;
+        pointer-events: none;
+        animation: tutorialHintBounce 1.3s ease-in-out infinite;
+        z-index: 1;
+    }
+    .tutorial-hint-bubble .finger {
+        font-size: 1.8rem;
+        line-height: 1;
+    }
+    .tutorial-hint-bubble .hint-click { display: none; }
+    .tutorial-hint-bubble .hint-tap { display: inline; }
+    @media (hover: hover) and (pointer: fine) {
+        .tutorial-hint-bubble .hint-click { display: inline; }
+        .tutorial-hint-bubble .hint-tap { display: none; }
+    }
+    @keyframes tutorialHintBounce {
+        0%, 100% { transform: translateX(-50%) translateY(0); }
+        50% { transform: translateX(-50%) translateY(6px); }
+    }
 </style>
 
 <div class="app-inner-container">
@@ -175,7 +216,8 @@
                 </span>
             </a>
 
-            <a href="{% url 'cookpage' %}?lang={{ lang_code }}" class="cat-card-new">
+            <a href="{% url 'cookpage' %}?lang={{ lang_code }}" class="cat-card-new{% if show_nav_tutorial_hint %} tutorial-hint-target{% endif %}">
+                {% if show_nav_tutorial_hint %}{% include 'includes/tutorial_hint_bubble.html' %}{% endif %}
                 <div class="icon-wrapper">🍳</div>
                 <span class="cat-name-new">
                     {% if lang_code == 'ja' %}料理{% elif lang_code == 'ko' %}요리{% elif lang_code == 'zh-cn' %}烹饪{% elif lang_code == 'zh-hant' %}烹飪{% elif lang_code == 'th' %}การทำอาหาร{% elif lang_code == 'vi' %}Nấu ăn{% elif lang_code == 'fr' %}Cuisine{% elif lang_code == 'de' %}Kochen{% elif lang_code == 'it' %}Cucina{% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Cocina{% elif lang_code == 'pt' or lang_code == 'pt-br' %}Culinária{% else %}Cuisine{% endif %}

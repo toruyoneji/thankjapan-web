@@ -1112,6 +1112,7 @@ class TopView(BGMContextMixin, ListView):
         context['show_guest_alert'] = self.request.session.pop('show_guest_bonus_alert', False)
         context['earned_points'] = self.request.session.pop('earned_points', 0)
         context['has_played'] = self.request.COOKIES.get('tj_has_played') == '1'
+        context['show_nav_tutorial_hint'] = _nav_tutorial_eligible(self.request)
         context['unlocked_streak_achievements'] = self.request.session.pop('newly_unlocked_streak_achievements', [])
         context.update(get_top_page_seo_override(self.request))
         return context
@@ -1132,6 +1133,7 @@ class TopViewJA(BGMContextMixin, ListView):
         context['show_guest_alert'] = self.request.session.pop('show_guest_bonus_alert', False)
         context['earned_points'] = self.request.session.pop('earned_points', 0)
         context['has_played'] = self.request.COOKIES.get('tj_has_played') == '1'
+        context['show_nav_tutorial_hint'] = _nav_tutorial_eligible(self.request)
         context['unlocked_streak_achievements'] = self.request.session.pop('newly_unlocked_streak_achievements', [])
         return context
     
@@ -1151,6 +1153,7 @@ class TopViewVI(BGMContextMixin, ListView):
         context['show_guest_alert'] = self.request.session.pop('show_guest_bonus_alert', False)
         context['earned_points'] = self.request.session.pop('earned_points', 0)
         context['has_played'] = self.request.COOKIES.get('tj_has_played') == '1'
+        context['show_nav_tutorial_hint'] = _nav_tutorial_eligible(self.request)
         context['unlocked_streak_achievements'] = self.request.session.pop('newly_unlocked_streak_achievements', [])
         return context
     
@@ -1170,6 +1173,7 @@ class TopViewFR(BGMContextMixin, ListView):
         context['show_guest_alert'] = self.request.session.pop('show_guest_bonus_alert', False)
         context['earned_points'] = self.request.session.pop('earned_points', 0)
         context['has_played'] = self.request.COOKIES.get('tj_has_played') == '1'
+        context['show_nav_tutorial_hint'] = _nav_tutorial_eligible(self.request)
         context['unlocked_streak_achievements'] = self.request.session.pop('newly_unlocked_streak_achievements', [])
         return context
     
@@ -1189,6 +1193,7 @@ class TopViewIT(BGMContextMixin, ListView):
         context['show_guest_alert'] = self.request.session.pop('show_guest_bonus_alert', False)
         context['earned_points'] = self.request.session.pop('earned_points', 0)
         context['has_played'] = self.request.COOKIES.get('tj_has_played') == '1'
+        context['show_nav_tutorial_hint'] = _nav_tutorial_eligible(self.request)
         context['unlocked_streak_achievements'] = self.request.session.pop('newly_unlocked_streak_achievements', [])
         return context
     
@@ -1208,6 +1213,7 @@ class TopViewPT(BGMContextMixin, ListView):
         context['show_guest_alert'] = self.request.session.pop('show_guest_bonus_alert', False)
         context['earned_points'] = self.request.session.pop('earned_points', 0)
         context['has_played'] = self.request.COOKIES.get('tj_has_played') == '1'
+        context['show_nav_tutorial_hint'] = _nav_tutorial_eligible(self.request)
         context['unlocked_streak_achievements'] = self.request.session.pop('newly_unlocked_streak_achievements', [])
         return context
     
@@ -1227,6 +1233,7 @@ class TopViewZHCN(BGMContextMixin, ListView):
         context['show_guest_alert'] = self.request.session.pop('show_guest_bonus_alert', False)
         context['earned_points'] = self.request.session.pop('earned_points', 0)
         context['has_played'] = self.request.COOKIES.get('tj_has_played') == '1'
+        context['show_nav_tutorial_hint'] = _nav_tutorial_eligible(self.request)
         context['unlocked_streak_achievements'] = self.request.session.pop('newly_unlocked_streak_achievements', [])
         return context
     
@@ -1246,6 +1253,7 @@ class TopViewZHHANT(BGMContextMixin, ListView):
         context['show_guest_alert'] = self.request.session.pop('show_guest_bonus_alert', False)
         context['earned_points'] = self.request.session.pop('earned_points', 0)
         context['has_played'] = self.request.COOKIES.get('tj_has_played') == '1'
+        context['show_nav_tutorial_hint'] = _nav_tutorial_eligible(self.request)
         context['unlocked_streak_achievements'] = self.request.session.pop('newly_unlocked_streak_achievements', [])
         return context
     
@@ -1265,6 +1273,7 @@ class TopViewKO(BGMContextMixin, ListView):
         context['show_guest_alert'] = self.request.session.pop('show_guest_bonus_alert', False)
         context['earned_points'] = self.request.session.pop('earned_points', 0)
         context['has_played'] = self.request.COOKIES.get('tj_has_played') == '1'
+        context['show_nav_tutorial_hint'] = _nav_tutorial_eligible(self.request)
         context['unlocked_streak_achievements'] = self.request.session.pop('newly_unlocked_streak_achievements', [])
         return context
     
@@ -1284,6 +1293,7 @@ class TopViewESES(BGMContextMixin, ListView):
         context['show_guest_alert'] = self.request.session.pop('show_guest_bonus_alert', False)
         context['earned_points'] = self.request.session.pop('earned_points', 0)
         context['has_played'] = self.request.COOKIES.get('tj_has_played') == '1'
+        context['show_nav_tutorial_hint'] = _nav_tutorial_eligible(self.request)
         context['unlocked_streak_achievements'] = self.request.session.pop('newly_unlocked_streak_achievements', [])
         return context
     
@@ -1303,6 +1313,7 @@ class TopViewDE(BGMContextMixin, ListView):
         context['show_guest_alert'] = self.request.session.pop('show_guest_bonus_alert', False)
         context['earned_points'] = self.request.session.pop('earned_points', 0)
         context['has_played'] = self.request.COOKIES.get('tj_has_played') == '1'
+        context['show_nav_tutorial_hint'] = _nav_tutorial_eligible(self.request)
         context['unlocked_streak_achievements'] = self.request.session.pop('newly_unlocked_streak_achievements', [])
         return context
     
@@ -1322,6 +1333,7 @@ class TopViewTH(BGMContextMixin, ListView):
         context['show_guest_alert'] = self.request.session.pop('show_guest_bonus_alert', False)
         context['earned_points'] = self.request.session.pop('earned_points', 0)
         context['has_played'] = self.request.COOKIES.get('tj_has_played') == '1'
+        context['show_nav_tutorial_hint'] = _nav_tutorial_eligible(self.request)
         context['unlocked_streak_achievements'] = self.request.session.pop('newly_unlocked_streak_achievements', [])
         return context
     
@@ -1341,6 +1353,7 @@ class TopViewPTBR(BGMContextMixin, ListView):
         context['show_guest_alert'] = self.request.session.pop('show_guest_bonus_alert', False)
         context['earned_points'] = self.request.session.pop('earned_points', 0)
         context['has_played'] = self.request.COOKIES.get('tj_has_played') == '1'
+        context['show_nav_tutorial_hint'] = _nav_tutorial_eligible(self.request)
         context['unlocked_streak_achievements'] = self.request.session.pop('newly_unlocked_streak_achievements', [])
         return context
     
@@ -1360,6 +1373,7 @@ class TopViewESMX(BGMContextMixin, ListView):
         context['show_guest_alert'] = self.request.session.pop('show_guest_bonus_alert', False)
         context['earned_points'] = self.request.session.pop('earned_points', 0)
         context['has_played'] = self.request.COOKIES.get('tj_has_played') == '1'
+        context['show_nav_tutorial_hint'] = _nav_tutorial_eligible(self.request)
         context['unlocked_streak_achievements'] = self.request.session.pop('newly_unlocked_streak_achievements', [])
         return context
     
@@ -1379,6 +1393,7 @@ class TopViewENIN(BGMContextMixin, ListView):
         context['show_guest_alert'] = self.request.session.pop('show_guest_bonus_alert', False)
         context['earned_points'] = self.request.session.pop('earned_points', 0)
         context['has_played'] = self.request.COOKIES.get('tj_has_played') == '1'
+        context['show_nav_tutorial_hint'] = _nav_tutorial_eligible(self.request)
         context['unlocked_streak_achievements'] = self.request.session.pop('newly_unlocked_streak_achievements', [])
         return context
     
@@ -1721,6 +1736,28 @@ FIRST_TASTE_QUESTION_COUNT = 3  # first-visit guest trial: 3 EASY-tier words, un
 TIME_EXTEND_COST = 10  # points spent per "add more time" purchase, no cap on repeat use
 TIME_EXTEND_SECONDS = 10
 
+# --- Navigation-exploration tutorial (returning-guest only, 2026-09-17) ---
+# A second, separate tutorial from first_taste above: guides a guest who has
+# already played once (tj_has_played) through Learn -> Categories -> Cook ->
+# a specific word's detail page -> practicing it in single mode -> back to
+# the top page, exactly once (tj_nav_tutorial_seen). Targeted by slug (not
+# grid position) so it keeps working if cook.html's word ordering ever
+# shifts - see NAV_TUTORIAL_TARGET_SLUG below and its per-view fallback
+# (nothing is shown if the word is ever removed).
+NAV_TUTORIAL_TARGET_SLUG = 'cook-tsukemen'  # つけ麺 (Tsukemen) - id 927, category=cook
+
+
+def _nav_tutorial_eligible(request):
+    """True for a guest who has played the game at least once but hasn't
+    seen the navigation-exploration tutorial yet - the same guest-only,
+    one-time-only shape as first_taste's own gate, just inverted (this one
+    needs has_played=1 instead of guarding against it)."""
+    return (
+        not request.user.is_authenticated
+        and request.COOKIES.get('tj_has_played') == '1'
+        and request.COOKIES.get('tj_nav_tutorial_seen') != '1'
+    )
+
 
 def _sample_ids(model, category_filter=None, length_regex=None, exclude_ids=(), count=1):
     """Random id sample from `model`, honoring the same category/length
@@ -1910,6 +1947,7 @@ def game_play(request):
         'skip_countdown': difficulty in ('single', 'first_taste'),
         'has_timer': difficulty not in ('single', 'first_taste'),
         'single_return_url': request.session.get('single_return_url'),
+        'is_nav_tutorial_single': request.session.get('nav_tutorial_single_active', False),
         'score': request.session.get('game_score', 0),
         'bgm_url': get_bgm_url('game'),
         'bgm_page_type': 'game',
@@ -1958,7 +1996,13 @@ def game_question_data(request):
     # Q2 (いぬ, forced above in game_restart) deliberately guides to the
     # WRONG one (below) instead, so the guest sees the "incorrect answer"
     # tile treatment once before the real, unguided game starts.
-    is_tutorial_q1 = difficulty == 'first_taste' and index == 0
+    # Nav-tutorial step 6 (see NAV_TUTORIAL_TARGET_SLUG / game_restart):
+    # single mode is always exactly one question, so this is equivalent to
+    # is_tutorial_q1's own first_taste guided-correct-order treatment - same
+    # tile finger-guide and wrong-tap blocking, just triggered by a
+    # different session flag instead of difficulty.
+    is_nav_tutorial_q = difficulty == 'single' and index == 0 and request.session.get('nav_tutorial_single_active', False)
+    is_tutorial_q1 = (difficulty == 'first_taste' and index == 0) or is_nav_tutorial_q
     is_tutorial_q2 = difficulty == 'first_taste' and index == 1
     tile_data = _tiles_for_question(question, force_chunk=force_chunk, want_tutorial_order=is_tutorial_q1 or is_tutorial_q2)
     tutorial_wrong_order = None
@@ -2090,7 +2134,7 @@ def game_submit_answer(request):
     request.session['last_answered_index'] = index
     request.session['game_current_index'] = index + 1
 
-    return JsonResponse({
+    response = JsonResponse({
         'game_over': False,
         'is_correct': correct_flag,
         'points': points,
@@ -2098,6 +2142,21 @@ def game_submit_answer(request):
         'correct_answer': answer_text,
         'score': request.session.get('game_score', 0),
     })
+
+    # Nav-tutorial step 7 (see NAV_TUTORIAL_TARGET_SLUG): mark it seen only
+    # once the guided round is actually completed correctly - set here
+    # rather than at game_restart (unlike tj_has_played) so a guest who
+    # starts the multi-page flow and drops off partway through still gets
+    # offered it again on a later visit, instead of losing the one-time
+    # slot to an attempt they never finished.
+    if game_difficulty == 'single' and correct_flag and request.session.pop('nav_tutorial_single_active', False):
+        response.set_cookie(
+            'tj_nav_tutorial_seen', '1',
+            max_age=34560000,
+            httponly=True, samesite='Lax', secure=request.is_secure(),
+        )
+
+    return response
 
 
 @require_POST
@@ -2198,6 +2257,17 @@ def game_restart(request):
             single_return_url = reverse('category_detail', kwargs={'category': question.category, 'slug': question.slug})
 
         game_difficulty = 'single'
+        # Nav-tutorial step 6 (see NAV_TUTORIAL_TARGET_SLUG): the "practice
+        # this word" button on つけ麺's detail page is the same generic
+        # single-mode link every word's detail page uses - there's no
+        # separate tutorial-only URL. Recognizing it here, by slug + the
+        # same guest-eligibility gate every other step in this tutorial
+        # checks, is what turns this one specific practice round into a
+        # guided one (tile finger-guide, wrong-tap blocking, auto-return to
+        # top on success) without touching that shared button at all.
+        is_nav_tutorial_single = (
+            model_type != 'premium' and val == NAV_TUTORIAL_TARGET_SLUG and _nav_tutorial_eligible(request)
+        )
     elif difficulty_param == 'first_taste' and not request.user.is_authenticated and request.COOKIES.get('tj_has_played') != '1':
         # The special first-taste tutorial (forced らーめん Q1, wrong-tap
         # blocking, the result screen's auto-guided flow) is meant for a
@@ -2235,6 +2305,7 @@ def game_restart(request):
         'game_history', 'score_saved', 'achievements_checked',
         'game_end_time', 'last_answered_index',
         'game_combo', 'game_max_combo', 'single_return_url',
+        'nav_tutorial_single_active',
     ]
     for key in keys_to_clear:
         request.session.pop(key, None)
@@ -2250,6 +2321,8 @@ def game_restart(request):
         # timed-game result screen (single is a one-question practice
         # round, not a real playthrough).
         request.session['single_return_url'] = single_return_url
+        if is_nav_tutorial_single:
+            request.session['nav_tutorial_single_active'] = True
     # Consumed once by game_play to fire the GA4 'game_start' event, so it fires
     # exactly once per new game rather than on every question fetch.
     request.session['ga_fire_game_start'] = True
@@ -2811,6 +2884,7 @@ def category_list(request):
         'lang_code': lang_code,
         'bgm_url': get_bgm_url('study'),
         'bgm_page_type': 'study', 
+        'show_nav_tutorial_hint': _nav_tutorial_eligible(request),
     })
     
 
@@ -2825,6 +2899,7 @@ def category_list_zhcn(request):
         'lang_code': lang_code,
         'bgm_url': get_bgm_url('study'),
         'bgm_page_type': 'study', 
+        'show_nav_tutorial_hint': _nav_tutorial_eligible(request),
     })
      
 
@@ -2839,6 +2914,7 @@ def category_list_zhhant(request):
         'lang_code': lang_code,
         'bgm_url': get_bgm_url('study'),
         'bgm_page_type': 'study', 
+        'show_nav_tutorial_hint': _nav_tutorial_eligible(request),
     })
     
 
@@ -2853,6 +2929,7 @@ def category_list_vi(request):
         'lang_code': lang_code,
         'bgm_url': get_bgm_url('study'),
         'bgm_page_type': 'study', 
+        'show_nav_tutorial_hint': _nav_tutorial_eligible(request),
     })
     
 
@@ -2867,6 +2944,7 @@ def category_list_th(request):
         'lang_code': lang_code,
         'bgm_url': get_bgm_url('study'),
         'bgm_page_type': 'study', 
+        'show_nav_tutorial_hint': _nav_tutorial_eligible(request),
     })
     
     
@@ -2881,6 +2959,7 @@ def category_list_pt(request):
         'lang_code': lang_code,
         'bgm_url': get_bgm_url('study'),
         'bgm_page_type': 'study', 
+        'show_nav_tutorial_hint': _nav_tutorial_eligible(request),
     })
     
     
@@ -2896,6 +2975,7 @@ def category_list_pt_br(request):
         'lang_code': lang_code,
         'bgm_url': get_bgm_url('study'),
         'bgm_page_type': 'study', 
+        'show_nav_tutorial_hint': _nav_tutorial_eligible(request),
     })
     
     
@@ -2911,6 +2991,7 @@ def category_list_ko(request):
         'lang_code': lang_code,
         'bgm_url': get_bgm_url('study'),
         'bgm_page_type': 'study', 
+        'show_nav_tutorial_hint': _nav_tutorial_eligible(request),
     })
     
      
@@ -2926,6 +3007,7 @@ def category_list_ja(request):
         'lang_code': lang_code,
         'bgm_url': get_bgm_url('study'),
         'bgm_page_type': 'study', 
+        'show_nav_tutorial_hint': _nav_tutorial_eligible(request),
     })
     
     
@@ -2941,6 +3023,7 @@ def category_list_it(request):
         'lang_code': lang_code,
         'bgm_url': get_bgm_url('study'),
         'bgm_page_type': 'study', 
+        'show_nav_tutorial_hint': _nav_tutorial_eligible(request),
     })
     
     
@@ -2956,6 +3039,7 @@ def category_list_fr(request):
         'lang_code': lang_code,
         'bgm_url': get_bgm_url('study'),
         'bgm_page_type': 'study', 
+        'show_nav_tutorial_hint': _nav_tutorial_eligible(request),
     })
     
     
@@ -2971,6 +3055,7 @@ def category_list_es_mx(request):
         'lang_code': lang_code,
         'bgm_url': get_bgm_url('study'),
         'bgm_page_type': 'study', 
+        'show_nav_tutorial_hint': _nav_tutorial_eligible(request),
     })
     
     
@@ -2986,6 +3071,7 @@ def category_list_es_es(request):
         'lang_code': lang_code,
         'bgm_url': get_bgm_url('study'),
         'bgm_page_type': 'study', 
+        'show_nav_tutorial_hint': _nav_tutorial_eligible(request),
     })
     
     
@@ -3001,6 +3087,7 @@ def category_list_en_in(request):
         'lang_code': lang_code,
         'bgm_url': get_bgm_url('study'),
         'bgm_page_type': 'study', 
+        'show_nav_tutorial_hint': _nav_tutorial_eligible(request),
     })
     
     
@@ -3016,6 +3103,7 @@ def category_list_de(request):
         'lang_code': lang_code,
         'bgm_url': get_bgm_url('study'),
         'bgm_page_type': 'study', 
+        'show_nav_tutorial_hint': _nav_tutorial_eligible(request),
     })
     
     
@@ -3107,20 +3195,25 @@ class CookView(BGMContextMixin, ListView):
     template_name = "thank_japan_app/cook.html"
     paginate_by = 200
     bgm_page_type = 'study_select'
-    
+
     def get_queryset(self):
         return ThankJapanModel.objects.filter(category="cook").order_by('-timestamp')
-    
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        
+
         _, lang_code = get_lang_info(self.request)
         context['lang_code'] = lang_code
-        
+
         context['seo_title'] = "Japanese Cooking | Recipes & Culinary Techniques | ThankJapan"
         context['seo_description'] = "Discover Japanese cooking techniques and recipes from traditional dishes to modern cuisine."
         context['seo_og_title'] = "Japanese Cooking - Recipes & Techniques | ThankJapan"
         context['seo_og_description'] = context['seo_description']
+        # Nav-tutorial step 4 (see NAV_TUTORIAL_TARGET_SLUG) - targeted by
+        # slug within object_list in the template, not position, so it
+        # keeps pointing at the right card regardless of grid order.
+        context['show_nav_tutorial_hint'] = _nav_tutorial_eligible(self.request)
+        context['nav_tutorial_target_slug'] = NAV_TUTORIAL_TARGET_SLUG
         return context
     
 class AppliancesView(BGMContextMixin, ListView):

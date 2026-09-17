@@ -388,6 +388,50 @@
             padding: 0 10px;
         }
 
+        /* Nav-tutorial steps 1-2 (returning-guest-only "Learn" ->
+           "Category list" guide) - only rendered when show_nav_tutorial_hint
+           is truthy, which only TopView's own context sets, so this stays
+           dormant on every other page that extends this shared base.
+           Identical .tutorial-hint-target/.tutorial-hint-bubble pair used by
+           top-main-v2.html's own first_taste CTA hint. */
+        .tutorial-hint-target {
+            position: relative;
+        }
+        .tutorial-hint-bubble {
+            position: absolute;
+            top: -38px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            white-space: nowrap;
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: #2a1d13;
+            background: #fff8e0;
+            border: 1px solid rgba(212, 175, 55, 0.6);
+            border-radius: 20px;
+            padding: 4px 12px 4px 8px;
+            pointer-events: none;
+            animation: tutorialHintBounce 1.3s ease-in-out infinite;
+            z-index: 1;
+        }
+        .tutorial-hint-bubble .finger {
+            font-size: 1.8rem;
+            line-height: 1;
+        }
+        .tutorial-hint-bubble .hint-click { display: none; }
+        .tutorial-hint-bubble .hint-tap { display: inline; }
+        @media (hover: hover) and (pointer: fine) {
+            .tutorial-hint-bubble .hint-click { display: inline; }
+            .tutorial-hint-bubble .hint-tap { display: none; }
+        }
+        @keyframes tutorialHintBounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(6px); }
+        }
+
     </style>
 
     {% if not ga_disabled %}
@@ -439,7 +483,8 @@
 
         
         <nav class="bottom-nav">
-            <a href="javascript:void(0)" class="nav-item" id="learn-modal-btn">
+            <a href="javascript:void(0)" class="nav-item{% if show_nav_tutorial_hint %} tutorial-hint-target{% endif %}" id="learn-modal-btn">
+                {% if show_nav_tutorial_hint %}{% include 'includes/tutorial_hint_bubble.html' %}{% endif %}
                 <i class="fas fa-search-location"></i>
                 <span>
                     {% if lang_code == 'ja' %}学ぶ
@@ -760,8 +805,10 @@
                     font-size: 1rem;
                     box-shadow: 0 4px 15px rgba(0,0,0,0.15);
                     transition: transform 0.2s;
+                    position: relative;
                     " onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">
-                    <span style="margin-right: 8px;">📖</span> 
+                    {% if show_nav_tutorial_hint %}{% include 'includes/tutorial_hint_bubble.html' %}{% endif %}
+                    <span style="margin-right: 8px;">📖</span>
                     {% if lang_code == 'ja' %}語彙カテゴリー一覧
                     {% elif lang_code == 'ko' %}어휘 카테고리 목록
                     {% elif lang_code == 'zh-cn' %}词汇分类列表

@@ -454,6 +454,25 @@
         </div>
     </div>
 </div>
+<div class="tutorial-overlay-backdrop" id="tutorial-overlay-nav-end">
+    <div class="tutorial-overlay-card">
+        <div class="tutorial-overlay-icon">🗺️</div>
+        <div class="tutorial-overlay-text">
+            {% if lang_code == 'ja' %}色んなカテゴリーを見て学んで、<br>ゲームで遊んでみよう！
+            {% elif lang_code == 'zh-hant' %}去看看各種分類學習，<br>也玩玩遊戲吧！
+            {% elif lang_code == 'zh-cn' %}去看看各种分类学习，<br>也玩玩游戏吧！
+            {% elif lang_code == 'ko' %}다양한 카테고리를 둘러보고,<br>게임도 해보세요!
+            {% elif lang_code == 'de' %}Schau dir die Kategorien an<br>und spiel noch mehr Spiele!
+            {% elif lang_code == 'fr' %}Découvrez les catégories<br>et essayez d'autres jeux !
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}¡Explora las categorías<br>y prueba más juegos!
+            {% elif lang_code == 'it' %}Esplora le categorie<br>e prova altri giochi!
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Explore as categorias<br>e experimente mais jogos!
+            {% elif lang_code == 'vi' %}Khám phá các danh mục<br>và chơi thêm trò chơi nhé!
+            {% elif lang_code == 'th' %}ลองสำรวจหมวดหมู่ต่างๆ<br>แล้วเล่นเกมเพิ่มเติมกันนะ!
+            {% else %}Explore the categories<br>and try more games!{% endif %}
+        </div>
+    </div>
+</div>
 {% include 'includes/tutorial_overlay.js.html' %}
 <script>
 document.addEventListener('DOMContentLoaded', function () {
@@ -466,6 +485,13 @@ document.addEventListener('DOMContentLoaded', function () {
     if (sessionStorage.getItem('tj_tutorial_just_completed') === '1') {
         sessionStorage.removeItem('tj_tutorial_just_completed');
         playTutorialOverlay('tutorial-overlay-end', 2500);
+    }
+    // Same one-shot sessionStorage handoff as above, for the separate
+    // nav-tutorial's own closing overlay (see game_play-v2.html, which sets
+    // this right before redirecting home after step 6's correct answer).
+    if (sessionStorage.getItem('tj_nav_tutorial_just_completed') === '1') {
+        sessionStorage.removeItem('tj_nav_tutorial_just_completed');
+        playTutorialOverlay('tutorial-overlay-nav-end', 2500);
     }
 });
 

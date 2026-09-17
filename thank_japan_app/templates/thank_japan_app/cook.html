@@ -288,8 +288,71 @@
 @media (min-width: 768px) {
     .main2 { grid-template-columns: repeat(4, 1fr); }
 }
+
+/* Nav-tutorial step 5 - built and attached entirely by JS (see
+   openDetailModal below), because the "practice this word" button only
+   exists inside content fetched *after* the modal opens; a <script> inside
+   that fetched HTML would never run (elements from fetch().then(html=>...)
+   are parsed and appended via DOM APIs, not innerHTML-parsed at the point a
+   <script> tag would execute), so this page's own always-executing script
+   has to build the hint itself rather than relying on anything server-
+   rendered inside the modal content. */
+.nav-tutorial-modal-hint-bubble {
+    position: absolute;
+    top: -38px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    white-space: nowrap;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #2a1d13;
+    background: #fff8e0;
+    border: 1px solid rgba(212, 175, 55, 0.6);
+    border-radius: 20px;
+    padding: 4px 12px 4px 8px;
+    pointer-events: none;
+    animation: tutorialHintBounce 1.3s ease-in-out infinite;
+    z-index: 10040;
+}
+.nav-tutorial-modal-hint-bubble .finger { font-size: 1.8rem; line-height: 1; }
+.nav-tutorial-modal-hint-bubble .hint-click { display: none; }
+.nav-tutorial-modal-hint-bubble .hint-tap { display: inline; }
+@media (hover: hover) and (pointer: fine) {
+    .nav-tutorial-modal-hint-bubble .hint-click { display: inline; }
+    .nav-tutorial-modal-hint-bubble .hint-tap { display: none; }
+}
+@keyframes tutorialHintBounce {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(6px); }
+}
 </style>
 
+{% if show_nav_tutorial_hint %}
+{% include 'includes/tutorial_overlay.css.html' %}
+<div class="tutorial-overlay-backdrop" id="tutorial-overlay-cook-target">
+    <div class="tutorial-overlay-card">
+        <div class="tutorial-overlay-icon">📖</div>
+        <div class="tutorial-overlay-text">
+            {% if lang_code == 'ja' %}クリックすると、<br>詳細で学べるよ
+            {% elif lang_code == 'zh-hant' %}點擊後，<br>可以在詳細頁面學習喔
+            {% elif lang_code == 'zh-cn' %}点击后，<br>可以在详情页学习哦
+            {% elif lang_code == 'ko' %}클릭하면,<br>자세히 배울 수 있어요
+            {% elif lang_code == 'de' %}Klick drauf,<br>und lerne die Details!
+            {% elif lang_code == 'fr' %}Cliquez dessus<br>pour en savoir plus !
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}¡Haz clic<br>para aprender los detalles!
+            {% elif lang_code == 'it' %}Clicca<br>per saperne di più!
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Clique<br>para aprender os detalhes!
+            {% elif lang_code == 'vi' %}Nhấp vào đây<br>để học chi tiết nhé!
+            {% elif lang_code == 'th' %}คลิกเพื่อ<br>เรียนรู้รายละเอียดกันนะ
+            {% else %}Click it to<br>learn the details!{% endif %}
+        </div>
+    </div>
+</div>
+{% include 'includes/tutorial_overlay.js.html' %}
+{% endif %}
 
 <div class="app-content-fix">
     <div class="category-header">
@@ -314,9 +377,41 @@
     {% for item in object_list %}
         {% url 'category_detail' item.category item.slug as detail_url %}
         <div class="flashcard" onclick="hideGuide(this); openDetailModal('{{ detail_url }}{% if lang_code %}?lang={{ lang_code }}{% endif %}')">
-            
+
             {% if forloop.first %}
-            <div class="tap-guide" id="first-card-guide">
+                {% if not show_nav_tutorial_hint or item.slug != nav_tutorial_target_slug %}
+                <div class="tap-guide" id="first-card-guide">
+                    <div class="finger-icon">👆</div>
+                    <div class="tap-text">
+                        {% if lang_code == 'ja' %}タップ！
+                        {% elif lang_code == 'zh-hant' %}點擊！
+                        {% elif lang_code == 'zh-cn' %}点击！
+                        {% elif lang_code == 'ko' %}탭!
+                        {% elif lang_code == 'fr' %}Appuyez !
+                        {% elif lang_code == 'de' %}Tippen!
+                        {% elif lang_code == 'it' %}Tocca!
+                        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}¡Toca!
+                        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Toque!
+                        {% elif lang_code == 'vi' %}Chạm!
+                        {% elif lang_code == 'th' %}แตะ!
+                        {% else %}Tap!
+                        {% endif %}
+                    </div>
+                </div>
+                {% endif %}
+            {% endif %}
+
+            {% if show_nav_tutorial_hint and item.slug == nav_tutorial_target_slug %}
+            <!-- Nav-tutorial step 4 target card, found by slug (not grid
+                 position) so it keeps pointing at the right card regardless
+                 of future reordering - see NAV_TUTORIAL_TARGET_SLUG. Starts
+                 hidden; revealed by JS below only after the explanatory
+                 overlay finishes, and only because this exact slug matched
+                 an item.object_list actually contains right now (the
+                 fallback if つけ麺 is ever removed: this block simply never
+                 renders, so no card gets tagged and the overlay's own JS
+                 below quietly no-ops). -->
+            <div class="tap-guide" id="nav-tutorial-target-guide" style="display: none;">
                 <div class="finger-icon">👆</div>
                 <div class="tap-text">
                     {% if lang_code == 'ja' %}タップ！
@@ -424,6 +519,34 @@ function hideGuide(card) {
     }
 }
 
+{% if show_nav_tutorial_hint %}
+// Nav-tutorial steps 4-5 (see NAV_TUTORIAL_TARGET_SLUG in views.py). The
+// detail URL is server-rendered so the JS below never has to guess or
+// rebuild it - if つけ麺 is ever removed, nav_tutorial_target_slug still
+// resolves fine (it's just a string), but #nav-tutorial-target-guide simply
+// never got rendered above, so every check against it below is already a
+// safe no-op without any extra fallback logic needed here.
+const NAV_TUTORIAL_TARGET_DETAIL_URL = "{% url 'category_detail' 'cook' nav_tutorial_target_slug %}";
+
+function navTutorialModalHintCaption() {
+    var el = document.createElement('span');
+    el.className = 'nav-tutorial-modal-hint-bubble';
+    el.innerHTML =
+        '<span class="finger">👇</span>' +
+        '<span class="hint-click">{% if lang_code == "ja" %}クリックしよう{% elif lang_code == "ko" %}클릭해보세요{% elif lang_code == "zh-cn" %}点击这里{% elif lang_code == "zh-hant" %}點擊這裡{% elif lang_code == "th" %}คลิกเลย{% elif lang_code == "vi" %}Nhấp vào đây{% elif lang_code == "fr" %}Cliquez ici{% elif lang_code == "de" %}Hier klicken{% elif lang_code == "it" %}Clicca qui{% elif lang_code == "es-es" or lang_code == "es-mx" %}Haz clic aquí{% elif lang_code == "pt" or lang_code == "pt-br" %}Clique aqui{% else %}Click here{% endif %}</span>' +
+        '<span class="hint-tap">{% if lang_code == "ja" %}タップしよう{% elif lang_code == "ko" %}탭해보세요{% elif lang_code == "zh-cn" %}点这里{% elif lang_code == "zh-hant" %}點這裡{% elif lang_code == "th" %}แตะเลย{% elif lang_code == "vi" %}Chạm vào đây{% elif lang_code == "fr" %}Appuyez ici{% elif lang_code == "de" %}Hier tippen{% elif lang_code == "it" %}Tocca qui{% elif lang_code == "es-es" or lang_code == "es-mx" %}Toca aquí{% elif lang_code == "pt" or lang_code == "pt-br" %}Toque aqui{% else %}Tap here{% endif %}</span>';
+    return el;
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+    var targetGuide = document.getElementById('nav-tutorial-target-guide');
+    if (!targetGuide) return;  // つけ麺 not in today's list - no-op fallback
+    playTutorialOverlay('tutorial-overlay-cook-target', 2200, function () {
+        targetGuide.style.display = '';
+    });
+});
+{% endif %}
+
 function speakJapanese(text) {
     if (!('speechSynthesis' in window)) return;
 
@@ -475,13 +598,31 @@ function openDetailModal(url) {
         .then(html => {
     const parser = new DOMParser();
     const doc = parser.parseFromString(html, 'text/html');
-    const detailContent = doc.querySelector('.main2'); 
-    
+    const detailContent = doc.querySelector('.main2');
+
     if (detailContent) {
-        detailContent.classList.remove('main2'); 
-        detailContent.classList.add('modal-detail-wrapper'); 
+        detailContent.classList.remove('main2');
+        detailContent.classList.add('modal-detail-wrapper');
         modalBody.innerHTML = '';
         modalBody.appendChild(detailContent);
+        {% if show_nav_tutorial_hint %}
+        // Nav-tutorial step 5: the "practice this word" button is part of
+        // the fetched HTML above, so it only exists from this point on -
+        // any <script> that arrived inside it never ran (see the CSS
+        // comment above .nav-tutorial-modal-hint-bubble), which is why this
+        // page's own script builds and attaches the hint itself, and only
+        // when the just-opened word is actually つけ麺.
+        if (url.indexOf(NAV_TUTORIAL_TARGET_DETAIL_URL) === 0) {
+            const practiceBtn = modalBody.querySelector('.game-invite-btn');
+            if (practiceBtn && practiceBtn.parentNode) {
+                const wrap = document.createElement('div');
+                wrap.style.cssText = 'position:relative; display:inline-block; width:100%; text-align:center;';
+                practiceBtn.parentNode.insertBefore(wrap, practiceBtn);
+                wrap.appendChild(practiceBtn);
+                wrap.appendChild(navTutorialModalHintCaption());
+            }
+        }
+        {% endif %}
     }
         });
 

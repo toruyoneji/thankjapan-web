@@ -623,9 +623,37 @@ body {
     <div class="bank-row" id="bank-row"></div>
 </div>
 
-{% if difficulty == 'first_taste' %}
+{% if difficulty == 'first_taste' or is_nav_tutorial_single %}
 {% include 'includes/tutorial_overlay.css.html' %}
 
+{% if is_nav_tutorial_single %}
+<!-- Nav-tutorial step 6 (see NAV_TUTORIAL_TARGET_SLUG) - same guided-
+     correct-order mechanism as tutorial-overlay-q1 below (tutorialOrder,
+     finger-guide, wrong-tap blocking), just for つけめん instead of らーめん
+     and reached via single mode's practice-this-word flow instead of
+     first_taste. -->
+<div class="tutorial-overlay-backdrop" id="tutorial-overlay-nav-single">
+    <div class="tutorial-overlay-card">
+        <div class="tutorial-overlay-icon">👆</div>
+        <div class="tutorial-overlay-text">
+            {% if lang_code == 'ja' %}「つけめん」を<br>1文字ずつタップして<br>選んでみよう
+            {% elif lang_code == 'zh-hant' %}一個字一個字地點擊<br>選出「つけめん」吧
+            {% elif lang_code == 'zh-cn' %}一个字一个字地点击<br>选出「つけめん」吧
+            {% elif lang_code == 'ko' %}「つけめん」을<br>한 글자씩 탭해서<br>선택해 봐요
+            {% elif lang_code == 'de' %}Tippe die Zeichen von<br>„つけめん" nacheinander an
+            {% elif lang_code == 'fr' %}Touchez les caractères de<br>« つけめん » un par un
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Toca los caracteres de<br>"つけめん" uno por uno
+            {% elif lang_code == 'it' %}Tocca i caratteri di<br>"つけめん" uno alla volta
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Toque nos caracteres de<br>"つけめん" um por um
+            {% elif lang_code == 'vi' %}Hãy chạm vào từng chữ của<br>"つけめん" theo thứ tự
+            {% elif lang_code == 'th' %}แตะตัวอักษรของ<br>"つけめん" ทีละตัว
+            {% else %}Tap the tiles of<br>つけめん (Tsukemen)<br>one by one!{% endif %}
+        </div>
+    </div>
+</div>
+{% endif %}
+
+{% if difficulty == 'first_taste' %}
 <div class="tutorial-overlay-backdrop" id="tutorial-overlay-q1">
     <div class="tutorial-overlay-card">
         <div class="tutorial-overlay-icon">👆</div>
@@ -705,6 +733,7 @@ body {
         </div>
     </div>
 </div>
+{% endif %}
 
 {% include 'includes/tutorial_overlay.js.html' %}
 {% endif %}
@@ -716,6 +745,7 @@ body {
     const SUBMIT_URL = '{% url "game_submit_answer" %}';
     const RESULT_URL = '{% url "game_result" %}';
     {% if single_return_url %}const SINGLE_RETURN_URL = "{{ single_return_url|escapejs }}";{% else %}const SINGLE_RETURN_URL = null;{% endif %}
+    const IS_NAV_TUTORIAL_SINGLE = {{ is_nav_tutorial_single|yesno:'true,false' }};
     const SKIP_COUNTDOWN = {{ skip_countdown|yesno:'true,false' }};
     const HAS_TIMER = {{ has_timer|yesno:'true,false' }};
     const TOTAL_TIME = 60;
@@ -725,6 +755,31 @@ body {
     const TIME_EXTEND_SECONDS = {{ time_extend_seconds }};
     const EXTEND_TIME_URL = '{% url "game_extend_time" %}';
     const REGISTER_URL = '{% url "player_register" %}?lang={{ lang_code }}';
+
+    // Nav-tutorial step 7's auto-redirect target - same per-language map +
+    // localStorage-first lookup as game_result-v2.html's own goToTopPage().
+    const NAV_TUTORIAL_TOP_PAGE_URLS = {
+        'ja': "{% url 'toppageja' %}",
+        'en': "{% url 'toppage' %}",
+        'en-in': "{% url 'toppageenIN' %}",
+        'ko': "{% url 'toppageko' %}",
+        'zh-cn': "{% url 'toppagezhCN' %}",
+        'zh-hant': "{% url 'toppagezhHANT' %}",
+        'fr': "{% url 'toppagefr' %}",
+        'de': "{% url 'toppagede' %}",
+        'it': "{% url 'toppageit' %}",
+        'es-es': "{% url 'toppageesES' %}",
+        'es-mx': "{% url 'toppageesMX' %}",
+        'pt': "{% url 'toppagept' %}",
+        'pt-br': "{% url 'toppageptBR' %}",
+        'vi': "{% url 'toppagevi' %}",
+        'th': "{% url 'toppageth' %}",
+    };
+    function goToTopPageAfterNavTutorial() {
+        const topUrl = localStorage.getItem('tj_top_url');
+        sessionStorage.setItem('tj_nav_tutorial_just_completed', '1');
+        window.location.href = topUrl || NAV_TUTORIAL_TOP_PAGE_URLS['{{ lang_code }}'] || NAV_TUTORIAL_TOP_PAGE_URLS['en'];
+    }
 
     let localSecondsLeft = TOTAL_TIME;
     let tickInterval = null;
@@ -1048,7 +1103,10 @@ body {
             // "tap the tiles of らーめん" plays here. The finger hint
             // (already rendered by redrawTiles() above, just visually
             // behind the dim overlay) is what takes over once it's played.
-            playTutorialOverlay('tutorial-overlay-q1', 2500);
+            // Nav-tutorial single mode reuses this exact same tutorialOrder
+            // mechanism (see game_question_data) but with its own intro
+            // overlay id, since it's guiding to つけめん, not らーめん.
+            playTutorialOverlay(IS_NAV_TUTORIAL_SINGLE ? 'tutorial-overlay-nav-single' : 'tutorial-overlay-q1', 2500);
         }
         if (tutorialWrongOrder && !tutorialWrongIntroShown) {
             tutorialWrongIntroShown = true;
@@ -1118,7 +1176,17 @@ body {
                     // as "this is what incorrect looks like".
                     if (wasTutorialWrongStep) answerRow.classList.add('tutorial-highlight');
                 }
-                if (SINGLE_RETURN_URL) {
+                if (IS_NAV_TUTORIAL_SINGLE && res.is_correct) {
+                    // Nav-tutorial step 7: let the green glow register for a
+                    // beat, then hand off to the top page's own closing
+                    // overlay via sessionStorage (see
+                    // goToTopPageAfterNavTutorial above and top-main-v2.html's
+                    // tj_nav_tutorial_just_completed listener). Skips the
+                    // normal single-mode "finish review" modal below - the
+                    // wrong-tap-blocked guide guarantees this round ends
+                    // correct, so there's nothing to retry.
+                    setTimeout(goToTopPageAfterNavTutorial, 2000);
+                } else if (SINGLE_RETURN_URL) {
                     setTimeout(function () { showSingleFinishModal(res.is_correct, res.correct_answer); }, res.is_correct ? 550 : 800);
                 } else if (wasTutorialCorrectStep) {
                     // Let the green glow actually register for a couple of
