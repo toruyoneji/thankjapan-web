@@ -154,7 +154,27 @@ body {
 }
 .slot.filled { border-style: solid; padding: 0; }
 
-.bank-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; max-width: 480px; margin: 0 auto; }
+.bank-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; max-width: 480px; margin: 0 auto; position: relative; }
+
+/* First-taste tutorial (question 1 only, see updateTutorialFinger() below) -
+   points at whichever bank tile should be tapped next. Positioned via JS
+   (offsetLeft/offsetTop against #bank-row) rather than anchored to the tile
+   itself, since .tile has overflow:hidden and would clip a finger poking
+   out above it. */
+.tutorial-tile-finger {
+  position: absolute;
+  font-size: 1.7rem;
+  line-height: 1;
+  pointer-events: none;
+  transform: translate(-50%, 0);
+  animation: tutorialTileFingerPoint 1s ease-in-out infinite;
+  filter: drop-shadow(0 2px 3px rgba(0,0,0,0.5));
+  z-index: 5;
+}
+@keyframes tutorialTileFingerPoint {
+  0%, 100% { transform: translate(-50%, 0); }
+  50% { transform: translate(-50%, 8px); }
+}
 
 .tile {
   font-family: 'Kaisei Decol', 'Shippori Mincho', serif;
@@ -585,6 +605,13 @@ body {
     let currentTiles = [];      // fixed original tile array for this question, {text}
     let placedIndices = [];     // indices into currentTiles, in the order placed
     let submitting = false;
+    // First-taste tutorial (question 1 only) - indices into currentTiles in
+    // solve order, or null once there's no tutorial for this question (any
+    // question after the first) or once it's finished. See
+    // updateTutorialFinger() - purely a visual hint, never blocks tapping
+    // tiles out of order.
+    let tutorialOrder = null;
+    let tutorialFingerEl = null;
     let pointBalance = {{ point_balance|default:0 }};
     let extendRequestInFlight = false;
 
@@ -728,11 +755,12 @@ body {
     window.finishGame = finishGame;
     window.requestExtendTime = requestExtendTime;
 
-    function makeTileButton(text) {
+    function makeTileButton(text, tileIndex) {
         const el = document.createElement('button');
         el.type = 'button';
         el.className = 'tile';
         el.textContent = text;
+        if (tileIndex !== undefined) el.dataset.tileIndex = tileIndex;
         return el;
     }
 
@@ -744,7 +772,7 @@ body {
 
         currentTiles.forEach((text, i) => {
             if (placedIndices.includes(i)) return;
-            const el = makeTileButton(text);
+            const el = makeTileButton(text, i);
             el.addEventListener('click', function () {
                 if (submitting) return;
                 el.classList.add('tap-pulse');
@@ -771,6 +799,37 @@ body {
             slot.className = 'slot';
             answerRow.appendChild(slot);
         }
+
+        updateTutorialFinger();
+    }
+
+    function removeTutorialFinger() {
+        if (tutorialFingerEl && tutorialFingerEl.parentNode) {
+            tutorialFingerEl.parentNode.removeChild(tutorialFingerEl);
+        }
+        tutorialFingerEl = null;
+    }
+
+    function updateTutorialFinger() {
+        removeTutorialFinger();
+        if (!tutorialOrder) return;
+        const nextIndex = tutorialOrder.find(function (idx) { return placedIndices.indexOf(idx) === -1; });
+        if (nextIndex === undefined) {
+            // Every tile from the tutorial's solve order has been placed
+            // (however the player got there) - nothing left to point at.
+            tutorialOrder = null;
+            return;
+        }
+        const bankRow = document.getElementById('bank-row');
+        const targetEl = bankRow.querySelector('[data-tile-index="' + nextIndex + '"]');
+        if (!targetEl) return;
+        const finger = document.createElement('div');
+        finger.className = 'tutorial-tile-finger';
+        finger.textContent = '👆';
+        finger.style.left = (targetEl.offsetLeft + targetEl.offsetWidth / 2) + 'px';
+        finger.style.top = (targetEl.offsetTop - 34) + 'px';
+        bankRow.appendChild(finger);
+        tutorialFingerEl = finger;
     }
 
     function renderBoard(data) {
@@ -779,6 +838,7 @@ body {
         currentTiles = data.tiles;
         placedIndices = [];
         submitting = false;
+        tutorialOrder = Array.isArray(data.tutorial_order) ? data.tutorial_order : null;
 
         positionKoma(data.index);
         updateKiGauge(data.combo);

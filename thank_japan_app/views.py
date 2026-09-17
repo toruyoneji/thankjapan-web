@@ -1820,20 +1820,37 @@ def _model_for(question_model_tag):
     return ThankJapanPremium if question_model_tag == 'premium' else ThankJapanModel
 
 
-def _tiles_for_question(question_obj, force_chunk=False):
+def _tiles_for_question(question_obj, force_chunk=False, want_tutorial_order=False):
     """Shuffled display tiles + the correct answer text for one question
     (works for both ThankJapanModel and ThankJapanPremium - both have
     jpname/example_sentence_ja). force_chunk: see build_tiles - used for
     premium-word review (mode=single) so every premium category is quizzed
-    on its example sentence regardless of how short the reading is."""
+    on its example sentence regardless of how short the reading is.
+
+    want_tutorial_order: also return 'tutorial_order', the shuffled-tile
+    positions in the order they must be tapped to spell the answer (index 0
+    of tutorial_order is the shuffled position holding the first correct
+    tile, and so on). Built from an index permutation rather than matching
+    tile *text* so it stays correct even when two tiles share the same
+    text (e.g. a repeated mora). Only ever requested for the first-taste
+    tutorial's first question (see game_question_data) - giving away the
+    solved order anywhere else would defeat the point of the game."""
     built = build_tiles(question_obj.jpname, question_obj.example_sentence_ja, force_chunk=force_chunk)
-    shuffled = built['tiles'][:]
-    random.shuffle(shuffled)
+    original = built['tiles']
+    order = list(range(len(original)))
+    random.shuffle(order)
     # A shuffle landing back on the solved order isn't a bug, but for 3+
     # tiles it's rare and a bit anticlimactic - reshuffle once if it happens.
-    if len(shuffled) > 2 and shuffled == built['tiles']:
-        random.shuffle(shuffled)
-    return {'route': built['route'], 'tiles': shuffled, 'answer_text': built['answer_text']}
+    if len(order) > 2 and order == list(range(len(original))):
+        random.shuffle(order)
+    shuffled = [original[i] for i in order]
+    result = {'route': built['route'], 'tiles': shuffled, 'answer_text': built['answer_text']}
+    if want_tutorial_order:
+        # order[shuffled_pos] = original_index. We want, for each
+        # original_index in solve order (0, 1, 2, ...), which shuffled_pos
+        # holds it - i.e. order's inverse.
+        result['tutorial_order'] = [order.index(i) for i in range(len(original))]
+    return result
 
 def get_current_player_info(request):
     if request.user.is_authenticated:
@@ -1850,17 +1867,21 @@ def get_current_player_info(request):
 
 def game_start(request):
     player, is_guest = get_current_player_info(request)
-    
+
     premium_url_name, lang_code = get_lang_info(request)
 
     return render(request, 'thank_japan_app/game_start-v2.html', {
-        'player': player, 
+        'player': player,
         'is_guest': is_guest,
         'lang_code': lang_code,
         'premium_url_name': premium_url_name,
         'is_twa': is_android_twa(request),
         'bgm_url': get_bgm_url('quiz_menu'),
         'bgm_page_type': 'quiz_menu',
+        # Gates the tutorial finger-pointing hint on the PLAY button - only a
+        # true first-time visitor who hasn't finished a game yet needs the
+        # nudge (same tj_has_played cookie the top page's own CTA uses).
+        'has_played': request.COOKIES.get('tj_has_played') == '1',
     })
 
 
@@ -1931,7 +1952,11 @@ def game_question_data(request):
     # regardless of mora count - the main timed game's routing (any
     # difficulty other than 'single') is untouched.
     force_chunk = difficulty == 'single' and q['model'] == 'premium'
-    tile_data = _tiles_for_question(question, force_chunk=force_chunk)
+    # Step-by-step tile tutorial only ever runs on the very first question a
+    # brand-new guest sees (see game_play-v2.html) - the solved order is
+    # otherwise never sent to the client.
+    is_tutorial_question = difficulty == 'first_taste' and index == 0
+    tile_data = _tiles_for_question(question, force_chunk=force_chunk, want_tutorial_order=is_tutorial_question)
 
     # Cache the canonical answer text computed *right now* against this
     # exact index, so game_submit_answer validates against the very same
@@ -1951,6 +1976,7 @@ def game_question_data(request):
         'question_model': q['model'],
         'route': tile_data['route'],
         'tiles': tile_data['tiles'],
+        'tutorial_order': tile_data.get('tutorial_order'),
         'seconds_left': seconds_left,
         'score': request.session.get('game_score', 0),
         'combo': request.session.get('game_combo', 0),

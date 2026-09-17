@@ -1,0 +1,38 @@
+{% comment %}
+First-time-visitor "click/tap here" nudge, shown as an absolutely-positioned
+bubble above a CTA button. The parent element must have class
+"tutorial-hint-target" (position: relative) for this to anchor correctly -
+see the .tutorial-hint-bubble rules in top-main-v2.html and
+game_start-v2.html.
+{% endcomment %}
+<span class="tutorial-hint-bubble">
+    <span class="finger">👆</span>
+    <span class="hint-click">
+        {% if lang_code == 'ja' %}クリックしよう
+        {% elif lang_code == 'ko' %}클릭해보세요
+        {% elif lang_code == 'zh-cn' %}点击这里
+        {% elif lang_code == 'zh-hant' %}點擊這裡
+        {% elif lang_code == 'th' %}คลิกเลย
+        {% elif lang_code == 'vi' %}Nhấp vào đây
+        {% elif lang_code == 'fr' %}Cliquez ici
+        {% elif lang_code == 'de' %}Hier klicken
+        {% elif lang_code == 'it' %}Clicca qui
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' or lang_code == 'es' %}Haz clic aquí
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Clique aqui
+        {% else %}Click here{% endif %}
+    </span>
+    <span class="hint-tap">
+        {% if lang_code == 'ja' %}タップしよう
+        {% elif lang_code == 'ko' %}탭해보세요
+        {% elif lang_code == 'zh-cn' %}点这里
+        {% elif lang_code == 'zh-hant' %}點這裡
+        {% elif lang_code == 'th' %}แตะเลย
+        {% elif lang_code == 'vi' %}Chạm vào đây
+        {% elif lang_code == 'fr' %}Appuyez ici
+        {% elif lang_code == 'de' %}Hier tippen
+        {% elif lang_code == 'it' %}Tocca qui
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' or lang_code == 'es' %}Toca aquí
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Toque aqui
+        {% else %}Tap here{% endif %}
+    </span>
+</span>

@@ -3498,6 +3498,44 @@ class FirstTasteTileGameTests(TestCase):
         response = self.client.get(reverse('game_restart'), {'difficulty': 'first_taste'})
         self.assertIn('tj_has_played', response.cookies)
 
+    def test_first_question_includes_a_valid_tutorial_order(self):
+        # 2026-09-17: the first-taste tutorial points a finger at each tile
+        # in solve order - tutorial_order must be a permutation of the
+        # shuffled tiles' indices that reconstructs the answer when applied.
+        self.client.get(reverse('game_restart'), {'difficulty': 'first_taste'})
+        self.client.get(reverse('game_play'))
+        data = json.loads(self.client.get(reverse('game_question_data')).content)
+
+        tutorial_order = data['tutorial_order']
+        self.assertIsNotNone(tutorial_order)
+        self.assertEqual(sorted(tutorial_order), list(range(len(data['tiles']))))
+        reconstructed = ''.join(data['tiles'][i] for i in tutorial_order)
+        self.assertEqual(reconstructed, 'いぬ')
+
+    def test_second_question_has_no_tutorial_order(self):
+        self.client.get(reverse('game_restart'), {'difficulty': 'first_taste'})
+        self.client.get(reverse('game_play'))
+        tiles = json.loads(self.client.get(reverse('game_question_data')).content)['tiles']  # question 1
+        self.client.post(
+            reverse('game_submit_answer'),
+            data=json.dumps({'tiles': tiles, 'seconds_left': 60}),
+            content_type='application/json',
+        )
+
+        data = json.loads(self.client.get(reverse('game_question_data')).content)  # question 2
+        self.assertIsNone(data.get('tutorial_order'))
+
+    def test_normal_difficulty_never_gets_a_tutorial_order(self):
+        ThankJapanModel.objects.create(
+            name='timeattack-word', englishname='Cat', jpname='ねこ',
+            kanji_name='猫', katakana_name='ネコ', category='animal',
+            slug='timeattack-word', description='d', history='h',
+        )
+        self.client.get(reverse('game_restart'), {'difficulty': 'timeattack'})
+        self.client.get(reverse('game_play'))
+        data = json.loads(self.client.get(reverse('game_question_data')).content)
+        self.assertIsNone(data.get('tutorial_order'))
+
 
 EXTEND_TIME_TEXT_BY_LOCALE = {
     'ja': {
