@@ -593,26 +593,6 @@ body {
 {% if difficulty == 'first_taste' %}
 {% include 'includes/tutorial_overlay.css.html' %}
 
-<div class="tutorial-overlay-backdrop" id="tutorial-overlay-start">
-    <div class="tutorial-overlay-card">
-        <div class="tutorial-overlay-icon">🎮</div>
-        <div class="tutorial-overlay-text">
-            {% if lang_code == 'ja' %}まずはチュートリアルで<br>ゲームをやってみよう！
-            {% elif lang_code == 'zh-hant' %}先透過教學<br>來玩玩看遊戲吧！
-            {% elif lang_code == 'zh-cn' %}先通过教程<br>来玩玩看游戏吧！
-            {% elif lang_code == 'ko' %}먼저 튜토리얼로<br>게임을 해봐요!
-            {% elif lang_code == 'de' %}Lass uns zuerst das<br>Tutorial ausprobieren!
-            {% elif lang_code == 'fr' %}Essayons d'abord<br>le tutoriel du jeu !
-            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}¡Probemos primero<br>el tutorial del juego!
-            {% elif lang_code == 'it' %}Proviamo prima<br>il tutorial del gioco!
-            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Vamos experimentar primeiro<br>o tutorial do jogo!
-            {% elif lang_code == 'vi' %}Hãy thử hướng dẫn<br>trò chơi trước nhé!
-            {% elif lang_code == 'th' %}มาลองเล่นเกม<br>จากบทแนะนำกันก่อนเลย!
-            {% else %}Let's try the<br>tutorial first!{% endif %}
-        </div>
-    </div>
-</div>
-
 <div class="tutorial-overlay-backdrop" id="tutorial-overlay-q1">
     <div class="tutorial-overlay-card">
         <div class="tutorial-overlay-icon">👆</div>
@@ -944,13 +924,13 @@ body {
 
         if (tutorialOrder && !tutorialIntroShown) {
             tutorialIntroShown = true;
-            // "Let's try the tutorial" then "tap the tiles of らーめん" -
-            // shown back to back; the finger hint (already rendered by
-            // redrawTiles() above, just visually behind the dim overlay)
-            // is what takes over once both have played.
-            playTutorialOverlay('tutorial-overlay-start', 2500, function () {
-                playTutorialOverlay('tutorial-overlay-q1', 2500);
-            });
+            // "Let's try the tutorial" now plays on the top page itself,
+            // before the click on "3 questions" even navigates here (see
+            // startFirstTasteWithIntro() in top-main-v2.html) - only
+            // "tap the tiles of らーめん" plays here. The finger hint
+            // (already rendered by redrawTiles() above, just visually
+            // behind the dim overlay) is what takes over once it's played.
+            playTutorialOverlay('tutorial-overlay-q1', 2500);
         }
     }
 

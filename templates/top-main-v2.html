@@ -416,6 +416,25 @@
 </style>
 
 {% include 'includes/tutorial_overlay.css.html' %}
+<div class="tutorial-overlay-backdrop" id="tutorial-overlay-start">
+    <div class="tutorial-overlay-card">
+        <div class="tutorial-overlay-icon">🎮</div>
+        <div class="tutorial-overlay-text">
+            {% if lang_code == 'ja' %}まずはチュートリアルで<br>ゲームをやってみよう！
+            {% elif lang_code == 'zh-hant' %}先透過教學<br>來玩玩看遊戲吧！
+            {% elif lang_code == 'zh-cn' %}先通过教程<br>来玩玩看游戏吧！
+            {% elif lang_code == 'ko' %}먼저 튜토리얼로<br>게임을 해봐요!
+            {% elif lang_code == 'de' %}Lass uns zuerst das<br>Tutorial ausprobieren!
+            {% elif lang_code == 'fr' %}Essayons d'abord<br>le tutoriel du jeu !
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}¡Probemos primero<br>el tutorial del juego!
+            {% elif lang_code == 'it' %}Proviamo prima<br>il tutorial del gioco!
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Vamos experimentar primeiro<br>o tutorial do jogo!
+            {% elif lang_code == 'vi' %}Hãy thử hướng dẫn<br>trò chơi trước nhé!
+            {% elif lang_code == 'th' %}มาลองเล่นเกม<br>จากบทแนะนำกันก่อนเลย!
+            {% else %}Let's try the<br>tutorial first!{% endif %}
+        </div>
+    </div>
+</div>
 <div class="tutorial-overlay-backdrop" id="tutorial-overlay-end">
     <div class="tutorial-overlay-card">
         <div class="tutorial-overlay-icon">🎉</div>
@@ -449,6 +468,20 @@ document.addEventListener('DOMContentLoaded', function () {
         playTutorialOverlay('tutorial-overlay-end', 2500);
     }
 });
+
+// "Let's try 3 questions first" (first_taste CTA, guest/not-has_played only
+// - see the has_played branching above): show the tutorial-start overlay
+// on THIS page and only navigate to the game once it's fully played out,
+// rather than after arriving on game_play (2026-09-19 - the announcement
+// used to show post-navigation, but it reads better as "here's what's
+// about to happen" before the page changes under the visitor).
+function startFirstTasteWithIntro(event, url) {
+    event.preventDefault();
+    playTutorialOverlay('tutorial-overlay-start', 2500, function () {
+        window.location.href = url;
+    });
+    return false;
+}
 </script>
 
 <section class="hero" id="hero-slider">
@@ -561,7 +594,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 </p>
                 {% endif %}
                 {% else %}
-                <a href="{% url 'game_restart' %}?difficulty=first_taste&lang={{ lang_code }}" class="explore-btn btn-green tutorial-hint-target">
+                <a href="{% url 'game_restart' %}?difficulty=first_taste&lang={{ lang_code }}" class="explore-btn btn-green tutorial-hint-target" onclick="return startFirstTasteWithIntro(event, this.href);">
                     {% include 'includes/tutorial_hint_bubble.html' %}
                     {% if lang_code == 'ja' %}まずは3問やってみよう 🎮
                     {% elif lang_code == 'ko' %}먼저 3문제 도전해보기 🎮
