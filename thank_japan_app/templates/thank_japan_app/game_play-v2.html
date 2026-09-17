@@ -666,6 +666,46 @@ body {
     </div>
 </div>
 
+<div class="tutorial-overlay-backdrop" id="tutorial-overlay-q1-correct-explain">
+    <div class="tutorial-overlay-card">
+        <div class="tutorial-overlay-icon">🟢</div>
+        <div class="tutorial-overlay-text">
+            {% if lang_code == 'ja' %}正解すると<br>タイルが緑に光るよ
+            {% elif lang_code == 'zh-hant' %}答對的話<br>方塊會發出綠光喔
+            {% elif lang_code == 'zh-cn' %}答对的话<br>方块会发出绿光哦
+            {% elif lang_code == 'ko' %}정답이면<br>타일이 초록색으로 빛나요
+            {% elif lang_code == 'de' %}Bei richtiger Antwort<br>leuchten die Kacheln grün
+            {% elif lang_code == 'fr' %}En cas de bonne réponse,<br>les tuiles brillent en vert
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Si aciertas,<br>las fichas brillan en verde
+            {% elif lang_code == 'it' %}Se rispondi bene,<br>le tessere si illuminano di verde
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Se você acertar,<br>as peças brilham em verde
+            {% elif lang_code == 'vi' %}Khi trả lời đúng,<br>các ô sẽ phát sáng màu xanh lá
+            {% elif lang_code == 'th' %}ถ้าตอบถูก<br>กระเบื้องจะเรืองแสงสีเขียว
+            {% else %}When you're right,<br>the tile glows green!{% endif %}
+        </div>
+    </div>
+</div>
+
+<div class="tutorial-overlay-backdrop" id="tutorial-overlay-q2-wrong-explain">
+    <div class="tutorial-overlay-card">
+        <div class="tutorial-overlay-icon">🔴</div>
+        <div class="tutorial-overlay-text">
+            {% if lang_code == 'ja' %}不正解だと<br>タイルが赤く光るよ
+            {% elif lang_code == 'zh-hant' %}答錯的話<br>方塊會發出紅光喔
+            {% elif lang_code == 'zh-cn' %}答错的话<br>方块会发出红光哦
+            {% elif lang_code == 'ko' %}오답이면<br>타일이 빨간색으로 빛나요
+            {% elif lang_code == 'de' %}Bei falscher Antwort<br>leuchten die Kacheln rot
+            {% elif lang_code == 'fr' %}En cas de mauvaise réponse,<br>les tuiles brillent en rouge
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Si te equivocas,<br>las fichas brillan en rojo
+            {% elif lang_code == 'it' %}Se sbagli,<br>le tessere si illuminano di rosso
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Se você errar,<br>as peças brilham em vermelho
+            {% elif lang_code == 'vi' %}Khi trả lời sai,<br>các ô sẽ phát sáng màu đỏ
+            {% elif lang_code == 'th' %}ถ้าตอบผิด<br>กระเบื้องจะเรืองแสงสีแดง
+            {% else %}When you're wrong,<br>the tile glows red!{% endif %}
+        </div>
+    </div>
+</div>
+
 {% include 'includes/tutorial_overlay.js.html' %}
 {% endif %}
 
@@ -1080,6 +1120,19 @@ body {
                 }
                 if (SINGLE_RETURN_URL) {
                     setTimeout(function () { showSingleFinishModal(res.is_correct, res.correct_answer); }, res.is_correct ? 550 : 800);
+                } else if (wasTutorialCorrectStep) {
+                    // Let the green glow actually register for a couple of
+                    // seconds before explaining it, rather than immediately
+                    // talking over it - then the explanation overlay itself
+                    // (same pattern as the rest of the tutorial) before
+                    // moving on to Q2.
+                    setTimeout(function () {
+                        playTutorialOverlay('tutorial-overlay-q1-correct-explain', 2500, fetchQuestion);
+                    }, 2000);
+                } else if (wasTutorialWrongStep) {
+                    setTimeout(function () {
+                        playTutorialOverlay('tutorial-overlay-q2-wrong-explain', 2500, fetchQuestion);
+                    }, 2000);
                 } else {
                     setTimeout(fetchQuestion, res.is_correct ? 550 : 800);
                 }
