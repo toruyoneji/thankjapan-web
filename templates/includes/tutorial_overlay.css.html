@@ -1,0 +1,73 @@
+{% comment %}
+Shared "game tutorial" full-screen announcement overlay - a centered card
+on a dark scrim, reusing the same visual language as base_top.html's
+existing lang/learn/menu modals (rgba(0,0,0,0.65) backdrop) so it reads as
+consistent with the rest of the site rather than a one-off popup. White/
+gold card matches the site's established palette; the icon's faint red
+drop-shadow is the "red" accent per the white x gold x red theme.
+
+Usage: give the backdrop element a unique id, e.g.
+  <div class="tutorial-overlay-backdrop" id="tutorial-overlay-start">
+    <div class="tutorial-overlay-card">
+      <div class="tutorial-overlay-icon">🎮</div>
+      <div class="tutorial-overlay-text">...</div>
+    </div>
+  </div>
+then trigger it with playTutorialOverlay('tutorial-overlay-start', 2500)
+from tutorial_overlay.js.html. z-index is above .bottom-nav (9999) so it
+fully commands attention while shown.
+{% endcomment %}
+<style>
+.tutorial-overlay-backdrop {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0, 0, 0, 0.65);
+    /* Above every other fixed element sitewide (bottom-nav 9999, cookie
+       banner 11000, the review-prompt-overlay this same page can show at
+       12000 - though that one never fires for a guest, which first_taste
+       always is) except the premium-trial/daily-question soft-ask modals
+       at 20000+, which this deliberately stays under. */
+    z-index: 19000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    padding: 24px;
+    box-sizing: border-box;
+}
+.tutorial-overlay-backdrop.show {
+    opacity: 1;
+    pointer-events: auto;
+}
+.tutorial-overlay-card {
+    background: #faf6ec;
+    border: 3px solid #d4af37;
+    border-radius: 24px;
+    padding: 32px 28px;
+    max-width: 320px;
+    width: 85%;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+    transform: scale(0.85);
+    transition: transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-sizing: border-box;
+}
+.tutorial-overlay-backdrop.show .tutorial-overlay-card {
+    transform: scale(1);
+}
+.tutorial-overlay-icon {
+    font-size: 2.8rem;
+    line-height: 1;
+    margin-bottom: 14px;
+    filter: drop-shadow(0 2px 6px rgba(192, 57, 43, 0.4));
+}
+.tutorial-overlay-text {
+    font-family: 'Zen Maru Gothic', 'Zen Antique', 'Noto Sans JP', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: #2a1d13;
+    line-height: 1.6;
+}
+</style>

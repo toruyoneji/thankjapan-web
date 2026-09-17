@@ -590,6 +590,52 @@ body {
     <div class="bank-row" id="bank-row"></div>
 </div>
 
+{% if difficulty == 'first_taste' %}
+{% include 'includes/tutorial_overlay.css.html' %}
+
+<div class="tutorial-overlay-backdrop" id="tutorial-overlay-start">
+    <div class="tutorial-overlay-card">
+        <div class="tutorial-overlay-icon">🎮</div>
+        <div class="tutorial-overlay-text">
+            {% if lang_code == 'ja' %}まずはチュートリアルで<br>ゲームをやってみよう！
+            {% elif lang_code == 'zh-hant' %}先透過教學<br>來玩玩看遊戲吧！
+            {% elif lang_code == 'zh-cn' %}先通过教程<br>来玩玩看游戏吧！
+            {% elif lang_code == 'ko' %}먼저 튜토리얼로<br>게임을 해봐요!
+            {% elif lang_code == 'de' %}Lass uns zuerst das<br>Tutorial ausprobieren!
+            {% elif lang_code == 'fr' %}Essayons d'abord<br>le tutoriel du jeu !
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}¡Probemos primero<br>el tutorial del juego!
+            {% elif lang_code == 'it' %}Proviamo prima<br>il tutorial del gioco!
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Vamos experimentar primeiro<br>o tutorial do jogo!
+            {% elif lang_code == 'vi' %}Hãy thử hướng dẫn<br>trò chơi trước nhé!
+            {% elif lang_code == 'th' %}มาลองเล่นเกม<br>จากบทแนะนำกันก่อนเลย!
+            {% else %}Let's try the<br>tutorial first!{% endif %}
+        </div>
+    </div>
+</div>
+
+<div class="tutorial-overlay-backdrop" id="tutorial-overlay-q1">
+    <div class="tutorial-overlay-card">
+        <div class="tutorial-overlay-icon">👆</div>
+        <div class="tutorial-overlay-text">
+            {% if lang_code == 'ja' %}「らーめん」を<br>1文字ずつタップして<br>選んでみよう
+            {% elif lang_code == 'zh-hant' %}一個字一個字地點擊<br>選出「らーめん」吧
+            {% elif lang_code == 'zh-cn' %}一个字一个字地点击<br>选出「らーめん」吧
+            {% elif lang_code == 'ko' %}「らーめん」을<br>한 글자씩 탭해서<br>선택해 봐요
+            {% elif lang_code == 'de' %}Tippe die Zeichen von<br>„らーめん" nacheinander an
+            {% elif lang_code == 'fr' %}Touchez les caractères de<br>« らーめん » un par un
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Toca los caracteres de<br>"らーめん" uno por uno
+            {% elif lang_code == 'it' %}Tocca i caratteri di<br>"らーめん" uno alla volta
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Toque nos caracteres de<br>"らーめん" um por um
+            {% elif lang_code == 'vi' %}Hãy chạm vào từng chữ của<br>"らーめん" theo thứ tự
+            {% elif lang_code == 'th' %}แตะตัวอักษรของ<br>"らーめん" ทีละตัว
+            {% else %}Tap the tiles of<br>らーめん (ramen)<br>one by one!{% endif %}
+        </div>
+    </div>
+</div>
+
+{% include 'includes/tutorial_overlay.js.html' %}
+{% endif %}
+
 <script>
 (function () {
     const CSRF_TOKEN = '{{ csrf_token }}';
@@ -621,6 +667,11 @@ body {
     // tiles out of order.
     let tutorialOrder = null;
     let tutorialFingerEl = null;
+    // Set once the tutorial-start/Q1-explanation overlay sequence has been
+    // triggered, so it never re-fires (renderBoard runs again for Q2/Q3,
+    // which never carry tutorial_order, but guarding on that alone would
+    // still be fragile if a future change ever re-sent it).
+    let tutorialIntroShown = false;
     let pointBalance = {{ point_balance|default:0 }};
     let extendRequestInFlight = false;
 
@@ -890,6 +941,17 @@ body {
 
         document.getElementById('prompt-img').src = data.image_url || '';
         document.getElementById('prompt-caption').textContent = data.caption || '';
+
+        if (tutorialOrder && !tutorialIntroShown) {
+            tutorialIntroShown = true;
+            // "Let's try the tutorial" then "tap the tiles of らーめん" -
+            // shown back to back; the finger hint (already rendered by
+            // redrawTiles() above, just visually behind the dim overlay)
+            // is what takes over once both have played.
+            playTutorialOverlay('tutorial-overlay-start', 2500, function () {
+                playTutorialOverlay('tutorial-overlay-q1', 2500);
+            });
+        }
     }
 
     function positionKoma(index) {

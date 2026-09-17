@@ -239,7 +239,7 @@
     animation: tutorialHintBounce 1.3s ease-in-out infinite;
 }
 .tutorial-hint-bubble .finger {
-    font-size: 1.1rem;
+    font-size: 1.8rem;
     line-height: 1;
 }
 .tutorial-hint-bubble .hint-click { display: none; }
@@ -414,6 +414,42 @@
 }
 
 </style>
+
+{% include 'includes/tutorial_overlay.css.html' %}
+<div class="tutorial-overlay-backdrop" id="tutorial-overlay-end">
+    <div class="tutorial-overlay-card">
+        <div class="tutorial-overlay-icon">🎉</div>
+        <div class="tutorial-overlay-text">
+            {% if lang_code == 'ja' %}ゲームのチュートリアルは<br>これでおしまいです！
+            {% elif lang_code == 'zh-hant' %}遊戲教學<br>到此結束囉！
+            {% elif lang_code == 'zh-cn' %}游戏教程<br>到此结束啦！
+            {% elif lang_code == 'ko' %}게임 튜토리얼은<br>여기까지예요!
+            {% elif lang_code == 'de' %}Das war's mit dem<br>Spiel-Tutorial!
+            {% elif lang_code == 'fr' %}C'est la fin<br>du tutoriel du jeu !
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}¡Este es el final<br>del tutorial del juego!
+            {% elif lang_code == 'it' %}Il tutorial del gioco<br>finisce qui!
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}O tutorial do jogo<br>termina por aqui!
+            {% elif lang_code == 'vi' %}Hướng dẫn trò chơi<br>đến đây là kết thúc!
+            {% elif lang_code == 'th' %}บทแนะนำเกม<br>จบเพียงเท่านี้!
+            {% else %}That's the end<br>of the tutorial!{% endif %}
+        </div>
+    </div>
+</div>
+{% include 'includes/tutorial_overlay.js.html' %}
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    // Set unconditionally by the first-taste result screen the moment it
+    // renders (see game_result-v2.html), not tied to exactly how the guest
+    // gets back here (auto-redirect or an early "Back to Home" click).
+    // sessionStorage rather than a cookie so it can never resurface on some
+    // unrelated later visit - cleared immediately on read, so a reload or
+    // repeat visit within the same tab never shows it twice.
+    if (sessionStorage.getItem('tj_tutorial_just_completed') === '1') {
+        sessionStorage.removeItem('tj_tutorial_just_completed');
+        playTutorialOverlay('tutorial-overlay-end', 2500);
+    }
+});
+</script>
 
 <section class="hero" id="hero-slider">
 

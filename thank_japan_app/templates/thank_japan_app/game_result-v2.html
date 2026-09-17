@@ -614,42 +614,6 @@ tbody td { padding: 8px; border: none; font-size: 0.82rem; color: var(--ink); }
     border-bottom-width: 1px;
 }
 
-/* first_taste-only result-screen guidance (see game_result view's
-   `difficulty` context). Replaces the earlier "click here" finger hints on
-   the Learn/Back-to-Home buttons (2026-09-17: removed - clicking Learn
-   More surprised guests by navigating to the category list, not the word
-   itself, and the whole point of an auto-guided flow is that no click is
-   required at all) with a fully passive flow: auto-scroll to the answers,
-   a brief toast explaining what's there, then an automatic return to the
-   top page. See the script near the end of this file for the sequencing. */
-.tutorial-answer-toast {
-    position: fixed;
-    top: 16px;
-    left: 50%;
-    transform: translateX(-50%) translateY(-12px);
-    z-index: 50;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    white-space: nowrap;
-    font-size: 0.85rem;
-    font-weight: 700;
-    color: #2a1d13;
-    background: #fff8e0;
-    border: 1px solid rgba(212, 175, 55, 0.6);
-    border-radius: 999px;
-    padding: 8px 18px;
-    box-shadow: 0 4px 14px rgba(0,0,0,0.15);
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.4s ease, transform 0.4s ease;
-}
-.tutorial-answer-toast.show {
-    opacity: 1;
-    transform: translateX(-50%) translateY(0);
-}
-
-
 @media (max-width: 600px) {
   h1 { font-size: 1.2rem; }
   .score-number { font-size: 1.9rem !important; }
@@ -659,21 +623,27 @@ tbody td { padding: 8px; border: none; font-size: 0.82rem; color: var(--ink); }
 
 <div id="premium-auth-container">
   {% if difficulty == 'first_taste' %}
-  <div class="tutorial-answer-toast" id="tutorial-answer-toast">
-    👇
-    {% if lang_code == 'ja' %}ここに解答があります
-    {% elif lang_code == 'zh-hant' %}答案在這裡
-    {% elif lang_code == 'zh-cn' %}答案在这里
-    {% elif lang_code == 'ko' %}여기에 정답이 있어요
-    {% elif lang_code == 'de' %}Hier sind die Antworten
-    {% elif lang_code == 'fr' %}Les réponses sont ici
-    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Las respuestas están aquí
-    {% elif lang_code == 'it' %}Le risposte sono qui
-    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}As respostas estão aqui
-    {% elif lang_code == 'vi' %}Đáp án ở đây
-    {% elif lang_code == 'th' %}คำตอบอยู่ที่นี่
-    {% else %}Answers are shown below{% endif %}
+  {% include 'includes/tutorial_overlay.css.html' %}
+  <div class="tutorial-overlay-backdrop" id="tutorial-overlay-result">
+    <div class="tutorial-overlay-card">
+      <div class="tutorial-overlay-icon">📖</div>
+      <div class="tutorial-overlay-text">
+        {% if lang_code == 'ja' %}ここに解答があります
+        {% elif lang_code == 'zh-hant' %}答案在這裡
+        {% elif lang_code == 'zh-cn' %}答案在这里
+        {% elif lang_code == 'ko' %}여기에 정답이 있어요
+        {% elif lang_code == 'de' %}Hier sind die Antworten
+        {% elif lang_code == 'fr' %}Les réponses sont ici
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Las respuestas están aquí
+        {% elif lang_code == 'it' %}Le risposte sono qui
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}As respostas estão aqui
+        {% elif lang_code == 'vi' %}Đáp án ở đây
+        {% elif lang_code == 'th' %}คำตอบอยู่ที่นี่
+        {% else %}Answers are shown below{% endif %}
+      </div>
+    </div>
   </div>
+  {% include 'includes/tutorial_overlay.js.html' %}
   {% endif %}
   <div class="app-content-fix">
     <div class="main2">
@@ -1516,31 +1486,36 @@ document.addEventListener('DOMContentLoaded', function () {
 document.addEventListener('DOMContentLoaded', function () {
     // First-taste result screen: a fully passive guided flow - no click
     // required. Auto-scroll to the (already-expanded) answer review, show
-    // a brief toast explaining what's there, then return to the top page
+    // an overlay explaining what's there, then return to the top page
     // automatically. Replaces the earlier "click here" finger hints on the
     // Learn/Back-to-Home buttons (2026-09-17: removed - clicking Learn
     // More surprised guests by landing on the category list rather than
     // the word itself, and an auto-guided flow shouldn't ask for a click
     // at all).
+    //
+    // The "tutorial just finished" flag is set here, unconditionally, the
+    // moment this screen renders - not inside the goToTopPage() call below
+    // - so the closing overlay on the top page (see top-main-v2.html) still
+    // shows even if the guest leaves early via the "Back to Home" button
+    // instead of waiting for the auto-redirect. sessionStorage (not a
+    // cookie) so it can never survive past this browser tab/session and
+    // resurface on some unrelated later visit.
+    sessionStorage.setItem('tj_tutorial_just_completed', '1');
+
     const reviewSection = document.getElementById('review-section');
-    const toast = document.getElementById('tutorial-answer-toast');
-    if (!reviewSection || !toast) return;
+    if (!reviewSection) {
+        setTimeout(goToTopPage, 3000);
+        return;
+    }
 
     setTimeout(function () {
         reviewSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }, 2000);
-
-    setTimeout(function () {
-        toast.classList.add('show');
-    }, 2800);
-
-    setTimeout(function () {
-        toast.classList.remove('show');
-    }, 5300);
-
-    setTimeout(function () {
-        goToTopPage();
-    }, 5700);
+        setTimeout(function () {
+            playTutorialOverlay('tutorial-overlay-result', 2500, function () {
+                goToTopPage();
+            });
+        }, 800);
+    }, 1500);
 });
 </script>
 {% endif %}

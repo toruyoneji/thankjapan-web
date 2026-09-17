@@ -1,0 +1,20 @@
+{% comment %}
+playTutorialOverlay(id, holdMs, callback) - shows the #id overlay (see
+tutorial_overlay.css.html), holds it for holdMs, fades it out, then calls
+callback once the fade-out transition (0.3s, matching the CSS) finishes.
+Safe to call even if the element isn't on the page (calls callback
+immediately) so callers don't need to guard every use.
+{% endcomment %}
+<script>
+function playTutorialOverlay(id, holdMs, callback) {
+    var el = document.getElementById(id);
+    if (!el) { if (callback) callback(); return; }
+    el.classList.add('show');
+    setTimeout(function () {
+        el.classList.remove('show');
+        setTimeout(function () {
+            if (callback) callback();
+        }, 300);
+    }, holdMs);
+}
+</script>
