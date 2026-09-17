@@ -860,6 +860,18 @@ body {
         tutorialFingerEl = finger;
     }
 
+    // The tiles use the custom 'Kaisei Decol' webfont, which can still be
+    // loading the first time updateTutorialFinger() measures offsetLeft/
+    // offsetTop - the fallback font renders a different glyph width (even
+    // wrapping to a second row on some words), so the finger's position
+    // goes stale the moment the real font swaps in and reflows the tiles.
+    // Re-run the positioning once fonts are actually ready, and again on
+    // resize/orientation change for the same reason.
+    if (document.fonts && document.fonts.ready) {
+        document.fonts.ready.then(function () { updateTutorialFinger(); });
+    }
+    window.addEventListener('resize', function () { updateTutorialFinger(); });
+
     function renderBoard(data) {
         currentQuestionId = data.question_id;
         currentQuestionModel = data.question_model;
