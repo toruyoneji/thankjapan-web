@@ -2186,7 +2186,18 @@ def game_restart(request):
             single_return_url = reverse('category_detail', kwargs={'category': question.category, 'slug': question.slug})
 
         game_difficulty = 'single'
-    elif difficulty_param == 'first_taste':
+    elif difficulty_param == 'first_taste' and not request.user.is_authenticated and request.COOKIES.get('tj_has_played') != '1':
+        # The special first-taste tutorial (forced らーめん Q1, wrong-tap
+        # blocking, the result screen's auto-guided flow) is meant for a
+        # genuinely brand-new guest exactly once - the top page only ever
+        # links here when has_played is False (itself gated to logged-out
+        # visitors), and that link disappears for good the moment they
+        # click it (game_restart sets tj_has_played below). But nothing
+        # previously stopped this URL from being reached a second time
+        # directly (a stale bookmark/back-button/cached page, or simply
+        # retyping it) - guarded here too so the tutorial mechanics can
+        # never fire again once played, and never fire at all for a
+        # logged-in user (2026-09-17).
         easy = DIFFICULTY_SETTINGS['easy']
         # Q1 is always らーめん (id=628, 'cook') - a guaranteed-correct,
         # fully-guided first step (see game_play-v2.html: tutorial finger +
@@ -2235,8 +2246,11 @@ def game_restart(request):
     # First-visit taste flow from the top page: marks the visitor as a
     # returning player as soon as they click "try it", so leaving mid-flow
     # still shows the normal play button on their next visit (see
-    # TopView.get_context_data).
-    if difficulty_param == 'first_taste':
+    # TopView.get_context_data). Keyed on the actual game_difficulty that
+    # was granted, not the raw URL param - a first_taste request that got
+    # silently downgraded to a normal game above (already played, or
+    # logged in) shouldn't need this re-set anyway.
+    if game_difficulty == 'first_taste':
         response.set_cookie(
             'tj_has_played', '1',
             max_age=34560000,  # ~400 days: the practical cap most browsers honor

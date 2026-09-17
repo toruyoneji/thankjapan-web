@@ -3498,6 +3498,30 @@ class FirstTasteTileGameTests(TestCase):
         response = self.client.get(reverse('game_restart'), {'difficulty': 'first_taste'})
         self.assertIn('tj_has_played', response.cookies)
 
+    def test_direct_url_is_downgraded_to_a_normal_game_for_a_returning_guest(self):
+        # 2026-09-17: the tutorial mechanics (forced らーめん Q1, wrong-tap
+        # blocking, the result screen's auto-guided flow) must only ever
+        # fire once - the top page stops linking here after the first
+        # visit, but nothing previously stopped ?difficulty=first_taste
+        # from being reached directly a second time (stale bookmark,
+        # back-button, retyped URL). A guest who already has the
+        # tj_has_played cookie must silently get a normal game instead.
+        self.client.cookies['tj_has_played'] = '1'
+        response = self.client.get(reverse('game_restart'), {'difficulty': 'first_taste'})
+        session = self.client.session
+        self.assertEqual(session['game_difficulty'], 'timeattack')
+
+    def test_direct_url_is_downgraded_to_a_normal_game_for_a_logged_in_user(self):
+        # Same guard, other half: the top page never even shows the "try 3
+        # questions" CTA to a logged-in user (it's gated to
+        # not user.is_authenticated), so the tutorial must not be
+        # reachable for one via this URL either, tj_has_played aside.
+        User.objects.create_user(username='first_taste_login_test', password='pass12345')
+        self.client.login(username='first_taste_login_test', password='pass12345')
+        self.client.get(reverse('game_restart'), {'difficulty': 'first_taste'})
+        session = self.client.session
+        self.assertEqual(session['game_difficulty'], 'timeattack')
+
     def test_first_question_is_always_ramen_when_the_word_exists(self):
         # 2026-09-17: Q1 of the first-taste tutorial is pinned to らーめん
         # specifically (a guaranteed-correct, fully-guided step - see
@@ -3894,9 +3918,18 @@ class GameExtendTimeEndpointTests(TestCase):
         self.assertEqual(self.user.profile.total_score, 100)
 
     def test_rejected_for_untimed_first_taste_mode(self):
+        # mode=single is untimed the same way first_taste is (see
+        # skip_countdown/has_timer in game_play), and - unlike first_taste -
+        # isn't restricted to logged-out first-time guests (2026-09-17: the
+        # tutorial mechanics must only ever fire once for a genuinely new
+        # guest, so game_restart now downgrades a logged-in user's
+        # ?difficulty=first_taste request to a normal timed game instead;
+        # this test's own self.user would no longer land in first_taste at
+        # all, so mode=single exercises the same "untimed mode rejects
+        # extend-time" behavior without relying on that now-closed path).
         self.user.profile.total_score = 100
         self.user.profile.save()
-        self.client.get(reverse('game_restart'), {'difficulty': 'first_taste'})
+        self.client.get(reverse('game_restart'), {'mode': 'single', 'model_type': 'free', 'slug': 'extend-ep-word-0'})
         self.client.get(reverse('game_play'))
         self.client.get(reverse('game_question_data'))
 

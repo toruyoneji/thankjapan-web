@@ -589,7 +589,6 @@ tbody td { padding: 8px; border: none; font-size: 0.82rem; color: var(--ink); }
     display: inline-block; background: var(--gold); color: var(--ink); padding: 12px 28px;
     border-radius: 999px; text-decoration: none; font-weight: 800; border-bottom: 4px solid var(--gold-dark);
     transition: transform 0.1s ease;
-    position: relative;
 }
 .btn-more:active { transform: translateY(2px); border-bottom-width: 2px; }
 
@@ -616,80 +615,38 @@ tbody td { padding: 8px; border: none; font-size: 0.82rem; color: var(--ink); }
 }
 
 /* first_taste-only result-screen guidance (see game_result view's
-   `difficulty` context). Kept in normal document flow (inline finger +
-   a caption line below) rather than absolutely-positioned bubbles, since
-   .review-card has overflow:hidden and not much spare width around the
-   small .study-more-btn - flow avoids any clipping risk entirely. */
-.tutorial-inline-finger {
-    display: inline-block;
-    margin-left: 2px;
-    animation: tutorialInlineFingerBounce 1s ease-in-out infinite;
-}
-@keyframes tutorialInlineFingerBounce {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(3px); }
-}
-.tutorial-learn-caption {
-    margin: 6px 0 0;
-    font-size: 0.72rem;
-    color: var(--ink-soft, #6b6b6b);
-    font-style: italic;
-}
-
-/* "Back to Home" gets the same inline finger, plus a small bubble above it
-   since .btn-more sits alone in open space (no overflow/width constraint
-   like the review cards). */
-.tutorial-hint-bubble {
-    position: absolute;
-    top: -34px;
+   `difficulty` context). Replaces the earlier "click here" finger hints on
+   the Learn/Back-to-Home buttons (2026-09-17: removed - clicking Learn
+   More surprised guests by navigating to the category list, not the word
+   itself, and the whole point of an auto-guided flow is that no click is
+   required at all) with a fully passive flow: auto-scroll to the answers,
+   a brief toast explaining what's there, then an automatic return to the
+   top page. See the script near the end of this file for the sequencing. */
+.tutorial-answer-toast {
+    position: fixed;
+    top: 16px;
     left: 50%;
-    transform: translateX(-50%);
+    transform: translateX(-50%) translateY(-12px);
+    z-index: 50;
     display: flex;
     align-items: center;
-    gap: 4px;
+    gap: 6px;
     white-space: nowrap;
-    font-size: 0.78rem;
+    font-size: 0.85rem;
     font-weight: 700;
     color: #2a1d13;
     background: #fff8e0;
     border: 1px solid rgba(212, 175, 55, 0.6);
-    border-radius: 20px;
-    padding: 3px 10px 3px 6px;
+    border-radius: 999px;
+    padding: 8px 18px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.15);
+    opacity: 0;
     pointer-events: none;
-    animation: tutorialHintBounce 1.3s ease-in-out infinite;
+    transition: opacity 0.4s ease, transform 0.4s ease;
 }
-.tutorial-hint-bubble .finger { font-size: 1rem; }
-.tutorial-hint-bubble .hint-click { display: none; }
-.tutorial-hint-bubble .hint-tap { display: inline; }
-@media (hover: hover) and (pointer: fine) {
-    .tutorial-hint-bubble .hint-click { display: inline; }
-    .tutorial-hint-bubble .hint-tap { display: none; }
-}
-@keyframes tutorialHintBounce {
-    0%, 100% { transform: translateX(-50%) translateY(0); }
-    50% { transform: translateX(-50%) translateY(6px); }
-}
-
-/* Persistent "there's more below" nudge - fixed above the bottom-nav,
-   fades out once the page is scrolled near its bottom (see the
-   IS_FIRST_TASTE_RESULT script near the end of this file). */
-.result-scroll-hint {
-    position: fixed;
-    left: 50%;
-    bottom: calc(90px + env(safe-area-inset-bottom));
-    transform: translateX(-50%);
-    font-size: 1.9rem;
-    line-height: 1;
-    pointer-events: none;
-    z-index: 50;
-    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.4));
-    animation: resultScrollHintBounce 1.2s ease-in-out infinite;
-    transition: opacity 0.3s ease;
-}
-.result-scroll-hint.hidden { opacity: 0; }
-@keyframes resultScrollHintBounce {
-    0%, 100% { transform: translateX(-50%) translateY(0); }
-    50% { transform: translateX(-50%) translateY(10px); }
+.tutorial-answer-toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
 }
 
 
@@ -702,7 +659,21 @@ tbody td { padding: 8px; border: none; font-size: 0.82rem; color: var(--ink); }
 
 <div id="premium-auth-container">
   {% if difficulty == 'first_taste' %}
-  <div class="result-scroll-hint" id="result-scroll-hint">👇</div>
+  <div class="tutorial-answer-toast" id="tutorial-answer-toast">
+    👇
+    {% if lang_code == 'ja' %}ここに解答があります
+    {% elif lang_code == 'zh-hant' %}答案在這裡
+    {% elif lang_code == 'zh-cn' %}答案在这里
+    {% elif lang_code == 'ko' %}여기에 정답이 있어요
+    {% elif lang_code == 'de' %}Hier sind die Antworten
+    {% elif lang_code == 'fr' %}Les réponses sont ici
+    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Las respuestas están aquí
+    {% elif lang_code == 'it' %}Le risposte sono qui
+    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}As respostas estão aqui
+    {% elif lang_code == 'vi' %}Đáp án ở đây
+    {% elif lang_code == 'th' %}คำตอบอยู่ที่นี่
+    {% else %}Answers are shown below{% endif %}
+  </div>
   {% endif %}
   <div class="app-content-fix">
     <div class="main2">
@@ -1356,8 +1327,7 @@ tbody td { padding: 8px; border: none; font-size: 0.82rem; color: var(--ink); }
                             {% endif %}
 
 
-                            <a href="{% url 'category_list' %}?lang={{ lang_code }}" class="study-more-btn"
-                               {% if difficulty == 'first_taste' %}target="_self"{% endif %}>
+                            <a href="{% url 'category_list' %}?lang={{ lang_code }}" class="study-more-btn">
                                 📖
                                 {% if lang_code == 'ja' %}もっと詳しく知る
                                 {% elif lang_code == 'zh-hant' %}深入了解
@@ -1371,24 +1341,7 @@ tbody td { padding: 8px; border: none; font-size: 0.82rem; color: var(--ink); }
                                 {% elif lang_code == 'vi' %}Tìm hiểu thêm
                                 {% elif lang_code == 'th' %}เรียนรู้เพิ่มเติม
                                 {% else %}Learn More{% endif %}
-                                {% if difficulty == 'first_taste' %}<span class="tutorial-inline-finger">👆</span>{% endif %}
                             </a>
-                            {% if difficulty == 'first_taste' %}
-                            <p class="tutorial-learn-caption">
-                                {% if lang_code == 'ja' %}👆 クリックするともっと単語を学習できます
-                                {% elif lang_code == 'zh-hant' %}👆 點擊即可學習更多單詞
-                                {% elif lang_code == 'zh-cn' %}👆 点击即可学习更多单词
-                                {% elif lang_code == 'ko' %}👆 클릭하면 더 많은 단어를 배울 수 있어요
-                                {% elif lang_code == 'de' %}👆 Klicke, um mehr Wörter zu lernen
-                                {% elif lang_code == 'fr' %}👆 Cliquez pour apprendre plus de mots
-                                {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}👆 Haz clic para aprender más palabras
-                                {% elif lang_code == 'it' %}👆 Clicca per imparare altre parole
-                                {% elif lang_code == 'pt' or lang_code == 'pt-br' %}👆 Clique para aprender mais palavras
-                                {% elif lang_code == 'vi' %}👆 Nhấp để học thêm từ vựng
-                                {% elif lang_code == 'th' %}👆 คลิกเพื่อเรียนรู้คำศัพท์เพิ่มเติม
-                                {% else %}👆 Click to learn more words!{% endif %}
-                            </p>
-                            {% endif %}
                         </div>
 
                     </div>
@@ -1400,8 +1353,7 @@ tbody td { padding: 8px; border: none; font-size: 0.82rem; color: var(--ink); }
       {% endif %}
 
       <div style="text-align:center; margin:30px 0 10px;">
-        <a class="btn-more" href="javascript:void(0);" onclick="goToTopPage()" id="tutorial-back-home-btn">
-            {% if difficulty == 'first_taste' %}{% include 'includes/tutorial_hint_bubble.html' %}{% endif %}
+        <a class="btn-more" href="javascript:void(0);" onclick="goToTopPage()">
             {% if lang_code == 'ja' %}← ホームに戻る
             {% elif lang_code == 'zh-hant' %}← 返回首頁
             {% elif lang_code == 'zh-cn' %}← 返回首页
@@ -1562,20 +1514,33 @@ document.addEventListener('DOMContentLoaded', function () {
 {% if difficulty == 'first_taste' %}
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-    // First-taste result screen: fade the "scroll down" nudge once the
-    // page's own scroll container (.app-content-fix - #premium-auth-
-    // container itself never scrolls, see its CSS above) is near its
-    // bottom, so it doesn't linger once the reviews + Back to Home button
-    // (both pointed at by their own hints) are already in view.
-    const hint = document.getElementById('result-scroll-hint');
-    const scrollEl = document.querySelector('.app-content-fix');
-    if (!hint || !scrollEl) return;
-    function updateScrollHint() {
-        const nearBottom = scrollEl.scrollTop + scrollEl.clientHeight >= scrollEl.scrollHeight - 40;
-        hint.classList.toggle('hidden', nearBottom);
-    }
-    scrollEl.addEventListener('scroll', updateScrollHint, { passive: true });
-    updateScrollHint();
+    // First-taste result screen: a fully passive guided flow - no click
+    // required. Auto-scroll to the (already-expanded) answer review, show
+    // a brief toast explaining what's there, then return to the top page
+    // automatically. Replaces the earlier "click here" finger hints on the
+    // Learn/Back-to-Home buttons (2026-09-17: removed - clicking Learn
+    // More surprised guests by landing on the category list rather than
+    // the word itself, and an auto-guided flow shouldn't ask for a click
+    // at all).
+    const reviewSection = document.getElementById('review-section');
+    const toast = document.getElementById('tutorial-answer-toast');
+    if (!reviewSection || !toast) return;
+
+    setTimeout(function () {
+        reviewSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 2000);
+
+    setTimeout(function () {
+        toast.classList.add('show');
+    }, 2800);
+
+    setTimeout(function () {
+        toast.classList.remove('show');
+    }, 5300);
+
+    setTimeout(function () {
+        goToTopPage();
+    }, 5700);
 });
 </script>
 {% endif %}
