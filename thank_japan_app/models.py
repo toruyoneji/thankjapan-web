@@ -290,6 +290,19 @@ class Profile(models.Model):
     # effectively "the day this feature started tracking them" rather than
     # their real signup day - an accepted, deliberate simplification.
     premium_paid_started_at = models.DateTimeField(null=True, blank=True)
+    # The day (JST) this user last submitted the Daily Question, regardless
+    # of correct/incorrect. Used to gate the "1 per day" limit for logged-in
+    # users - see daily_question_view in views.py. Session-only tracking
+    # (the original design) turned out to not survive a session/cookie
+    # discontinuity, most commonly when a user reaches /daily/ through
+    # different language-prefixed entry points that ended up on separate
+    # storage contexts (e.g. distinct "Add to Home Screen" PWA installs on
+    # iOS each get their own isolated cookie jar even for the same origin) -
+    # 2026-09-17: reported as "answered in Vietnamese, then could answer
+    # again after closing and reopening in Thai". A DB-backed, user-identity
+    # keyed flag is immune to that; guests still fall back to session since
+    # they have no other stable identity.
+    last_daily_question_answered_date = models.DateField(null=True, blank=True)
 
     @property
     def has_premium_access(self):

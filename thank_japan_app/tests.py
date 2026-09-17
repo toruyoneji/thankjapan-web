@@ -2882,6 +2882,37 @@ class DailyQuestionTileGameTests(TestCase):
         second_get = self.client.get(reverse('daily_question'))
         self.assertEqual(second_get.context['daily_state'], 'already_answered')
 
+    def test_already_answered_gate_applies_across_language_switch(self):
+        # Answer in one lang, then GET again in a different lang with the
+        # SAME client/session - must still gate.
+        get_response = self.client.get(reverse('daily_question'), {'lang': 'vi'})
+        tiles = json.loads(get_response.context['tiles_json'])
+        self.client.post(reverse('daily_question'), {'answer_tiles': json.dumps(tiles)}, QUERY_STRING='lang=vi')
+
+        second_get = self.client.get(reverse('daily_question'), {'lang': 'th'})
+        self.assertEqual(second_get.context['daily_state'], 'already_answered')
+
+    def test_logged_in_user_gate_survives_a_fresh_session(self):
+        # 2026-09-17 bug: a logged-in user answered in Vietnamese, closed the
+        # site, then reopened in Thai and could answer again. The session
+        # itself wasn't necessarily lost - on iOS, each distinct "Add to
+        # Home Screen" install gets its own isolated cookie jar for the same
+        # origin, so a language switch that lands on a different entry point
+        # can genuinely start a brand-new session even while logged in.
+        # Simulated here with a fresh test Client (no shared cookies) that
+        # logs in as the SAME user - the DB-backed gate must still hold
+        # because it's keyed on the user, not the session.
+        user = User.objects.create_user(username='daily_multisession', password='pass12345')
+        self.client.login(username='daily_multisession', password='pass12345')
+        get_response = self.client.get(reverse('daily_question'), {'lang': 'vi'})
+        tiles = json.loads(get_response.context['tiles_json'])
+        self.client.post(reverse('daily_question'), {'answer_tiles': json.dumps(tiles)}, QUERY_STRING='lang=vi')
+
+        fresh_client = Client()
+        fresh_client.login(username='daily_multisession', password='pass12345')
+        second_get = fresh_client.get(reverse('daily_question'), {'lang': 'th'})
+        self.assertEqual(second_get.context['daily_state'], 'already_answered')
+
 
 class DailyQuestionImageSafetyNetTests(TestCase):
     """2026-09-11: a batch of newly-added words was found with a real,

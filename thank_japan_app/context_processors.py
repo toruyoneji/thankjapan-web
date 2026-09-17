@@ -66,10 +66,15 @@ def daily_question_banner_status(request):
     """Whether to show the 'you haven't answered today's Daily Question yet'
     banner on the top page.
 
-    The Daily Question feature deliberately never persists a per-user answer
-    record to the database (see DailyQuestion in models.py), so "already
-    answered" / "dismissed for today" are tracked in the session only, the
-    same lightweight pattern as email_prompt_status below.
+    "Dismissed for today" is tracked in the session only (same lightweight
+    pattern as email_prompt_status below) - a missed dismissal just means the
+    banner reappears, a minor annoyance. "Already answered" used to be
+    session-only too, but that let a logged-in user re-answer (and see this
+    banner as if they hadn't) whenever their session didn't carry over -
+    e.g. switching language across separate PWA installs on iOS, each with
+    its own isolated cookie jar (2026-09-17). Logged-in users are now gated
+    on Profile.last_daily_question_answered_date instead; guests still use
+    the session since they have no other stable identity.
 
     Brand-new guests who haven't finished the first-taste 3-question trial
     yet never see this banner: that top-page state already leads with its own
@@ -92,7 +97,10 @@ def daily_question_banner_status(request):
         return {'show_daily_question_banner': False}
     today_date = timezone.localdate()
     today = today_date.isoformat()
-    answered = request.session.get(DAILY_QUESTION_SESSION_ANSWERED_KEY) == today
+    if request.user.is_authenticated:
+        answered = request.user.profile.last_daily_question_answered_date == today_date
+    else:
+        answered = request.session.get(DAILY_QUESTION_SESSION_ANSWERED_KEY) == today
     dismissed = request.session.get(DAILY_QUESTION_BANNER_DISMISSED_KEY) == today
     show = not answered and not dismissed
     context = {'show_daily_question_banner': show}

@@ -2403,7 +2403,18 @@ def daily_question_view(request):
     premium_url_name, lang_code = get_lang_info(request)
     top_page_url = f"/?lang={lang_code}"
     today = timezone.localdate()  # TIME_ZONE='Asia/Tokyo' -> JST "today"
-    already_answered = request.session.get(DAILY_QUESTION_SESSION_ANSWERED_KEY) == today.isoformat()
+    # Logged-in users are gated on a DB-backed, user-identity-keyed field
+    # rather than the session: the "1 per day" limit must hold regardless of
+    # which language/entry-point the user is on, and a session cookie isn't
+    # guaranteed to be the same across those (e.g. iOS gives each distinct
+    # "Add to Home Screen" PWA install its own isolated cookie jar even for
+    # the same origin, which let a user re-answer after switching language -
+    # 2026-09-17). Guests have no identity to key off besides the session,
+    # so they keep the original (best-effort) session check.
+    if request.user.is_authenticated:
+        already_answered = request.user.profile.last_daily_question_answered_date == today
+    else:
+        already_answered = request.session.get(DAILY_QUESTION_SESSION_ANSWERED_KEY) == today.isoformat()
 
     # X/Twitter (and other social crawlers) cache OGP data per-URL, not
     # per-response - a fixed /daily/ URL kept showing whatever word's image
@@ -2469,19 +2480,25 @@ def daily_question_view(request):
         # game_result (views.py ~2290) so it shows up in the same ranking/
         # weekly-score displays. The "already answered today" gate above
         # already prevents this from running twice in one day.
-        if is_correct and request.user.is_authenticated:
+        #
+        # last_daily_question_answered_date is stamped unconditionally (not
+        # just on a correct answer) - same as the session key above, "1 per
+        # day" is about having attempted it, not about getting it right.
+        if request.user.is_authenticated:
             profile = request.user.profile
-            profile.total_score += 1
-            profile.last_score = 1
+            profile.last_daily_question_answered_date = today
+            if is_correct:
+                profile.total_score += 1
+                profile.last_score = 1
+                player = Player.objects.filter(username=request.user.username).first()
+                if player:
+                    player.total_score = profile.total_score
+                    player.save()
+                week_start = WeeklyScore.get_current_week_start()
+                weekly_record, _ = WeeklyScore.objects.get_or_create(user=request.user, week_start=week_start)
+                weekly_record.score += 1
+                weekly_record.save()
             profile.save()
-            player = Player.objects.filter(username=request.user.username).first()
-            if player:
-                player.total_score = profile.total_score
-                player.save()
-            week_start = WeeklyScore.get_current_week_start()
-            weekly_record, _ = WeeklyScore.objects.get_or_create(user=request.user, week_start=week_start)
-            weekly_record.score += 1
-            weekly_record.save()
 
         share_text = _daily_question_share_text(lang_code, word)
         share_hashtags = _daily_question_hashtags(lang_code, word)
