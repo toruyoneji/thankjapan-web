@@ -1952,11 +1952,22 @@ def game_question_data(request):
     # regardless of mora count - the main timed game's routing (any
     # difficulty other than 'single') is untouched.
     force_chunk = difficulty == 'single' and q['model'] == 'premium'
-    # Step-by-step tile tutorial only ever runs on the very first question a
+    # Step-by-step tile tutorial only ever runs on the first two questions a
     # brand-new guest sees (see game_play-v2.html) - the solved order is
-    # otherwise never sent to the client.
-    is_tutorial_question = difficulty == 'first_taste' and index == 0
-    tile_data = _tiles_for_question(question, force_chunk=force_chunk, want_tutorial_order=is_tutorial_question)
+    # otherwise never sent to the client. Q1 guides to the CORRECT order;
+    # Q2 (いぬ, forced above in game_restart) deliberately guides to the
+    # WRONG one (below) instead, so the guest sees the "incorrect answer"
+    # tile treatment once before the real, unguided game starts.
+    is_tutorial_q1 = difficulty == 'first_taste' and index == 0
+    is_tutorial_q2 = difficulty == 'first_taste' and index == 1
+    tile_data = _tiles_for_question(question, force_chunk=force_chunk, want_tutorial_order=is_tutorial_q1 or is_tutorial_q2)
+    tutorial_wrong_order = None
+    if is_tutorial_q2 and tile_data.get('tutorial_order'):
+        # The reverse of the correct solve order - guaranteed to actually
+        # be wrong for いぬ specifically (い != ぬ, so reversing a 2-tile
+        # word can't accidentally reconstruct the same string the way it
+        # could for a word with a repeated mora).
+        tutorial_wrong_order = list(reversed(tile_data['tutorial_order']))
 
     # Cache the canonical answer text computed *right now* against this
     # exact index, so game_submit_answer validates against the very same
@@ -1976,7 +1987,8 @@ def game_question_data(request):
         'question_model': q['model'],
         'route': tile_data['route'],
         'tiles': tile_data['tiles'],
-        'tutorial_order': tile_data.get('tutorial_order'),
+        'tutorial_order': tile_data.get('tutorial_order') if is_tutorial_q1 else None,
+        'tutorial_wrong_order': tutorial_wrong_order,
         'seconds_left': seconds_left,
         'score': request.session.get('game_score', 0),
         'combo': request.session.get('game_combo', 0),
@@ -2201,15 +2213,17 @@ def game_restart(request):
         easy = DIFFICULTY_SETTINGS['easy']
         # Q1 is always らーめん (id=628, 'cook') - a guaranteed-correct,
         # fully-guided first step (see game_play-v2.html: tutorial finger +
-        # wrong-tap blocking, both scoped to first_taste's very first
-        # question only). Falls back to the normal random pick if this
-        # exact word is ever renamed/removed, so the flow never breaks.
+        # wrong-tap blocking). Q2 is always いぬ (id=193, 'animal',
+        # 2-mora い/ぬ) - a guaranteed-WRONG step, guided to the reversed
+        # (ぬ→い) order on purpose, so the guest sees the "incorrect" tile
+        # treatment at least once before the real game (2026-09-19). Both
+        # fall back to the normal random pick if the exact word's ever
+        # renamed/removed, so the flow never breaks.
         ramen = ThankJapanModel.objects.filter(jpname='らーめん').first()
-        if ramen:
-            remaining = _sample_easy_ids(easy['category_filter'], exclude_ids=[ramen.id], count=FIRST_TASTE_QUESTION_COUNT - 1)
-            ids = [ramen.id] + remaining
-        else:
-            ids = _sample_easy_ids(easy['category_filter'], count=FIRST_TASTE_QUESTION_COUNT)
+        inu = ThankJapanModel.objects.filter(jpname='いぬ').first()
+        forced = [w.id for w in (ramen, inu) if w]
+        remaining = _sample_easy_ids(easy['category_filter'], exclude_ids=forced, count=FIRST_TASTE_QUESTION_COUNT - len(forced))
+        ids = forced + remaining
         questions = [{'id': pk, 'model': 'free'} for pk in ids]
         game_difficulty = 'first_taste'
     else:

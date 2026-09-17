@@ -228,6 +228,39 @@ body {
   80% { transform: translateX(4px); }
 }
 
+/* first_taste tutorial emphasis - the same correct/wrong tile treatment
+   above, just louder, so a brand-new guest can't miss it. Q1: green
+   (var(--matcha), the same green used for "correct" elsewhere on the
+   site, e.g. game_result's review-card left-edge). Q2: an amplified
+   version of the existing red/shake wrong-answer look. Higher selector
+   specificity than the base rules above wins regardless of source order. */
+.tile.tile-correct.tutorial-highlight {
+  animation: tutorialCorrectPulse 0.8s ease-out;
+  border-color: var(--matcha) !important;
+  background: linear-gradient(145deg, #4a5d3a, #2e3a24) !important;
+  box-shadow: 0 0 0 4px var(--matcha), 0 0 32px 10px rgba(124,148,115,0.9) !important;
+}
+@keyframes tutorialCorrectPulse {
+  0%   { transform: scale(1); }
+  35%  { transform: scale(1.3); box-shadow: 0 0 0 6px var(--matcha), 0 0 42px 14px rgba(124,148,115,1); }
+  65%  { transform: scale(0.95); }
+  100% { transform: scale(1); }
+}
+
+.answer-row.wrong-shake.tutorial-highlight .tile {
+  animation: tutorialWrongPulse 0.6s ease-in-out;
+  border-color: var(--jewel-ruby) !important;
+  background: linear-gradient(145deg, #6e2020, #3a1010) !important;
+  box-shadow: 0 0 0 4px var(--jewel-ruby), 0 0 32px 10px rgba(230,57,70,0.9) !important;
+}
+@keyframes tutorialWrongPulse {
+  0%, 100% { transform: translateX(0) scale(1); }
+  20% { transform: translateX(-7px) scale(1.08); }
+  40% { transform: translateX(7px) scale(1.08); }
+  60% { transform: translateX(-4px) scale(1); }
+  80% { transform: translateX(4px) scale(1); }
+}
+
 /* ---------- countdown overlay ---------- */
 #countdown-overlay {
   position: fixed; inset: 0; background: rgba(42,29,19,0.88); z-index: 500;
@@ -613,6 +646,26 @@ body {
     </div>
 </div>
 
+<div class="tutorial-overlay-backdrop" id="tutorial-overlay-q2">
+    <div class="tutorial-overlay-card">
+        <div class="tutorial-overlay-icon">😉</div>
+        <div class="tutorial-overlay-text">
+            {% if lang_code == 'ja' %}今度は、わざと<br>違う順番で選んでみよう
+            {% elif lang_code == 'zh-hant' %}這次來故意<br>用不同的順序選選看吧
+            {% elif lang_code == 'zh-cn' %}这次来故意<br>用不同的顺序选选看吧
+            {% elif lang_code == 'ko' %}이번에는 일부러<br>다른 순서로 선택해 봐요
+            {% elif lang_code == 'de' %}Versuchen wir diesmal<br>absichtlich eine andere Reihenfolge
+            {% elif lang_code == 'fr' %}Cette fois, essayons<br>volontairement un autre ordre
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Esta vez, intentemos<br>a propósito un orden diferente
+            {% elif lang_code == 'it' %}Questa volta, proviamo<br>di proposito un ordine diverso
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Desta vez, vamos tentar<br>de propósito uma ordem diferente
+            {% elif lang_code == 'vi' %}Lần này, hãy thử<br>chọn theo thứ tự khác nhé
+            {% elif lang_code == 'th' %}คราวนี้ลองเลือก<br>ในลำดับที่ต่างออกไปดูสิ
+            {% else %}This time, let's try<br>a different order on purpose!{% endif %}
+        </div>
+    </div>
+</div>
+
 {% include 'includes/tutorial_overlay.js.html' %}
 {% endif %}
 
@@ -640,18 +693,32 @@ body {
     let currentTiles = [];      // fixed original tile array for this question, {text}
     let placedIndices = [];     // indices into currentTiles, in the order placed
     let submitting = false;
-    // First-taste tutorial (question 1 only) - indices into currentTiles in
-    // solve order, or null once there's no tutorial for this question (any
-    // question after the first) or once it's finished. See
-    // updateTutorialFinger() - purely a visual hint, never blocks tapping
-    // tiles out of order.
+    // First-taste tutorial. Q1: tutorialOrder holds the CORRECT solve
+    // order (indices into currentTiles) - the finger guides toward it and
+    // taps elsewhere are blocked. Q2: tutorialWrongOrder holds a
+    // deliberately WRONG order instead (see game_question_data) - same
+    // finger+blocking mechanism, just guiding to an intentional mistake so
+    // the guest sees the "incorrect answer" tile treatment once. Both null
+    // once there's no tutorial for the current question (Q3+) or once the
+    // active one's guide sequence is exhausted - see
+    // activeTutorialGuideOrder()/updateTutorialFinger().
     let tutorialOrder = null;
+    let tutorialWrongOrder = null;
     let tutorialFingerEl = null;
-    // Set once the tutorial-start/Q1-explanation overlay sequence has been
-    // triggered, so it never re-fires (renderBoard runs again for Q2/Q3,
-    // which never carry tutorial_order, but guarding on that alone would
-    // still be fragile if a future change ever re-sent it).
+    // Which tutorial mode (if any) applies to the question CURRENTLY being
+    // answered - captured fresh in renderBoard() every question, unlike
+    // tutorialOrder/tutorialWrongOrder above which get nulled out mid-
+    // question the moment their guide sequence is used up (i.e. usually
+    // before submitAnswer()'s response even comes back). Read there to
+    // decide whether to add the extra tutorial-highlight emphasis on top
+    // of the normal correct/wrong tile treatment.
+    let currentQuestionTutorialMode = null; // 'correct' | 'wrong' | null
+    // Set once each of the two intro overlays (Q1 "let's try the
+    // tutorial"/"tap らーめん", Q2 "try the wrong order") has been
+    // triggered, so neither ever re-fires - renderBoard() runs again for
+    // every later question, which never carries the matching order.
     let tutorialIntroShown = false;
+    let tutorialWrongIntroShown = false;
     let pointBalance = {{ point_balance|default:0 }};
     let extendRequestInFlight = false;
 
@@ -815,12 +882,15 @@ body {
             const el = makeTileButton(text, i);
             el.addEventListener('click', function () {
                 if (submitting) return;
-                // Tutorial (question 1 of first_taste only): only the next
-                // correct-order tile is tappable at all - a wrong tap is a
-                // no-op (with a small shake for feedback) rather than
-                // placing the tile, guaranteeing this question is always
-                // solvable exactly as demonstrated by the pointing finger.
-                if (tutorialOrder && nextTutorialTileIndex() !== i) {
+                // Tutorial (Q1/Q2 of first_taste only): only the next tile
+                // in the active guide sequence is tappable at all - any
+                // other tap is a no-op (with a small shake for feedback)
+                // rather than placing the tile. On Q1 that guarantees the
+                // question is always solved exactly as demonstrated by the
+                // pointing finger; on Q2 it guarantees the reverse - the
+                // guest ends up exactly at the deliberately-wrong order
+                // shown, not accidentally correct.
+                if (activeTutorialGuideOrder() && nextTutorialTileIndex() !== i) {
                     el.classList.remove('tutorial-wrong-shake');
                     void el.offsetWidth;
                     el.classList.add('tutorial-wrong-shake');
@@ -864,19 +934,25 @@ body {
         tutorialFingerEl = null;
     }
 
+    function activeTutorialGuideOrder() {
+        return tutorialOrder || tutorialWrongOrder || null;
+    }
+
     function nextTutorialTileIndex() {
-        if (!tutorialOrder) return undefined;
-        return tutorialOrder.find(function (idx) { return placedIndices.indexOf(idx) === -1; });
+        const order = activeTutorialGuideOrder();
+        if (!order) return undefined;
+        return order.find(function (idx) { return placedIndices.indexOf(idx) === -1; });
     }
 
     function updateTutorialFinger() {
         removeTutorialFinger();
-        if (!tutorialOrder) return;
+        if (!activeTutorialGuideOrder()) return;
         const nextIndex = nextTutorialTileIndex();
         if (nextIndex === undefined) {
-            // Every tile from the tutorial's solve order has been placed -
+            // Every tile from the active guide sequence has been placed -
             // nothing left to point at (or block wrong taps against).
             tutorialOrder = null;
+            tutorialWrongOrder = null;
             return;
         }
         const bankRow = document.getElementById('bank-row');
@@ -910,6 +986,8 @@ body {
         placedIndices = [];
         submitting = false;
         tutorialOrder = Array.isArray(data.tutorial_order) ? data.tutorial_order : null;
+        tutorialWrongOrder = Array.isArray(data.tutorial_wrong_order) ? data.tutorial_wrong_order : null;
+        currentQuestionTutorialMode = tutorialOrder ? 'correct' : (tutorialWrongOrder ? 'wrong' : null);
 
         positionKoma(data.index);
         updateKiGauge(data.combo);
@@ -931,6 +1009,10 @@ body {
             // (already rendered by redrawTiles() above, just visually
             // behind the dim overlay) is what takes over once it's played.
             playTutorialOverlay('tutorial-overlay-q1', 2500);
+        }
+        if (tutorialWrongOrder && !tutorialWrongIntroShown) {
+            tutorialWrongIntroShown = true;
+            playTutorialOverlay('tutorial-overlay-q2', 2500);
         }
     }
 
@@ -966,8 +1048,20 @@ body {
                 const answerRow = document.getElementById('answer-row');
                 document.getElementById('score-num').textContent = res.score;
                 updateKiGauge(res.combo);
+                // Captured before this question's state gets overwritten by
+                // fetchQuestion()'s eventual renderBoard() call - reflects
+                // whichever tutorial mode (if any) applied to the question
+                // that was just answered, not necessarily the next one.
+                const wasTutorialCorrectStep = currentQuestionTutorialMode === 'correct';
+                const wasTutorialWrongStep = currentQuestionTutorialMode === 'wrong';
                 if (res.is_correct) {
-                    answerRow.querySelectorAll('.tile').forEach((t) => t.classList.add('tile-correct'));
+                    answerRow.querySelectorAll('.tile').forEach((t) => {
+                        t.classList.add('tile-correct');
+                        // Q1 of first_taste: the same green/glow treatment,
+                        // just emphasized further so a brand-new guest can't
+                        // miss it (see .tutorial-highlight in the CSS above).
+                        if (wasTutorialCorrectStep) t.classList.add('tutorial-highlight');
+                    });
                     // Two states only, matching the flat combo bonus: a modest
                     // burst below the bonus threshold, a bigger one once it's
                     // active (combo >= 3) - no further escalation beyond that.
@@ -978,6 +1072,11 @@ body {
                     if (res.combo >= 2) showComboPopup(res.combo);
                 } else {
                     answerRow.classList.add('wrong-shake');
+                    // Q2 of first_taste: the guest was guided to this wrong
+                    // answer on purpose (see tutorialWrongOrder) - emphasize
+                    // the existing red/shake treatment so it clearly reads
+                    // as "this is what incorrect looks like".
+                    if (wasTutorialWrongStep) answerRow.classList.add('tutorial-highlight');
                 }
                 if (SINGLE_RETURN_URL) {
                     setTimeout(function () { showSingleFinishModal(res.is_correct, res.correct_answer); }, res.is_correct ? 550 : 800);

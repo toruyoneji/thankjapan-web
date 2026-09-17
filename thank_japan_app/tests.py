@@ -3546,6 +3546,79 @@ class FirstTasteTileGameTests(TestCase):
         reconstructed = ''.join(data['tiles'][i] for i in data['tutorial_order'])
         self.assertEqual(reconstructed, 'らーめん')
 
+    def test_second_question_is_always_inu_with_a_wrong_guide_order(self):
+        # 2026-09-19: Q2 of the first-taste tutorial is pinned to いぬ
+        # specifically - a guaranteed-WRONG, fully-guided step (the finger
+        # points through the reversed ぬ→い order instead of い→ぬ), so the
+        # guest sees the "incorrect answer" tile treatment once before the
+        # real, unguided game starts.
+        #
+        # setUp() above already seeds 6 words with jpname='いぬ' for other
+        # tests in this class - game_restart's lookup would pick one of
+        # those arbitrarily (whichever .first() returns), not necessarily
+        # a fresh one created here. Clear them so this test controls
+        # exactly which いぬ row exists, same as the ramen/inu pairing
+        # game_restart expects in production (where each word is unique).
+        ThankJapanModel.objects.filter(jpname='いぬ').delete()
+        ramen = ThankJapanModel.objects.create(
+            name='raamen', englishname='Ramen', jpname='らーめん',
+            kanji_name='', katakana_name='ラーメン', category='cook',
+            slug='raamen', description='d', history='h',
+        )
+        inu = ThankJapanModel.objects.create(
+            name='inu-forced', englishname='Dog', jpname='いぬ',
+            kanji_name='犬', katakana_name='イヌ', category='animal',
+            slug='inu-forced', description='d', history='h',
+        )
+        # Something else for Q3's normal random pick to land on, now that
+        # the shared いぬ pool above was cleared.
+        ThankJapanModel.objects.create(
+            name='q3-pool-word', englishname='Cat', jpname='ねこ',
+            kanji_name='猫', katakana_name='ネコ', category='animal',
+            slug='q3-pool-word', description='d', history='h',
+        )
+
+        self.client.get(reverse('game_restart'), {'difficulty': 'first_taste'})
+        session = self.client.session
+        ids = [q['id'] for q in session['game_question_ids']]
+        self.assertEqual(ids[0], ramen.id)
+        self.assertEqual(ids[1], inu.id)
+
+        self.client.get(reverse('game_play'))
+        # Q1 (らーめん) - answer it to advance to Q2.
+        q1 = json.loads(self.client.get(reverse('game_question_data')).content)
+        self.assertIsNone(q1.get('tutorial_wrong_order'))
+        q1_tiles = [q1['tiles'][i] for i in q1['tutorial_order']]
+        self.client.post(
+            reverse('game_submit_answer'),
+            data=json.dumps({'tiles': q1_tiles, 'seconds_left': 60}),
+            content_type='application/json',
+        )
+
+        q2 = json.loads(self.client.get(reverse('game_question_data')).content)
+        self.assertIsNone(q2.get('tutorial_order'))
+        wrong_order = q2['tutorial_wrong_order']
+        self.assertIsNotNone(wrong_order)
+        self.assertEqual(sorted(wrong_order), list(range(len(q2['tiles']))))
+        reconstructed = ''.join(q2['tiles'][i] for i in wrong_order)
+        self.assertEqual(reconstructed, 'ぬい')
+        self.assertNotEqual(reconstructed, 'いぬ')
+
+        # Submitting exactly that guided (wrong) order must actually score
+        # as incorrect, and the game must still continue to Q3 afterwards.
+        q2_tiles = [q2['tiles'][i] for i in wrong_order]
+        result = json.loads(self.client.post(
+            reverse('game_submit_answer'),
+            data=json.dumps({'tiles': q2_tiles, 'seconds_left': 60}),
+            content_type='application/json',
+        ).content)
+        self.assertFalse(result['is_correct'])
+
+        q3 = json.loads(self.client.get(reverse('game_question_data')).content)
+        self.assertFalse(q3.get('game_over'))
+        self.assertIsNone(q3.get('tutorial_order'))
+        self.assertIsNone(q3.get('tutorial_wrong_order'))
+
     def test_first_question_includes_a_valid_tutorial_order(self):
         # 2026-09-17: the first-taste tutorial points a finger at each tile
         # in solve order - tutorial_order must be a permutation of the
@@ -3583,6 +3656,7 @@ class FirstTasteTileGameTests(TestCase):
         self.client.get(reverse('game_play'))
         data = json.loads(self.client.get(reverse('game_question_data')).content)
         self.assertIsNone(data.get('tutorial_order'))
+        self.assertIsNone(data.get('tutorial_wrong_order'))
 
 
 EXTEND_TIME_TEXT_BY_LOCALE = {
