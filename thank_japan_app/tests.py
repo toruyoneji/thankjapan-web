@@ -3498,6 +3498,30 @@ class FirstTasteTileGameTests(TestCase):
         response = self.client.get(reverse('game_restart'), {'difficulty': 'first_taste'})
         self.assertIn('tj_has_played', response.cookies)
 
+    def test_first_question_is_always_ramen_when_the_word_exists(self):
+        # 2026-09-17: Q1 of the first-taste tutorial is pinned to らーめん
+        # specifically (a guaranteed-correct, fully-guided step - see
+        # game_play-v2.html's tap-blocking) whenever that word exists,
+        # regardless of the normal random EASY-pool selection/category
+        # filter (らーめん's own category, 'cook', isn't even in
+        # first_taste's filter list - it's picked directly, bypassing it).
+        ramen = ThankJapanModel.objects.create(
+            name='raamen', englishname='Ramen', jpname='らーめん',
+            kanji_name='', katakana_name='ラーメン', category='cook',
+            slug='raamen', description='d', history='h',
+        )
+        self.client.get(reverse('game_restart'), {'difficulty': 'first_taste'})
+        session = self.client.session
+        ids = [q['id'] for q in session['game_question_ids']]
+        self.assertEqual(ids[0], ramen.id)
+        self.assertEqual(len(ids), FIRST_TASTE_QUESTION_COUNT)
+        self.assertEqual(len(set(ids)), FIRST_TASTE_QUESTION_COUNT)  # no duplicates
+
+        self.client.get(reverse('game_play'))
+        data = json.loads(self.client.get(reverse('game_question_data')).content)
+        reconstructed = ''.join(data['tiles'][i] for i in data['tutorial_order'])
+        self.assertEqual(reconstructed, 'らーめん')
+
     def test_first_question_includes_a_valid_tutorial_order(self):
         # 2026-09-17: the first-taste tutorial points a finger at each tile
         # in solve order - tutorial_order must be a permutation of the

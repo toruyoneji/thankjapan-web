@@ -2188,7 +2188,17 @@ def game_restart(request):
         game_difficulty = 'single'
     elif difficulty_param == 'first_taste':
         easy = DIFFICULTY_SETTINGS['easy']
-        ids = _sample_easy_ids(easy['category_filter'], count=FIRST_TASTE_QUESTION_COUNT)
+        # Q1 is always らーめん (id=628, 'cook') - a guaranteed-correct,
+        # fully-guided first step (see game_play-v2.html: tutorial finger +
+        # wrong-tap blocking, both scoped to first_taste's very first
+        # question only). Falls back to the normal random pick if this
+        # exact word is ever renamed/removed, so the flow never breaks.
+        ramen = ThankJapanModel.objects.filter(jpname='らーめん').first()
+        if ramen:
+            remaining = _sample_easy_ids(easy['category_filter'], exclude_ids=[ramen.id], count=FIRST_TASTE_QUESTION_COUNT - 1)
+            ids = [ramen.id] + remaining
+        else:
+            ids = _sample_easy_ids(easy['category_filter'], count=FIRST_TASTE_QUESTION_COUNT)
         questions = [{'id': pk, 'model': 'free'} for pk in ids]
         game_difficulty = 'first_taste'
     else:

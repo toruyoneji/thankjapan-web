@@ -176,6 +176,15 @@ body {
   50% { transform: translate(-50%, 8px); }
 }
 
+/* Feedback for a blocked wrong tap during the tile tutorial - see
+   nextTutorialTileIndex()/the bank-tile click handler above. */
+.tile.tutorial-wrong-shake { animation: tutorialWrongShake 0.3s ease-out; }
+@keyframes tutorialWrongShake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
+
 .tile {
   font-family: 'Kaisei Decol', 'Shippori Mincho', serif;
   font-size: 1.15rem; font-weight: 700; color: #fff2d6;
@@ -775,6 +784,20 @@ body {
             const el = makeTileButton(text, i);
             el.addEventListener('click', function () {
                 if (submitting) return;
+                // Tutorial (question 1 of first_taste only): only the next
+                // correct-order tile is tappable at all - a wrong tap is a
+                // no-op (with a small shake for feedback) rather than
+                // placing the tile, guaranteeing this question is always
+                // solvable exactly as demonstrated by the pointing finger.
+                if (tutorialOrder && nextTutorialTileIndex() !== i) {
+                    el.classList.remove('tutorial-wrong-shake');
+                    void el.offsetWidth;
+                    el.classList.add('tutorial-wrong-shake');
+                    el.addEventListener('animationend', function () {
+                        el.classList.remove('tutorial-wrong-shake');
+                    }, { once: true });
+                    return;
+                }
                 el.classList.add('tap-pulse');
                 placedIndices.push(i);
                 redrawTiles();
@@ -810,13 +833,18 @@ body {
         tutorialFingerEl = null;
     }
 
+    function nextTutorialTileIndex() {
+        if (!tutorialOrder) return undefined;
+        return tutorialOrder.find(function (idx) { return placedIndices.indexOf(idx) === -1; });
+    }
+
     function updateTutorialFinger() {
         removeTutorialFinger();
         if (!tutorialOrder) return;
-        const nextIndex = tutorialOrder.find(function (idx) { return placedIndices.indexOf(idx) === -1; });
+        const nextIndex = nextTutorialTileIndex();
         if (nextIndex === undefined) {
-            // Every tile from the tutorial's solve order has been placed
-            // (however the player got there) - nothing left to point at.
+            // Every tile from the tutorial's solve order has been placed -
+            // nothing left to point at (or block wrong taps against).
             tutorialOrder = null;
             return;
         }
