@@ -1355,6 +1355,25 @@ class WordDetailPageTests(TestCase):
 
         self.assertEqual(response.status_code, 200)
 
+    def test_free_word_detail_page_has_practice_cta_headline_before_the_box(self):
+        # 2026-09-19: a standalone "test your Japanese?" eye-catcher, bigger
+        # than any tap-icon hint on the page, added just above the existing
+        # practice-this-word CTA box (which is left untouched).
+        response = self.client.get(reverse('category_detail', kwargs={
+            'category': 'animal', 'slug': 'animal-test-dog',
+        }))
+        body = response.content.decode()
+        self.assertIn('practice-cta-headline', body)
+        self.assertLess(body.index('practice-cta-headline'), body.index('game-invite-box'))
+
+    def test_premium_word_detail_page_has_practice_cta_headline_before_the_box(self):
+        response = self.client.get(reverse('detail_premium', kwargs={
+            'category': 'TourismEtiquette', 'slug': 'premium-test-word',
+        }))
+        body = response.content.decode()
+        self.assertIn('practice-cta-headline', body)
+        self.assertLess(body.index('practice-cta-headline'), body.index('game-invite-box'))
+
     def test_free_word_detail_page_has_seo_title_and_description(self):
         response = self.client.get(reverse('category_detail', kwargs={
             'category': 'animal', 'slug': 'animal-test-dog',
