@@ -3705,6 +3705,27 @@ class NavigationTutorialTests(TestCase):
         self.assertTrue(cook_response.context['show_nav_tutorial_hint'])
         self.assertEqual(cook_response.context['nav_tutorial_target_slug'], NAV_TUTORIAL_TARGET_SLUG)
 
+    # --- 2026-09-19: a new "here's the detail screen, now practice it"
+    # overlay fires the instant the つけ麺 detail modal opens, before the
+    # existing finger-hint on the practice button - same overlay-then-
+    # reveal sequencing as every other step in this tutorial. ---
+
+    def test_modal_open_overlay_markup_present_and_precedes_the_hint_reveal(self):
+        self.client.cookies['tj_has_played'] = '1'
+        cook_html = self.client.get(reverse('cookpage')).content.decode()
+        self.assertIn('id="tutorial-overlay-cook-modal-open"', cook_html)
+        # The JS must play this overlay (with a callback) rather than build
+        # the hint bubble immediately - otherwise it isn't actually gating
+        # anything and the two would appear together.
+        self.assertIn("playTutorialOverlay('tutorial-overlay-cook-modal-open', 2200, function () {", cook_html)
+        overlay_call_index = cook_html.index("playTutorialOverlay('tutorial-overlay-cook-modal-open'")
+        hint_build_index = cook_html.index('navTutorialModalHintCaption()', overlay_call_index)
+        self.assertGreater(hint_build_index, overlay_call_index)
+
+    def test_modal_open_overlay_absent_for_a_normal_visitor(self):
+        cook_html = self.client.get(reverse('cookpage')).content.decode()
+        self.assertNotIn('tutorial-overlay-cook-modal-open', cook_html)
+
     # --- regression: the category-list page must never point back at the
     # top page's own "Learn" nav button (2026-09-19 bug report) - the two
     # touchpoints share nothing but the visual pattern now, not a context
@@ -3968,6 +3989,7 @@ class NavigationTutorialTests(TestCase):
                 response = self.client.get(reverse('cookpage'), {'lang': lang})
                 self.assertEqual(response.status_code, 200)
                 self.assertContains(response, 'id="nav-tutorial-target-guide"')
+                self.assertContains(response, 'id="tutorial-overlay-cook-modal-open"')
 
         self.client.get(reverse('game_restart'), {
             'mode': 'single', 'model_type': 'free', 'slug': NAV_TUTORIAL_TARGET_SLUG,

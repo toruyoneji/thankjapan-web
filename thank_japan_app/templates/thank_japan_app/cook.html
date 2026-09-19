@@ -351,6 +351,25 @@
         </div>
     </div>
 </div>
+<div class="tutorial-overlay-backdrop" id="tutorial-overlay-cook-modal-open">
+    <div class="tutorial-overlay-card">
+        <div class="tutorial-overlay-icon">🔍</div>
+        <div class="tutorial-overlay-text">
+            {% if lang_code == 'ja' %}ここで単語の詳しいことが<br>書いてあるよ！<br>「この単語を練習する」を<br>押してみよう
+            {% elif lang_code == 'zh-hant' %}這裡寫著<br>單字的詳細說明喔！<br>試著按下<br>「練習這個單字」吧
+            {% elif lang_code == 'zh-cn' %}这里写着<br>单词的详细说明哦！<br>试着按下<br>「练习这个单词」吧
+            {% elif lang_code == 'ko' %}여기에 단어의<br>자세한 설명이 있어요!<br>「이 단어를 연습하기」<br>버튼을 눌러 보세요
+            {% elif lang_code == 'de' %}Hier stehen die<br>Details zum Wort!<br>Klick auf<br>„Dieses Wort üben"
+            {% elif lang_code == 'fr' %}Ici, tu trouveras<br>les détails du mot !<br>Clique sur<br>« Pratiquer ce mot »
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Aquí están<br>los detalles de la palabra!<br>Haz clic en<br>"Practicar esta palabra"
+            {% elif lang_code == 'it' %}Qui trovi<br>i dettagli della parola!<br>Clicca su<br>"Esercitati con questa parola"
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Aqui estão<br>os detalhes da palavra!<br>Clique em<br>"Praticar esta palavra"
+            {% elif lang_code == 'vi' %}Ở đây có<br>chi tiết về từ này!<br>Hãy nhấp vào<br>"Luyện tập từ này" nhé
+            {% elif lang_code == 'th' %}ตรงนี้มี<br>รายละเอียดของคำศัพท์นะ!<br>ลองคลิกปุ่ม<br>"ฝึกคำนี้" ดูสิ
+            {% else %}Here's where you<br>learn the details!<br>Click<br>"Practice this word"{% endif %}
+        </div>
+    </div>
+</div>
 {% include 'includes/tutorial_overlay.js.html' %}
 {% endif %}
 
@@ -623,7 +642,13 @@ function openDetailModal(url) {
                 wrap.style.cssText = 'position:relative; display:inline-block; width:100%; text-align:center;';
                 practiceBtn.parentNode.insertBefore(wrap, practiceBtn);
                 wrap.appendChild(practiceBtn);
-                wrap.appendChild(navTutorialModalHintCaption());
+                // Announce what this screen is / what to do next the moment
+                // the modal opens, same overlay-then-reveal sequencing as
+                // every other step - the finger hint only appears once this
+                // one has played and faded, not simultaneously with it.
+                playTutorialOverlay('tutorial-overlay-cook-modal-open', 2200, function () {
+                    wrap.appendChild(navTutorialModalHintCaption());
+                });
             }
         }
         {% endif %}
