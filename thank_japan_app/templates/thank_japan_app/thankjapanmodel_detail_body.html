@@ -130,15 +130,28 @@
     /* Standalone eye-catcher above the bottom "Learn More Words" CTA
        (2026-09-19) - bigger than any tap-icon hint elsewhere on this page.
        Deliberately NOT above the top practice-this-word box - see the
-       markup near the "Learn More Words" button further down. Text stays
-       ink-colored for legibility; the icon's red drop-shadow carries the
-       "red" accent of the site's white x gold x red palette, matching the
-       tutorial overlays'. The icon bounces continuously (same shape as the
-       tap-guide finger's own animation elsewhere on the site) so the whole
-       element reads as more alive than a static heading. */
+       markup near the "Learn More Words" button further down. Rendered as
+       an independent gold-bordered badge card (2026-09-19 follow-up: text
+       alone wasn't prominent enough) - the badge's own box-shadow pulses
+       while the icon inside it separately bounces, so the whole thing reads
+       as more alive than a static heading. Text stays ink-colored for
+       legibility even against the gold-tinted fill; the icon's red drop-
+       shadow carries the "red" accent of the site's white x gold x red
+       palette, matching the tutorial overlays'. */
     #detail-page-wrapper .practice-cta-headline {
+        display: inline-flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
         text-align: center !important;
-        margin: 0 0 14px !important;
+        background: linear-gradient(135deg, #fff8e0, #f4e4b8) !important;
+        border: 3px solid #d4af37 !important;
+        border-radius: 24px !important;
+        padding: 20px 30px !important;
+        max-width: 340px !important;
+        box-sizing: border-box !important;
+        margin: 0 auto 14px !important;
+        box-shadow: 0 10px 30px rgba(212, 175, 55, 0.35), 0 4px 14px rgba(0, 0, 0, 0.18) !important;
+        animation: practice-cta-headline-pulse 2.4s ease-in-out infinite !important;
     }
     #detail-page-wrapper .practice-cta-headline-icon {
         font-size: 3rem !important;
@@ -157,6 +170,10 @@
     @keyframes practice-cta-headline-bounce {
         0%, 100% { transform: scale(1) translateY(0); }
         50% { transform: scale(1.12) translateY(-8px); }
+    }
+    @keyframes practice-cta-headline-pulse {
+        0%, 100% { box-shadow: 0 10px 30px rgba(212, 175, 55, 0.35), 0 4px 14px rgba(0, 0, 0, 0.18); }
+        50% { box-shadow: 0 14px 38px rgba(212, 175, 55, 0.55), 0 6px 18px rgba(0, 0, 0, 0.22); }
     }
 
     #detail-page-wrapper .game-invite-box {
