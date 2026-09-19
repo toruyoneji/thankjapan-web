@@ -389,9 +389,14 @@
         }
 
         /* Nav-tutorial steps 1-2 (returning-guest-only "Learn" ->
-           "Category list" guide) - only rendered when show_nav_tutorial_hint
-           is truthy, which only TopView's own context sets, so this stays
-           dormant on every other page that extends this shared base.
+           "Category list" guide) - only rendered when
+           nav_tutorial_learn_step_active is truthy, which only TopView's
+           own context sets (2026-09-19: previously shared show_nav_tutorial_hint
+           with category_list/CookView, which was the actual bug - this page's
+           own "Learn" hint was leaking onto their pages too). Deliberately its
+           own name, distinct from category_list's nav_tutorial_cook_card_step_active
+           and CookView's show_nav_tutorial_hint, so this markup is structurally
+           impossible to render from any page but the top page.
            Identical .tutorial-hint-target/.tutorial-hint-bubble pair used by
            top-main-v2.html's own first_taste CTA hint. */
         .tutorial-hint-target {
@@ -483,8 +488,8 @@
 
         
         <nav class="bottom-nav">
-            <a href="javascript:void(0)" class="nav-item{% if show_nav_tutorial_hint %} tutorial-hint-target{% endif %}" id="learn-modal-btn">
-                {% if show_nav_tutorial_hint %}{% include 'includes/tutorial_hint_bubble.html' %}{% endif %}
+            <a href="javascript:void(0)" class="nav-item{% if nav_tutorial_learn_step_active %} tutorial-hint-target{% endif %}" id="learn-modal-btn">
+                {% if nav_tutorial_learn_step_active %}{% include 'includes/tutorial_hint_bubble.html' with hint_id='nav-tutorial-learn-hint' hint_hidden=True %}{% endif %}
                 <i class="fas fa-search-location"></i>
                 <span>
                     {% if lang_code == 'ja' %}学ぶ
@@ -790,7 +795,7 @@
                 </p>
 
     
-                <a href="{% url 'category_list' %}?lang={{ lang_code }}" class="lang-item" style="
+                <a href="{% url 'category_list' %}?lang={{ lang_code }}" class="lang-item" id="nav-tutorial-category-link"{% if nav_tutorial_learn_step_active %} onclick="navTutorialCategoryLinkClicked()"{% endif %} style="
                     display: flex;
                     align-items: center;
                     justify-content: center;
@@ -807,7 +812,7 @@
                     transition: transform 0.2s;
                     position: relative;
                     " onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">
-                    {% if show_nav_tutorial_hint %}{% include 'includes/tutorial_hint_bubble.html' %}{% endif %}
+                    {% if nav_tutorial_learn_step_active %}{% include 'includes/tutorial_hint_bubble.html' with hint_id='nav-tutorial-category-link-hint' hint_hidden=True %}{% endif %}
                     <span style="margin-right: 8px;">📖</span>
                     {% if lang_code == 'ja' %}語彙カテゴリー一覧
                     {% elif lang_code == 'ko' %}어휘 카테고리 목록
@@ -1186,6 +1191,112 @@
 })();
 </script>
 
+{% if nav_tutorial_learn_step_active %}
+{% include 'includes/tutorial_overlay.css.html' %}
+<div class="tutorial-overlay-backdrop" id="tutorial-overlay-nav-learn">
+    <div class="tutorial-overlay-card">
+        <div class="tutorial-overlay-icon">👇</div>
+        <div class="tutorial-overlay-text">
+            {% if lang_code == 'ja' %}下の「学ぶ」を<br>クリックしよう
+            {% elif lang_code == 'zh-hant' %}點擊下方的<br>「學習」吧
+            {% elif lang_code == 'zh-cn' %}点击下方的<br>「学习」吧
+            {% elif lang_code == 'ko' %}아래의 「배우기」를<br>클릭해 보세요
+            {% elif lang_code == 'de' %}Klick unten auf<br>„Lernen"
+            {% elif lang_code == 'fr' %}Cliquez sur<br>« Apprendre » ci-dessous
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Haz clic en<br>"Aprender" abajo
+            {% elif lang_code == 'it' %}Clicca su<br>"Impara" qui sotto
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Clique em<br>"Aprender" abaixo
+            {% elif lang_code == 'vi' %}Hãy nhấp vào<br>"Học" bên dưới
+            {% elif lang_code == 'th' %}คลิก "เรียน"<br>ด้านล่างนี้
+            {% else %}Click "Learn"<br>below{% endif %}
+        </div>
+    </div>
+</div>
+<div class="tutorial-overlay-backdrop" id="tutorial-overlay-nav-category-link">
+    <div class="tutorial-overlay-card">
+        <div class="tutorial-overlay-icon">👇</div>
+        <div class="tutorial-overlay-text">
+            {% if lang_code == 'ja' %}「語彙カテゴリー一覧」を<br>クリックしよう
+            {% elif lang_code == 'zh-hant' %}點擊<br>「詞彙分類列表」吧
+            {% elif lang_code == 'zh-cn' %}点击<br>「词汇分类列表」吧
+            {% elif lang_code == 'ko' %}「어휘 카테고리 목록」을<br>클릭해 보세요
+            {% elif lang_code == 'de' %}Klick auf<br>„Wortschatz-Kategorien"
+            {% elif lang_code == 'fr' %}Cliquez sur<br>« Liste des catégories de vocabulaire »
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Haz clic en<br>"Lista de categorías de vocabulario"
+            {% elif lang_code == 'it' %}Clicca su<br>"Elenco categorie di vocaboli"
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Clique em<br>"Lista de categorias de vocabulário"
+            {% elif lang_code == 'vi' %}Hãy nhấp vào<br>"Danh sách chuyên mục từ vựng"
+            {% elif lang_code == 'th' %}คลิก<br>"รายการหมวดหมู่คำศัพท์"
+            {% else %}Click "Vocabulary<br>Category List"{% endif %}
+        </div>
+    </div>
+</div>
+{% include 'includes/tutorial_overlay.js.html' %}
+<script>
+// Nav-tutorial steps 1-2 (returning-guest-only, top page only - see
+// nav_tutorial_learn_step_active, set only by TopView). Progress is tracked
+// in sessionStorage ('tj_nav_tutorial_step': '0' unset/not started, '1'
+// Learn clicked, '2' category-list link clicked) so each of the two hints
+// here shows exactly once, in order, and a reload/back-button never
+// replays a step already passed - see select-category-v2.html, which
+// advances this same key to '2' the moment its own page loads (so
+// returning to this page from there never re-triggers step 1 or 2 either).
+document.addEventListener('DOMContentLoaded', function () {
+    function navTutorialStep() {
+        return sessionStorage.getItem('tj_nav_tutorial_step') || '0';
+    }
+    function setNavTutorialStep(v) {
+        try { sessionStorage.setItem('tj_nav_tutorial_step', v); } catch (e) {}
+    }
+    window.navTutorialCategoryLinkClicked = function () {
+        setNavTutorialStep('2');
+    };
+
+    var learnHint = document.getElementById('nav-tutorial-learn-hint');
+    var categoryHint = document.getElementById('nav-tutorial-category-link-hint');
+
+    function showCategoryLinkStep() {
+        if (!categoryHint) return;
+        playTutorialOverlay('tutorial-overlay-nav-category-link', 2200, function () {
+            categoryHint.style.display = '';
+        });
+    }
+
+    var step = navTutorialStep();
+    if (step === '0') {
+        if (learnHint) {
+            playTutorialOverlay('tutorial-overlay-nav-learn', 2200, function () {
+                learnHint.style.display = '';
+            });
+        }
+        var learnBtnEl = document.getElementById('learn-modal-btn');
+        if (learnBtnEl) {
+            // Registered after (see file order) the toggleLearnModal()
+            // wiring above, so on click the modal is already open by the
+            // time this runs - .onclick and addEventListener handlers for
+            // the same event fire in the order they were registered.
+            learnBtnEl.addEventListener('click', function () {
+                if (navTutorialStep() !== '0') return;
+                setNavTutorialStep('1');
+                if (learnHint) learnHint.style.display = 'none';
+                showCategoryLinkStep();
+            });
+        }
+    } else if (step === '1') {
+        // A reload happened between clicking Learn and clicking the
+        // category-list link - reopen the modal and resume at step 2
+        // directly, rather than replaying step 1's already-passed hint.
+        var modal = document.getElementById('learnModal');
+        var overlay = document.getElementById('modalOverlay');
+        if (modal) modal.classList.add('show');
+        if (overlay) overlay.classList.add('show');
+        showCategoryLinkStep();
+    }
+    // step === '2': both top-page steps already passed - nothing further
+    // ever shows again for the rest of this tab's session.
+});
+</script>
+{% endif %}
 
 <!-- Firebase SDK (Compat版) の読み込み -->
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>

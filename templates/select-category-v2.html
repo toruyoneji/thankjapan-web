@@ -136,7 +136,11 @@
 
     /* Nav-tutorial step 3 (returning-guest-only) - same
        .tutorial-hint-target/.tutorial-hint-bubble pair used on the top
-       page's own CTA hint, gated by show_nav_tutorial_hint. */
+       page's own CTA hint, gated by nav_tutorial_cook_card_step_active
+       (this view's own flag, separate from TopView's
+       nav_tutorial_learn_step_active - 2026-09-19: they used to share one
+       name, which was the bug where this page's own eligibility also lit
+       up the top page's "Learn" hint markup). */
     .tutorial-hint-target {
         position: relative;
     }
@@ -216,8 +220,8 @@
                 </span>
             </a>
 
-            <a href="{% url 'cookpage' %}?lang={{ lang_code }}" class="cat-card-new{% if show_nav_tutorial_hint %} tutorial-hint-target{% endif %}">
-                {% if show_nav_tutorial_hint %}{% include 'includes/tutorial_hint_bubble.html' %}{% endif %}
+            <a href="{% url 'cookpage' %}?lang={{ lang_code }}" class="cat-card-new{% if nav_tutorial_cook_card_step_active %} tutorial-hint-target{% endif %}">
+                {% if nav_tutorial_cook_card_step_active %}{% include 'includes/tutorial_hint_bubble.html' with hint_id='nav-tutorial-cook-card-hint' hint_hidden=True %}{% endif %}
                 <div class="icon-wrapper">🍳</div>
                 <span class="cat-name-new">
                     {% if lang_code == 'ja' %}料理{% elif lang_code == 'ko' %}요리{% elif lang_code == 'zh-cn' %}烹饪{% elif lang_code == 'zh-hant' %}烹飪{% elif lang_code == 'th' %}การทำอาหาร{% elif lang_code == 'vi' %}Nấu ăn{% elif lang_code == 'fr' %}Cuisine{% elif lang_code == 'de' %}Kochen{% elif lang_code == 'it' %}Cucina{% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Cocina{% elif lang_code == 'pt' or lang_code == 'pt-br' %}Culinária{% else %}Cuisine{% endif %}
@@ -411,3 +415,44 @@
         window.location.href = topUrl ? topUrl : "{% url 'toppage' %}?lang={{ lang_code }}";
     }
 </script>
+
+{% if nav_tutorial_cook_card_step_active %}
+{% include 'includes/tutorial_overlay.css.html' %}
+<div class="tutorial-overlay-backdrop" id="tutorial-overlay-nav-cook-card">
+    <div class="tutorial-overlay-card">
+        <div class="tutorial-overlay-icon">👇</div>
+        <div class="tutorial-overlay-text">
+            {% if lang_code == 'ja' %}「料理」カードを<br>クリックしよう
+            {% elif lang_code == 'zh-hant' %}點擊<br>「烹飪」卡片吧
+            {% elif lang_code == 'zh-cn' %}点击<br>「烹饪」卡片吧
+            {% elif lang_code == 'ko' %}「요리」카드를<br>클릭해 보세요
+            {% elif lang_code == 'de' %}Klick auf die<br>„Kochen"-Karte
+            {% elif lang_code == 'fr' %}Cliquez sur la carte<br>« Cuisine »
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Haz clic en la tarjeta<br>"Cocina"
+            {% elif lang_code == 'it' %}Clicca sulla scheda<br>"Cucina"
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Clique no card<br>"Culinária"
+            {% elif lang_code == 'vi' %}Hãy nhấp vào thẻ<br>"Nấu ăn"
+            {% elif lang_code == 'th' %}คลิกที่การ์ด<br>"การทำอาหาร"
+            {% else %}Click the<br>"Cuisine" card{% endif %}
+        </div>
+    </div>
+</div>
+{% include 'includes/tutorial_overlay.js.html' %}
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    // Advance the top page's own step tracker to '2' unconditionally the
+    // moment this page loads (whether arrived via step 1-2's link click or
+    // a direct URL/bookmark) - so returning to the top page afterward (e.g.
+    // the back button) never replays its already-passed Learn/category-link
+    // overlays. This page's own hint below doesn't otherwise depend on that
+    // key at all - it always shows on its own eligibility.
+    try { sessionStorage.setItem('tj_nav_tutorial_step', '2'); } catch (e) {}
+
+    var cookHint = document.getElementById('nav-tutorial-cook-card-hint');
+    if (!cookHint) return;
+    playTutorialOverlay('tutorial-overlay-nav-cook-card', 2200, function () {
+        cookHint.style.display = '';
+    });
+});
+</script>
+{% endif %}

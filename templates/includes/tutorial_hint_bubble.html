@@ -4,8 +4,18 @@ bubble above a CTA button. The parent element must have class
 "tutorial-hint-target" (position: relative) for this to anchor correctly -
 see the .tutorial-hint-bubble rules in top-main-v2.html and
 game_start-v2.html.
+
+Optional context (pass via {% include ... with hint_id=... hint_hidden=True %}):
+- hint_id: renders as this span's id, so JS can reveal/hide it individually.
+  Needed whenever a page has more than one candidate hint target and must
+  show only one at a time (see the nav-tutorial step sequencing in
+  base_top.html/select-category-v2.html) - without an id there's no way to
+  target this specific bubble later.
+- hint_hidden: starts the bubble with display:none, e.g. so it stays inert
+  until a step-sequencing script explicitly reveals it. Omit for the
+  original always-on-if-rendered behavior (existing call sites).
 {% endcomment %}
-<span class="tutorial-hint-bubble">
+<span class="tutorial-hint-bubble"{% if hint_id %} id="{{ hint_id }}"{% endif %}{% if hint_hidden %} style="display: none;"{% endif %}>
     <span class="finger">👇</span>
     <span class="hint-click">
         {% if lang_code == 'ja' %}クリックしよう

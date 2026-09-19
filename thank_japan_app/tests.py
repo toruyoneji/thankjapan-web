@@ -3677,48 +3677,80 @@ class NavigationTutorialTests(TestCase):
 
     def test_hint_hidden_for_a_brand_new_guest(self):
         response = self.client.get(reverse('toppage'))
-        self.assertFalse(response.context['show_nav_tutorial_hint'])
+        self.assertFalse(response.context['nav_tutorial_learn_step_active'])
 
     def test_hint_shown_for_a_returning_guest(self):
         self.client.cookies['tj_has_played'] = '1'
         response = self.client.get(reverse('toppage'))
-        self.assertTrue(response.context['show_nav_tutorial_hint'])
+        self.assertTrue(response.context['nav_tutorial_learn_step_active'])
 
     def test_hint_hidden_once_already_seen(self):
         self.client.cookies['tj_has_played'] = '1'
         self.client.cookies['tj_nav_tutorial_seen'] = '1'
         response = self.client.get(reverse('toppage'))
-        self.assertFalse(response.context['show_nav_tutorial_hint'])
+        self.assertFalse(response.context['nav_tutorial_learn_step_active'])
 
     def test_hint_hidden_for_a_logged_in_user_even_with_has_played(self):
         User.objects.create_user(username='nav_tutorial_login_test', password='pass12345')
         self.client.login(username='nav_tutorial_login_test', password='pass12345')
         self.client.cookies['tj_has_played'] = '1'
         response = self.client.get(reverse('toppage'))
-        self.assertFalse(response.context['show_nav_tutorial_hint'])
+        self.assertFalse(response.context['nav_tutorial_learn_step_active'])
 
     def test_hint_flag_also_reaches_category_list_and_cook_page(self):
         self.client.cookies['tj_has_played'] = '1'
         cat_response = self.client.get(reverse('category_list'))
-        self.assertTrue(cat_response.context['show_nav_tutorial_hint'])
+        self.assertTrue(cat_response.context['nav_tutorial_cook_card_step_active'])
         cook_response = self.client.get(reverse('cookpage'))
         self.assertTrue(cook_response.context['show_nav_tutorial_hint'])
         self.assertEqual(cook_response.context['nav_tutorial_target_slug'], NAV_TUTORIAL_TARGET_SLUG)
+
+    # --- regression: the category-list page must never point back at the
+    # top page's own "Learn" nav button (2026-09-19 bug report) - the two
+    # touchpoints share nothing but the visual pattern now, not a context
+    # variable, so this is impossible to render by construction. ---
+
+    def test_category_list_page_never_renders_the_learn_button_hint(self):
+        self.client.cookies['tj_has_played'] = '1'
+        cat_html = self.client.get(reverse('category_list')).content.decode()
+        self.assertNotIn('nav-tutorial-learn-hint', cat_html)
+        self.assertNotIn('nav-tutorial-category-link-hint', cat_html)
+        self.assertNotIn('tutorial-overlay-nav-learn', cat_html)
+        self.assertNotIn('tutorial-overlay-nav-category-link', cat_html)
+        # ... while its own, correct hint is present.
+        self.assertIn('id="nav-tutorial-cook-card-hint"', cat_html)
+        self.assertIn('tutorial-overlay-nav-cook-card', cat_html)
+
+    def test_cook_page_never_renders_the_learn_button_hint_either(self):
+        self.client.cookies['tj_has_played'] = '1'
+        cook_html = self.client.get(reverse('cookpage')).content.decode()
+        self.assertNotIn('nav-tutorial-learn-hint', cook_html)
+        self.assertNotIn('nav-tutorial-category-link-hint', cook_html)
 
     # --- 2. all seven steps, in order ---
 
     def test_full_seven_step_flow_in_order(self):
         self.client.cookies['tj_has_played'] = '1'
 
-        # Steps 1-2: top page carries both the "Learn" nav-button hint and
-        # the "Category list" link hint inside the Learn modal.
+        # Steps 1-2: top page carries the "Learn" nav-button hint and the
+        # "Category list" link hint (inside the Learn modal), each rendered
+        # exactly once and starting hidden - client-side JS (sessionStorage-
+        # driven, see base_top.html) is what reveals them one at a time and
+        # isn't exercised by this server-side test, but the markup itself
+        # must be present and correctly scoped.
         top_html = self.client.get(reverse('toppage')).content.decode()
         self.assertIn('id="learn-modal-btn"', top_html)
-        self.assertGreaterEqual(top_html.count('tutorial-hint-bubble'), 2)
+        self.assertEqual(top_html.count('id="nav-tutorial-learn-hint"'), 1)
+        self.assertEqual(top_html.count('id="nav-tutorial-category-link-hint"'), 1)
+        self.assertIn('tutorial-overlay-nav-learn', top_html)
+        self.assertIn('tutorial-overlay-nav-category-link', top_html)
 
-        # Step 3: category list page guides to the 料理(cook) card.
+        # Step 3: category list page guides to the 料理(cook) card - and
+        # only that card, never the (nonexistent-here) Learn button.
         cat_html = self.client.get(reverse('category_list')).content.decode()
         self.assertIn('tutorial-hint-target', cat_html)
+        self.assertEqual(cat_html.count('id="nav-tutorial-cook-card-hint"'), 1)
+        self.assertNotIn('nav-tutorial-learn-hint', cat_html)
 
         # Step 4: cook page tags the つけめん card specifically (by slug,
         # not grid position) with both the finger-guide and the explanatory
@@ -3840,7 +3872,7 @@ class NavigationTutorialTests(TestCase):
         self.client.cookies['tj_nav_tutorial_seen'] = submit_response.cookies['tj_nav_tutorial_seen'].value
 
         top_response = self.client.get(reverse('toppage'))
-        self.assertFalse(top_response.context['show_nav_tutorial_hint'])
+        self.assertFalse(top_response.context['nav_tutorial_learn_step_active'])
 
     def test_cookie_not_set_for_ordinary_single_mode_practice_on_another_word(self):
         # The "practice this word" button is the same generic single-mode
@@ -3887,9 +3919,13 @@ class NavigationTutorialTests(TestCase):
             with self.subTest(lang=lang, page='top'):
                 response = self.client.get(reverse('toppage'), {'lang': lang})
                 self.assertEqual(response.status_code, 200)
+                self.assertContains(response, 'tutorial-overlay-nav-learn')
+                self.assertContains(response, 'tutorial-overlay-nav-category-link')
             with self.subTest(lang=lang, page='category_list'):
                 response = self.client.get(reverse('category_list'), {'lang': lang})
                 self.assertEqual(response.status_code, 200)
+                self.assertContains(response, 'tutorial-overlay-nav-cook-card')
+                self.assertNotContains(response, 'nav-tutorial-learn-hint')
             with self.subTest(lang=lang, page='cook'):
                 response = self.client.get(reverse('cookpage'), {'lang': lang})
                 self.assertEqual(response.status_code, 200)

@@ -1112,7 +1112,7 @@ class TopView(BGMContextMixin, ListView):
         context['show_guest_alert'] = self.request.session.pop('show_guest_bonus_alert', False)
         context['earned_points'] = self.request.session.pop('earned_points', 0)
         context['has_played'] = self.request.COOKIES.get('tj_has_played') == '1'
-        context['show_nav_tutorial_hint'] = _nav_tutorial_eligible(self.request)
+        context['nav_tutorial_learn_step_active'] = _nav_tutorial_eligible(self.request)
         context['unlocked_streak_achievements'] = self.request.session.pop('newly_unlocked_streak_achievements', [])
         context.update(get_top_page_seo_override(self.request))
         return context
@@ -1133,7 +1133,7 @@ class TopViewJA(BGMContextMixin, ListView):
         context['show_guest_alert'] = self.request.session.pop('show_guest_bonus_alert', False)
         context['earned_points'] = self.request.session.pop('earned_points', 0)
         context['has_played'] = self.request.COOKIES.get('tj_has_played') == '1'
-        context['show_nav_tutorial_hint'] = _nav_tutorial_eligible(self.request)
+        context['nav_tutorial_learn_step_active'] = _nav_tutorial_eligible(self.request)
         context['unlocked_streak_achievements'] = self.request.session.pop('newly_unlocked_streak_achievements', [])
         return context
     
@@ -1153,7 +1153,7 @@ class TopViewVI(BGMContextMixin, ListView):
         context['show_guest_alert'] = self.request.session.pop('show_guest_bonus_alert', False)
         context['earned_points'] = self.request.session.pop('earned_points', 0)
         context['has_played'] = self.request.COOKIES.get('tj_has_played') == '1'
-        context['show_nav_tutorial_hint'] = _nav_tutorial_eligible(self.request)
+        context['nav_tutorial_learn_step_active'] = _nav_tutorial_eligible(self.request)
         context['unlocked_streak_achievements'] = self.request.session.pop('newly_unlocked_streak_achievements', [])
         return context
     
@@ -1173,7 +1173,7 @@ class TopViewFR(BGMContextMixin, ListView):
         context['show_guest_alert'] = self.request.session.pop('show_guest_bonus_alert', False)
         context['earned_points'] = self.request.session.pop('earned_points', 0)
         context['has_played'] = self.request.COOKIES.get('tj_has_played') == '1'
-        context['show_nav_tutorial_hint'] = _nav_tutorial_eligible(self.request)
+        context['nav_tutorial_learn_step_active'] = _nav_tutorial_eligible(self.request)
         context['unlocked_streak_achievements'] = self.request.session.pop('newly_unlocked_streak_achievements', [])
         return context
     
@@ -1193,7 +1193,7 @@ class TopViewIT(BGMContextMixin, ListView):
         context['show_guest_alert'] = self.request.session.pop('show_guest_bonus_alert', False)
         context['earned_points'] = self.request.session.pop('earned_points', 0)
         context['has_played'] = self.request.COOKIES.get('tj_has_played') == '1'
-        context['show_nav_tutorial_hint'] = _nav_tutorial_eligible(self.request)
+        context['nav_tutorial_learn_step_active'] = _nav_tutorial_eligible(self.request)
         context['unlocked_streak_achievements'] = self.request.session.pop('newly_unlocked_streak_achievements', [])
         return context
     
@@ -1213,7 +1213,7 @@ class TopViewPT(BGMContextMixin, ListView):
         context['show_guest_alert'] = self.request.session.pop('show_guest_bonus_alert', False)
         context['earned_points'] = self.request.session.pop('earned_points', 0)
         context['has_played'] = self.request.COOKIES.get('tj_has_played') == '1'
-        context['show_nav_tutorial_hint'] = _nav_tutorial_eligible(self.request)
+        context['nav_tutorial_learn_step_active'] = _nav_tutorial_eligible(self.request)
         context['unlocked_streak_achievements'] = self.request.session.pop('newly_unlocked_streak_achievements', [])
         return context
     
@@ -1233,7 +1233,7 @@ class TopViewZHCN(BGMContextMixin, ListView):
         context['show_guest_alert'] = self.request.session.pop('show_guest_bonus_alert', False)
         context['earned_points'] = self.request.session.pop('earned_points', 0)
         context['has_played'] = self.request.COOKIES.get('tj_has_played') == '1'
-        context['show_nav_tutorial_hint'] = _nav_tutorial_eligible(self.request)
+        context['nav_tutorial_learn_step_active'] = _nav_tutorial_eligible(self.request)
         context['unlocked_streak_achievements'] = self.request.session.pop('newly_unlocked_streak_achievements', [])
         return context
     
@@ -1253,7 +1253,7 @@ class TopViewZHHANT(BGMContextMixin, ListView):
         context['show_guest_alert'] = self.request.session.pop('show_guest_bonus_alert', False)
         context['earned_points'] = self.request.session.pop('earned_points', 0)
         context['has_played'] = self.request.COOKIES.get('tj_has_played') == '1'
-        context['show_nav_tutorial_hint'] = _nav_tutorial_eligible(self.request)
+        context['nav_tutorial_learn_step_active'] = _nav_tutorial_eligible(self.request)
         context['unlocked_streak_achievements'] = self.request.session.pop('newly_unlocked_streak_achievements', [])
         return context
     
@@ -1273,7 +1273,7 @@ class TopViewKO(BGMContextMixin, ListView):
         context['show_guest_alert'] = self.request.session.pop('show_guest_bonus_alert', False)
         context['earned_points'] = self.request.session.pop('earned_points', 0)
         context['has_played'] = self.request.COOKIES.get('tj_has_played') == '1'
-        context['show_nav_tutorial_hint'] = _nav_tutorial_eligible(self.request)
+        context['nav_tutorial_learn_step_active'] = _nav_tutorial_eligible(self.request)
         context['unlocked_streak_achievements'] = self.request.session.pop('newly_unlocked_streak_achievements', [])
         return context
     
@@ -1293,7 +1293,7 @@ class TopViewESES(BGMContextMixin, ListView):
         context['show_guest_alert'] = self.request.session.pop('show_guest_bonus_alert', False)
         context['earned_points'] = self.request.session.pop('earned_points', 0)
         context['has_played'] = self.request.COOKIES.get('tj_has_played') == '1'
-        context['show_nav_tutorial_hint'] = _nav_tutorial_eligible(self.request)
+        context['nav_tutorial_learn_step_active'] = _nav_tutorial_eligible(self.request)
         context['unlocked_streak_achievements'] = self.request.session.pop('newly_unlocked_streak_achievements', [])
         return context
     
@@ -1313,7 +1313,7 @@ class TopViewDE(BGMContextMixin, ListView):
         context['show_guest_alert'] = self.request.session.pop('show_guest_bonus_alert', False)
         context['earned_points'] = self.request.session.pop('earned_points', 0)
         context['has_played'] = self.request.COOKIES.get('tj_has_played') == '1'
-        context['show_nav_tutorial_hint'] = _nav_tutorial_eligible(self.request)
+        context['nav_tutorial_learn_step_active'] = _nav_tutorial_eligible(self.request)
         context['unlocked_streak_achievements'] = self.request.session.pop('newly_unlocked_streak_achievements', [])
         return context
     
@@ -1333,7 +1333,7 @@ class TopViewTH(BGMContextMixin, ListView):
         context['show_guest_alert'] = self.request.session.pop('show_guest_bonus_alert', False)
         context['earned_points'] = self.request.session.pop('earned_points', 0)
         context['has_played'] = self.request.COOKIES.get('tj_has_played') == '1'
-        context['show_nav_tutorial_hint'] = _nav_tutorial_eligible(self.request)
+        context['nav_tutorial_learn_step_active'] = _nav_tutorial_eligible(self.request)
         context['unlocked_streak_achievements'] = self.request.session.pop('newly_unlocked_streak_achievements', [])
         return context
     
@@ -1353,7 +1353,7 @@ class TopViewPTBR(BGMContextMixin, ListView):
         context['show_guest_alert'] = self.request.session.pop('show_guest_bonus_alert', False)
         context['earned_points'] = self.request.session.pop('earned_points', 0)
         context['has_played'] = self.request.COOKIES.get('tj_has_played') == '1'
-        context['show_nav_tutorial_hint'] = _nav_tutorial_eligible(self.request)
+        context['nav_tutorial_learn_step_active'] = _nav_tutorial_eligible(self.request)
         context['unlocked_streak_achievements'] = self.request.session.pop('newly_unlocked_streak_achievements', [])
         return context
     
@@ -1373,7 +1373,7 @@ class TopViewESMX(BGMContextMixin, ListView):
         context['show_guest_alert'] = self.request.session.pop('show_guest_bonus_alert', False)
         context['earned_points'] = self.request.session.pop('earned_points', 0)
         context['has_played'] = self.request.COOKIES.get('tj_has_played') == '1'
-        context['show_nav_tutorial_hint'] = _nav_tutorial_eligible(self.request)
+        context['nav_tutorial_learn_step_active'] = _nav_tutorial_eligible(self.request)
         context['unlocked_streak_achievements'] = self.request.session.pop('newly_unlocked_streak_achievements', [])
         return context
     
@@ -1393,7 +1393,7 @@ class TopViewENIN(BGMContextMixin, ListView):
         context['show_guest_alert'] = self.request.session.pop('show_guest_bonus_alert', False)
         context['earned_points'] = self.request.session.pop('earned_points', 0)
         context['has_played'] = self.request.COOKIES.get('tj_has_played') == '1'
-        context['show_nav_tutorial_hint'] = _nav_tutorial_eligible(self.request)
+        context['nav_tutorial_learn_step_active'] = _nav_tutorial_eligible(self.request)
         context['unlocked_streak_achievements'] = self.request.session.pop('newly_unlocked_streak_achievements', [])
         return context
     
@@ -2884,7 +2884,7 @@ def category_list(request):
         'lang_code': lang_code,
         'bgm_url': get_bgm_url('study'),
         'bgm_page_type': 'study', 
-        'show_nav_tutorial_hint': _nav_tutorial_eligible(request),
+        'nav_tutorial_cook_card_step_active': _nav_tutorial_eligible(request),
     })
     
 
@@ -2899,7 +2899,7 @@ def category_list_zhcn(request):
         'lang_code': lang_code,
         'bgm_url': get_bgm_url('study'),
         'bgm_page_type': 'study', 
-        'show_nav_tutorial_hint': _nav_tutorial_eligible(request),
+        'nav_tutorial_cook_card_step_active': _nav_tutorial_eligible(request),
     })
      
 
@@ -2914,7 +2914,7 @@ def category_list_zhhant(request):
         'lang_code': lang_code,
         'bgm_url': get_bgm_url('study'),
         'bgm_page_type': 'study', 
-        'show_nav_tutorial_hint': _nav_tutorial_eligible(request),
+        'nav_tutorial_cook_card_step_active': _nav_tutorial_eligible(request),
     })
     
 
@@ -2929,7 +2929,7 @@ def category_list_vi(request):
         'lang_code': lang_code,
         'bgm_url': get_bgm_url('study'),
         'bgm_page_type': 'study', 
-        'show_nav_tutorial_hint': _nav_tutorial_eligible(request),
+        'nav_tutorial_cook_card_step_active': _nav_tutorial_eligible(request),
     })
     
 
@@ -2944,7 +2944,7 @@ def category_list_th(request):
         'lang_code': lang_code,
         'bgm_url': get_bgm_url('study'),
         'bgm_page_type': 'study', 
-        'show_nav_tutorial_hint': _nav_tutorial_eligible(request),
+        'nav_tutorial_cook_card_step_active': _nav_tutorial_eligible(request),
     })
     
     
@@ -2959,7 +2959,7 @@ def category_list_pt(request):
         'lang_code': lang_code,
         'bgm_url': get_bgm_url('study'),
         'bgm_page_type': 'study', 
-        'show_nav_tutorial_hint': _nav_tutorial_eligible(request),
+        'nav_tutorial_cook_card_step_active': _nav_tutorial_eligible(request),
     })
     
     
@@ -2975,7 +2975,7 @@ def category_list_pt_br(request):
         'lang_code': lang_code,
         'bgm_url': get_bgm_url('study'),
         'bgm_page_type': 'study', 
-        'show_nav_tutorial_hint': _nav_tutorial_eligible(request),
+        'nav_tutorial_cook_card_step_active': _nav_tutorial_eligible(request),
     })
     
     
@@ -2991,7 +2991,7 @@ def category_list_ko(request):
         'lang_code': lang_code,
         'bgm_url': get_bgm_url('study'),
         'bgm_page_type': 'study', 
-        'show_nav_tutorial_hint': _nav_tutorial_eligible(request),
+        'nav_tutorial_cook_card_step_active': _nav_tutorial_eligible(request),
     })
     
      
@@ -3007,7 +3007,7 @@ def category_list_ja(request):
         'lang_code': lang_code,
         'bgm_url': get_bgm_url('study'),
         'bgm_page_type': 'study', 
-        'show_nav_tutorial_hint': _nav_tutorial_eligible(request),
+        'nav_tutorial_cook_card_step_active': _nav_tutorial_eligible(request),
     })
     
     
@@ -3023,7 +3023,7 @@ def category_list_it(request):
         'lang_code': lang_code,
         'bgm_url': get_bgm_url('study'),
         'bgm_page_type': 'study', 
-        'show_nav_tutorial_hint': _nav_tutorial_eligible(request),
+        'nav_tutorial_cook_card_step_active': _nav_tutorial_eligible(request),
     })
     
     
@@ -3039,7 +3039,7 @@ def category_list_fr(request):
         'lang_code': lang_code,
         'bgm_url': get_bgm_url('study'),
         'bgm_page_type': 'study', 
-        'show_nav_tutorial_hint': _nav_tutorial_eligible(request),
+        'nav_tutorial_cook_card_step_active': _nav_tutorial_eligible(request),
     })
     
     
@@ -3055,7 +3055,7 @@ def category_list_es_mx(request):
         'lang_code': lang_code,
         'bgm_url': get_bgm_url('study'),
         'bgm_page_type': 'study', 
-        'show_nav_tutorial_hint': _nav_tutorial_eligible(request),
+        'nav_tutorial_cook_card_step_active': _nav_tutorial_eligible(request),
     })
     
     
@@ -3071,7 +3071,7 @@ def category_list_es_es(request):
         'lang_code': lang_code,
         'bgm_url': get_bgm_url('study'),
         'bgm_page_type': 'study', 
-        'show_nav_tutorial_hint': _nav_tutorial_eligible(request),
+        'nav_tutorial_cook_card_step_active': _nav_tutorial_eligible(request),
     })
     
     
@@ -3087,7 +3087,7 @@ def category_list_en_in(request):
         'lang_code': lang_code,
         'bgm_url': get_bgm_url('study'),
         'bgm_page_type': 'study', 
-        'show_nav_tutorial_hint': _nav_tutorial_eligible(request),
+        'nav_tutorial_cook_card_step_active': _nav_tutorial_eligible(request),
     })
     
     
@@ -3103,7 +3103,7 @@ def category_list_de(request):
         'lang_code': lang_code,
         'bgm_url': get_bgm_url('study'),
         'bgm_page_type': 'study', 
-        'show_nav_tutorial_hint': _nav_tutorial_eligible(request),
+        'nav_tutorial_cook_card_step_active': _nav_tutorial_eligible(request),
     })
     
     
@@ -3212,6 +3212,10 @@ class CookView(BGMContextMixin, ListView):
         # Nav-tutorial step 4 (see NAV_TUTORIAL_TARGET_SLUG) - targeted by
         # slug within object_list in the template, not position, so it
         # keeps pointing at the right card regardless of grid order.
+        # Its own, page-scoped flag - deliberately NOT
+        # nav_tutorial_learn_step_active (TopView-only) or
+        # nav_tutorial_cook_card_step_active (category_list-only), so this
+        # page's flag can never leak into a page it doesn't belong to.
         context['show_nav_tutorial_hint'] = _nav_tutorial_eligible(self.request)
         context['nav_tutorial_target_slug'] = NAV_TUTORIAL_TARGET_SLUG
         return context
