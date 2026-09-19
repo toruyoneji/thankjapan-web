@@ -315,7 +315,7 @@
         {% url 'category_detail' item.category item.slug as detail_url %}
         <div class="flashcard" onclick="hideGuide(this); openDetailModal('{{ detail_url }}{% if lang_code %}?lang={{ lang_code }}{% endif %}')">
             
-            {% if forloop.first %}
+            {% if not show_nav_tutorial_hint and forloop.first %}
             <div class="tap-guide" id="first-card-guide">
                 <div class="finger-icon">👆</div>
                 <div class="tap-text">

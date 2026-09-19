@@ -336,18 +336,18 @@
     <div class="tutorial-overlay-card">
         <div class="tutorial-overlay-icon">📖</div>
         <div class="tutorial-overlay-text">
-            {% if lang_code == 'ja' %}クリックすると、<br>詳細で学べるよ
-            {% elif lang_code == 'zh-hant' %}點擊後，<br>可以在詳細頁面學習喔
-            {% elif lang_code == 'zh-cn' %}点击后，<br>可以在详情页学习哦
-            {% elif lang_code == 'ko' %}클릭하면,<br>자세히 배울 수 있어요
-            {% elif lang_code == 'de' %}Klick drauf,<br>und lerne die Details!
-            {% elif lang_code == 'fr' %}Cliquez dessus<br>pour en savoir plus !
-            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}¡Haz clic<br>para aprender los detalles!
-            {% elif lang_code == 'it' %}Clicca<br>per saperne di più!
-            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Clique<br>para aprender os detalhes!
-            {% elif lang_code == 'vi' %}Nhấp vào đây<br>để học chi tiết nhé!
-            {% elif lang_code == 'th' %}คลิกเพื่อ<br>เรียนรู้รายละเอียดกันนะ
-            {% else %}Click it to<br>learn the details!{% endif %}
+            {% if lang_code == 'ja' %}つけめんの画像を<br>クリックしてみよう
+            {% elif lang_code == 'zh-hant' %}試著點擊<br>「つけめん」的照片吧
+            {% elif lang_code == 'zh-cn' %}试着点击<br>「つけめん」的照片吧
+            {% elif lang_code == 'ko' %}「つけめん」사진을<br>클릭해 보세요
+            {% elif lang_code == 'de' %}Klick auf das<br>Foto von „つけめん"
+            {% elif lang_code == 'fr' %}Cliquez sur la photo<br>de « つけめん »
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Haz clic en la foto<br>de "つけめん"
+            {% elif lang_code == 'it' %}Clicca sulla foto<br>di "つけめん"
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Clique na foto<br>de "つけめん"
+            {% elif lang_code == 'vi' %}Hãy nhấp vào ảnh<br>"つけめん" nhé
+            {% elif lang_code == 'th' %}ลองคลิกที่รูปภาพ<br>"つけめん" ดูสิ
+            {% else %}Click the<br>"つけめん" photo{% endif %}
         </div>
     </div>
 </div>
@@ -378,9 +378,24 @@
         {% url 'category_detail' item.category item.slug as detail_url %}
         <div class="flashcard" onclick="hideGuide(this); openDetailModal('{{ detail_url }}{% if lang_code %}?lang={{ lang_code }}{% endif %}')">
 
-            {% if forloop.first %}
-                {% if not show_nav_tutorial_hint or item.slug != nav_tutorial_target_slug %}
-                <div class="tap-guide" id="first-card-guide">
+            {% if show_nav_tutorial_hint %}
+                {% if item.slug == nav_tutorial_target_slug %}
+                <!-- Nav-tutorial step 4 - the generic "first card" guide's
+                     slot is swapped to this card instead (found by slug, not
+                     grid position, so it keeps pointing at the right card
+                     regardless of future reordering - see
+                     NAV_TUTORIAL_TARGET_SLUG). Never both at once: while a
+                     visitor is eligible, no card - including the real first
+                     one - gets the plain generic guide below, only this one
+                     does (2026-09-19: previously both could render on
+                     different cards at the same time, which read as
+                     confusing/redundant). Starts hidden; revealed by JS
+                     below only after the explanatory overlay finishes. The
+                     fallback if つけ麺 is ever removed: this whole branch's
+                     slug match simply never fires, so no card gets tagged -
+                     see the DOMContentLoaded handler below, which already
+                     no-ops when this element doesn't exist. -->
+                <div class="tap-guide" id="nav-tutorial-target-guide" style="display: none;">
                     <div class="finger-icon">👆</div>
                     <div class="tap-text">
                         {% if lang_code == 'ja' %}タップ！
@@ -399,19 +414,8 @@
                     </div>
                 </div>
                 {% endif %}
-            {% endif %}
-
-            {% if show_nav_tutorial_hint and item.slug == nav_tutorial_target_slug %}
-            <!-- Nav-tutorial step 4 target card, found by slug (not grid
-                 position) so it keeps pointing at the right card regardless
-                 of future reordering - see NAV_TUTORIAL_TARGET_SLUG. Starts
-                 hidden; revealed by JS below only after the explanatory
-                 overlay finishes, and only because this exact slug matched
-                 an item.object_list actually contains right now (the
-                 fallback if つけ麺 is ever removed: this block simply never
-                 renders, so no card gets tagged and the overlay's own JS
-                 below quietly no-ops). -->
-            <div class="tap-guide" id="nav-tutorial-target-guide" style="display: none;">
+            {% elif forloop.first %}
+            <div class="tap-guide" id="first-card-guide">
                 <div class="finger-icon">👆</div>
                 <div class="tap-text">
                     {% if lang_code == 'ja' %}タップ！

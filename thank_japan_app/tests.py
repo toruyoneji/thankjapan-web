@@ -3809,7 +3809,10 @@ class NavigationTutorialTests(TestCase):
         })
         self.assertEqual(response.status_code, 404)
 
-    # --- 4. no double "Tap!" guide on the target card ---
+    # --- 4. the generic "Tap!" guide's slot is swapped to the target card,
+    # never shown alongside it (2026-09-19: simplified from the original
+    # "suppress only when they coincide" design after the two showing on
+    # different cards at once was reported as confusing) ---
 
     def test_no_double_tap_guide_when_target_word_is_also_the_first_card(self):
         # setUp() created only つけめん so far - it's necessarily
@@ -3819,10 +3822,10 @@ class NavigationTutorialTests(TestCase):
         self.assertEqual(cook_html.count('id="first-card-guide"'), 0)
         self.assertEqual(cook_html.count('id="nav-tutorial-target-guide"'), 1)
 
-    def test_generic_tap_guide_still_shows_when_it_is_a_different_card(self):
-        # A newer word becomes forloop.first instead - the generic guide
-        # must still show on THAT card, since it no longer overlaps with
-        # the nav-tutorial's own target card.
+    def test_generic_tap_guide_is_swapped_away_even_when_it_is_a_different_card(self):
+        # A newer word becomes forloop.first instead - for an eligible
+        # visitor the generic guide must NOT show on it either; only the
+        # つけめん card gets a guide, no matter which card is actually first.
         ThankJapanModel.objects.create(
             name='newer-cook-word', englishname='Newer', jpname='てんぷら',
             kanji_name='天ぷら', katakana_name='テンプラ', category='cook',
@@ -3830,7 +3833,7 @@ class NavigationTutorialTests(TestCase):
         )
         self.client.cookies['tj_has_played'] = '1'
         cook_html = self.client.get(reverse('cookpage')).content.decode()
-        self.assertEqual(cook_html.count('id="first-card-guide"'), 1)
+        self.assertEqual(cook_html.count('id="first-card-guide"'), 0)
         self.assertEqual(cook_html.count('id="nav-tutorial-target-guide"'), 1)
 
     def test_not_eligible_guest_gets_the_plain_generic_guide_only(self):
@@ -3840,6 +3843,41 @@ class NavigationTutorialTests(TestCase):
         cook_html = self.client.get(reverse('cookpage')).content.decode()
         self.assertEqual(cook_html.count('id="first-card-guide"'), 1)
         self.assertNotIn('id="nav-tutorial-target-guide"', cook_html)
+
+    def test_eligible_guest_gets_no_generic_guide_at_all_if_target_word_missing(self):
+        # Swapped-away, not suppressed-then-restored: even with つけ麺 gone
+        # (see the fallback test above), an eligible visitor still gets no
+        # generic guide on whatever card is now first - the slot stays
+        # swapped, it doesn't fall back to the plain behavior.
+        self.tsukemen.delete()
+        self.client.cookies['tj_has_played'] = '1'
+        cook_html = self.client.get(reverse('cookpage')).content.decode()
+        self.assertEqual(cook_html.count('id="first-card-guide"'), 0)
+        self.assertNotIn('id="nav-tutorial-target-guide"', cook_html)
+
+    def test_culture_page_hides_its_own_generic_guide_for_an_eligible_visitor(self):
+        # Culture isn't on the nav-tutorial's own guided path, but an
+        # eligible visitor browsing there too shouldn't see its unrelated
+        # "first card" tap-guide competing with the ongoing tutorial -
+        # simple suppression, no retargeting (nothing on this page is being
+        # taught).
+        ThankJapanModel.objects.create(
+            name='culture-word-1', englishname='Culture Word', jpname='しょっき',
+            kanji_name='織機', katakana_name='ショッキ', category='culture',
+            slug='culture-word-1', description='d', history='h',
+        )
+        self.client.cookies['tj_has_played'] = '1'
+        culture_html = self.client.get(reverse('culturepage')).content.decode()
+        self.assertNotIn('id="first-card-guide"', culture_html)
+
+    def test_culture_page_still_shows_its_generic_guide_for_a_normal_visitor(self):
+        ThankJapanModel.objects.create(
+            name='culture-word-2', englishname='Culture Word', jpname='しょっき',
+            kanji_name='織機', katakana_name='ショッキ', category='culture',
+            slug='culture-word-2', description='d', history='h',
+        )
+        culture_html = self.client.get(reverse('culturepage')).content.decode()
+        self.assertIn('id="first-card-guide"', culture_html)
 
     # --- 5. cookie set only on completion, making it one-time-only ---
 

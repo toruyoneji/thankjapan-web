@@ -3189,6 +3189,13 @@ class CultureView(BGMContextMixin, ListView):
         context['seo_description'] = "Learn about Japanese culture, including festivals, traditional arts, customs, and heritage."
         context['seo_og_title'] = "Japanese Culture - Festivals, Arts & Traditions | ThankJapan"
         context['seo_og_description'] = context['seo_description']
+        # 2026-09-19: culture isn't part of the nav-tutorial's own guided
+        # path (see NAV_TUTORIAL_TARGET_SLUG, which lives in 'cook'), but a
+        # tutorial-eligible visitor browsing here too would otherwise see
+        # this page's own unrelated "first card" tap-guide competing for
+        # attention with the ongoing tutorial - simple suppression only,
+        # no retargeting (unlike cook.html, nothing here should get guided).
+        context['show_nav_tutorial_hint'] = _nav_tutorial_eligible(self.request)
         return context
     
 class CookView(BGMContextMixin, ListView):
