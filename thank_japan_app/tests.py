@@ -1386,6 +1386,55 @@ class WordDetailPageTests(TestCase):
         self.assertGreater(headline_idx, first_btn_idx)
         self.assertLess(headline_idx, second_btn_idx)
 
+    # --- 2026-09-19: badge + button were both display:inline-flex, so they
+    # sat side by side on any viewport wide enough to fit both (tablet and
+    # up) - not an actual @media rule, just ordinary inline wrapping. Fixed
+    # to display:flex (block-level) so the badge always forces its own
+    # line regardless of width; a finger-icon connector links it visually
+    # to the button beneath it. ---
+
+    def test_free_word_detail_page_badge_is_block_level_and_has_a_connector(self):
+        response = self.client.get(reverse('category_detail', kwargs={
+            'category': 'animal', 'slug': 'animal-test-dog',
+        }))
+        body = response.content.decode()
+        style_start = body.index('.practice-cta-headline {')
+        style_end = body.index('.practice-cta-headline-icon {', style_start)
+        badge_css = body[style_start:style_end]
+        # display: flex (block-level), not inline-flex - the actual
+        # property line, not just a substring check, since an explanatory
+        # comment in this same block legitimately mentions 'inline-flex' by
+        # name.
+        self.assertIn('display: flex !important;', badge_css)
+        self.assertNotIn('display: inline-flex', badge_css)
+        self.assertIn('practice-cta-connector', body)
+        headline_idx = body.index('practice-cta-headline"')
+        connector_idx = body.index('practice-cta-connector"')
+        second_btn_idx = body.index('class="game-invite-btn"', body.index('class="game-invite-btn"') + 1)
+        self.assertGreater(connector_idx, headline_idx)
+        self.assertLess(connector_idx, second_btn_idx)
+
+    def test_premium_word_detail_page_badge_is_block_level_and_has_a_connector(self):
+        response = self.client.get(reverse('detail_premium', kwargs={
+            'category': 'TourismEtiquette', 'slug': 'premium-test-word',
+        }))
+        body = response.content.decode()
+        style_start = body.index('.practice-cta-headline {')
+        style_end = body.index('.practice-cta-headline-icon {', style_start)
+        badge_css = body[style_start:style_end]
+        # display: flex (block-level), not inline-flex - the actual
+        # property line, not just a substring check, since an explanatory
+        # comment in this same block legitimately mentions 'inline-flex' by
+        # name.
+        self.assertIn('display: flex !important;', badge_css)
+        self.assertNotIn('display: inline-flex', badge_css)
+        self.assertIn('practice-cta-connector', body)
+        headline_idx = body.index('practice-cta-headline"')
+        connector_idx = body.index('practice-cta-connector"')
+        second_btn_idx = body.index('class="game-invite-btn"', body.index('class="game-invite-btn"') + 1)
+        self.assertGreater(connector_idx, headline_idx)
+        self.assertLess(connector_idx, second_btn_idx)
+
     def test_free_word_detail_page_has_seo_title_and_description(self):
         response = self.client.get(reverse('category_detail', kwargs={
             'category': 'animal', 'slug': 'animal-test-dog',

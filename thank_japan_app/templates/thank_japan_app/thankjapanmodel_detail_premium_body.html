@@ -179,7 +179,12 @@
        word's own detail body) for the full rationale; kept in lockstep
        here so free and premium words look consistent. */
     #detail-page-wrapper .practice-cta-headline {
-        display: inline-flex !important;
+        /* display:flex (not inline-flex) - see the identical comment in
+           thankjapanmodel_detail_body.html for why (2026-09-19: there was
+           no real @media rule causing the tablet/desktop side-by-side
+           layout, just two inline-flex boxes with enough room to sit next
+           to each other). */
+        display: flex !important;
         flex-direction: column !important;
         align-items: center !important;
         text-align: center !important;
@@ -189,7 +194,7 @@
         padding: 20px 30px !important;
         max-width: 340px !important;
         box-sizing: border-box !important;
-        margin: 0 auto 14px !important;
+        margin: 0 auto !important;
         box-shadow: 0 10px 30px rgba(212, 175, 55, 0.35), 0 4px 14px rgba(0, 0, 0, 0.18) !important;
         animation: practice-cta-headline-pulse 2.4s ease-in-out infinite !important;
     }
@@ -206,6 +211,15 @@
         font-weight: 800 !important;
         color: #1a1a1a !important;
         line-height: 1.35 !important;
+    }
+    #detail-page-wrapper .practice-cta-connector {
+        display: flex !important;
+        justify-content: center !important;
+        font-size: 1.8rem !important;
+        line-height: 1 !important;
+        margin: 6px 0 !important;
+        filter: drop-shadow(0 2px 6px rgba(192, 57, 43, 0.4)) !important;
+        animation: practice-cta-headline-bounce 1.2s ease-in-out infinite !important;
     }
     @keyframes practice-cta-headline-bounce {
         0%, 100% { transform: scale(1) translateY(0); }
@@ -767,6 +781,7 @@
                 {% else %}Test your<br>Japanese skills?{% endif %}
             </div>
         </div>
+        <div class="practice-cta-connector" aria-hidden="true">👇</div>
         <a href="{% url 'game_start' %}?lang={{ lang_code }}" class="game-invite-btn">
             {% if lang_code == 'ja' %}🎮 もっと単語を学ぼう
             {% elif lang_code == 'zh-hant' %}🎮 學習更多單字
