@@ -19,6 +19,18 @@
         -webkit-overflow-scrolling: touch;
     }
 
+    {% if nav_tutorial_cook_card_step_active %}
+    /* The 料理 card's finger-hint bubble sits 38px above the card (see
+       .tutorial-hint-bubble below) - with the default 20px top padding
+       that's ~18px past this scroll container's own top edge, so
+       overflow-y:auto silently clips the top of the bubble for a card in
+       the grid's first row (confirmed live on production, 2026-09-19).
+       Only widened when this specific hint is actually being shown. */
+    .category-scroll-area {
+        padding-top: 44px;
+    }
+    {% endif %}
+
     .category-scroll-area::-webkit-scrollbar {
         display: none;
     }
