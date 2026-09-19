@@ -127,27 +127,36 @@
         margin-bottom: 15px !important;
     }
 
-    /* Standalone eye-catcher above the practice CTA box (2026-09-19) -
-       bigger than any tap-icon hint elsewhere on this page, so it reads as
-       the first thing pulling attention toward practicing, before the box
-       itself explains the rules. Text stays ink-colored for legibility;
-       the icon's red drop-shadow carries the "red" accent of the site's
-       white x gold x red palette, matching the tutorial overlays'. */
+    /* Standalone eye-catcher above the bottom "Learn More Words" CTA
+       (2026-09-19) - bigger than any tap-icon hint elsewhere on this page.
+       Deliberately NOT above the top practice-this-word box - see the
+       markup near the "Learn More Words" button further down. Text stays
+       ink-colored for legibility; the icon's red drop-shadow carries the
+       "red" accent of the site's white x gold x red palette, matching the
+       tutorial overlays'. The icon bounces continuously (same shape as the
+       tap-guide finger's own animation elsewhere on the site) so the whole
+       element reads as more alive than a static heading. */
     #detail-page-wrapper .practice-cta-headline {
         text-align: center !important;
-        margin: 30px 0 14px !important;
+        margin: 0 0 14px !important;
     }
     #detail-page-wrapper .practice-cta-headline-icon {
         font-size: 3rem !important;
         line-height: 1 !important;
         margin-bottom: 8px !important;
         filter: drop-shadow(0 3px 8px rgba(192, 57, 43, 0.45)) !important;
+        display: inline-block !important;
+        animation: practice-cta-headline-bounce 1.2s ease-in-out infinite !important;
     }
     #detail-page-wrapper .practice-cta-headline-text {
         font-size: 1.4rem !important;
         font-weight: 800 !important;
         color: #1a1a1a !important;
         line-height: 1.35 !important;
+    }
+    @keyframes practice-cta-headline-bounce {
+        0%, 100% { transform: scale(1) translateY(0); }
+        50% { transform: scale(1.12) translateY(-8px); }
     }
 
     #detail-page-wrapper .game-invite-box {
@@ -338,24 +347,6 @@
             <span class="romaji-text">{{ object.name }}</span>
         </div>
 
-    </div>
-
-    <div class="practice-cta-headline">
-        <div class="practice-cta-headline-icon">🧠</div>
-        <div class="practice-cta-headline-text">
-            {% if lang_code == 'ja' %}あなたの日本語力<br>試してみる？
-            {% elif lang_code == 'zh-hant' %}來測試看看<br>你的日語實力？
-            {% elif lang_code == 'zh-cn' %}来测试看看<br>你的日语实力？
-            {% elif lang_code == 'ko' %}당신의 일본어 실력을<br>시험해 볼까요?
-            {% elif lang_code == 'de' %}Teste deine<br>Japanisch-Kenntnisse?
-            {% elif lang_code == 'fr' %}Testez votre<br>niveau de japonais ?
-            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}¿Probamos tu<br>nivel de japonés?
-            {% elif lang_code == 'it' %}Mettiamo alla prova<br>il tuo giapponese?
-            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Vamos testar seu<br>nível de japonês?
-            {% elif lang_code == 'vi' %}Thử thách trình độ<br>tiếng Nhật của bạn nhé?
-            {% elif lang_code == 'th' %}ลองทดสอบ<br>ความสามารถภาษาญี่ปุ่นของคุณดูไหม?
-            {% else %}Test your<br>Japanese skills?{% endif %}
-        </div>
     </div>
 
     <div class="game-invite-box">
@@ -637,6 +628,23 @@
     </div>
 
     <div style="width: 100%; text-align: center; margin: 40px 0 10px; padding-top: 30px; border-top: 1px solid rgba(212, 175, 55, 0.15);">
+        <div class="practice-cta-headline">
+            <div class="practice-cta-headline-icon">🧠</div>
+            <div class="practice-cta-headline-text">
+                {% if lang_code == 'ja' %}あなたの日本語力<br>試してみる？
+                {% elif lang_code == 'zh-hant' %}來測試看看<br>你的日語實力？
+                {% elif lang_code == 'zh-cn' %}来测试看看<br>你的日语实力？
+                {% elif lang_code == 'ko' %}당신의 일본어 실력을<br>시험해 볼까요?
+                {% elif lang_code == 'de' %}Teste deine<br>Japanisch-Kenntnisse?
+                {% elif lang_code == 'fr' %}Testez votre<br>niveau de japonais ?
+                {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}¿Probamos tu<br>nivel de japonés?
+                {% elif lang_code == 'it' %}Mettiamo alla prova<br>il tuo giapponese?
+                {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Vamos testar seu<br>nível de japonês?
+                {% elif lang_code == 'vi' %}Thử thách trình độ<br>tiếng Nhật của bạn nhé?
+                {% elif lang_code == 'th' %}ลองทดสอบ<br>ความสามารถภาษาญี่ปุ่นของคุณดูไหม?
+                {% else %}Test your<br>Japanese skills?{% endif %}
+            </div>
+        </div>
         <a href="{% url 'game_start' %}?lang={{ lang_code }}" class="game-invite-btn">
             {% if lang_code == 'ja' %}🎮 もっと単語を学ぼう
             {% elif lang_code == 'zh-hant' %}🎮 學習更多單字

@@ -1355,24 +1355,36 @@ class WordDetailPageTests(TestCase):
 
         self.assertEqual(response.status_code, 200)
 
-    def test_free_word_detail_page_has_practice_cta_headline_before_the_box(self):
+    def test_free_word_detail_page_has_practice_cta_headline_above_learn_more(self):
         # 2026-09-19: a standalone "test your Japanese?" eye-catcher, bigger
-        # than any tap-icon hint on the page, added just above the existing
-        # practice-this-word CTA box (which is left untouched).
+        # than any tap-icon hint on the page. Originally placed above the
+        # top practice-this-word CTA box, then moved (per explicit feedback)
+        # to sit above the *bottom* "Learn More Words" button instead - the
+        # top box itself must stay untouched, so this checks the headline
+        # lands strictly between the two "game-invite-btn" links, not
+        # before the first one.
         response = self.client.get(reverse('category_detail', kwargs={
             'category': 'animal', 'slug': 'animal-test-dog',
         }))
         body = response.content.decode()
         self.assertIn('practice-cta-headline', body)
-        self.assertLess(body.index('practice-cta-headline'), body.index('game-invite-box'))
+        first_btn_idx = body.index('class="game-invite-btn"')
+        second_btn_idx = body.index('class="game-invite-btn"', first_btn_idx + 1)
+        headline_idx = body.index('practice-cta-headline"')
+        self.assertGreater(headline_idx, first_btn_idx)
+        self.assertLess(headline_idx, second_btn_idx)
 
-    def test_premium_word_detail_page_has_practice_cta_headline_before_the_box(self):
+    def test_premium_word_detail_page_has_practice_cta_headline_above_learn_more(self):
         response = self.client.get(reverse('detail_premium', kwargs={
             'category': 'TourismEtiquette', 'slug': 'premium-test-word',
         }))
         body = response.content.decode()
         self.assertIn('practice-cta-headline', body)
-        self.assertLess(body.index('practice-cta-headline'), body.index('game-invite-box'))
+        first_btn_idx = body.index('class="game-invite-btn"')
+        second_btn_idx = body.index('class="game-invite-btn"', first_btn_idx + 1)
+        headline_idx = body.index('practice-cta-headline"')
+        self.assertGreater(headline_idx, first_btn_idx)
+        self.assertLess(headline_idx, second_btn_idx)
 
     def test_free_word_detail_page_has_seo_title_and_description(self):
         response = self.client.get(reverse('category_detail', kwargs={
