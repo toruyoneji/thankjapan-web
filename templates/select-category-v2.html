@@ -156,6 +156,19 @@
     .tutorial-hint-target {
         position: relative;
     }
+    /* The 料理 card itself has overflow:hidden (see .cat-card-new below,
+       needed for its own rounded-corner clipping) - a hint bubble nested
+       directly inside it, positioned 38px above via top:-38px, was
+       silently clipped down to a ~3px sliver by that overflow, not by the
+       scroll container (confirmed live on production, 2026-09-19: the
+       .category-scroll-area padding-top fix above was aimed at the wrong
+       ancestor). This wrapper is the actual grid item instead of the card
+       itself, so the bubble - now a sibling of the card, not its child -
+       is never inside anything that clips it. */
+    .tutorial-hint-target-wrap > .cat-card-new {
+        width: 100%;
+        height: 100%;
+    }
     .tutorial-hint-bubble {
         position: absolute;
         top: -38px;
@@ -232,13 +245,14 @@
                 </span>
             </a>
 
-            <a href="{% url 'cookpage' %}?lang={{ lang_code }}" class="cat-card-new{% if nav_tutorial_cook_card_step_active %} tutorial-hint-target{% endif %}">
-                {% if nav_tutorial_cook_card_step_active %}{% include 'includes/tutorial_hint_bubble.html' with hint_id='nav-tutorial-cook-card-hint' hint_hidden=True %}{% endif %}
+            {% if nav_tutorial_cook_card_step_active %}<div class="tutorial-hint-target tutorial-hint-target-wrap">{% endif %}
+            <a href="{% url 'cookpage' %}?lang={{ lang_code }}" class="cat-card-new">
                 <div class="icon-wrapper">🍳</div>
                 <span class="cat-name-new">
                     {% if lang_code == 'ja' %}料理{% elif lang_code == 'ko' %}요리{% elif lang_code == 'zh-cn' %}烹饪{% elif lang_code == 'zh-hant' %}烹飪{% elif lang_code == 'th' %}การทำอาหาร{% elif lang_code == 'vi' %}Nấu ăn{% elif lang_code == 'fr' %}Cuisine{% elif lang_code == 'de' %}Kochen{% elif lang_code == 'it' %}Cucina{% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Cocina{% elif lang_code == 'pt' or lang_code == 'pt-br' %}Culinária{% else %}Cuisine{% endif %}
                 </span>
             </a>
+            {% if nav_tutorial_cook_card_step_active %}{% include 'includes/tutorial_hint_bubble.html' with hint_id='nav-tutorial-cook-card-hint' hint_hidden=True %}</div>{% endif %}
 
             <a href="{% url 'fashionpage' %}?lang={{ lang_code }}" class="cat-card-new">
                 <div class="icon-wrapper">👘</div>
