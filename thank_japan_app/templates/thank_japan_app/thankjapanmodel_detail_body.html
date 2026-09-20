@@ -180,12 +180,20 @@
        "click here" nudges, reused here as a connector rather than a
        target-pointer. display:flex for the same "always its own line"
        reason as the badge above. */
+    /* 2026-09-20: was display:flex (a full-width block, since flex blocks
+       stretch to their parent's width by default) with the transform
+       animation applied directly to that whole wide box - the emoji itself
+       only moved a few px, but the browser had to repaint a viewport-wide
+       region every frame, which read as "the whole screen shaking" rather
+       than a small icon bouncing. width:fit-content shrinks the actual
+       animated box down to just the emoji's own size, so the transform -
+       and the repaint it triggers - stays confined to that small area. */
     #detail-page-wrapper .practice-cta-connector {
-        display: flex !important;
-        justify-content: center !important;
+        display: block !important;
+        width: fit-content !important;
+        margin: 6px auto !important;
         font-size: 1.8rem !important;
         line-height: 1 !important;
-        margin: 6px 0 !important;
         filter: drop-shadow(0 2px 6px rgba(192, 57, 43, 0.4)) !important;
         animation: practice-cta-headline-bounce 1.2s ease-in-out infinite !important;
     }
@@ -684,7 +692,7 @@
                 {% else %}Test your<br>Japanese skills?{% endif %}
             </div>
         </div>
-        <div class="practice-cta-connector" aria-hidden="true">👇</div>
+        <div class="practice-cta-connector" aria-hidden="true">✨</div>
         <a href="{% url 'game_start' %}?lang={{ lang_code }}" class="game-invite-btn">
             {% if lang_code == 'ja' %}🎮 もっと単語を学ぼう
             {% elif lang_code == 'zh-hant' %}🎮 學習更多單字

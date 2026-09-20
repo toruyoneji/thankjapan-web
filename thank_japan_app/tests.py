@@ -1435,6 +1435,40 @@ class WordDetailPageTests(TestCase):
         self.assertGreater(connector_idx, headline_idx)
         self.assertLess(connector_idx, second_btn_idx)
 
+    # --- 2026-09-20: the connector was display:flex, a block that stretches
+    # to its parent's full width by default - animating transform on that
+    # whole wide box repainted a viewport-wide region every frame, which
+    # read as "the whole screen shaking" rather than a small icon bouncing.
+    # width:fit-content confines the animated box (and the icon itself
+    # moved away from 👇, overused elsewhere on the site) to the emoji's own
+    # small size. ---
+
+    def test_free_word_detail_page_connector_animation_is_confined_to_the_icon(self):
+        response = self.client.get(reverse('category_detail', kwargs={
+            'category': 'animal', 'slug': 'animal-test-dog',
+        }))
+        body = response.content.decode()
+        style_start = body.index('.practice-cta-connector {')
+        style_end = body.index('}', style_start)
+        connector_css = body[style_start:style_end]
+        self.assertIn('width: fit-content !important;', connector_css)
+        self.assertNotIn('display: flex !important;', connector_css)
+        self.assertIn('<div class="practice-cta-connector" aria-hidden="true">✨</div>', body)
+        self.assertNotIn('\U0001f447', body)  # 👇 must not remain anywhere near the connector
+
+    def test_premium_word_detail_page_connector_animation_is_confined_to_the_icon(self):
+        response = self.client.get(reverse('detail_premium', kwargs={
+            'category': 'TourismEtiquette', 'slug': 'premium-test-word',
+        }))
+        body = response.content.decode()
+        style_start = body.index('.practice-cta-connector {')
+        style_end = body.index('}', style_start)
+        connector_css = body[style_start:style_end]
+        self.assertIn('width: fit-content !important;', connector_css)
+        self.assertNotIn('display: flex !important;', connector_css)
+        self.assertIn('<div class="practice-cta-connector" aria-hidden="true">✨</div>', body)
+        self.assertNotIn('\U0001f447', body)
+
     def test_free_word_detail_page_has_seo_title_and_description(self):
         response = self.client.get(reverse('category_detail', kwargs={
             'category': 'animal', 'slug': 'animal-test-dog',

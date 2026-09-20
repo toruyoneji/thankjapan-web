@@ -212,12 +212,17 @@
         color: #1a1a1a !important;
         line-height: 1.35 !important;
     }
+    /* 2026-09-20: see the identical comment in thankjapanmodel_detail_body.html
+       (the free word's own detail body) - was a full-width flex block with
+       the bounce transform applied to the whole wide box, which read as
+       "the whole screen shaking" rather than a small icon bouncing.
+       width:fit-content confines the animated box to the emoji itself. */
     #detail-page-wrapper .practice-cta-connector {
-        display: flex !important;
-        justify-content: center !important;
+        display: block !important;
+        width: fit-content !important;
+        margin: 6px auto !important;
         font-size: 1.8rem !important;
         line-height: 1 !important;
-        margin: 6px 0 !important;
         filter: drop-shadow(0 2px 6px rgba(192, 57, 43, 0.4)) !important;
         animation: practice-cta-headline-bounce 1.2s ease-in-out infinite !important;
     }
@@ -781,7 +786,7 @@
                 {% else %}Test your<br>Japanese skills?{% endif %}
             </div>
         </div>
-        <div class="practice-cta-connector" aria-hidden="true">👇</div>
+        <div class="practice-cta-connector" aria-hidden="true">✨</div>
         <a href="{% url 'game_start' %}?lang={{ lang_code }}" class="game-invite-btn">
             {% if lang_code == 'ja' %}🎮 もっと単語を学ぼう
             {% elif lang_code == 'zh-hant' %}🎮 學習更多單字
