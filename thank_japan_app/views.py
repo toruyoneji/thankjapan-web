@@ -1751,11 +1751,20 @@ def _nav_tutorial_eligible(request):
     """True for a guest who has played the game at least once but hasn't
     seen the navigation-exploration tutorial yet - the same guest-only,
     one-time-only shape as first_taste's own gate, just inverted (this one
-    needs has_played=1 instead of guarding against it)."""
+    needs has_played=1 instead of guarding against it).
+
+    2026-09-20: also excludes a guest whose first_taste tutorial just
+    finished in this same browser session (see tj_first_taste_just_completed,
+    set by game_result) - tj_has_played flips to '1' the moment first_taste
+    is *started*, not completed, so without this a guest landing back on the
+    top page right after finishing the ramen tutorial would immediately
+    qualify for this one too and get walked straight into a second,
+    back-to-back tutorial. Deferred to their next visit instead."""
     return (
         not request.user.is_authenticated
         and request.COOKIES.get('tj_has_played') == '1'
         and request.COOKIES.get('tj_nav_tutorial_seen') != '1'
+        and request.COOKIES.get('tj_first_taste_just_completed') != '1'
     )
 
 
@@ -2843,7 +2852,7 @@ def game_result(request):
     if show_review_prompt:
         Profile.objects.filter(pk=request.user.profile.pk).update(review_prompt_shown=True)
 
-    return render(request, 'thank_japan_app/game_result-v2.html', {
+    response = render(request, 'thank_japan_app/game_result-v2.html', {
         'lang_code': lang_code,
         'player': player,
         'score': score,
@@ -2868,6 +2877,20 @@ def game_result(request):
         'unlocked_achievements': [a['code'] for a in unlocked_achievements],
         'show_review_prompt': show_review_prompt,
     })
+
+    # Reaching this result screen for first_taste means all 3 questions were
+    # actually answered (not just started) - see _nav_tutorial_eligible,
+    # which this cookie defers until the guest's next visit so the nav
+    # tutorial (see NAV_TUTORIAL_TARGET_SLUG) never starts back-to-back with
+    # the one that just finished. No max_age: a true browser-session cookie,
+    # gone once the browser itself is closed (2026-09-20).
+    if difficulty == 'first_taste':
+        response.set_cookie(
+            'tj_first_taste_just_completed', '1',
+            httponly=True, samesite='Lax', secure=request.is_secure(),
+        )
+
+    return response
     
     
                                 

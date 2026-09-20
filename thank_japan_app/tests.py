@@ -3890,6 +3890,72 @@ class NavigationTutorialTests(TestCase):
         response = self.client.get(reverse('toppage'))
         self.assertFalse(response.context['nav_tutorial_learn_step_active'])
 
+    # --- 2026-09-20: must never start back-to-back with first_taste in the
+    # same browser session - tj_has_played flips to '1' the moment
+    # first_taste is *started* (game_restart), not completed, so without a
+    # separate signal a guest landing back on the top page right after
+    # finishing the ramen tutorial would immediately qualify for this one
+    # too. ---
+
+    def test_hint_hidden_right_after_first_taste_completes_same_session(self):
+        self.client.cookies['tj_has_played'] = '1'
+        self.client.cookies['tj_first_taste_just_completed'] = '1'
+        response = self.client.get(reverse('toppage'))
+        self.assertFalse(response.context['nav_tutorial_learn_step_active'])
+
+    def test_hint_shown_again_once_the_deferral_cookie_is_gone(self):
+        # Simulates the guest's *next* visit: tj_has_played (long-lived)
+        # survives, but tj_first_taste_just_completed (a true browser-
+        # session cookie, no max_age - see game_result) does not.
+        self.client.cookies['tj_has_played'] = '1'
+        response = self.client.get(reverse('toppage'))
+        self.assertTrue(response.context['nav_tutorial_learn_step_active'])
+
+    def test_playing_first_taste_end_to_end_defers_nav_tutorial_same_session(self):
+        # Full integration: actually play first_taste to completion (not
+        # just simulate the cookies) and confirm game_result both sets the
+        # deferral cookie as a true session cookie (no Max-Age/Expires in
+        # the Set-Cookie header) and that it actually takes effect on the
+        # very next request in this same client/cookie-jar.
+        ThankJapanModel.objects.filter(jpname='いぬ').delete()
+        ThankJapanModel.objects.create(
+            name='raamen-e2e', englishname='Ramen', jpname='らーめん',
+            kanji_name='', katakana_name='ラーメン', category='cook',
+            slug='raamen-e2e', description='d', history='h',
+        )
+        ThankJapanModel.objects.create(
+            name='inu-e2e', englishname='Dog', jpname='いぬ',
+            kanji_name='犬', katakana_name='イヌ', category='animal',
+            slug='inu-e2e', description='d', history='h',
+        )
+        ThankJapanModel.objects.create(
+            name='q3-pool-e2e', englishname='Cat', jpname='ねこ',
+            kanji_name='猫', katakana_name='ネコ', category='animal',
+            slug='q3-pool-e2e', description='d', history='h',
+        )
+
+        self.client.get(reverse('game_restart'), {'difficulty': 'first_taste'})
+        self.client.get(reverse('game_play'))
+        for _ in range(3):
+            data = json.loads(self.client.get(reverse('game_question_data')).content)
+            if data.get('game_over'):
+                break
+            self.client.post(
+                reverse('game_submit_answer'),
+                data=json.dumps({'tiles': data['tiles'], 'seconds_left': 60}),
+                content_type='application/json',
+            )
+
+        result_response = self.client.get(reverse('game_result'))
+        self.assertEqual(result_response.cookies['tj_first_taste_just_completed'].value, '1')
+        # No max_age/expires -> a true browser-session cookie (Django omits
+        # both the Max-Age and expires attributes entirely in that case).
+        self.assertEqual(result_response.cookies['tj_first_taste_just_completed']['max-age'], '')
+        self.assertEqual(result_response.cookies['tj_first_taste_just_completed']['expires'], '')
+
+        top_response = self.client.get(reverse('toppage'))
+        self.assertFalse(top_response.context['nav_tutorial_learn_step_active'])
+
     def test_hint_hidden_for_a_logged_in_user_even_with_has_played(self):
         User.objects.create_user(username='nav_tutorial_login_test', password='pass12345')
         self.client.login(username='nav_tutorial_login_test', password='pass12345')
