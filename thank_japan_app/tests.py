@@ -1453,7 +1453,7 @@ class WordDetailPageTests(TestCase):
         connector_css = body[style_start:style_end]
         self.assertIn('width: fit-content !important;', connector_css)
         self.assertNotIn('display: flex !important;', connector_css)
-        self.assertIn('<div class="practice-cta-connector" aria-hidden="true">✨</div>', body)
+        self.assertIn('<div class="practice-cta-connector" aria-hidden="true">🔽</div>', body)
         self.assertNotIn('\U0001f447', body)  # 👇 must not remain anywhere near the connector
 
     def test_premium_word_detail_page_connector_animation_is_confined_to_the_icon(self):
@@ -1466,7 +1466,7 @@ class WordDetailPageTests(TestCase):
         connector_css = body[style_start:style_end]
         self.assertIn('width: fit-content !important;', connector_css)
         self.assertNotIn('display: flex !important;', connector_css)
-        self.assertIn('<div class="practice-cta-connector" aria-hidden="true">✨</div>', body)
+        self.assertIn('<div class="practice-cta-connector" aria-hidden="true">🔽</div>', body)
         self.assertNotIn('\U0001f447', body)
 
     def test_free_word_detail_page_has_seo_title_and_description(self):
