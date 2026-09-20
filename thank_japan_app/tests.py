@@ -1404,6 +1404,32 @@ class WordDetailPageTests(TestCase):
             self.assertIn(f'rel="preconnect" href="https://{host}"', body)
         self.assertNotIn('bootstrap-icons', body)
 
+    # --- 2026-09-20: the bottom "Learn More Words" CTA was retitled to a
+    # more eye-catching "What's your Japanese IQ?" and given its own
+    # continuous bounce (layered on the shared pulse every game-invite-btn
+    # already has) - the top practice-this-word button is untouched. ---
+
+    def test_free_word_detail_page_bottom_cta_is_the_iq_challenge(self):
+        response = self.client.get(reverse('category_detail', kwargs={
+            'category': 'animal', 'slug': 'animal-test-dog',
+        }))
+        body = response.content.decode()
+        self.assertIn('game-invite-btn game-invite-btn-iq', body)
+        self.assertIn("What's Your Japanese IQ?", body)
+        self.assertNotIn('Learn More Words', body)
+        style_start = body.index('.game-invite-btn.game-invite-btn-iq {')
+        style_end = body.index('}', style_start)
+        self.assertIn('game-invite-btn-iq-bounce', body[style_start:style_end])
+
+    def test_premium_word_detail_page_bottom_cta_is_the_iq_challenge(self):
+        response = self.client.get(reverse('detail_premium', kwargs={
+            'category': 'TourismEtiquette', 'slug': 'premium-test-word',
+        }))
+        body = response.content.decode()
+        self.assertIn('game-invite-btn game-invite-btn-iq', body)
+        self.assertIn("What's Your Japanese IQ?", body)
+        self.assertNotIn('Learn More Words', body)
+
     def test_free_word_detail_page_has_practice_cta_headline_above_learn_more(self):
         # 2026-09-19: a standalone "test your Japanese?" eye-catcher, bigger
         # than any tap-icon hint on the page. Originally placed above the
@@ -1417,8 +1443,8 @@ class WordDetailPageTests(TestCase):
         }))
         body = response.content.decode()
         self.assertIn('practice-cta-headline', body)
-        first_btn_idx = body.index('class="game-invite-btn"')
-        second_btn_idx = body.index('class="game-invite-btn"', first_btn_idx + 1)
+        first_btn_idx = body.index('class="game-invite-btn')
+        second_btn_idx = body.index('class="game-invite-btn', first_btn_idx + 1)
         headline_idx = body.index('practice-cta-headline"')
         self.assertGreater(headline_idx, first_btn_idx)
         self.assertLess(headline_idx, second_btn_idx)
@@ -1429,8 +1455,8 @@ class WordDetailPageTests(TestCase):
         }))
         body = response.content.decode()
         self.assertIn('practice-cta-headline', body)
-        first_btn_idx = body.index('class="game-invite-btn"')
-        second_btn_idx = body.index('class="game-invite-btn"', first_btn_idx + 1)
+        first_btn_idx = body.index('class="game-invite-btn')
+        second_btn_idx = body.index('class="game-invite-btn', first_btn_idx + 1)
         headline_idx = body.index('practice-cta-headline"')
         self.assertGreater(headline_idx, first_btn_idx)
         self.assertLess(headline_idx, second_btn_idx)
@@ -1459,7 +1485,7 @@ class WordDetailPageTests(TestCase):
         self.assertIn('practice-cta-connector', body)
         headline_idx = body.index('practice-cta-headline"')
         connector_idx = body.index('practice-cta-connector"')
-        second_btn_idx = body.index('class="game-invite-btn"', body.index('class="game-invite-btn"') + 1)
+        second_btn_idx = body.index('class="game-invite-btn', body.index('class="game-invite-btn') + 1)
         self.assertGreater(connector_idx, headline_idx)
         self.assertLess(connector_idx, second_btn_idx)
 
@@ -1480,7 +1506,7 @@ class WordDetailPageTests(TestCase):
         self.assertIn('practice-cta-connector', body)
         headline_idx = body.index('practice-cta-headline"')
         connector_idx = body.index('practice-cta-connector"')
-        second_btn_idx = body.index('class="game-invite-btn"', body.index('class="game-invite-btn"') + 1)
+        second_btn_idx = body.index('class="game-invite-btn', body.index('class="game-invite-btn') + 1)
         self.assertGreater(connector_idx, headline_idx)
         self.assertLess(connector_idx, second_btn_idx)
 

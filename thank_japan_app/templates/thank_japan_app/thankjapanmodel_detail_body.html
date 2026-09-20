@@ -127,10 +127,10 @@
         margin-bottom: 15px !important;
     }
 
-    /* Standalone eye-catcher above the bottom "Learn More Words" CTA
+    /* Standalone eye-catcher above the bottom "What's Your Japanese IQ?" CTA
        (2026-09-19) - bigger than any tap-icon hint elsewhere on this page.
        Deliberately NOT above the top practice-this-word box - see the
-       markup near the "Learn More Words" button further down. Rendered as
+       markup near the "What's Your Japanese IQ?" button further down. Rendered as
        an independent gold-bordered badge card (2026-09-19 follow-up: text
        alone wasn't prominent enough) - the badge's own box-shadow pulses
        while the icon inside it separately bounces, so the whole thing reads
@@ -275,6 +275,20 @@
         0% { transform: scale(1); filter: brightness(1); }
         50% { transform: scale(1.15); filter: brightness(1.5); }
         100% { transform: scale(1); filter: brightness(1); }
+    }
+
+    /* 2026-09-20: the bottom "What's your Japanese IQ?" CTA gets its own
+       continuous bounce layered on top of the shared pulse above (multiple
+       comma-separated animations on one element is valid CSS) - the base
+       .game-invite-btn pulse alone (box-shadow only) reads as fairly
+       subtle; this adds real motion so this specific button stands out
+       more than the top practice-this-word one. */
+    #detail-page-wrapper .game-invite-btn.game-invite-btn-iq {
+        animation: game-invite-btn-pulse 2.4s ease-in-out infinite, game-invite-btn-iq-bounce 1.4s ease-in-out infinite !important;
+    }
+    @keyframes game-invite-btn-iq-bounce {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-6px); }
     }
 
     #detail-page-wrapper .twitter-share-btn-white {
@@ -704,19 +718,19 @@
             </div>
         </div>
         <div class="practice-cta-connector" aria-hidden="true">🔽</div>
-        <a href="{% url 'game_start' %}?lang={{ lang_code }}" class="game-invite-btn">
-            {% if lang_code == 'ja' %}🎮 もっと単語を学ぼう
-            {% elif lang_code == 'zh-hant' %}🎮 學習更多單字
-            {% elif lang_code == 'zh-cn' %}🎮 学习更多单词
-            {% elif lang_code == 'de' %}🎮 Mehr Wörter lernen
-            {% elif lang_code == 'fr' %}🎮 Apprendre plus de mots
-            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}🎮 Aprender más palabras
-            {% elif lang_code == 'it' %}🎮 Impara altre parole
-            {% elif lang_code == 'ko' %}🎮 더 많은 단어 배우기
-            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}🎮 Aprender mais palavras
-            {% elif lang_code == 'vi' %}🎮 Học thêm từ vựng
-            {% elif lang_code == 'th' %}🎮 เรียนรู้คำศัพท์เพิ่มเติม
-            {% else %}🎮 Learn More Words
+        <a href="{% url 'game_start' %}?lang={{ lang_code }}" class="game-invite-btn game-invite-btn-iq">
+            {% if lang_code == 'ja' %}🎮 あなたの日本語のIQはどれくらい？
+            {% elif lang_code == 'zh-hant' %}🎮 你的日語IQ有多少？
+            {% elif lang_code == 'zh-cn' %}🎮 你的日语IQ有多少？
+            {% elif lang_code == 'de' %}🎮 Wie hoch ist dein Japanisch-IQ?
+            {% elif lang_code == 'fr' %}🎮 Quel est ton QI en japonais ?
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}🎮 ¿Cuál es tu CI de japonés?
+            {% elif lang_code == 'it' %}🎮 Qual è il tuo QI in giapponese?
+            {% elif lang_code == 'ko' %}🎮 당신의 일본어 IQ는 얼마나 될까요?
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}🎮 Qual é o seu QI em japonês?
+            {% elif lang_code == 'vi' %}🎮 Chỉ số IQ tiếng Nhật của bạn là bao nhiêu?
+            {% elif lang_code == 'th' %}🎮 IQ ภาษาญี่ปุ่นของคุณอยู่ระดับไหน?
+            {% else %}🎮 What's Your Japanese IQ?
             {% endif %}
         </a>
     </div>
@@ -823,7 +837,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <!-- One-shot attention flourish on the top "practice this word" CTA, ~1.8s
      after the page loads. Scoped to .game-invite-box specifically so it
-     never touches the separate "Learn More Words" CTA further down the
+     never touches the separate "What's Your Japanese IQ?" CTA further down the
      page. -->
 <script>
 document.addEventListener('DOMContentLoaded', function() {
