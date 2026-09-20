@@ -341,7 +341,18 @@
 
     <div class="image-wrapper">
         {% if object.image and object.image.url %}
-            <img class="detailgazou" src="{{ object.image.url }}" alt="{{ object.englishname }}">
+            {# width/height below are a reserved-aspect-ratio hint (LCP/CLS,
+               2026-09-20), not this specific photo's real intrinsic size -
+               individual word images aren't stored with their own
+               dimensions, so getting the exact figure per photo would need
+               a Cloudinary API call on every page render (bad for LCP
+               itself). 900x500 matches the ratio most uploaded photos
+               already use; object-fit:cover (unchanged, see .detailgazou
+               above) crops to fill regardless, exactly as it already did
+               before this change - this only gives the browser a
+               same-shaped box to reserve before the real photo arrives,
+               instead of zero. #}
+            <img class="detailgazou" src="{{ object.image.url }}" alt="{{ object.englishname }}" width="900" height="500" fetchpriority="high">
         {% endif %}
     </div>
 

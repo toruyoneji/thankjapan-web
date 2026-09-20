@@ -1355,6 +1355,55 @@ class WordDetailPageTests(TestCase):
 
         self.assertEqual(response.status_code, 200)
 
+    # --- 2026-09-20: LCP investigation (GSC flagged 2,877 mobile URLs over
+    # 2.5s) - the hero photo itself is fetchpriority="high" with a reserved
+    # aspect-ratio box, and both variants of this page load through
+    # css.html, which now front-loads preconnect hints for every render-
+    # blocking cross-origin host instead of paying DNS+TCP+TLS serially. ---
+
+    def test_free_word_detail_page_hero_image_has_lcp_hints(self):
+        # Both hints only render inside the {% if object.image %} block -
+        # setUp()'s fixture has no image, so give this one its own.
+        self.word.image = 'thankjapan/images/dummy_test_asset'
+        self.word.save()
+        response = self.client.get(reverse('category_detail', kwargs={
+            'category': 'animal', 'slug': 'animal-test-dog',
+        }))
+        body = response.content.decode()
+        self.assertIn('fetchpriority="high"', body)
+        self.assertIn('width="900" height="500"', body)
+
+    def test_premium_word_detail_page_hero_image_has_lcp_hints(self):
+        self.premium_word.image = 'thankjapan/premium/dummy_test_asset'
+        self.premium_word.save()
+        response = self.client.get(reverse('detail_premium', kwargs={
+            'category': 'TourismEtiquette', 'slug': 'premium-test-word',
+        }))
+        body = response.content.decode()
+        self.assertIn('fetchpriority="high"', body)
+        self.assertIn('width="900" height="500"', body)
+
+    def test_free_word_detail_page_has_preconnect_hints_and_no_bootstrap_icons(self):
+        response = self.client.get(reverse('category_detail', kwargs={
+            'category': 'animal', 'slug': 'animal-test-dog',
+        }))
+        body = response.content.decode()
+        for host in ['cdn.jsdelivr.net', 'cdnjs.cloudflare.com', 'fonts.googleapis.com', 'fonts.gstatic.com', 'res.cloudinary.com']:
+            self.assertIn(f'rel="preconnect" href="https://{host}"', body)
+        self.assertNotIn('bootstrap-icons', body)
+        # Bootstrap CSS itself and Font Awesome are untouched this round.
+        self.assertIn('bootstrap@5.3.0', body)
+        self.assertIn('font-awesome', body)
+
+    def test_premium_word_detail_page_has_preconnect_hints_and_no_bootstrap_icons(self):
+        response = self.client.get(reverse('detail_premium', kwargs={
+            'category': 'TourismEtiquette', 'slug': 'premium-test-word',
+        }))
+        body = response.content.decode()
+        for host in ['cdn.jsdelivr.net', 'cdnjs.cloudflare.com', 'fonts.googleapis.com', 'fonts.gstatic.com', 'res.cloudinary.com']:
+            self.assertIn(f'rel="preconnect" href="https://{host}"', body)
+        self.assertNotIn('bootstrap-icons', body)
+
     def test_free_word_detail_page_has_practice_cta_headline_above_learn_more(self):
         # 2026-09-19: a standalone "test your Japanese?" eye-catcher, bigger
         # than any tap-icon hint on the page. Originally placed above the

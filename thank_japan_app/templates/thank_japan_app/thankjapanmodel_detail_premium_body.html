@@ -353,7 +353,14 @@
         {% endif %}
 
         {% if object.image %}
-            <img class="detailgazou" src="{{ object.image.url }}" alt="{{ object.englishname }}">
+            {# width/height are a reserved-aspect-ratio hint (LCP, 2026-09-20)
+               - see the identical comment in thankjapanmodel_detail_body.html
+               for why this is 900x500 rather than the real per-photo size.
+               CSS already gives this element a fixed pixel height
+               (#premium-auth-container .detailgazou above), so these mostly
+               just help the preload scanner/priority hint below, not CLS
+               here specifically. #}
+            <img class="detailgazou" src="{{ object.image.url }}" alt="{{ object.englishname }}" width="900" height="500" fetchpriority="high">
         {% endif %}
     </div>
 
