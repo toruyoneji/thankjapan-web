@@ -1372,6 +1372,15 @@ class WordDetailPageTests(TestCase):
         body = response.content.decode()
         self.assertIn('fetchpriority="high"', body)
         self.assertIn('width="900" height="500"', body)
+        # 2026-09-20 regression: the explanatory note above this <img> was
+        # originally written as a multi-line {# ... #} comment - Django's
+        # docs are explicit that this tag is single-line only, so spanning
+        # multiple lines makes it render as literal text instead of being
+        # stripped (confirmed: {% comment %}...{% endcomment %} is the only
+        # tag that supports multi-line content). Reported live on
+        # production as visible junk text above the hero photo.
+        self.assertNotIn('reserved-aspect-ratio', body)
+        self.assertNotIn('{#', body)
 
     def test_premium_word_detail_page_hero_image_has_lcp_hints(self):
         self.premium_word.image = 'thankjapan/premium/dummy_test_asset'
@@ -1381,6 +1390,8 @@ class WordDetailPageTests(TestCase):
         }))
         body = response.content.decode()
         self.assertIn('fetchpriority="high"', body)
+        self.assertNotIn('reserved-aspect-ratio', body)
+        self.assertNotIn('{#', body)
         self.assertIn('width="900" height="500"', body)
 
     def test_free_word_detail_page_has_preconnect_hints_and_no_bootstrap_icons(self):
