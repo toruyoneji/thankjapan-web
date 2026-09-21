@@ -210,6 +210,14 @@ SECURE_HSTS_SECONDS = 3600
 SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 SECURE_HSTS_PRELOAD = True
 SECURE_CROSS_ORIGIN_OPENER_POLICY = 'same-origin-allow-popups'
+# SECURE_SSL_REDIRECT already forces every request onto HTTPS, so cookies
+# never legitimately travel over plain HTTP - marking them Secure closes the
+# gap where a network sniffer could otherwise intercept a session/CSRF
+# cookie if a client ever spoke HTTP directly to this origin (e.g. bypassing
+# the redirect), same defense-in-depth flagged by `manage.py check --deploy`
+# (security.W012 / security.W016).
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
 
 
 AUTHENTICATION_BACKENDS = [
