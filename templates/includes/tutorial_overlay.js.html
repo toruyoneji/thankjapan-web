@@ -4,6 +4,17 @@ tutorial_overlay.css.html), holds it for holdMs, fades it out, then calls
 callback once the fade-out transition (0.3s, matching the CSS) finishes.
 Safe to call even if the element isn't on the page (calls callback
 immediately) so callers don't need to guard every use.
+
+playTutorialOverlayAuto(id, callback, opts) - 2026-09-22, added alongside
+the function above (not replacing it) after user feedback that translated
+overlay text (esp. de/fr/it) was being cut off before it could be read at
+the old fixed 2200/2500ms holds. Deliberately a SEPARATE function rather
+than changing playTutorialOverlay itself: only 6 call sites (4 flagged
+"highest priority" + 2 "medium priority" from that review) were migrated to
+this; the ~9 other existing playTutorialOverlay call sites ("low priority"
+in that review - short imperative nav hints like "Click 'Learn' below")
+were deliberately left untouched and keep their original fixed-ms timing
+exactly as before, with zero risk of this change affecting them.
 {% endcomment %}
 <script>
 function playTutorialOverlay(id, holdMs, callback) {
@@ -16,5 +27,64 @@ function playTutorialOverlay(id, holdMs, callback) {
             if (callback) callback();
         }, 300);
     }, holdMs);
+}
+
+// Read time floor/rate: short imperative phrases already read fine within
+// ~2.5s, but full sentences (particularly in de/fr/it, which commonly run
+// 20-35% longer than the English/ja text these holds were originally tuned
+// against) need materially more. 55ms/char sits in the middle of the
+// 50-60ms/char range - reading-speed literature puts comfortable silent
+// reading at roughly that pace per character for a short on-screen message
+// glanced at mid-task, not a leisurely read.
+var TUTORIAL_MIN_HOLD_MS = 2500;
+var TUTORIAL_MS_PER_CHAR = 55;
+
+function computeTutorialHoldMs(el) {
+    // .tutorial-overlay-text holds the actual message in every overlay
+    // this targets; falling back to el itself keeps this safe if a future
+    // caller passes a differently-structured element.
+    var textEl = el.querySelector('.tutorial-overlay-text') || el;
+    // Every message here line-wraps with literal <br> tags rather than
+    // spaces (e.g. "...ThankJapan"<br>logo above..."), and <br> contributes
+    // nothing to .textContent - reading it directly would silently glue
+    // adjacent lines together ("anytimeto") and undercount real length.
+    // Clone off-DOM and swap each <br> for a space first so the count
+    // reflects what's actually read, not just what's actually text nodes.
+    var clone = textEl.cloneNode(true);
+    var brs = clone.querySelectorAll('br');
+    for (var i = 0; i < brs.length; i++) {
+        brs[i].replaceWith(' ');
+    }
+    var text = (clone.textContent || '').replace(/\s+/g, ' ').trim();
+    return Math.max(TUTORIAL_MIN_HOLD_MS, text.length * TUTORIAL_MS_PER_CHAR);
+}
+
+function playTutorialOverlayAuto(id, callback, opts) {
+    var el = document.getElementById(id);
+    if (!el) { if (callback) callback(); return; }
+    var holdMs = computeTutorialHoldMs(el);
+    var dismissed = false;
+    var timeoutId = null;
+
+    function finish() {
+        if (dismissed) return;
+        dismissed = true;
+        if (timeoutId) clearTimeout(timeoutId);
+        el.classList.remove('show');
+        setTimeout(function () {
+            if (callback) callback();
+        }, 300);
+    }
+
+    el.classList.add('show');
+    timeoutId = setTimeout(finish, holdMs);
+
+    if (opts && opts.dismissible) {
+        // { once: true } means a stray extra click after finish() has
+        // already fired (e.g. a fast double-tap) is simply a no-op rather
+        // than needing its own guard.
+        el.style.cursor = 'pointer';
+        el.addEventListener('click', finish, { once: true });
+    }
 }
 </script>

@@ -3982,9 +3982,14 @@ class NavigationTutorialTests(TestCase):
         self.assertIn('id="tutorial-overlay-cook-modal-open"', cook_html)
         # The JS must play this overlay (with a callback) rather than build
         # the hint bubble immediately - otherwise it isn't actually gating
-        # anything and the two would appear together.
-        self.assertIn("playTutorialOverlay('tutorial-overlay-cook-modal-open', 2200, function () {", cook_html)
-        overlay_call_index = cook_html.index("playTutorialOverlay('tutorial-overlay-cook-modal-open'")
+        # anything and the two would appear together. 2026-09-22: migrated
+        # to playTutorialOverlayAuto (dynamic, text-length-based hold time +
+        # tap-to-dismiss) - see tutorial_overlay.js.html - so the fixed
+        # "2200" literal is gone; the gating relationship this test actually
+        # cares about (overlay call precedes the hint-bubble build) is
+        # unchanged.
+        self.assertIn("playTutorialOverlayAuto('tutorial-overlay-cook-modal-open', function () {", cook_html)
+        overlay_call_index = cook_html.index("playTutorialOverlayAuto('tutorial-overlay-cook-modal-open'")
         hint_build_index = cook_html.index('navTutorialModalHintCaption()', overlay_call_index)
         self.assertGreater(hint_build_index, overlay_call_index)
 

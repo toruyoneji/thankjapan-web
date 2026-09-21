@@ -70,4 +70,15 @@ fully commands attention while shown.
     color: #2a1d13;
     line-height: 1.6;
 }
+/* Only present on overlays passed {dismissible:true} to
+   playTutorialOverlayAuto (tutorial_overlay.js.html) - a small affordance
+   so the tap-to-skip behavior that mechanism adds is actually discoverable,
+   not just a hidden shortcut. */
+.tutorial-overlay-tap-hint {
+    margin-top: 10px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: #8a7862;
+    letter-spacing: 0.5px;
+}
 </style>

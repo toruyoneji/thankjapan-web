@@ -475,6 +475,20 @@
             {% elif lang_code == 'th' %}แตะโลโก้ "ThankJapan"<br>ด้านบนได้ทุกเมื่อ<br>เพื่อกลับไปหน้าแรก!
             {% else %}Tap the "ThankJapan"<br>logo above anytime<br>to return to<br>the top page!{% endif %}
         </div>
+        <div class="tutorial-overlay-tap-hint">
+            {% if lang_code == 'ja' %}タップで次へ
+            {% elif lang_code == 'zh-hant' %}點擊繼續
+            {% elif lang_code == 'zh-cn' %}点击继续
+            {% elif lang_code == 'ko' %}탭하여 계속
+            {% elif lang_code == 'de' %}Tippen zum Fortfahren
+            {% elif lang_code == 'fr' %}Toucher pour continuer
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Toca para continuar
+            {% elif lang_code == 'it' %}Tocca per continuare
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Toque para continuar
+            {% elif lang_code == 'vi' %}Chạm để tiếp tục
+            {% elif lang_code == 'th' %}แตะเพื่อดำเนินการต่อ
+            {% else %}Tap to continue{% endif %}
+        </div>
     </div>
 </div>
 <div class="tutorial-overlay-backdrop" id="tutorial-overlay-start">
@@ -512,6 +526,20 @@
             {% elif lang_code == 'vi' %}Hướng dẫn trò chơi<br>đến đây là kết thúc!<br><br>Hãy thử trả lời<br>câu hỏi hôm nay nhé!
             {% elif lang_code == 'th' %}บทแนะนำเกม<br>จบเพียงเท่านี้!<br><br>มาลองตอบ<br>คำถามประจำวันนี้ด้วยนะ!
             {% else %}That's the end<br>of the tutorial!<br><br>Try today's<br>Daily Question too!{% endif %}
+        </div>
+        <div class="tutorial-overlay-tap-hint">
+            {% if lang_code == 'ja' %}タップで次へ
+            {% elif lang_code == 'zh-hant' %}點擊繼續
+            {% elif lang_code == 'zh-cn' %}点击继续
+            {% elif lang_code == 'ko' %}탭하여 계속
+            {% elif lang_code == 'de' %}Tippen zum Fortfahren
+            {% elif lang_code == 'fr' %}Toucher pour continuer
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Toca para continuar
+            {% elif lang_code == 'it' %}Tocca per continuare
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Toque para continuar
+            {% elif lang_code == 'vi' %}Chạm để tiếp tục
+            {% elif lang_code == 'th' %}แตะเพื่อดำเนินการต่อ
+            {% else %}Tap to continue{% endif %}
         </div>
     </div>
 </div>
@@ -553,10 +581,16 @@ document.addEventListener('DOMContentLoaded', function () {
         setTimeout(function () {
             var logoPointer = document.getElementById('logo-pointer-hint');
             if (logoPointer) logoPointer.classList.add('show');
-            playTutorialOverlay('tutorial-overlay-logo-hint', 2500, function () {
+            // Both cards read time is now computed from their actual
+            // rendered text (see computeTutorialHoldMs in
+            // tutorial_overlay.js.html) instead of a fixed 2500ms - longer
+            // translations (de/fr/it especially) get proportionally more
+            // time - and dismissible:true lets an impatient/fast reader tap
+            // the card to advance immediately instead of waiting it out.
+            playTutorialOverlayAuto('tutorial-overlay-logo-hint', function () {
                 if (logoPointer) logoPointer.classList.remove('show');
-                playTutorialOverlay('tutorial-overlay-end', 2500);
-            });
+                playTutorialOverlayAuto('tutorial-overlay-end', function () {}, { dismissible: true });
+            }, { dismissible: true });
         }, 1000);
     }
     // Same one-shot sessionStorage handoff as above, for the separate

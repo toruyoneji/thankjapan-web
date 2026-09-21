@@ -32,7 +32,7 @@
         {% else %}Subscription Canceled{% endif %}
     </h2>
 
-    <p>
+    <p class="thanks-readtime-text">
         {% if lang_code == 'ja' %}フリープランへの切り替えが完了しました。
         {% elif lang_code == 'ko' %}무료 플랜으로 전환되었습니다.
         {% elif lang_code == 'it' %}Sei passato con successo al Piano Gratuito.
@@ -48,7 +48,7 @@
     </p>
 
     
-    <p style="font-size: 0.9rem; color: var(--ink-soft); margin-top: 20px; opacity: 0.8;">
+    <p class="thanks-readtime-text" style="font-size: 0.9rem; color: var(--ink-soft); margin-top: 20px; opacity: 0.8;">
         {% if lang_code == 'ja' %}数秒後にホーム画面へ戻ります...
         {% elif lang_code == 'ko' %}잠시 후 홈 화면으로 이동합니다...
         {% elif lang_code == 'it' %}Ritorno alla home page tra pochi secondi...
@@ -83,8 +83,26 @@
 
     
     <script>
-        setTimeout(function() {
-            window.location.href = "{% url 'toppage' %}?lang={{ lang_code }}";
-        }, 4000); 
+        (function () {
+            // Same read-time formula as the tutorial overlays
+            // (computeTutorialHoldMs in tutorial_overlay.js.html) - min
+            // 2500ms, 55ms/char of the actual rendered (already-localized)
+            // message - so de/fr/it etc. get proportionally more time
+            // instead of being force-navigated away at a fixed 4000ms
+            // before a longer translation finishes rendering. The existing
+            // "Back to Home" button above already lets an impatient reader
+            // skip ahead immediately, so no separate skip control is added.
+            var MIN_MS = 2500;
+            var MS_PER_CHAR = 55;
+            var text = '';
+            document.querySelectorAll('.thanks-readtime-text').forEach(function (el) {
+                text += ' ' + el.textContent;
+            });
+            text = text.replace(/\s+/g, ' ').trim();
+            var delay = Math.max(MIN_MS, text.length * MS_PER_CHAR);
+            setTimeout(function() {
+                window.location.href = "{% url 'toppage' %}?lang={{ lang_code }}";
+            }, delay);
+        })();
     </script>
 {% endblock %}

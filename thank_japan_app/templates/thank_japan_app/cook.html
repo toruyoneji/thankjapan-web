@@ -368,6 +368,20 @@
             {% elif lang_code == 'th' %}ตรงนี้มี<br>รายละเอียดของคำศัพท์นะ!<br>ลองคลิกปุ่ม<br>"ฝึกคำนี้" ดูสิ
             {% else %}Here's where you<br>learn the details!<br>Click<br>"Practice this word"{% endif %}
         </div>
+        <div class="tutorial-overlay-tap-hint">
+            {% if lang_code == 'ja' %}タップで次へ
+            {% elif lang_code == 'zh-hant' %}點擊繼續
+            {% elif lang_code == 'zh-cn' %}点击继续
+            {% elif lang_code == 'ko' %}탭하여 계속
+            {% elif lang_code == 'de' %}Tippen zum Fortfahren
+            {% elif lang_code == 'fr' %}Toucher pour continuer
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Toca para continuar
+            {% elif lang_code == 'it' %}Tocca per continuare
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Toque para continuar
+            {% elif lang_code == 'vi' %}Chạm để tiếp tục
+            {% elif lang_code == 'th' %}แตะเพื่อดำเนินการต่อ
+            {% else %}Tap to continue{% endif %}
+        </div>
     </div>
 </div>
 {% include 'includes/tutorial_overlay.js.html' %}
@@ -646,9 +660,9 @@ function openDetailModal(url) {
                 // the modal opens, same overlay-then-reveal sequencing as
                 // every other step - the finger hint only appears once this
                 // one has played and faded, not simultaneously with it.
-                playTutorialOverlay('tutorial-overlay-cook-modal-open', 2200, function () {
+                playTutorialOverlayAuto('tutorial-overlay-cook-modal-open', function () {
                     wrap.appendChild(navTutorialModalHintCaption());
-                });
+                }, { dismissible: true });
             }
         }
         {% endif %}

@@ -1195,11 +1195,14 @@ body {
                     // (same pattern as the rest of the tutorial) before
                     // moving on to Q2.
                     setTimeout(function () {
-                        playTutorialOverlay('tutorial-overlay-q1-correct-explain', 2500, fetchQuestion);
+                        // Dynamic read-time only here (no dismissible tap-
+                        // to-skip) - see computeTutorialHoldMs in
+                        // tutorial_overlay.js.html.
+                        playTutorialOverlayAuto('tutorial-overlay-q1-correct-explain', fetchQuestion);
                     }, 2000);
                 } else if (wasTutorialWrongStep) {
                     setTimeout(function () {
-                        playTutorialOverlay('tutorial-overlay-q2-wrong-explain', 2500, fetchQuestion);
+                        playTutorialOverlayAuto('tutorial-overlay-q2-wrong-explain', fetchQuestion);
                     }, 2000);
                 } else {
                     setTimeout(fetchQuestion, res.is_correct ? 550 : 800);
