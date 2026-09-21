@@ -501,6 +501,8 @@
                     <li>Mots appris&nbsp;<strong>illimités</strong></li>
               </ul>
 
+              <p class="agreement-text" style="margin-top: 8px;">*Après résiliation, la limite du compte gratuit (30 mots) s'applique de nouveau. Votre historique n'est pas supprimé — les mots au-delà du 30e ne sont simplement plus affichés.</p>
+
               <p class="agreement-text">
                   En vous abonnant, vous acceptez nos 
                   <a href="{% url 'riyoukiyakufr' %}" target="_blank">Conditions d'utilisation</a> et notre 
@@ -542,6 +544,8 @@
                     <li>Toutes les&nbsp;<strong>futures mises à jour</strong></li>
                     <li>Mots appris&nbsp;<strong>illimités</strong></li>
               </ul>
+
+              <p class="agreement-text" style="margin-top: 8px;">*Après résiliation, la limite du compte gratuit (30 mots) s'applique de nouveau. Votre historique n'est pas supprimé — les mots au-delà du 30e ne sont simplement plus affichés.</p>
 
               {% if user.is_authenticated %}
                   {% if user.profile.is_premium %}

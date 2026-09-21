@@ -501,6 +501,8 @@
                     <li><strong>Unlimited</strong>&nbsp;Learned Words</li>
               </ul>
 
+              <p class="agreement-text" style="margin-top: 8px;">*After cancellation, the display reverts to the free-tier limit (30 words). Your review history isn't deleted — words beyond the 30th are simply no longer shown.</p>
+
               <p class="agreement-text">
                   By subscribing, you agree to our
                   <a href="{% url 'riyoukiyaku' %}" target="_blank">Terms of Use</a> and
@@ -542,6 +544,8 @@
                     <li>All&nbsp;Future&nbsp;Updates</li>
                     <li><strong>Unlimited</strong>&nbsp;Learned Words</li>
               </ul>
+
+              <p class="agreement-text" style="margin-top: 8px;">*After cancellation, the display reverts to the free-tier limit (30 words). Your review history isn't deleted — words beyond the 30th are simply no longer shown.</p>
 
               {% if user.is_authenticated %}
                   {% if user.profile.is_premium %}

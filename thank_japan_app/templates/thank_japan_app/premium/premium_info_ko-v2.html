@@ -500,6 +500,8 @@
                     <li>배운 단어&nbsp;<strong>무제한</strong></li>
               </ul>
 
+              <p class="agreement-text" style="margin-top: 8px;">*해지 후에는 무료 회원 표시 한도(30개)로 돌아갑니다. 그동안 학습한 기록 자체는 사라지지 않지만, 31번째부터는 표시되지 않습니다.</p>
+
               <p class="agreement-text">
                   구독하면 당사의 
                   <a href="{% url 'riyoukiyakuko' %}" target="_blank">이용 약관</a> 및 
@@ -541,6 +543,8 @@
                     <li>향후&nbsp;<strong>모든 업데이트</strong></li>
                     <li>배운 단어&nbsp;<strong>무제한</strong></li>
               </ul>
+
+              <p class="agreement-text" style="margin-top: 8px;">*해지 후에는 무료 회원 표시 한도(30개)로 돌아갑니다. 그동안 학습한 기록 자체는 사라지지 않지만, 31번째부터는 표시되지 않습니다.</p>
 
               {% if user.is_authenticated %}
                   {% if user.profile.is_premium %}

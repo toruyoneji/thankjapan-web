@@ -501,6 +501,8 @@
                     <li>Palabras aprendidas&nbsp;<strong>ilimitadas</strong></li>
               </ul>
 
+              <p class="agreement-text" style="margin-top: 8px;">*Tras cancelar, se aplica de nuevo el límite de la cuenta gratuita (30 palabras). Tu historial no se elimina: las palabras a partir de la 31 simplemente dejan de mostrarse.</p>
+
               <p class="agreement-text">
                   Al suscribirte, aceptas nuestros 
                   <a href="{% url 'riyoukiyakuesMX' %}" target="_blank">Términos de uso</a> y 
@@ -542,6 +544,8 @@
                     <li>Todas las&nbsp;<strong>Futuras Actualizaciones</strong></li>
                     <li>Palabras aprendidas&nbsp;<strong>ilimitadas</strong></li>
               </ul>
+
+              <p class="agreement-text" style="margin-top: 8px;">*Tras cancelar, se aplica de nuevo el límite de la cuenta gratuita (30 palabras). Tu historial no se elimina: las palabras a partir de la 31 simplemente dejan de mostrarse.</p>
 
               {% if user.is_authenticated %}
                   {% if user.profile.is_premium %}

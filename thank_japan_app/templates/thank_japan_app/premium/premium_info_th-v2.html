@@ -501,6 +501,8 @@
                     <li>คำศัพท์ที่เรียนแล้ว&nbsp;<strong>ไม่จำกัด</strong></li>
               </ul>
 
+              <p class="agreement-text" style="margin-top: 8px;">*หลังยกเลิก จะกลับไปใช้ขีดจำกัดของสมาชิกฟรี (30 คำ) ประวัติการเรียนรู้ของคุณจะไม่ถูกลบ เพียงแต่คำที่ 31 เป็นต้นไปจะไม่แสดงผล</p>
+
               <p class="agreement-text">
                   ในการสมัครสมาชิก คุณยอมรับ 
                   <a href="{% url 'riyoukiyakuth' %}" target="_blank">ข้อกำหนดการใช้งาน</a> และ 
@@ -542,6 +544,8 @@
                     <li>การอัปเดต&nbsp;<strong>ทั้งหมดในอนาคต</strong></li>
                     <li>คำศัพท์ที่เรียนแล้ว&nbsp;<strong>ไม่จำกัด</strong></li>
               </ul>
+
+              <p class="agreement-text" style="margin-top: 8px;">*หลังยกเลิก จะกลับไปใช้ขีดจำกัดของสมาชิกฟรี (30 คำ) ประวัติการเรียนรู้ของคุณจะไม่ถูกลบ เพียงแต่คำที่ 31 เป็นต้นไปจะไม่แสดงผล</p>
 
               {% if user.is_authenticated %}
                   {% if user.profile.is_premium %}

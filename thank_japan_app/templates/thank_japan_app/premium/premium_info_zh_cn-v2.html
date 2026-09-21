@@ -500,6 +500,8 @@
                     <li>已学单词&nbsp;<strong>无限制</strong></li>
               </ul>
 
+              <p class="agreement-text" style="margin-top: 8px;">＊取消订阅后，将恢复免费会员的显示上限（30个）。已学习的记录本身不会消失，但第31个及以后将不再显示。</p>
+
               <p class="agreement-text">
                   订阅即表示您同意我们的
                   <a href="{% url 'riyoukiyakuzhCN' %}" target="_blank">使用条款</a> 和
@@ -541,6 +543,8 @@
                     <li>未来&nbsp;<strong>所有更新</strong></li>
                     <li>已学单词&nbsp;<strong>无限制</strong></li>
               </ul>
+
+              <p class="agreement-text" style="margin-top: 8px;">＊取消订阅后，将恢复免费会员的显示上限（30个）。已学习的记录本身不会消失，但第31个及以后将不再显示。</p>
 
               {% if user.is_authenticated %}
                   {% if user.profile.is_premium %}
