@@ -243,6 +243,12 @@
 .plan-features li:nth-child(2)::before { content: "\1F4BC"; }
 .plan-features li:nth-child(3)::before { content: "\1F647"; }
 .plan-features li:nth-child(4)::before { content: "\1F515"; }
+.plan-features li:nth-child(7) {
+    grid-column: 1 / -1;
+    flex-direction: row;
+    gap: 12px;
+}
+.plan-features li:nth-child(7)::before { content: "\1F4D6"; font-size: 1.3rem; }
 .plan-features li:nth-child(5) {
     grid-column: 1 / -1;
     flex-direction: row;
@@ -492,6 +498,7 @@
                     <li>毎月&nbsp;<strong>+50pt</strong>プレゼント</li>
                     <li>プレミアム単語は&nbsp;<strong>2倍ポイント</strong></li>
                     <li>今後の&nbsp;<strong>全アップデート</strong></li>
+                    <li>学んだワードが&nbsp;<strong>無制限</strong></li>
               </ul>
 
               <p class="agreement-text">
@@ -533,6 +540,7 @@
                     <li>毎月&nbsp;<strong>+50pt</strong>プレゼント</li>
                     <li>プレミアム単語は&nbsp;<strong>2倍ポイント</strong></li>
                     <li>今後の&nbsp;<strong>全アップデート</strong></li>
+                    <li>学んだワードが&nbsp;<strong>無制限</strong></li>
               </ul>
 
               {% if user.is_authenticated %}

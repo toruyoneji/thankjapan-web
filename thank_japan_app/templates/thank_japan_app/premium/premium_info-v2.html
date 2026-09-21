@@ -249,6 +249,12 @@
     gap: 12px;
 }
 .plan-features li:nth-child(5)::before { content: "\1F680"; font-size: 1.3rem; }
+.plan-features li:nth-child(7) {
+    grid-column: 1 / -1;
+    flex-direction: row;
+    gap: 12px;
+}
+.plan-features li:nth-child(7)::before { content: "\1F4D6"; font-size: 1.3rem; }
 
 .plan-btn {
     display: block;
@@ -492,6 +498,7 @@
                     <li><strong>+50pt</strong>&nbsp;Every Month</li>
                     <li>Premium Words Give&nbsp;<strong>Double Points</strong></li>
                     <li>All&nbsp;Future&nbsp;Updates</li>
+                    <li><strong>Unlimited</strong>&nbsp;Learned Words</li>
               </ul>
 
               <p class="agreement-text">
@@ -533,6 +540,7 @@
                     <li><strong>+50pt</strong>&nbsp;Every Month</li>
                     <li>Premium Words Give&nbsp;<strong>Double Points</strong></li>
                     <li>All&nbsp;Future&nbsp;Updates</li>
+                    <li><strong>Unlimited</strong>&nbsp;Learned Words</li>
               </ul>
 
               {% if user.is_authenticated %}

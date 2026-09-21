@@ -243,6 +243,12 @@
 .plan-features li:nth-child(2)::before { content: "\1F4BC"; }
 .plan-features li:nth-child(3)::before { content: "\1F647"; }
 .plan-features li:nth-child(4)::before { content: "\1F515"; }
+.plan-features li:nth-child(7) {
+    grid-column: 1 / -1;
+    flex-direction: row;
+    gap: 12px;
+}
+.plan-features li:nth-child(7)::before { content: "\1F4D6"; font-size: 1.3rem; }
 .plan-features li:nth-child(5) {
     grid-column: 1 / -1;
     flex-direction: row;
@@ -491,6 +497,7 @@
                     <li>每月&nbsp;赠送<strong>+50积分</strong></li>
                     <li>进阶单词&nbsp;<strong>双倍积分</strong></li>
                     <li>未来&nbsp;<strong>所有更新</strong></li>
+                    <li>已学单词&nbsp;<strong>无限制</strong></li>
               </ul>
 
               <p class="agreement-text">
@@ -532,6 +539,7 @@
                     <li>每月&nbsp;赠送<strong>+50积分</strong></li>
                     <li>进阶单词&nbsp;<strong>双倍积分</strong></li>
                     <li>未来&nbsp;<strong>所有更新</strong></li>
+                    <li>已学单词&nbsp;<strong>无限制</strong></li>
               </ul>
 
               {% if user.is_authenticated %}

@@ -140,6 +140,41 @@
         font-size: 0.9rem;
         font-weight: bold;
     }
+
+    /* Same visual pattern as the existing premium-category 12-item cap
+       (e.g. business_japanese.html's .locked-card) - a single upsell card
+       shown once, after the visible (capped) items, stating only the
+       hidden count. No hidden-word data is ever sent to the template for a
+       free account, so there is nothing here to blur/obscure - the card
+       itself is the entire "there's more, upgrade to see it" signal. */
+    .locked-card {
+        background: linear-gradient(135deg, rgba(212,175,55,0.1), rgba(212,175,55,0.03));
+        border: 2px solid #d4af37;
+        border-radius: 20px;
+        padding: 40px 20px;
+        text-align: center;
+        margin: 10px 0 30px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+    .locked-card .lock-icon {
+        font-size: 3rem;
+        margin-bottom: 15px;
+        display: block;
+        filter: drop-shadow(0 0 10px #d4af37);
+    }
+    .locked-card h3 { color: #d4af37; font-size: 1.3rem; margin: 0 0 15px; font-weight: 800; }
+    .locked-card p { color: rgba(0, 0, 0, 0.65); font-size: 0.9rem; line-height: 1.6; margin: 0 0 25px; }
+    .locked-card .unlock-btn {
+        display: inline-block;
+        background: linear-gradient(45deg, #d4af37, #f1c40f, #d4af37);
+        color: #000000;
+        padding: 16px 36px;
+        border-radius: 50px;
+        text-decoration: none;
+        font-weight: 900;
+        font-size: 1rem;
+        box-shadow: 0 4px 20px rgba(212, 175, 55, 0.5);
+    }
 </style>
 
 <div id="learned-words-container">
@@ -216,7 +251,72 @@
                 </div>
             </div>
             {% endfor %}
-        {% else %}
+        {% endif %}
+
+        {% if is_locked %}
+            <div class="locked-card">
+                <div class="lock-icon">🔒</div>
+                <h3>
+                    {% if lang_code == 'ja' %}すべての学んだワードを見る
+                    {% elif lang_code == 'zh-hant' %}解鎖所有已學單字
+                    {% elif lang_code == 'zh-cn' %}解锁所有已学单词
+                    {% elif lang_code == 'ko' %}모든 배운 단어 잠금 해제
+                    {% elif lang_code == 'de' %}Alle gelernten Wörter freischalten
+                    {% elif lang_code == 'fr' %}Débloquez tous les mots appris
+                    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Desbloquea todas las palabras aprendidas
+                    {% elif lang_code == 'it' %}Sblocca tutte le parole imparate
+                    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Desbloqueie todas as palavras aprendidas
+                    {% elif lang_code == 'vi' %}Mở khóa tất cả từ đã học
+                    {% elif lang_code == 'th' %}ปลดล็อกคำศัพท์ที่เรียนแล้วทั้งหมด
+                    {% else %}Unlock All Learned Words{% endif %}
+                </h3>
+                <p>
+                    {% if lang_code == 'ja' %}無料会員は最大30語まで表示されます。<br>プレミアムにアップグレードして、あと<b>{{ hidden_count }}語</b>をすべて確認しましょう!
+                    {% elif lang_code == 'zh-hant' %}免費會員最多顯示30個單字。<br>升級至高級會員,查看剩餘的<b>{{ hidden_count }}+</b>個單字!
+                    {% elif lang_code == 'zh-cn' %}免费会员最多显示30个单词。<br>升级至高级会员,查看剩余的<b>{{ hidden_count }}+</b>个单词!
+                    {% elif lang_code == 'ko' %}무료 회원은 최대 30개까지 표시됩니다.<br>프리미엄으로 업그레이드하고 나머지 <b>{{ hidden_count }}개</b>를 모두 확인하세요!
+                    {% elif lang_code == 'de' %}Kostenlose Konten zeigen bis zu 30 Wörter.<br>Upgrade auf Premium, um <b>{{ hidden_count }}+</b> weitere gelernte Wörter zu sehen!
+                    {% elif lang_code == 'fr' %}Les comptes gratuits affichent jusqu'à 30 mots.<br>Passez à Premium pour voir <b>{{ hidden_count }}+</b> mots appris de plus !
+                    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Las cuentas gratuitas muestran hasta 30 palabras.<br>¡Actualiza a Premium para ver <b>{{ hidden_count }}+</b> palabras aprendidas más!
+                    {% elif lang_code == 'it' %}Gli account gratuiti mostrano fino a 30 parole.<br>Passa a Premium per vedere altre <b>{{ hidden_count }}+</b> parole imparate!
+                    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Contas gratuitas mostram até 30 palavras.<br>Atualize para Premium para ver mais <b>{{ hidden_count }}+</b> palavras aprendidas!
+                    {% elif lang_code == 'vi' %}Tài khoản miễn phí hiển thị tối đa 30 từ.<br>Nâng cấp lên Premium để xem thêm <b>{{ hidden_count }}+</b> từ đã học!
+                    {% elif lang_code == 'th' %}บัญชีฟรีแสดงได้สูงสุด 30 คำ<br>อัปเกรดเป็นพรีเมียมเพื่อดูคำศัพท์ที่เรียนแล้วเพิ่มอีก <b>{{ hidden_count }}+</b> คำ!
+                    {% else %}Free accounts show up to 30 words.<br>Upgrade to Premium to see <b>{{ hidden_count }}+</b> more learned words!{% endif %}
+                </p>
+                <a href="{% url premium_url_name %}?lang={{ lang_code }}" class="unlock-btn">
+                    {% if is_twa %}
+                        {% if lang_code == 'ja' %}💎 Google Playでアンロック
+                        {% elif lang_code == 'zh-hant' %}💎 透過 Google Play 解鎖
+                        {% elif lang_code == 'zh-cn' %}💎 通过 Google Play 解锁
+                        {% elif lang_code == 'ko' %}💎 Google Play에서 잠금 해제
+                        {% elif lang_code == 'de' %}💎 Über Google Play freischalten
+                        {% elif lang_code == 'fr' %}💎 Débloquer via Google Play
+                        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}💎 Desbloquear vía Google Play
+                        {% elif lang_code == 'it' %}💎 Sblocca tramite Google Play
+                        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}💎 Desbloquear via Google Play
+                        {% elif lang_code == 'vi' %}💎 Mở khóa qua Google Play
+                        {% elif lang_code == 'th' %}💎 ปลดล็อกผ่าน Google Play
+                        {% else %}💎 Unlock via Google Play{% endif %}
+                    {% else %}
+                        {% if lang_code == 'ja' %}💎 今すぐアンロック
+                        {% elif lang_code == 'zh-hant' %}💎 立即解鎖
+                        {% elif lang_code == 'zh-cn' %}💎 立即解锁
+                        {% elif lang_code == 'ko' %}💎 지금 잠금 해제
+                        {% elif lang_code == 'de' %}💎 Jetzt freischalten
+                        {% elif lang_code == 'fr' %}💎 Débloquer maintenant
+                        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}💎 Desbloquear ahora
+                        {% elif lang_code == 'it' %}💎 Sblocca ora
+                        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}💎 Desbloquear agora
+                        {% elif lang_code == 'vi' %}💎 Mở khóa ngay
+                        {% elif lang_code == 'th' %}💎 ปลดล็อกตอนนี้
+                        {% else %}💎 Unlock Now{% endif %}
+                    {% endif %}
+                </a>
+            </div>
+        {% endif %}
+
+        {% if not category_groups %}
             <div class="empty-state">
                 {% if lang_code == 'ja' %}まだ復習した単語がありません。<br>単語詳細ページの「この単語を練習する」から始めてみましょう!
                 {% elif lang_code == 'zh-hant' %}目前還沒有復習過的單字。<br>從單字詳情頁的「練習這個單字」開始吧!

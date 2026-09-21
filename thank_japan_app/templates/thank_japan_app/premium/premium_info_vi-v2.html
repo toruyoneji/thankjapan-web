@@ -243,6 +243,12 @@
 .plan-features li:nth-child(2)::before { content: "\1F4BC"; }
 .plan-features li:nth-child(3)::before { content: "\1F647"; }
 .plan-features li:nth-child(4)::before { content: "\1F515"; }
+.plan-features li:nth-child(7) {
+    grid-column: 1 / -1;
+    flex-direction: row;
+    gap: 12px;
+}
+.plan-features li:nth-child(7)::before { content: "\1F4D6"; font-size: 1.3rem; }
 .plan-features li:nth-child(5) {
     grid-column: 1 / -1;
     flex-direction: row;
@@ -493,6 +499,7 @@
                     <li>Tặng&nbsp;<strong>+50 điểm</strong>&nbsp;mỗi tháng</li>
                     <li>Từ premium được&nbsp;<strong>gấp đôi điểm</strong></li>
                     <li>Tất cả&nbsp;<strong>Cập nhật tương lai</strong></li>
+                    <li>Từ đã học&nbsp;<strong>không giới hạn</strong></li>
               </ul>
 
               <p class="agreement-text">
@@ -534,6 +541,7 @@
                     <li>Tặng&nbsp;<strong>+50 điểm</strong>&nbsp;mỗi tháng</li>
                     <li>Từ premium được&nbsp;<strong>gấp đôi điểm</strong></li>
                     <li>Tất cả&nbsp;<strong>Cập nhật tương lai</strong></li>
+                    <li>Từ đã học&nbsp;<strong>không giới hạn</strong></li>
               </ul>
 
               {% if user.is_authenticated %}

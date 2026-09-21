@@ -243,6 +243,12 @@
 .plan-features li:nth-child(2)::before { content: "\1F4BC"; }
 .plan-features li:nth-child(3)::before { content: "\1F647"; }
 .plan-features li:nth-child(4)::before { content: "\1F515"; }
+.plan-features li:nth-child(7) {
+    grid-column: 1 / -1;
+    flex-direction: row;
+    gap: 12px;
+}
+.plan-features li:nth-child(7)::before { content: "\1F4D6"; font-size: 1.3rem; }
 .plan-features li:nth-child(5) {
     grid-column: 1 / -1;
     flex-direction: row;
@@ -491,6 +497,7 @@
                     <li><strong>+50 Punkte</strong>&nbsp;jeden Monat</li>
                     <li>Premium-Wörter geben&nbsp;<strong>doppelte Punkte</strong></li>
                     <li>Alle&nbsp;<strong>zukünftigen Updates</strong></li>
+                    <li>Gelernte Wörter&nbsp;<strong>unbegrenzt</strong></li>
               </ul>
 
               <p class="agreement-text">
@@ -532,6 +539,7 @@
                     <li><strong>+50 Punkte</strong>&nbsp;jeden Monat</li>
                     <li>Premium-Wörter geben&nbsp;<strong>doppelte Punkte</strong></li>
                     <li>Alle&nbsp;<strong>zukünftigen Updates</strong></li>
+                    <li>Gelernte Wörter&nbsp;<strong>unbegrenzt</strong></li>
               </ul>
 
               {% if user.is_authenticated %}

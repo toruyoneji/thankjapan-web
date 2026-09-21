@@ -243,6 +243,12 @@
 .plan-features li:nth-child(2)::before { content: "\1F4BC"; }
 .plan-features li:nth-child(3)::before { content: "\1F647"; }
 .plan-features li:nth-child(4)::before { content: "\1F515"; }
+.plan-features li:nth-child(7) {
+    grid-column: 1 / -1;
+    flex-direction: row;
+    gap: 12px;
+}
+.plan-features li:nth-child(7)::before { content: "\1F4D6"; font-size: 1.3rem; }
 .plan-features li:nth-child(5) {
     grid-column: 1 / -1;
     flex-direction: row;
@@ -492,6 +498,7 @@
                     <li>รับ&nbsp;<strong>+50 แต้ม</strong>ทุกเดือน</li>
                     <li>คำศัพท์พรีเมียมได้&nbsp;<strong>คะแนน 2 เท่า</strong></li>
                     <li>อัปเดต&nbsp;<strong>ทั้งหมดในอนาคต</strong></li>
+                    <li>คำศัพท์ที่เรียนแล้ว&nbsp;<strong>ไม่จำกัด</strong></li>
               </ul>
 
               <p class="agreement-text">
@@ -533,6 +540,7 @@
                     <li>รับ&nbsp;<strong>+50 แต้ม</strong>ทุกเดือน</li>
                     <li>คำศัพท์พรีเมียมได้&nbsp;<strong>คะแนน 2 เท่า</strong></li>
                     <li>การอัปเดต&nbsp;<strong>ทั้งหมดในอนาคต</strong></li>
+                    <li>คำศัพท์ที่เรียนแล้ว&nbsp;<strong>ไม่จำกัด</strong></li>
               </ul>
 
               {% if user.is_authenticated %}

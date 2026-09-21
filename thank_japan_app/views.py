@@ -4253,29 +4253,47 @@ def account_settings(request):
     return render(request, 'thank_japan_app/account/account_settings-v2.html', context)
 
 
+FREE_LEARNED_WORDS_CAP = 30
+
+
 @login_required
 def learned_words(request):
     """Lists every word the user has correctly reviewed from a word-detail
     page (see WordReviewLog / game_submit_answer's mode='single' branch),
     grouped by category, most-recently-active category first. Linked from
-    account_settings ("Learned Words")."""
-    _, lang_code = get_lang_info(request)
+    account_settings ("Learned Words").
 
-    logs = WordReviewLog.objects.filter(user=request.user).select_related('word', 'premium_word')
+    Free accounts see only the FREE_LEARNED_WORDS_CAP most-recently-reviewed
+    words (across all categories combined); anything beyond that is never
+    included in the response at all - same hard-cutoff-plus-count approach
+    as the premium-category 12-item cap (see e.g. BusinessJapaneseView)
+    rather than a CSS blur, so no extra word data ever reaches the DOM for
+    a free account. has_premium_access is checked live on every request
+    with nothing cached/snapshotted, so this - like that same 12-item cap -
+    naturally re-engages the moment premium lapses, with no grandfathering."""
+    premium_url_name, lang_code = get_lang_info(request)
+    is_premium = getattr(request.user.profile, 'has_premium_access', False)
 
-    grouped = {}
+    logs = WordReviewLog.objects.filter(user=request.user).select_related('word', 'premium_word').order_by('-last_reviewed_at')
+
+    flat_items = []
     for log in logs:
         word = log.selected_word
         if word is None:
             continue
-        grouped.setdefault(word.category, []).append({
+        flat_items.append({
             'log': log,
             'object': word,
             'is_premium': log.premium_word_id is not None,
         })
 
-    for items in grouped.values():
-        items.sort(key=lambda item: item['log'].last_reviewed_at, reverse=True)
+    total_learned = len(flat_items)
+    visible_items = flat_items if is_premium else flat_items[:FREE_LEARNED_WORDS_CAP]
+    hidden_count = max(0, total_learned - len(visible_items))
+
+    grouped = {}
+    for item in visible_items:
+        grouped.setdefault(item['object'].category, []).append(item)
 
     category_groups = sorted(
         grouped.items(),
@@ -4286,7 +4304,11 @@ def learned_words(request):
     context = {
         'lang_code': lang_code,
         'category_groups': category_groups,
-        'total_learned': logs.count(),
+        'total_learned': total_learned,
+        'is_locked': hidden_count > 0,
+        'hidden_count': hidden_count,
+        'premium_url_name': premium_url_name,
+        'is_twa': is_android_twa(request),
     }
     return render(request, 'thank_japan_app/learned_words.html', context)
 
