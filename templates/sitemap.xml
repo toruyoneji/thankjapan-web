@@ -592,8 +592,294 @@
     <xhtml:link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/categories/en-in/" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/categories/" />
   </url>
-  
-  
+
+
+    <!-- ゲームスタートページ (多言語対応) -->
+  <url><loc>https://www.thankjapan.com/game/start/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.thankjapan.com/game/start/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/game/start/?lang=ja" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/game/start/?lang=vi" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/game/start/?lang=fr" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.thankjapan.com/game/start/?lang=it" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/game/start/?lang=pt" />
+    <xhtml:link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/game/start/?lang=zh-hant" />
+    <xhtml:link rel="alternate" hreflang="zh-cn" href="https://www.thankjapan.com/game/start/?lang=zh-cn" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/game/start/?lang=ko" />
+    <xhtml:link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/game/start/?lang=es-es" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.thankjapan.com/game/start/?lang=de" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://www.thankjapan.com/game/start/?lang=th" />
+    <xhtml:link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/game/start/?lang=pt-br" />
+    <xhtml:link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/game/start/?lang=es-mx" />
+    <xhtml:link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/game/start/?lang=en-in" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/game/start/" />
+  </url>
+
+  <url><loc>https://www.thankjapan.com/game/start/?lang=ja</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.thankjapan.com/game/start/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/game/start/?lang=ja" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/game/start/?lang=vi" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/game/start/?lang=fr" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.thankjapan.com/game/start/?lang=it" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/game/start/?lang=pt" />
+    <xhtml:link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/game/start/?lang=zh-hant" />
+    <xhtml:link rel="alternate" hreflang="zh-cn" href="https://www.thankjapan.com/game/start/?lang=zh-cn" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/game/start/?lang=ko" />
+    <xhtml:link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/game/start/?lang=es-es" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.thankjapan.com/game/start/?lang=de" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://www.thankjapan.com/game/start/?lang=th" />
+    <xhtml:link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/game/start/?lang=pt-br" />
+    <xhtml:link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/game/start/?lang=es-mx" />
+    <xhtml:link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/game/start/?lang=en-in" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/game/start/" />
+  </url>
+
+  <url><loc>https://www.thankjapan.com/game/start/?lang=vi</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.thankjapan.com/game/start/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/game/start/?lang=ja" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/game/start/?lang=vi" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/game/start/?lang=fr" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.thankjapan.com/game/start/?lang=it" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/game/start/?lang=pt" />
+    <xhtml:link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/game/start/?lang=zh-hant" />
+    <xhtml:link rel="alternate" hreflang="zh-cn" href="https://www.thankjapan.com/game/start/?lang=zh-cn" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/game/start/?lang=ko" />
+    <xhtml:link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/game/start/?lang=es-es" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.thankjapan.com/game/start/?lang=de" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://www.thankjapan.com/game/start/?lang=th" />
+    <xhtml:link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/game/start/?lang=pt-br" />
+    <xhtml:link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/game/start/?lang=es-mx" />
+    <xhtml:link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/game/start/?lang=en-in" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/game/start/" />
+  </url>
+
+  <url><loc>https://www.thankjapan.com/game/start/?lang=fr</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.thankjapan.com/game/start/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/game/start/?lang=ja" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/game/start/?lang=vi" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/game/start/?lang=fr" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.thankjapan.com/game/start/?lang=it" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/game/start/?lang=pt" />
+    <xhtml:link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/game/start/?lang=zh-hant" />
+    <xhtml:link rel="alternate" hreflang="zh-cn" href="https://www.thankjapan.com/game/start/?lang=zh-cn" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/game/start/?lang=ko" />
+    <xhtml:link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/game/start/?lang=es-es" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.thankjapan.com/game/start/?lang=de" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://www.thankjapan.com/game/start/?lang=th" />
+    <xhtml:link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/game/start/?lang=pt-br" />
+    <xhtml:link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/game/start/?lang=es-mx" />
+    <xhtml:link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/game/start/?lang=en-in" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/game/start/" />
+  </url>
+
+  <url><loc>https://www.thankjapan.com/game/start/?lang=it</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.thankjapan.com/game/start/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/game/start/?lang=ja" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/game/start/?lang=vi" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/game/start/?lang=fr" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.thankjapan.com/game/start/?lang=it" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/game/start/?lang=pt" />
+    <xhtml:link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/game/start/?lang=zh-hant" />
+    <xhtml:link rel="alternate" hreflang="zh-cn" href="https://www.thankjapan.com/game/start/?lang=zh-cn" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/game/start/?lang=ko" />
+    <xhtml:link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/game/start/?lang=es-es" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.thankjapan.com/game/start/?lang=de" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://www.thankjapan.com/game/start/?lang=th" />
+    <xhtml:link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/game/start/?lang=pt-br" />
+    <xhtml:link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/game/start/?lang=es-mx" />
+    <xhtml:link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/game/start/?lang=en-in" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/game/start/" />
+  </url>
+
+  <url><loc>https://www.thankjapan.com/game/start/?lang=pt</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.thankjapan.com/game/start/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/game/start/?lang=ja" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/game/start/?lang=vi" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/game/start/?lang=fr" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.thankjapan.com/game/start/?lang=it" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/game/start/?lang=pt" />
+    <xhtml:link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/game/start/?lang=zh-hant" />
+    <xhtml:link rel="alternate" hreflang="zh-cn" href="https://www.thankjapan.com/game/start/?lang=zh-cn" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/game/start/?lang=ko" />
+    <xhtml:link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/game/start/?lang=es-es" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.thankjapan.com/game/start/?lang=de" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://www.thankjapan.com/game/start/?lang=th" />
+    <xhtml:link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/game/start/?lang=pt-br" />
+    <xhtml:link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/game/start/?lang=es-mx" />
+    <xhtml:link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/game/start/?lang=en-in" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/game/start/" />
+  </url>
+
+  <url><loc>https://www.thankjapan.com/game/start/?lang=zh-hant</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.thankjapan.com/game/start/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/game/start/?lang=ja" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/game/start/?lang=vi" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/game/start/?lang=fr" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.thankjapan.com/game/start/?lang=it" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/game/start/?lang=pt" />
+    <xhtml:link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/game/start/?lang=zh-hant" />
+    <xhtml:link rel="alternate" hreflang="zh-cn" href="https://www.thankjapan.com/game/start/?lang=zh-cn" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/game/start/?lang=ko" />
+    <xhtml:link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/game/start/?lang=es-es" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.thankjapan.com/game/start/?lang=de" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://www.thankjapan.com/game/start/?lang=th" />
+    <xhtml:link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/game/start/?lang=pt-br" />
+    <xhtml:link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/game/start/?lang=es-mx" />
+    <xhtml:link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/game/start/?lang=en-in" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/game/start/" />
+  </url>
+
+  <url><loc>https://www.thankjapan.com/game/start/?lang=zh-cn</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.thankjapan.com/game/start/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/game/start/?lang=ja" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/game/start/?lang=vi" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/game/start/?lang=fr" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.thankjapan.com/game/start/?lang=it" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/game/start/?lang=pt" />
+    <xhtml:link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/game/start/?lang=zh-hant" />
+    <xhtml:link rel="alternate" hreflang="zh-cn" href="https://www.thankjapan.com/game/start/?lang=zh-cn" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/game/start/?lang=ko" />
+    <xhtml:link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/game/start/?lang=es-es" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.thankjapan.com/game/start/?lang=de" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://www.thankjapan.com/game/start/?lang=th" />
+    <xhtml:link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/game/start/?lang=pt-br" />
+    <xhtml:link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/game/start/?lang=es-mx" />
+    <xhtml:link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/game/start/?lang=en-in" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/game/start/" />
+  </url>
+
+  <url><loc>https://www.thankjapan.com/game/start/?lang=ko</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.thankjapan.com/game/start/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/game/start/?lang=ja" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/game/start/?lang=vi" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/game/start/?lang=fr" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.thankjapan.com/game/start/?lang=it" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/game/start/?lang=pt" />
+    <xhtml:link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/game/start/?lang=zh-hant" />
+    <xhtml:link rel="alternate" hreflang="zh-cn" href="https://www.thankjapan.com/game/start/?lang=zh-cn" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/game/start/?lang=ko" />
+    <xhtml:link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/game/start/?lang=es-es" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.thankjapan.com/game/start/?lang=de" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://www.thankjapan.com/game/start/?lang=th" />
+    <xhtml:link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/game/start/?lang=pt-br" />
+    <xhtml:link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/game/start/?lang=es-mx" />
+    <xhtml:link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/game/start/?lang=en-in" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/game/start/" />
+  </url>
+
+  <url><loc>https://www.thankjapan.com/game/start/?lang=es-es</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.thankjapan.com/game/start/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/game/start/?lang=ja" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/game/start/?lang=vi" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/game/start/?lang=fr" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.thankjapan.com/game/start/?lang=it" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/game/start/?lang=pt" />
+    <xhtml:link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/game/start/?lang=zh-hant" />
+    <xhtml:link rel="alternate" hreflang="zh-cn" href="https://www.thankjapan.com/game/start/?lang=zh-cn" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/game/start/?lang=ko" />
+    <xhtml:link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/game/start/?lang=es-es" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.thankjapan.com/game/start/?lang=de" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://www.thankjapan.com/game/start/?lang=th" />
+    <xhtml:link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/game/start/?lang=pt-br" />
+    <xhtml:link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/game/start/?lang=es-mx" />
+    <xhtml:link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/game/start/?lang=en-in" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/game/start/" />
+  </url>
+
+  <url><loc>https://www.thankjapan.com/game/start/?lang=de</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.thankjapan.com/game/start/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/game/start/?lang=ja" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/game/start/?lang=vi" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/game/start/?lang=fr" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.thankjapan.com/game/start/?lang=it" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/game/start/?lang=pt" />
+    <xhtml:link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/game/start/?lang=zh-hant" />
+    <xhtml:link rel="alternate" hreflang="zh-cn" href="https://www.thankjapan.com/game/start/?lang=zh-cn" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/game/start/?lang=ko" />
+    <xhtml:link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/game/start/?lang=es-es" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.thankjapan.com/game/start/?lang=de" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://www.thankjapan.com/game/start/?lang=th" />
+    <xhtml:link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/game/start/?lang=pt-br" />
+    <xhtml:link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/game/start/?lang=es-mx" />
+    <xhtml:link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/game/start/?lang=en-in" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/game/start/" />
+  </url>
+
+  <url><loc>https://www.thankjapan.com/game/start/?lang=th</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.thankjapan.com/game/start/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/game/start/?lang=ja" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/game/start/?lang=vi" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/game/start/?lang=fr" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.thankjapan.com/game/start/?lang=it" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/game/start/?lang=pt" />
+    <xhtml:link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/game/start/?lang=zh-hant" />
+    <xhtml:link rel="alternate" hreflang="zh-cn" href="https://www.thankjapan.com/game/start/?lang=zh-cn" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/game/start/?lang=ko" />
+    <xhtml:link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/game/start/?lang=es-es" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.thankjapan.com/game/start/?lang=de" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://www.thankjapan.com/game/start/?lang=th" />
+    <xhtml:link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/game/start/?lang=pt-br" />
+    <xhtml:link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/game/start/?lang=es-mx" />
+    <xhtml:link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/game/start/?lang=en-in" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/game/start/" />
+  </url>
+
+  <url><loc>https://www.thankjapan.com/game/start/?lang=pt-br</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.thankjapan.com/game/start/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/game/start/?lang=ja" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/game/start/?lang=vi" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/game/start/?lang=fr" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.thankjapan.com/game/start/?lang=it" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/game/start/?lang=pt" />
+    <xhtml:link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/game/start/?lang=zh-hant" />
+    <xhtml:link rel="alternate" hreflang="zh-cn" href="https://www.thankjapan.com/game/start/?lang=zh-cn" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/game/start/?lang=ko" />
+    <xhtml:link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/game/start/?lang=es-es" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.thankjapan.com/game/start/?lang=de" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://www.thankjapan.com/game/start/?lang=th" />
+    <xhtml:link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/game/start/?lang=pt-br" />
+    <xhtml:link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/game/start/?lang=es-mx" />
+    <xhtml:link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/game/start/?lang=en-in" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/game/start/" />
+  </url>
+
+  <url><loc>https://www.thankjapan.com/game/start/?lang=es-mx</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.thankjapan.com/game/start/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/game/start/?lang=ja" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/game/start/?lang=vi" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/game/start/?lang=fr" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.thankjapan.com/game/start/?lang=it" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/game/start/?lang=pt" />
+    <xhtml:link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/game/start/?lang=zh-hant" />
+    <xhtml:link rel="alternate" hreflang="zh-cn" href="https://www.thankjapan.com/game/start/?lang=zh-cn" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/game/start/?lang=ko" />
+    <xhtml:link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/game/start/?lang=es-es" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.thankjapan.com/game/start/?lang=de" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://www.thankjapan.com/game/start/?lang=th" />
+    <xhtml:link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/game/start/?lang=pt-br" />
+    <xhtml:link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/game/start/?lang=es-mx" />
+    <xhtml:link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/game/start/?lang=en-in" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/game/start/" />
+  </url>
+
+  <url><loc>https://www.thankjapan.com/game/start/?lang=en-in</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.thankjapan.com/game/start/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.thankjapan.com/game/start/?lang=ja" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://www.thankjapan.com/game/start/?lang=vi" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.thankjapan.com/game/start/?lang=fr" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.thankjapan.com/game/start/?lang=it" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.thankjapan.com/game/start/?lang=pt" />
+    <xhtml:link rel="alternate" hreflang="zh-hant" href="https://www.thankjapan.com/game/start/?lang=zh-hant" />
+    <xhtml:link rel="alternate" hreflang="zh-cn" href="https://www.thankjapan.com/game/start/?lang=zh-cn" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.thankjapan.com/game/start/?lang=ko" />
+    <xhtml:link rel="alternate" hreflang="es-es" href="https://www.thankjapan.com/game/start/?lang=es-es" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.thankjapan.com/game/start/?lang=de" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://www.thankjapan.com/game/start/?lang=th" />
+    <xhtml:link rel="alternate" hreflang="pt-br" href="https://www.thankjapan.com/game/start/?lang=pt-br" />
+    <xhtml:link rel="alternate" hreflang="es-mx" href="https://www.thankjapan.com/game/start/?lang=es-mx" />
+    <xhtml:link rel="alternate" hreflang="en-in" href="https://www.thankjapan.com/game/start/?lang=en-in" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.thankjapan.com/game/start/" />
+  </url>
+
   <!-- 固定ページ (利用規約, 会社情報, 法的通知, プライバシーポリシー, 多言語対応) -->
   <url>
     <loc>https://www.thankjapan.com/riyoukiyaku/</loc>

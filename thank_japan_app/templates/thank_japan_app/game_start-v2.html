@@ -2,19 +2,72 @@
 {% load category_filters %}
 
 {% block title %}
-    {% if lang_code == 'ja' %}ゲームを始める(Start Game) | ThankJapan
-    {% elif lang_code == 'zh-hant' %}開始遊戲(Start Game) | ThankJapan
-    {% elif lang_code == 'zh-cn' %}开始游戏(Start Game) | ThankJapan
-    {% elif lang_code == 'ko' %}게임 시작(Start Game) | ThankJapan
-    {% elif lang_code == 'fr' %}Commencer le jeu (Start Game) | ThankJapan
-    {% elif lang_code == 'th' %}เริ่มเกม (Start Game) | ThankJapan
-    {% elif lang_code == 'vi' %}Bắt đầu trò chơi (Start Game) | ThankJapan
-    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Empezar el juego (Start Game) | ThankJapan
-    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Começar o jogo (Start Game) | ThankJapan
-    {% elif lang_code == 'de' %}Spiel starten (Start Game) | ThankJapan
-    {% elif lang_code == 'it' %}Inizia il gioco (Start Game) | ThankJapan
-    {% elif lang_code == 'en-in' %}Start Game | ThankJapan
-    {% else %}Start Game | ThankJapan{% endif %}
+    {% if lang_code == 'ja' %}日本人でも難しい?このゲーム、マジでハマる。60秒チャレンジ | ThankJapan
+    {% elif lang_code == 'zh-hant' %}這款日語遊戲讓人玩到停不下來 | ThankJapan
+    {% elif lang_code == 'zh-cn' %}这款日语游戏让人根本停不下来 | ThankJapan
+    {% elif lang_code == 'ko' %}이 일본어 게임, 진짜 빠져듭니다 | ThankJapan
+    {% elif lang_code == 'fr' %}Ce Jeu de Japonais Est Impossible à Lâcher | ThankJapan
+    {% elif lang_code == 'th' %}เกมภาษาญี่ปุ่นนี้เล่นแล้ววางไม่ลง | ThankJapan
+    {% elif lang_code == 'vi' %}Trò Chơi Tiếng Nhật Này Cuốn Bạn Không Dứt Ra Được | ThankJapan
+    {% elif lang_code == 'es-es' %}Este Juego de Japonés No Podrás Dejar de Jugar | ThankJapan
+    {% elif lang_code == 'es-mx' %}Este Juego de Japonés No Vas a Poder Dejar de Jugar | ThankJapan
+    {% elif lang_code == 'pt' %}Este Jogo de Japonês É Impossível de Largar | ThankJapan
+    {% elif lang_code == 'pt-br' %}Esse Jogo de Japonês Você Não Vai Conseguir Parar | ThankJapan
+    {% elif lang_code == 'de' %}Dieses Japanisch-Spiel lässt dich nicht mehr los | ThankJapan
+    {% elif lang_code == 'it' %}Questo Gioco di Giapponese È Impossibile da Lasciare | ThankJapan
+    {% elif lang_code == 'en-in' %}This Japanese Word Game Will Hook You Fast | ThankJapan
+    {% else %}This Japanese Word Game Will Hook You Fast | ThankJapan{% endif %}
+{% endblock %}
+
+{% block description %}
+    {% if lang_code == 'ja' %}写真を見て文字を並べるだけ。教科書いらず。今すぐ無料で遊んで、本物の日本語単語を覚えよう🀄
+    {% elif lang_code == 'zh-hant' %}不用教科書、不用死背。看圖排字,60秒學會真正的日語單字。現在就免費玩🀄
+    {% elif lang_code == 'zh-cn' %}不用教科书、不用死记硬背。看图排字,60秒学会真正的日语单词。现在就免费玩🀄
+    {% elif lang_code == 'ko' %}지루한 교재는 이제 그만. 사진 보고 글자만 맞추면 끝. 60초 만에 진짜 일본어 단어를 배워보세요, 지금 무료로🀄
+    {% elif lang_code == 'fr' %}Pas de manuel, pas d'ennui. Regarde la photo, remets les lettres dans l'ordre, et apprends du vrai japonais en 60 secondes. Jouez gratuitement🀄
+    {% elif lang_code == 'th' %}ไม่ต้องง้อตำราน่าเบื่อ แค่ดูรูปแล้วเรียงตัวอักษร ก็เรียนคำศัพท์ญี่ปุ่นจริงได้ใน 60 วินาที เล่นฟรีตอนนี้เลย🀄
+    {% elif lang_code == 'vi' %}Không cần sách giáo khoa nhàm chán. Nhìn ảnh, sắp chữ, xong! Học từ vựng tiếng Nhật thật trong 60 giây. Chơi miễn phí ngay🀄
+    {% elif lang_code == 'es-es' %}Nada de libros aburridos. Mira la foto, ordena las letras y aprende japonés de verdad en 60 segundos. Juega gratis ahora🀄
+    {% elif lang_code == 'es-mx' %}Nada de libros aburridos. Mira la foto, ordena las letras y aprende japonés de verdad en 60 segundos. ¡Juega gratis ahora!🀄
+    {% elif lang_code == 'pt' %}Nada de manuais chatos. Vê a foto, organiza as letras e aprende japonês a sério em 60 segundos. Joga já, grátis🀄
+    {% elif lang_code == 'pt-br' %}Chega de livro chato. Olhe a foto, organize as letras e aprenda japonês de verdade em 60 segundos. Jogue grátis agora🀄
+    {% elif lang_code == 'de' %}Kein Lehrbuch nötig. Foto ansehen, Buchstaben ordnen, fertig. Lerne in 60 Sekunden echte japanische Wörter – jetzt gratis spielen🀄
+    {% elif lang_code == 'it' %}Niente libri di testo noiosi. Guarda la foto, ordina le lettere e impara vero giapponese in 60 secondi. Gioca gratis ora🀄
+    {% elif lang_code == 'en-in' %}No textbooks, no boring drills. Just match the photo, arrange the letters, and learn real Japanese in 60 seconds. Play free now🀄
+    {% else %}No textbooks. No boring drills. Just look at a photo, arrange the letters, and learn real Japanese in 60 seconds. Play free now🀄{% endif %}
+{% endblock %}
+
+{% block og_title %}
+    {% if lang_code == 'ja' %}日本人でも難しい?このゲーム、マジでハマる。
+    {% elif lang_code == 'zh-hant' %}這款日語遊戲讓人玩到停不下來
+    {% elif lang_code == 'zh-cn' %}这款日语游戏让人根本停不下来
+    {% elif lang_code == 'ko' %}이 일본어 게임, 진짜 빠져듭니다
+    {% elif lang_code == 'fr' %}Ce Jeu de Japonais Est Impossible à Lâcher
+    {% elif lang_code == 'th' %}เกมภาษาญี่ปุ่นนี้เล่นแล้ววางไม่ลง
+    {% elif lang_code == 'vi' %}Trò Chơi Tiếng Nhật Này Cuốn Bạn Không Dứt Ra Được
+    {% elif lang_code == 'es-es' %}Este Juego de Japonés No Podrás Dejar de Jugar
+    {% elif lang_code == 'es-mx' %}Este Juego de Japonés No Vas a Poder Dejar de Jugar
+    {% elif lang_code == 'pt' %}Este Jogo de Japonês É Impossível de Largar
+    {% elif lang_code == 'pt-br' %}Esse Jogo de Japonês Você Não Vai Conseguir Parar
+    {% elif lang_code == 'de' %}Dieses Japanisch-Spiel lässt dich nicht mehr los
+    {% elif lang_code == 'it' %}Questo Gioco di Giapponese È Impossibile da Lasciare
+    {% else %}This Japanese Word Game Will Hook You Fast{% endif %}
+{% endblock %}
+{% block og_description %}
+    {% if lang_code == 'ja' %}写真を見て文字を並べるだけ。教科書いらず。今すぐ無料で遊んで、本物の日本語単語を覚えよう🀄
+    {% elif lang_code == 'zh-hant' %}不用教科書、不用死背。看圖排字,60秒學會真正的日語單字。現在就免費玩🀄
+    {% elif lang_code == 'zh-cn' %}不用教科书、不用死记硬背。看图排字,60秒学会真正的日语单词。现在就免费玩🀄
+    {% elif lang_code == 'ko' %}지루한 교재는 이제 그만. 사진 보고 글자만 맞추면 끝. 60초 만에 진짜 일본어 단어를 배워보세요, 지금 무료로🀄
+    {% elif lang_code == 'fr' %}Pas de manuel, pas d'ennui. Regarde la photo, remets les lettres dans l'ordre, et apprends du vrai japonais en 60 secondes. Jouez gratuitement🀄
+    {% elif lang_code == 'th' %}ไม่ต้องง้อตำราน่าเบื่อ แค่ดูรูปแล้วเรียงตัวอักษร ก็เรียนคำศัพท์ญี่ปุ่นจริงได้ใน 60 วินาที เล่นฟรีตอนนี้เลย🀄
+    {% elif lang_code == 'vi' %}Không cần sách giáo khoa nhàm chán. Nhìn ảnh, sắp chữ, xong! Học từ vựng tiếng Nhật thật trong 60 giây. Chơi miễn phí ngay🀄
+    {% elif lang_code == 'es-es' %}Nada de libros aburridos. Mira la foto, ordena las letras y aprende japonés de verdad en 60 segundos. Juega gratis ahora🀄
+    {% elif lang_code == 'es-mx' %}Nada de libros aburridos. Mira la foto, ordena las letras y aprende japonés de verdad en 60 segundos. ¡Juega gratis ahora!🀄
+    {% elif lang_code == 'pt' %}Nada de manuais chatos. Vê a foto, organiza as letras e aprende japonês a sério em 60 segundos. Joga já, grátis🀄
+    {% elif lang_code == 'pt-br' %}Chega de livro chato. Olhe a foto, organize as letras e aprenda japonês de verdade em 60 segundos. Jogue grátis agora🀄
+    {% elif lang_code == 'de' %}Kein Lehrbuch nötig. Foto ansehen, Buchstaben ordnen, fertig. Lerne in 60 Sekunden echte japanische Wörter – jetzt gratis spielen🀄
+    {% elif lang_code == 'it' %}Niente libri di testo noiosi. Guarda la foto, ordina le lettere e impara vero giapponese in 60 secondi. Gioca gratis ora🀄
+    {% else %}No textbooks. No boring drills. Just look at a photo, arrange the letters, and learn real Japanese in 60 seconds. Play free now🀄{% endif %}
 {% endblock %}
 
 {% block content %}

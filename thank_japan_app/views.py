@@ -65,7 +65,6 @@ def robots_txt(request):
 
 Disallow: /game/play/
 Disallow: /game/result/
-Disallow: /game/start/
 Disallow: /login/
 Disallow: /register/
 Disallow: /account/
