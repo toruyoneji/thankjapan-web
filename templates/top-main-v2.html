@@ -37,7 +37,16 @@
     justify-content: center;
     align-items: center;
     overflow: visible;
-    padding: 20px 10px;
+    /* padding-top is a fixed 80px (not part of the justify-content:center
+       math) so it reserves clearance from .app-header (position:absolute,
+       height:60px, z-index:1000 - see base_top.html) unconditionally. When
+       content is short, centering still adds plenty of extra space above
+       this floor. But once the daily-question banner appears and total
+       content height exceeds .hero's min-height, centering has no slack
+       left to distribute and content stacks from .hero's own top edge -
+       without this fixed floor, that put the welcome-greeting/description
+       list right under the header, overlapping its dark gradient. */
+    padding: 80px 10px 20px;
     background-color: #faf6ec;
     z-index: 1;
 }
@@ -344,9 +353,11 @@
        resolution once address bar/tabs/OS taskbar are accounted for, so
        the mobile/tablet spacing (80px gaps, generous margins) pushed the
        daily-question banner below the fold. Tighten vertical spacing here
-       only - mobile/tablet keep their existing values untouched. */
+       only - mobile/tablet keep their existing values untouched. Top
+       padding keeps the same 80px header-clearance floor as the base
+       rule above (see its comment) - only right/bottom/left shrink here. */
     .hero {
-        padding: 10px 10px !important;
+        padding: 80px 10px 10px !important;
     }
     .hero-container {
         gap: 24px !important;
