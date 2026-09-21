@@ -1,0 +1,254 @@
+{% extends 'base/base_top.html' %}
+{% load category_filters %}
+{% block content %}
+
+<style>
+    html, body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        overflow: hidden;
+    }
+    body {
+        background: #faf6ec !important;
+        background-attachment: fixed !important;
+    }
+    :root {
+        --lw-washi-card: #faf6ec;
+        --lw-wood-border: #e8dfc8;
+        --lw-ink: #2a1d13;
+        --lw-ink-soft: #8a7862;
+        --lw-gold: #cda23f;
+        --lw-gold-dark: #a97c1f;
+        --lw-matcha: #7c9473;
+    }
+    #learned-words-container {
+        height: 100vh;
+        padding: 70px 0 90px;
+        box-sizing: border-box;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+    #learned-words-container::-webkit-scrollbar { display: none; }
+    .learned-words-inner {
+        width: 92%;
+        max-width: 480px;
+        margin: 0 auto;
+    }
+    .page-title {
+        font-family: 'Shippori Mincho', serif;
+        font-size: 1.4rem;
+        color: var(--lw-ink);
+        text-align: center;
+        margin: 0 0 6px;
+    }
+    .page-subtitle {
+        text-align: center;
+        font-size: 0.85rem;
+        color: var(--lw-ink-soft);
+        margin-bottom: 24px;
+    }
+    .category-group { margin-bottom: 28px; }
+    .category-group-title {
+        font-size: 0.8rem;
+        font-weight: 800;
+        color: var(--lw-gold-dark);
+        letter-spacing: 0.5px;
+        margin-bottom: 10px;
+        padding-bottom: 6px;
+        border-bottom: 1px solid var(--lw-wood-border);
+    }
+    .review-list { display: flex; flex-direction: column; gap: 16px; }
+    .review-card {
+        display: flex;
+        align-items: center;
+        background: var(--lw-washi-card);
+        border: 1px solid var(--lw-wood-border);
+        border-radius: 18px;
+        padding: 15px;
+        box-shadow: 0 6px 15px rgba(0,0,0,0.04);
+        position: relative;
+        overflow: hidden;
+        text-decoration: none;
+    }
+    .review-card::before {
+        content: "";
+        position: absolute;
+        left: 0; top: 0; bottom: 0;
+        width: 6px;
+        background: var(--lw-matcha);
+    }
+    .review-card .review-img-wrapper {
+        flex-shrink: 0;
+        width: 85px;
+        height: 85px;
+        margin-right: 15px;
+        border-radius: 12px;
+        overflow: hidden;
+        border: 1px solid var(--lw-wood-border);
+        background: #f5f5f5;
+        display: block;
+    }
+    .review-card .review-img-wrapper img.review-result-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+    .review-card .no-image {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.6rem;
+        color: var(--lw-ink-soft);
+        text-align: center;
+        padding: 4px;
+    }
+    .review-info { flex-grow: 1; min-width: 0; }
+    .answer-title {
+        margin: 0 0 4px 0;
+        font-size: 1.15rem;
+        color: var(--lw-ink);
+        font-family: 'Shippori Mincho', serif;
+        font-weight: 700;
+    }
+    .answer-title span {
+        font-size: 0.8rem;
+        color: var(--lw-ink-soft);
+        font-weight: normal;
+        margin-left: 5px;
+        font-family: 'Inter', sans-serif;
+    }
+    .review-meta {
+        font-size: 0.7rem;
+        color: var(--lw-ink-soft);
+    }
+    .empty-state {
+        text-align: center;
+        color: var(--lw-ink-soft);
+        font-size: 0.9rem;
+        line-height: 1.7;
+        padding: 60px 20px;
+    }
+    .back-link {
+        color: var(--lw-gold-dark);
+        text-decoration: none;
+        font-size: 0.9rem;
+        font-weight: bold;
+    }
+</style>
+
+<div id="learned-words-container">
+    <div class="learned-words-inner">
+        <h1 class="page-title">
+            {% if lang_code == 'ja' %}学んだワード
+            {% elif lang_code == 'zh-hant' %}已學單字
+            {% elif lang_code == 'zh-cn' %}已学单词
+            {% elif lang_code == 'ko' %}배운 단어
+            {% elif lang_code == 'de' %}Gelernte Wörter
+            {% elif lang_code == 'fr' %}Mots Appris
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Palabras Aprendidas
+            {% elif lang_code == 'it' %}Parole Imparate
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Palavras Aprendidas
+            {% elif lang_code == 'vi' %}Từ Đã Học
+            {% elif lang_code == 'th' %}คำศัพท์ที่เรียนแล้ว
+            {% else %}Learned Words{% endif %}
+        </h1>
+        <p class="page-subtitle">
+            {% if lang_code == 'ja' %}これまでに正解した単語: {{ total_learned }}語
+            {% elif lang_code == 'zh-hant' %}目前已答對 {{ total_learned }} 個單字
+            {% elif lang_code == 'zh-cn' %}目前已答对 {{ total_learned }} 个单词
+            {% elif lang_code == 'ko' %}지금까지 맞힌 단어: {{ total_learned }}개
+            {% elif lang_code == 'de' %}Bisher richtig beantwortete Wörter: {{ total_learned }}
+            {% elif lang_code == 'fr' %}Mots correctement répondus : {{ total_learned }}
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Palabras respondidas correctamente: {{ total_learned }}
+            {% elif lang_code == 'it' %}Parole risposte correttamente: {{ total_learned }}
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Palavras respondidas corretamente: {{ total_learned }}
+            {% elif lang_code == 'vi' %}Số từ đã trả lời đúng: {{ total_learned }}
+            {% elif lang_code == 'th' %}คำศัพท์ที่ตอบถูกแล้ว: {{ total_learned }} คำ
+            {% else %}Words you've correctly reviewed: {{ total_learned }}{% endif %}
+        </p>
+
+        {% if category_groups %}
+            {% for category, items in category_groups %}
+            <div class="category-group">
+                <div class="category-group-title">{{ category|format_category:lang_code }}</div>
+                <div class="review-list">
+                    {% for item in items %}
+                    <a href="{% if item.is_premium %}{% url 'detail_premium' category=item.object.category slug=item.object.slug %}{% else %}{% url 'category_detail' category=item.object.category slug=item.object.slug %}{% endif %}?lang={{ lang_code }}" class="review-card">
+                        <div class="review-img-wrapper">
+                            {% if item.object.image %}
+                                <img src="{{ item.object.image.url }}" alt="{{ item.object.name }}" class="review-result-img">
+                            {% else %}
+                                <div class="no-image">{% if lang_code == 'ja' %}画像なし{% elif lang_code == 'zh-hant' %}無圖片{% elif lang_code == 'zh-cn' %}无图片{% elif lang_code == 'ko' %}이미지 없음{% elif lang_code == 'de' %}Kein Bild{% elif lang_code == 'fr' %}Pas d'image{% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Sin imagen{% elif lang_code == 'it' %}Nessuna immagine{% elif lang_code == 'pt' or lang_code == 'pt-br' %}Sem imagem{% elif lang_code == 'vi' %}Không có hình ảnh{% elif lang_code == 'th' %}ไม่มีรูปภาพ{% else %}No Image{% endif %}</div>
+                            {% endif %}
+                        </div>
+                        <div class="review-info">
+                            <h3 class="answer-title">
+                                {% if item.object.kanji_name %}
+                                    {{ item.object.kanji_name|ruby_smart:item.object.jpname }}
+                                {% else %}
+                                    {{ item.object.jpname }}
+                                {% endif %}
+                                <span>({{ item.object.name|title }})</span>
+                            </h3>
+                            <div class="review-meta">
+                                {% if lang_code == 'ja' %}復習{{ item.log.review_count }}回・最終{{ item.log.last_reviewed_at|date:"Y-m-d" }}
+                                {% elif lang_code == 'zh-hant' %}複習{{ item.log.review_count }}次・最近{{ item.log.last_reviewed_at|date:"Y-m-d" }}
+                                {% elif lang_code == 'zh-cn' %}复习{{ item.log.review_count }}次・最近{{ item.log.last_reviewed_at|date:"Y-m-d" }}
+                                {% elif lang_code == 'ko' %}{{ item.log.review_count }}회 복습・최근 {{ item.log.last_reviewed_at|date:"Y-m-d" }}
+                                {% elif lang_code == 'de' %}{{ item.log.review_count }}x wiederholt・zuletzt {{ item.log.last_reviewed_at|date:"Y-m-d" }}
+                                {% elif lang_code == 'fr' %}Révisé {{ item.log.review_count }}x・dernière fois {{ item.log.last_reviewed_at|date:"Y-m-d" }}
+                                {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Repasado {{ item.log.review_count }}x・última vez {{ item.log.last_reviewed_at|date:"Y-m-d" }}
+                                {% elif lang_code == 'it' %}Ripassato {{ item.log.review_count }}x・ultima volta {{ item.log.last_reviewed_at|date:"Y-m-d" }}
+                                {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Revisado {{ item.log.review_count }}x・última vez {{ item.log.last_reviewed_at|date:"Y-m-d" }}
+                                {% elif lang_code == 'vi' %}Đã ôn {{ item.log.review_count }} lần・gần nhất {{ item.log.last_reviewed_at|date:"Y-m-d" }}
+                                {% elif lang_code == 'th' %}ทบทวนแล้ว {{ item.log.review_count }} ครั้ง・ล่าสุด {{ item.log.last_reviewed_at|date:"Y-m-d" }}
+                                {% else %}Reviewed {{ item.log.review_count }}x・Last {{ item.log.last_reviewed_at|date:"Y-m-d" }}{% endif %}
+                            </div>
+                        </div>
+                    </a>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <div class="empty-state">
+                {% if lang_code == 'ja' %}まだ復習した単語がありません。<br>単語詳細ページの「この単語を練習する」から始めてみましょう!
+                {% elif lang_code == 'zh-hant' %}目前還沒有復習過的單字。<br>從單字詳情頁的「練習這個單字」開始吧!
+                {% elif lang_code == 'zh-cn' %}目前还没有复习过的单词。<br>从单词详情页的"练习这个单词"开始吧!
+                {% elif lang_code == 'ko' %}아직 복습한 단어가 없어요.<br>단어 상세 페이지의 "이 단어 연습하기"에서 시작해 보세요!
+                {% elif lang_code == 'de' %}Noch keine wiederholten Wörter.<br>Starte über "Dieses Wort üben" auf einer Wortdetailseite!
+                {% elif lang_code == 'fr' %}Aucun mot révisé pour l'instant.<br>Commencez avec « Pratiquer ce mot » sur une page de détail !
+                {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Aún no has repasado ninguna palabra.<br>¡Empieza con "Practicar esta palabra" en cualquier página de detalle!
+                {% elif lang_code == 'it' %}Ancora nessuna parola ripassata.<br>Inizia con "Esercitati con questa parola" nella pagina di dettaglio!
+                {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Ainda não há palavras revisadas.<br>Comece com "Praticar esta palavra" na página de detalhes!
+                {% elif lang_code == 'vi' %}Chưa có từ nào được ôn tập.<br>Hãy bắt đầu với "Luyện tập từ này" trên trang chi tiết từ!
+                {% elif lang_code == 'th' %}ยังไม่มีคำศัพท์ที่ทบทวน<br>ลองเริ่มจาก "ฝึกคำนี้" ในหน้ารายละเอียดคำศัพท์!
+                {% else %}No learned words yet.<br>Try "Practice this word" from any word's detail page!{% endif %}
+            </div>
+        {% endif %}
+
+        <div style="text-align:center; margin-top: 30px; margin-bottom: 60px;">
+            <a href="{% url 'account_settings' %}?lang={{ lang_code }}" class="back-link">
+                {% if lang_code == 'ja' %}← 設定に戻る
+                {% elif lang_code == 'zh-hant' %}← 返回設定
+                {% elif lang_code == 'zh-cn' %}← 返回设置
+                {% elif lang_code == 'ko' %}← 설정으로 돌아가기
+                {% elif lang_code == 'de' %}← Zurück zu Einstellungen
+                {% elif lang_code == 'fr' %}← Retour aux paramètres
+                {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}← Volver a ajustes
+                {% elif lang_code == 'it' %}← Torna alle impostazioni
+                {% elif lang_code == 'pt' or lang_code == 'pt-br' %}← Voltar às configurações
+                {% elif lang_code == 'vi' %}← Quay lại cài đặt
+                {% elif lang_code == 'th' %}← กลับไปที่การตั้งค่า
+                {% else %}← Back to Settings{% endif %}
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

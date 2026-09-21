@@ -44,7 +44,7 @@ from .views import (TopView, TopViewFR, TopViewIT, TopViewPT, TopViewZHHANT,TopV
                     CustomPasswordResetView, CustomPasswordResetConfirmView, verify_android_subscription,
                     broadcast_daily_message,
                     add_missing_email, dismiss_email_prompt, dismiss_daily_question_banner, toggle_daily_question_notify,
-                    mark_twa, dismiss_trial_ended_popup,
+                    mark_twa, dismiss_trial_ended_popup, learned_words,
                     )
 
 
@@ -138,7 +138,9 @@ urlpatterns = [
     path('account/settings/vi/', account_settingsVI, name='account_settingsvi'),
     path('account/settings/zh-hant/', account_settingsZHHANT, name='account_settingszhHANT'),
     path('account/settings/zh-cn/', account_settingsZHCN, name='account_settingszhCN'),
-    
+
+    path('account/learned-words/', learned_words, name='learned_words'),
+
     #delete-success
     path('account/delete-success/', delete_success_v2, name='delete_success'),
     path('account/delete-success/ja/', delete_success_v2, name='delete_successja'),

@@ -549,3 +549,44 @@ class DailyActivitySummary(models.Model):
     def __str__(self):
         return f"{self.date} - {self.get_activity_type_display()} ({self.total_count})"
 
+
+class WordReviewLog(models.Model):
+    """One row per (user, word) the user has correctly reviewed from a word-
+    detail page ("single" mode) - not one row per review event, following
+    the same growth/privacy lesson as DailyActivitySummary/GameActivityLog
+    above: reviewing the same word many times just bumps review_count and
+    last_reviewed_at on the existing row instead of growing without bound.
+    Written only from game_submit_answer's mode='single' + correct branch,
+    and only for logged-in users - guests have no identity to attach a row
+    to, and normal multi-question game modes don't write here at all."""
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='word_review_logs')
+    # Exactly one of word/premium_word is set per row, same dual-nullable-FK
+    # shape as DailyQuestion above - use `selected_word` rather than either
+    # field directly.
+    word = models.ForeignKey(ThankJapanModel, on_delete=models.CASCADE, related_name='review_logs', null=True, blank=True)
+    premium_word = models.ForeignKey(ThankJapanPremium, on_delete=models.CASCADE, related_name='review_logs', null=True, blank=True)
+    review_count = models.PositiveIntegerField(default=1)
+    first_reviewed_at = models.DateTimeField(auto_now_add=True)
+    last_reviewed_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['user', 'word'], name='unique_word_review_log_free'),
+            models.UniqueConstraint(fields=['user', 'premium_word'], name='unique_word_review_log_premium'),
+        ]
+        ordering = ['-last_reviewed_at']
+
+    @property
+    def selected_word(self):
+        return self.word or self.premium_word
+
+    @classmethod
+    def record_review(cls, user, word=None, premium_word=None):
+        obj, created = cls.objects.get_or_create(user=user, word=word, premium_word=premium_word)
+        if not created:
+            cls.objects.filter(pk=obj.pk).update(review_count=F('review_count') + 1)
+        return obj
+
+    def __str__(self):
+        return f"{self.user.username} - {self.selected_word.englishname} (x{self.review_count})"
+

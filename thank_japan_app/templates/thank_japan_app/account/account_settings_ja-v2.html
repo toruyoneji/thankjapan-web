@@ -343,6 +343,10 @@
                         連携アカウントを管理 🔗
                     </a>
 
+                    <a href="{% url 'learned_words' %}?lang={{ lang_code }}" class="btn-manage" style="background: transparent; border: 1px solid rgba(212,175,55,0.6); color: var(--tj-gold-deep); font-size: 0.9rem; display: block; text-align: center; margin-top: 10px;">
+                        学んだワード 📖
+                    </a>
+
                     <form action="{% url 'delete_account' %}?lang={{ lang_code }}" method="POST" onsubmit="return confirm('警告：アカウントとすべてのデータが永久に削除されます。よろしいですか？')">
                         {% csrf_token %}
                         <input type="hidden" name="success_url_name" value="delete_successja">

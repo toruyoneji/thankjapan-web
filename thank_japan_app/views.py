@@ -26,7 +26,7 @@ from django.utils.dateparse import parse_datetime
 from django.utils.http import urlencode
 from django.contrib.auth.views import PasswordResetView, PasswordResetConfirmView
 from .context_processors import language_context
-from .models import WeeklyScore, ThankJapanBackgroundModel, FCMDevice, DailyQuestion, PremiumRenewalReward, FREE_PREVIEW_PREMIUM_CATEGORIES, DailyActivitySummary
+from .models import WeeklyScore, ThankJapanBackgroundModel, FCMDevice, DailyQuestion, PremiumRenewalReward, FREE_PREVIEW_PREMIUM_CATEGORIES, DailyActivitySummary, WordReviewLog
 from .pricing import get_premium_price, get_top_page_seo_override
 from google.oauth2 import service_account
 from googleapiclient.discovery import build
@@ -2113,6 +2113,15 @@ def game_submit_answer(request):
             activity_type=DailyActivitySummary.ACTIVITY_MAIN_GAME,
             is_guest=not request.user.is_authenticated,
             is_correct=correct_flag,
+        )
+
+    # "Learned words" history (account settings) - single-word review from a
+    # detail page only, and only for logged-in users (see WordReviewLog).
+    if game_difficulty == 'single' and correct_flag and request.user.is_authenticated:
+        WordReviewLog.record_review(
+            user=request.user,
+            word=question if q['model'] == 'free' else None,
+            premium_word=question if q['model'] == 'premium' else None,
         )
 
     points = combo = combo_bonus = 0
@@ -4242,6 +4251,44 @@ def account_settings(request):
         'recent_renewal_rewards': recent_renewal_rewards,
     }
     return render(request, 'thank_japan_app/account/account_settings-v2.html', context)
+
+
+@login_required
+def learned_words(request):
+    """Lists every word the user has correctly reviewed from a word-detail
+    page (see WordReviewLog / game_submit_answer's mode='single' branch),
+    grouped by category, most-recently-active category first. Linked from
+    account_settings ("Learned Words")."""
+    _, lang_code = get_lang_info(request)
+
+    logs = WordReviewLog.objects.filter(user=request.user).select_related('word', 'premium_word')
+
+    grouped = {}
+    for log in logs:
+        word = log.selected_word
+        if word is None:
+            continue
+        grouped.setdefault(word.category, []).append({
+            'log': log,
+            'object': word,
+            'is_premium': log.premium_word_id is not None,
+        })
+
+    for items in grouped.values():
+        items.sort(key=lambda item: item['log'].last_reviewed_at, reverse=True)
+
+    category_groups = sorted(
+        grouped.items(),
+        key=lambda kv: max(item['log'].last_reviewed_at for item in kv[1]),
+        reverse=True,
+    )
+
+    context = {
+        'lang_code': lang_code,
+        'category_groups': category_groups,
+        'total_learned': logs.count(),
+    }
+    return render(request, 'thank_japan_app/learned_words.html', context)
 
 
 @login_required
