@@ -385,6 +385,36 @@
    lot of PC-viewport/cookie-banner-clearance machinery to avoid overlapping
    fixed footer chrome. A centered fixed modal sidesteps all of that: its
    position never depends on surrounding page flow or content length. */
+/* Points at the real "ThankJapan" logo in .app-header (base_top.html) while
+   the tutorial-overlay-backdrop below is showing. Deliberately NOT nested
+   inside .app-header's own markup: .app-header has position:absolute +
+   z-index:1000, which creates its own stacking context, so anything placed
+   inside it would be capped there and rendered BEHIND the backdrop's
+   z-index:19000 (see includes/tutorial_overlay.css.html) - invisible under
+   the dark overlay. Living here instead, as a plain position:fixed sibling
+   with a higher z-index, escapes that cap and can render on top of the
+   backdrop. The logo itself is untranslated ("ThankJapan" in every locale)
+   and always left-aligned at .app-header's own 20px padding, so a hardcoded
+   viewport position lines up with it across all 15 languages/viewports
+   without needing to read the real element's position. */
+.logo-pointer-hint {
+    display: none;
+    position: fixed;
+    top: 58px;
+    left: 28px;
+    font-size: 1.8rem;
+    line-height: 1;
+    z-index: 19500;
+    pointer-events: none;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.6));
+    animation: logoPointerBounce 1.3s ease-in-out infinite;
+}
+.logo-pointer-hint.show { display: block; }
+@keyframes logoPointerBounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+}
+
 .trial-ended-overlay {
     display: none;
     position: fixed;
@@ -427,6 +457,26 @@
 </style>
 
 {% include 'includes/tutorial_overlay.css.html' %}
+<div class="logo-pointer-hint" id="logo-pointer-hint">👆</div>
+<div class="tutorial-overlay-backdrop" id="tutorial-overlay-logo-hint">
+    <div class="tutorial-overlay-card">
+        <div class="tutorial-overlay-icon">👆</div>
+        <div class="tutorial-overlay-text">
+            {% if lang_code == 'ja' %}上の「ThankJapan」ロゴを<br>タップすれば<br>いつでもトップページに<br>戻れるよ！
+            {% elif lang_code == 'zh-hant' %}點擊上方的「ThankJapan」<br>標誌，<br>隨時都能<br>回到首頁！
+            {% elif lang_code == 'zh-cn' %}点击上方的"ThankJapan"<br>标志，<br>随时都能<br>返回首页！
+            {% elif lang_code == 'ko' %}위의 "ThankJapan" 로고를<br>탭하면<br>언제든지<br>홈으로 돌아갈 수 있어요!
+            {% elif lang_code == 'de' %}Tippe jederzeit auf das<br>„ThankJapan"-Logo oben,<br>um zur Startseite<br>zurückzukehren!
+            {% elif lang_code == 'fr' %}Touchez le logo<br>« ThankJapan » en haut<br>pour revenir à l'accueil<br>à tout moment !
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}¡Toca el logo de<br>"ThankJapan" arriba<br>para volver al inicio<br>cuando quieras!
+            {% elif lang_code == 'it' %}Tocca il logo<br>"ThankJapan" in alto<br>per tornare alla home<br>in qualsiasi momento!
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Toque no logo<br>"ThankJapan" acima<br>para voltar à página inicial<br>a qualquer momento!
+            {% elif lang_code == 'vi' %}Chạm vào logo<br>"ThankJapan" ở trên<br>để quay lại trang chủ<br>bất cứ lúc nào!
+            {% elif lang_code == 'th' %}แตะโลโก้ "ThankJapan"<br>ด้านบนได้ทุกเมื่อ<br>เพื่อกลับไปหน้าแรก!
+            {% else %}Tap the "ThankJapan"<br>logo above anytime<br>to return to<br>the top page!{% endif %}
+        </div>
+    </div>
+</div>
 <div class="tutorial-overlay-backdrop" id="tutorial-overlay-start">
     <div class="tutorial-overlay-card">
         <div class="tutorial-overlay-icon">🎮</div>
@@ -495,7 +545,19 @@ document.addEventListener('DOMContentLoaded', function () {
     // repeat visit within the same tab never shows it twice.
     if (sessionStorage.getItem('tj_tutorial_just_completed') === '1') {
         sessionStorage.removeItem('tj_tutorial_just_completed');
-        playTutorialOverlay('tutorial-overlay-end', 2500);
+        // New logo-pointer step, inserted ahead of the existing closing
+        // overlay: after a short beat back on the top page, point at the
+        // real logo (#logo-pointer-hint, positioned in the CSS above) at
+        // the same time as its own explanatory card, then hand off to the
+        // pre-existing "tutorial-overlay-end" celebration once both fade.
+        setTimeout(function () {
+            var logoPointer = document.getElementById('logo-pointer-hint');
+            if (logoPointer) logoPointer.classList.add('show');
+            playTutorialOverlay('tutorial-overlay-logo-hint', 2500, function () {
+                if (logoPointer) logoPointer.classList.remove('show');
+                playTutorialOverlay('tutorial-overlay-end', 2500);
+            });
+        }, 1000);
     }
     // Same one-shot sessionStorage handoff as above, for the separate
     // nav-tutorial's own closing overlay (see game_play-v2.html, which sets
