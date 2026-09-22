@@ -243,16 +243,37 @@
             display: flex;
             align-items: center;
             gap: 3px;
-            color: #d4af37;
-            text-shadow: 0 1px 3px rgba(0,0,0,0.6);
+            color: #fff;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.8), 0 0 14px rgba(212, 175, 55, 0.75);
             text-decoration: none;
-            font-size: 0.8rem;
+            font-size: 1rem;
             font-weight: 700;
             white-space: nowrap;
             flex-shrink: 0;
         }
 
-        
+        /* The visitor badge at a legible 1rem next to the logo, plus the
+           existing Sound label and point-badge padding, genuinely don't
+           all fit at any real phone width (confirmed by measuring actual
+           rendered widths, not guessing - still overlapped at 375/390px
+           with only the Sound label removed, needed the breakpoint raised
+           to cover the full phone range). Rather than shrink the badge
+           back down (the whole point of this pass was making it bigger),
+           free up room by dropping the Sound button to icon-only and
+           trimming padding/gaps up to tablet width; 1rem and the
+           icon+logo+point badge are untouched at every width, and the
+           Sound label returns above 480px (tablet/desktop, where there's
+           room to spare). */
+        @media (max-width: 480px) {
+            .app-header { padding: 0 6px; }
+            .header-left { gap: 2px; }
+            .header-right { gap: 3px; }
+            .app-header .sound-toggle-label { display: none; }
+            .app-header .sound-toggle-header { padding: 0 7px; gap: 0; }
+            .header-score-badge { padding: 3px 6px; }
+        }
+
+
         
         .bottom-nav {
             position: fixed !important;
@@ -501,8 +522,8 @@
         
         <header class="app-header">
             <div class="header-left">
-                {% include 'includes/visitor_count_badge.html' %}
                 <a class="logo-link" href="{% url 'toppage' %}?lang={{ lang_code }}">ThankJapan</a>
+                {% include 'includes/visitor_count_badge.html' %}
             </div>
             <div class="header-right">
                 {% include 'includes/sound_toggle.html' %}

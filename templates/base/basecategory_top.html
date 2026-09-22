@@ -145,16 +145,28 @@
             display: flex;
             align-items: center;
             gap: 3px;
-            color: #d4af37;
-            text-shadow: 0 1px 3px rgba(0,0,0,0.6);
+            color: #fff;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.8), 0 0 14px rgba(212, 175, 55, 0.75);
             text-decoration: none;
-            font-size: 0.8rem;
+            font-size: 1rem;
             font-weight: 700;
             white-space: nowrap;
             flex-shrink: 0;
         }
 
-        
+        /* Same narrow-phone compaction as base_top.html - see its comment
+           for why (the visitor badge at 1rem plus the existing Sound label
+           and point-badge padding don't all fit at 320px). */
+        @media (max-width: 480px) {
+            .app-header { padding: 0 6px; }
+            .header-left { gap: 2px; }
+            .header-right { gap: 3px; }
+            .app-header .sound-toggle-label { display: none; }
+            .app-header .sound-toggle-header { padding: 0 7px; gap: 0; }
+            .header-score-badge { padding: 3px 6px; }
+        }
+
+
         
         .bottom-nav {
             position: fixed !important; 
@@ -365,8 +377,8 @@
         
         <header class="app-header">
             <div class="header-left">
-                {% include 'includes/visitor_count_badge.html' %}
                 <a class="logo-link" href="{% url 'toppage' %}?lang={{ lang_code }}">ThankJapan</a>
+                {% include 'includes/visitor_count_badge.html' %}
             </div>
             <div class="header-right">
                 {% include 'includes/sound_toggle.html' %}
