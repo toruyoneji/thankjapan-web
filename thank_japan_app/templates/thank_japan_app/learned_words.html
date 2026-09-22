@@ -22,12 +22,36 @@
         --lw-gold-dark: #a97c1f;
         --lw-matcha: #7c9473;
     }
+    /* height:100vh (not 100%) + overflow-y:auto + plain block layout
+       (.learned-words-inner centers itself via margin:0 auto, NOT
+       display:flex/justify-content:center) - deliberately matching the
+       proven-working pattern from connections.html/login.html. Combining
+       flex centering with overflow-y:auto on over-height content is a
+       known browser quirk that leaves the trailing padding permanently
+       unreachable even at max scrollTop, hiding content behind the fixed
+       .bottom-nav. overscroll-behavior/touch-action are the same extra
+       insurance connections.html uses so the browser treats this element
+       as the definitive scroll owner regardless of input device.
+
+       height:100vh alone reproduced fine in a fixed-size desktop/simulated
+       viewport, but real mobile Safari/Chrome shrink the ACTUAL visible
+       area when their address-bar chrome is showing, while classic `vh`
+       still measures the larger, chrome-hidden viewport - so this box (and
+       its trailing safety padding meant to clear .bottom-nav) can render
+       partly below the real visible fold, behind the fixed nav, on an
+       actual phone even though it measures fine in a static test. `dvh`
+       (dynamic viewport height) tracks the real, currently-visible area;
+       declared after the `vh` line so unsupported browsers keep that
+       fallback and everyone else gets the corrected value. */
     #learned-words-container {
         height: 100vh;
+        height: 100dvh;
         padding: 70px 0 calc(90px + env(safe-area-inset-bottom));
         box-sizing: border-box;
         overflow-y: auto;
         -webkit-overflow-scrolling: touch;
+        overscroll-behavior: contain;
+        touch-action: pan-y;
         -ms-overflow-style: none;
         scrollbar-width: none;
     }

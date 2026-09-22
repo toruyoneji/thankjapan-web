@@ -224,6 +224,29 @@
             font-size: 0.9rem;
         }
 
+        /* Stacks the point badge and the visitor-count badge vertically so
+           the new badge adds height, not width, inside the already-tight
+           60px header row (logo + sound toggle + point badge already fill
+           most of a 320-375px-wide phone screen). */
+        .header-badge-stack {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 3px;
+        }
+
+        .header-visitor-badge {
+            display: flex;
+            align-items: center;
+            gap: 3px;
+            color: rgba(255,255,255,0.85);
+            text-shadow: 0 1px 3px rgba(0,0,0,0.6);
+            text-decoration: none;
+            font-size: 0.65rem;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
         
         
         .bottom-nav {
@@ -475,9 +498,12 @@
             <a class="logo-link" href="{% url 'toppage' %}?lang={{ lang_code }}">ThankJapan</a>
             <div class="header-right">
                 {% include 'includes/sound_toggle.html' %}
-                <a href="#" class="header-score-badge">
-                    <span class="score-text">💎 {{ user.profile.total_score|default:0 }}<small>pt</small></span>
-                </a>
+                <div class="header-badge-stack">
+                    <a href="#" class="header-score-badge">
+                        <span class="score-text">💎 {{ user.profile.total_score|default:0 }}<small>pt</small></span>
+                    </a>
+                    {% include 'includes/visitor_count_badge.html' %}
+                </div>
             </div>
         </header>
 

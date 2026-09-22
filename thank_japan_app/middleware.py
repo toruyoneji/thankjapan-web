@@ -1,6 +1,8 @@
 # yourapp/middleware.py
 from django.http import HttpResponsePermanentRedirect
 
+_VISIT_COUNTER_EXCLUDED_PREFIXES = ('/admin/', '/static/', '/media/')
+
 class RedirectToWwwMiddleware:
     def __init__(self, get_response):
         self.get_response = get_response
@@ -59,6 +61,32 @@ class HasAccountCookieMiddleware:
                 max_age=self.COOKIE_MAX_AGE,
                 httponly=True, samesite='Lax', secure=request.is_secure(),
             )
+        return response
+
+
+class VisitCounterMiddleware:
+    """Increments SiteVisitCounter's today row once per real page view (see
+    SiteVisitCounter, thank_japan_app/models.py, for the 1-row-per-day
+    design). Deliberately a status_code==200 + Content-Type check rather
+    than a URL-prefix allowlist, so it doesn't need updating every time a
+    new page is added: it naturally excludes redirects, 404s, JSON/API
+    responses, and static/media files (the latter two are normally already
+    served by WhiteNoise/the web server earlier in the chain and never
+    reach here at all, but are excluded explicitly too in case that ever
+    changes)."""
+    def __init__(self, get_response):
+        self.get_response = get_response
+
+    def __call__(self, request):
+        response = self.get_response(request)
+        if (
+            request.method == 'GET'
+            and response.status_code == 200
+            and response.get('Content-Type', '').startswith('text/html')
+            and not request.path.startswith(_VISIT_COUNTER_EXCLUDED_PREFIXES)
+        ):
+            from thank_japan_app.models import SiteVisitCounter
+            SiteVisitCounter.record_visit()
         return response
 
 

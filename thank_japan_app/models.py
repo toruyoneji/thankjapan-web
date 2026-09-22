@@ -555,6 +555,49 @@ class DailyActivitySummary(models.Model):
         return f"{self.date} - {self.get_activity_type_display()} ({self.total_count})"
 
 
+class SiteVisitCounter(models.Model):
+    """One row per calendar date - a running daily page-view count, not a
+    per-request log (same 1-row-per-day pattern as DailyActivitySummary
+    above). Powers the header's all-time "X people have visited" badge.
+    No user/session/IP/user-agent is ever recorded, just a same-day running
+    total updated via F() so concurrent requests on the same day can't
+    clobber each other's increment - at most ~365 rows/year regardless of
+    traffic volume. Deliberately counts every real page view including bot
+    traffic (unlike DailyActivitySummary's ground-truth gameplay counts) -
+    this is a "site has real, sizeable traffic" impression number, not an
+    analytics metric, so bot inflation is acceptable here (see
+    VisitCounterMiddleware, thank_japan_app/middleware.py)."""
+    date = models.DateField(unique=True, db_index=True)
+    visit_count = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        ordering = ['-date']
+
+    @classmethod
+    def record_visit(cls):
+        today = timezone.localdate()
+        obj, _ = cls.objects.get_or_create(date=today)
+        cls.objects.filter(pk=obj.pk).update(visit_count=F('visit_count') + 1)
+
+    @classmethod
+    def cumulative_total(cls):
+        """All-time sum across every day's row, cached briefly so the
+        header badge (rendered on every page, for every visitor) doesn't
+        run a SUM() query per request."""
+        from django.core.cache import cache
+        from django.db.models import Sum
+        cache_key = 'site_visit_cumulative_total'
+        cached = cache.get(cache_key)
+        if cached is not None:
+            return cached
+        total = cls.objects.aggregate(total=Sum('visit_count'))['total'] or 0
+        cache.set(cache_key, total, 300)
+        return total
+
+    def __str__(self):
+        return f"{self.date} - {self.visit_count}"
+
+
 class WordReviewLog(models.Model):
     """One row per (user, word) the user has correctly reviewed from a word-
     detail page ("single" mode) - not one row per review event, following

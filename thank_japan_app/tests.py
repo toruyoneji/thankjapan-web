@@ -15,7 +15,7 @@ from django.urls import reverse
 from django.utils import timezone
 
 from . import context_processors, tile_split
-from .models import DailyQuestion, Player, Profile, PremiumRenewalReward, ThankJapanModel, ThankJapanPremium, DailyActivitySummary
+from .models import DailyQuestion, Player, Profile, PremiumRenewalReward, ThankJapanModel, ThankJapanPremium, DailyActivitySummary, SiteVisitCounter
 from .views import (
     combo_bonus_for_streak, build_combo_share_message, _sample_easy_ids, FIRST_TASTE_QUESTION_COUNT,
     grant_renewal_rewards_if_due, PREMIUM_RENEWAL_REWARD_POINTS, PREMIUM_RENEWAL_REWARD_MAX_CATCHUP,
@@ -5523,3 +5523,104 @@ class GameStartBackHomeButtonMobileSpacingTests(TestCase):
         body = response.content.decode()
 
         self.assertIn('.container > div[style*="margin"] { margin: 0 !important; }', body)
+
+
+class SiteVisitCounterTests(TestCase):
+    """The header's all-time visitor badge (2026-09-23). Deliberately the
+    same 1-row-per-day running-total pattern as DailyActivitySummary (see
+    DailyActivitySummaryTests above) - record_visit() must never grow the
+    table by more than one row per calendar date no matter how many
+    requests land that day."""
+
+    def setUp(self):
+        from django.core.cache import cache
+        cache.delete('site_visit_cumulative_total')
+
+    def test_record_visit_creates_one_row_for_the_day(self):
+        SiteVisitCounter.record_visit()
+
+        self.assertEqual(SiteVisitCounter.objects.count(), 1)
+        row = SiteVisitCounter.objects.get()
+        self.assertEqual(row.date, timezone.localdate())
+        self.assertEqual(row.visit_count, 1)
+
+    def test_repeated_visits_same_day_increment_one_row_not_append_rows(self):
+        for _ in range(25):
+            SiteVisitCounter.record_visit()
+
+        self.assertEqual(SiteVisitCounter.objects.count(), 1)
+        self.assertEqual(SiteVisitCounter.objects.get().visit_count, 25)
+
+    def test_cumulative_total_sums_across_days(self):
+        today = timezone.localdate()
+        SiteVisitCounter.objects.create(date=today, visit_count=10)
+        SiteVisitCounter.objects.create(date=today - timedelta(days=1), visit_count=7)
+        SiteVisitCounter.objects.create(date=today - timedelta(days=400), visit_count=3)
+
+        self.assertEqual(SiteVisitCounter.cumulative_total(), 20)
+
+    def test_cumulative_total_is_zero_with_no_rows(self):
+        self.assertEqual(SiteVisitCounter.cumulative_total(), 0)
+
+
+class VisitCounterMiddlewareTests(TestCase):
+    """Exercises VisitCounterMiddleware (thank_japan_app/middleware.py)
+    through real requests rather than calling it directly, since its whole
+    point is deciding which real responses qualify. secure=True is required
+    on every call here - SECURE_SSL_REDIRECT=True (settings.py) 301s any
+    plain-HTTP test-client request before it ever reaches a real view."""
+
+    def test_real_page_view_increments_todays_row(self):
+        self.client.get(reverse('toppage'), secure=True)
+
+        self.assertEqual(SiteVisitCounter.objects.count(), 1)
+        self.assertEqual(SiteVisitCounter.objects.get().visit_count, 1)
+
+    def test_several_page_views_same_day_stay_one_row(self):
+        for _ in range(5):
+            self.client.get(reverse('toppage'), secure=True)
+            self.client.get(reverse('game_start'), secure=True)
+
+        self.assertEqual(SiteVisitCounter.objects.count(), 1)
+        self.assertEqual(SiteVisitCounter.objects.get().visit_count, 10)
+
+    def test_admin_login_path_is_excluded(self):
+        self.client.get('/admin/login/', secure=True)
+
+        self.assertEqual(SiteVisitCounter.objects.count(), 0)
+
+
+class VisitorCountHeaderBadgeTests(TestCase):
+    """The header badge (templates/includes/visitor_count_badge.html,
+    included from base_top.html/basecategory_top.html) must render the
+    cached cumulative total on an ordinary page, in all 15 locales."""
+
+    def setUp(self):
+        SiteVisitCounter.objects.create(date=timezone.localdate(), visit_count=12345)
+        from django.core.cache import cache
+        cache.delete('site_visit_cumulative_total')
+
+    def test_badge_shows_formatted_cumulative_total_on_toppage(self):
+        response = self.client.get(reverse('toppage'), secure=True)
+        body = response.content.decode()
+
+        self.assertIn('header-visitor-badge', body)
+        self.assertIn('🎮 12,345', body)
+
+    def test_badge_present_across_all_15_locales(self):
+        locale_full_text = {
+            'ja': '人がThankJapanを訪れました', 'zh-hant': '人造訪了ThankJapan',
+            'zh-cn': '人访问了ThankJapan', 'ko': '명이 ThankJapan을 방문했습니다',
+            'de': 'Personen haben ThankJapan besucht', 'fr': 'personnes ont visité ThankJapan',
+            'es-es': 'personas han visitado ThankJapan', 'es-mx': 'personas han visitado ThankJapan',
+            'it': 'persone hanno visitato ThankJapan', 'pt': 'pessoas visitaram o ThankJapan',
+            'pt-br': 'pessoas visitaram o ThankJapan', 'vi': 'người truy cập ThankJapan',
+            'th': 'มีผู้เข้าชม ThankJapan แล้ว', 'en-in': 'people have visited ThankJapan',
+            'en': 'people have visited ThankJapan',
+        }
+        for lang, expected_fragment in locale_full_text.items():
+            with self.subTest(lang=lang):
+                response = self.client.get(reverse('toppage'), {'lang': lang}, secure=True)
+                body = response.content.decode()
+                self.assertIn('🎮 12,345', body)
+                self.assertIn(expected_fragment, body)

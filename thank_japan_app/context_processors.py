@@ -200,3 +200,14 @@ def firebase_keys(request):
         'FIREBASE_APP_ID': os.environ.get('FIREBASE_APP_ID', ''),
         'FIREBASE_VAPID_KEY': os.environ.get('FIREBASE_VAPID_KEY', ''),
     }
+
+
+def visit_counter_status(request):
+    """All-time visit count for the header badge (see SiteVisitCounter,
+    thank_japan_app/models.py). Reads a cached sum, not a live query."""
+    from .models import SiteVisitCounter
+    total = SiteVisitCounter.cumulative_total()
+    return {
+        'total_site_visits': total,
+        'total_site_visits_display': f"{total:,}",
+    }
