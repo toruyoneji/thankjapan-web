@@ -5605,7 +5605,7 @@ class VisitorCountHeaderBadgeTests(TestCase):
         body = response.content.decode()
 
         self.assertIn('header-visitor-badge', body)
-        self.assertIn('🎮 12,345', body)
+        self.assertIn('👥 12.3k', body)
 
     def test_badge_present_across_all_15_locales(self):
         locale_full_text = {
@@ -5622,5 +5622,5 @@ class VisitorCountHeaderBadgeTests(TestCase):
             with self.subTest(lang=lang):
                 response = self.client.get(reverse('toppage'), {'lang': lang}, secure=True)
                 body = response.content.decode()
-                self.assertIn('🎮 12,345', body)
+                self.assertIn('👥 12.3k', body)
                 self.assertIn(expected_fragment, body)
