@@ -361,22 +361,12 @@
         </div>
 
         <div style="text-align:center; margin-top: 30px; margin-bottom: 60px;">
-            <a href="javascript:void(0);" onclick="smartBack()" class="back-link">
-                {% if request.GET.from == 'result' %}← Back to Results{% else %}← Back{% endif %}
+            <a href="{% url 'toppage' %}" class="back-link">
+                ← Back To Home
             </a>
         </div>
-        
+
     </div>
 </div>
 
-
-<script>
-function smartBack() {
-    if (document.referrer && document.referrer.includes(window.location.hostname)) {
-        history.back();
-    } else {
-        window.location.href = "{% url 'toppage' %}";
-    }
-}
-</script>
 {% endblock %}

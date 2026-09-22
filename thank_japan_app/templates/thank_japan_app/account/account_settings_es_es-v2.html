@@ -359,20 +359,11 @@
         </div>
 
         <div style="text-align:center; margin-top: 30px; margin-bottom: 60px;">
-            <a href="javascript:void(0);" onclick="smartBack()" class="back-link" style="color: var(--tj-gold-light); text-decoration: none; font-size: 0.9rem;">
-                {% if request.GET.from == 'result' %}← Volver a resultados{% else %}← Volver{% endif %}
+            <a href="{% url 'toppageesES' %}" class="back-link" style="color: var(--tj-gold-light); text-decoration: none; font-size: 0.9rem;">
+                ← Volver al Inicio
             </a>
         </div>
     </div>
 </div>
 
-<script>
-function smartBack() {
-    if (document.referrer && document.referrer.includes(window.location.hostname)) {
-        history.back();
-    } else {
-        window.location.href = "{% url 'toppageesES' %}";
-    }
-}
-</script>
 {% endblock %}
