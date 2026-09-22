@@ -663,10 +663,19 @@
                   Quản lý hồ sơ / Cài đặt tài khoản ⚙️
               </a>
           {% endif %}
-          <a href="{% url 'toppagevi' %}" class="btn-back-home">
+          <a href="javascript:void(0);" onclick="smartBack()" class="btn-back-home">
               ← Quay lại Trang chủ
           </a>
       </div>
+      <script>
+      function smartBack() {
+          if (document.referrer && document.referrer.includes(window.location.hostname)) {
+              history.back();
+          } else {
+              window.location.href = "{% url 'toppagevi' %}";
+          }
+      }
+      </script>
 
     </div>
   </div>

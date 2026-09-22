@@ -334,7 +334,7 @@
         {% endif %}
 
         <div style="text-align:center; margin-top: 30px; margin-bottom: 60px;">
-            <a href="{% url 'account_settings' %}?lang={{ lang_code }}" class="back-link">
+            <a href="javascript:void(0);" onclick="smartBack()" class="back-link">
                 {% if lang_code == 'ja' %}← 設定に戻る
                 {% elif lang_code == 'zh-hant' %}← 返回設定
                 {% elif lang_code == 'zh-cn' %}← 返回设置
@@ -351,4 +351,19 @@
         </div>
     </div>
 </div>
+<script>
+// Same same-origin-referrer-aware back navigation as account_settings-v2.html
+// (see its smartBack()) - this page is only ever linked from Account
+// Settings, so a fixed forward-navigation link here (the old behavior)
+// created a duplicate history entry on top of the one already pushed by
+// getting here, which is what caused "Settings -> Learned Words -> Back ->
+// Settings -> Back -> Learned Words again" instead of leaving Settings.
+function smartBack() {
+    if (document.referrer && document.referrer.includes(window.location.hostname)) {
+        history.back();
+    } else {
+        window.location.href = "{% url 'account_settings' %}?lang={{ lang_code }}";
+    }
+}
+</script>
 {% endblock %}

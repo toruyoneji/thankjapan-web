@@ -663,10 +663,19 @@
                   จัดการโปรไฟล์ / ตั้งค่าบัญชี ⚙️
               </a>
           {% endif %}
-          <a href="{% url 'toppageth' %}" class="btn-back-home">
+          <a href="javascript:void(0);" onclick="smartBack()" class="btn-back-home">
               ← กลับหน้าแรก
           </a>
       </div>
+      <script>
+      function smartBack() {
+          if (document.referrer && document.referrer.includes(window.location.hostname)) {
+              history.back();
+          } else {
+              window.location.href = "{% url 'toppageth' %}";
+          }
+      }
+      </script>
 
     </div>
   </div>

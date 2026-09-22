@@ -664,10 +664,22 @@
                   Manage Profile / Account Settings ⚙️
               </a>
           {% endif %}
-          <a href="{% url 'toppage' %}" class="btn-back-home">
+          <a href="javascript:void(0);" onclick="smartBack()" class="btn-back-home">
               ← Back To Home
           </a>
       </div>
+      <script>
+      // Same same-origin-referrer-aware back navigation as account_settings-v2.html
+      // and learned_words.html - a fixed forward-navigation link here caused
+      // duplicate history entries when arriving via history.back()-based pages.
+      function smartBack() {
+          if (document.referrer && document.referrer.includes(window.location.hostname)) {
+              history.back();
+          } else {
+              window.location.href = "{% url 'toppage' %}";
+          }
+      }
+      </script>
 
     </div>
   </div>

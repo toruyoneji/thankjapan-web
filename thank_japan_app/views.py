@@ -1095,7 +1095,23 @@ def broadcast_daily_message(request):
 
 #country top page
 
-class TopView(BGMContextMixin, ListView): 
+def _learned_words_intro_flag(request):
+    """True exactly once per guest's lifetime, on the very first top-page
+    visit right after registering a new account (player_register redirects
+    here with ?registered=1 - see player_register). Flips a DB flag on
+    Profile rather than a session/cookie flag, so it stays a true
+    once-ever regardless of browser, device, or cookie clearing."""
+    if request.GET.get('registered') != '1' or not request.user.is_authenticated:
+        return False
+    profile = getattr(request.user, 'profile', None)
+    if profile is None or profile.learned_words_intro_shown:
+        return False
+    profile.learned_words_intro_shown = True
+    profile.save(update_fields=['learned_words_intro_shown'])
+    return True
+
+
+class TopView(BGMContextMixin, ListView):
     template_name = "thank_japan_app/toppage/toppage.html"
     model = ThankJapanModel
     bgm_page_type = 'top'
@@ -1113,6 +1129,7 @@ class TopView(BGMContextMixin, ListView):
         context['has_played'] = self.request.COOKIES.get('tj_has_played') == '1'
         context['nav_tutorial_learn_step_active'] = _nav_tutorial_eligible(self.request)
         context['unlocked_streak_achievements'] = self.request.session.pop('newly_unlocked_streak_achievements', [])
+        context['show_intro_card'] = _learned_words_intro_flag(self.request)
         context.update(get_top_page_seo_override(self.request))
         return context
 
@@ -1134,6 +1151,7 @@ class TopViewJA(BGMContextMixin, ListView):
         context['has_played'] = self.request.COOKIES.get('tj_has_played') == '1'
         context['nav_tutorial_learn_step_active'] = _nav_tutorial_eligible(self.request)
         context['unlocked_streak_achievements'] = self.request.session.pop('newly_unlocked_streak_achievements', [])
+        context['show_intro_card'] = _learned_words_intro_flag(self.request)
         return context
     
     
@@ -1154,6 +1172,7 @@ class TopViewVI(BGMContextMixin, ListView):
         context['has_played'] = self.request.COOKIES.get('tj_has_played') == '1'
         context['nav_tutorial_learn_step_active'] = _nav_tutorial_eligible(self.request)
         context['unlocked_streak_achievements'] = self.request.session.pop('newly_unlocked_streak_achievements', [])
+        context['show_intro_card'] = _learned_words_intro_flag(self.request)
         return context
     
     
@@ -1174,6 +1193,7 @@ class TopViewFR(BGMContextMixin, ListView):
         context['has_played'] = self.request.COOKIES.get('tj_has_played') == '1'
         context['nav_tutorial_learn_step_active'] = _nav_tutorial_eligible(self.request)
         context['unlocked_streak_achievements'] = self.request.session.pop('newly_unlocked_streak_achievements', [])
+        context['show_intro_card'] = _learned_words_intro_flag(self.request)
         return context
     
     
@@ -1194,6 +1214,7 @@ class TopViewIT(BGMContextMixin, ListView):
         context['has_played'] = self.request.COOKIES.get('tj_has_played') == '1'
         context['nav_tutorial_learn_step_active'] = _nav_tutorial_eligible(self.request)
         context['unlocked_streak_achievements'] = self.request.session.pop('newly_unlocked_streak_achievements', [])
+        context['show_intro_card'] = _learned_words_intro_flag(self.request)
         return context
     
     
@@ -1214,6 +1235,7 @@ class TopViewPT(BGMContextMixin, ListView):
         context['has_played'] = self.request.COOKIES.get('tj_has_played') == '1'
         context['nav_tutorial_learn_step_active'] = _nav_tutorial_eligible(self.request)
         context['unlocked_streak_achievements'] = self.request.session.pop('newly_unlocked_streak_achievements', [])
+        context['show_intro_card'] = _learned_words_intro_flag(self.request)
         return context
     
     
@@ -1234,6 +1256,7 @@ class TopViewZHCN(BGMContextMixin, ListView):
         context['has_played'] = self.request.COOKIES.get('tj_has_played') == '1'
         context['nav_tutorial_learn_step_active'] = _nav_tutorial_eligible(self.request)
         context['unlocked_streak_achievements'] = self.request.session.pop('newly_unlocked_streak_achievements', [])
+        context['show_intro_card'] = _learned_words_intro_flag(self.request)
         return context
     
     
@@ -1254,6 +1277,7 @@ class TopViewZHHANT(BGMContextMixin, ListView):
         context['has_played'] = self.request.COOKIES.get('tj_has_played') == '1'
         context['nav_tutorial_learn_step_active'] = _nav_tutorial_eligible(self.request)
         context['unlocked_streak_achievements'] = self.request.session.pop('newly_unlocked_streak_achievements', [])
+        context['show_intro_card'] = _learned_words_intro_flag(self.request)
         return context
     
     
@@ -1274,6 +1298,7 @@ class TopViewKO(BGMContextMixin, ListView):
         context['has_played'] = self.request.COOKIES.get('tj_has_played') == '1'
         context['nav_tutorial_learn_step_active'] = _nav_tutorial_eligible(self.request)
         context['unlocked_streak_achievements'] = self.request.session.pop('newly_unlocked_streak_achievements', [])
+        context['show_intro_card'] = _learned_words_intro_flag(self.request)
         return context
     
 
@@ -1294,6 +1319,7 @@ class TopViewESES(BGMContextMixin, ListView):
         context['has_played'] = self.request.COOKIES.get('tj_has_played') == '1'
         context['nav_tutorial_learn_step_active'] = _nav_tutorial_eligible(self.request)
         context['unlocked_streak_achievements'] = self.request.session.pop('newly_unlocked_streak_achievements', [])
+        context['show_intro_card'] = _learned_words_intro_flag(self.request)
         return context
     
     
@@ -1314,6 +1340,7 @@ class TopViewDE(BGMContextMixin, ListView):
         context['has_played'] = self.request.COOKIES.get('tj_has_played') == '1'
         context['nav_tutorial_learn_step_active'] = _nav_tutorial_eligible(self.request)
         context['unlocked_streak_achievements'] = self.request.session.pop('newly_unlocked_streak_achievements', [])
+        context['show_intro_card'] = _learned_words_intro_flag(self.request)
         return context
     
     
@@ -1334,6 +1361,7 @@ class TopViewTH(BGMContextMixin, ListView):
         context['has_played'] = self.request.COOKIES.get('tj_has_played') == '1'
         context['nav_tutorial_learn_step_active'] = _nav_tutorial_eligible(self.request)
         context['unlocked_streak_achievements'] = self.request.session.pop('newly_unlocked_streak_achievements', [])
+        context['show_intro_card'] = _learned_words_intro_flag(self.request)
         return context
     
     
@@ -1354,6 +1382,7 @@ class TopViewPTBR(BGMContextMixin, ListView):
         context['has_played'] = self.request.COOKIES.get('tj_has_played') == '1'
         context['nav_tutorial_learn_step_active'] = _nav_tutorial_eligible(self.request)
         context['unlocked_streak_achievements'] = self.request.session.pop('newly_unlocked_streak_achievements', [])
+        context['show_intro_card'] = _learned_words_intro_flag(self.request)
         return context
     
     
@@ -1374,6 +1403,7 @@ class TopViewESMX(BGMContextMixin, ListView):
         context['has_played'] = self.request.COOKIES.get('tj_has_played') == '1'
         context['nav_tutorial_learn_step_active'] = _nav_tutorial_eligible(self.request)
         context['unlocked_streak_achievements'] = self.request.session.pop('newly_unlocked_streak_achievements', [])
+        context['show_intro_card'] = _learned_words_intro_flag(self.request)
         return context
     
     
@@ -1394,6 +1424,7 @@ class TopViewENIN(BGMContextMixin, ListView):
         context['has_played'] = self.request.COOKIES.get('tj_has_played') == '1'
         context['nav_tutorial_learn_step_active'] = _nav_tutorial_eligible(self.request)
         context['unlocked_streak_achievements'] = self.request.session.pop('newly_unlocked_streak_achievements', [])
+        context['show_intro_card'] = _learned_words_intro_flag(self.request)
         return context
     
     

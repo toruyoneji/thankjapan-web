@@ -661,10 +661,19 @@
                   Profil verwalten / Kontoeinstellungen ⚙️
               </a>
           {% endif %}
-          <a href="{% url 'toppagede' %}" class="btn-back-home">
+          <a href="javascript:void(0);" onclick="smartBack()" class="btn-back-home">
               ← Zurück zur Startseite
           </a>
       </div>
+      <script>
+      function smartBack() {
+          if (document.referrer && document.referrer.includes(window.location.hostname)) {
+              history.back();
+          } else {
+              window.location.href = "{% url 'toppagede' %}";
+          }
+      }
+      </script>
 
     </div>
   </div>

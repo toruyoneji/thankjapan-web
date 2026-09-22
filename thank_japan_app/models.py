@@ -303,6 +303,11 @@ class Profile(models.Model):
     # keyed flag is immune to that; guests still fall back to session since
     # they have no other stable identity.
     last_daily_question_answered_date = models.DateField(null=True, blank=True)
+    # Set the first (and only) time the post-registration "here's your
+    # Learned Words page" intro card is shown on the top page - a DB flag
+    # rather than session/cookie so it stays a true once-per-lifetime, not
+    # once-per-browser (see TopView.get_context_data and top-main-v2.html).
+    learned_words_intro_shown = models.BooleanField(default=False)
 
     @property
     def has_premium_access(self):

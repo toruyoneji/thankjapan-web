@@ -581,6 +581,36 @@ body {
         {% else %}Correct answer:
         {% endif %}
     </span>
+    <span id="i18n-single-guest-cta-desc">
+        {% if lang_code == 'ja' %}覚えた単語を"記録"していきませんか?会員登録すると、学んだ単語が自動で貯まっていきます。
+        {% elif lang_code == 'zh-hant' %}想把學會的單字「記錄」下來嗎?註冊會員後,只要答對就會自動幫你累積學過的單字。
+        {% elif lang_code == 'zh-cn' %}想把学会的单词"记录"下来吗?注册会员后,只要答对就会自动帮你累积学过的单词。
+        {% elif lang_code == 'ko' %}배운 단어를 "기록"해볼까요? 회원가입하면 맞힌 단어가 자동으로 차곡차곡 쌓여요.
+        {% elif lang_code == 'de' %}Möchtest du die gelernten Wörter „speichern"? Registriere dich, und jedes richtig beantwortete Wort wird automatisch für dich gespeichert.
+        {% elif lang_code == 'fr' %}Envie de « garder une trace » des mots appris ? Inscrivez-vous et chaque mot que vous réussissez est automatiquement enregistré pour vous.
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}¿Quieres "guardar" las palabras que aprendes? Regístrate y cada palabra que aciertes se guardará automáticamente para ti.
+        {% elif lang_code == 'it' %}Vuoi "salvare" le parole che impari? Registrati e ogni parola che indovini viene salvata automaticamente per te.
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Quer "guardar" as palavras que você aprendeu? Cadastre-se e cada palavra que você acertar é salva automaticamente para você.
+        {% elif lang_code == 'vi' %}Bạn muốn "lưu lại" những từ đã học? Đăng ký ngay và mỗi từ bạn trả lời đúng sẽ tự động được lưu lại cho bạn.
+        {% elif lang_code == 'th' %}อยากจะ "บันทึก" คำศัพท์ที่จำได้ไหม? สมัครสมาชิกแล้วทุกคำที่คุณตอบถูกจะถูกบันทึกให้อัตโนมัติ
+        {% else %}Want to save the words you've learned? Sign up and every word you get right is automatically tracked for you.
+        {% endif %}
+    </span>
+    <span id="i18n-single-guest-cta-btn">
+        {% if lang_code == 'ja' %}今すぐ無料登録
+        {% elif lang_code == 'zh-hant' %}立即免費註冊
+        {% elif lang_code == 'zh-cn' %}立即免费注册
+        {% elif lang_code == 'ko' %}지금 무료 가입하기
+        {% elif lang_code == 'de' %}Jetzt kostenlos registrieren
+        {% elif lang_code == 'fr' %}S'inscrire gratuitement
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Regístrate gratis ahora
+        {% elif lang_code == 'it' %}Registrati gratis ora
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Cadastre-se grátis agora
+        {% elif lang_code == 'vi' %}Đăng ký miễn phí ngay
+        {% elif lang_code == 'th' %}สมัครฟรีตอนนี้
+        {% else %}Sign Up Free Now
+        {% endif %}
+    </span>
 </div>
 
 <div class="main2">
@@ -877,11 +907,27 @@ body {
             '<p class="timeup-desc">' + i18n('i18n-single-correct-answer-label') +
             ' <strong>' + escapeHtml(correctAnswer) + '</strong></p>'
         );
+        // Guest who just got a review word right - same "register to keep
+        // your progress" pitch as the timeup modal's guest branch above,
+        // shown only here (not on incorrect answers) since a wrong answer
+        // isn't the moment to pitch tracking progress.
+        const showGuestCta = isCorrect && !IS_AUTHENTICATED;
+        const guestCtaLine = showGuestCta ? (
+            '<p class="timeup-desc">' + i18n('i18n-single-guest-cta-desc') + '</p>'
+        ) : '';
+        const primaryBtn = showGuestCta
+            ? '<a href="' + REGISTER_URL + '" class="timeup-btn timeup-btn-primary">' + i18n('i18n-single-guest-cta-btn') + '</a>'
+            : '<a href="' + SINGLE_RETURN_URL + '" class="timeup-btn timeup-btn-primary">' + i18n('i18n-single-finish-btn') + '</a>';
+        const secondaryBtn = showGuestCta
+            ? '<a href="' + SINGLE_RETURN_URL + '" class="timeup-btn timeup-btn-secondary">' + i18n('i18n-single-finish-btn') + '</a>'
+            : '';
         return (
             '<p class="timeup-title">' + i18n('i18n-single-finish-title') + '</p>' +
             answerLine +
+            guestCtaLine +
             '<div class="timeup-actions">' +
-                '<a href="' + SINGLE_RETURN_URL + '" class="timeup-btn timeup-btn-primary">' + i18n('i18n-single-finish-btn') + '</a>' +
+                primaryBtn +
+                secondaryBtn +
             '</div>'
         );
     }

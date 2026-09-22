@@ -454,6 +454,25 @@
     background: none; color: #8a7038; font-size: 0.85rem; cursor: pointer; box-sizing: border-box;
 }
 
+/* New-registrant "here's where your learned words will show up" card -
+   reuses .tutorial-overlay-backdrop/.tutorial-overlay-card (see
+   includes/tutorial_overlay.css.html) for the dark scrim + gold-bordered
+   card, just with its own link-styled button instead of the tap-to-advance
+   flow those use. */
+.intro-card-desc {
+    font-family: 'Zen Maru Gothic', 'Zen Antique', 'Noto Sans JP', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: rgba(0, 0, 0, 0.7);
+    line-height: 1.6;
+    margin-top: 10px;
+}
+.intro-card-btn {
+    display: block; width: 100%; padding: 14px; border: none; border-radius: 10px;
+    background: #d4af37; color: #000; font-weight: bold; font-size: 0.95rem;
+    cursor: pointer; margin-top: 18px; box-sizing: border-box; text-decoration: none;
+}
+
 </style>
 
 {% include 'includes/tutorial_overlay.css.html' %}
@@ -562,6 +581,60 @@
         </div>
     </div>
 </div>
+{% if show_intro_card %}
+<div class="tutorial-overlay-backdrop" id="intro-learned-words-overlay">
+    <div class="tutorial-overlay-card">
+        <div class="tutorial-overlay-icon">📚</div>
+        <div class="tutorial-overlay-text">
+            {% if lang_code == 'ja' %}ご登録ありがとうございます！<br>これから正解した単語は、<br>自動で「学んだワード」ページに<br>記録されていきます。
+            {% elif lang_code == 'zh-hant' %}感謝註冊！<br>從現在起，你答對的單字<br>都會自動記錄到<br>「已學單字」頁面。
+            {% elif lang_code == 'zh-cn' %}感谢注册！<br>从现在起，你答对的单词<br>都会自动记录到<br>"已学单词"页面。
+            {% elif lang_code == 'ko' %}가입해 주셔서 감사합니다!<br>이제부터 맞힌 단어는<br>자동으로 "배운 단어" 페이지에<br>기록됩니다.
+            {% elif lang_code == 'de' %}Danke für deine Registrierung!<br>Ab jetzt wird jedes richtig<br>beantwortete Wort automatisch<br>auf deiner Seite „Gelernte Wörter" gespeichert.
+            {% elif lang_code == 'fr' %}Merci de votre inscription !<br>Désormais, chaque mot que<br>vous réussissez est enregistré<br>automatiquement sur votre page « Mots Appris ».
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}¡Gracias por registrarte!<br>A partir de ahora, cada palabra<br>que aciertes se guardará<br>automáticamente en tu página de Palabras Aprendidas.
+            {% elif lang_code == 'it' %}Grazie per esserti registrato!<br>Da ora in poi, ogni parola<br>che indovini verrà salvata<br>automaticamente nella tua pagina Parole Imparate.
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Obrigado por se cadastrar!<br>A partir de agora, cada palavra<br>que você acertar será salva<br>automaticamente na sua página Palavras Aprendidas.
+            {% elif lang_code == 'vi' %}Cảm ơn bạn đã đăng ký!<br>Từ giờ, mỗi từ bạn trả lời<br>đúng sẽ tự động được lưu<br>vào trang Từ Đã Học của bạn.
+            {% elif lang_code == 'th' %}ขอบคุณที่สมัครสมาชิก!<br>ตั้งแต่นี้ไป คำศัพท์ที่คุณตอบถูก<br>จะถูกบันทึกไว้ในหน้า<br>"คำศัพท์ที่เรียนแล้ว" โดยอัตโนมัติ
+            {% else %}Thanks for signing up!<br>From now on, every word<br>you get right is automatically<br>saved to your Learned Words page.
+            {% endif %}
+        </div>
+        <a href="{% url 'learned_words' %}?lang={{ lang_code }}" class="intro-card-btn">
+            {% if lang_code == 'ja' %}学んだワードを見る
+            {% elif lang_code == 'zh-hant' %}查看已學單字
+            {% elif lang_code == 'zh-cn' %}查看已学单词
+            {% elif lang_code == 'ko' %}배운 단어 보기
+            {% elif lang_code == 'de' %}Gelernte Wörter ansehen
+            {% elif lang_code == 'fr' %}Voir mes mots appris
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Ver Palabras Aprendidas
+            {% elif lang_code == 'it' %}Vedi Parole Imparate
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Ver Palavras Aprendidas
+            {% elif lang_code == 'vi' %}Xem Từ Đã Học
+            {% elif lang_code == 'th' %}ดูคำศัพท์ที่เรียนแล้ว
+            {% else %}View Learned Words
+            {% endif %}
+        </a>
+    </div>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    // Tap outside the card to dismiss without navigating - this card has
+    // no auto-timeout (unlike the tutorial overlays above) since it's only
+    // ever shown once per account lifetime and shouldn't vanish on its own
+    // before a slower reader finishes it.
+    var introOverlay = document.getElementById('intro-learned-words-overlay');
+    if (introOverlay) {
+        introOverlay.classList.add('show');
+        introOverlay.addEventListener('click', function (event) {
+            if (event.target === introOverlay) {
+                introOverlay.classList.remove('show');
+            }
+        });
+    }
+});
+</script>
+{% endif %}
 {% include 'includes/tutorial_overlay.js.html' %}
 <script>
 document.addEventListener('DOMContentLoaded', function () {
