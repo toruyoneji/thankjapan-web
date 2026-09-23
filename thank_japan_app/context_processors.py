@@ -202,18 +202,6 @@ def firebase_keys(request):
     }
 
 
-def _abbreviate_count(total):
-    """Short form for the header badge, where a comma-grouped number
-    ("12,345") doesn't fit next to the logo on a phone-width screen -
-    "999", "1.2k", "12.3k", "1.2M". The full comma-grouped number is still
-    used in the badge's title attribute."""
-    if total < 1000:
-        return str(total)
-    if total < 1_000_000:
-        return f"{total / 1000:.1f}k".replace('.0k', 'k')
-    return f"{total / 1_000_000:.1f}M".replace('.0M', 'M')
-
-
 def visit_counter_status(request):
     """All-time visit count for the header badge (see SiteVisitCounter,
     thank_japan_app/models.py). Reads a cached sum, not a live query."""
@@ -222,5 +210,4 @@ def visit_counter_status(request):
     return {
         'total_site_visits': total,
         'total_site_visits_display': f"{total:,}",
-        'total_site_visits_short': _abbreviate_count(total),
     }

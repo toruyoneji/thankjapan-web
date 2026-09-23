@@ -204,13 +204,15 @@
 
         /* Groups the visitor badge with the logo on the header's left side
            (2026-09-23: moved off the point-badge stack per feedback) - a
-           small gap, not a stack, since it now sits beside text rather than
-           under another pill. min-width:0 lets this side actually shrink
-           instead of forcing the header to overflow on narrow phones. */
+           deliberately roomier gap than header-right's own internal gap,
+           since this one separates the wordmark from an unrelated pill
+           rather than two adjacent controls. min-width:0 lets this side
+           actually shrink instead of forcing the header to overflow on
+           narrow phones. */
         .header-left {
             display: flex;
             align-items: center;
-            gap: 4px;
+            gap: 14px;
             min-width: 0;
         }
 
@@ -239,38 +241,46 @@
             font-size: 0.9rem;
         }
 
+        /* Same container styling as .header-score-badge/.sound-toggle-header
+           (dark pill + gold border) so the visitor badge reads as the same
+           kind of header chip, not a one-off - per feedback, 2026-09-23. */
         .header-visitor-badge {
             display: flex;
             align-items: center;
-            gap: 3px;
-            color: #fff;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.8), 0 0 14px rgba(212, 175, 55, 0.75);
+            gap: 5px;
+            background: rgba(0,0,0,0.4);
+            border: 1px solid rgba(212, 175, 55, 0.6);
+            padding: 3px 9px;
+            border-radius: 20px;
             text-decoration: none;
+            color: #fff;
             font-size: 1rem;
             font-weight: 700;
             white-space: nowrap;
             flex-shrink: 0;
         }
 
-        /* The visitor badge at a legible 1rem next to the logo, plus the
-           existing Sound label and point-badge padding, genuinely don't
-           all fit at any real phone width (confirmed by measuring actual
-           rendered widths, not guessing - still overlapped at 375/390px
-           with only the Sound label removed, needed the breakpoint raised
-           to cover the full phone range). Rather than shrink the badge
-           back down (the whole point of this pass was making it bigger),
-           free up room by dropping the Sound button to icon-only and
-           trimming padding/gaps up to tablet width; 1rem and the
-           icon+logo+point badge are untouched at every width, and the
-           Sound label returns above 480px (tablet/desktop, where there's
-           room to spare). */
+        /* The visitor badge at a legible 1rem, in its own bordered pill,
+           showing the full comma-grouped number, plus the existing Sound
+           label and point-badge padding, genuinely don't all fit at any
+           real phone width (confirmed by measuring actual rendered widths,
+           not guessing). Rather than shrink the badge/number back down
+           (the whole point of this pass was making the badge bigger and
+           the number unabbreviated), free up room by dropping the Sound
+           button to icon-only, narrowing the roomier logo<->badge gap back
+           down, and trimming padding up to tablet width; the badge's own
+           font-size and pill padding, and the icon+logo+point badge, are
+           untouched at every width - only the Sound label and some gaps
+           give up space. Sound's label and the wider gap both return above
+           480px (tablet/desktop, where there's room to spare). */
         @media (max-width: 480px) {
-            .app-header { padding: 0 6px; }
-            .header-left { gap: 2px; }
-            .header-right { gap: 3px; }
+            .app-header { padding: 0 3px; }
+            .header-left { gap: 4px; }
+            .header-right { gap: 1px; }
             .app-header .sound-toggle-label { display: none; }
-            .app-header .sound-toggle-header { padding: 0 7px; gap: 0; }
-            .header-score-badge { padding: 3px 6px; }
+            .app-header .sound-toggle-header { padding: 0 6px; gap: 0; }
+            .header-score-badge { padding: 3px 4px; }
+            .header-visitor-badge { padding: 3px 4px; gap: 3px; }
         }
 
 
