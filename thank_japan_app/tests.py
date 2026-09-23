@@ -5624,3 +5624,101 @@ class VisitorCountHeaderBadgeTests(TestCase):
                 body = response.content.decode()
                 self.assertIn('👥 12,345', body)
                 self.assertIn(expected_fragment, body)
+
+
+class RelatedWordsCardEnhancementTests(TestCase):
+    """The "related words" card grid on both word-detail pages (free and
+    premium) - bigger image, a one-line "✨ Recommended" hook badge overlaid
+    on the image, and a light hover/tap animation (2026-09-23). Related
+    items need a real image for the hook badge/enlarged image to render at
+    all (both live inside `{% if item.image %}`), so these tests exercise
+    the same real Cloudinary-URL code path as the pre-existing LCP tests in
+    WordDetailPageTests above."""
+
+    def setUp(self):
+        self.word = ThankJapanModel.objects.create(
+            name='related-main-word', englishname='Main Word', jpname='メイン',
+            category='RelatedTestCategory', slug='related-main-word',
+            description='d', history='h',
+        )
+        self.related_word = ThankJapanModel.objects.create(
+            name='related-sibling-word', englishname='Sibling Word', jpname='きょうだい',
+            category='RelatedTestCategory', slug='related-sibling-word',
+            description='d', history='h', image='thankjapan/images/sample',
+        )
+        self.premium_word = ThankJapanPremium.objects.create(
+            name='related-main-premium', englishname='Main Premium', jpname='メインプレミアム',
+            romaji='r', category='RelatedTestCategory', slug='related-main-premium',
+            description='d', history='h',
+        )
+        self.related_premium_word = ThankJapanPremium.objects.create(
+            name='related-sibling-premium', englishname='Sibling Premium', jpname='きょうだいプレミアム',
+            romaji='r', category='RelatedTestCategory', slug='related-sibling-premium',
+            description='d', history='h', image='thankjapan/premium/sample',
+        )
+
+    def _get_free(self, lang=None):
+        params = {'lang': lang} if lang else {}
+        return self.client.get(reverse('category_detail', kwargs={
+            'category': 'RelatedTestCategory', 'slug': 'related-main-word',
+        }), params)
+
+    def _get_premium(self, lang=None):
+        params = {'lang': lang} if lang else {}
+        return self.client.get(reverse('detail_premium', kwargs={
+            'category': 'RelatedTestCategory', 'slug': 'related-main-premium',
+        }), params)
+
+    def test_free_page_related_card_shows_enlarged_image_css(self):
+        body = self._get_free().content.decode()
+
+        self.assertIn('height: 100px !important', body)
+
+    def test_free_page_related_card_shows_hook_badge(self):
+        body = self._get_free().content.decode()
+
+        self.assertIn('related-card-hook', body)
+        self.assertIn('✨ Recommended', body)
+
+    def test_free_page_related_card_has_hover_and_tap_animation(self):
+        body = self._get_free().content.decode()
+
+        self.assertIn('related-card-item:hover', body)
+        self.assertIn('translateY(-3px) scale(1.03)', body)
+        self.assertIn('related-card-item:active', body)
+        self.assertIn('scale(0.96)', body)
+
+    def test_premium_page_related_card_shows_enlarged_image_css(self):
+        body = self._get_premium().content.decode()
+
+        self.assertIn('height: 100px !important', body)
+
+    def test_premium_page_related_card_shows_hook_badge(self):
+        body = self._get_premium().content.decode()
+
+        self.assertIn('related-card-hook', body)
+        self.assertIn('✨ Recommended', body)
+
+    def test_premium_page_related_card_has_hover_and_tap_animation(self):
+        body = self._get_premium().content.decode()
+
+        self.assertIn('related-card-item:hover', body)
+        self.assertIn('translateY(-3px) scale(1.03)', body)
+        self.assertIn('related-card-item:active', body)
+        self.assertIn('scale(0.96)', body)
+
+    def test_hook_badge_present_across_all_15_locales(self):
+        locale_hook_text = {
+            'ja': '✨ おすすめ', 'zh-hant': '✨ 推薦', 'zh-cn': '✨ 推荐', 'ko': '✨ 추천',
+            'de': '✨ Empfehlung', 'fr': '✨ Recommandé', 'es-es': '✨ Recomendado',
+            'es-mx': '✨ Recomendado', 'it': '✨ Consigliato', 'pt': '✨ Recomendado',
+            'pt-br': '✨ Recomendado', 'vi': '✨ Đề xuất', 'th': '✨ แนะนำ',
+            'en': '✨ Recommended', 'en-in': '✨ Recommended',
+        }
+        for lang, expected_text in locale_hook_text.items():
+            with self.subTest(lang=lang, page='free'):
+                body = self._get_free(lang).content.decode()
+                self.assertIn(expected_text, body)
+            with self.subTest(lang=lang, page='premium'):
+                body = self._get_premium(lang).content.decode()
+                self.assertIn(expected_text, body)

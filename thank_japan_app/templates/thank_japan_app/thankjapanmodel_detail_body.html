@@ -310,15 +310,63 @@
         overflow: hidden !important;
         text-decoration: none !important;
         display: block !important;
-        transition: transform 0.2s !important;
+        transition: transform 0.2s, box-shadow 0.2s !important;
+    }
+
+    /* Light hover/tap feedback (2026-09-23), same vocabulary as the rest of
+       this page's "attention" animations - a lift+shadow on hover (see
+       .share-icon-btn:hover in game_result-v2.html for the identical
+       pattern) and a press-down scale on tap (see .game-invite-btn:active
+       above). Deliberately not a continuous pulse/glow like the CTA
+       buttons: this is a grid of several cards at once, so an always-on
+       animation on every one of them would read as noisy rather than
+       "light". */
+    #detail-page-wrapper .related-card-item:hover {
+        transform: translateY(-3px) scale(1.03) !important;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.18) !important;
+    }
+
+    #detail-page-wrapper .related-card-item:active {
+        transform: scale(0.96) !important;
     }
 
     #detail-page-wrapper .related-card-item img {
         width: 100% !important;
-        height: 70px !important;
+        height: 100px !important;
         object-fit: cover !important;
         opacity: 0.8 !important;
         display: block !important;
+    }
+
+    /* Wraps the image only (not the name below it) so the hook badge below
+       positions relative to just the image, matching the "画像左上に重ね
+       表示" placement chosen over the page. */
+    #detail-page-wrapper .related-card-image-wrap {
+        position: relative !important;
+    }
+
+    /* One fixed phrase in every card's badge rather than a rotating set -
+       "🔥 人気" was rejected as an unsubstantiated popularity claim, and
+       translating multiple rotating phrases across 15 languages wasn't
+       judged worth the cost (2026-09-23 decision). max-width+ellipsis is a
+       safety net for the longest translations ("Recommended", "Empfehlung",
+       "Recomendado") on the narrowest cards, not something expected to
+       trigger in normal use. */
+    #detail-page-wrapper .related-card-hook {
+        position: absolute !important;
+        top: 6px !important;
+        left: 6px !important;
+        max-width: calc(100% - 12px) !important;
+        background: rgba(0, 0, 0, 0.6) !important;
+        color: #d4af37 !important;
+        font-size: 0.58rem !important;
+        font-weight: 700 !important;
+        padding: 2px 6px !important;
+        border-radius: 10px !important;
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        pointer-events: none !important;
     }
 
 
@@ -668,7 +716,23 @@
                         class="related-card-item">
 
                             {% if item.image %}
-                                <img src="{{ item.image.url }}" style="width:100%; height:100px; object-fit:cover; opacity:0.9;">
+                                <div class="related-card-image-wrap">
+                                    <img src="{{ item.image.url }}" alt="{{ item.englishname }}">
+                                    <span class="related-card-hook">
+                                        {% if lang_code == 'ja' %}✨ おすすめ
+                                        {% elif lang_code == 'zh-hant' %}✨ 推薦
+                                        {% elif lang_code == 'zh-cn' %}✨ 推荐
+                                        {% elif lang_code == 'ko' %}✨ 추천
+                                        {% elif lang_code == 'de' %}✨ Empfehlung
+                                        {% elif lang_code == 'fr' %}✨ Recommandé
+                                        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}✨ Recomendado
+                                        {% elif lang_code == 'it' %}✨ Consigliato
+                                        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}✨ Recomendado
+                                        {% elif lang_code == 'vi' %}✨ Đề xuất
+                                        {% elif lang_code == 'th' %}✨ แนะนำ
+                                        {% else %}✨ Recommended{% endif %}
+                                    </span>
+                                </div>
                             {% endif %}
                             <div style="padding:10px 8px; font-size:0.85rem; font-weight:600; color:#1a1a1a;">{{ item.englishname }}</div>
                         </a>
