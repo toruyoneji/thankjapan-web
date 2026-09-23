@@ -1418,28 +1418,83 @@ class WordDetailPageTests(TestCase):
     # --- 2026-09-20: the bottom "Learn More Words" CTA was retitled to a
     # more eye-catching "What's your Japanese IQ?" and given its own
     # continuous bounce (layered on the shared pulse every game-invite-btn
-    # already has) - the top practice-this-word button is untouched. ---
+    # already has).
+    # 2026-09-23: per feedback that only the CTA buttons on this page should
+    # move, the top practice-this-word button's one-shot JS "attention"
+    # flourish was replaced with this exact same continuous bounce, so both
+    # buttons now share one identical always-moving animation instead of two
+    # different patterns. The (now-shared) class was renamed from
+    # game-invite-btn-iq to game-invite-btn-bounce to reflect that. ---
 
     def test_free_word_detail_page_bottom_cta_is_the_iq_challenge(self):
         response = self.client.get(reverse('category_detail', kwargs={
             'category': 'animal', 'slug': 'animal-test-dog',
         }))
         body = response.content.decode()
-        self.assertIn('game-invite-btn game-invite-btn-iq', body)
+        self.assertIn('game-invite-btn game-invite-btn-bounce', body)
         self.assertIn("What's Your Japanese IQ?", body)
         self.assertNotIn('Learn More Words', body)
-        style_start = body.index('.game-invite-btn.game-invite-btn-iq {')
+        style_start = body.index('.game-invite-btn.game-invite-btn-bounce {')
         style_end = body.index('}', style_start)
-        self.assertIn('game-invite-btn-iq-bounce', body[style_start:style_end])
+        self.assertIn('game-invite-btn-bounce 1.4s', body[style_start:style_end])
 
     def test_premium_word_detail_page_bottom_cta_is_the_iq_challenge(self):
         response = self.client.get(reverse('detail_premium', kwargs={
             'category': 'TourismEtiquette', 'slug': 'premium-test-word',
         }))
         body = response.content.decode()
-        self.assertIn('game-invite-btn game-invite-btn-iq', body)
+        self.assertIn('game-invite-btn game-invite-btn-bounce', body)
         self.assertIn("What's Your Japanese IQ?", body)
         self.assertNotIn('Learn More Words', body)
+
+    def test_free_word_detail_page_top_practice_button_shares_the_same_bounce(self):
+        # 2026-09-23: the top "practice this word" CTA used to get a
+        # one-shot JS-triggered attention flourish instead of the bottom
+        # button's continuous bounce - now both buttons carry the identical
+        # game-invite-btn-bounce class/animation, and the old one-shot
+        # flourish (class + keyframes + JS trigger) is gone entirely.
+        response = self.client.get(reverse('category_detail', kwargs={
+            'category': 'animal', 'slug': 'animal-test-dog',
+        }))
+        body = response.content.decode()
+        self.assertEqual(body.count('game-invite-btn game-invite-btn-bounce'), 2)
+        self.assertNotIn('game-invite-btn-attention', body)
+
+    def test_premium_word_detail_page_top_practice_button_shares_the_same_bounce(self):
+        response = self.client.get(reverse('detail_premium', kwargs={
+            'category': 'TourismEtiquette', 'slug': 'premium-test-word',
+        }))
+        body = response.content.decode()
+        self.assertEqual(body.count('game-invite-btn game-invite-btn-bounce'), 2)
+        self.assertNotIn('game-invite-btn-attention', body)
+
+    def test_free_word_detail_page_badge_and_connector_are_static(self):
+        # 2026-09-23: per feedback that only the CTA buttons should move,
+        # the 🧠 badge's box-shadow pulse, its icon's bounce, and the
+        # connector arrow's bounce were all removed - and the now-unused
+        # keyframes deleted with them.
+        response = self.client.get(reverse('category_detail', kwargs={
+            'category': 'animal', 'slug': 'animal-test-dog',
+        }))
+        body = response.content.decode()
+        self.assertNotIn('practice-cta-headline-pulse', body)
+        self.assertNotIn('practice-cta-headline-bounce', body)
+        badge_block_start = body.index('.practice-cta-headline {')
+        connector_block_start = body.index('.practice-cta-connector {')
+        connector_block_end = body.index('}', connector_block_start)
+        self.assertNotIn('animation:', body[badge_block_start:connector_block_end])
+
+    def test_premium_word_detail_page_badge_and_connector_are_static(self):
+        response = self.client.get(reverse('detail_premium', kwargs={
+            'category': 'TourismEtiquette', 'slug': 'premium-test-word',
+        }))
+        body = response.content.decode()
+        self.assertNotIn('practice-cta-headline-pulse', body)
+        self.assertNotIn('practice-cta-headline-bounce', body)
+        badge_block_start = body.index('.practice-cta-headline {')
+        connector_block_start = body.index('.practice-cta-connector {')
+        connector_block_end = body.index('}', connector_block_start)
+        self.assertNotIn('animation:', body[badge_block_start:connector_block_end])
 
     def test_free_word_detail_page_has_practice_cta_headline_above_learn_more(self):
         # 2026-09-19: a standalone "test your Japanese?" eye-catcher, bigger
