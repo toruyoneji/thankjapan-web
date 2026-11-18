@@ -324,21 +324,6 @@ h1 {
                   {% else %}Daily login bonus
                   {% endif %}
               </li>
-              <li>
-                  {% if lang_code == 'ja' %}「今日の一問」にも挑戦できる(通知も受け取れる)
-                  {% elif lang_code == 'zh-hant' %}也能挑戰「今日一題」(可接收通知)
-                  {% elif lang_code == 'zh-cn' %}也能挑战「今日一题」(可接收通知)
-                  {% elif lang_code == 'ko' %}"오늘의 한 문제"에도 도전할 수 있어요(알림도 받을 수 있어요)
-                  {% elif lang_code == 'de' %}Nimm auch an der "Frage des Tages" teil (mit Benachrichtigungen)
-                  {% elif lang_code == 'fr' %}Relevez aussi le défi de la question du jour (avec notifications)
-                  {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Participa también en la pregunta del día (con notificaciones)
-                  {% elif lang_code == 'it' %}Partecipa anche alla domanda del giorno (con notifiche)
-                  {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Participe também da pergunta do dia (com notificações)
-                  {% elif lang_code == 'vi' %}Cũng có thể tham gia câu hỏi hôm nay (kèm thông báo)
-                  {% elif lang_code == 'th' %}ร่วมท้าทาย "คำถามประจำวัน" ได้ด้วย (พร้อมการแจ้งเตือน)
-                  {% else %}Try the Daily Question too (with notifications)
-                  {% endif %}
-              </li>
           </ul>
           <a href="{% url 'player_register' %}?lang={{ lang_code }}" class="signup-cta-button">
               {% if lang_code == 'ja' %}無料で登録する →

@@ -1766,6 +1766,109 @@ FIRST_TASTE_QUESTION_COUNT = 3  # first-visit guest trial: 3 EASY-tier words, un
 TIME_EXTEND_COST = 10  # points spent per "add more time" purchase, no cap on repeat use
 TIME_EXTEND_SECONDS = 10
 
+# --- Question format switch (2026-11-19) ---
+# 'choice': image + reading (hiragana/romaji) -> pick the meaning in the
+# player's display language from 3 options. 'tiles': the 2026-09-05 tile-
+# rearrangement puzzle (build_tiles/tile_split.py/tutorial_order). Every
+# format-dependent branch (game_question_data, game_submit_answer,
+# daily_question_view, game_play-v2.html, daily_question.html) reads this one
+# constant, so flipping it back to 'tiles' restores the tile game everywhere
+# - the tile code paths are kept intact (and still covered by tests) for a
+# planned future "advanced mode".
+QUESTION_FORMAT_CHOICE = 'choice'
+QUESTION_FORMAT_TILES = 'tiles'
+GAME_QUESTION_FORMAT = QUESTION_FORMAT_CHOICE
+CHOICE_COUNT = 3
+
+# Display language -> the "meaning" column shown as answer choices.
+MEANING_FIELD_BY_LANG = {
+    'en': 'englishname',
+    'en-in': 'englishname_en_in',
+    'ja': 'englishname_ja',
+    'zh-cn': 'englishname_zh_cn',
+    'zh-hant': 'englishname_zh_hant',
+    'ko': 'englishname_ko',
+    'fr': 'englishname_fr',
+    'de': 'englishname_de',
+    'it': 'englishname_it',
+    'es-es': 'englishname_es_es',
+    'es-mx': 'englishname_es_mx',
+    'pt': 'englishname_pt',
+    'pt-br': 'englishname_pt_br',
+    'th': 'englishname_th',
+    'vi': 'englishname_vi',
+}
+
+
+def _clean_meaning(value):
+    return ' '.join(value.split()) if value else ''
+
+
+def _meaning_key(value):
+    """Comparison key for "is this the same meaning" - case/whitespace
+    insensitive, so 'Tomato' and ' tomato ' never both appear as choices."""
+    return _clean_meaning(value).casefold()
+
+
+def _reading_for(question_obj):
+    """(hiragana, romaji) shown under the image. ThankJapanPremium has a
+    dedicated romaji column; ThankJapanModel's `name` holds the romaji (the
+    same field daily_question.html's result card already shows as such)."""
+    romaji = question_obj.romaji if isinstance(question_obj, ThankJapanPremium) else question_obj.name
+    return question_obj.jpname, romaji or ''
+
+
+def _build_choices(question_obj, lang_code, correct_position=None):
+    """3 answer choices for one question: the word's own meaning in the
+    display language plus 2 dummies drawn at random from other words in the
+    same model + category (topped up from the rest of the same model if the
+    category is too small). Meanings that normalize to the correct answer -
+    or to an already-picked dummy - are skipped, so the 3 choices are always
+    distinct and exactly one is correct.
+
+    If the word has no meaning in the display language (a blank column), the
+    whole question falls back to English - all 3 choices together, so the
+    one English option can't stand out among translated ones.
+
+    correct_position: force the correct choice to that index (first_taste
+    tutorial Q1 only); otherwise the order is shuffled every time."""
+    model = type(question_obj)
+    field = MEANING_FIELD_BY_LANG.get(lang_code, 'englishname')
+    correct = _clean_meaning(getattr(question_obj, field, None))
+    if not correct:
+        field = 'englishname'
+        correct = _clean_meaning(question_obj.englishname)
+
+    seen = {_meaning_key(correct)}
+    dummies = []
+    pools = (
+        model.objects.filter(category=question_obj.category).exclude(id=question_obj.id),
+        model.objects.exclude(category=question_obj.category),
+    )
+    for qs in pools:
+        candidates = list(qs.values_list(field, flat=True))
+        random.shuffle(candidates)
+        for candidate in candidates:
+            text = _clean_meaning(candidate)
+            key = _meaning_key(text)
+            if not text or key in seen:
+                continue
+            seen.add(key)
+            dummies.append(text)
+            if len(dummies) == CHOICE_COUNT - 1:
+                break
+        if len(dummies) == CHOICE_COUNT - 1:
+            break
+
+    choices = list(dummies)
+    if correct_position is None:
+        choices.append(correct)
+        random.shuffle(choices)
+    else:
+        choices.insert(min(correct_position, len(choices)), correct)
+    return {'choices': choices, 'answer_index': choices.index(correct), 'answer_text': correct}
+
+
 # --- Navigation-exploration tutorial (returning-guest only, 2026-09-17) ---
 # A second, separate tutorial from first_taste above: guides a guest who has
 # already played once (tj_has_played) through Learn -> Categories -> Cook ->
@@ -1996,6 +2099,7 @@ def game_play(request):
         'point_balance': point_balance,
         'time_extend_cost': TIME_EXTEND_COST,
         'time_extend_seconds': TIME_EXTEND_SECONDS,
+        'question_format': GAME_QUESTION_FORMAT,
     })
 
 
@@ -2043,6 +2147,18 @@ def game_question_data(request):
     is_nav_tutorial_q = difficulty == 'single' and index == 0 and request.session.get('nav_tutorial_single_active', False)
     is_tutorial_q1 = (difficulty == 'first_taste' and index == 0) or is_nav_tutorial_q
     is_tutorial_q2 = difficulty == 'first_taste' and index == 1
+
+    # Game-start funnel count (see DailyActivitySummary.games_started): the
+    # first question actually being served, once per game - a reload or a
+    # repeated fetch of Q1 can't count it twice (game_restart clears the
+    # flag for the next game).
+    if difficulty in ('timeattack', 'first_taste') and not request.session.get('game_start_counted'):
+        request.session['game_start_counted'] = True
+        DailyActivitySummary.record_game_started(is_first_taste=difficulty == 'first_taste')
+
+    if GAME_QUESTION_FORMAT == QUESTION_FORMAT_CHOICE:
+        return _choice_question_response(request, question, q, index, seconds_left, is_tutorial_q1, is_tutorial_q2, is_nav_tutorial_q)
+
     tile_data = _tiles_for_question(question, force_chunk=force_chunk, want_tutorial_order=is_tutorial_q1 or is_tutorial_q2)
     tutorial_wrong_order = None
     if is_tutorial_q2 and tile_data.get('tutorial_order'):
@@ -2065,6 +2181,7 @@ def game_question_data(request):
 
     return JsonResponse({
         'game_over': False,
+        'format': QUESTION_FORMAT_TILES,
         'index': index + 1,
         'question_id': question.id,
         'question_model': q['model'],
@@ -2077,6 +2194,49 @@ def game_question_data(request):
         'combo': request.session.get('game_combo', 0),
         'image_url': question.image.url if question.image else '',
         'caption': question.englishname,
+    })
+
+
+def _choice_question_response(request, question, q, index, seconds_left, is_tutorial_q1, is_tutorial_q2, is_nav_tutorial_q):
+    """game_question_data's 3-choice branch. The correct choice is never
+    sent to the client except as a tutorial guide target: first_taste Q1
+    (correct answer pinned to the first slot - the one exception to the
+    random order) and the nav tutorial's つけめん round guide to the correct
+    choice; first_taste Q2 (いぬ) guides to a deliberately wrong one so the
+    guest sees the red "incorrect" treatment once."""
+    _, lang_code = get_lang_info(request)
+    is_first_taste_q1 = is_tutorial_q1 and not is_nav_tutorial_q
+    built = _build_choices(question, lang_code, correct_position=0 if is_first_taste_q1 else None)
+
+    tutorial_choice_index = built['answer_index'] if is_tutorial_q1 else None
+    tutorial_wrong_choice_index = None
+    if is_tutorial_q2:
+        wrong = [i for i in range(len(built['choices'])) if i != built['answer_index']]
+        tutorial_wrong_choice_index = wrong[0] if wrong else None
+
+    # Same "validate against exactly what was shown" caching as the tile
+    # branch below - game_submit_answer checks the tapped choice against
+    # this list rather than anything the client sends back as text.
+    request.session['current_answer_index'] = index
+    request.session['current_answer_text'] = built['answer_text']
+    request.session['current_choices'] = built['choices']
+
+    hiragana, romaji = _reading_for(question)
+    return JsonResponse({
+        'game_over': False,
+        'format': QUESTION_FORMAT_CHOICE,
+        'index': index + 1,
+        'question_id': question.id,
+        'question_model': q['model'],
+        'choices': built['choices'],
+        'reading': hiragana,
+        'romaji': romaji,
+        'tutorial_choice_index': tutorial_choice_index,
+        'tutorial_wrong_choice_index': tutorial_wrong_choice_index,
+        'seconds_left': seconds_left,
+        'score': request.session.get('game_score', 0),
+        'combo': request.session.get('game_combo', 0),
+        'image_url': question.image.url if question.image else '',
     })
 
 
@@ -2102,6 +2262,7 @@ def game_submit_answer(request):
                 'points': last_entry['points'],
                 'combo': last_entry['combo'],
                 'correct_answer': last_entry['correct_answer'],
+                'correct_choice_index': last_entry.get('correct_choice_index'),
                 'score': request.session.get('game_score', 0),
             })
 
@@ -2109,27 +2270,51 @@ def game_submit_answer(request):
         body = json.loads(request.body.decode('utf-8'))
     except (ValueError, UnicodeDecodeError):
         return JsonResponse({'error': 'bad_request'}, status=400)
+    if not isinstance(body, dict):
+        return JsonResponse({'error': 'bad_request'}, status=400)
 
-    submitted_tiles = body.get('tiles', [])
     q = questions[index]
     model = _model_for(q['model'])
     question = get_object_or_404(model, id=q['id'])
+    correct_choice_index = None
 
-    # Validate against the answer text cached when this question's tiles
-    # were served (see game_question_data) rather than recomputing
-    # build_tiles() here - that guarantees the check is against the exact
-    # same string the displayed tiles were cut from. Recompute only as a
-    # defensive fallback if that cache is missing (e.g. a replayed/crafted
-    # request that skipped game_question_data for this index).
-    if request.session.get('current_answer_index') == index:
-        answer_text = request.session['current_answer_text']
+    if GAME_QUESTION_FORMAT == QUESTION_FORMAT_CHOICE:
+        # The tapped choice is judged against the choice list cached when
+        # this exact question was served (game_question_data). Without that
+        # cache (a crafted/replayed request that never fetched this index)
+        # there's nothing the client could legitimately have tapped, so it
+        # can only be a miss - never a 500, never a free point.
+        choices = request.session.get('current_choices') if request.session.get('current_answer_index') == index else None
+        if choices is not None:
+            answer_text = request.session['current_answer_text']
+            correct_choice_index = choices.index(answer_text) if answer_text in choices else None
+            choice_index = body.get('choice_index')
+            if not isinstance(choice_index, int) or isinstance(choice_index, bool) or not 0 <= choice_index < len(choices):
+                return JsonResponse({'error': 'bad_request'}, status=400)
+            submitted_text = choices[choice_index]
+        else:
+            _, lang_code = get_lang_info(request)
+            field = MEANING_FIELD_BY_LANG.get(lang_code, 'englishname')
+            answer_text = _clean_meaning(getattr(question, field, None)) or _clean_meaning(question.englishname)
+            submitted_text = ''
+        correct_flag = bool(submitted_text) and _meaning_key(submitted_text) == _meaning_key(answer_text)
     else:
-        difficulty = request.session.get('game_difficulty', 'timeattack')
-        force_chunk = difficulty == 'single' and q['model'] == 'premium'
-        answer_text = _tiles_for_question(question, force_chunk=force_chunk)['answer_text']
+        submitted_tiles = body.get('tiles', [])
+        # Validate against the answer text cached when this question's tiles
+        # were served (see game_question_data) rather than recomputing
+        # build_tiles() here - that guarantees the check is against the exact
+        # same string the displayed tiles were cut from. Recompute only as a
+        # defensive fallback if that cache is missing (e.g. a replayed/crafted
+        # request that skipped game_question_data for this index).
+        if request.session.get('current_answer_index') == index:
+            answer_text = request.session['current_answer_text']
+        else:
+            difficulty = request.session.get('game_difficulty', 'timeattack')
+            force_chunk = difficulty == 'single' and q['model'] == 'premium'
+            answer_text = _tiles_for_question(question, force_chunk=force_chunk)['answer_text']
 
-    submitted_text = ''.join(str(t) for t in submitted_tiles)
-    correct_flag = submitted_text == answer_text
+        submitted_text = ''.join(str(t) for t in submitted_tiles)
+        correct_flag = submitted_text == answer_text
     is_premium_question = q['model'] == 'premium'
 
     # Ground-truth usage counter (see real_usage_report) - only for the
@@ -2174,6 +2359,7 @@ def game_submit_answer(request):
         'is_correct': correct_flag,
         'user_input': answer_text if correct_flag else submitted_text,
         'correct_answer': answer_text,
+        'correct_choice_index': correct_choice_index,
         'combo': combo,
         'combo_bonus': combo_bonus,
         'points': points,
@@ -2188,6 +2374,7 @@ def game_submit_answer(request):
         'points': points,
         'combo': combo,
         'correct_answer': answer_text,
+        'correct_choice_index': correct_choice_index,
         'score': request.session.get('game_score', 0),
     })
 
@@ -2354,6 +2541,8 @@ def game_restart(request):
         'game_end_time', 'last_answered_index',
         'game_combo', 'game_max_combo', 'single_return_url',
         'nav_tutorial_single_active',
+        'game_start_counted', 'game_completed_counted',
+        'current_answer_index', 'current_answer_text', 'current_choices',
     ]
     for key in keys_to_clear:
         request.session.pop(key, None)
@@ -2584,6 +2773,22 @@ def _daily_question_tiles(request, word, today):
     return tile_data
 
 
+def _daily_question_choices(request, word, today, lang_code):
+    """3-choice counterpart of _daily_question_tiles: build today's choices
+    and cache both the list and the correct text for the day, so the POST is
+    judged against exactly what was shown (a reload simply reshuffles and
+    re-caches)."""
+    built = _build_choices(word, lang_code)
+    request.session[f'daily_answer_{today.isoformat()}'] = built['answer_text']
+    request.session[f'daily_choices_{today.isoformat()}'] = built['choices']
+    return built
+
+
+def _daily_question_correct_meaning(word, lang_code):
+    field = MEANING_FIELD_BY_LANG.get(lang_code, 'englishname')
+    return _clean_meaning(getattr(word, field, None)) or _clean_meaning(word.englishname)
+
+
 def daily_question_view(request):
     premium_url_name, lang_code = get_lang_info(request)
     top_page_url = f"/?lang={lang_code}"
@@ -2633,21 +2838,35 @@ def daily_question_view(request):
                 'daily_url': daily_url,
             })
 
-        submitted_tiles_raw = request.POST.get('answer_tiles', '[]')
-        try:
-            submitted_tiles = json.loads(submitted_tiles_raw)
-        except (TypeError, ValueError):
-            submitted_tiles = []
-        submitted_text = ''.join(t for t in submitted_tiles if isinstance(t, str))
-
         answer_key = f'daily_answer_{today.isoformat()}'
-        correct_answer_text = request.session.get(answer_key)
-        if correct_answer_text is None:
-            # Cache missed (e.g. direct POST without a prior GET) - fall
-            # back to a fresh recompute, same defensive pattern as
-            # game_submit_answer.
-            correct_answer_text = build_tiles(word.jpname, word.example_sentence_ja)['answer_text']
-        is_correct = submitted_text == correct_answer_text
+        if GAME_QUESTION_FORMAT == QUESTION_FORMAT_CHOICE:
+            # Judged against the choices cached by this session's GET. No
+            # cache (direct POST without ever seeing the question) or a
+            # missing/invalid index (e.g. the 30s timer ran out before a
+            # tap) both just count as a miss.
+            choices = request.session.get(f'daily_choices_{today.isoformat()}') or []
+            correct_answer_text = request.session.get(answer_key) or _daily_question_correct_meaning(word, lang_code)
+            try:
+                choice_index = int(request.POST.get('answer_choice', ''))
+            except (TypeError, ValueError):
+                choice_index = -1
+            submitted_text = choices[choice_index] if 0 <= choice_index < len(choices) else ''
+            is_correct = bool(submitted_text) and _meaning_key(submitted_text) == _meaning_key(correct_answer_text)
+        else:
+            submitted_tiles_raw = request.POST.get('answer_tiles', '[]')
+            try:
+                submitted_tiles = json.loads(submitted_tiles_raw)
+            except (TypeError, ValueError):
+                submitted_tiles = []
+            submitted_text = ''.join(t for t in submitted_tiles if isinstance(t, str))
+
+            correct_answer_text = request.session.get(answer_key)
+            if correct_answer_text is None:
+                # Cache missed (e.g. direct POST without a prior GET) - fall
+                # back to a fresh recompute, same defensive pattern as
+                # game_submit_answer.
+                correct_answer_text = build_tiles(word.jpname, word.example_sentence_ja)['answer_text']
+            is_correct = submitted_text == correct_answer_text
         request.session[DAILY_QUESTION_SESSION_ANSWERED_KEY] = today.isoformat()
 
         # Ground-truth usage counter (see real_usage_report) - incremented
@@ -2692,6 +2911,7 @@ def daily_question_view(request):
         return render(request, 'thank_japan_app/daily_question.html', {
             'daily_state': 'result',
             'is_correct': is_correct,
+            'correct_meaning': _daily_question_correct_meaning(word, lang_code),
             'object': word,
             'share_text': share_text,
             'share_url': share_url,
@@ -2711,12 +2931,27 @@ def daily_question_view(request):
             'daily_url': daily_url,
         })
 
-    tile_data = _daily_question_tiles(request, word, today)
+    if GAME_QUESTION_FORMAT == QUESTION_FORMAT_CHOICE:
+        built = _daily_question_choices(request, word, today, lang_code)
+        hiragana, romaji = _reading_for(word)
+        format_context = {
+            'question_format': QUESTION_FORMAT_CHOICE,
+            'choices': built['choices'],
+            'reading': hiragana,
+            'romaji': romaji,
+            'tiles_json': '[]',
+        }
+    else:
+        tile_data = _daily_question_tiles(request, word, today)
+        format_context = {
+            'question_format': QUESTION_FORMAT_TILES,
+            'tiles_json': json.dumps(tile_data['tiles']),
+        }
 
     return render(request, 'thank_japan_app/daily_question.html', {
         'daily_state': 'question',
         'object': word,
-        'tiles_json': json.dumps(tile_data['tiles']),
+        **format_context,
         'time_limit': DAILY_QUESTION_TIME_LIMIT,
         'lang_code': lang_code,
         'daily_url': daily_url,
@@ -2818,6 +3053,17 @@ def game_result(request):
 
     player, is_guest = get_current_player_info(request)
     difficulty = request.session.get('game_difficulty')
+
+    # Game-completion funnel count (see DailyActivitySummary.games_completed):
+    # only for a game whose start was counted (game_question_data), and only
+    # once - reloading/revisiting this result screen can't count it again.
+    if (
+        difficulty in ('timeattack', 'first_taste')
+        and request.session.get('game_start_counted')
+        and not request.session.get('game_completed_counted')
+    ):
+        request.session['game_completed_counted'] = True
+        DailyActivitySummary.record_game_completed(is_first_taste=difficulty == 'first_taste')
 
     if not request.session.get('score_saved', False) and score > 0:
         if not is_guest and request.user.is_authenticated:

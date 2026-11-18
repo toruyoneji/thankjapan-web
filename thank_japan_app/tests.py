@@ -1,5 +1,6 @@
 import json
 from datetime import timedelta
+from io import StringIO
 from unittest.mock import MagicMock, patch
 from urllib.parse import quote as urlquote
 
@@ -15,18 +16,27 @@ from django.urls import reverse
 from django.utils import timezone
 
 from . import context_processors, tile_split
-from .models import DailyQuestion, Player, Profile, PremiumRenewalReward, ThankJapanModel, ThankJapanPremium, DailyActivitySummary, SiteVisitCounter
+from .models import DailyQuestion, Player, Profile, PremiumRenewalReward, ThankJapanModel, ThankJapanPremium, DailyActivitySummary, SiteVisitCounter, WordReviewLog
 from .views import (
     combo_bonus_for_streak, build_combo_share_message, _sample_easy_ids, FIRST_TASTE_QUESTION_COUNT,
     grant_renewal_rewards_if_due, PREMIUM_RENEWAL_REWARD_POINTS, PREMIUM_RENEWAL_REWARD_MAX_CATCHUP,
     DAILY_QUESTION_SHARE_LOCALE_ALIAS, DAILY_QUESTION_SHARE_HEADING, DAILY_QUESTION_SHARE_INVITE,
     DAILY_QUESTION_SHARE_CTA, DAILY_QUESTION_SHARE_CHUNK_STEPS, DAILY_QUESTION_SHARE_ANSWER_LABEL,
     DAILY_QUESTION_HASHTAG_TERM, NAV_TUTORIAL_TARGET_SLUG, _nav_tutorial_eligible,
+    _build_choices, _meaning_key, GAME_QUESTION_FORMAT, QUESTION_FORMAT_CHOICE,
 )
 from .pricing import (
     get_premium_price, get_top_page_seo_override,
     DEFAULT_TOP_PAGE_TITLE, DEFAULT_TOP_PAGE_DESCRIPTION,
 )
+
+
+# 2026-11-19: the tile-rearrangement game is dormant behind
+# views.GAME_QUESTION_FORMAT since the switch to 3-choice questions. Tests of
+# the tile mechanics themselves pin that flag back to 'tiles', so the dormant
+# path stays covered and can be switched back on with confidence (see the
+# ThreeChoice*Tests classes for the live 3-choice equivalents).
+tiles_format = patch('thank_japan_app.views.GAME_QUESTION_FORMAT', 'tiles')
 
 
 def _mock_response(status_code=200, json_data=None):
@@ -1101,6 +1111,7 @@ class GameResultReviewPromptTests(TestCase):
                 self.assertContains(response, 'reviewPromptOverlay')
 
 
+@tiles_format
 class ReviewPromptSurvivesTileGameRenewalTests(TestCase):
     """2026-09-05: user asked us to reconfirm the in-app review prompt
     (game_result: is_twa AND logged in AND correct_count>=1 AND not
@@ -1192,6 +1203,7 @@ class ReviewPromptSurvivesTileGameRenewalTests(TestCase):
         self.assertNotContains(response, 'reviewPromptOverlay')
 
 
+@tiles_format
 class SingleModeReviewReturnsToDetailPageTests(TestCase):
     """2026-09-06: the tile-rearrangement renewal (c73a465a) rewrote
     game_play-v2.html from scratch and dropped the old per-answer 'Finish &
@@ -1675,14 +1687,16 @@ class WordDetailReviewInviteTests(TestCase):
             self.assertNotIn(old_text, free_body)
             self.assertNotIn(old_text, premium_body)
 
-    def test_new_tile_rearrangement_description_present_per_locale(self):
+    def test_three_choice_description_present_per_locale(self):
+        # 2026-11-19: updated from the tile-rearrangement wording to the
+        # 3-choice game (the practice link itself is unchanged).
         expected_by_lang = {
-            'ja': '文字を並べ替えて正解を目指そう', 'zh-hant': '排列文字', 'zh-cn': '排列文字',
-            'ko': '글자를 배열해서', 'de': 'Ordne die Buchstaben',
-            'fr': 'Réorganise les lettres', 'es-es': 'Ordena las letras',
-            'it': 'Riordina le lettere', 'pt': 'Reorganize as letras',
-            'vi': 'Sắp xếp lại các chữ cái', 'th': 'เรียงตัวอักษรใหม่',
-            'en': 'Rearrange the tiles to find the correct answer',
+            'ja': '3つの中から正しい意味を選ぼう', 'zh-hant': '從3個選項中選出正確的意思', 'zh-cn': '从3个选项中选出正确的意思',
+            'ko': '3개 중에서 올바른 뜻을 골라보세요', 'de': 'Wähle aus 3 Antworten die richtige Bedeutung',
+            'fr': 'Choisis la bonne signification parmi 3', 'es-es': 'Elige el significado correcto entre 3',
+            'it': 'Scegli il significato giusto tra 3', 'pt': 'Escolha o significado certo entre 3',
+            'vi': 'Hãy chọn nghĩa đúng trong 3 đáp án', 'th': 'เลือกความหมายที่ถูกต้องจาก 3 ตัวเลือก',
+            'en': 'Pick the right meaning from 3 choices',
         }
         for lang, expected in expected_by_lang.items():
             with self.subTest(lang=lang, page='free'):
@@ -1992,6 +2006,7 @@ class SelectLanguageHeadingOnBaseTopTests(TestCase):
                 self.assertContains(response, SELECT_LANGUAGE_HEADING_BY_LOCALE[lang])
 
 
+@tiles_format
 class SingleModeIncorrectAnswerRevealTests(TestCase):
     """2026-09-06: a wrong answer during mode=single review (practicing one
     word from its detail page) silently moved on to the same generic
@@ -2762,6 +2777,7 @@ class EasyPoolMoraFilterTests(TestCase):
         self.assertIn('inu', names)
 
 
+@tiles_format
 class ChunkAnswerCachingTests(TestCase):
     """2026-09-05: a reported 'correctly ordered tiles marked wrong' bug.
     Root cause not conclusively reproduced, but game_submit_answer used to
@@ -2824,6 +2840,7 @@ class ChunkAnswerCachingTests(TestCase):
         self.assertTrue(result['is_correct'])
 
 
+@tiles_format
 class ChunkAnswerWithSourceSpacesTests(TestCase):
     """End-to-end reproduction of the 'correctly ordered tiles marked
     wrong' bug: example_sentence_ja here has literal spaces between words
@@ -2859,6 +2876,7 @@ class ChunkAnswerWithSourceSpacesTests(TestCase):
         self.assertTrue(result['is_correct'], msg=f"tiles={data['tiles']} order_tried={correct_order} result={result}")
 
 
+@tiles_format
 class ChunkAnswerAcrossSentenceBoundaryTests(TestCase):
     """2026-09-06: reported bug - a real premium word (ThankJapanPremium
     id=281, slug='niigataken', category=Prefectures) whose example_sentence_ja
@@ -2904,6 +2922,7 @@ class ChunkAnswerAcrossSentenceBoundaryTests(TestCase):
         self.assertTrue(result['is_correct'], msg=f"tiles={data['tiles']} order_tried={correct_order} result={result}")
 
 
+@tiles_format
 class PremiumReviewAlwaysUsesExampleSentenceTests(TestCase):
     """2026-09-06: reviewing a premium word (mode=single) used to route to
     'mora' (single-word reading tiles, example sentence entirely ignored)
@@ -2993,6 +3012,7 @@ class PremiumReviewAlwaysUsesExampleSentenceTests(TestCase):
         self.assertEqual(sorted(data['tiles']), sorted(['い', 'わ', 'て', 'け', 'ん']))
 
 
+@tiles_format
 class TileGameFreePreviewPremiumInclusionTests(TestCase):
     """2026-09-11: DailyConversation/slang/TourismEtiquette/Entertainment
     are completely free to browse (see game_play's mode=single handling and
@@ -3070,6 +3090,7 @@ class TileGameFreePreviewPremiumInclusionTests(TestCase):
         self.assertEqual(result['points'], 2)
 
 
+@tiles_format
 class DailyQuestionTileGameTests(TestCase):
     """2026-09-05: '今日の一問' converted from 4-choice to the same
     tile-rearrangement mechanic as the main game (mora/chunk routing,
@@ -3207,6 +3228,7 @@ class DailyQuestionImageSafetyNetTests(TestCase):
         self.assertEqual(dq.word_id, good_word.id)
 
 
+@tiles_format
 class DailyQuestionFreePreviewPremiumInclusionTests(TestCase):
     """2026-09-11: DailyConversation/slang/TourismEtiquette/Entertainment are
     completely free to browse, but 今日の一問 could never select them -
@@ -3300,6 +3322,7 @@ class DailyQuestionFreePreviewPremiumInclusionTests(TestCase):
         )
 
 
+@tiles_format
 class DailyQuestionShareAfterTileConversionTests(TestCase):
     """2026-09-12: X share text redesigned around a word-centric 'assembly
     process' reveal (す→し→寿司(正解)🀄 for mora-route words, an 'N steps'
@@ -3465,6 +3488,7 @@ class DailyQuestionShareLinksToWordDetailPageTests(TestCase):
         self.assertIn(f'url={urlquote(expected_url, safe="/")}', body, msg=body)
 
 
+@tiles_format
 class DailyActivitySummaryTests(TestCase):
     """2026-09-12: DailyActivitySummary is the ground-truth usage counter
     introduced after a GA4-reported "2,295 sessions from Singapore, 90%
@@ -3619,6 +3643,7 @@ class DailyActivitySummaryTests(TestCase):
         self.assertEqual(game_row.total_count, 1)
 
 
+@tiles_format
 class RenewalMultiLanguageAuditTests(TestCase):
     """2026-09-05: after the tile-rearrangement renewal (mora/chunk split,
     symbol exclusion, 60s timer, combo threshold, daily_question/first_taste
@@ -3719,6 +3744,7 @@ class RenewalMultiLanguageAuditTests(TestCase):
                 self.assertEqual(response.status_code, 200, msg=f"lang={lang}")
 
 
+@tiles_format
 class FirstTasteTileGameTests(TestCase):
     """2026-09-05: the guest first-visit 3-question trial converted from
     4-choice to tile-rearrangement, restricted to EASY-tier short words,
@@ -3914,6 +3940,7 @@ class FirstTasteTileGameTests(TestCase):
         self.assertIsNone(data.get('tutorial_wrong_order'))
 
 
+@tiles_format
 class NavigationTutorialTests(TestCase):
     """2026-09-17: the second, returning-guest-only tutorial (Learn ->
     Category list -> Cook -> つけ麺's detail page -> practice it in single
@@ -5777,3 +5804,607 @@ class RelatedWordsCardEnhancementTests(TestCase):
             with self.subTest(lang=lang, page='premium'):
                 body = self._get_premium(lang).content.decode()
                 self.assertIn(expected_text, body)
+
+
+# ---------------------------------------------------------------------------
+# 2026-11-19: 3-choice question format (views.GAME_QUESTION_FORMAT = 'choice')
+# ---------------------------------------------------------------------------
+
+# Expected 3-choice wording, transcribed per locale from the templates.
+CHOICE_TUTORIAL_Q1_BY_LOCALE = {
+    'ja': '正しい答えを<br>タップしてみよう', 'zh-hant': '正確答案吧', 'zh-cn': '正确答案吧',
+    'ko': '정답을 탭해 봐요', 'de': 'Tippe auf die richtige', 'fr': 'Touchez la bonne réponse',
+    'es-es': 'Toca la respuesta correcta', 'es-mx': 'Toca la respuesta correcta',
+    'it': 'Tocca la risposta corretta', 'pt': 'Toque na resposta correta', 'pt-br': 'Toque na resposta correta',
+    'vi': 'Hãy chạm vào đáp án đúng', 'th': 'แตะคำตอบที่ถูกต้อง',
+    'en': 'Tap the correct answer', 'en-in': 'Tap the correct answer',
+}
+CHOICE_TUTORIAL_Q2_BY_LOCALE = {
+    'ja': '違う答えを選んでみよう', 'zh-hant': '選一個錯誤的答案吧', 'zh-cn': '选一个错误的答案吧',
+    'ko': '틀린 답을 선택해 봐요', 'de': 'absichtlich eine falsche Antwort', 'fr': 'volontairement une mauvaise réponse',
+    'es-es': 'a propósito una respuesta incorrecta', 'es-mx': 'a propósito una respuesta incorrecta',
+    'it': 'di proposito una risposta sbagliata', 'pt': 'de propósito uma resposta errada', 'pt-br': 'de propósito uma resposta errada',
+    'vi': 'chọn một đáp án sai nhé', 'th': 'คำตอบที่ผิดดูสิ',
+    'en': 'wrong answer on purpose', 'en-in': 'wrong answer on purpose',
+}
+OLD_TILE_TUTORIAL_FRAGMENTS = [
+    '1文字ずつタップして', '一個字一個字地點擊', '一个字一个字地点击', '한 글자씩 탭해서', 'nacheinander an',
+    'un par un', 'uno por uno', 'uno alla volta', 'um por um', 'theo thứ tự', 'ทีละตัว', 'one by one',
+    'わざと<br>違う順番', 'タイルが緑', 'タイルが赤', 'the tile glows',
+]
+DAILY_CHOICE_INSTRUCTION_BY_LOCALE = {
+    'ja': '正しい意味をタップしてください', 'zh-hant': '請點擊正確的意思', 'zh-cn': '请点击正确的意思',
+    'ko': '올바른 뜻을 탭하세요', 'de': 'Tippe auf die richtige Bedeutung', 'fr': 'Touchez la bonne signification',
+    'es-es': 'Toca el significado correcto', 'es-mx': 'Toca el significado correcto',
+    'it': 'Tocca il significato corretto', 'pt': 'Toque no significado correto', 'pt-br': 'Toque no significado correto',
+    'vi': 'Hãy chạm vào nghĩa đúng', 'th': 'แตะความหมายที่ถูกต้อง',
+    'en': 'Tap the correct meaning', 'en-in': 'Tap the correct meaning',
+}
+GAME_START_RULE_BY_LOCALE = {
+    'ja': '正しい意味を3つの中から選ぼう', 'zh-hant': '從3個選項中選出正確的意思', 'zh-cn': '从3个选项中选出正确的意思',
+    'ko': '3개 중에서 올바른 뜻을 고르세요', 'de': 'wähle aus 3 Antworten die richtige Bedeutung',
+    'fr': 'choisis la bonne signification parmi 3', 'es-es': 'elige el significado correcto entre 3 opciones',
+    'es-mx': 'elige el significado correcto entre 3 opciones', 'it': 'scegli il significato giusto tra 3 opzioni',
+    'pt': 'escolha o significado certo entre 3 opções', 'pt-br': 'escolha o significado certo entre 3 opções',
+    'vi': 'chọn nghĩa đúng trong 3 đáp án', 'th': 'เลือกความหมายที่ถูกต้องจาก 3 ตัวเลือก',
+    'en': 'pick the right meaning from 3 choices', 'en-in': 'pick the right meaning from 3 choices',
+}
+GAME_START_META_BY_LOCALE = {
+    'ja': '3つから意味を選ぶだけ', 'zh-hant': '看圖三選一', 'zh-cn': '看图三选一', 'ko': '3개 중 뜻만 고르면 끝',
+    'de': 'aus 3 Bedeutungen wählen', 'fr': 'choisis le bon sens parmi 3', 'es-es': 'elige el significado entre 3',
+    'es-mx': 'elige el significado entre 3', 'it': 'scegli il significato tra 3', 'pt': 'escolhe o significado entre 3',
+    'pt-br': 'escolha o significado entre 3', 'vi': 'chọn 1 trong 3 nghĩa', 'th': 'เลือกความหมายจาก 3 ตัวเลือก',
+    'en': 'pick the right meaning from 3', 'en-in': 'pick the right meaning from 3',
+}
+OLD_GAME_START_TILE_FRAGMENTS = [
+    '文字を並べる', 'バラバラのタイル', '看圖排字', '看图排字', '글자만 맞추면', 'remets les lettres', 'Buchstaben ordnen',
+    'ordena las letras', 'ordina le lettere', 'organiza as letras', 'organize as letras', 'sắp chữ', 'เรียงตัวอักษร',
+    'arrange the letters', 'scrambled tiles', 'durcheinandergewürfelten Kacheln', 'tuiles mélangées',
+    'fichas mezcladas', 'tessere mescolate', 'peças embaralhadas', 'ô chữ xáo trộn', 'ตัวต่อที่สลับกัน', '흩어진 타일', '打亂的方塊', '打乱的方块',
+]
+YOUR_ANSWER_LABEL_BY_LOCALE = {
+    'ja': 'あなたの回答:', 'zh-hant': '你的回答:', 'zh-cn': '你的回答:', 'ko': '나의 답:', 'de': 'Deine Antwort:',
+    'fr': 'Votre réponse :', 'es-es': 'Tu respuesta:', 'es-mx': 'Tu respuesta:', 'it': 'La tua risposta:',
+    'pt': 'Sua resposta:', 'pt-br': 'Sua resposta:', 'vi': 'Câu trả lời của bạn:', 'th': 'คำตอบของคุณ:',
+    'en': 'Your answer:', 'en-in': 'Your answer:',
+}
+OLD_YOUR_INPUT_LABELS = ['あなたが入力した', '你輸入了', '你输入了', '입력한 내용', 'Du hast eingegeben', 'Vous avez tapé',
+                         'Escribiste', 'Hai digitato', 'Você digitou', 'Bạn đã nhập', 'คุณพิมพ์', 'You typed']
+DAILY_TUTORIAL_END_FRAGMENTS = ['「今日の一問」にも', '「今日一題」吧', '「今日一题」吧', '오늘의 한 문제에도', 'die Frage des Tages aus',
+                                'la question du jour !', 'la pregunta de hoy', 'la domanda di oggi', 'a pergunta de hoje',
+                                'câu hỏi hôm nay nhé', 'คำถามประจำวันนี้ด้วยนะ', "Daily Question too"]
+
+MEANING_COLUMNS = {
+    'en': 'englishname', 'en-in': 'englishname_en_in', 'ja': 'englishname_ja', 'zh-cn': 'englishname_zh_cn',
+    'zh-hant': 'englishname_zh_hant', 'ko': 'englishname_ko', 'fr': 'englishname_fr', 'de': 'englishname_de',
+    'it': 'englishname_it', 'es-es': 'englishname_es_es', 'es-mx': 'englishname_es_mx', 'pt': 'englishname_pt',
+    'pt-br': 'englishname_pt_br', 'th': 'englishname_th', 'vi': 'englishname_vi',
+}
+
+
+def _make_word(slug, english, jpname, category='food', name=None, **extra):
+    """A free word with a distinct, locale-tagged meaning in every column
+    (e.g. 'Tomato [ko]'), so tests can tell which column a choice came from."""
+    fields = {col: f'{english} [{lang}]' for lang, col in MEANING_COLUMNS.items() if col != 'englishname'}
+    fields.update(extra)
+    return ThankJapanModel.objects.create(
+        name=name or slug, englishname=english, jpname=jpname, category=category,
+        slug=slug, description='d', history='h', **fields,
+    )
+
+
+def _start_session_game(client, words, difficulty='timeattack'):
+    session = client.session
+    session['game_question_ids'] = [{'id': w.id, 'model': 'free'} for w in words]
+    session['game_current_index'] = 0
+    session['game_score'] = 0
+    session['game_difficulty'] = difficulty
+    session['game_history'] = []
+    session.save()
+
+
+def _submit_choice(client, choice_index):
+    return client.post(reverse('game_submit_answer'), data=json.dumps({'choice_index': choice_index}),
+                       content_type='application/json')
+
+
+class ThreeChoiceFormatIsLiveTests(SimpleTestCase):
+    def test_choice_is_the_active_format(self):
+        self.assertEqual(GAME_QUESTION_FORMAT, QUESTION_FORMAT_CHOICE)
+
+
+class ThreeChoiceBuildChoicesTests(TestCase):
+    def setUp(self):
+        self.tomato = _make_word('c-tomato', 'Tomato', 'とまと', name='tomato')
+        self.food = [
+            _make_word('c-apple', 'Apple', 'りんご'),
+            _make_word('c-rice', 'Rice', 'ごはん'),
+            _make_word('c-egg', 'Egg', 'たまご'),
+            _make_word('c-fish', 'Fish', 'さかな'),
+        ]
+        self.other_cat = _make_word('c-dog', 'Dog', 'いぬ', category='animal')
+
+    def test_three_distinct_choices_with_exactly_one_correct(self):
+        built = _build_choices(self.tomato, 'en')
+        self.assertEqual(len(built['choices']), 3)
+        self.assertEqual(built['answer_text'], 'Tomato')
+        self.assertEqual(built['choices'][built['answer_index']], 'Tomato')
+        self.assertEqual(len({_meaning_key(c) for c in built['choices']}), 3)
+        self.assertEqual(sum(1 for c in built['choices'] if c == 'Tomato'), 1)
+
+    def test_dummies_come_from_the_same_category_when_available(self):
+        same_category = {'Apple', 'Rice', 'Egg', 'Fish'}
+        for _ in range(20):
+            built = _build_choices(self.tomato, 'en')
+            dummies = [c for c in built['choices'] if c != 'Tomato']
+            self.assertTrue(set(dummies) <= same_category, dummies)
+
+    def test_tops_up_from_other_categories_when_the_category_is_too_small(self):
+        lonely = _make_word('c-shrine', 'Shrine', 'じんじゃ', category='building')
+        built = _build_choices(lonely, 'en')
+        self.assertEqual(len(built['choices']), 3)
+        self.assertIn('Shrine', built['choices'])
+
+    def test_same_meaning_as_the_answer_is_never_a_dummy(self):
+        _make_word('c-tomato2', '  tomato ', 'とまと2')  # same meaning, different case/spacing
+        for _ in range(20):
+            built = _build_choices(self.tomato, 'en')
+            self.assertEqual(sum(1 for c in built['choices'] if _meaning_key(c) == 'tomato'), 1)
+
+    def test_choices_use_the_display_language_column(self):
+        for lang, col in MEANING_COLUMNS.items():
+            with self.subTest(lang=lang):
+                built = _build_choices(self.tomato, lang)
+                self.assertEqual(built['answer_text'], getattr(self.tomato, col))
+                for choice in built['choices']:
+                    if lang != 'en':
+                        self.assertTrue(choice.endswith(f'[{lang}]'), choice)
+
+    def test_blank_translation_falls_back_to_english_for_the_whole_question(self):
+        blank = _make_word('c-blank', 'Bread', 'ぱん', englishname_fr='')
+        built = _build_choices(blank, 'fr')
+        self.assertEqual(built['answer_text'], 'Bread')
+        for choice in built['choices']:
+            self.assertNotIn('[fr]', choice)
+
+    def test_correct_position_is_randomized(self):
+        positions = {_build_choices(self.tomato, 'en')['answer_index'] for _ in range(60)}
+        self.assertEqual(positions, {0, 1, 2})
+
+    def test_correct_position_can_be_pinned(self):
+        for _ in range(10):
+            built = _build_choices(self.tomato, 'en', correct_position=0)
+            self.assertEqual(built['answer_index'], 0)
+            self.assertEqual(built['choices'][0], 'Tomato')
+
+
+class ThreeChoiceGameFlowTests(TestCase):
+    def setUp(self):
+        self.words = [
+            _make_word('g-tomato', 'Tomato', 'とまと', name='tomato'),
+            _make_word('g-apple', 'Apple', 'りんご', name='ringo'),
+            _make_word('g-rice', 'Rice', 'ごはん', name='gohan'),
+            _make_word('g-egg', 'Egg', 'たまご', name='tamago'),
+        ]
+
+    def _question(self):
+        return json.loads(self.client.get(reverse('game_question_data')).content)
+
+    def test_question_data_serves_choices_and_reading_but_never_the_answer(self):
+        _start_session_game(self.client, self.words)
+        data = self._question()
+        self.assertEqual(data['format'], 'choice')
+        self.assertEqual(len(data['choices']), 3)
+        self.assertIn('Tomato', data['choices'])
+        self.assertEqual(data['reading'], 'とまと')
+        self.assertEqual(data['romaji'], 'tomato')
+        self.assertIsNone(data['tutorial_choice_index'])
+        self.assertIsNone(data['tutorial_wrong_choice_index'])
+        for key in ('caption', 'tiles', 'answer_index', 'tutorial_order'):
+            self.assertNotIn(key, data)
+
+    def test_correct_choice_scores_and_is_recorded(self):
+        _start_session_game(self.client, self.words)
+        data = self._question()
+        res = json.loads(_submit_choice(self.client, data['choices'].index('Tomato')).content)
+        self.assertTrue(res['is_correct'])
+        self.assertEqual(res['points'], 1)
+        self.assertEqual(self.client.session['game_current_index'], 1)
+        row = DailyActivitySummary.objects.get(activity_type=DailyActivitySummary.ACTIVITY_MAIN_GAME)
+        self.assertEqual((row.total_count, row.correct_count, row.guest_count), (1, 1, 1))
+
+    def test_wrong_choice_reveals_which_choice_was_correct(self):
+        _start_session_game(self.client, self.words)
+        data = self._question()
+        wrong = next(i for i, c in enumerate(data['choices']) if c != 'Tomato')
+        res = json.loads(_submit_choice(self.client, wrong).content)
+        self.assertFalse(res['is_correct'])
+        self.assertEqual(res['correct_answer'], 'Tomato')
+        self.assertEqual(data['choices'][res['correct_choice_index']], 'Tomato')
+        self.assertEqual(self.client.session['game_history'][0]['user_input'], data['choices'][wrong])
+        row = DailyActivitySummary.objects.get(activity_type=DailyActivitySummary.ACTIVITY_MAIN_GAME)
+        self.assertEqual((row.total_count, row.correct_count), (1, 0))
+
+    def test_invalid_choice_index_is_rejected_without_advancing(self):
+        _start_session_game(self.client, self.words)
+        self._question()
+        for bad in (3, -1, '0', True, None, 1.5):
+            with self.subTest(bad=bad):
+                response = _submit_choice(self.client, bad)
+                self.assertEqual(response.status_code, 400)
+        self.assertEqual(self.client.session['game_current_index'], 0)
+        self.assertFalse(DailyActivitySummary.objects.filter(total_count__gt=0).exists())
+
+    def test_non_object_body_is_rejected(self):
+        _start_session_game(self.client, self.words)
+        self._question()
+        response = self.client.post(reverse('game_submit_answer'), data='[1]', content_type='application/json')
+        self.assertEqual(response.status_code, 400)
+
+    def test_submit_without_the_question_being_served_is_a_miss_not_a_crash(self):
+        _start_session_game(self.client, self.words)
+        res = json.loads(_submit_choice(self.client, 0).content)
+        self.assertFalse(res['is_correct'])
+        self.assertEqual(res['correct_answer'], 'Tomato')
+
+    def test_resubmitting_the_same_question_does_not_double_count(self):
+        _start_session_game(self.client, self.words)
+        data = self._question()
+        idx = data['choices'].index('Tomato')
+        _submit_choice(self.client, idx)
+        session = self.client.session
+        session['game_current_index'] = 0  # simulate a replayed request for the same index
+        session.save()
+        res = json.loads(_submit_choice(self.client, idx).content)
+        self.assertTrue(res['is_correct'])
+        row = DailyActivitySummary.objects.get(activity_type=DailyActivitySummary.ACTIVITY_MAIN_GAME)
+        self.assertEqual(row.total_count, 1)
+
+    def test_choices_follow_the_session_display_language(self):
+        self.client.get(reverse('game_restart'), {'lang': 'ko'})
+        _start_session_game(self.client, self.words)
+        data = self._question()
+        self.assertIn('Tomato [ko]', data['choices'])
+
+    def test_game_play_renders_the_choice_board_not_the_tile_board(self):
+        _start_session_game(self.client, self.words)
+        body = self.client.get(reverse('game_play')).content.decode()
+        self.assertIn('id="choice-list"', body)
+        self.assertIn('id="prompt-reading"', body)
+        self.assertIn('id="prompt-romaji"', body)
+        self.assertNotIn('id="bank-row"', body)
+        self.assertNotIn('id="prompt-caption"', body)
+
+    def test_game_play_choice_buttons_are_large_and_stacked(self):
+        _start_session_game(self.client, self.words)
+        body = self.client.get(reverse('game_play')).content.decode()
+        self.assertIn('flex-direction: column; gap: 14px', body)
+        self.assertIn('min-height: 64px', body)
+        self.assertIn('.prompt-reading {', body)
+        self.assertIn('font-size: 1.9rem; font-weight: 900', body)
+
+    def test_single_mode_correct_answer_records_learned_word_for_member(self):
+        user = User.objects.create_user('choice-reviewer', password='pw-for-tests-only')
+        self.client.force_login(user)
+        self.client.get(reverse('game_restart'), {'mode': 'single', 'model_type': 'free', 'slug': 'g-tomato'})
+        data = self._question()
+        res = json.loads(_submit_choice(self.client, data['choices'].index('Tomato')).content)
+        self.assertTrue(res['is_correct'])
+        self.assertTrue(WordReviewLog.objects.filter(user=user, word=self.words[0]).exists())
+        # single mode is a review, not "playing the game": no main_game counters
+        self.assertFalse(DailyActivitySummary.objects.exists())
+
+    def test_single_mode_wrong_answer_records_nothing(self):
+        user = User.objects.create_user('choice-reviewer2', password='pw-for-tests-only')
+        self.client.force_login(user)
+        self.client.get(reverse('game_restart'), {'mode': 'single', 'model_type': 'free', 'slug': 'g-tomato'})
+        data = self._question()
+        wrong = next(i for i, c in enumerate(data['choices']) if c != 'Tomato')
+        res = json.loads(_submit_choice(self.client, wrong).content)
+        self.assertFalse(res['is_correct'])
+        self.assertFalse(WordReviewLog.objects.exists())
+
+
+class ThreeChoiceTutorialTests(TestCase):
+    def setUp(self):
+        self.ramen = _make_word('t-ramen', 'Ramen', 'らーめん', category='food', name='ramen')
+        self.inu = _make_word('t-inu', 'Dog', 'いぬ', category='animal', name='inu')
+        for i, (en, jp) in enumerate([('Cat', 'ねこ'), ('Bird', 'とり'), ('Bear', 'くま'), ('Fox', 'きつね')]):
+            _make_word(f't-animal-{i}', en, jp, category='animal')
+        for i, (en, jp) in enumerate([('Sushi', 'すし'), ('Tofu', 'とうふ')]):
+            _make_word(f't-food-{i}', en, jp, category='food')
+        self.tsukemen = _make_word(NAV_TUTORIAL_TARGET_SLUG, 'Tsukemen', 'つけめん', category='cook', name='tsukemen')
+        _make_word('t-cook-1', 'Grill', 'やく', category='cook')
+        _make_word('t-cook-2', 'Boil', 'ゆでる', category='cook')
+
+    def _question(self, client):
+        return json.loads(client.get(reverse('game_question_data')).content)
+
+    def test_first_taste_q1_pins_the_correct_answer_first_and_guides_to_it(self):
+        for _ in range(8):
+            client = Client()
+            client.get(reverse('game_restart'), {'difficulty': 'first_taste'})
+            data = self._question(client)
+            self.assertEqual(data['reading'], 'らーめん')
+            self.assertEqual(data['choices'][0], 'Ramen')
+            self.assertEqual(data['tutorial_choice_index'], 0)
+            self.assertIsNone(data['tutorial_wrong_choice_index'])
+
+    def test_first_taste_q2_guides_to_a_wrong_choice_and_q3_is_unguided(self):
+        self.client.get(reverse('game_restart'), {'difficulty': 'first_taste'})
+        q1 = self._question(self.client)
+        self.assertTrue(json.loads(_submit_choice(self.client, q1['tutorial_choice_index']).content)['is_correct'])
+
+        q2 = self._question(self.client)
+        self.assertEqual(q2['reading'], 'いぬ')
+        self.assertIsNone(q2['tutorial_choice_index'])
+        guided = q2['tutorial_wrong_choice_index']
+        self.assertIsNotNone(guided)
+        self.assertNotEqual(q2['choices'][guided], 'Dog')
+        res = json.loads(_submit_choice(self.client, guided).content)
+        self.assertFalse(res['is_correct'])
+        self.assertEqual(q2['choices'][res['correct_choice_index']], 'Dog')
+
+        q3 = self._question(self.client)
+        self.assertIsNone(q3['tutorial_choice_index'])
+        self.assertIsNone(q3['tutorial_wrong_choice_index'])
+
+    def test_nav_tutorial_single_round_guides_to_the_correct_choice(self):
+        self.client.cookies['tj_has_played'] = '1'
+        self.client.get(reverse('game_restart'), {'mode': 'single', 'model_type': 'free', 'slug': NAV_TUTORIAL_TARGET_SLUG})
+        data = self._question(self.client)
+        self.assertEqual(data['reading'], 'つけめん')
+        self.assertEqual(data['choices'][data['tutorial_choice_index']], 'Tsukemen')
+        response = _submit_choice(self.client, data['tutorial_choice_index'])
+        self.assertTrue(json.loads(response.content)['is_correct'])
+        self.assertEqual(response.cookies['tj_nav_tutorial_seen'].value, '1')
+
+    def test_ordinary_single_mode_has_no_guide(self):
+        self.client.get(reverse('game_restart'), {'mode': 'single', 'model_type': 'free', 'slug': 't-ramen'})
+        data = self._question(self.client)
+        self.assertIsNone(data['tutorial_choice_index'])
+
+    def test_tutorial_overlays_use_the_3_choice_wording_per_locale(self):
+        for lang in LOCALE_QUERY_PARAMS:
+            with self.subTest(lang=lang):
+                client = Client()
+                client.get(reverse('game_restart'), {'difficulty': 'first_taste', 'lang': lang})
+                body = client.get(reverse('game_play'), {'lang': lang}).content.decode()
+                self.assertIn(CHOICE_TUTORIAL_Q1_BY_LOCALE[lang], body)
+                self.assertIn(CHOICE_TUTORIAL_Q2_BY_LOCALE[lang], body)
+                for old in OLD_TILE_TUTORIAL_FRAGMENTS:
+                    self.assertNotIn(old, body)
+
+    def test_nav_tutorial_overlay_uses_the_3_choice_wording_per_locale(self):
+        for lang in LOCALE_QUERY_PARAMS:
+            with self.subTest(lang=lang):
+                client = Client()
+                client.cookies['tj_has_played'] = '1'
+                client.get(reverse('game_restart'), {'mode': 'single', 'model_type': 'free', 'slug': NAV_TUTORIAL_TARGET_SLUG, 'lang': lang})
+                body = client.get(reverse('game_play'), {'lang': lang}).content.decode()
+                self.assertIn('tutorial-overlay-nav-single', body)
+                self.assertIn(CHOICE_TUTORIAL_Q1_BY_LOCALE[lang].replace('「らーめん」の<br>', ''), body)
+                self.assertIn('つけめん', body)
+
+
+class GameFunnelCountTests(TestCase):
+    """games_started/games_completed: at most once per game, never on a
+    reload or a revisit of the result screen."""
+
+    def setUp(self):
+        self.words = [_make_word(f'f-{i}', f'Word {i}', f'ことば{i}') for i in range(4)]
+
+    def _row(self):
+        return DailyActivitySummary.objects.filter(activity_type=DailyActivitySummary.ACTIVITY_MAIN_GAME).first()
+
+    def _start(self, difficulty='timeattack'):
+        _start_session_game(self.client, self.words, difficulty=difficulty)
+        session = self.client.session
+        session.pop('game_start_counted', None)
+        session.pop('game_completed_counted', None)
+        session.save()
+
+    def test_start_is_counted_once_even_when_the_question_is_reloaded(self):
+        self._start()
+        for _ in range(3):  # reloads re-fetch the same first question
+            self.client.get(reverse('game_question_data'))
+        self.assertEqual(self._row().games_started, 1)
+        data = json.loads(self.client.get(reverse('game_question_data')).content)
+        _submit_choice(self.client, 0)
+        self.client.get(reverse('game_question_data'))  # next question
+        self.assertEqual(self._row().games_started, 1)
+        self.assertEqual(self._row().games_completed, 0)
+
+    def test_completion_is_counted_once_even_when_the_result_screen_is_reloaded(self):
+        self._start()
+        self.client.get(reverse('game_question_data'))
+        _submit_choice(self.client, 0)
+        for _ in range(3):
+            self.client.get(reverse('game_result'))
+        row = self._row()
+        self.assertEqual((row.games_started, row.games_completed), (1, 1))
+        self.assertEqual((row.first_taste_started, row.first_taste_completed), (0, 0))
+
+    def test_result_screen_without_a_counted_start_is_not_a_completion(self):
+        self._start()
+        session = self.client.session
+        session['game_history'] = [{'index': 0, 'is_correct': True, 'points': 1, 'question_id': self.words[0].id,
+                                    'question_model': 'free', 'combo': 1, 'combo_bonus': 0,
+                                    'user_input': 'x', 'correct_answer': 'x'}]
+        session.save()
+        self.client.get(reverse('game_result'))
+        row = self._row()
+        self.assertTrue(row is None or row.games_completed == 0)
+
+    def test_first_taste_counts_in_both_the_total_and_its_own_columns(self):
+        self._start(difficulty='first_taste')
+        self.client.get(reverse('game_question_data'))
+        self.client.get(reverse('game_result'))
+        self.client.get(reverse('game_result'))
+        row = self._row()
+        self.assertEqual((row.games_started, row.games_completed), (1, 1))
+        self.assertEqual((row.first_taste_started, row.first_taste_completed), (1, 1))
+
+    def test_single_mode_review_is_not_counted(self):
+        self.client.get(reverse('game_restart'), {'mode': 'single', 'model_type': 'free', 'slug': 'f-0'})
+        self.client.get(reverse('game_question_data'))
+        self.client.get(reverse('game_result'))
+        row = self._row()
+        self.assertTrue(row is None or (row.games_started, row.games_completed) == (0, 0))
+
+    def test_a_new_game_after_restart_counts_again(self):
+        for _ in range(2):
+            self.client.get(reverse('game_restart'))
+            self.client.get(reverse('game_question_data'))
+            self.client.get(reverse('game_result'))
+        row = self._row()
+        self.assertEqual((row.games_started, row.games_completed), (2, 2))
+
+    def test_usage_report_prints_the_funnel(self):
+        self._start()
+        self.client.get(reverse('game_question_data'))
+        out = StringIO()
+        call_command('real_usage_report', stdout=out)
+        self.assertIn('開始1 / 完了0', out.getvalue())
+
+
+class ThreeChoiceDailyQuestionTests(TestCase):
+    def setUp(self):
+        self.today = timezone.localdate()
+        self.word = _make_word('d-umbrella', 'Umbrella', 'かさ', category='dailyactions', name='kasa', kanji_name='傘')
+        for i, en in enumerate(['Clock', 'Chair', 'Pen']):
+            _make_word(f'd-other-{i}', en, f'もの{i}', category='dailyactions')
+        DailyQuestion.objects.create(date=self.today, word=self.word)
+
+    def _get(self, client, lang='en'):
+        return client.get(reverse('daily_question'), {'lang': lang})
+
+    def test_question_state_renders_three_choice_buttons_and_reading(self):
+        response = self._get(self.client)
+        self.assertEqual(response.context['question_format'], 'choice')
+        choices = response.context['choices']
+        self.assertEqual(len(choices), 3)
+        self.assertIn('Umbrella', choices)
+        body = response.content.decode()
+        self.assertEqual(body.count('class="dq-choice"'), 3)
+        self.assertIn('かさ', body)
+        self.assertIn('kasa', body)
+        self.assertIn('name="answer_choice"', body)
+
+    def test_correct_choice_is_judged_correct_and_recorded(self):
+        choices = self._get(self.client).context['choices']
+        response = self.client.post(reverse('daily_question') + '?lang=en', {'answer_choice': choices.index('Umbrella')})
+        self.assertTrue(response.context['is_correct'])
+        self.assertEqual(response.context['correct_meaning'], 'Umbrella')
+        row = DailyActivitySummary.objects.get(activity_type=DailyActivitySummary.ACTIVITY_DAILY_QUESTION)
+        self.assertEqual((row.total_count, row.correct_count), (1, 1))
+
+    def test_wrong_choice_and_timeout_are_misses(self):
+        for posted in ('wrong', ''):
+            with self.subTest(posted=posted or 'timeout'):
+                client = Client()
+                choices = self._get(client).context['choices']
+                value = next(i for i, c in enumerate(choices) if c != 'Umbrella') if posted else ''
+                response = client.post(reverse('daily_question') + '?lang=en', {'answer_choice': value})
+                self.assertEqual(response.status_code, 200)
+                self.assertFalse(response.context['is_correct'])
+
+    def test_post_without_seeing_the_question_is_a_miss(self):
+        response = self.client.post(reverse('daily_question') + '?lang=en', {'answer_choice': '0'})
+        self.assertFalse(response.context['is_correct'])
+
+    def test_instruction_and_choices_are_localized_per_locale(self):
+        for lang in LOCALE_QUERY_PARAMS:
+            with self.subTest(lang=lang):
+                response = self._get(Client(), lang)
+                self.assertIn(DAILY_CHOICE_INSTRUCTION_BY_LOCALE[lang], response.content.decode())
+                expected = 'Umbrella' if lang == 'en' else f'Umbrella [{lang}]'
+                self.assertIn(expected, response.context['choices'])
+
+    def test_share_text_still_reveals_the_reading_after_a_choice_answer(self):
+        choices = self._get(self.client).context['choices']
+        response = self.client.post(reverse('daily_question') + '?lang=en', {'answer_choice': choices.index('Umbrella')})
+        self.assertIn('か→さ→傘', response.context['share_text'])
+
+
+class TopPageThreeChoiceCleanupTests(TestCase):
+    def test_logged_in_top_page_has_only_the_centered_play_button(self):
+        user = User.objects.create_user('top-page-user', password='pw-for-tests-only')
+        self.client.force_login(user)
+        for lang in LOCALE_QUERY_PARAMS:
+            with self.subTest(lang=lang):
+                body = self.client.get(reverse('toppage'), {'lang': lang}).content.decode()
+                self.assertNotIn('class="explore-btn btn-red"', body)
+                self.assertNotIn('攻略ガイド 📖', body)
+                self.assertIn('hero-buttons hero-buttons-single', body)
+                self.assertIn('explore-btn btn-green btn-play-main', body)
+
+    def test_tutorial_end_message_no_longer_mentions_the_daily_question(self):
+        for lang in LOCALE_QUERY_PARAMS:
+            with self.subTest(lang=lang):
+                body = Client().get(reverse('toppage'), {'lang': lang}).content.decode()
+                self.assertIn('id="tutorial-overlay-end"', body)
+                for fragment in DAILY_TUTORIAL_END_FRAGMENTS:
+                    self.assertNotIn(fragment, body)
+
+    def test_daily_question_banner_is_hidden(self):
+        user = User.objects.create_user('banner-user', password='pw-for-tests-only')
+        self.client.force_login(user)
+        response = self.client.get(reverse('toppage'))
+        self.assertFalse(response.context['show_daily_question_banner'])
+        self.assertNotIn('id="dailyQuestionBanner"', response.content.decode())
+
+    def test_banner_flag_restores_it(self):
+        user = User.objects.create_user('banner-user2', password='pw-for-tests-only')
+        self.client.force_login(user)
+        with patch.object(context_processors, 'DAILY_QUESTION_BANNER_ENABLED', True):
+            response = self.client.get(reverse('toppage'))
+        self.assertTrue(response.context['show_daily_question_banner'])
+        self.assertIn('id="dailyQuestionBanner"', response.content.decode())
+
+    def test_daily_question_page_itself_still_works(self):
+        word = _make_word('banner-word', 'Kite', 'たこ')
+        DailyQuestion.objects.create(date=timezone.localdate(), word=word)
+        response = self.client.get(reverse('daily_question'))
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.context['daily_state'], 'question')
+
+    def test_returning_guest_still_gets_the_learn_nav_tutorial(self):
+        self.client.cookies['tj_has_played'] = '1'
+        body = self.client.get(reverse('toppage')).content.decode()
+        self.assertIn('id="learn-modal-btn"', body)
+        self.assertEqual(body.count('id="nav-tutorial-learn-hint"'), 1)
+        self.assertEqual(body.count('id="nav-tutorial-category-link-hint"'), 1)
+
+
+class ThreeChoiceTextPerLocaleTests(TestCase):
+    def test_game_start_rules_and_meta_describe_the_3_choice_game(self):
+        for lang in LOCALE_QUERY_PARAMS:
+            with self.subTest(lang=lang):
+                body = self.client.get(reverse('game_start'), {'lang': lang}).content.decode()
+                self.assertIn(GAME_START_RULE_BY_LOCALE[lang].lower(), body.lower())
+                self.assertIn(GAME_START_META_BY_LOCALE[lang].lower(), body.lower())
+                for old in OLD_GAME_START_TILE_FRAGMENTS:
+                    self.assertNotIn(old, body)
+
+    def test_game_start_keeps_the_bold_title(self):
+        body = self.client.get(reverse('game_start'), {'lang': 'ja'}).content.decode()
+        self.assertIn('日本人でも難しい?このゲーム、マジでハマる。', body)
+
+    def test_result_screen_says_your_answer_per_locale(self):
+        word = _make_word('r-word', 'Kite', 'たこ')
+        for lang in LOCALE_QUERY_PARAMS:
+            with self.subTest(lang=lang):
+                client = Client()
+                session = client.session
+                session['game_history'] = [{
+                    'index': 0, 'is_correct': False, 'points': 0, 'question_id': word.id,
+                    'question_model': 'free', 'combo': 0, 'combo_bonus': 0,
+                    'user_input': 'Octopus', 'correct_answer': 'Kite',
+                }]
+                session['game_difficulty'] = 'timeattack'
+                session.save()
+                body = client.get(reverse('game_result'), {'lang': lang}).content.decode()
+                self.assertIn(YOUR_ANSWER_LABEL_BY_LOCALE[lang], body)
+                for old in OLD_YOUR_INPUT_LABELS:
+                    self.assertNotIn(old, body)

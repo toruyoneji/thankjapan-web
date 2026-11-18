@@ -1,0 +1,21 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "thankjapan-dev",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["manage.py", "runserver", "8000"],
+      "port": 8000
+    },
+    {
+      "name": "thankjapan-local-verify",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["manage.py", "runserver", "8001", "--insecure", "--settings=local_test_settings"],
+      "env": {
+        "PYTHONPATH": "C:/Users/User/AppData/Local/Temp/claude/C--Users-User--claude-spares-spare-eOwl9K/bf194d58-2dcb-43e8-a697-02617a13290c/scratchpad",
+        "DJANGO_SETTINGS_MODULE": "local_test_settings"
+      },
+      "port": 8001
+    }
+  ]
+}

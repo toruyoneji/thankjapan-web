@@ -532,6 +532,17 @@ class DailyActivitySummary(models.Model):
     total_count = models.PositiveIntegerField(default=0)
     correct_count = models.PositiveIntegerField(default=0)
     guest_count = models.PositiveIntegerField(default=0)
+    # Per-game funnel counts (2026-11-19) - only ever set on the
+    # ACTIVITY_MAIN_GAME row. total_count above counts *answers*, not games,
+    # so these are what show how many games were started vs. actually
+    # finished (reached the result screen). Covers timeattack + first_taste
+    # (same scope as total_count); first_taste_* is the subset for the
+    # first-visit guest trial on its own. See record_game_started/
+    # record_game_completed - each fires at most once per game.
+    games_started = models.PositiveIntegerField(default=0)
+    games_completed = models.PositiveIntegerField(default=0)
+    first_taste_started = models.PositiveIntegerField(default=0)
+    first_taste_completed = models.PositiveIntegerField(default=0)
 
     class Meta:
         unique_together = ('date', 'activity_type')
@@ -550,6 +561,23 @@ class DailyActivitySummary(models.Model):
             correct_count=F('correct_count') + (1 if is_correct else 0),
             guest_count=F('guest_count') + (1 if is_guest else 0),
         )
+
+    @classmethod
+    def _record_game_funnel(cls, field, first_taste_field, is_first_taste):
+        today = timezone.localdate()
+        obj, _ = cls.objects.get_or_create(date=today, activity_type=cls.ACTIVITY_MAIN_GAME)
+        updates = {field: F(field) + 1}
+        if is_first_taste:
+            updates[first_taste_field] = F(first_taste_field) + 1
+        cls.objects.filter(pk=obj.pk).update(**updates)
+
+    @classmethod
+    def record_game_started(cls, is_first_taste):
+        cls._record_game_funnel('games_started', 'first_taste_started', is_first_taste)
+
+    @classmethod
+    def record_game_completed(cls, is_first_taste):
+        cls._record_game_funnel('games_completed', 'first_taste_completed', is_first_taste)
 
     def __str__(self):
         return f"{self.date} - {self.get_activity_type_display()} ({self.total_count})"

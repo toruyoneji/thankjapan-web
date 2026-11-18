@@ -215,6 +215,17 @@
     border-bottom-width: 2px !important;
 }
 
+.hero-buttons.hero-buttons-single { justify-content: center !important; }
+/* Logged-in top page (2026-11-19): the play button is the only CTA left
+   after the "Strategy Guide" button was removed (the bottom nav's "Learn"
+   still leads to the category list) - so it's centered and a size up. */
+.explore-btn.btn-play-main {
+    width: 90% !important;
+    max-width: 360px;
+    font-size: 1.25rem !important;
+    padding: 26px 0 !important;
+}
+
 @keyframes topPlayPulse {
     0%, 100% { box-shadow: 0 0 0 0 rgba(201,162,39,0.5); }
     50% { box-shadow: 0 0 0 14px rgba(201,162,39,0); }
@@ -533,18 +544,18 @@
     <div class="tutorial-overlay-card">
         <div class="tutorial-overlay-icon">🎉</div>
         <div class="tutorial-overlay-text">
-            {% if lang_code == 'ja' %}ゲームのチュートリアルは<br>これでおしまいです！<br><br>「今日の一問」にも<br>挑戦してみてね
-            {% elif lang_code == 'zh-hant' %}遊戲教學<br>到此結束囉！<br><br>也來挑戰一下<br>「今日一題」吧！
-            {% elif lang_code == 'zh-cn' %}游戏教程<br>到此结束啦！<br><br>也来挑战一下<br>「今日一题」吧！
-            {% elif lang_code == 'ko' %}게임 튜토리얼은<br>여기까지예요!<br><br>오늘의 한 문제에도<br>도전해 보세요!
-            {% elif lang_code == 'de' %}Das war's mit dem<br>Spiel-Tutorial!<br><br>Probier doch auch<br>die Frage des Tages aus!
-            {% elif lang_code == 'fr' %}C'est la fin<br>du tutoriel du jeu !<br><br>Essayez aussi<br>la question du jour !
-            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}¡Este es el final<br>del tutorial del juego!<br><br>¡Prueba también<br>la pregunta de hoy!
-            {% elif lang_code == 'it' %}Il tutorial del gioco<br>finisce qui!<br><br>Prova anche<br>la domanda di oggi!
-            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}O tutorial do jogo<br>termina por aqui!<br><br>Experimente também<br>a pergunta de hoje!
-            {% elif lang_code == 'vi' %}Hướng dẫn trò chơi<br>đến đây là kết thúc!<br><br>Hãy thử trả lời<br>câu hỏi hôm nay nhé!
-            {% elif lang_code == 'th' %}บทแนะนำเกม<br>จบเพียงเท่านี้!<br><br>มาลองตอบ<br>คำถามประจำวันนี้ด้วยนะ!
-            {% else %}That's the end<br>of the tutorial!<br><br>Try today's<br>Daily Question too!{% endif %}
+            {% if lang_code == 'ja' %}ゲームのチュートリアルは<br>これでおしまいです！
+            {% elif lang_code == 'zh-hant' %}遊戲教學<br>到此結束囉！
+            {% elif lang_code == 'zh-cn' %}游戏教程<br>到此结束啦！
+            {% elif lang_code == 'ko' %}게임 튜토리얼은<br>여기까지예요!
+            {% elif lang_code == 'de' %}Das war's mit dem<br>Spiel-Tutorial!
+            {% elif lang_code == 'fr' %}C'est la fin<br>du tutoriel du jeu !
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}¡Este es el final<br>del tutorial del juego!
+            {% elif lang_code == 'it' %}Il tutorial del gioco<br>finisce qui!
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}O tutorial do jogo<br>termina por aqui!
+            {% elif lang_code == 'vi' %}Hướng dẫn trò chơi<br>đến đây là kết thúc!
+            {% elif lang_code == 'th' %}บทแนะนำเกม<br>จบเพียงเท่านี้!
+            {% else %}That's the end<br>of the tutorial!{% endif %}
         </div>
         <div class="tutorial-overlay-tap-hint">
             {% if lang_code == 'ja' %}タップで次へ
@@ -869,23 +880,8 @@ function startFirstTasteWithIntro(event, url) {
                 {% endif %}
             </div>      
 
-            <div class="hero-buttons">
-                
-                <a href="{% url 'category_list' %}?lang={{ lang_code }}" class="explore-btn btn-red">
-                    {% if lang_code == 'ja' %}攻略ガイド 📖
-                    {% elif lang_code == 'ko' %}공략 가이드 📖
-                    {% elif lang_code == 'zh-cn' %}攻略指南 📖
-                    {% elif lang_code == 'zh-hant' %}攻略指南 📖
-                    {% elif lang_code == 'th' %}คู่มือพิชิตเกม 📖
-                    {% elif lang_code == 'vi' %}Bí kíp chiến thắng 📖
-                    {% elif lang_code == 'fr' %}Guide Stratégique 📖
-                    {% elif lang_code == 'de' %}Strategie-Guide 📖
-                    {% elif lang_code == 'it' %}Guida Strategica 📖
-                    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Guía de Estrategia 📖
-                    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Guia de Estratégia 📖
-                    {% else %}Strategy Guide 📖{% endif %}
-                </a>
-                <a href="{% url 'game_start' %}?lang={{ lang_code }}" class="explore-btn btn-green">
+            <div class="hero-buttons hero-buttons-single">
+                <a href="{% url 'game_start' %}?lang={{ lang_code }}" class="explore-btn btn-green btn-play-main">
                     {% if lang_code == 'ja' %}クイズで遊ぶ 🎮
                     {% elif lang_code == 'ko' %}퀴즈 풀기 🎮
                     {% elif lang_code == 'zh-cn' %}玩词汇测验 🎮

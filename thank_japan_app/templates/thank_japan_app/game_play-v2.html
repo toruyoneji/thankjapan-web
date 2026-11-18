@@ -144,6 +144,67 @@ body {
 .prompt-card img { width: 100%; max-width: 260px; height: 160px; object-fit: cover; border-radius: 10px; display: block; margin: 0 auto; }
 .prompt-caption { margin-top: 8px; font-size: 0.85rem; color: var(--ink-soft); font-family: 'Noto Sans JP', sans-serif; }
 
+/* Reading under the image (3-choice format) - the main thing a beginner
+   reads, so roughly 2x the old .prompt-caption: bold hiragana, romaji
+   underneath. */
+.prompt-reading {
+  margin: 12px 0 0; font-family: 'Zen Maru Gothic', 'Noto Sans JP', sans-serif;
+  font-size: 1.9rem; font-weight: 900; line-height: 1.25; color: var(--ink);
+  letter-spacing: 0.04em; word-break: break-word;
+}
+.prompt-romaji {
+  margin: 4px 0 0; font-family: 'Inter', 'Noto Sans JP', sans-serif;
+  font-size: 1.15rem; font-weight: 700; color: var(--ink-soft); letter-spacing: 0.03em; word-break: break-word;
+}
+
+/* ---------- 3-choice answers ----------
+   Stacked vertically, full width, tall tap targets for phones. Correct
+   = the same teal/green glow the tile game used, wrong = the same red
+   shake; on a wrong pick the correct choice is revealed in green too. */
+.choice-list {
+  display: flex; flex-direction: column; gap: 14px; max-width: 420px; margin: 0 auto; position: relative;
+}
+.choice-btn {
+  display: flex; align-items: center; justify-content: center; text-align: center;
+  width: 100%; min-height: 64px; padding: 12px 18px; box-sizing: border-box;
+  font-family: 'Zen Maru Gothic', 'Inter', 'Noto Sans JP', sans-serif; font-size: 1.15rem; font-weight: 800; line-height: 1.3;
+  color: #fff2d6; background: linear-gradient(145deg, #3a2e18, #241b10);
+  border: 2px solid var(--gold); border-radius: 16px; box-shadow: 0 3px 8px rgba(0,0,0,0.3);
+  cursor: pointer; user-select: none; -webkit-tap-highlight-color: transparent; word-break: break-word;
+  transition: transform 0.12s ease;
+}
+.choice-btn:active { transform: scale(0.98); }
+.choice-btn.choice-correct {
+  border-color: var(--jewel-teal); background: linear-gradient(145deg, #1f6f66, #124a44);
+  box-shadow: 0 0 0 3px var(--jewel-teal), 0 0 22px 6px rgba(46,196,182,0.75);
+  animation: tileBounceGold 0.6s ease-out;
+}
+.choice-btn.choice-correct-reveal {
+  border-color: var(--jewel-teal); background: linear-gradient(145deg, #1f6f66, #124a44);
+  box-shadow: 0 0 0 3px var(--jewel-teal);
+}
+.choice-btn.choice-wrong {
+  border-color: var(--jewel-ruby); background: linear-gradient(145deg, #5c2a2a, #3a1a1a);
+  animation: tileShake 0.45s ease-in-out;
+}
+.choice-btn.choice-correct.tutorial-highlight {
+  border-color: var(--matcha) !important; background: linear-gradient(145deg, #4a5d3a, #2e3a24) !important;
+  box-shadow: 0 0 0 4px var(--matcha), 0 0 32px 10px rgba(124,148,115,0.9) !important;
+  animation: tutorialCorrectPulse 0.8s ease-out;
+}
+.choice-btn.choice-wrong.tutorial-highlight {
+  background: linear-gradient(145deg, #6e2020, #3a1010) !important;
+  box-shadow: 0 0 0 4px var(--jewel-ruby), 0 0 32px 10px rgba(230,57,70,0.9) !important;
+  animation: tutorialWrongPulse 0.6s ease-in-out;
+}
+.choice-btn.tutorial-guided { box-shadow: 0 0 0 3px var(--gold-light), 0 0 18px 4px rgba(232,207,122,0.8); }
+.choice-btn.tutorial-wrong-shake { animation: tutorialWrongShake 0.3s ease-out; }
+.choice-finger {
+  position: absolute; font-size: 1.9rem; line-height: 1; pointer-events: none; z-index: 5;
+  transform: translate(-50%, 0); animation: tutorialTileFingerPoint 1s ease-in-out infinite;
+  filter: drop-shadow(0 2px 3px rgba(0,0,0,0.5));
+}
+
 /* ---------- tiles ---------- */
 .answer-row {
   display: flex; flex-wrap: wrap; justify-content: center; gap: 8px;
@@ -299,6 +360,8 @@ body {
     .tile { font-size: 1rem; padding: 8px 10px; }
     .ring-wrap { width: 56px; height: 56px; }
     .ring-num { font-size: 1.1rem; }
+    .prompt-reading { font-size: 1.6rem; }
+    .choice-btn { font-size: 1.05rem; min-height: 58px; }
 }
 
 /* PC: the site header only holds a logo + a redundant score badge (this
@@ -343,6 +406,11 @@ body {
     .answer-row, .bank-row { max-width: 680px; gap: 20px; }
     .answer-row { margin-bottom: 28px; }
     .tile, .slot { font-size: 1.875rem; padding: 16px 22px; min-width: 68px; min-height: 68px; }
+
+    .prompt-reading { font-size: 2.6rem; }
+    .prompt-romaji { font-size: 1.5rem; }
+    .choice-list { max-width: 560px; gap: 18px; }
+    .choice-btn { min-height: 84px; font-size: 1.5rem; }
 }
 
 /* ---------- time-up / "spend points to extend" modal ---------- */
@@ -646,11 +714,20 @@ body {
 
     <div class="prompt-card">
         <img id="prompt-img" src="" alt="">
+        {% if question_format == 'choice' %}
+        <p class="prompt-reading" id="prompt-reading" lang="ja"></p>
+        <p class="prompt-romaji" id="prompt-romaji"></p>
+        {% else %}
         <p class="prompt-caption" id="prompt-caption"></p>
+        {% endif %}
     </div>
 
+    {% if question_format == 'choice' %}
+    <div class="choice-list" id="choice-list"></div>
+    {% else %}
     <div class="answer-row" id="answer-row"></div>
     <div class="bank-row" id="bank-row"></div>
+    {% endif %}
 </div>
 
 {% if difficulty == 'first_taste' or is_nav_tutorial_single %}
@@ -666,18 +743,18 @@ body {
     <div class="tutorial-overlay-card">
         <div class="tutorial-overlay-icon">👆</div>
         <div class="tutorial-overlay-text">
-            {% if lang_code == 'ja' %}「つけめん」を<br>1文字ずつタップして<br>選んでみよう
-            {% elif lang_code == 'zh-hant' %}一個字一個字地點擊<br>選出「つけめん」吧
-            {% elif lang_code == 'zh-cn' %}一个字一个字地点击<br>选出「つけめん」吧
-            {% elif lang_code == 'ko' %}「つけめん」을<br>한 글자씩 탭해서<br>선택해 봐요
-            {% elif lang_code == 'de' %}Tippe die Zeichen von<br>„つけめん" nacheinander an
-            {% elif lang_code == 'fr' %}Touchez les caractères de<br>« つけめん » un par un
-            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Toca los caracteres de<br>"つけめん" uno por uno
-            {% elif lang_code == 'it' %}Tocca i caratteri di<br>"つけめん" uno alla volta
-            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Toque nos caracteres de<br>"つけめん" um por um
-            {% elif lang_code == 'vi' %}Hãy chạm vào từng chữ của<br>"つけめん" theo thứ tự
-            {% elif lang_code == 'th' %}แตะตัวอักษรของ<br>"つけめん" ทีละตัว
-            {% else %}Tap the tiles of<br>つけめん (Tsukemen)<br>one by one!{% endif %}
+            {% if lang_code == 'ja' %}「つけめん」の<br>正しい答えを<br>タップしてみよう
+            {% elif lang_code == 'zh-hant' %}點擊「つけめん」的<br>正確答案吧
+            {% elif lang_code == 'zh-cn' %}点击「つけめん」的<br>正确答案吧
+            {% elif lang_code == 'ko' %}「つけめん」의<br>정답을 탭해 봐요
+            {% elif lang_code == 'de' %}Tippe auf die richtige<br>Antwort für „つけめん"
+            {% elif lang_code == 'fr' %}Touchez la bonne réponse<br>pour « つけめん »
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Toca la respuesta correcta<br>de "つけめん"
+            {% elif lang_code == 'it' %}Tocca la risposta corretta<br>per "つけめん"
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Toque na resposta correta<br>para "つけめん"
+            {% elif lang_code == 'vi' %}Hãy chạm vào đáp án đúng<br>của "つけめん"
+            {% elif lang_code == 'th' %}แตะคำตอบที่ถูกต้อง<br>ของ "つけめん"
+            {% else %}Tap the correct answer<br>for つけめん (Tsukemen)!{% endif %}
         </div>
     </div>
 </div>
@@ -688,18 +765,18 @@ body {
     <div class="tutorial-overlay-card">
         <div class="tutorial-overlay-icon">👆</div>
         <div class="tutorial-overlay-text">
-            {% if lang_code == 'ja' %}「らーめん」を<br>1文字ずつタップして<br>選んでみよう
-            {% elif lang_code == 'zh-hant' %}一個字一個字地點擊<br>選出「らーめん」吧
-            {% elif lang_code == 'zh-cn' %}一个字一个字地点击<br>选出「らーめん」吧
-            {% elif lang_code == 'ko' %}「らーめん」을<br>한 글자씩 탭해서<br>선택해 봐요
-            {% elif lang_code == 'de' %}Tippe die Zeichen von<br>„らーめん" nacheinander an
-            {% elif lang_code == 'fr' %}Touchez les caractères de<br>« らーめん » un par un
-            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Toca los caracteres de<br>"らーめん" uno por uno
-            {% elif lang_code == 'it' %}Tocca i caratteri di<br>"らーめん" uno alla volta
-            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Toque nos caracteres de<br>"らーめん" um por um
-            {% elif lang_code == 'vi' %}Hãy chạm vào từng chữ của<br>"らーめん" theo thứ tự
-            {% elif lang_code == 'th' %}แตะตัวอักษรของ<br>"らーめん" ทีละตัว
-            {% else %}Tap the tiles of<br>らーめん (ramen)<br>one by one!{% endif %}
+            {% if lang_code == 'ja' %}「らーめん」の<br>正しい答えを<br>タップしてみよう
+            {% elif lang_code == 'zh-hant' %}點擊「らーめん」的<br>正確答案吧
+            {% elif lang_code == 'zh-cn' %}点击「らーめん」的<br>正确答案吧
+            {% elif lang_code == 'ko' %}「らーめん」의<br>정답을 탭해 봐요
+            {% elif lang_code == 'de' %}Tippe auf die richtige<br>Antwort für „らーめん"
+            {% elif lang_code == 'fr' %}Touchez la bonne réponse<br>pour « らーめん »
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Toca la respuesta correcta<br>de "らーめん"
+            {% elif lang_code == 'it' %}Tocca la risposta corretta<br>per "らーめん"
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Toque na resposta correta<br>para "らーめん"
+            {% elif lang_code == 'vi' %}Hãy chạm vào đáp án đúng<br>của "らーめん"
+            {% elif lang_code == 'th' %}แตะคำตอบที่ถูกต้อง<br>ของ "らーめん"
+            {% else %}Tap the correct answer<br>for らーめん (ramen)!{% endif %}
         </div>
     </div>
 </div>
@@ -708,18 +785,18 @@ body {
     <div class="tutorial-overlay-card">
         <div class="tutorial-overlay-icon">😉</div>
         <div class="tutorial-overlay-text">
-            {% if lang_code == 'ja' %}今度は、わざと<br>違う順番で選んでみよう
-            {% elif lang_code == 'zh-hant' %}這次來故意<br>用不同的順序選選看吧
-            {% elif lang_code == 'zh-cn' %}这次来故意<br>用不同的顺序选选看吧
-            {% elif lang_code == 'ko' %}이번에는 일부러<br>다른 순서로 선택해 봐요
-            {% elif lang_code == 'de' %}Versuchen wir diesmal<br>absichtlich eine andere Reihenfolge
-            {% elif lang_code == 'fr' %}Cette fois, essayons<br>volontairement un autre ordre
-            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Esta vez, intentemos<br>a propósito un orden diferente
-            {% elif lang_code == 'it' %}Questa volta, proviamo<br>di proposito un ordine diverso
-            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Desta vez, vamos tentar<br>de propósito uma ordem diferente
-            {% elif lang_code == 'vi' %}Lần này, hãy thử<br>chọn theo thứ tự khác nhé
-            {% elif lang_code == 'th' %}คราวนี้ลองเลือก<br>ในลำดับที่ต่างออกไปดูสิ
-            {% else %}This time, let's try<br>a different order on purpose!{% endif %}
+            {% if lang_code == 'ja' %}今度は、わざと<br>違う答えを選んでみよう
+            {% elif lang_code == 'zh-hant' %}這次來故意<br>選一個錯誤的答案吧
+            {% elif lang_code == 'zh-cn' %}这次来故意<br>选一个错误的答案吧
+            {% elif lang_code == 'ko' %}이번에는 일부러<br>틀린 답을 선택해 봐요
+            {% elif lang_code == 'de' %}Wähle diesmal<br>absichtlich eine falsche Antwort
+            {% elif lang_code == 'fr' %}Cette fois, choisissez<br>volontairement une mauvaise réponse
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Esta vez, elige<br>a propósito una respuesta incorrecta
+            {% elif lang_code == 'it' %}Questa volta, scegli<br>di proposito una risposta sbagliata
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Desta vez, escolha<br>de propósito uma resposta errada
+            {% elif lang_code == 'vi' %}Lần này, hãy cố tình<br>chọn một đáp án sai nhé
+            {% elif lang_code == 'th' %}คราวนี้ลองเลือก<br>คำตอบที่ผิดดูสิ
+            {% else %}This time, pick a<br>wrong answer on purpose!{% endif %}
         </div>
     </div>
 </div>
@@ -728,18 +805,18 @@ body {
     <div class="tutorial-overlay-card">
         <div class="tutorial-overlay-icon">🟢</div>
         <div class="tutorial-overlay-text">
-            {% if lang_code == 'ja' %}正解すると<br>タイルが緑に光るよ
-            {% elif lang_code == 'zh-hant' %}答對的話<br>方塊會發出綠光喔
-            {% elif lang_code == 'zh-cn' %}答对的话<br>方块会发出绿光哦
-            {% elif lang_code == 'ko' %}정답이면<br>타일이 초록색으로 빛나요
-            {% elif lang_code == 'de' %}Bei richtiger Antwort<br>leuchten die Kacheln grün
-            {% elif lang_code == 'fr' %}En cas de bonne réponse,<br>les tuiles brillent en vert
-            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Si aciertas,<br>las fichas brillan en verde
-            {% elif lang_code == 'it' %}Se rispondi bene,<br>le tessere si illuminano di verde
-            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Se você acertar,<br>as peças brilham em verde
-            {% elif lang_code == 'vi' %}Khi trả lời đúng,<br>các ô sẽ phát sáng màu xanh lá
-            {% elif lang_code == 'th' %}ถ้าตอบถูก<br>กระเบื้องจะเรืองแสงสีเขียว
-            {% else %}When you're right,<br>the tile glows green!{% endif %}
+            {% if lang_code == 'ja' %}正解すると<br>答えが緑に光るよ
+            {% elif lang_code == 'zh-hant' %}答對的話<br>答案會發出綠光喔
+            {% elif lang_code == 'zh-cn' %}答对的话<br>答案会发出绿光哦
+            {% elif lang_code == 'ko' %}정답이면<br>답이 초록색으로 빛나요
+            {% elif lang_code == 'de' %}Bei richtiger Antwort<br>leuchtet sie grün
+            {% elif lang_code == 'fr' %}En cas de bonne réponse,<br>la réponse brille en vert
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Si aciertas,<br>la respuesta brilla en verde
+            {% elif lang_code == 'it' %}Se rispondi bene,<br>la risposta si illumina di verde
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Se você acertar,<br>a resposta brilha em verde
+            {% elif lang_code == 'vi' %}Khi trả lời đúng,<br>đáp án sẽ phát sáng màu xanh lá
+            {% elif lang_code == 'th' %}ถ้าตอบถูก<br>คำตอบจะเรืองแสงสีเขียว
+            {% else %}When you're right,<br>the answer glows green!{% endif %}
         </div>
     </div>
 </div>
@@ -748,18 +825,18 @@ body {
     <div class="tutorial-overlay-card">
         <div class="tutorial-overlay-icon">🔴</div>
         <div class="tutorial-overlay-text">
-            {% if lang_code == 'ja' %}不正解だと<br>タイルが赤く光るよ
-            {% elif lang_code == 'zh-hant' %}答錯的話<br>方塊會發出紅光喔
-            {% elif lang_code == 'zh-cn' %}答错的话<br>方块会发出红光哦
-            {% elif lang_code == 'ko' %}오답이면<br>타일이 빨간색으로 빛나요
-            {% elif lang_code == 'de' %}Bei falscher Antwort<br>leuchten die Kacheln rot
-            {% elif lang_code == 'fr' %}En cas de mauvaise réponse,<br>les tuiles brillent en rouge
-            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Si te equivocas,<br>las fichas brillan en rojo
-            {% elif lang_code == 'it' %}Se sbagli,<br>le tessere si illuminano di rosso
-            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Se você errar,<br>as peças brilham em vermelho
-            {% elif lang_code == 'vi' %}Khi trả lời sai,<br>các ô sẽ phát sáng màu đỏ
-            {% elif lang_code == 'th' %}ถ้าตอบผิด<br>กระเบื้องจะเรืองแสงสีแดง
-            {% else %}When you're wrong,<br>the tile glows red!{% endif %}
+            {% if lang_code == 'ja' %}不正解だと<br>答えが赤く光るよ
+            {% elif lang_code == 'zh-hant' %}答錯的話<br>答案會發出紅光喔
+            {% elif lang_code == 'zh-cn' %}答错的话<br>答案会发出红光哦
+            {% elif lang_code == 'ko' %}오답이면<br>답이 빨간색으로 빛나요
+            {% elif lang_code == 'de' %}Bei falscher Antwort<br>leuchtet sie rot
+            {% elif lang_code == 'fr' %}En cas de mauvaise réponse,<br>la réponse brille en rouge
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Si te equivocas,<br>la respuesta brilla en rojo
+            {% elif lang_code == 'it' %}Se sbagli,<br>la risposta si illumina di rosso
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Se você errar,<br>a resposta brilha em vermelho
+            {% elif lang_code == 'vi' %}Khi trả lời sai,<br>đáp án sẽ phát sáng màu đỏ
+            {% elif lang_code == 'th' %}ถ้าตอบผิด<br>คำตอบจะเรืองแสงสีแดง
+            {% else %}When you're wrong,<br>the answer glows red!{% endif %}
         </div>
     </div>
 </div>
@@ -777,6 +854,8 @@ body {
     {% if single_return_url %}const SINGLE_RETURN_URL = "{{ single_return_url|escapejs }}";{% else %}const SINGLE_RETURN_URL = null;{% endif %}
     const IS_NAV_TUTORIAL_SINGLE = {{ is_nav_tutorial_single|yesno:'true,false' }};
     const SKIP_COUNTDOWN = {{ skip_countdown|yesno:'true,false' }};
+    // 'choice' (3-choice meaning quiz) or 'tiles' - see GAME_QUESTION_FORMAT in views.py.
+    const IS_CHOICE_FORMAT = '{{ question_format|escapejs }}' === 'choice';
     const HAS_TIMER = {{ has_timer|yesno:'true,false' }};
     const TOTAL_TIME = 60;
     const RING_CIRCUMFERENCE = 175.9;
@@ -844,6 +923,12 @@ body {
     // every later question, which never carries the matching order.
     let tutorialIntroShown = false;
     let tutorialWrongIntroShown = false;
+    // 3-choice format state. choiceGuideIndex: the one choice a tutorial
+    // question lets the player tap (pointed at by the finger) - the correct
+    // one on first_taste Q1/the nav tutorial, a deliberately wrong one on
+    // first_taste Q2; null on every normal question.
+    let currentChoices = [];
+    let choiceGuideIndex = null;
     let pointBalance = {{ point_balance|default:0 }};
     let extendRequestInFlight = false;
 
@@ -1087,6 +1172,7 @@ body {
 
     function updateTutorialFinger() {
         removeTutorialFinger();
+        if (IS_CHOICE_FORMAT) { updateChoiceFinger(); return; }
         if (!activeTutorialGuideOrder()) return;
         const nextIndex = nextTutorialTileIndex();
         if (nextIndex === undefined) {
@@ -1120,7 +1206,100 @@ body {
     }
     window.addEventListener('resize', function () { updateTutorialFinger(); });
 
+    function updateChoiceFinger() {
+        if (choiceGuideIndex === null || submitting) return;
+        const list = document.getElementById('choice-list');
+        const targetEl = list && list.querySelector('[data-choice-index="' + choiceGuideIndex + '"]');
+        if (!targetEl) return;
+        const finger = document.createElement('div');
+        finger.className = 'choice-finger';
+        finger.textContent = '👇';
+        finger.style.left = (targetEl.offsetLeft + targetEl.offsetWidth * 0.82) + 'px';
+        finger.style.top = (targetEl.offsetTop - 26) + 'px';
+        list.appendChild(finger);
+        tutorialFingerEl = finger;
+    }
+
+    function drawChoices() {
+        const list = document.getElementById('choice-list');
+        list.innerHTML = '';
+        currentChoices.forEach(function (text, i) {
+            const el = document.createElement('button');
+            el.type = 'button';
+            el.className = 'choice-btn' + (i === choiceGuideIndex ? ' tutorial-guided' : '');
+            el.textContent = text;
+            el.dataset.choiceIndex = i;
+            el.addEventListener('click', function () { onChoiceTap(i, el); });
+            list.appendChild(el);
+        });
+        updateTutorialFinger();
+    }
+
+    function onChoiceTap(i, el) {
+        if (submitting) return;
+        // Tutorial questions: only the guided choice reacts - any other tap
+        // just shakes (Q1/nav tutorial can't be answered wrong, Q2 can't be
+        // answered right by accident).
+        if (choiceGuideIndex !== null && i !== choiceGuideIndex) {
+            el.classList.remove('tutorial-wrong-shake');
+            void el.offsetWidth;
+            el.classList.add('tutorial-wrong-shake');
+            el.addEventListener('animationend', function () {
+                el.classList.remove('tutorial-wrong-shake');
+            }, { once: true });
+            return;
+        }
+        submitting = true;
+        choiceGuideIndex = null;
+        removeTutorialFinger();
+        document.querySelectorAll('#choice-list .choice-btn').forEach(function (b) { b.classList.remove('tutorial-guided'); });
+        postAnswer({ choice_index: i, seconds_left: localSecondsLeft }, function (res, wasCorrectStep, wasWrongStep) {
+            const buttons = document.querySelectorAll('#choice-list .choice-btn');
+            if (res.is_correct) {
+                el.classList.add('choice-correct');
+                if (wasCorrectStep) el.classList.add('tutorial-highlight');
+            } else {
+                el.classList.add('choice-wrong');
+                if (wasWrongStep) el.classList.add('tutorial-highlight');
+                // Reveal which choice was the right one.
+                const ci = res.correct_choice_index;
+                if (ci !== null && ci !== undefined && buttons[ci]) buttons[ci].classList.add('choice-correct-reveal');
+            }
+        }, 1500);
+    }
+
+    function renderChoiceBoard(data) {
+        currentQuestionId = data.question_id;
+        currentQuestionModel = data.question_model;
+        currentChoices = data.choices || [];
+        submitting = false;
+        const correctGuide = Number.isInteger(data.tutorial_choice_index) ? data.tutorial_choice_index : null;
+        const wrongGuide = Number.isInteger(data.tutorial_wrong_choice_index) ? data.tutorial_wrong_choice_index : null;
+        choiceGuideIndex = correctGuide !== null ? correctGuide : wrongGuide;
+        currentQuestionTutorialMode = correctGuide !== null ? 'correct' : (wrongGuide !== null ? 'wrong' : null);
+
+        positionKoma(data.index);
+        updateKiGauge(data.combo);
+        document.getElementById('score-num').textContent = data.score;
+        document.getElementById('prompt-img').src = data.image_url || '';
+        document.getElementById('prompt-reading').textContent = data.reading || '';
+        document.getElementById('prompt-romaji').textContent = data.romaji || '';
+
+        drawChoices();
+
+        // Same intro overlays as the tile tutorial (see renderBoard below).
+        if (correctGuide !== null && !tutorialIntroShown) {
+            tutorialIntroShown = true;
+            playTutorialOverlay(IS_NAV_TUTORIAL_SINGLE ? 'tutorial-overlay-nav-single' : 'tutorial-overlay-q1', 2500);
+        }
+        if (wrongGuide !== null && !tutorialWrongIntroShown) {
+            tutorialWrongIntroShown = true;
+            playTutorialOverlay('tutorial-overlay-q2', 2500);
+        }
+    }
+
     function renderBoard(data) {
+        if (data.format === 'choice') { renderChoiceBoard(data); return; }
         currentQuestionId = data.question_id;
         currentQuestionModel = data.question_model;
         currentTiles = data.tiles;
@@ -1181,15 +1360,42 @@ body {
     function submitAnswer() {
         submitting = true;
         const orderedTiles = placedIndices.map((i) => currentTiles[i]);
+        postAnswer({ tiles: orderedTiles, seconds_left: localSecondsLeft }, function (res, wasCorrectStep, wasWrongStep) {
+            const answerRow = document.getElementById('answer-row');
+            if (res.is_correct) {
+                answerRow.querySelectorAll('.tile').forEach((t) => {
+                    t.classList.add('tile-correct');
+                    // Q1 of first_taste: the same green/glow treatment,
+                    // just emphasized further so a brand-new guest can't
+                    // miss it (see .tutorial-highlight in the CSS above).
+                    if (wasCorrectStep) t.classList.add('tutorial-highlight');
+                });
+            } else {
+                answerRow.classList.add('wrong-shake');
+                // Q2 of first_taste: the guest was guided to this wrong
+                // answer on purpose (see tutorialWrongOrder) - emphasize
+                // the existing red/shake treatment so it clearly reads
+                // as "this is what incorrect looks like".
+                if (wasWrongStep) answerRow.classList.add('tutorial-highlight');
+            }
+        }, 800);
+    }
+
+    // Shared by both formats: POST the answer, let the caller paint its own
+    // correct/wrong treatment (markFeedback), then the common celebration +
+    // what-happens-next flow. wrongDelayMs: how long a miss stays on screen
+    // before moving on (longer for 3-choice, so the revealed correct answer
+    // can actually be read).
+    function postAnswer(payload, markFeedback, wrongDelayMs) {
         fetch(SUBMIT_URL, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN },
-            body: JSON.stringify({ tiles: orderedTiles, seconds_left: localSecondsLeft }),
+            body: JSON.stringify(payload),
         })
             .then((r) => r.json())
             .then((res) => {
                 if (res.game_over) { window.location.href = RESULT_URL; return; }
-                const answerRow = document.getElementById('answer-row');
+                if (res.error) { submitting = false; return; }
                 document.getElementById('score-num').textContent = res.score;
                 updateKiGauge(res.combo);
                 // Captured before this question's state gets overwritten by
@@ -1198,14 +1404,8 @@ body {
                 // that was just answered, not necessarily the next one.
                 const wasTutorialCorrectStep = currentQuestionTutorialMode === 'correct';
                 const wasTutorialWrongStep = currentQuestionTutorialMode === 'wrong';
+                markFeedback(res, wasTutorialCorrectStep, wasTutorialWrongStep);
                 if (res.is_correct) {
-                    answerRow.querySelectorAll('.tile').forEach((t) => {
-                        t.classList.add('tile-correct');
-                        // Q1 of first_taste: the same green/glow treatment,
-                        // just emphasized further so a brand-new guest can't
-                        // miss it (see .tutorial-highlight in the CSS above).
-                        if (wasTutorialCorrectStep) t.classList.add('tutorial-highlight');
-                    });
                     // Two states only, matching the flat combo bonus: a modest
                     // burst below the bonus threshold, a bigger one once it's
                     // active (combo >= 3) - no further escalation beyond that.
@@ -1214,13 +1414,6 @@ body {
                     if (res.combo >= 3) { comboColors = ['#cda23f', '#e8cf7a', '#2ec4b6', '#ffffff']; particleCount = 160; }
                     if (window.confetti) confetti({ particleCount, spread: 80, origin: { y: 0.5 }, colors: comboColors });
                     if (res.combo >= 2) showComboPopup(res.combo);
-                } else {
-                    answerRow.classList.add('wrong-shake');
-                    // Q2 of first_taste: the guest was guided to this wrong
-                    // answer on purpose (see tutorialWrongOrder) - emphasize
-                    // the existing red/shake treatment so it clearly reads
-                    // as "this is what incorrect looks like".
-                    if (wasTutorialWrongStep) answerRow.classList.add('tutorial-highlight');
                 }
                 if (IS_NAV_TUTORIAL_SINGLE && res.is_correct) {
                     // Nav-tutorial step 7: let the green glow register for a
@@ -1233,7 +1426,7 @@ body {
                     // correct, so there's nothing to retry.
                     setTimeout(goToTopPageAfterNavTutorial, 2000);
                 } else if (SINGLE_RETURN_URL) {
-                    setTimeout(function () { showSingleFinishModal(res.is_correct, res.correct_answer); }, res.is_correct ? 550 : 800);
+                    setTimeout(function () { showSingleFinishModal(res.is_correct, res.correct_answer); }, res.is_correct ? 550 : wrongDelayMs);
                 } else if (wasTutorialCorrectStep) {
                     // Let the green glow actually register for a couple of
                     // seconds before explaining it, rather than immediately
@@ -1251,7 +1444,7 @@ body {
                         playTutorialOverlayAuto('tutorial-overlay-q2-wrong-explain', fetchQuestion);
                     }, 2000);
                 } else {
-                    setTimeout(fetchQuestion, res.is_correct ? 550 : 800);
+                    setTimeout(fetchQuestion, res.is_correct ? 550 : wrongDelayMs);
                 }
             });
     }

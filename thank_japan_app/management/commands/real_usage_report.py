@@ -37,6 +37,28 @@ class Command(BaseCommand):
             note = '' if day >= self.SUMMARY_STARTED else '(記録開始前)'
             self.stdout.write(f"  {day.isoformat()}: {total}件 (正解{correct}件 / ゲスト{guest}件) {note}".rstrip())
 
+    def _print_game_funnel_series(self, today):
+        rows = {
+            row.date: row
+            for row in DailyActivitySummary.objects.filter(
+                activity_type=DailyActivitySummary.ACTIVITY_MAIN_GAME,
+                date__gte=today - datetime.timedelta(days=6),
+                date__lte=today,
+            )
+        }
+        for i in range(6, -1, -1):
+            day = today - datetime.timedelta(days=i)
+            row = rows.get(day)
+            started = row.games_started if row else 0
+            completed = row.games_completed if row else 0
+            ft_started = row.first_taste_started if row else 0
+            ft_completed = row.first_taste_completed if row else 0
+            rate = f"{completed / started * 100:.0f}%" if started else '-'
+            self.stdout.write(
+                f"  {day.isoformat()}: 開始{started} / 完了{completed} (完了率{rate})"
+                f" (お試し3問: 開始{ft_started} / 完了{ft_completed})"
+            )
+
     def handle(self, *args, **options):
         today = timezone.localdate()
 
@@ -62,6 +84,15 @@ class Command(BaseCommand):
             "1問の送信ごとに+1)。singleモード(単語復習)は含みません。"
         )
         self._print_activity_series(DailyActivitySummary.ACTIVITY_MAIN_GAME, today)
+        self.stdout.write("")
+
+        self.stdout.write(self.style.SUCCESS("=== 3b. 通常ゲームの開始数・完了数(過去7日間、1日ごと) ==="))
+        self.stdout.write(
+            "  1ゲームにつき開始・完了それぞれ最大1回だけ加算(2026-11-19導入、導入前は0)。"
+            "開始=1問目が表示された時点、完了=結果画面に到達した時点。"
+            "( )内はお試し3問(first_taste)だけの内訳。"
+        )
+        self._print_game_funnel_series(today)
         self.stdout.write("")
 
         self.stdout.write(self.style.SUCCESS("=== 4. is_premium=True のユーザー数(現在の合計) ==="))

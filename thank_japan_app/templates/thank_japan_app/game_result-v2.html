@@ -1280,18 +1280,18 @@ tbody td { padding: 8px; border: none; font-size: 0.82rem; color: var(--ink); }
                                     {% endif %}
                                 </p>
                                 <p class="user-input">
-                                    {% if lang_code == 'ja' %}あなたが入力した:
-                                    {% elif lang_code == 'zh-hant' %}你輸入了:
-                                    {% elif lang_code == 'zh-cn' %}你输入了:
-                                    {% elif lang_code == 'de' %}Du hast eingegeben:
-                                    {% elif lang_code == 'fr' %}Vous avez tapé :
-                                    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Escribiste:
-                                    {% elif lang_code == 'it' %}Hai digitato:
-                                    {% elif lang_code == 'ko' %}입력한 내용:
-                                    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Você digitou:
-                                    {% elif lang_code == 'vi' %}Bạn đã nhập:
-                                    {% elif lang_code == 'th' %}คุณพิมพ์:
-                                    {% else %}You typed:
+                                    {% if lang_code == 'ja' %}あなたの回答:
+                                    {% elif lang_code == 'zh-hant' %}你的回答:
+                                    {% elif lang_code == 'zh-cn' %}你的回答:
+                                    {% elif lang_code == 'de' %}Deine Antwort:
+                                    {% elif lang_code == 'fr' %}Votre réponse :
+                                    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Tu respuesta:
+                                    {% elif lang_code == 'it' %}La tua risposta:
+                                    {% elif lang_code == 'ko' %}나의 답:
+                                    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Sua resposta:
+                                    {% elif lang_code == 'vi' %}Câu trả lời của bạn:
+                                    {% elif lang_code == 'th' %}คำตอบของคุณ:
+                                    {% else %}Your answer:
                                     {% endif %}
                                      <span>"{{ item.user_input }}"</span></p>
                             {% endif %}

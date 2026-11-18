@@ -188,6 +188,21 @@
         background: rgba(0,0,0,0.02);
         border: 1px dashed rgba(0,0,0,0.15);
     }
+
+    /* 3-choice format (see GAME_QUESTION_FORMAT in views.py): big reading
+       under the image, choices stacked as tall full-width buttons. */
+    #daily-question-wrapper .dq-prompt-reading { font-size: 1.9rem !important; font-weight: 900 !important; color: #1a1a1a !important; margin: 6px 0 0 !important; line-height: 1.25 !important; word-break: break-word; }
+    #daily-question-wrapper .dq-prompt-romaji { font-size: 1.15rem !important; font-weight: 700 !important; color: rgba(0,0,0,0.6) !important; margin: 4px 0 0 !important; word-break: break-word; }
+    #daily-question-wrapper .dq-choice-list { display: flex; flex-direction: column; gap: 14px; max-width: 420px; margin: 0 auto 20px; }
+    #daily-question-wrapper .dq-choice {
+        display: flex; align-items: center; justify-content: center; text-align: center;
+        width: 100%; min-height: 64px; padding: 12px 18px; box-sizing: border-box;
+        font-size: 1.15rem; font-weight: 800; line-height: 1.3; color: #1a1a1a;
+        background: rgba(212, 175, 55, 0.15); border: 2px solid #d4af37; border-radius: 16px;
+        cursor: pointer; -webkit-tap-highlight-color: transparent; word-break: break-word;
+    }
+    #daily-question-wrapper .dq-choice.dq-choice-selected { background: rgba(212, 175, 55, 0.45); }
+    #daily-question-wrapper .dq-result-meaning { font-size: 1.3rem; font-weight: 800; color: #1a1a1a; margin: 6px 0 4px; }
 </style>
 
 <div class="dq-inner">
@@ -313,6 +328,7 @@
             <div class="dq-jpname" style="font-size: 1.8rem;">
                 {% if object.kanji_name %}{{ object.kanji_name|ruby_smart:object.jpname }}{% else %}{{ object.jpname }}{% endif %}
             </div>
+            {% if correct_meaning %}<p class="dq-result-meaning">{{ correct_meaning }}</p>{% endif %}
             <p style="color:rgba(0,0,0,0.6);">{{ object.name }} / {{ object.englishname }}</p>
         </div>
 
@@ -384,7 +400,12 @@
             {% if object.image %}
                 <img src="{{ object.image.url }}" alt="" class="dq-prompt-image">
             {% endif %}
+            {% if question_format == 'choice' %}
+            <p class="dq-prompt-reading" lang="ja">{{ reading }}</p>
+            <p class="dq-prompt-romaji">{{ romaji }}</p>
+            {% else %}
             <p class="dq-prompt-caption">{{ object.englishname }}</p>
+            {% endif %}
         </div>
 
         <div class="dq-timer-wrap">
@@ -392,6 +413,69 @@
             <span class="dq-timer-num" id="dq-timer-num">{{ time_limit }}</span>
         </div>
 
+        {% if question_format == 'choice' %}
+        <p style="color:rgba(0,0,0,0.65); margin-bottom: 16px;">
+            {% if lang_code == 'ja' %}正しい意味をタップしてください
+            {% elif lang_code == 'zh-hant' %}請點擊正確的意思
+            {% elif lang_code == 'zh-cn' %}请点击正确的意思
+            {% elif lang_code == 'ko' %}올바른 뜻을 탭하세요
+            {% elif lang_code == 'de' %}Tippe auf die richtige Bedeutung
+            {% elif lang_code == 'fr' %}Touchez la bonne signification
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Toca el significado correcto
+            {% elif lang_code == 'it' %}Tocca il significato corretto
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Toque no significado correto
+            {% elif lang_code == 'vi' %}Hãy chạm vào nghĩa đúng
+            {% elif lang_code == 'th' %}แตะความหมายที่ถูกต้อง
+            {% else %}Tap the correct meaning
+            {% endif %}
+        </p>
+
+        <div class="dq-choice-list" id="dq-choice-list">
+            {% for choice in choices %}
+            <button type="button" class="dq-choice" data-choice-index="{{ forloop.counter0 }}">{{ choice }}</button>
+            {% endfor %}
+        </div>
+
+        <form method="post" id="dq-form" style="display:none;">
+            {% csrf_token %}
+            <input type="hidden" name="answer_choice" id="dq-answer-input" value="">
+        </form>
+
+        <script>
+        (function () {
+            const DQ_TIME_LIMIT = {{ time_limit }};
+            let dqSubmitting = false;
+            let dqSecondsLeft = DQ_TIME_LIMIT;
+            let dqTimer = null;
+
+            // choiceIndex '' = the timer ran out without a tap (judged as a miss).
+            function dqSubmit(choiceIndex) {
+                if (dqSubmitting) return;
+                dqSubmitting = true;
+                clearInterval(dqTimer);
+                document.getElementById('dq-answer-input').value = choiceIndex;
+                document.getElementById('dq-form').submit();
+            }
+
+            document.querySelectorAll('#dq-choice-list .dq-choice').forEach(function (btn) {
+                btn.addEventListener('click', function () {
+                    if (dqSubmitting) return;
+                    btn.classList.add('dq-choice-selected');
+                    dqSubmit(btn.dataset.choiceIndex);
+                });
+            });
+
+            dqTimer = setInterval(function () {
+                dqSecondsLeft -= 1;
+                const fill = document.getElementById('dq-timer-fill');
+                const num = document.getElementById('dq-timer-num');
+                if (fill) fill.style.width = Math.max(0, dqSecondsLeft / DQ_TIME_LIMIT * 100) + '%';
+                if (num) num.textContent = Math.max(0, dqSecondsLeft);
+                if (dqSecondsLeft <= 0) dqSubmit('');
+            }, 1000);
+        })();
+        </script>
+        {% else %}
         <p style="color:rgba(0,0,0,0.65); margin-bottom: 16px;">
             {% if lang_code == 'ja' %}タイルを正しい順番に並べ替えてください
             {% elif lang_code == 'zh-hant' %}請將方塊排成正確的順序
@@ -492,6 +576,7 @@
         dqRedraw();
         dqTimer = setInterval(dqTick, 1000);
         </script>
+        {% endif %}
     {% endif %}
 </div>
 </div>

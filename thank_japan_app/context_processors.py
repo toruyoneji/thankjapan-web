@@ -62,6 +62,13 @@ def email_prompt_status(request):
     return {'show_email_prompt': True}
 
 
+# 2026-11-19: the top-page Daily Question banner (incl. its live
+# participation stats) is switched off. Only the banner is hidden - /daily/,
+# its push notifications, DailyQuestion selection and DailyActivitySummary
+# recording all keep running. Set back to True to restore it as-is.
+DAILY_QUESTION_BANNER_ENABLED = False
+
+
 def daily_question_banner_status(request):
     """Whether to show the 'you haven't answered today's Daily Question yet'
     banner on the top page.
@@ -93,6 +100,8 @@ def daily_question_banner_status(request):
     from django.utils import timezone
     from .models import DailyActivitySummary
     from .views import DAILY_QUESTION_SESSION_ANSWERED_KEY, DAILY_QUESTION_BANNER_DISMISSED_KEY
+    if not DAILY_QUESTION_BANNER_ENABLED:
+        return {'show_daily_question_banner': False}
     if not request.user.is_authenticated and request.COOKIES.get('tj_has_played') != '1':
         return {'show_daily_question_banner': False}
     today_date = timezone.localdate()

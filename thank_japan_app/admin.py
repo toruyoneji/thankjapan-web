@@ -81,7 +81,10 @@ class WeeklyScoreAdmin(admin.ModelAdmin):
 
 @admin.register(DailyActivitySummary)
 class DailyActivitySummaryAdmin(admin.ModelAdmin):
-    list_display = ('date', 'activity_type', 'total_count', 'correct_count', 'guest_count', 'member_count')
+    list_display = (
+        'date', 'activity_type', 'total_count', 'correct_count', 'guest_count', 'member_count',
+        'games_started', 'games_completed', 'first_taste_started', 'first_taste_completed',
+    )
     list_filter = ('activity_type',)
     date_hierarchy = 'date'
 
