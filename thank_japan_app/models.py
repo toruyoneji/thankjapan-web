@@ -446,6 +446,38 @@ class FCMDevice(models.Model):
 # module and the reverse would be circular.
 FREE_PREVIEW_PREMIUM_CATEGORIES = ['DailyConversation', 'slang', 'TourismEtiquette', 'Entertainment', 'RomanceRelationships']
 
+# Which premium-table words a visitor without premium access may open
+# (2026-11-19: one definition for the category list pages, word-detail pages,
+# sitemap and single-word review - review used to allow the 5 *newest* while
+# everything else showed the 12 *oldest*). Free-preview categories are fully
+# open; every other premium category opens its PREMIUM_FREE_SAMPLE_SIZE
+# oldest words. Ordered by (timestamp, id) so words sharing a timestamp (bulk
+# imports) always resolve to the same 12. Premium subscribers see everything
+# - callers check has_premium_access first, exactly as before.
+PREMIUM_FREE_SAMPLE_SIZE = 12
+PREMIUM_SAMPLE_ORDER = ('timestamp', 'id')
+
+
+def premium_free_sample_queryset(category):
+    """The words of a locked premium category a non-subscriber can open."""
+    return ThankJapanPremium.objects.filter(category=category).order_by(*PREMIUM_SAMPLE_ORDER)[:PREMIUM_FREE_SAMPLE_SIZE]
+
+
+def premium_word_open_without_subscription(word):
+    if word.category in FREE_PREVIEW_PREMIUM_CATEGORIES:
+        return True
+    return word.id in set(premium_free_sample_queryset(word.category).values_list('id', flat=True))
+
+
+def premium_words_open_without_subscription():
+    """Every premium word a non-subscriber can open (sitemap)."""
+    words = list(ThankJapanPremium.objects.filter(category__in=FREE_PREVIEW_PREMIUM_CATEGORIES).order_by(*PREMIUM_SAMPLE_ORDER))
+    locked = (ThankJapanPremium.objects.exclude(category__in=FREE_PREVIEW_PREMIUM_CATEGORIES)
+              .values_list('category', flat=True).distinct())
+    for category in sorted(set(locked)):
+        words.extend(premium_free_sample_queryset(category))
+    return words
+
 
 class DailyQuestionManager(models.Manager):
     # Mirrors DIFFICULTY_SETTINGS['normal'] in thank_japan_app/views.py so

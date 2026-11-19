@@ -26,7 +26,7 @@ from django.utils.dateparse import parse_datetime
 from django.utils.http import urlencode
 from django.contrib.auth.views import PasswordResetView, PasswordResetConfirmView
 from .context_processors import language_context
-from .models import WeeklyScore, ThankJapanBackgroundModel, FCMDevice, DailyQuestion, PremiumRenewalReward, DailyActivitySummary, WordReviewLog
+from .models import WeeklyScore, ThankJapanBackgroundModel, FCMDevice, DailyQuestion, PremiumRenewalReward, DailyActivitySummary, WordReviewLog, FREE_PREVIEW_PREMIUM_CATEGORIES, PREMIUM_SAMPLE_ORDER, premium_free_sample_queryset, premium_word_open_without_subscription, premium_words_open_without_subscription
 from .pricing import get_premium_price, get_top_page_seo_override
 from google.oauth2 import service_account
 from googleapiclient.discovery import build
@@ -2458,15 +2458,11 @@ def game_restart(request):
         if model_type == 'premium':
             question = get_object_or_404(ThankJapanPremium, slug=val)
 
-            if question.category not in ["DailyConversation", "slang", "TourismEtiquette", "Entertainment", "RomanceRelationships"]:
-                if not is_premium:
-                    free_sample_ids = ThankJapanPremium.objects.filter(
-                        category=question.category
-                    ).order_by('-timestamp').values_list('id', flat=True)[:5]
-
-                    if question.id not in free_sample_ids:
-                        url_name, _ = get_lang_info(request)
-                        return redirect(url_name)
+            # Same rule as the category list / word-detail page / sitemap
+            # (models.premium_word_open_without_subscription).
+            if not is_premium and not premium_word_open_without_subscription(question):
+                url_name, _ = get_lang_info(request)
+                return redirect(url_name)
 
             questions = [{'id': question.id, 'model': 'premium'}]
             single_return_url = reverse('detail_premium', kwargs={'category': question.category, 'slug': question.slug})
@@ -5401,11 +5397,10 @@ class BusinessJapaneseView(BGMContextMixin, ListView):
         return super().dispatch(request, *args, **kwargs)
     
     def get_queryset(self):
-        qs = ThankJapanPremium.objects.filter(category="BusinessJapanese").order_by('timestamp')
         is_premium = self.request.user.is_authenticated and getattr(self.request.user.profile, 'has_premium_access', False)
         if not is_premium:
-            return qs[:12]
-        return qs
+            return premium_free_sample_queryset("BusinessJapanese")
+        return ThankJapanPremium.objects.filter(category="BusinessJapanese").order_by(*PREMIUM_SAMPLE_ORDER)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -5436,11 +5431,10 @@ class LivingInJapanView(BGMContextMixin, ListView):
         return super().dispatch(request, *args, **kwargs)
     
     def get_queryset(self):
-        qs = ThankJapanPremium.objects.filter(category="LivingInJapan").order_by('timestamp')
         is_premium = self.request.user.is_authenticated and getattr(self.request.user.profile, 'has_premium_access', False)
         if not is_premium:
-            return qs[:12]
-        return qs
+            return premium_free_sample_queryset("LivingInJapan")
+        return ThankJapanPremium.objects.filter(category="LivingInJapan").order_by(*PREMIUM_SAMPLE_ORDER)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -5471,11 +5465,10 @@ class MedicalEmergencyView(BGMContextMixin, ListView):
         return super().dispatch(request, *args, **kwargs)
     
     def get_queryset(self):
-        qs = ThankJapanPremium.objects.filter(category="MedicalEmergency").order_by('timestamp')
         is_premium = self.request.user.is_authenticated and getattr(self.request.user.profile, 'has_premium_access', False)
         if not is_premium:
-            return qs[:12]
-        return qs
+            return premium_free_sample_queryset("MedicalEmergency")
+        return ThankJapanPremium.objects.filter(category="MedicalEmergency").order_by(*PREMIUM_SAMPLE_ORDER)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -5506,11 +5499,10 @@ class RealestateRulesView(BGMContextMixin, ListView):
         return super().dispatch(request, *args, **kwargs)
     
     def get_queryset(self):
-        qs = ThankJapanPremium.objects.filter(category="RealEstateRules").order_by('timestamp')
         is_premium = self.request.user.is_authenticated and getattr(self.request.user.profile, 'has_premium_access', False)
         if not is_premium:
-            return qs[:12]
-        return qs
+            return premium_free_sample_queryset("RealEstateRules")
+        return ThankJapanPremium.objects.filter(category="RealEstateRules").order_by(*PREMIUM_SAMPLE_ORDER)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -5541,11 +5533,10 @@ class PrefectureView(BGMContextMixin, ListView):
         return super().dispatch(request, *args, **kwargs)
     
     def get_queryset(self):
-        qs = ThankJapanPremium.objects.filter(category="Prefectures").order_by('timestamp')
         is_premium = self.request.user.is_authenticated and getattr(self.request.user.profile, 'has_premium_access', False)
         if not is_premium:
-            return qs[:12]
-        return qs
+            return premium_free_sample_queryset("Prefectures")
+        return ThankJapanPremium.objects.filter(category="Prefectures").order_by(*PREMIUM_SAMPLE_ORDER)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -5745,12 +5736,8 @@ class ImgPremiumDetailView(DetailView):
     def get_object(self, queryset=None):
         obj = super().get_object(queryset)
         is_premium = self.request.user.is_authenticated and getattr(self.request.user.profile, 'has_premium_access', False)
-        if obj.category not in ["DailyConversation", "slang", "TourismEtiquette" ,"Entertainment", "RomanceRelationships"] and not is_premium:
-            free_sample_ids = ThankJapanPremium.objects.filter(
-                category__iexact=obj.category
-            ).order_by('timestamp').values_list('id', flat=True)[:12]
-            if obj.id not in free_sample_ids:
-                raise Http404
+        if not is_premium and not premium_word_open_without_subscription(obj):
+            raise Http404
         return obj
 
     def dispatch(self, request, lang=None, *args, **kwargs):
@@ -5776,7 +5763,7 @@ class ImgPremiumDetailView(DetailView):
                     slug__icontains=search_key
                 ).first()
             if moved_item:
-                if moved_item.category in ["DailyConversation", "slang", "TourismEtiquette" ,"Entertainment", "RomanceRelationships"] or is_premium:
+                if moved_item.category in FREE_PREVIEW_PREMIUM_CATEGORIES or is_premium:
                     lang_param = request.GET.get('lang')
                     new_url = reverse('detail_premium', kwargs={
                         'category': moved_item.category,
@@ -5806,14 +5793,12 @@ class ImgPremiumDetailView(DetailView):
         except:
             base_category_url = "/"
         context['category_list_url'] = f"{base_category_url}?lang={lang_code}"
-        if current_item.category in ["DailyConversation", "slang", "TourismEtiquette" ,"Entertainment", "RomanceRelationships"] or is_premium:
+        if current_item.category in FREE_PREVIEW_PREMIUM_CATEGORIES or is_premium:
             context['free_sample_ids'] = ThankJapanPremium.objects.filter(
                 category=current_item.category
             ).values_list('id', flat=True)
         else:
-            context['free_sample_ids'] = ThankJapanPremium.objects.filter(
-                category=current_item.category
-            ).order_by('timestamp').values_list('id', flat=True)[:12]
+            context['free_sample_ids'] = premium_free_sample_queryset(current_item.category).values_list('id', flat=True)
         context['related_items'] = ThankJapanPremium.objects.filter(
             category=current_item.category
         ).exclude(id=current_item.id).order_by('?')[:6]
@@ -5830,17 +5815,10 @@ def sitemap_view(request):
     
     unique_categories = set([cat.lower() for cat in free_cats] + [cat.lower() for cat in premium_cats])
     
-    public_premium_items = []
-    
-    free_samples = ThankJapanPremium.objects.filter(category__in=["DailyConversation", "slang", "TourismEtiquette" ,"Entertainment", "RomanceRelationships"]).order_by('timestamp')
-    public_premium_items.extend(list(free_samples))
+    # Only premium words a non-subscriber can actually open (no URLs that
+    # would just redirect to the premium page) - see models.py.
+    public_premium_items = premium_words_open_without_subscription()
 
-    other_categories = ThankJapanPremium.objects.exclude(category__in=["DailyConversation", "slang", "TourismEtiquette" ,"Entertainment", "RomanceRelationships"]).values_list('category', flat=True).distinct()
-    
-    for cat in other_categories:
-        samples = ThankJapanPremium.objects.filter(category=cat).order_by('timestamp')[:12]
-        public_premium_items.extend(list(samples))
-        
     prefectures = ['ishikawa', 'toyama', 'fukui'] 
 
     languages = [

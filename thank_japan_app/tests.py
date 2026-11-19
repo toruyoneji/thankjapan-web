@@ -22,7 +22,7 @@ from django.utils import timezone
 from . import context_processors, ranks, tile_split
 from . import views as tj_views
 from .achievements import ACHIEVEMENT_CATALOG, check_and_unlock_achievements, get_achievement_progress
-from .models import DailyQuestion, Player, Profile, PremiumRenewalReward, ThankJapanModel, ThankJapanPremium, DailyActivitySummary, SiteVisitCounter, WordReviewLog, Achievement
+from .models import DailyQuestion, Player, Profile, PremiumRenewalReward, ThankJapanModel, ThankJapanPremium, DailyActivitySummary, SiteVisitCounter, WordReviewLog, Achievement, PREMIUM_FREE_SAMPLE_SIZE, premium_free_sample_queryset
 from .views import (
     combo_bonus_for_streak, build_combo_share_message, _sample_easy_ids, FIRST_TASTE_QUESTION_COUNT,
     grant_renewal_rewards_if_due, PREMIUM_RENEWAL_REWARD_POINTS, PREMIUM_RENEWAL_REWARD_MAX_CATCHUP,
@@ -7038,3 +7038,155 @@ class HowToPlayModalTests(TestCase):
                 close = close[:close.index('</span>')]
                 self.assertIn(HOW_TO_PLAY_CLOSE_BY_LOCALE[lang], close)
                 self.assertNotIn('toggleBtn.textContent', body)
+
+
+# ---------------------------------------------------------------------------
+# 2026-11-19: one definition of "premium words a non-subscriber can open"
+# (models.premium_free_sample_queryset) shared by the category list, word
+# detail page, sitemap and single-word review.
+# ---------------------------------------------------------------------------
+
+
+PREMIUM_INFO_URL_NAME_BY_LOCALE = {
+    'en': 'premium_info', 'en-in': 'premium_infoenIN', 'ja': 'premium_infoja', 'de': 'premium_infode',
+    'es-es': 'premium_infoesES', 'es-mx': 'premium_infoesMX', 'fr': 'premium_infofr', 'it': 'premium_infoit',
+    'ko': 'premium_infoko', 'pt': 'premium_infopt', 'pt-br': 'premium_infoptBR', 'th': 'premium_infoth',
+    'vi': 'premium_infovi', 'zh-hant': 'premium_infozhHANT', 'zh-cn': 'premium_infozhCN',
+}
+
+
+class PremiumFreeSampleConsistencyTests(TestCase):
+    CATEGORY = 'BusinessJapanese'
+
+    def setUp(self):
+        base = timezone.now() - timedelta(days=30)
+        self.words = []
+        for i in range(15):
+            word = ThankJapanPremium.objects.create(
+                name=f'biz-{i}', englishname=f'Business {i}', jpname='びじねす', romaji='bijinesu',
+                category=self.CATEGORY, slug=f'biz-word-{i}', description='d', history='h')
+            self.words.append(word)
+        # oldest first; #11 and #12 share a timestamp, so the id decides
+        for i, word in enumerate(self.words):
+            stamp = base + timedelta(hours=min(i, 11))
+            ThankJapanPremium.objects.filter(pk=word.pk).update(timestamp=stamp)
+        self.open_ids = [w.id for w in self.words[:12]]
+        self.locked = self.words[12:]
+        self.free_preview = [ThankJapanPremium.objects.create(
+            name=f'slang-{i}', englishname=f'Slang {i}', jpname='すらんぐ', romaji='surangu',
+            category='slang', slug=f'slang-word-{i}', description='d', history='h') for i in range(3)]
+
+    def _premium_user(self):
+        user = User.objects.create_user('sample-premium', password='pw-for-tests-only')
+        Profile.objects.filter(user=user).update(is_premium=True)
+        return User.objects.get(pk=user.pk)
+
+    def test_definition_is_the_12_oldest_with_id_as_tie_breaker(self):
+        self.assertEqual(PREMIUM_FREE_SAMPLE_SIZE, 12)
+        self.assertEqual(list(premium_free_sample_queryset(self.CATEGORY).values_list('id', flat=True)), self.open_ids)
+
+    def test_list_page_shows_exactly_the_sample_to_non_subscribers(self):
+        for client in (Client(), self._logged_in_free_client()):
+            body = client.get(reverse('businessjapanese')).content.decode()
+            for word in self.words[:12]:
+                self.assertIn(f'/{word.slug}/', body)
+            for word in self.locked:
+                self.assertNotIn(f'/{word.slug}/', body)
+
+    def _logged_in_free_client(self):
+        client = Client()
+        client.force_login(User.objects.create_user(f'sample-free-{User.objects.count()}', password='pw-for-tests-only'))
+        return client
+
+    def _detail(self, client, word):
+        return client.get(reverse('detail_premium', kwargs={'category': word.category, 'slug': word.slug}))
+
+    def test_detail_page_opens_exactly_the_sample(self):
+        client = Client()
+        for word in self.words[:12]:
+            self.assertEqual(self._detail(client, word).status_code, 200, word.slug)
+        for word in self.locked:
+            response = self._detail(client, word)
+            self.assertEqual(response.status_code, 302, word.slug)
+            self.assertIn(reverse('premium_info'), response['Location'])
+
+    def test_sitemap_lists_exactly_the_sample(self):
+        body = Client().get(reverse('sitemap')).content.decode()
+        for word in self.words[:12]:
+            self.assertIn(f'/premium-content/businessjapanese/{word.slug}/', body)
+        for word in self.locked:
+            self.assertNotIn(f'/{word.slug}/', body)
+        for word in self.free_preview:
+            self.assertIn(f'/premium-content/slang/{word.slug}/', body)
+
+    def _review(self, client, word, lang=None):
+        params = {'mode': 'single', 'model_type': 'premium', 'slug': word.slug}
+        if lang:
+            params['lang'] = lang
+        return client.get(reverse('game_restart'), params)
+
+    def test_single_review_opens_exactly_the_sample(self):
+        # Before 2026-11-19 review allowed the 5 *newest* - so the oldest
+        # sample words were blocked and the newest (locked elsewhere) open.
+        for word in self.words[:12]:
+            response = self._review(Client(), word)
+            self.assertTrue(response['Location'].startswith(reverse('game_play')), word.slug)
+        for word in self.locked:
+            response = self._review(Client(), word)
+            self.assertFalse(response['Location'].startswith(reverse('game_play')), word.slug)
+
+    def test_all_four_paths_agree(self):
+        client = Client()
+        list_body = client.get(reverse('businessjapanese')).content.decode()
+        sitemap = client.get(reverse('sitemap')).content.decode()
+        for word in self.words:
+            with self.subTest(slug=word.slug):
+                on_list = f'/{word.slug}/' in list_body
+                detail_open = self._detail(Client(), word).status_code == 200
+                in_sitemap = f'/{word.slug}/' in sitemap
+                review_open = self._review(Client(), word)['Location'].startswith(reverse('game_play'))
+                self.assertEqual({on_list, detail_open, in_sitemap, review_open}, {word.id in self.open_ids})
+
+    def test_subscriber_opens_everything(self):
+        client = Client()
+        client.force_login(self._premium_user())
+        body = client.get(reverse('businessjapanese')).content.decode()
+        for word in self.words:
+            self.assertIn(f'/{word.slug}/', body)
+            self.assertEqual(self._detail(client, word).status_code, 200)
+            self.assertTrue(self._review(client, word)['Location'].startswith(reverse('game_play')))
+
+    def test_free_preview_categories_stay_fully_open(self):
+        for word in self.free_preview:
+            self.assertEqual(self._detail(Client(), word).status_code, 200)
+            self.assertTrue(self._review(Client(), word)['Location'].startswith(reverse('game_play')))
+
+    def test_locked_review_redirects_to_the_premium_page_in_every_language(self):
+        for lang in LOCALE_QUERY_PARAMS:
+            with self.subTest(lang=lang):
+                response = self._review(Client(), self.locked[0], lang=lang)
+                self.assertEqual(response['Location'], reverse(PREMIUM_INFO_URL_NAME_BY_LOCALE[lang]))
+                open_response = self._review(Client(), self.words[0], lang=lang)
+                self.assertTrue(open_response['Location'].startswith(reverse('game_play')))
+
+    def test_sample_detail_page_renders_in_every_language(self):
+        for lang in LOCALE_QUERY_PARAMS:
+            with self.subTest(lang=lang):
+                response = Client().get(
+                    reverse('detail_premium', kwargs={'category': self.CATEGORY, 'slug': self.words[11].slug}), {'lang': lang})
+                self.assertEqual(response.status_code, 200)
+
+    def test_first_taste_daily_question_and_nav_tutorial_unaffected(self):
+        ramen = ThankJapanModel.objects.create(name='sample-ramen', englishname='Ramen', jpname='らーめん',
+                                               category='food', slug='sample-ramen', description='d', history='h')
+        client = Client()
+        client.get(reverse('game_restart'), {'difficulty': 'first_taste'})
+        self.assertEqual(client.session['game_question_ids'][0], {'id': ramen.id, 'model': 'free'})
+        DailyQuestion.objects.create(date=timezone.localdate(), premium_word=self.free_preview[0])
+        self.assertEqual(Client().get(reverse('daily_question')).context['daily_state'], 'question')
+        ThankJapanModel.objects.create(name='sample-tsukemen', englishname='Tsukemen', jpname='つけめん',
+                                       category='cook', slug=NAV_TUTORIAL_TARGET_SLUG, description='d', history='h')
+        nav = Client()
+        nav.cookies['tj_has_played'] = '1'
+        nav.get(reverse('game_restart'), {'mode': 'single', 'model_type': 'free', 'slug': NAV_TUTORIAL_TARGET_SLUG})
+        self.assertTrue(nav.session['nav_tutorial_single_active'])
