@@ -1,0 +1,43 @@
+{% comment %}
+Game result screen: shown once, the time a level rise is first persisted
+(see game_result / Profile.sync_max_level). level_up.categories are the
+already-localized short names of the categories that rise unlocked.
+{% endcomment %}
+{% if level_up %}
+<style>
+.level-up-banner {
+    margin: 12px auto 4px; max-width: 460px; padding: 16px 18px; box-sizing: border-box;
+    border-radius: 18px; border: 2px solid #d4af37;
+    background: linear-gradient(135deg, #fff8dc, #f3e2a6);
+    box-shadow: 0 6px 20px rgba(212,175,55,0.35);
+    font-family: 'Zen Maru Gothic', 'Inter', sans-serif; text-align: center; color: #2a1d13;
+}
+.level-up-banner .lu-title { font-size: 1.1rem; font-weight: 900; margin: 0 0 6px; line-height: 1.4; }
+.level-up-banner .lu-rank { font-size: 1rem; font-weight: 800; color: #a97c1f; margin: 0 0 8px; }
+.level-up-banner .lu-cats { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; margin: 0; padding: 0; list-style: none; }
+.level-up-banner .lu-cats li {
+    font-size: 0.9rem; font-weight: 700; padding: 4px 10px; border-radius: 999px;
+    background: #fff; border: 1px solid rgba(212,175,55,0.6);
+}
+</style>
+<div class="level-up-banner" id="level-up-banner">
+    <p class="lu-title">🎉
+        {% if lang_code == 'ja' %}レベルアップ！新しいカテゴリーが解放されました
+        {% elif lang_code == 'zh-hant' %}等級提升！已解鎖新的類別
+        {% elif lang_code == 'zh-cn' %}等级提升！已解锁新的类别
+        {% elif lang_code == 'ko' %}레벨 업! 새로운 카테고리가 열렸어요
+        {% elif lang_code == 'de' %}Level-Up! Neue Kategorien freigeschaltet
+        {% elif lang_code == 'fr' %}Niveau supérieur ! Nouvelles catégories débloquées
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}¡Subiste de nivel! Nuevas categorías desbloqueadas
+        {% elif lang_code == 'it' %}Livello superiore! Nuove categorie sbloccate
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Subiu de nível! Novas categorias desbloqueadas
+        {% elif lang_code == 'vi' %}Lên cấp! Đã mở khóa danh mục mới
+        {% elif lang_code == 'th' %}เลเวลอัป! ปลดล็อกหมวดหมู่ใหม่แล้ว
+        {% else %}Level up! New categories unlocked{% endif %}
+    </p>
+    <p class="lu-rank">{{ level_up.rank.emoji }} Lv{{ level_up.level }} {{ level_up.rank.name }}</p>
+    <ul class="lu-cats">
+        {% for label in level_up.categories %}<li>{{ label }}</li>{% endfor %}
+    </ul>
+</div>
+{% endif %}

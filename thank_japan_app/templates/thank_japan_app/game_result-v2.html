@@ -663,6 +663,8 @@ tbody td { padding: 8px; border: none; font-size: 0.82rem; color: var(--ink); }
         {% else %}🎉 Game Result 🎉
         {% endif %}
       </h1>
+      {% include 'includes/level_up_banner.html' %}
+      {% include 'includes/level_progress_line.html' %}
 
       <div class="score-box" style="color: #000000;">
         <div class="goal-badge">⛩️ {% if lang_code == 'ja' %}ゴール到達{% elif lang_code == 'zh-hant' or lang_code == 'zh-cn' %}抵達終點{% elif lang_code == 'ko' %}골 도착{% elif lang_code == 'de' %}Ziel erreicht{% elif lang_code == 'fr' %}Objectif atteint{% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Meta alcanzada{% elif lang_code == 'it' %}Traguardo raggiunto{% elif lang_code == 'pt' or lang_code == 'pt-br' %}Meta alcançada{% elif lang_code == 'vi' %}Đã về đích{% elif lang_code == 'th' %}ถึงเป้าหมาย{% else %}Goal Reached{% endif %}</div>

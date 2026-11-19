@@ -12,6 +12,8 @@ from django.dispatch import receiver
 from django.conf import settings
 from django.utils import timezone
 
+from thank_japan_app.ranks import level_for_score, rank_for_level, rank_progress
+
 
 class ThankJapanModel(models.Model):
     name = models.CharField(max_length=100, unique=True)
@@ -308,6 +310,12 @@ class Profile(models.Model):
     # rather than session/cookie so it stays a true once-per-lifetime, not
     # once-per-browser (see TopView.get_context_data and top-main-v2.html).
     learned_words_intro_shown = models.BooleanField(default=False)
+    # Highest level (= rank, see ranks.RANK_LEVELS) ever reached - levels
+    # never go down even when points are spent (time extensions). Read it
+    # through .level, which also covers points earned since it was last
+    # synced (login bonus, Daily Question...); game_result is what persists
+    # a rise (sync_max_level) and shows the level-up message.
+    max_level = models.PositiveSmallIntegerField(default=1)
 
     @property
     def has_premium_access(self):
@@ -323,20 +331,28 @@ class Profile(models.Model):
     def __str__(self):
         return f"{self.user.username}'s Profile"
     
-    # models.py の Profile クラス内に追加
+    @property
+    def level(self):
+        return max(self.max_level or 1, level_for_score(self.total_score))
+
     @property
     def rank_info(self):
-        s = self.total_score
-        if s >= 2000: return {"emoji": "🗾", "name": "Legend"}
-        if s >= 1200: return {"emoji": "👑", "name": "General"}
-        if s >= 900:  return {"emoji": "🐎", "name": "Shogun"}
-        if s >= 650:  return {"emoji": "🏯", "name": "Daimyo"}
-        if s >= 450:  return {"emoji": "🚩", "name": "Hatamoto"}
-        if s >= 300:  return {"emoji": "⚔️", "name": "Samurai"}
-        if s >= 200:  return {"emoji": "🥷", "name": "Ninja"}
-        if s >= 100:  return {"emoji": "🚣", "name": "Ronin"}
-        if s >= 50:   return {"emoji": "🎒", "name": "Traveler"}
-        return {"emoji": "🌾", "name": "Villager"}
+        """The current rank's entry from ranks.RANK_LEVELS (emoji, name, ja,
+        level, min, card, categories) - follows .level, so it never drops."""
+        return rank_for_level(self.level)
+
+    @property
+    def rank_progress(self):
+        return rank_progress(self.level, self.total_score)
+
+    def sync_max_level(self):
+        """Persist a level rise. Returns (previous_max_level, new_level)."""
+        previous = self.max_level or 1
+        current = self.level
+        if current > previous:
+            Profile.objects.filter(pk=self.pk).update(max_level=current)
+            self.max_level = current
+        return previous, current
 
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):

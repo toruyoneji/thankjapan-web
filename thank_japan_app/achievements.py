@@ -3,7 +3,9 @@
 The catalog is plain Python (not DB-backed) so adding a new badge is just a
 new entry here, no migration. Thresholds are chosen to line up with numbers
 already meaningful elsewhere in the app: the rank names/thresholds in
-Profile.rank_info, the streak-count tiers used for the fire-emoji escalation
+Profile.rank_info (score_* badges read their thresholds straight from
+ranks.RANK_LEVELS, so they always line up with the rank they're named
+after - Traveler/Samurai/General/Legend), the streak-count tiers used for the fire-emoji escalation
 on the account settings page, and the combo tier already used in
 build_combo_share_message (>= 7 = 'high').
 """
@@ -11,12 +13,15 @@ build_combo_share_message (>= 7 = 'high').
 from django.db import IntegrityError, transaction
 
 from .models import Achievement
+from .ranks import min_points_for_level
 
 ACHIEVEMENT_CATALOG = [
-    {'code': 'score_50', 'metric': 'total_score', 'threshold': 50, 'emoji': '🌱'},
-    {'code': 'score_300', 'metric': 'total_score', 'threshold': 300, 'emoji': '⚔️'},
-    {'code': 'score_1200', 'metric': 'total_score', 'threshold': 1200, 'emoji': '👑'},
-    {'code': 'score_2000', 'metric': 'total_score', 'threshold': 2000, 'emoji': '🗾'},
+    # Codes keep their original (pre-2026-11-19) numbers so already-earned
+    # Achievement rows stay valid; only the thresholds moved with the ranks.
+    {'code': 'score_50', 'metric': 'total_score', 'threshold': min_points_for_level(2), 'emoji': '🌱'},     # Traveler
+    {'code': 'score_300', 'metric': 'total_score', 'threshold': min_points_for_level(5), 'emoji': '⚔️'},    # Samurai
+    {'code': 'score_1200', 'metric': 'total_score', 'threshold': min_points_for_level(9), 'emoji': '👑'},   # General
+    {'code': 'score_2000', 'metric': 'total_score', 'threshold': min_points_for_level(10), 'emoji': '🗾'},  # Legend
     {'code': 'streak_7', 'metric': 'streak_count', 'threshold': 7, 'emoji': '🔥'},
     {'code': 'streak_30', 'metric': 'streak_count', 'threshold': 30, 'emoji': '🔥👑'},
     {'code': 'streak_100', 'metric': 'streak_count', 'threshold': 100, 'emoji': '💯'},

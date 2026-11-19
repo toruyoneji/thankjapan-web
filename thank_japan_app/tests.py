@@ -1,4 +1,6 @@
+import importlib
 import json
+import re
 from datetime import timedelta
 from io import StringIO
 from unittest.mock import MagicMock, patch
@@ -6,6 +8,7 @@ from urllib.parse import quote as urlquote
 
 from dateutil.relativedelta import relativedelta
 
+from django.apps import apps as django_apps
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.core.management import call_command
@@ -15,8 +18,9 @@ from django.test import Client, RequestFactory, SimpleTestCase, TestCase, overri
 from django.urls import reverse
 from django.utils import timezone
 
-from . import context_processors, tile_split
-from .models import DailyQuestion, Player, Profile, PremiumRenewalReward, ThankJapanModel, ThankJapanPremium, DailyActivitySummary, SiteVisitCounter, WordReviewLog
+from . import context_processors, ranks, tile_split
+from .achievements import ACHIEVEMENT_CATALOG, check_and_unlock_achievements, get_achievement_progress
+from .models import DailyQuestion, Player, Profile, PremiumRenewalReward, ThankJapanModel, ThankJapanPremium, DailyActivitySummary, SiteVisitCounter, WordReviewLog, Achievement
 from .views import (
     combo_bonus_for_streak, build_combo_share_message, _sample_easy_ids, FIRST_TASTE_QUESTION_COUNT,
     grant_renewal_rewards_if_due, PREMIUM_RENEWAL_REWARD_POINTS, PREMIUM_RENEWAL_REWARD_MAX_CATCHUP,
@@ -1272,6 +1276,12 @@ class SingleModeReviewReturnsToDetailPageTests(TestCase):
         self.client.get(reverse('game_restart'), {
             'mode': 'single', 'model_type': 'free', 'slug': 'single-return-word',
         })
+        # 2026-11-19 level system: a guest's normal game only draws from the
+        # Lv1 categories (food/animal), so one such word must exist.
+        ThankJapanModel.objects.create(
+            name='single-return-lv1-word', englishname='Dog', jpname='いぬ',
+            category='animal', slug='single-return-lv1-word', description='d', history='h',
+        )
         self.client.get(reverse('game_restart'))
 
         self.assertNotIn('single_return_url', self.client.session)
@@ -2695,62 +2705,6 @@ class GameStartPhoneCompactionTests(TestCase):
                 self.assertEqual(response.status_code, 200)
 
 
-class TileGameDifficultyProgressionTests(TestCase):
-    """2026-09-06: PREMIUM (subscribers) / long-word (everyone else)
-    questions used to start at Q5 - pushed back to Q6 so NORMAL/HARD gets
-    a 3rd question (Q3=NORMAL, Q4=NORMAL, Q5=HARD) before the switch,
-    instead of just Q3=NORMAL/Q4=HARD."""
-
-    def setUp(self):
-        # EASY pool: category in easy's filter, <=4 mora reading.
-        ThankJapanModel.objects.create(
-            name='progress-easy-1', englishname='Easy1', jpname='いぬ',
-            category='animal', slug='progress-easy-1', description='d', history='h')
-        ThankJapanModel.objects.create(
-            name='progress-easy-2', englishname='Easy2', jpname='ねこ',
-            category='animal', slug='progress-easy-2', description='d', history='h')
-        # NORMAL pool: category in normal's filter, name <=9 chars.
-        ThankJapanModel.objects.create(
-            name='normal1', englishname='Normal1', jpname='のーまるいち',
-            category='cook', slug='progress-normal-1', description='d', history='h')
-        ThankJapanModel.objects.create(
-            name='normal2', englishname='Normal2', jpname='のーまるに',
-            category='cook', slug='progress-normal-2', description='d', history='h')
-        # HARD pool: any category, name <=9 chars.
-        ThankJapanModel.objects.create(
-            name='hardone', englishname='Hard1', jpname='はーどいち',
-            category='nature', slug='progress-hard-1', description='d', history='h')
-        self.premium_word = ThankJapanPremium.objects.create(
-            name='progress-premium-1', englishname='Premium1', jpname='ぷれみあむ',
-            category='TourismEtiquette', slug='progress-premium-1', description='d', history='h')
-
-        self.user = User.objects.create_user(username='progression_tester', password='pass12345')
-        self.user.profile.is_premium = True
-        self.user.profile.save()
-
-    def test_premium_player_gets_five_free_questions_then_switches_at_six(self):
-        self.client.login(username='progression_tester', password='pass12345')
-        self.client.get(reverse('game_restart'))
-
-        questions = self.client.session['game_question_ids']
-
-        self.assertEqual(len(questions), 6)
-        self.assertTrue(all(q['model'] == 'free' for q in questions[:5]), msg=questions)
-        self.assertEqual(questions[5]['model'], 'premium')
-
-    def test_non_premium_player_still_gets_five_tiered_free_questions_first(self):
-        # Everyone (premium or not) gets the same Q1-5 EASY/NORMAL/HARD
-        # progression - only what happens from Q6 onward differs.
-        guest_user = User.objects.create_user(username='progression_guest', password='pass12345')
-        self.client.login(username='progression_guest', password='pass12345')
-        self.client.get(reverse('game_restart'))
-
-        questions = self.client.session['game_question_ids']
-
-        self.assertGreaterEqual(len(questions), 5)
-        self.assertTrue(all(q['model'] == 'free' for q in questions[:5]), msg=questions)
-
-
 class EasyPoolMoraFilterTests(TestCase):
     """2026-09-05: the EASY tier's category filter alone let through rare
     long words in the right category (e.g. chinpanjii/chimpanzee is
@@ -3048,19 +3002,6 @@ class TileGameFreePreviewPremiumInclusionTests(TestCase):
         self.entertainment_word = ThankJapanPremium.objects.create(
             name='preview-ent-1', englishname='Ent1', jpname='えんため',
             category='Entertainment', slug='preview-ent-1', description='d', history='h')
-
-    def test_free_preview_categories_appear_in_non_premium_main_game_pool(self):
-        guest = User.objects.create_user(username='preview_guest', password='pass12345')
-        self.client.login(username='preview_guest', password='pass12345')
-        self.client.get(reverse('game_restart'))
-
-        questions = self.client.session['game_question_ids']
-
-        self.assertEqual(len(questions), 7, msg=questions)
-        self.assertTrue(all(q['model'] == 'free' for q in questions[:5]), msg=questions)
-        remaining_pairs = {(q['id'], q['model']) for q in questions[5:]}
-        self.assertIn((self.slang_word.id, 'premium'), remaining_pairs)
-        self.assertIn((self.entertainment_word.id, 'premium'), remaining_pairs)
 
     def test_free_preview_premium_question_still_scores_two_points(self):
         user = User.objects.create_user(username='preview_scorer', password='pass12345')
@@ -6480,3 +6421,428 @@ class TopPageGuestLoginLinkTests(TestCase):
         body = self._top(tj_has_played='1')
         self.assertEqual(body.count('id="nav-tutorial-learn-hint"'), 1)
         self.assertEqual(body.count('id="nav-tutorial-category-link-hint"'), 1)
+
+
+# ---------------------------------------------------------------------------
+# 2026-11-19: level system (ranks.RANK_LEVELS) - rank thresholds, per-level
+# question categories, never-decreasing max_level, level-up display.
+# ---------------------------------------------------------------------------
+
+NEW_RANK_TABLE = [
+    (1, 0, 'Villager'), (2, 150, 'Traveler'), (3, 350, 'Ronin'), (4, 600, 'Ninja'), (5, 900, 'Samurai'),
+    (6, 1300, 'Hatamoto'), (7, 1800, 'Daimyo'), (8, 2400, 'Shogun'), (9, 3100, 'General'), (10, 4000, 'Legend'),
+]
+LEVEL_CATEGORIES = {
+    1: ['food', 'animal'], 2: ['flower', 'cook'], 3: ['nature', 'fashion'], 4: ['sports', 'householditems'],
+    5: ['appliances', 'building'], 6: ['body', 'dailyactions', 'culture'], 7: ['live', 'work'],
+    8: ['DailyConversation', 'TourismEtiquette', 'Entertainment', 'slang'],
+    9: ['LivingInJapan', 'RomanceRelationships', 'BusinessJapanese'],
+    10: ['MedicalEmergency', 'RealEstateRules', 'Prefectures'],
+}
+FREE_CATEGORIES = ['food', 'animal', 'flower', 'cook', 'nature', 'fashion', 'sports', 'householditems',
+                   'appliances', 'building', 'body', 'dailyactions', 'culture', 'live', 'work']
+PREMIUM_CATEGORIES = ['DailyConversation', 'TourismEtiquette', 'Entertainment', 'slang', 'LivingInJapan',
+                      'RomanceRelationships', 'BusinessJapanese', 'MedicalEmergency', 'RealEstateRules', 'Prefectures']
+ACCOUNT_SETTINGS_URL_NAMES = [
+    'account_settings', 'account_settingsde', 'account_settingsenIN', 'account_settingsesES', 'account_settingsesMX',
+    'account_settingsfr', 'account_settingsit', 'account_settingsja', 'account_settingsko', 'account_settingsptBR',
+    'account_settingspt', 'account_settingsth', 'account_settingsvi', 'account_settingszhHANT', 'account_settingszhCN',
+]
+LEVEL_UP_TITLE_BY_LOCALE = {
+    'ja': 'レベルアップ！新しいカテゴリーが解放されました', 'zh-hant': '等級提升！已解鎖新的類別', 'zh-cn': '等级提升！已解锁新的类别',
+    'ko': '레벨 업! 새로운 카테고리가 열렸어요', 'de': 'Level-Up! Neue Kategorien freigeschaltet',
+    'fr': 'Niveau supérieur ! Nouvelles catégories débloquées', 'es-es': '¡Subiste de nivel! Nuevas categorías desbloqueadas',
+    'es-mx': '¡Subiste de nivel! Nuevas categorías desbloqueadas', 'it': 'Livello superiore! Nuove categorie sbloccate',
+    'pt': 'Subiu de nível! Novas categorias desbloqueadas', 'pt-br': 'Subiu de nível! Novas categorias desbloqueadas',
+    'vi': 'Lên cấp! Đã mở khóa danh mục mới', 'th': 'เลเวลอัป! ปลดล็อกหมวดหมู่ใหม่แล้ว',
+    'en': 'Level up! New categories unlocked', 'en-in': 'Level up! New categories unlocked',
+}
+NEXT_LEVEL_LINE_BY_LOCALE = {  # with 50pt to go
+    'ja': '次のレベルまで 50pt', 'zh-hant': '距離下一級還差 50 分', 'zh-cn': '距离下一级还差 50 分', 'ko': '다음 레벨까지 50pt',
+    'de': 'noch 50 Pkt. bis zum nächsten Level', 'fr': 'encore 50 pts avant le niveau suivant',
+    'es-es': 'faltan 50 pts para el siguiente nivel', 'es-mx': 'faltan 50 pts para el siguiente nivel',
+    'it': 'mancano 50 pt al prossimo livello', 'pt': 'faltam 50 pts para o próximo nível', 'pt-br': 'faltam 50 pts para o próximo nível',
+    'vi': 'còn 50 điểm nữa để lên cấp', 'th': 'อีก 50 คะแนนถึงเลเวลถัดไป', 'en': '50pt to the next level', 'en-in': '50pt to the next level',
+}
+GUEST_LEVEL_LINE_BY_LOCALE = {
+    'ja': '会員登録するとレベルが貯まります', 'zh-hant': '註冊會員即可累積等級', 'zh-cn': '注册会员即可累积等级', 'ko': '회원가입하면 레벨이 쌓여요',
+    'de': 'Registriere dich, um Level zu sammeln', 'fr': 'Inscrivez-vous pour faire monter votre niveau',
+    'es-es': 'Regístrate para ir subiendo de nivel', 'es-mx': 'Regístrate para ir subiendo de nivel',
+    'it': 'Registrati per far salire il tuo livello', 'pt': 'Cadastre-se para subir de nível', 'pt-br': 'Cadastre-se para subir de nível',
+    'vi': 'Đăng ký để tích lũy cấp độ', 'th': 'สมัครสมาชิกเพื่อสะสมเลเวล', 'en': 'Sign up to build up your level', 'en-in': 'Sign up to build up your level',
+}
+# Lv1 -> Lv2 unlocks flower + cook
+LV2_UNLOCKED_LABELS_BY_LOCALE = {
+    'ja': ('🌸 花', '🍳 料理'), 'zh-hant': ('🌸 花卉', '🍳 烹飪'), 'zh-cn': ('🌸 花卉', '🍳 烹饪'), 'ko': ('🌸 꽃', '🍳 요리'),
+    'de': ('🌸 Blumen', '🍳 Kochen'), 'fr': ('🌸 Fleurs', '🍳 Cuisine'), 'es-es': ('🌸 Flores', '🍳 Cocina'),
+    'es-mx': ('🌸 Flores', '🍳 Cocina'), 'it': ('🌸 Fiori', '🍳 Cucina'), 'pt': ('🌸 Flores', '🍳 Culinária'),
+    'pt-br': ('🌸 Flores', '🍳 Culinária'), 'vi': ('🌸 Hoa', '🍳 Nấu ăn'), 'th': ('🌸 ดอกไม้', '🍳 การทำอาหาร'),
+    'en': ('🌸 Flowers', '🍳 Cooking'), 'en-in': ('🌸 Flowers', '🍳 Cooking'),
+}
+
+
+def _user_with_score(username, score, max_level=None):
+    user = User.objects.create_user(username, password='pw-for-tests-only')
+    Profile.objects.filter(user=user).update(total_score=score, **({'max_level': max_level} if max_level else {}))
+    return User.objects.get(pk=user.pk)
+
+
+class RankDefinitionTests(SimpleTestCase):
+    def test_thresholds_names_and_levels(self):
+        self.assertEqual([(r['level'], r['min'], r['name']) for r in ranks.RANK_LEVELS], NEW_RANK_TABLE)
+
+    def test_level_for_score_at_every_boundary(self):
+        for level, minimum, _ in NEW_RANK_TABLE:
+            with self.subTest(level=level):
+                self.assertEqual(ranks.level_for_score(minimum), level)
+                if minimum:
+                    self.assertEqual(ranks.level_for_score(minimum - 1), level - 1)
+        self.assertEqual(ranks.level_for_score(999999), 10)
+        self.assertEqual(ranks.level_for_score(None), 1)
+
+    def test_categories_are_cumulative_and_cover_all_25(self):
+        expected = []
+        for level in range(1, 11):
+            expected += LEVEL_CATEGORIES[level]
+            with self.subTest(level=level):
+                self.assertEqual(ranks.categories_for_level(level), expected)
+        self.assertEqual(len(ranks.categories_for_level(10)), 25)
+        self.assertEqual(sorted(ranks.categories_for_level(10)), sorted(FREE_CATEGORIES + PREMIUM_CATEGORIES))
+        self.assertEqual(ranks.categories_unlocked_between(1, 3), ['flower', 'cook', 'nature', 'fashion'])
+
+    def test_progress_numbers(self):
+        p = ranks.rank_progress(2, 250)
+        self.assertEqual((p['level'], p['pts_to_next'], p['next_rank']['name']), (2, 100, 'Ronin'))
+        self.assertAlmostEqual(p['progress_percent'], 50)
+        top = ranks.rank_progress(10, 5000)
+        self.assertTrue(top['is_max'])
+        self.assertEqual(top['pts_to_next'], 0)
+        # level kept above what the points give: bar reads 0%, never negative
+        kept = ranks.rank_progress(5, 100)
+        self.assertEqual(kept['progress_percent'], 0)
+        self.assertEqual(kept['pts_to_next'], 1300 - 100)
+
+    def test_every_category_has_a_short_label_in_every_language(self):
+        for category in FREE_CATEGORIES + PREMIUM_CATEGORIES:
+            for lang in LOCALE_QUERY_PARAMS:
+                with self.subTest(category=category, lang=lang):
+                    label = ranks.category_short_label(category, lang)
+                    self.assertTrue(label and label != category, label)
+            emoji, names = ranks.CATEGORY_SHORT_LABELS[category]
+            self.assertEqual(set(names), {'ja', 'ko', 'zh-cn', 'zh-hant', 'th', 'vi', 'fr', 'de', 'it', 'es', 'pt', 'en'})
+
+    def test_score_achievements_follow_the_rank_thresholds_others_unchanged(self):
+        thresholds = {e['code']: e['threshold'] for e in ACHIEVEMENT_CATALOG}
+        self.assertEqual(
+            {k: thresholds[k] for k in ('score_50', 'score_300', 'score_1200', 'score_2000')},
+            {'score_50': 150, 'score_300': 900, 'score_1200': 3100, 'score_2000': 4000})
+        self.assertEqual(
+            {k: thresholds[k] for k in ('streak_7', 'streak_30', 'streak_100', 'games_1', 'combo_7', 'combo_12')},
+            {'streak_7': 7, 'streak_30': 30, 'streak_100': 100, 'games_1': 1, 'combo_7': 7, 'combo_12': 12})
+
+
+class ProfileLevelTests(TestCase):
+    def test_new_user_starts_at_villager(self):
+        user = User.objects.create_user('lv-new', password='pw-for-tests-only')
+        self.assertEqual((user.profile.max_level, user.profile.level), (1, 1))
+        self.assertEqual(user.profile.rank_info['name'], 'Villager')
+
+    def test_level_never_drops_when_points_are_spent(self):
+        user = _user_with_score('lv-spender', 1300)
+        profile = user.profile
+        self.assertEqual(profile.sync_max_level(), (1, 6))
+        Profile.objects.filter(pk=profile.pk).update(total_score=200)  # e.g. time extensions
+        profile.refresh_from_db()
+        self.assertEqual(profile.level, 6)
+        self.assertEqual(profile.rank_info['name'], 'Hatamoto')
+        self.assertEqual(profile.sync_max_level(), (6, 6))
+
+    def test_level_follows_points_earned_outside_games(self):
+        user = _user_with_score('lv-bonus', 160)
+        self.assertEqual(user.profile.max_level, 1)
+        self.assertEqual(user.profile.level, 2)  # visible right away, persisted at the next game result
+
+    def test_existing_achievements_are_kept_after_the_threshold_change(self):
+        user = _user_with_score('lv-badge', 60)
+        Achievement.objects.create(user=user, code='score_50')  # earned under the old 50pt threshold
+        check_and_unlock_achievements(user.profile)
+        progress = {b['code']: b for b in get_achievement_progress(user.profile)}
+        self.assertTrue(progress['score_50']['unlocked'])
+        self.assertEqual(progress['score_50']['goal'], 150)
+        self.assertTrue(Achievement.objects.filter(user=user, code='score_50').exists())
+
+    def test_new_thresholds_gate_new_unlocks(self):
+        user = _user_with_score('lv-badge2', 300)
+        unlocked = {e['code'] for e in check_and_unlock_achievements(user.profile)}
+        self.assertIn('score_50', unlocked)        # 150 reached
+        self.assertNotIn('score_300', unlocked)    # now needs 900
+
+
+class MaxLevelMigrationTests(TestCase):
+    def test_migration_files_are_contiguous_and_0047_follows_0046(self):
+        import os
+        names = sorted(f for f in os.listdir(os.path.join(os.path.dirname(__file__), 'migrations')) if re.match(r'^\d{4}_.*\.py$', f))
+        numbers = [int(n[:4]) for n in names]
+        self.assertEqual(numbers, list(range(1, len(numbers) + 1)))
+        self.assertEqual(names[46], '0047_profile_max_level.py')
+        module = importlib.import_module('thank_japan_app.migrations.0047_profile_max_level')
+        self.assertEqual(module.Migration.dependencies, [('thank_japan_app', '0046_dailyactivitysummary_game_funnel')])
+
+    def test_existing_users_keep_their_old_rank(self):
+        module = importlib.import_module('thank_japan_app.migrations.0047_profile_max_level')
+        # score -> expected level (old thresholds 0/50/100/200/300/450/650/900/1200/2000)
+        cases = {0: 1, 49: 1, 50: 2, 120: 3, 300: 5, 650: 7, 1250: 9, 2000: 10, 4500: 10}
+        users = {}
+        for score in cases:
+            users[score] = _user_with_score(f'mig-{score}', score)
+            Profile.objects.filter(user=users[score]).update(max_level=1)
+        module.init_max_level(django_apps, None)
+        for score, expected in cases.items():
+            with self.subTest(score=score):
+                self.assertEqual(Profile.objects.get(user=users[score]).max_level, expected)
+                self.assertGreaterEqual(expected, ranks.level_for_score(score))  # never below the new-threshold level
+
+
+class LevelGamePoolTests(TestCase):
+    """Only timeattack is level-gated; guests are always Lv1."""
+
+    def setUp(self):
+        for i, category in enumerate(FREE_CATEGORIES):
+            for j in range(2):
+                ThankJapanModel.objects.create(
+                    name=f'pool-{category}-{j}', englishname=f'{category} {j}', jpname='いぬ' if j == 0 else f'ことばの{category}{j}',
+                    category=category, slug=f'pool-{category}-{j}', description='d', history='h')
+        for category in PREMIUM_CATEGORIES:
+            ThankJapanPremium.objects.create(
+                name=f'pool-p-{category}', englishname=f'{category} p', jpname='ふれーず', romaji='fureezu',
+                category=category, slug=f'pool-p-{category}', description='d', history='h')
+
+    def _categories_played(self, client):
+        client.get(reverse('game_restart'))
+        questions = client.session['game_question_ids']
+        cats = set()
+        for q in questions:
+            model = ThankJapanPremium if q['model'] == 'premium' else ThankJapanModel
+            cats.add(model.objects.get(id=q['id']).category)
+        return questions, cats
+
+    def test_guest_only_gets_lv1_categories(self):
+        questions, cats = self._categories_played(self.client)
+        self.assertEqual(cats, {'food', 'animal'})
+        self.assertEqual(len(questions), 4)
+        self.assertTrue(all(q['model'] == 'free' for q in questions))
+
+    def test_logged_in_level_widens_the_pool(self):
+        user = _user_with_score('pool-lv5', 950)
+        self.client.force_login(user)
+        _, cats = self._categories_played(self.client)
+        self.assertEqual(cats, set(ranks.categories_for_level(5)))
+
+    def test_level_kept_from_max_level_even_with_fewer_points(self):
+        user = _user_with_score('pool-kept', 0, max_level=3)
+        self.client.force_login(user)
+        _, cats = self._categories_played(self.client)
+        self.assertEqual(cats, set(ranks.categories_for_level(3)))
+
+    def test_lv8_gets_premium_words_without_a_subscription(self):
+        user = _user_with_score('pool-lv8', 2500)
+        self.assertFalse(user.profile.has_premium_access)
+        self.client.force_login(user)
+        questions, cats = self._categories_played(self.client)
+        self.assertTrue({'DailyConversation', 'TourismEtiquette', 'Entertainment', 'slang'} <= cats)
+        self.assertFalse(cats & {'LivingInJapan', 'MedicalEmergency', 'Prefectures'})
+        self.assertTrue(any(q['model'] == 'premium' for q in questions))
+
+    def test_legend_gets_all_25_categories(self):
+        user = _user_with_score('pool-lv10', 4000)
+        self.client.force_login(user)
+        _, cats = self._categories_played(self.client)
+        self.assertEqual(cats, set(FREE_CATEGORIES + PREMIUM_CATEGORIES))
+
+    def test_first_two_questions_are_short_free_words(self):
+        user = _user_with_score('pool-open', 4000)
+        self.client.force_login(user)
+        questions, _ = self._categories_played(self.client)
+        for q in questions[:2]:
+            self.assertEqual(q['model'], 'free')
+            self.assertEqual(ThankJapanModel.objects.get(id=q['id']).jpname, 'いぬ')
+
+    def test_premium_question_from_the_level_pool_scores_two_points(self):
+        user = _user_with_score('pool-points', 2500)
+        self.client.force_login(user)
+        word = ThankJapanPremium.objects.get(category='slang')
+        session = self.client.session
+        session['game_question_ids'] = [{'id': word.id, 'model': 'premium'}]
+        session['game_current_index'] = 0
+        session['game_score'] = 0
+        session['game_difficulty'] = 'timeattack'
+        session['game_history'] = []
+        session.save()
+        data = json.loads(self.client.get(reverse('game_question_data')).content)
+        res = json.loads(_submit_choice(self.client, data['choices'].index(word.englishname)).content)
+        self.assertTrue(res['is_correct'])
+        self.assertEqual(res['points'], 2)
+
+    def test_first_taste_daily_and_single_ignore_the_level(self):
+        ramen = ThankJapanModel.objects.create(name='pool-ramen', englishname='Ramen', jpname='らーめん',
+                                               category='food', slug='pool-ramen', description='d', history='h')
+        self.client.get(reverse('game_restart'), {'difficulty': 'first_taste'})
+        self.assertEqual(self.client.session['game_question_ids'][0], {'id': ramen.id, 'model': 'free'})
+        # single-mode review of a word far above the guest's Lv1
+        self.client.get(reverse('game_restart'), {'mode': 'single', 'model_type': 'free', 'slug': 'pool-work-1'})
+        self.assertEqual(self.client.session['game_difficulty'], 'single')
+        self.assertEqual(len(self.client.session['game_question_ids']), 1)
+        # daily question for a word outside Lv1
+        DailyQuestion.objects.create(date=timezone.localdate(), word=ThankJapanModel.objects.get(slug='pool-culture-1'))
+        response = Client().get(reverse('daily_question'))
+        self.assertEqual(response.context['daily_state'], 'question')
+
+    def test_recording_still_works_in_a_level_game(self):
+        user = _user_with_score('pool-record', 950)
+        self.client.force_login(user)
+        self.client.get(reverse('game_restart'))
+        data = json.loads(self.client.get(reverse('game_question_data')).content)
+        _submit_choice(self.client, 0)
+        self.client.get(reverse('game_result'))
+        row = DailyActivitySummary.objects.get(activity_type=DailyActivitySummary.ACTIVITY_MAIN_GAME)
+        self.assertEqual((row.total_count, row.games_started, row.games_completed), (1, 1, 1))
+
+
+class LevelUpDisplayTests(TestCase):
+    def setUp(self):
+        self.word = ThankJapanModel.objects.create(name='lu-word', englishname='Dog', jpname='いぬ',
+                                                   category='animal', slug='lu-word', description='d', history='h')
+
+    def _finish_game(self, client, points, lang='en'):
+        session = client.session
+        session['game_history'] = [{'index': 0, 'is_correct': True, 'points': points, 'question_id': self.word.id,
+                                    'question_model': 'free', 'combo': 1, 'combo_bonus': 0,
+                                    'user_input': 'Dog', 'correct_answer': 'Dog'}]
+        session['game_difficulty'] = 'timeattack'
+        session.save()
+        return client.get(reverse('game_result'), {'lang': lang})
+
+    def test_level_up_shows_once_with_unlocked_categories_per_locale(self):
+        for lang in LOCALE_QUERY_PARAMS:
+            with self.subTest(lang=lang):
+                user = _user_with_score(f'lu-{lang}', 140)
+                client = Client()
+                client.force_login(user)
+                response = self._finish_game(client, 15, lang)
+                body = response.content.decode()
+                self.assertEqual(response.context['level_up']['level'], 2)
+                self.assertIn('id="level-up-banner"', body)
+                self.assertIn(LEVEL_UP_TITLE_BY_LOCALE[lang], body)
+                self.assertIn('Lv2 Traveler', body)
+                for label in LV2_UNLOCKED_LABELS_BY_LOCALE[lang]:
+                    self.assertIn(label, body)
+                self.assertEqual(Profile.objects.get(user=user).max_level, 2)
+                again = client.get(reverse('game_result'), {'lang': lang})
+                self.assertIsNone(again.context['level_up'])
+                self.assertNotIn('id="level-up-banner"', again.content.decode())
+
+    def test_no_level_up_message_without_a_rise(self):
+        user = _user_with_score('lu-none', 10)
+        self.client.force_login(user)
+        response = self._finish_game(self.client, 5)
+        self.assertIsNone(response.context['level_up'])
+        self.assertNotIn('id="level-up-banner"', response.content.decode())
+
+    def test_multi_level_jump_lists_every_unlocked_category(self):
+        user = _user_with_score('lu-jump', 140)
+        self.client.force_login(user)
+        response = self._finish_game(self.client, 300)  # 440 -> Lv3
+        self.assertEqual(response.context['level_up']['level'], 3)
+        self.assertEqual(len(response.context['level_up']['categories']), 4)
+
+    def test_level_line_on_start_and_result_per_locale(self):
+        for lang in LOCALE_QUERY_PARAMS:
+            with self.subTest(lang=lang):
+                user = _user_with_score(f'line-{lang}', 300)  # Lv2, 50pt to Lv3
+                client = Client()
+                client.force_login(user)
+                start = client.get(reverse('game_start'), {'lang': lang}).content.decode()
+                self.assertIn('Lv2 Traveler', start)
+                self.assertIn(NEXT_LEVEL_LINE_BY_LOCALE[lang], start)
+                result = self._finish_game(client, 0, lang).content.decode()
+                self.assertIn('id="level-progress-line"', result)
+
+    def test_guest_sees_the_sign_up_nudge_per_locale(self):
+        for lang in LOCALE_QUERY_PARAMS:
+            with self.subTest(lang=lang):
+                body = Client().get(reverse('game_start'), {'lang': lang}).content.decode()
+                self.assertIn(GUEST_LEVEL_LINE_BY_LOCALE[lang], body)
+                self.assertIn(f'{reverse("player_register")}?lang={lang}', body)
+
+    def test_max_level_line(self):
+        user = _user_with_score('line-max', 4200)
+        self.client.force_login(user)
+        body = self.client.get(reverse('game_start')).content.decode()
+        self.assertIn('Lv10 Legend', body)
+        self.assertIn('Max level reached!', body)
+
+    def test_start_screen_play_button_has_no_rank(self):
+        user = _user_with_score('line-play', 2500)
+        self.client.force_login(user)
+        body = self.client.get(reverse('game_start')).content.decode()
+        play = body[body.index('class="play-btn"'):]
+        play = play[:play.index('</a>')]
+        self.assertNotIn('Shogun', play)
+
+
+class RankDisplayTests(TestCase):
+    def test_account_settings_rank_card_follows_the_level_in_every_language(self):
+        user = _user_with_score('acct-rank', 1300)
+        self.client.force_login(user)
+        for url_name in ACCOUNT_SETTINGS_URL_NAMES:
+            with self.subTest(url=url_name):
+                response = self.client.get(reverse(url_name))
+                body = response.content.decode()
+                self.assertIn('🚩 旗本 (Hatamoto)', body)
+                self.assertIn('card-platinum', body)
+                self.assertEqual(response.context['pts_to_next'], 500)
+
+    def test_card_colour_by_level(self):
+        expected = {1: 'card-wood', 2: 'card-wood', 3: 'card-silver', 4: 'card-gold', 5: 'card-gold',
+                    6: 'card-platinum', 7: 'card-platinum', 8: 'card-shogun', 9: 'card-shogun', 10: 'card-shogun'}
+        self.assertEqual({r['level']: r['card'] for r in ranks.RANK_LEVELS}, expected)
+
+    def test_account_settings_keeps_a_level_above_the_points(self):
+        user = _user_with_score('acct-kept', 100, max_level=5)
+        self.client.force_login(user)
+        body = self.client.get(reverse('account_settings')).content.decode()
+        self.assertIn('⚔️ 侍 (Samurai)', body)
+
+    def test_header_badge_rank_comes_from_the_level(self):
+        user = _user_with_score('header-rank', 2400)
+        self.assertEqual(user.profile.rank_info['emoji'], '🐎')
+        self.assertEqual(user.profile.rank_info['name'], 'Shogun')
+
+
+class TopPlayButtonRankTests(TestCase):
+    def test_logged_in_button_shows_the_english_rank_per_locale(self):
+        user = _user_with_score('top-rank', 1300)
+        self.client.force_login(user)
+        for lang in LOCALE_QUERY_PARAMS:
+            with self.subTest(lang=lang):
+                body = self.client.get(reverse('toppage'), {'lang': lang}).content.decode()
+                self.assertIn('btn-play-main play-with-rank', body)
+                self.assertIn('<span class="play-rank">(Hatamoto)</span> 🎮', body)
+                self.assertIn('<p class="play-rank-below">(Hatamoto)</p>', body)
+
+    def test_returning_guest_button_shows_villager(self):
+        client = Client()
+        client.cookies['tj_has_played'] = '1'
+        body = client.get(reverse('toppage')).content.decode()
+        self.assertIn('<span class="play-rank">(Villager)</span> 🎮', body)
+
+    def test_first_time_guest_button_has_no_rank(self):
+        body = Client().get(reverse('toppage')).content.decode()
+        self.assertNotIn('class="play-rank"', body)
+        self.assertNotIn('<p class="play-rank-below">', body)
+        self.assertIn('difficulty=first_taste', body)
+
+    def test_overflow_fallback_is_wired(self):
+        body = Client().get(reverse('toppage')).content.decode()
+        self.assertIn('function fitPlayRank()', body)
+        self.assertIn('.play-with-rank.rank-below + .play-rank-below { display: block; }', body)

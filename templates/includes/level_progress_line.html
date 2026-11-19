@@ -1,0 +1,65 @@
+{% comment %}
+Small "Lv5 Samurai · 120pt to the next level" line (game start + result
+screens). level_info = Profile.rank_progress for a logged-in player, None
+for a guest - guests always play Lv1 and get a "sign up to build up your
+level" nudge instead. Rank names stay in English in every language, like
+the header badge.
+{% endcomment %}
+<style>
+.level-progress-line {
+    margin: 10px auto 0; max-width: 420px; padding: 8px 14px; box-sizing: border-box;
+    font-family: 'Zen Maru Gothic', 'Inter', sans-serif; font-size: 0.9rem; font-weight: 700;
+    line-height: 1.4; color: #5a4a2f; text-align: center;
+}
+.level-progress-line .lv { color: #a97c1f; }
+.level-progress-line a { color: #d4af37; text-decoration: underline; }
+</style>
+<p class="level-progress-line" id="level-progress-line">
+{% if level_info %}
+    <span class="lv">{{ level_info.rank.emoji }} Lv{{ level_info.level }} {{ level_info.rank.name }}</span> ·
+    {% if level_info.is_max %}
+        {% if lang_code == 'ja' %}最高レベル到達！
+        {% elif lang_code == 'zh-hant' %}已達最高等級！
+        {% elif lang_code == 'zh-cn' %}已达最高等级！
+        {% elif lang_code == 'ko' %}최고 레벨 달성!
+        {% elif lang_code == 'de' %}Höchstes Level erreicht!
+        {% elif lang_code == 'fr' %}Niveau maximum atteint !
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}¡Nivel máximo alcanzado!
+        {% elif lang_code == 'it' %}Livello massimo raggiunto!
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Nível máximo alcançado!
+        {% elif lang_code == 'vi' %}Đã đạt cấp tối đa!
+        {% elif lang_code == 'th' %}ถึงเลเวลสูงสุดแล้ว!
+        {% else %}Max level reached!{% endif %}
+    {% else %}
+        {% with n=level_info.pts_to_next %}
+        {% if lang_code == 'ja' %}次のレベルまで {{ n }}pt
+        {% elif lang_code == 'zh-hant' %}距離下一級還差 {{ n }} 分
+        {% elif lang_code == 'zh-cn' %}距离下一级还差 {{ n }} 分
+        {% elif lang_code == 'ko' %}다음 레벨까지 {{ n }}pt
+        {% elif lang_code == 'de' %}noch {{ n }} Pkt. bis zum nächsten Level
+        {% elif lang_code == 'fr' %}encore {{ n }} pts avant le niveau suivant
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}faltan {{ n }} pts para el siguiente nivel
+        {% elif lang_code == 'it' %}mancano {{ n }} pt al prossimo livello
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}faltam {{ n }} pts para o próximo nível
+        {% elif lang_code == 'vi' %}còn {{ n }} điểm nữa để lên cấp
+        {% elif lang_code == 'th' %}อีก {{ n }} คะแนนถึงเลเวลถัดไป
+        {% else %}{{ n }}pt to the next level{% endif %}
+        {% endwith %}
+    {% endif %}
+{% else %}
+    <a href="{% url 'player_register' %}?lang={{ lang_code }}">
+        {% if lang_code == 'ja' %}会員登録するとレベルが貯まります
+        {% elif lang_code == 'zh-hant' %}註冊會員即可累積等級
+        {% elif lang_code == 'zh-cn' %}注册会员即可累积等级
+        {% elif lang_code == 'ko' %}회원가입하면 레벨이 쌓여요
+        {% elif lang_code == 'de' %}Registriere dich, um Level zu sammeln
+        {% elif lang_code == 'fr' %}Inscrivez-vous pour faire monter votre niveau
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Regístrate para ir subiendo de nivel
+        {% elif lang_code == 'it' %}Registrati per far salire il tuo livello
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Cadastre-se para subir de nível
+        {% elif lang_code == 'vi' %}Đăng ký để tích lũy cấp độ
+        {% elif lang_code == 'th' %}สมัครสมาชิกเพื่อสะสมเลเวล
+        {% else %}Sign up to build up your level{% endif %}
+    </a>
+{% endif %}
+</p>

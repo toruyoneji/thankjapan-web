@@ -26,7 +26,7 @@ from django.utils.dateparse import parse_datetime
 from django.utils.http import urlencode
 from django.contrib.auth.views import PasswordResetView, PasswordResetConfirmView
 from .context_processors import language_context
-from .models import WeeklyScore, ThankJapanBackgroundModel, FCMDevice, DailyQuestion, PremiumRenewalReward, FREE_PREVIEW_PREMIUM_CATEGORIES, DailyActivitySummary, WordReviewLog
+from .models import WeeklyScore, ThankJapanBackgroundModel, FCMDevice, DailyQuestion, PremiumRenewalReward, DailyActivitySummary, WordReviewLog
 from .pricing import get_premium_price, get_top_page_seo_override
 from google.oauth2 import service_account
 from googleapiclient.discovery import build
@@ -36,6 +36,7 @@ from firebase_admin import messaging
 from .firebase_utils import get_firebase_credentials
 from allauth.socialaccount.views import ConnectionsView
 from .achievements import check_and_unlock_achievements, get_achievement_progress, STREAK_ACHIEVEMENT_CODES
+from .ranks import GUEST_LEVEL, categories_for_level, categories_unlocked_between, category_short_label
 from datetime import date, timedelta
 from dateutil.relativedelta import relativedelta
 import logging
@@ -1916,21 +1917,6 @@ def _sample_ids(model, category_filter=None, length_regex=None, exclude_ids=(), 
     return ids[:count]
 
 
-def _long_word_candidate_ids(exclude_ids=()):
-    """All free-tier 'long word' ids (chunk-split route: >5 mora or contains
-    alphabet), unshuffled and uncapped - callers shuffle/slice themselves."""
-    qs = ThankJapanModel.objects.exclude(id__in=exclude_ids).values_list('id', 'jpname')
-    return [pk for pk, jpname in qs if classify_route(jpname)['route'] == 'chunk']
-
-
-def _sample_long_word_ids(exclude_ids=(), count=1):
-    """Free-tier 'long word' pool (chunk-split route: >5 mora or contains
-    alphabet) used from Q5 onward for players without premium access."""
-    long_ids = _long_word_candidate_ids(exclude_ids)
-    random.shuffle(long_ids)
-    return long_ids[:count]
-
-
 EASY_MAX_MORA = 4  # Q1-2 should be a quick, genuinely gentle first puzzle
 
 
@@ -1949,42 +1935,31 @@ def _sample_easy_ids(category_filter, exclude_ids=(), count=1):
     return short_ids[:count]
 
 
-def _build_tile_game_questions(is_premium):
-    """Ordered question list for the tile-rearrangement time attack:
-    Q1-2 EASY, Q3-5 NORMAL/NORMAL/HARD, Q6+ PREMIUM (subscribers) or long
-    free words + the free-preview premium categories (everyone else).
-    Returns [{'id', 'model': 'free'|'premium'}, ...] - a game can mix both
-    models, unlike the old single-model-per-game multiple-choice flow."""
-    easy, normal, hard = DIFFICULTY_SETTINGS['easy'], DIFFICULTY_SETTINGS['normal'], DIFFICULTY_SETTINGS['hard']
+def _build_level_game_questions(level):
+    """Ordered question list for the main timed game (2026-11-19 level
+    system): only words from the categories the player's level has unlocked
+    (ranks.categories_for_level - guests are always GUEST_LEVEL). Q1-2 are
+    short (<=4 mora) free words from those categories so the game still
+    opens gently; Q3+ is everything else unlocked, free and premium-table
+    words mixed - premium words are allowed at any subscription state here
+    (premium only gates word-detail pages) and still score 2pt.
+    Returns [{'id', 'model': 'free'|'premium'}, ...]."""
+    categories = categories_for_level(level)
+    opening_ids = _sample_easy_ids(categories, count=2)
+    questions = [{'id': pk, 'model': 'free'} for pk in opening_ids]
 
-    free_ids = _sample_easy_ids(easy['category_filter'], count=2)
-    free_ids += _sample_ids(ThankJapanModel, normal['category_filter'], normal['length_regex'], exclude_ids=free_ids, count=2)
-    free_ids += _sample_ids(ThankJapanModel, hard['category_filter'], hard['length_regex'], exclude_ids=free_ids, count=1)
-
-    questions = [{'id': pk, 'model': 'free'} for pk in free_ids]
-
-    remaining = TILE_GAME_POOL_SIZE - len(questions)
-    if is_premium:
-        premium_ids = list(ThankJapanPremium.objects.values_list('id', flat=True))
-        random.shuffle(premium_ids)
-        questions += [{'id': pk, 'model': 'premium'} for pk in premium_ids[:remaining]]
-    else:
-        # Non-subscribers' Q6+ pool: free "long word" content plus the
-        # premium-table categories that are free for everyone (2026-09-11 -
-        # these were previously reachable only via each word's own detail
-        # page/single-mode review, never from the main game for guests).
-        # Tagged 'premium' since they live in ThankJapanPremium (same as
-        # single-mode review already does for them) - scored the same 2pt
-        # as any other premium-model question, by explicit product decision.
-        long_free_ids = _long_word_candidate_ids(exclude_ids=free_ids)
-        free_preview_ids = list(
-            ThankJapanPremium.objects.filter(category__in=FREE_PREVIEW_PREMIUM_CATEGORIES).values_list('id', flat=True)
-        )
-        combined = [('free', pk) for pk in long_free_ids] + [('premium', pk) for pk in free_preview_ids]
-        random.shuffle(combined)
-        questions += [{'id': pk, 'model': model_tag} for model_tag, pk in combined[:remaining]]
-
+    free_ids = ThankJapanModel.objects.filter(category__in=categories).exclude(id__in=opening_ids).values_list('id', flat=True)
+    premium_ids = ThankJapanPremium.objects.filter(category__in=categories).values_list('id', flat=True)
+    rest = [('free', pk) for pk in free_ids] + [('premium', pk) for pk in premium_ids]
+    random.shuffle(rest)
+    questions += [{'id': pk, 'model': model_tag} for model_tag, pk in rest[:TILE_GAME_POOL_SIZE - len(questions)]]
     return questions
+
+
+def _player_level(request):
+    if request.user.is_authenticated:
+        return request.user.profile.level
+    return GUEST_LEVEL
 
 
 def combo_bonus_for_streak(combo):
@@ -2061,6 +2036,7 @@ def game_start(request):
         # true first-time visitor who hasn't finished a game yet needs the
         # nudge (same tj_has_played cookie the top page's own CTA uses).
         'has_played': request.COOKIES.get('tj_has_played') == '1',
+        'level_info': request.user.profile.rank_progress if request.user.is_authenticated else None,
     })
 
 
@@ -2532,7 +2508,7 @@ def game_restart(request):
         questions = [{'id': pk, 'model': 'free'} for pk in ids]
         game_difficulty = 'first_taste'
     else:
-        questions = _build_tile_game_questions(is_premium)
+        questions = _build_level_game_questions(_player_level(request))
         game_difficulty = 'timeattack'
 
     keys_to_clear = [
@@ -3090,6 +3066,23 @@ def game_result(request):
             unlocked_achievements = check_and_unlock_achievements(profile)
         request.session['achievements_checked'] = True
 
+    # Level system: persist any rise (from this game's points, or from points
+    # earned elsewhere since - login bonus, Daily Question...) and announce
+    # the categories it unlocked. sync_max_level only reports a rise once,
+    # so reloading this screen doesn't repeat the message.
+    level_up = None
+    level_info = None
+    if request.user.is_authenticated:
+        level_profile = request.user.profile
+        previous_level, current_level = level_profile.sync_max_level()
+        if current_level > previous_level:
+            level_up = {
+                'level': current_level,
+                'rank': level_profile.rank_info,
+                'categories': [category_short_label(c, lang_code) for c in categories_unlocked_between(previous_level, current_level)],
+            }
+        level_info = level_profile.rank_progress
+
     player_global_rank = None
     total_registered = 0
     if not is_guest:
@@ -3160,6 +3153,8 @@ def game_result(request):
         'bgm_page_type': 'top',
         'is_premium_mode': is_premium_mode,
         'unlocked_achievements': [a['code'] for a in unlocked_achievements],
+        'level_up': level_up,
+        'level_info': level_info,
         'show_review_prompt': show_review_prompt,
     })
 
@@ -4491,25 +4486,10 @@ def account_settings(request):
     total_registered = registered_players.count()
     current_rank = registered_players.filter(total_score__gt=s).count() + 1
     
-    thresholds = [0, 50, 100, 200, 300, 450, 650, 900, 1200, 2000]
-    
-    current_min = 0
-    next_max = 2000
-    for i in range(len(thresholds) - 1):
-        if s < thresholds[i+1]:
-            current_min = thresholds[i]
-            next_max = thresholds[i+1]
-            break
-    else:
-        current_min = 2000
-        next_max = 2000
-
-    pts_to_next = next_max - s if s < 2000 else 0
-    
-    if next_max > current_min:
-        progress_percent = ((s - current_min) / (next_max - current_min)) * 100
-    else:
-        progress_percent = 100
+    # Rank card: level-based (never drops), thresholds from ranks.RANK_LEVELS.
+    rank_progress = profile.rank_progress
+    pts_to_next = rank_progress['pts_to_next']
+    progress_percent = rank_progress['progress_percent']
 
     recent_renewal_rewards = PremiumRenewalReward.objects.filter(user=request.user).order_by('-granted_at')[:5]
 
@@ -4517,6 +4497,7 @@ def account_settings(request):
         'total_score': s,
         'pts_to_next': pts_to_next,
         'progress_percent': progress_percent,
+        'rank_progress': rank_progress,
         'current_rank': current_rank,
         'total_registered': total_registered,
         'streak_count': profile.streak_count,
@@ -4599,26 +4580,10 @@ def account_settingsZHCN(request):
     current_rank = registered_players.filter(total_score__gt=s).count() + 1
     
     
-    thresholds = [0, 50, 100, 200, 300, 450, 650, 900, 1200, 2000]
-    
-    current_min = 0
-    next_max = 2000
-    for i in range(len(thresholds) - 1):
-        if s < thresholds[i+1]:
-            current_min = thresholds[i]
-            next_max = thresholds[i+1]
-            break
-    else:
-        current_min = 2000
-        next_max = 2000
-
-    
-    pts_to_next = next_max - s if s < 2000 else 0
-    
-    if next_max > current_min:
-        progress_percent = ((s - current_min) / (next_max - current_min)) * 100
-    else:
-        progress_percent = 100
+    # Rank card: level-based (never drops), thresholds from ranks.RANK_LEVELS.
+    rank_progress = profile.rank_progress
+    pts_to_next = rank_progress['pts_to_next']
+    progress_percent = rank_progress['progress_percent']
 
     recent_renewal_rewards = PremiumRenewalReward.objects.filter(user=request.user).order_by('-granted_at')[:5]
 
@@ -4626,6 +4591,7 @@ def account_settingsZHCN(request):
         'total_score': s,
         'pts_to_next': pts_to_next,
         'progress_percent': progress_percent,
+        'rank_progress': rank_progress,
         'current_rank': current_rank,
         'total_registered': total_registered,
         'streak_count': profile.streak_count,
@@ -4648,26 +4614,10 @@ def account_settingsZHHANT(request):
     current_rank = registered_players.filter(total_score__gt=s).count() + 1
     
     
-    thresholds = [0, 50, 100, 200, 300, 450, 650, 900, 1200, 2000]
-    
-    current_min = 0
-    next_max = 2000
-    for i in range(len(thresholds) - 1):
-        if s < thresholds[i+1]:
-            current_min = thresholds[i]
-            next_max = thresholds[i+1]
-            break
-    else:
-        current_min = 2000
-        next_max = 2000
-
-    
-    pts_to_next = next_max - s if s < 2000 else 0
-    
-    if next_max > current_min:
-        progress_percent = ((s - current_min) / (next_max - current_min)) * 100
-    else:
-        progress_percent = 100
+    # Rank card: level-based (never drops), thresholds from ranks.RANK_LEVELS.
+    rank_progress = profile.rank_progress
+    pts_to_next = rank_progress['pts_to_next']
+    progress_percent = rank_progress['progress_percent']
 
     recent_renewal_rewards = PremiumRenewalReward.objects.filter(user=request.user).order_by('-granted_at')[:5]
 
@@ -4675,6 +4625,7 @@ def account_settingsZHHANT(request):
         'total_score': s,
         'pts_to_next': pts_to_next,
         'progress_percent': progress_percent,
+        'rank_progress': rank_progress,
         'current_rank': current_rank,
         'total_registered': total_registered,
         'streak_count': profile.streak_count,
@@ -4697,26 +4648,10 @@ def account_settingsVI(request):
     current_rank = registered_players.filter(total_score__gt=s).count() + 1
     
     
-    thresholds = [0, 50, 100, 200, 300, 450, 650, 900, 1200, 2000]
-    
-    current_min = 0
-    next_max = 2000
-    for i in range(len(thresholds) - 1):
-        if s < thresholds[i+1]:
-            current_min = thresholds[i]
-            next_max = thresholds[i+1]
-            break
-    else:
-        current_min = 2000
-        next_max = 2000
-
-    
-    pts_to_next = next_max - s if s < 2000 else 0
-    
-    if next_max > current_min:
-        progress_percent = ((s - current_min) / (next_max - current_min)) * 100
-    else:
-        progress_percent = 100
+    # Rank card: level-based (never drops), thresholds from ranks.RANK_LEVELS.
+    rank_progress = profile.rank_progress
+    pts_to_next = rank_progress['pts_to_next']
+    progress_percent = rank_progress['progress_percent']
 
     recent_renewal_rewards = PremiumRenewalReward.objects.filter(user=request.user).order_by('-granted_at')[:5]
 
@@ -4724,6 +4659,7 @@ def account_settingsVI(request):
         'total_score': s,
         'pts_to_next': pts_to_next,
         'progress_percent': progress_percent,
+        'rank_progress': rank_progress,
         'current_rank': current_rank,
         'total_registered': total_registered,
         'streak_count': profile.streak_count,
@@ -4746,26 +4682,10 @@ def account_settingsTH(request):
     current_rank = registered_players.filter(total_score__gt=s).count() + 1
     
     
-    thresholds = [0, 50, 100, 200, 300, 450, 650, 900, 1200, 2000]
-    
-    current_min = 0
-    next_max = 2000
-    for i in range(len(thresholds) - 1):
-        if s < thresholds[i+1]:
-            current_min = thresholds[i]
-            next_max = thresholds[i+1]
-            break
-    else:
-        current_min = 2000
-        next_max = 2000
-
-    
-    pts_to_next = next_max - s if s < 2000 else 0
-    
-    if next_max > current_min:
-        progress_percent = ((s - current_min) / (next_max - current_min)) * 100
-    else:
-        progress_percent = 100
+    # Rank card: level-based (never drops), thresholds from ranks.RANK_LEVELS.
+    rank_progress = profile.rank_progress
+    pts_to_next = rank_progress['pts_to_next']
+    progress_percent = rank_progress['progress_percent']
 
     recent_renewal_rewards = PremiumRenewalReward.objects.filter(user=request.user).order_by('-granted_at')[:5]
 
@@ -4773,6 +4693,7 @@ def account_settingsTH(request):
         'total_score': s,
         'pts_to_next': pts_to_next,
         'progress_percent': progress_percent,
+        'rank_progress': rank_progress,
         'current_rank': current_rank,
         'total_registered': total_registered,
         'streak_count': profile.streak_count,
@@ -4795,26 +4716,10 @@ def account_settingsPT(request):
     current_rank = registered_players.filter(total_score__gt=s).count() + 1
     
     
-    thresholds = [0, 50, 100, 200, 300, 450, 650, 900, 1200, 2000]
-    
-    current_min = 0
-    next_max = 2000
-    for i in range(len(thresholds) - 1):
-        if s < thresholds[i+1]:
-            current_min = thresholds[i]
-            next_max = thresholds[i+1]
-            break
-    else:
-        current_min = 2000
-        next_max = 2000
-
-    
-    pts_to_next = next_max - s if s < 2000 else 0
-    
-    if next_max > current_min:
-        progress_percent = ((s - current_min) / (next_max - current_min)) * 100
-    else:
-        progress_percent = 100
+    # Rank card: level-based (never drops), thresholds from ranks.RANK_LEVELS.
+    rank_progress = profile.rank_progress
+    pts_to_next = rank_progress['pts_to_next']
+    progress_percent = rank_progress['progress_percent']
 
     recent_renewal_rewards = PremiumRenewalReward.objects.filter(user=request.user).order_by('-granted_at')[:5]
 
@@ -4822,6 +4727,7 @@ def account_settingsPT(request):
         'total_score': s,
         'pts_to_next': pts_to_next,
         'progress_percent': progress_percent,
+        'rank_progress': rank_progress,
         'current_rank': current_rank,
         'total_registered': total_registered,
         'streak_count': profile.streak_count,
@@ -4844,26 +4750,10 @@ def account_settingsPTBR(request):
     current_rank = registered_players.filter(total_score__gt=s).count() + 1
     
     
-    thresholds = [0, 50, 100, 200, 300, 450, 650, 900, 1200, 2000]
-    
-    current_min = 0
-    next_max = 2000
-    for i in range(len(thresholds) - 1):
-        if s < thresholds[i+1]:
-            current_min = thresholds[i]
-            next_max = thresholds[i+1]
-            break
-    else:
-        current_min = 2000
-        next_max = 2000
-
-    
-    pts_to_next = next_max - s if s < 2000 else 0
-    
-    if next_max > current_min:
-        progress_percent = ((s - current_min) / (next_max - current_min)) * 100
-    else:
-        progress_percent = 100
+    # Rank card: level-based (never drops), thresholds from ranks.RANK_LEVELS.
+    rank_progress = profile.rank_progress
+    pts_to_next = rank_progress['pts_to_next']
+    progress_percent = rank_progress['progress_percent']
 
     recent_renewal_rewards = PremiumRenewalReward.objects.filter(user=request.user).order_by('-granted_at')[:5]
 
@@ -4871,6 +4761,7 @@ def account_settingsPTBR(request):
         'total_score': s,
         'pts_to_next': pts_to_next,
         'progress_percent': progress_percent,
+        'rank_progress': rank_progress,
         'current_rank': current_rank,
         'total_registered': total_registered,
         'streak_count': profile.streak_count,
@@ -4893,26 +4784,10 @@ def account_settingsKO(request):
     current_rank = registered_players.filter(total_score__gt=s).count() + 1
     
     
-    thresholds = [0, 50, 100, 200, 300, 450, 650, 900, 1200, 2000]
-    
-    current_min = 0
-    next_max = 2000
-    for i in range(len(thresholds) - 1):
-        if s < thresholds[i+1]:
-            current_min = thresholds[i]
-            next_max = thresholds[i+1]
-            break
-    else:
-        current_min = 2000
-        next_max = 2000
-
-    
-    pts_to_next = next_max - s if s < 2000 else 0
-    
-    if next_max > current_min:
-        progress_percent = ((s - current_min) / (next_max - current_min)) * 100
-    else:
-        progress_percent = 100
+    # Rank card: level-based (never drops), thresholds from ranks.RANK_LEVELS.
+    rank_progress = profile.rank_progress
+    pts_to_next = rank_progress['pts_to_next']
+    progress_percent = rank_progress['progress_percent']
 
     recent_renewal_rewards = PremiumRenewalReward.objects.filter(user=request.user).order_by('-granted_at')[:5]
 
@@ -4920,6 +4795,7 @@ def account_settingsKO(request):
         'total_score': s,
         'pts_to_next': pts_to_next,
         'progress_percent': progress_percent,
+        'rank_progress': rank_progress,
         'current_rank': current_rank,
         'total_registered': total_registered,
         'streak_count': profile.streak_count,
@@ -4941,26 +4817,10 @@ def account_settingsJA(request):
     total_registered = registered_players.count()
     current_rank = registered_players.filter(total_score__gt=s).count() + 1
      
-    thresholds = [0, 50, 100, 200, 300, 450, 650, 900, 1200, 2000]
-    
-    current_min = 0
-    next_max = 2000
-    for i in range(len(thresholds) - 1):
-        if s < thresholds[i+1]:
-            current_min = thresholds[i]
-            next_max = thresholds[i+1]
-            break
-    else:
-        current_min = 2000
-        next_max = 2000
-
-    
-    pts_to_next = next_max - s if s < 2000 else 0
-    
-    if next_max > current_min:
-        progress_percent = ((s - current_min) / (next_max - current_min)) * 100
-    else:
-        progress_percent = 100
+    # Rank card: level-based (never drops), thresholds from ranks.RANK_LEVELS.
+    rank_progress = profile.rank_progress
+    pts_to_next = rank_progress['pts_to_next']
+    progress_percent = rank_progress['progress_percent']
 
     recent_renewal_rewards = PremiumRenewalReward.objects.filter(user=request.user).order_by('-granted_at')[:5]
 
@@ -4968,6 +4828,7 @@ def account_settingsJA(request):
         'total_score': s,
         'pts_to_next': pts_to_next,
         'progress_percent': progress_percent,
+        'rank_progress': rank_progress,
         'current_rank': current_rank,
         'total_registered': total_registered,
         'streak_count': profile.streak_count,
@@ -4990,26 +4851,10 @@ def account_settingsIT(request):
     current_rank = registered_players.filter(total_score__gt=s).count() + 1
     
     
-    thresholds = [0, 50, 100, 200, 300, 450, 650, 900, 1200, 2000]
-    
-    current_min = 0
-    next_max = 2000
-    for i in range(len(thresholds) - 1):
-        if s < thresholds[i+1]:
-            current_min = thresholds[i]
-            next_max = thresholds[i+1]
-            break
-    else:
-        current_min = 2000
-        next_max = 2000
-
-    
-    pts_to_next = next_max - s if s < 2000 else 0
-    
-    if next_max > current_min:
-        progress_percent = ((s - current_min) / (next_max - current_min)) * 100
-    else:
-        progress_percent = 100
+    # Rank card: level-based (never drops), thresholds from ranks.RANK_LEVELS.
+    rank_progress = profile.rank_progress
+    pts_to_next = rank_progress['pts_to_next']
+    progress_percent = rank_progress['progress_percent']
 
     recent_renewal_rewards = PremiumRenewalReward.objects.filter(user=request.user).order_by('-granted_at')[:5]
 
@@ -5017,6 +4862,7 @@ def account_settingsIT(request):
         'total_score': s,
         'pts_to_next': pts_to_next,
         'progress_percent': progress_percent,
+        'rank_progress': rank_progress,
         'current_rank': current_rank,
         'total_registered': total_registered,
         'streak_count': profile.streak_count,
@@ -5039,26 +4885,10 @@ def account_settingsFR(request):
     current_rank = registered_players.filter(total_score__gt=s).count() + 1
     
     
-    thresholds = [0, 50, 100, 200, 300, 450, 650, 900, 1200, 2000]
-    
-    current_min = 0
-    next_max = 2000
-    for i in range(len(thresholds) - 1):
-        if s < thresholds[i+1]:
-            current_min = thresholds[i]
-            next_max = thresholds[i+1]
-            break
-    else:
-        current_min = 2000
-        next_max = 2000
-
-    
-    pts_to_next = next_max - s if s < 2000 else 0
-    
-    if next_max > current_min:
-        progress_percent = ((s - current_min) / (next_max - current_min)) * 100
-    else:
-        progress_percent = 100
+    # Rank card: level-based (never drops), thresholds from ranks.RANK_LEVELS.
+    rank_progress = profile.rank_progress
+    pts_to_next = rank_progress['pts_to_next']
+    progress_percent = rank_progress['progress_percent']
 
     recent_renewal_rewards = PremiumRenewalReward.objects.filter(user=request.user).order_by('-granted_at')[:5]
 
@@ -5066,6 +4896,7 @@ def account_settingsFR(request):
         'total_score': s,
         'pts_to_next': pts_to_next,
         'progress_percent': progress_percent,
+        'rank_progress': rank_progress,
         'current_rank': current_rank,
         'total_registered': total_registered,
         'streak_count': profile.streak_count,
@@ -5088,26 +4919,10 @@ def account_settingsESMX(request):
     current_rank = registered_players.filter(total_score__gt=s).count() + 1
     
     
-    thresholds = [0, 50, 100, 200, 300, 450, 650, 900, 1200, 2000]
-    
-    current_min = 0
-    next_max = 2000
-    for i in range(len(thresholds) - 1):
-        if s < thresholds[i+1]:
-            current_min = thresholds[i]
-            next_max = thresholds[i+1]
-            break
-    else:
-        current_min = 2000
-        next_max = 2000
-
-    
-    pts_to_next = next_max - s if s < 2000 else 0
-    
-    if next_max > current_min:
-        progress_percent = ((s - current_min) / (next_max - current_min)) * 100
-    else:
-        progress_percent = 100
+    # Rank card: level-based (never drops), thresholds from ranks.RANK_LEVELS.
+    rank_progress = profile.rank_progress
+    pts_to_next = rank_progress['pts_to_next']
+    progress_percent = rank_progress['progress_percent']
 
     recent_renewal_rewards = PremiumRenewalReward.objects.filter(user=request.user).order_by('-granted_at')[:5]
 
@@ -5115,6 +4930,7 @@ def account_settingsESMX(request):
         'total_score': s,
         'pts_to_next': pts_to_next,
         'progress_percent': progress_percent,
+        'rank_progress': rank_progress,
         'current_rank': current_rank,
         'total_registered': total_registered,
         'streak_count': profile.streak_count,
@@ -5137,26 +4953,10 @@ def account_settingsESES(request):
     current_rank = registered_players.filter(total_score__gt=s).count() + 1
     
     
-    thresholds = [0, 50, 100, 200, 300, 450, 650, 900, 1200, 2000]
-    
-    current_min = 0
-    next_max = 2000
-    for i in range(len(thresholds) - 1):
-        if s < thresholds[i+1]:
-            current_min = thresholds[i]
-            next_max = thresholds[i+1]
-            break
-    else:
-        current_min = 2000
-        next_max = 2000
-
-    
-    pts_to_next = next_max - s if s < 2000 else 0
-    
-    if next_max > current_min:
-        progress_percent = ((s - current_min) / (next_max - current_min)) * 100
-    else:
-        progress_percent = 100
+    # Rank card: level-based (never drops), thresholds from ranks.RANK_LEVELS.
+    rank_progress = profile.rank_progress
+    pts_to_next = rank_progress['pts_to_next']
+    progress_percent = rank_progress['progress_percent']
 
     recent_renewal_rewards = PremiumRenewalReward.objects.filter(user=request.user).order_by('-granted_at')[:5]
 
@@ -5164,6 +4964,7 @@ def account_settingsESES(request):
         'total_score': s,
         'pts_to_next': pts_to_next,
         'progress_percent': progress_percent,
+        'rank_progress': rank_progress,
         'current_rank': current_rank,
         'total_registered': total_registered,
         'streak_count': profile.streak_count,
@@ -5186,26 +4987,10 @@ def account_settingsENIN(request):
     current_rank = registered_players.filter(total_score__gt=s).count() + 1
     
     
-    thresholds = [0, 50, 100, 200, 300, 450, 650, 900, 1200, 2000]
-    
-    current_min = 0
-    next_max = 2000
-    for i in range(len(thresholds) - 1):
-        if s < thresholds[i+1]:
-            current_min = thresholds[i]
-            next_max = thresholds[i+1]
-            break
-    else:
-        current_min = 2000
-        next_max = 2000
-
-    
-    pts_to_next = next_max - s if s < 2000 else 0
-    
-    if next_max > current_min:
-        progress_percent = ((s - current_min) / (next_max - current_min)) * 100
-    else:
-        progress_percent = 100
+    # Rank card: level-based (never drops), thresholds from ranks.RANK_LEVELS.
+    rank_progress = profile.rank_progress
+    pts_to_next = rank_progress['pts_to_next']
+    progress_percent = rank_progress['progress_percent']
 
     recent_renewal_rewards = PremiumRenewalReward.objects.filter(user=request.user).order_by('-granted_at')[:5]
 
@@ -5213,6 +4998,7 @@ def account_settingsENIN(request):
         'total_score': s,
         'pts_to_next': pts_to_next,
         'progress_percent': progress_percent,
+        'rank_progress': rank_progress,
         'current_rank': current_rank,
         'total_registered': total_registered,
         'streak_count': profile.streak_count,
@@ -5235,26 +5021,10 @@ def account_settingsDE(request):
     current_rank = registered_players.filter(total_score__gt=s).count() + 1
     
     
-    thresholds = [0, 50, 100, 200, 300, 450, 650, 900, 1200, 2000]
-    
-    current_min = 0
-    next_max = 2000
-    for i in range(len(thresholds) - 1):
-        if s < thresholds[i+1]:
-            current_min = thresholds[i]
-            next_max = thresholds[i+1]
-            break
-    else:
-        current_min = 2000
-        next_max = 2000
-
-    
-    pts_to_next = next_max - s if s < 2000 else 0
-    
-    if next_max > current_min:
-        progress_percent = ((s - current_min) / (next_max - current_min)) * 100
-    else:
-        progress_percent = 100
+    # Rank card: level-based (never drops), thresholds from ranks.RANK_LEVELS.
+    rank_progress = profile.rank_progress
+    pts_to_next = rank_progress['pts_to_next']
+    progress_percent = rank_progress['progress_percent']
 
     recent_renewal_rewards = PremiumRenewalReward.objects.filter(user=request.user).order_by('-granted_at')[:5]
 
@@ -5262,6 +5032,7 @@ def account_settingsDE(request):
         'total_score': s,
         'pts_to_next': pts_to_next,
         'progress_percent': progress_percent,
+        'rank_progress': rank_progress,
         'current_rank': current_rank,
         'total_registered': total_registered,
         'streak_count': profile.streak_count,

@@ -217,6 +217,22 @@
 
 .hero-buttons.hero-buttons-single { justify-content: center !important; flex-direction: column !important; }
 
+/* Rank on the game button ("Play (Shogun) 🎮"), 2026-11-19. The label stays
+   on one line; .rank-below (set by fitPlayRank() when it would overflow,
+   e.g. long Vietnamese labels on narrow phones) moves the rank to the small
+   .play-rank-below line under the button instead. */
+.play-with-rank .play-label { display: inline-block; white-space: nowrap; }
+.play-with-rank .play-rank { font-size: 0.85em; font-weight: 800; }
+.play-rank-below {
+    display: none; margin: -16px 0 0; font-size: 0.85rem; font-weight: 800;
+    color: #a97c1f; text-align: center;
+}
+.play-with-rank.rank-below .play-rank { display: none; }
+.play-with-rank.rank-below + .play-rank-below { display: block; }
+@media (max-width: 360px) {
+    .explore-btn.btn-play-main.play-with-rank { font-size: 1.1rem !important; }
+}
+
 /* Guests who have logged in on this device before (tj_has_account) get a
    plain text link under the game button instead of the old big
    login/register buttons - see includes/top_login_text_link.html. */
@@ -662,6 +678,23 @@ document.addEventListener('DOMContentLoaded', function () {
 {% endif %}
 {% include 'includes/tutorial_overlay.js.html' %}
 <script>
+(function () {
+    function fitPlayRank() {
+        document.querySelectorAll('.play-with-rank').forEach(function (btn) {
+            var label = btn.querySelector('.play-label');
+            if (!label) return;
+            btn.classList.remove('rank-below');
+            var style = getComputedStyle(btn);
+            var room = btn.clientWidth - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight) - 8;
+            if (label.getBoundingClientRect().width > room) btn.classList.add('rank-below');
+        });
+    }
+    document.addEventListener('DOMContentLoaded', fitPlayRank);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitPlayRank);
+    window.addEventListener('resize', fitPlayRank);
+})();
+</script>
+<script>
 document.addEventListener('DOMContentLoaded', function () {
     // Set unconditionally by the first-taste result screen the moment it
     // renders (see game_result-v2.html), not tied to exactly how the guest
@@ -746,20 +779,22 @@ function startFirstTasteWithIntro(event, url) {
             </div>
             <div class="hero-buttons hero-buttons-single">
                 {% if has_played %}
-                <a href="{% url 'game_start' %}?lang={{ lang_code }}" class="explore-btn btn-green btn-play-main">
-                    {% if lang_code == 'ja' %}プレイする 🎮
-                    {% elif lang_code == 'ko' %}플레이하기 🎮
-                    {% elif lang_code == 'zh-cn' %}开始游戏 🎮
-                    {% elif lang_code == 'zh-hant' %}開始遊戲 🎮
-                    {% elif lang_code == 'th' %}เล่นเลย 🎮
-                    {% elif lang_code == 'vi' %}Chơi ngay 🎮
-                    {% elif lang_code == 'fr' %}Jouer 🎮
-                    {% elif lang_code == 'de' %}Spielen 🎮
-                    {% elif lang_code == 'it' %}Gioca 🎮
-                    {% elif lang_code == 'es-es' or lang_code == 'es-mx' or lang_code == 'es' %}Jugar 🎮
-                    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Jogar 🎮
-                    {% else %}Play 🎮{% endif %}
+                <a href="{% url 'game_start' %}?lang={{ lang_code }}" class="explore-btn btn-green btn-play-main play-with-rank">
+                    <span class="play-label">
+                    {% if lang_code == 'ja' %}プレイする <span class="play-rank">(Villager)</span> 🎮
+                    {% elif lang_code == 'ko' %}플레이하기 <span class="play-rank">(Villager)</span> 🎮
+                    {% elif lang_code == 'zh-cn' %}开始游戏 <span class="play-rank">(Villager)</span> 🎮
+                    {% elif lang_code == 'zh-hant' %}開始遊戲 <span class="play-rank">(Villager)</span> 🎮
+                    {% elif lang_code == 'th' %}เล่นเลย <span class="play-rank">(Villager)</span> 🎮
+                    {% elif lang_code == 'vi' %}Chơi ngay <span class="play-rank">(Villager)</span> 🎮
+                    {% elif lang_code == 'fr' %}Jouer <span class="play-rank">(Villager)</span> 🎮
+                    {% elif lang_code == 'de' %}Spielen <span class="play-rank">(Villager)</span> 🎮
+                    {% elif lang_code == 'it' %}Gioca <span class="play-rank">(Villager)</span> 🎮
+                    {% elif lang_code == 'es-es' or lang_code == 'es-mx' or lang_code == 'es' %}Jugar <span class="play-rank">(Villager)</span> 🎮
+                    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Jogar <span class="play-rank">(Villager)</span> 🎮
+                    {% else %}Play <span class="play-rank">(Villager)</span> 🎮{% endif %}</span>
                 </a>
+                <p class="play-rank-below">(Villager)</p>
 
                 {% include 'includes/top_login_text_link.html' %}
                 {% else %}
@@ -834,20 +869,22 @@ function startFirstTasteWithIntro(event, url) {
             </div>      
 
             <div class="hero-buttons hero-buttons-single">
-                <a href="{% url 'game_start' %}?lang={{ lang_code }}" class="explore-btn btn-green btn-play-main">
-                    {% if lang_code == 'ja' %}クイズで遊ぶ 🎮
-                    {% elif lang_code == 'ko' %}퀴즈 풀기 🎮
-                    {% elif lang_code == 'zh-cn' %}玩词汇测验 🎮
-                    {% elif lang_code == 'zh-hant' %}玩詞彙測驗 🎮
-                    {% elif lang_code == 'th' %}เล่นควิซคำศัพท์ 🎮
-                    {% elif lang_code == 'vi' %}Chơi đố vui từ vựng 🎮
-                    {% elif lang_code == 'fr' %}Jouer au quiz 🎮
-                    {% elif lang_code == 'de' %}Quiz spielen 🎮
-                    {% elif lang_code == 'it' %}Gioca al quiz 🎮
-                    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Jugar al quiz 🎮
-                    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Jogar o quiz 🎮
-                    {% else %}Play Vocab Quiz 🎮{% endif %}
+                <a href="{% url 'game_start' %}?lang={{ lang_code }}" class="explore-btn btn-green btn-play-main play-with-rank">
+                    <span class="play-label">
+                    {% if lang_code == 'ja' %}クイズで遊ぶ <span class="play-rank">({{ user.profile.rank_info.name }})</span> 🎮
+                    {% elif lang_code == 'ko' %}퀴즈 풀기 <span class="play-rank">({{ user.profile.rank_info.name }})</span> 🎮
+                    {% elif lang_code == 'zh-cn' %}玩词汇测验 <span class="play-rank">({{ user.profile.rank_info.name }})</span> 🎮
+                    {% elif lang_code == 'zh-hant' %}玩詞彙測驗 <span class="play-rank">({{ user.profile.rank_info.name }})</span> 🎮
+                    {% elif lang_code == 'th' %}เล่นควิซคำศัพท์ <span class="play-rank">({{ user.profile.rank_info.name }})</span> 🎮
+                    {% elif lang_code == 'vi' %}Chơi đố vui từ vựng <span class="play-rank">({{ user.profile.rank_info.name }})</span> 🎮
+                    {% elif lang_code == 'fr' %}Jouer au quiz <span class="play-rank">({{ user.profile.rank_info.name }})</span> 🎮
+                    {% elif lang_code == 'de' %}Quiz spielen <span class="play-rank">({{ user.profile.rank_info.name }})</span> 🎮
+                    {% elif lang_code == 'it' %}Gioca al quiz <span class="play-rank">({{ user.profile.rank_info.name }})</span> 🎮
+                    {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Jugar al quiz <span class="play-rank">({{ user.profile.rank_info.name }})</span> 🎮
+                    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Jogar o quiz <span class="play-rank">({{ user.profile.rank_info.name }})</span> 🎮
+                    {% else %}Play Vocab Quiz <span class="play-rank">({{ user.profile.rank_info.name }})</span> 🎮{% endif %}</span>
                 </a>
+                <p class="play-rank-below">({{ user.profile.rank_info.name }})</p>
             </div>
         {% endif %}
 

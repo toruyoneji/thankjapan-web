@@ -192,13 +192,7 @@
 <div id="premium-account-container">
     <div class="app-content-fix">
         <div class="settings-card 
-            {% if total_score < 50 %} card-paper
-            {% elif total_score < 100 %} card-wood
-            {% elif total_score < 200 %} card-silver
-            {% elif total_score < 500 %} card-gold
-            {% elif total_score < 1000 %} card-platinum
-            {% else %} card-shogun
-            {% endif %}">
+            {{ rank_progress.rank.card }}">
 
             
             <div class="rank-hero">
@@ -206,19 +200,7 @@
                     <div class="rank-avatar">{{ user.username|slice:":1"|upper }}</div>
                     <span class="rank-username">{{ user.username }}</span>
                     <div style="border: 1px solid var(--tj-tea-dark); padding: 4px 10px; border-radius: 4px; display: inline-block; font-size: 0.8rem; background: #fff; color: var(--tj-tea-dark); font-weight: bold; margin-top: 10px;">
-                        {% with s=total_score %}
-                            {% if s >= 2000 %}🗾 伝説 (Legend)
-                            {% elif s >= 1200 %}👑 大将軍 (General)
-                            {% elif s >= 900 %}🐎 将軍 (Shogun)
-                            {% elif s >= 650 %}🏯 大名 (Daimyo)
-                            {% elif s >= 450 %}🚩 旗本 (Hatamoto)
-                            {% elif s >= 300 %}⚔️ 侍 (Samurai)
-                            {% elif s >= 200 %}🥷 忍者 (Ninja)
-                            {% elif s >= 100 %}🚣 浪人 (Ronin)
-                            {% elif s >= 50 %}🎒 旅人 (Traveler)
-                            {% else %}🌾 村人 (Villager)
-                            {% endif %}
-                        {% endwith %}
+                        {{ rank_progress.rank.emoji }} {{ rank_progress.rank.ja }} ({{ rank_progress.rank.name }})
                     </div>
                 </div>
             </div>
