@@ -1,0 +1,23 @@
+{% comment %}
+Top page, logged-out visitor: a plain "log in here" text link under the game
+button, only for a device that has logged in before (show_login_cta, from
+the tj_has_account cookie - see context_processors.login_cta_status). A
+first-time visitor gets nothing here; the bottom nav still reaches
+login/registration for everyone.
+{% endcomment %}
+{% if show_login_cta %}
+<a href="{% url 'player_login' %}?lang={{ lang_code }}" class="top-login-text-link">
+    {% if lang_code == 'ja' %}ログインはこちら
+    {% elif lang_code == 'ko' %}로그인은 여기
+    {% elif lang_code == 'zh-cn' %}点击这里登录
+    {% elif lang_code == 'zh-hant' %}點擊這裡登入
+    {% elif lang_code == 'th' %}เข้าสู่ระบบที่นี่
+    {% elif lang_code == 'vi' %}Đăng nhập tại đây
+    {% elif lang_code == 'fr' %}Se connecter ici
+    {% elif lang_code == 'de' %}Hier anmelden
+    {% elif lang_code == 'it' %}Accedi qui
+    {% elif lang_code == 'es-es' or lang_code == 'es-mx' or lang_code == 'es' %}Inicia sesión aquí
+    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Faça login aqui
+    {% else %}Log in here{% endif %}
+</a>
+{% endif %}

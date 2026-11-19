@@ -215,7 +215,26 @@
     border-bottom-width: 2px !important;
 }
 
-.hero-buttons.hero-buttons-single { justify-content: center !important; }
+.hero-buttons.hero-buttons-single { justify-content: center !important; flex-direction: column !important; }
+
+/* Guests who have logged in on this device before (tj_has_account) get a
+   plain text link under the game button instead of the old big
+   login/register buttons - see includes/top_login_text_link.html. */
+.top-login-text-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    padding: 10px 18px;
+    margin: 2px 0 6px;
+    box-sizing: border-box;
+    font-family: 'Zen Maru Gothic', 'Inter', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #d4af37 !important;
+    text-decoration: underline !important;
+    text-underline-offset: 3px;
+}
 /* Logged-in top page (2026-11-19): the play button is the only CTA left
    after the "Strategy Guide" button was removed (the bottom nav's "Learn"
    still leads to the category list) - so it's centered and a size up. */
@@ -271,11 +290,6 @@
 @keyframes tutorialHintBounce {
     0%, 100% { transform: translateX(-50%) translateY(0); }
     50% { transform: translateX(-50%) translateY(6px); }
-}
-
-.btn-yellow {
-    background: linear-gradient(135deg, #f4d58d, #d4af37) !important;
-    color: #1a1a1a !important;
 }
 
 
@@ -730,9 +744,9 @@ function startFirstTasteWithIntro(event, url) {
                     </li>
                 </ul>
             </div>
-            <div class="hero-buttons">
+            <div class="hero-buttons hero-buttons-single">
                 {% if has_played %}
-                <a href="{% url 'game_start' %}?lang={{ lang_code }}" class="explore-btn btn-green">
+                <a href="{% url 'game_start' %}?lang={{ lang_code }}" class="explore-btn btn-green btn-play-main">
                     {% if lang_code == 'ja' %}プレイする 🎮
                     {% elif lang_code == 'ko' %}플레이하기 🎮
                     {% elif lang_code == 'zh-cn' %}开始游戏 🎮
@@ -747,69 +761,7 @@ function startFirstTasteWithIntro(event, url) {
                     {% else %}Play 🎮{% endif %}
                 </a>
 
-                {% if show_login_cta %}
-                <a href="{% url 'player_login' %}?lang={{ lang_code }}" class="explore-btn btn-yellow">
-                    {% if lang_code == 'ja' %}ログインする
-                    {% elif lang_code == 'ko' %}로그인하기
-                    {% elif lang_code == 'zh-cn' %}登录
-                    {% elif lang_code == 'zh-hant' %}登入
-                    {% elif lang_code == 'th' %}เข้าสู่ระบบ
-                    {% elif lang_code == 'vi' %}Đăng nhập
-                    {% elif lang_code == 'fr' %}Se connecter
-                    {% elif lang_code == 'de' %}Anmelden
-                    {% elif lang_code == 'it' %}Accedi
-                    {% elif lang_code == 'es-es' or lang_code == 'es-mx' or lang_code == 'es' %}Iniciar sesión
-                    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Entrar
-                    {% else %}Log In{% endif %}
-                </a>
-                <p class="cta-subtext">
-                    <a href="{% url 'player_register' %}?lang={{ lang_code }}" style="color: rgba(0,0,0,0.65); text-decoration: underline;">
-                    {% if lang_code == 'ja' %}アカウントをお持ちでない方はこちら
-                    {% elif lang_code == 'ko' %}계정이 없으신가요? 회원가입은 여기
-                    {% elif lang_code == 'zh-cn' %}还没有账号？点击注册
-                    {% elif lang_code == 'zh-hant' %}還沒有帳號？點擊註冊
-                    {% elif lang_code == 'th' %}ยังไม่มีบัญชี? สมัครที่นี่
-                    {% elif lang_code == 'vi' %}Chưa có tài khoản? Đăng ký tại đây
-                    {% elif lang_code == 'fr' %}Pas encore de compte ? Inscrivez-vous ici
-                    {% elif lang_code == 'de' %}Noch kein Konto? Hier registrieren
-                    {% elif lang_code == 'it' %}Non hai un account? Registrati qui
-                    {% elif lang_code == 'es-es' or lang_code == 'es-mx' or lang_code == 'es' %}¿No tienes cuenta? Regístrate aquí
-                    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Não tem uma conta? Cadastre-se aqui
-                    {% else %}Don't have an account? Register here{% endif %}
-                    </a>
-                </p>
-                {% else %}
-                <a href="{% url 'player_register' %}?lang={{ lang_code }}" class="explore-btn btn-yellow">
-                    {% if lang_code == 'ja' %}無料で始めてみる
-                    {% elif lang_code == 'ko' %}무료로 시작하기
-                    {% elif lang_code == 'zh-cn' %}免费开始
-                    {% elif lang_code == 'zh-hant' %}免費開始
-                    {% elif lang_code == 'th' %}เริ่มต้นใช้งานฟรี
-                    {% elif lang_code == 'vi' %}Bắt đầu miễn phí
-                    {% elif lang_code == 'fr' %}Commencer gratuitement
-                    {% elif lang_code == 'de' %}Kostenlos starten
-                    {% elif lang_code == 'it' %}Inizia gratuitamente
-                    {% elif lang_code == 'es-es' or lang_code == 'es-mx' or lang_code == 'es' %}Empezar gratis
-                    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Começar grátis
-                    {% else %}Start for Free{% endif %}
-                </a>
-                <p class="cta-subtext">
-                    <a href="{% url 'player_login' %}?lang={{ lang_code }}" style="color: rgba(0,0,0,0.65); text-decoration: underline;">
-                    {% if lang_code == 'ja' %}すでにアカウントをお持ちの方はこちら
-                    {% elif lang_code == 'ko' %}이미 계정이 있으신가요? 로그인은 여기
-                    {% elif lang_code == 'zh-cn' %}已有账号？点击登录
-                    {% elif lang_code == 'zh-hant' %}已有帳號？點擊登入
-                    {% elif lang_code == 'th' %}มีบัญชีอยู่แล้ว? เข้าสู่ระบบที่นี่
-                    {% elif lang_code == 'vi' %}Đã có tài khoản? Đăng nhập tại đây
-                    {% elif lang_code == 'fr' %}Vous avez déjà un compte ? Connectez-vous ici
-                    {% elif lang_code == 'de' %}Schon ein Konto? Hier anmelden
-                    {% elif lang_code == 'it' %}Hai già un account? Accedi qui
-                    {% elif lang_code == 'es-es' or lang_code == 'es-mx' or lang_code == 'es' %}¿Ya tienes cuenta? Inicia sesión aquí
-                    {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Já tem uma conta? Faça login aqui
-                    {% else %}Already have an account? Login here{% endif %}
-                    </a>
-                </p>
-                {% endif %}
+                {% include 'includes/top_login_text_link.html' %}
                 {% else %}
                 <a href="{% url 'game_restart' %}?difficulty=first_taste&lang={{ lang_code }}" class="explore-btn btn-green tutorial-hint-target" onclick="return startFirstTasteWithIntro(event, this.href);">
                     {% include 'includes/tutorial_hint_bubble.html' %}
@@ -840,6 +792,7 @@ function startFirstTasteWithIntro(event, url) {
                     {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Sem necessidade de cadastro
                     {% else %}No sign-up needed{% endif %}
                 </p>
+                {% include 'includes/top_login_text_link.html' %}
                 {% endif %}
             </div>
 

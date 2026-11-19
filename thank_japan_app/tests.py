@@ -6408,3 +6408,75 @@ class ThreeChoiceTextPerLocaleTests(TestCase):
                 self.assertIn(YOUR_ANSWER_LABEL_BY_LOCALE[lang], body)
                 for old in OLD_YOUR_INPUT_LABELS:
                     self.assertNotIn(old, body)
+
+
+TOP_LOGIN_LINK_BY_LOCALE = {
+    'ja': 'ログインはこちら', 'ko': '로그인은 여기', 'zh-cn': '点击这里登录', 'zh-hant': '點擊這裡登入',
+    'th': 'เข้าสู่ระบบที่นี่', 'vi': 'Đăng nhập tại đây', 'fr': 'Se connecter ici', 'de': 'Hier anmelden',
+    'it': 'Accedi qui', 'es-es': 'Inicia sesión aquí', 'es-mx': 'Inicia sesión aquí', 'pt': 'Faça login aqui',
+    'pt-br': 'Faça login aqui', 'en': 'Log in here', 'en-in': 'Log in here',
+}
+OLD_TOP_AUTH_BUTTON_MARKERS = [
+    'explore-btn btn-yellow', 'Start for Free', '無料で始めてみる', "Don't have an account? Register here",
+    'Already have an account? Login here', 'アカウントをお持ちでない方はこちら', 'すでにアカウントをお持ちの方はこちら',
+]
+
+
+class TopPageGuestLoginLinkTests(TestCase):
+    """2026-11-19: the logged-out top page keeps only the game button - the
+    big login/register buttons are gone. A device that has logged in before
+    (tj_has_account) gets a gold "log in here" text link instead; a first-
+    time visitor gets nothing (the bottom nav still reaches login/sign-up)."""
+
+    def _top(self, lang='en', **cookies):
+        client = Client()
+        for k, v in cookies.items():
+            client.cookies[k] = v
+        return client.get(reverse('toppage'), {'lang': lang}).content.decode()
+
+    def test_first_time_visitor_sees_only_the_first_taste_button(self):
+        body = self._top()
+        self.assertIn('difficulty=first_taste', body)
+        self.assertIn('startFirstTasteWithIntro', body)
+        self.assertNotIn('class="top-login-text-link"', body)
+        for marker in OLD_TOP_AUTH_BUTTON_MARKERS:
+            self.assertNotIn(marker, body)
+
+    def test_returning_guest_without_an_account_sees_only_the_game_button(self):
+        body = self._top(tj_has_played='1')
+        self.assertIn('explore-btn btn-green btn-play-main', body)
+        self.assertIn('hero-buttons hero-buttons-single', body)
+        self.assertNotIn('class="top-login-text-link"', body)
+        for marker in OLD_TOP_AUTH_BUTTON_MARKERS:
+            self.assertNotIn(marker, body)
+
+    def test_guest_who_logged_in_before_gets_the_text_link_per_locale(self):
+        for lang in LOCALE_QUERY_PARAMS:
+            with self.subTest(lang=lang):
+                body = self._top(lang, tj_has_played='1', tj_has_account='1')
+                self.assertIn('class="top-login-text-link"', body)
+                self.assertIn(f'href="{reverse("player_login")}?lang={lang}" class="top-login-text-link"', body)
+                self.assertIn(TOP_LOGIN_LINK_BY_LOCALE[lang], body)
+                for marker in OLD_TOP_AUTH_BUTTON_MARKERS:
+                    self.assertNotIn(marker, body)
+
+    def test_text_link_is_gold_underlined_and_tall_enough_to_tap(self):
+        body = self._top(tj_has_played='1', tj_has_account='1')
+        css = body[body.index('.top-login-text-link {'):]
+        css = css[:css.index('}')]
+        self.assertIn('min-height: 44px', css)
+        self.assertIn('font-size: 1rem', css)
+        self.assertIn('color: #d4af37', css)
+        self.assertIn('text-decoration: underline', css)
+
+    def test_logged_in_user_gets_no_text_link(self):
+        user = User.objects.create_user('login-link-user', password='pw-for-tests-only')
+        self.client.force_login(user)
+        self.client.cookies['tj_has_account'] = '1'
+        body = self.client.get(reverse('toppage')).content.decode()
+        self.assertNotIn('class="top-login-text-link"', body)
+
+    def test_nav_tutorial_hint_unaffected_for_returning_guest(self):
+        body = self._top(tj_has_played='1')
+        self.assertEqual(body.count('id="nav-tutorial-learn-hint"'), 1)
+        self.assertEqual(body.count('id="nav-tutorial-category-link-hint"'), 1)
