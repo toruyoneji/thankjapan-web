@@ -7190,3 +7190,132 @@ class PremiumFreeSampleConsistencyTests(TestCase):
         nav.cookies['tj_has_played'] = '1'
         nav.get(reverse('game_restart'), {'mode': 'single', 'model_type': 'free', 'slug': NAV_TUTORIAL_TARGET_SLUG})
         self.assertTrue(nav.session['nav_tutorial_single_active'])
+
+
+# ---------------------------------------------------------------------------
+# 2026-11-19: no bottom nav while playing (it hid the last answer choice),
+# tighter bottom spacing, and a "×" way out of the play screen.
+# ---------------------------------------------------------------------------
+
+HIDE_NAV_CSS = 'nav.bottom-nav { display: none !important; }'
+EXIT_CONFIRM_BY_LOCALE = {
+    'ja': 'ゲームをやめますか？このゲームのポイントは保存されません。', 'zh-hant': '要結束遊戲嗎？本局的分數不會被保存。',
+    'zh-cn': '要结束游戏吗？本局的分数不会被保存。', 'ko': '게임을 그만두시겠어요? 이번 게임의 포인트는 저장되지 않아요.',
+    'de': 'Spiel beenden? Die Punkte dieser Runde werden nicht gespeichert.',
+    'fr': 'Quitter la partie ? Les points de cette partie ne seront pas enregistrés.',
+    'es-es': '¿Salir del juego? Los puntos de esta partida no se guardarán.',
+    'es-mx': '¿Salir del juego? Los puntos de esta partida no se guardarán.',
+    'it': 'Vuoi uscire dal gioco? I punti di questa partita non verranno salvati.',
+    'pt': 'Sair do jogo? Os pontos desta partida não serão salvos.', 'pt-br': 'Sair do jogo? Os pontos desta partida não serão salvos.',
+    'vi': 'Thoát trò chơi? Điểm của lượt này sẽ không được lưu.', 'th': 'ออกจากเกมไหม? คะแนนของรอบนี้จะไม่ถูกบันทึก',
+    'en': "Quit the game? Points from this game won't be saved.", 'en-in': "Quit the game? Points from this game won't be saved.",
+}
+EXIT_REVIEW_CONFIRM_BY_LOCALE = {
+    'ja': '復習をやめて、単語ページに戻りますか？', 'zh-hant': '要結束複習並返回單字頁面嗎？', 'zh-cn': '要结束复习并返回单词页面吗？',
+    'ko': '복습을 그만두고 단어 페이지로 돌아갈까요?', 'de': 'Wiederholung beenden und zur Wortseite zurückkehren?',
+    'fr': 'Arrêter la révision et revenir à la page du mot ?', 'es-es': '¿Dejar el repaso y volver a la página de la palabra?',
+    'es-mx': '¿Dejar el repaso y volver a la página de la palabra?', 'it': 'Interrompere il ripasso e tornare alla pagina della parola?',
+    'pt': 'Parar a revisão e voltar à página da palavra?', 'pt-br': 'Parar a revisão e voltar à página da palavra?',
+    'vi': 'Dừng ôn tập và quay lại trang từ vựng?', 'th': 'หยุดทบทวนและกลับไปที่หน้าคำศัพท์ไหม?',
+    'en': 'Stop reviewing and go back to the word page?', 'en-in': 'Stop reviewing and go back to the word page?',
+}
+EXIT_ARIA_BY_LOCALE = {
+    'ja': 'ゲームをやめる', 'zh-hant': '結束遊戲', 'zh-cn': '结束游戏', 'ko': '게임 그만두기', 'de': 'Spiel beenden',
+    'fr': 'Quitter la partie', 'es-es': 'Salir del juego', 'es-mx': 'Salir del juego', 'it': 'Esci dal gioco',
+    'pt': 'Sair do jogo', 'pt-br': 'Sair do jogo', 'vi': 'Thoát trò chơi', 'th': 'ออกจากเกม', 'en': 'Quit game', 'en-in': 'Quit game',
+}
+
+
+class PlayScreenNavAndExitTests(TestCase):
+    def setUp(self):
+        self.word = ThankJapanModel.objects.create(name='exit-word', englishname='Dog', jpname='いぬ',
+                                                   category='animal', slug='exit-word', description='d', history='h')
+
+    def _play(self, client, difficulty='timeattack', lang=None):
+        _start_session_game(client, [self.word], difficulty=difficulty)
+        return client.get(reverse('game_play'), {'lang': lang} if lang else {}).content.decode()
+
+    def _exit_button(self, body):
+        start = body.index('id="game-exit-btn"')
+        return body[body.rindex('<button', 0, start):body.index('</button>', start)]
+
+    def test_play_screen_hides_the_bottom_nav(self):
+        body = self._play(self.client)
+        self.assertIn(HIDE_NAV_CSS, body)
+        self.assertIn('<nav class="bottom-nav">', body)  # still in the DOM for the shared scripts
+
+    def test_start_and_result_screens_keep_the_bottom_nav(self):
+        start = self.client.get(reverse('game_start')).content.decode()
+        self.assertIn('<nav class="bottom-nav">', start)
+        self.assertNotIn(HIDE_NAV_CSS, start)
+        _start_session_game(self.client, [self.word])
+        session = self.client.session
+        session['game_history'] = [{'index': 0, 'is_correct': True, 'points': 1, 'question_id': self.word.id,
+                                    'question_model': 'free', 'combo': 1, 'combo_bonus': 0,
+                                    'user_input': 'Dog', 'correct_answer': 'Dog'}]
+        session.save()
+        result = self.client.get(reverse('game_result')).content.decode()
+        self.assertIn('<nav class="bottom-nav">', result)
+        self.assertNotIn(HIDE_NAV_CSS, result)
+
+    def test_bottom_spacing_and_dynamic_viewport_height(self):
+        body = self._play(self.client)
+        self.assertIn('height: 100vh; height: 100dvh;', body)
+        self.assertIn('padding-bottom: calc(24px + env(safe-area-inset-bottom));', body)
+        self.assertNotIn('padding-bottom: calc(100px + env(safe-area-inset-bottom));', body)
+
+    def test_exit_button_visible_in_a_normal_game_and_goes_to_game_start(self):
+        body = self._play(self.client)
+        button = self._exit_button(body)
+        self.assertNotIn(' hidden', button)
+        self.assertIn('>×', button)
+        self.assertIn(f'const GAME_START_URL = "{reverse("game_start")}?lang=en";', body)
+        self.assertIn('return GAME_START_URL;', body)
+
+    def test_exit_button_hidden_server_side_for_first_taste_and_nav_tutorial(self):
+        self.assertIn(' hidden', self._exit_button(self._play(Client(), difficulty='first_taste')))
+        tsukemen = ThankJapanModel.objects.create(name='exit-tsukemen', englishname='Tsukemen', jpname='つけめん',
+                                                  category='cook', slug=NAV_TUTORIAL_TARGET_SLUG, description='d', history='h')
+        nav = Client()
+        nav.cookies['tj_has_played'] = '1'
+        nav.get(reverse('game_restart'), {'mode': 'single', 'model_type': 'free', 'slug': tsukemen.slug})
+        self.assertIn(' hidden', self._exit_button(nav.get(reverse('game_play')).content.decode()))
+
+    def test_exit_visibility_follows_the_tutorial_steps(self):
+        body = self._play(self.client)
+        # hidden while a guided step (first_taste Q1/Q2) or the nav tutorial is active, shown otherwise
+        self.assertIn("btn.hidden = IS_NAV_TUTORIAL_SINGLE || currentQuestionTutorialMode !== null;", body)
+        self.assertEqual(body.count('updateExitButton();'), 2)  # both the 3-choice and tile renderers
+
+    def test_word_review_exit_returns_to_the_word_page(self):
+        client = Client()
+        client.get(reverse('game_restart'), {'mode': 'single', 'model_type': 'free', 'slug': self.word.slug})
+        body = client.get(reverse('game_play')).content.decode()
+        self.assertNotIn(' hidden', self._exit_button(body))
+        detail = reverse('category_detail', kwargs={'category': 'animal', 'slug': self.word.slug})
+        from django.utils.html import escapejs
+        self.assertIn(f'const SINGLE_RETURN_URL = "{escapejs(detail)}";', body)
+        self.assertIn('if (SINGLE_RETURN_URL) return SINGLE_RETURN_URL;', body)
+
+    def test_first_taste_exit_goes_to_the_top_page(self):
+        body = self._play(Client(), difficulty='first_taste')
+        self.assertIn("if (GAME_DIFFICULTY === 'first_taste') {", body)
+        self.assertIn("const GAME_DIFFICULTY = 'first_taste';", body)
+
+    def test_abandoning_a_game_is_not_counted_as_completed(self):
+        _start_session_game(self.client, [self.word])
+        self.client.get(reverse('game_question_data'))
+        _submit_choice(self.client, 0)
+        # "×" just navigates away (to game_start) - the result screen is never reached
+        self.client.get(reverse('game_start'))
+        row = DailyActivitySummary.objects.get(activity_type=DailyActivitySummary.ACTIVITY_MAIN_GAME)
+        self.assertEqual((row.games_started, row.games_completed), (1, 0))
+
+    def test_exit_texts_in_every_language(self):
+        for lang in LOCALE_QUERY_PARAMS:
+            with self.subTest(lang=lang):
+                body = self._play(Client(), lang=lang)
+                self.assertIn(EXIT_CONFIRM_BY_LOCALE[lang], body)
+                self.assertIn(EXIT_REVIEW_CONFIRM_BY_LOCALE[lang], body)
+                self.assertIn(f'aria-label="{EXIT_ARIA_BY_LOCALE[lang]}"', self._exit_button(body).replace('&#x27;', "'"))
+                self.assertIn(HIDE_NAV_CSS, body)

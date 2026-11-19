@@ -52,12 +52,16 @@ body {
 }
 
 #premium-auth-container {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100dvh;
+    /* 100vh first as the fallback for browsers without dvh; 100dvh tracks the
+       mobile address bar showing/hiding so the bottom never ends up offscreen. */
+    position: fixed; top: 0; left: 0; width: 100%; height: 100vh; height: 100dvh;
     background-color: #faf6ec; overflow: hidden;
     display: flex; flex-direction: column; padding-top: 60px; box-sizing: border-box;
 }
 .app-content-fix {
-  flex: 1; width: 100%; overflow-y: auto; padding-bottom: calc(100px + env(safe-area-inset-bottom));
+  /* No bottom nav on this screen (see base_gameplay.html) - just enough room
+     under the last answer choice to clear the home indicator. */
+  flex: 1; width: 100%; overflow-y: auto; padding-bottom: calc(24px + env(safe-area-inset-bottom));
   -ms-overflow-style: none; scrollbar-width: none;
   /* Column flex so .main2 (its only in-flow child - the countdown/modal
      overlays are position:fixed and the i18n text block is [hidden], so
@@ -351,6 +355,12 @@ body {
     100% { transform: translate(-50%, -50%) scale(0.9) rotate(0deg); opacity: 0; }
 }
 
+.game-exit-btn {
+    flex-shrink: 0; width: 44px; height: 44px; border-radius: 50%; padding: 0;
+    background: rgba(0,0,0,0.06); border: 1px solid rgba(0,0,0,0.15); color: var(--ink);
+    font-size: 1.25rem; line-height: 1; cursor: pointer; -webkit-tap-highlight-color: transparent;
+}
+.game-exit-btn[hidden] { display: none; }
 .game-sound-toggle-btn {
     background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.3); border-radius: 50%;
     width: 34px; height: 34px; font-size: 1rem; cursor: pointer; color: #fff;
@@ -362,6 +372,32 @@ body {
     .ring-num { font-size: 1.1rem; }
     .prompt-reading { font-size: 1.6rem; }
     .choice-btn { font-size: 1.05rem; min-height: 58px; }
+    /* room for the "×" exit button on the narrowest phones */
+    .play-header { gap: 10px; }
+    .score-chip { padding: 6px 12px; white-space: nowrap; }
+}
+
+/* Short phones (iPhone SE/8 class, or any phone with the browser chrome
+   showing): tighten the vertical rhythm so the picture, the reading and all
+   three answers fit the first screen instead of the last answer starting
+   below the fold. Phones only - tablets/PC have their own blocks below. */
+@media (max-height: 700px) and (max-width: 767px) {
+    .main2 { padding-top: 10px !important; padding-bottom: 14px !important; }
+    .play-header { margin-bottom: 0; }
+    .sugoroku-track { margin: 0 0 6px; }
+    .ki-gauge-wrap { margin-bottom: 8px; }
+    .prompt-card { padding: 10px; margin-bottom: 10px; }
+    .prompt-card img { height: 110px; }
+    .prompt-reading { margin-top: 6px; font-size: 1.6rem; }
+    .prompt-romaji { font-size: 1rem; }
+    .choice-list { gap: 10px; }
+    .choice-btn { min-height: 54px; padding: 8px 14px; }
+}
+@media (max-height: 600px) and (max-width: 767px) {
+    .prompt-card img { height: 80px; }
+    .ki-gauge-wrap { margin-bottom: 4px; }
+    .choice-list { gap: 8px; }
+    .choice-btn { min-height: 48px; }
 }
 
 /* PC: the site header only holds a logo + a redundant score badge (this
@@ -664,6 +700,36 @@ body {
         {% else %}Want to save the words you've learned? Sign up and every word you get right is automatically tracked for you.
         {% endif %}
     </span>
+    <span id="i18n-exit-confirm">
+        {% if lang_code == 'ja' %}ゲームをやめますか？このゲームのポイントは保存されません。
+        {% elif lang_code == 'zh-hant' %}要結束遊戲嗎？本局的分數不會被保存。
+        {% elif lang_code == 'zh-cn' %}要结束游戏吗？本局的分数不会被保存。
+        {% elif lang_code == 'ko' %}게임을 그만두시겠어요? 이번 게임의 포인트는 저장되지 않아요.
+        {% elif lang_code == 'de' %}Spiel beenden? Die Punkte dieser Runde werden nicht gespeichert.
+        {% elif lang_code == 'fr' %}Quitter la partie ? Les points de cette partie ne seront pas enregistrés.
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}¿Salir del juego? Los puntos de esta partida no se guardarán.
+        {% elif lang_code == 'it' %}Vuoi uscire dal gioco? I punti di questa partita non verranno salvati.
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Sair do jogo? Os pontos desta partida não serão salvos.
+        {% elif lang_code == 'vi' %}Thoát trò chơi? Điểm của lượt này sẽ không được lưu.
+        {% elif lang_code == 'th' %}ออกจากเกมไหม? คะแนนของรอบนี้จะไม่ถูกบันทึก
+        {% else %}Quit the game? Points from this game won't be saved.
+        {% endif %}
+    </span>
+    <span id="i18n-exit-confirm-review">
+        {% if lang_code == 'ja' %}復習をやめて、単語ページに戻りますか？
+        {% elif lang_code == 'zh-hant' %}要結束複習並返回單字頁面嗎？
+        {% elif lang_code == 'zh-cn' %}要结束复习并返回单词页面吗？
+        {% elif lang_code == 'ko' %}복습을 그만두고 단어 페이지로 돌아갈까요?
+        {% elif lang_code == 'de' %}Wiederholung beenden und zur Wortseite zurückkehren?
+        {% elif lang_code == 'fr' %}Arrêter la révision et revenir à la page du mot ?
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}¿Dejar el repaso y volver a la página de la palabra?
+        {% elif lang_code == 'it' %}Interrompere il ripasso e tornare alla pagina della parola?
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Parar a revisão e voltar à página da palavra?
+        {% elif lang_code == 'vi' %}Dừng ôn tập và quay lại trang từ vựng?
+        {% elif lang_code == 'th' %}หยุดทบทวนและกลับไปที่หน้าคำศัพท์ไหม?
+        {% else %}Stop reviewing and go back to the word page?
+        {% endif %}
+    </span>
     <span id="i18n-single-guest-cta-btn">
         {% if lang_code == 'ja' %}今すぐ無料登録
         {% elif lang_code == 'zh-hant' %}立即免費註冊
@@ -683,6 +749,10 @@ body {
 
 <div class="main2">
     <div class="play-header">
+        {# Way out mid-game. Hidden during the guided tutorial steps (first_taste #}
+        {# Q1-2, the nav tutorial's つけめん round) - see updateExitButton().     #}
+        <button type="button" id="game-exit-btn" class="game-exit-btn"{% if difficulty == 'first_taste' or is_nav_tutorial_single %} hidden{% endif %}
+                aria-label="{% if lang_code == 'ja' %}ゲームをやめる{% elif lang_code == 'zh-hant' %}結束遊戲{% elif lang_code == 'zh-cn' %}结束游戏{% elif lang_code == 'ko' %}게임 그만두기{% elif lang_code == 'de' %}Spiel beenden{% elif lang_code == 'fr' %}Quitter la partie{% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Salir del juego{% elif lang_code == 'it' %}Esci dal gioco{% elif lang_code == 'pt' or lang_code == 'pt-br' %}Sair do jogo{% elif lang_code == 'vi' %}Thoát trò chơi{% elif lang_code == 'th' %}ออกจากเกม{% else %}Quit game{% endif %}">×</button>
         <div class="ring-wrap"{% if not has_timer %} hidden{% endif %}>
             <svg width="68" height="68" viewBox="0 0 68 68">
                 <circle class="ring-bg" cx="34" cy="34" r="28"></circle>
@@ -853,6 +923,8 @@ body {
     const RESULT_URL = '{% url "game_result" %}';
     {% if single_return_url %}const SINGLE_RETURN_URL = "{{ single_return_url|escapejs }}";{% else %}const SINGLE_RETURN_URL = null;{% endif %}
     const IS_NAV_TUTORIAL_SINGLE = {{ is_nav_tutorial_single|yesno:'true,false' }};
+    const GAME_DIFFICULTY = '{{ difficulty|escapejs }}';
+    const GAME_START_URL = "{% url 'game_start' %}?lang={{ lang_code }}";
     const SKIP_COUNTDOWN = {{ skip_countdown|yesno:'true,false' }};
     // 'choice' (3-choice meaning quiz) or 'tiles' - see GAME_QUESTION_FORMAT in views.py.
     const IS_CHOICE_FORMAT = '{{ question_format|escapejs }}' === 'choice';
@@ -1268,6 +1340,27 @@ body {
         }, 1500);
     }
 
+    // "×" mid-game exit. Leaving never visits the result screen, so the
+    // game's points are dropped and it isn't counted as completed
+    // (DailyActivitySummary.games_completed) - an abandoned game.
+    function exitDestination() {
+        if (SINGLE_RETURN_URL) return SINGLE_RETURN_URL;                  // word review -> its word page
+        if (GAME_DIFFICULTY === 'first_taste') {                           // trial -> top page
+            return localStorage.getItem('tj_top_url') || NAV_TUTORIAL_TOP_PAGE_URLS['{{ lang_code }}'] || NAV_TUTORIAL_TOP_PAGE_URLS['en'];
+        }
+        return GAME_START_URL;                                            // timed game -> start screen
+    }
+
+    function updateExitButton() {
+        const btn = document.getElementById('game-exit-btn');
+        if (btn) btn.hidden = IS_NAV_TUTORIAL_SINGLE || currentQuestionTutorialMode !== null;
+    }
+
+    document.getElementById('game-exit-btn').addEventListener('click', function () {
+        const message = i18n(SINGLE_RETURN_URL ? 'i18n-exit-confirm-review' : 'i18n-exit-confirm');
+        if (window.confirm(message)) window.location.href = exitDestination();
+    });
+
     function renderChoiceBoard(data) {
         currentQuestionId = data.question_id;
         currentQuestionModel = data.question_model;
@@ -1277,6 +1370,7 @@ body {
         const wrongGuide = Number.isInteger(data.tutorial_wrong_choice_index) ? data.tutorial_wrong_choice_index : null;
         choiceGuideIndex = correctGuide !== null ? correctGuide : wrongGuide;
         currentQuestionTutorialMode = correctGuide !== null ? 'correct' : (wrongGuide !== null ? 'wrong' : null);
+        updateExitButton();
 
         positionKoma(data.index);
         updateKiGauge(data.combo);
@@ -1308,6 +1402,7 @@ body {
         tutorialOrder = Array.isArray(data.tutorial_order) ? data.tutorial_order : null;
         tutorialWrongOrder = Array.isArray(data.tutorial_wrong_order) ? data.tutorial_wrong_order : null;
         currentQuestionTutorialMode = tutorialOrder ? 'correct' : (tutorialWrongOrder ? 'wrong' : null);
+        updateExitButton();
 
         positionKoma(data.index);
         updateKiGauge(data.combo);

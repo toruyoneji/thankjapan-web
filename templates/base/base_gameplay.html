@@ -1,6 +1,15 @@
 {% extends 'base/basecategory_top.html' %}
 
 {% block content %}
+{# 2026-11-19: the bottom nav (fixed, 75px) covered the last answer choice #}
+{# mid-game. Hidden here only - game_start/game_result don't use this base, #}
+{# so they keep it. display:none rather than removing it, because the      #}
+{# shared base's scripts (sky-colour bands, Learn/Language/Menu modals)     #}
+{# still look the nav up by selector.                                       #}
+<style>
+    nav.bottom-nav { display: none !important; }
+    .app-content { padding-bottom: 0 !important; }
+</style>
 <div id="premium-auth-container">
     <div class="app-content-fix">
         {% block game_main %}{% endblock %}
