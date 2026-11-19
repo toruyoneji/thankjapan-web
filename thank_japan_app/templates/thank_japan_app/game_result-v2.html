@@ -42,8 +42,8 @@
         {% elif code == 'score_1200' %}👑 {% if lang_code == 'ja' %}大将軍{% elif lang_code == 'zh-hant' %}大將軍{% elif lang_code == 'zh-cn' %}大将军{% elif lang_code == 'ko' %}대장군{% elif lang_code == 'de' %}Großgeneral{% elif lang_code == 'fr' %}Grand Général{% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Gran General{% elif lang_code == 'it' %}Grande Generale{% elif lang_code == 'pt' or lang_code == 'pt-br' %}Grande General{% elif lang_code == 'vi' %}Đại Tướng Quân{% elif lang_code == 'th' %}มหาแม่ทัพ{% else %}Grand General{% endif %}
         {% elif code == 'score_2000' %}🗾 {% if lang_code == 'ja' %}生ける伝説{% elif lang_code == 'zh-hant' %}傳說在世{% elif lang_code == 'zh-cn' %}传说在世{% elif lang_code == 'ko' %}살아있는 전설{% elif lang_code == 'de' %}Lebende Legende{% elif lang_code == 'fr' %}Légende Vivante{% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Leyenda Viviente{% elif lang_code == 'it' %}Leggenda Vivente{% elif lang_code == 'pt' or lang_code == 'pt-br' %}Lenda Viva{% elif lang_code == 'vi' %}Huyền Thoại Sống{% elif lang_code == 'th' %}ตำนานที่มีชีวิต{% else %}Living Legend{% endif %}
         {% elif code == 'games_1' %}🎮 {% if lang_code == 'ja' %}初めての冒険{% elif lang_code == 'zh-hant' %}初次冒險{% elif lang_code == 'zh-cn' %}初次冒险{% elif lang_code == 'ko' %}첫 모험{% elif lang_code == 'de' %}Erstes Abenteuer{% elif lang_code == 'fr' %}Première Aventure{% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Primera Aventura{% elif lang_code == 'it' %}Prima Avventura{% elif lang_code == 'pt' or lang_code == 'pt-br' %}Primeira Aventura{% elif lang_code == 'vi' %}Cuộc Phiêu Lưu Đầu Tiên{% elif lang_code == 'th' %}การผจญภัยครั้งแรก{% else %}First Adventure{% endif %}
-        {% elif code == 'combo_7' %}🔥 {% if lang_code == 'ja' %}コンボ入門{% elif lang_code == 'zh-hant' %}連擊新手{% elif lang_code == 'zh-cn' %}连击新手{% elif lang_code == 'ko' %}콤보 입문{% elif lang_code == 'de' %}Combo-Einsteiger{% elif lang_code == 'fr' %}Débutant Combo{% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Combo Inicial{% elif lang_code == 'it' %}Combo Iniziale{% elif lang_code == 'pt' or lang_code == 'pt-br' %}Combo Iniciante{% elif lang_code == 'vi' %}Khởi Đầu Combo{% elif lang_code == 'th' %}มือใหม่คอมโบ{% else %}Combo Starter{% endif %}
-        {% elif code == 'combo_12' %}⚡ {% if lang_code == 'ja' %}コンボマスター{% elif lang_code == 'zh-hant' %}連擊大師{% elif lang_code == 'zh-cn' %}连击大师{% elif lang_code == 'ko' %}콤보 마스터{% elif lang_code == 'de' %}Combo-Meister{% elif lang_code == 'fr' %}Maître du Combo{% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Maestro del Combo{% elif lang_code == 'it' %}Maestro Combo{% elif lang_code == 'pt' or lang_code == 'pt-br' %}Mestre do Combo{% elif lang_code == 'vi' %}Bậc Thầy Combo{% elif lang_code == 'th' %}ปรมาจารย์คอมโบ{% else %}Combo Master{% endif %}
+        {% elif code == 'combo_7' %}🔥 {% if lang_code == 'ja' %}コンボ入門{% elif lang_code == 'zh-hant' %}連擊新手{% elif lang_code == 'zh-cn' %}连击新手{% elif lang_code == 'ko' %}콤보 입문{% elif lang_code == 'de' %}Serieneinsteiger{% elif lang_code == 'fr' %}Débutant de Série{% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Racha Inicial{% elif lang_code == 'it' %}Serie Iniziale{% elif lang_code == 'pt' or lang_code == 'pt-br' %}Sequência Iniciante{% elif lang_code == 'vi' %}Khởi Đầu Chuỗi{% elif lang_code == 'th' %}มือใหม่คอมโบ{% else %}Combo Starter{% endif %}
+        {% elif code == 'combo_12' %}⚡ {% if lang_code == 'ja' %}コンボマスター{% elif lang_code == 'zh-hant' %}連擊大師{% elif lang_code == 'zh-cn' %}连击大师{% elif lang_code == 'ko' %}콤보 마스터{% elif lang_code == 'de' %}Serienmeister{% elif lang_code == 'fr' %}Maître des Séries{% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Maestro de la Racha{% elif lang_code == 'it' %}Maestro della Serie{% elif lang_code == 'pt' or lang_code == 'pt-br' %}Mestre da Sequência{% elif lang_code == 'vi' %}Bậc Thầy Chuỗi{% elif lang_code == 'th' %}ปรมาจารย์คอมโบ{% else %}Combo Master{% endif %}
         {% endif %}
     </div>
     {% endfor %}
@@ -706,7 +706,7 @@ tbody td { padding: 8px; border: none; font-size: 0.82rem; color: var(--ink); }
                 {% if difficulty == 'single' or difficulty == 'first_taste' %}
                 📝 {% if lang_code == 'ja' %}時間制限なし{% elif lang_code == 'zh-hant' %}無時間限制{% elif lang_code == 'zh-cn' %}无时间限制{% elif lang_code == 'ko' %}시간 제한 없음{% elif lang_code == 'de' %}Ohne Zeitlimit{% elif lang_code == 'fr' %}Sans limite de temps{% elif lang_code == 'it' %}Senza limite di tempo{% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Sin límite de tiempo{% elif lang_code == 'pt' or lang_code == 'pt-br' %}Sem limite de tempo{% elif lang_code == 'vi' %}Không giới hạn thời gian{% elif lang_code == 'th' %}ไม่จำกัดเวลา{% else %}No Time Limit{% endif %}
                 {% else %}
-                ⏱ {% if lang_code == 'ja' %}{{ game_time_limit }}秒チャレンジ{% elif lang_code == 'zh-hant' %}{{ game_time_limit }}秒挑戰{% elif lang_code == 'zh-cn' %}{{ game_time_limit }}秒挑战{% elif lang_code == 'ko' %}{{ game_time_limit }}초 챌린지{% elif lang_code == 'de' %}{{ game_time_limit }}-Sekunden-Challenge{% elif lang_code == 'fr' %}Défi {{ game_time_limit }} secondes{% elif lang_code == 'it' %}Sfida di {{ game_time_limit }} secondi{% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Desafío de {{ game_time_limit }} segundos{% elif lang_code == 'pt' or lang_code == 'pt-br' %}Desafio de {{ game_time_limit }} segundos{% elif lang_code == 'vi' %}Thử thách {{ game_time_limit }} giây{% elif lang_code == 'th' %}ท้าทาย {{ game_time_limit }} วินาที{% else %}{{ game_time_limit }}s Challenge{% endif %}
+                ⏱ {% if lang_code == 'ja' %}{{ game_time_limit }}秒チャレンジ{% elif lang_code == 'zh-hant' %}{{ game_time_limit }}秒挑戰{% elif lang_code == 'zh-cn' %}{{ game_time_limit }}秒挑战{% elif lang_code == 'ko' %}{{ game_time_limit }}초 챌린지{% elif lang_code == 'de' %}Challenge in {{ game_time_limit }} Sekunden{% elif lang_code == 'fr' %}Défi {{ game_time_limit }} secondes{% elif lang_code == 'it' %}Sfida di {{ game_time_limit }} secondi{% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Desafío de {{ game_time_limit }} segundos{% elif lang_code == 'pt' or lang_code == 'pt-br' %}Desafio de {{ game_time_limit }} segundos{% elif lang_code == 'vi' %}Thử thách {{ game_time_limit }} giây{% elif lang_code == 'th' %}ท้าทาย {{ game_time_limit }} วินาที{% else %}{{ game_time_limit }}s Challenge{% endif %}
                 {% endif %}
             </p>
 
@@ -737,12 +737,12 @@ tbody td { padding: 8px; border: none; font-size: 0.82rem; color: var(--ink); }
                 {% elif lang_code == 'zh-hant' %}最高連擊 {{ max_combo }} 次！連擊獎勵
                 {% elif lang_code == 'zh-cn' %}最高连击 {{ max_combo }} 次！连击奖励
                 {% elif lang_code == 'ko' %}최대 {{ max_combo }}콤보 달성! 콤보 보너스
-                {% elif lang_code == 'fr' %}Combo max : {{ max_combo }} ! Bonus combo
-                {% elif lang_code == 'de' %}Max. Combo: {{ max_combo }}! Combo-Bonus
-                {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}¡Combo máximo: {{ max_combo }}! Bono de combo
-                {% elif lang_code == 'it' %}Combo massima: {{ max_combo }}! Bonus combo
-                {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Combo máximo: {{ max_combo }}! Bônus de combo
-                {% elif lang_code == 'vi' %}Combo tối đa: {{ max_combo }}! Thưởng combo
+                {% elif lang_code == 'fr' %}Meilleure série : {{ max_combo }} ! Bonus de série
+                {% elif lang_code == 'de' %}Beste Serie: {{ max_combo }}! Serienbonus
+                {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}¡Mejor racha: {{ max_combo }}! Bono de racha
+                {% elif lang_code == 'it' %}Miglior serie: {{ max_combo }}! Bonus serie
+                {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Melhor sequência: {{ max_combo }}! Bônus de sequência
+                {% elif lang_code == 'vi' %}Chuỗi cao nhất: {{ max_combo }}! Thưởng chuỗi
                 {% elif lang_code == 'th' %}คอมโบสูงสุด: {{ max_combo }}! โบนัสคอมโบ
                 {% else %}Max Combo: {{ max_combo }}! Combo Bonus
                 {% endif %}
@@ -751,7 +751,7 @@ tbody td { padding: 8px; border: none; font-size: 0.82rem; color: var(--ink); }
             {% endif %}
 
             <div class="ki-result-gauge">
-                <p class="ki-result-label">{% if lang_code == 'ja' %}気(コンボ){% else %}COMBO{% endif %} MAX {{ max_combo }}</p>
+                <p class="ki-result-label">{% if lang_code == 'ja' %}気(コンボ) MAX {{ max_combo }}{% elif lang_code == 'zh-hant' %}最高連擊 {{ max_combo }}{% elif lang_code == 'zh-cn' %}最高连击 {{ max_combo }}{% elif lang_code == 'ko' %}최대 콤보 {{ max_combo }}{% elif lang_code == 'de' %}BESTE SERIE {{ max_combo }}{% elif lang_code == 'fr' %}MEILLEURE SÉRIE {{ max_combo }}{% elif lang_code == 'es-es' or lang_code == 'es-mx' %}MEJOR RACHA {{ max_combo }}{% elif lang_code == 'it' %}MIGLIOR SERIE {{ max_combo }}{% elif lang_code == 'pt' or lang_code == 'pt-br' %}MELHOR SEQUÊNCIA {{ max_combo }}{% elif lang_code == 'vi' %}CHUỖI CAO NHẤT {{ max_combo }}{% elif lang_code == 'th' %}คอมโบสูงสุด {{ max_combo }}{% else %}COMBO MAX {{ max_combo }}{% endif %}</p>
                 <div class="ki-result-track">
                     <div class="ki-result-fill{% if max_combo >= 3 %} maxed{% endif %}" style="width: {% widthratio combo_gauge_capped 3 100 %}%;"></div>
                 </div>
@@ -924,21 +924,21 @@ tbody td { padding: 8px; border: none; font-size: 0.82rem; color: var(--ink); }
       </p>
       <div class="share-row">
         <a href="https://twitter.com/intent/tweet?text={{ share_message|urlencode }}&url={{ share_url|urlencode }}&hashtags=LearnJapanese,JapanQuiz,ThankJapan"
-            target="_blank" rel="noopener" aria-label="Share on X"
+            target="_blank" rel="noopener" aria-label="{% include 'includes/share_aria_label.html' with platform="X" %}"
             class="share-icon-btn share-icon-x">
             <svg viewBox="0 0 24 24" aria-hidden="true">
                 <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path>
             </svg>
         </a>
         <a href="https://line.me/R/msg/text/?{{ share_message|urlencode }}%0A{{ share_url|urlencode }}"
-            target="_blank" rel="noopener" aria-label="Share on LINE"
+            target="_blank" rel="noopener" aria-label="{% include 'includes/share_aria_label.html' with platform="LINE" %}"
             class="share-icon-btn share-icon-line">
             <svg viewBox="0 0 24 24" aria-hidden="true">
                 <path d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63h2.386c.346 0 .627.285.627.63 0 .349-.282.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.27.173-.51.43-.595.06-.023.136-.033.194-.033.195 0 .375.104.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63.346 0 .628.285.628.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.348 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.281.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314"></path>
             </svg>
         </a>
         <a href="https://wa.me/?text={{ share_message|urlencode }}%20{{ share_url|urlencode }}"
-            target="_blank" rel="noopener" aria-label="Share on WhatsApp"
+            target="_blank" rel="noopener" aria-label="{% include 'includes/share_aria_label.html' with platform="WhatsApp" %}"
             class="share-icon-btn share-icon-whatsapp">
             <svg viewBox="0 0 24 24" aria-hidden="true">
                 <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"></path>

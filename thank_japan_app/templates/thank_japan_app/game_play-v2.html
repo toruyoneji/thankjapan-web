@@ -340,8 +340,9 @@ body {
 
 /* ---------- combo popup (unchanged from the old multiple-choice screen) ---------- */
 .combo-popup {
+    max-width: 96vw;
     position: fixed; top: 38%; left: 50%; transform: translate(-50%, -50%) scale(0);
-    font-size: 2.4rem; font-weight: 900; font-family: 'Poppins', sans-serif; z-index: 9999;
+    font-size: min(2.4rem, 8.5vw); font-weight: 900; font-family: 'Poppins', 'Noto Sans JP', sans-serif; z-index: 9999;
     pointer-events: none; text-shadow: 0 0 10px rgba(0,0,0,0.35), 0 0 22px currentColor;
     white-space: nowrap; animation: comboPop 1.1s cubic-bezier(.34,1.56,.64,1) forwards;
 }
@@ -700,6 +701,21 @@ body {
         {% else %}Want to save the words you've learned? Sign up and every word you get right is automatically tracked for you.
         {% endif %}
     </span>
+    <span id="i18n-combo-popup">
+        {% if lang_code == 'ja' %}__N__コンボ！
+        {% elif lang_code == 'zh-hant' %}__N__ 連擊！
+        {% elif lang_code == 'zh-cn' %}__N__ 连击！
+        {% elif lang_code == 'ko' %}__N__ 콤보!
+        {% elif lang_code == 'de' %}__N__ in Folge!
+        {% elif lang_code == 'fr' %}Série de __N__ !
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}¡Racha de __N__!
+        {% elif lang_code == 'it' %}Serie di __N__!
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Sequência de __N__!
+        {% elif lang_code == 'vi' %}Chuỗi __N__!
+        {% elif lang_code == 'th' %}คอมโบ __N__!
+        {% else %}__N__ COMBO!
+        {% endif %}
+    </span>
     <span id="i18n-exit-confirm">
         {% if lang_code == 'ja' %}ゲームをやめますか？このゲームのポイントは保存されません。
         {% elif lang_code == 'zh-hant' %}要結束遊戲嗎？本局的分數不會被保存。
@@ -764,7 +780,7 @@ body {
             {% if lang_code == 'ja' %}スコア{% elif lang_code == 'zh-hant' or lang_code == 'zh-cn' %}分數{% elif lang_code == 'ko' %}점수{% elif lang_code == 'de' %}Punkte{% elif lang_code == 'fr' %}Score{% elif lang_code == 'it' %}Punti{% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Puntos{% elif lang_code == 'pt' or lang_code == 'pt-br' %}Pontos{% elif lang_code == 'vi' %}Điểm{% elif lang_code == 'th' %}คะแนน{% else %}Score{% endif %}
             <span class="n" id="score-num">{{ score }}</span>
         </div>
-        <button type="button" id="game-sound-toggle" class="game-sound-toggle-btn" aria-label="Toggle Sound"><span id="game-sound-icon">🔊</span></button>
+        <button type="button" id="game-sound-toggle" class="game-sound-toggle-btn" aria-label="{% if lang_code == 'ja' %}サウンドの切り替え{% elif lang_code == 'zh-hant' %}切換音效{% elif lang_code == 'zh-cn' %}切换音效{% elif lang_code == 'ko' %}사운드 켜기/끄기{% elif lang_code == 'de' %}Ton ein/aus{% elif lang_code == 'fr' %}Activer/désactiver le son{% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Activar/desactivar el sonido{% elif lang_code == 'it' %}Attiva/disattiva l'audio{% elif lang_code == 'pt' or lang_code == 'pt-br' %}Ativar/desativar o som{% elif lang_code == 'vi' %}Bật/tắt âm thanh{% elif lang_code == 'th' %}เปิด/ปิดเสียง{% else %}Toggle Sound{% endif %}"><span id="game-sound-icon">🔊</span></button>
     </div>
 
     <div class="sugoroku-track" id="sugoroku-track">
@@ -776,7 +792,7 @@ body {
     </div>
 
     <div class="ki-gauge-wrap">
-        <div class="ki-gauge-label"><span>{% if lang_code == 'ja' %}気(コンボ){% else %}COMBO{% endif %}</span><span id="ki-gauge-text">0</span></div>
+        <div class="ki-gauge-label"><span>{% if lang_code == 'ja' %}気(コンボ){% elif lang_code == 'zh-hant' %}連擊{% elif lang_code == 'zh-cn' %}连击{% elif lang_code == 'ko' %}콤보{% elif lang_code == 'de' %}SERIE{% elif lang_code == 'fr' %}SÉRIE{% elif lang_code == 'es-es' or lang_code == 'es-mx' %}RACHA{% elif lang_code == 'it' %}SERIE{% elif lang_code == 'pt' or lang_code == 'pt-br' %}SEQUÊNCIA{% elif lang_code == 'vi' %}CHUỖI{% elif lang_code == 'th' %}คอมโบ{% else %}COMBO{% endif %}</span><span id="ki-gauge-text">0</span></div>
         <div class="ki-gauge-track">
             <div class="ki-gauge-fill" id="ki-gauge-fill"></div>
         </div>
@@ -1549,7 +1565,7 @@ body {
         const tier = combo >= 3 ? 'tier-orange' : 'tier-yellow';
         const el = document.createElement('div');
         el.className = 'combo-popup ' + tier;
-        el.textContent = combo + ' COMBO!';
+        el.textContent = i18n('i18n-combo-popup').replace('__N__', combo);
         document.body.appendChild(el);
         setTimeout(() => el.remove(), 1150);
     }

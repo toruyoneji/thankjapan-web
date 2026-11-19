@@ -1008,7 +1008,7 @@ NO_TIME_LIMIT_BY_LOCALE = {
 
 TIMED_CHALLENGE_BY_LOCALE = {  # game length = views.GAME_TIME_LIMIT_SECONDS (45s since 2026-11-19)
     'ja': '45秒チャレンジ', 'zh-hant': '45秒挑戰', 'zh-cn': '45秒挑战',
-    'ko': '45초 챌린지', 'de': '45-Sekunden-Challenge', 'fr': 'Défi 45 secondes',
+    'ko': '45초 챌린지', 'de': 'Challenge in 45 Sekunden', 'fr': 'Défi 45 secondes',
     'es-es': 'Desafío de 45 segundos', 'es-mx': 'Desafío de 45 segundos',
     'it': 'Sfida di 45 secondi', 'pt': 'Desafio de 45 segundos', 'pt-br': 'Desafio de 45 segundos',
     'vi': 'Thử thách 45 giây', 'th': 'ท้าทาย 45 วินาที',
@@ -2601,7 +2601,7 @@ PREMIUM_INFO_DOUBLE_POINTS_PHRASE_BY_LOCALE = {  # removed from the benefit list
 PREMIUM_INFO_DETAIL_PAGES_PHRASE_BY_LOCALE = {
     'en': 'Every Premium Word&nbsp;<strong>Detail Page</strong>', 'en-in': 'Every Premium Word&nbsp;<strong>Detail Page</strong>',
     'ja': 'プレミアム単語の&nbsp;<strong>詳細ページを全部見られる</strong>',
-    'de': 'Alle Premium-Wörter&nbsp;<strong>im Detail ansehen</strong>',
+    'de': 'Alle Premiumwörter&nbsp;<strong>im Detail ansehen</strong>',
     'es-es': 'Todas las palabras premium&nbsp;<strong>en detalle</strong>', 'es-mx': 'Todas las palabras premium&nbsp;<strong>en detalle</strong>',
     'fr': 'Mots premium :&nbsp;<strong>toutes les fiches détaillées</strong>',
     'it': 'Parole premium:&nbsp;<strong>tutte le schede dettagliate</strong>',
@@ -6473,7 +6473,7 @@ ACCOUNT_SETTINGS_URL_NAMES = [
 ]
 LEVEL_UP_TITLE_BY_LOCALE = {
     'ja': 'レベルアップ！新しいカテゴリーが解放されました', 'zh-hant': '等級提升！已解鎖新的類別', 'zh-cn': '等级提升！已解锁新的类别',
-    'ko': '레벨 업! 새로운 카테고리가 열렸어요', 'de': 'Level-Up! Neue Kategorien freigeschaltet',
+    'ko': '레벨 업! 새로운 카테고리가 열렸어요', 'de': 'Neues Level! Neue Kategorien freigeschaltet',
     'fr': 'Niveau supérieur ! Nouvelles catégories débloquées', 'es-es': '¡Subiste de nivel! Nuevas categorías desbloqueadas',
     'es-mx': '¡Subiste de nivel! Nuevas categorías desbloqueadas', 'it': 'Livello superiore! Nuove categorie sbloccate',
     'pt': 'Subiu de nível! Novas categorias desbloqueadas', 'pt-br': 'Subiu de nível! Novas categorias desbloqueadas',
@@ -6489,9 +6489,9 @@ NEXT_LEVEL_LINE_BY_LOCALE = {  # with 50pt to go
 }
 GUEST_LEVEL_LINE_BY_LOCALE = {
     'ja': '会員登録するとレベルが貯まります', 'zh-hant': '註冊會員即可累積等級', 'zh-cn': '注册会员即可累积等级', 'ko': '회원가입하면 레벨이 쌓여요',
-    'de': 'Registriere dich, um Level zu sammeln', 'fr': 'Inscrivez-vous pour faire monter votre niveau',
+    'de': 'Registriere dich, um Level zu sammeln', 'fr': 'Créez un compte pour faire monter votre niveau',
     'es-es': 'Regístrate para ir subiendo de nivel', 'es-mx': 'Regístrate para ir subiendo de nivel',
-    'it': 'Registrati per far salire il tuo livello', 'pt': 'Cadastre-se para subir de nível', 'pt-br': 'Cadastre-se para subir de nível',
+    'it': 'Registrati per far salire il tuo livello', 'pt': 'Crie uma conta para subir de nível', 'pt-br': 'Crie uma conta para subir de nível',
     'vi': 'Đăng ký để tích lũy cấp độ', 'th': 'สมัครสมาชิกเพื่อสะสมเลเวล', 'en': 'Sign up to build up your level', 'en-in': 'Sign up to build up your level',
 }
 # Lv1 -> Lv2 unlocks flower + cook
@@ -6881,7 +6881,7 @@ OLD_60_SECOND_PATTERN = re.compile(
     r'60 ?秒|60s\b|60-?[Ss]econd|60 sec|60초|60 giây|60 วินาที|60[ -]Sekunden|60 secondes|60 segundos|60 secondi')
 GAME_START_RULE_TIME_BY_LOCALE = {
     'ja': '⏱ 45秒タイムアタック', 'zh-hant': '⏱ 45秒限時挑戰', 'zh-cn': '⏱ 45秒限时挑战', 'ko': '⏱ 45초 타임어택',
-    'de': '⏱ 45-Sekunden-Time-Attack', 'fr': '⏱ Défi 45 secondes', 'es-es': '⏱ Contrarreloj de 45s',
+    'de': '⏱ 45 Sekunden auf Zeit', 'fr': '⏱ Défi 45 secondes', 'es-es': '⏱ Contrarreloj de 45s',
     'es-mx': '⏱ Contrarreloj de 45s', 'it': '⏱ Time Attack di 45s', 'pt': '⏱ Desafio de 45s', 'pt-br': '⏱ Desafio de 45s',
     'vi': '⏱ Thử thách thời gian 45 giây', 'th': '⏱ ท้าทายเวลา 45 วินาที', 'en': '⏱ 45s Time Attack', 'en-in': '⏱ 45s Time Attack',
 }
@@ -6896,7 +6896,7 @@ HOW_TO_PLAY_RULES_BY_LOCALE = {  # (time line, points line, levels line)
     'zh-hant': ('⏱ 45秒限時挑戰', '⭕ 答對+1分、💎 進階單字+2分', '🔓 等級提升後，出題類別會增加'),
     'zh-cn': ('⏱ 45秒限时挑战', '⭕ 答对+1分、💎 进阶单词+2分', '🔓 等级提升后，出题类别会增加'),
     'ko': ('⏱ 45초 타임어택', '⭕ 정답 +1점, 💎 프리미엄 단어 +2점', '🔓 랭크가 오르면 출제되는 카테고리가 늘어나요'),
-    'de': ('⏱ 45-Sekunden-Time-Attack', '⭕ Richtig +1 Pkt., 💎 Premium-Wörter +2 Pkt.', '🔓 Mit jedem Rang kommen neue Fragekategorien hinzu'),
+    'de': ('⏱ 45 Sekunden auf Zeit', '⭕ Richtig +1 Pkt., 💎 Premiumwörter +2 Pkt.', '🔓 Mit jedem Rang kommen neue Fragekategorien hinzu'),
     'fr': ('⏱ Défi 45 secondes', '⭕ Bonne réponse +1 pt, 💎 mots premium +2 pts', '🔓 Plus votre rang monte'),
     'es-es': ('⏱ Contrarreloj de 45 s', '⭕ Acierto +1 pt, 💎 palabras premium +2 pts', '🔓 Al subir de rango'),
     'es-mx': ('⏱ Contrarreloj de 45 s', '⭕ Acierto +1 pt, 💎 palabras premium +2 pts', '🔓 Al subir de rango'),
@@ -6905,8 +6905,8 @@ HOW_TO_PLAY_RULES_BY_LOCALE = {  # (time line, points line, levels line)
     'pt-br': ('⏱ Desafio de 45 s', '⭕ Acerto +1 pt, 💎 palavras premium +2 pts', '🔓 Ao subir de ranking'),
     'vi': ('⏱ Thử thách 45 giây', '⭕ Trả lời đúng +1 điểm, 💎 từ premium +2 điểm', '🔓 Thăng hạng để mở thêm danh mục câu hỏi'),
     'th': ('⏱ ท้าทายเวลา 45 วินาที', '⭕ ตอบถูก +1 คะแนน, 💎 คำพรีเมียม +2 คะแนน', '🔓 เมื่ออันดับสูงขึ้น'),
-    'en': ('⏱ 45-second time attack', '⭕ Correct +1pt, 💎 premium words +2pt, ⚡ from 3 in a row, +1pt per question', '🔓 Rank up to unlock more question categories'),
-    'en-in': ('⏱ 45-second time attack', '⭕ Correct +1pt, 💎 premium words +2pt', '🔓 Rank up to unlock more question categories'),
+    'en': ('⏱ Time attack, 45 seconds', '⭕ Correct +1pt, 💎 premium words +2pt, ⚡ from 3 in a row, +1pt per question', '🔓 Rank up to unlock more question categories'),
+    'en-in': ('⏱ Time attack, 45 seconds', '⭕ Correct +1pt, 💎 premium words +2pt', '🔓 Rank up to unlock more question categories'),
 }
 HOW_TO_PLAY_CLOSE_BY_LOCALE = {
     'ja': '閉じる ❌', 'zh-hant': '關閉 ❌', 'zh-cn': '关闭 ❌', 'de': 'Schließen ❌', 'fr': 'Fermer ❌',
@@ -6966,8 +6966,8 @@ class GameTimeLimitTests(TestCase):
             data = json.loads(self.client.get(reverse('game_question_data')).content)
             self.assertIn(data['seconds_left'], (29, 30))
             self.assertIn('⏱ 30s Time Attack', self.client.get(reverse('game_start')).content.decode())
-            self.assertIn('30-Second Challenge', build_combo_share_message('en', 3, 10))
-            self.assertIn('⏱ 30-second time attack', self.client.get(reverse('player_login')).content.decode())
+            self.assertIn('30 Second Challenge', build_combo_share_message('en', 3, 10))
+            self.assertIn('⏱ Time attack, 30 seconds', self.client.get(reverse('player_login')).content.decode())
 
     def test_no_60_second_wording_left_on_live_screens_per_locale(self):
         for lang in LOCALE_QUERY_PARAMS:
@@ -7319,3 +7319,252 @@ class PlayScreenNavAndExitTests(TestCase):
                 self.assertIn(EXIT_REVIEW_CONFIRM_BY_LOCALE[lang], body)
                 self.assertIn(f'aria-label="{EXIT_ARIA_BY_LOCALE[lang]}"', self._exit_button(body).replace('&#x27;', "'"))
                 self.assertIn(HIDE_NAV_CSS, body)
+
+
+# ---------------------------------------------------------------------------
+# 2026-11-20: game-screen fixed text in 15 languages (combo gauge label,
+# "COMBO MAX", the "N COMBO!" popup, screen-reader labels), and guards that a
+# 3-choice question never offers an empty answer.
+# ---------------------------------------------------------------------------
+
+from django.core.exceptions import ValidationError
+
+COMBO_LABEL_BY_LOCALE = {
+    'ja': '気(コンボ)', 'zh-hant': '連擊', 'zh-cn': '连击', 'ko': '콤보', 'de': 'SERIE', 'fr': 'SÉRIE',
+    'es-es': 'RACHA', 'es-mx': 'RACHA', 'it': 'SERIE', 'pt': 'SEQUÊNCIA', 'pt-br': 'SEQUÊNCIA',
+    'vi': 'CHUỖI', 'th': 'คอมโบ', 'en': 'COMBO', 'en-in': 'COMBO',
+}
+COMBO_POPUP_BY_LOCALE = {
+    'ja': '__N__コンボ！', 'zh-hant': '__N__ 連擊！', 'zh-cn': '__N__ 连击！', 'ko': '__N__ 콤보!', 'de': '__N__ in Folge!',
+    'fr': 'Série de __N__ !', 'es-es': '¡Racha de __N__!', 'es-mx': '¡Racha de __N__!', 'it': 'Serie di __N__!',
+    'pt': 'Sequência de __N__!', 'pt-br': 'Sequência de __N__!', 'vi': 'Chuỗi __N__!', 'th': 'คอมโบ __N__!',
+    'en': '__N__ COMBO!', 'en-in': '__N__ COMBO!',
+}
+COMBO_MAX_BY_LOCALE = {  # with max_combo = 4
+    'ja': '気(コンボ) MAX 4', 'zh-hant': '最高連擊 4', 'zh-cn': '最高连击 4', 'ko': '최대 콤보 4', 'de': 'BESTE SERIE 4',
+    'fr': 'MEILLEURE SÉRIE 4', 'es-es': 'MEJOR RACHA 4', 'es-mx': 'MEJOR RACHA 4', 'it': 'MIGLIOR SERIE 4',
+    'pt': 'MELHOR SEQUÊNCIA 4', 'pt-br': 'MELHOR SEQUÊNCIA 4', 'vi': 'CHUỖI CAO NHẤT 4', 'th': 'คอมโบสูงสุด 4',
+    'en': 'COMBO MAX 4', 'en-in': 'COMBO MAX 4',
+}
+SOUND_ARIA_BY_LOCALE = {
+    'ja': 'サウンドの切り替え', 'zh-hant': '切換音效', 'zh-cn': '切换音效', 'ko': '사운드 켜기/끄기', 'de': 'Ton ein/aus',
+    'fr': 'Activer/désactiver le son', 'es-es': 'Activar/desactivar el sonido', 'es-mx': 'Activar/desactivar el sonido',
+    'it': "Attiva/disattiva l'audio", 'pt': 'Ativar/desativar o som', 'pt-br': 'Ativar/desativar o som',
+    'vi': 'Bật/tắt âm thanh', 'th': 'เปิด/ปิดเสียง', 'en': 'Toggle Sound', 'en-in': 'Toggle Sound',
+}
+SHARE_ARIA_BY_LOCALE = {  # platform placeholder {p}
+    'ja': '{p}でシェア', 'zh-hant': '分享到 {p}', 'zh-cn': '分享到 {p}', 'ko': '{p}에 공유', 'de': 'Auf {p} teilen',
+    'fr': 'Partager sur {p}', 'es-es': 'Compartir en {p}', 'es-mx': 'Compartir en {p}', 'it': 'Condividi su {p}',
+    'pt': 'Compartilhar no {p}', 'pt-br': 'Compartilhar no {p}', 'vi': 'Chia sẻ lên {p}', 'th': 'แชร์ไปที่ {p}',
+    'en': 'Share on {p}', 'en-in': 'Share on {p}',
+}
+
+
+class GameScreenFixedTextLocaleTests(TestCase):
+    def setUp(self):
+        self.word = ThankJapanModel.objects.create(name='combo-word', englishname='Dog', jpname='いぬ',
+                                                   category='animal', slug='combo-word', description='d', history='h')
+
+    def _result(self, client, lang):
+        _start_session_game(client, [self.word])
+        session = client.session
+        session['game_history'] = [{'index': i, 'is_correct': True, 'points': 1, 'question_id': self.word.id,
+                                    'question_model': 'free', 'combo': i + 1, 'combo_bonus': 0,
+                                    'user_input': 'Dog', 'correct_answer': 'Dog'} for i in range(4)]
+        session.save()
+        return client.get(reverse('game_result'), {'lang': lang}).content.decode()
+
+    def test_play_screen_combo_texts_and_sound_label_per_locale(self):
+        for lang in LOCALE_QUERY_PARAMS:
+            with self.subTest(lang=lang):
+                client = Client()
+                _start_session_game(client, [self.word])
+                body = client.get(reverse('game_play'), {'lang': lang}).content.decode()
+                self.assertIn(f'<span>{COMBO_LABEL_BY_LOCALE[lang]}</span>', body)
+                self.assertIn(COMBO_POPUP_BY_LOCALE[lang], body)
+                self.assertIn(f'aria-label="{SOUND_ARIA_BY_LOCALE[lang]}"', body)
+                if lang not in ('en', 'en-in'):
+                    self.assertNotIn('<span>COMBO</span>', body)
+                    self.assertNotIn('aria-label="Toggle Sound"><span id="game-sound-icon">', body)
+
+    def test_combo_popup_is_built_from_the_translated_text(self):
+        client = Client()
+        _start_session_game(client, [self.word])
+        body = client.get(reverse('game_play')).content.decode()
+        self.assertIn("el.textContent = i18n('i18n-combo-popup').replace('__N__', combo);", body)
+        self.assertNotIn("combo + ' COMBO!'", body)
+        self.assertIn('font-size: min(2.4rem, 8.5vw);', body)  # long localized popups stay on 320px screens
+
+    def test_result_screen_combo_max_and_share_labels_per_locale(self):
+        for lang in LOCALE_QUERY_PARAMS:
+            with self.subTest(lang=lang):
+                body = self._result(Client(), lang)
+                self.assertIn(COMBO_MAX_BY_LOCALE[lang], body)
+                for platform in ('X', 'LINE', 'WhatsApp'):
+                    self.assertIn(f'aria-label="{SHARE_ARIA_BY_LOCALE[lang].format(p=platform)}"', body)
+                if lang not in ('en', 'en-in'):
+                    self.assertNotIn('COMBO MAX 4', body)
+                    self.assertNotIn('aria-label="Share on', body)
+
+
+class ChoicesNeverEmptyTests(TestCase):
+    """Regression guards (2026-11-20 audit): an empty answer button would be
+    unanswerable - the empty submission is always judged wrong."""
+
+    def setUp(self):
+        # a word with no translations at all (English only), dummies with
+        # some blank columns, one with English blank but others filled
+        self.target = ThankJapanModel.objects.create(name='safe-a', englishname='Pajamas', jpname='ぱじゃま',
+                                                     category='fashion', slug='safe-a', description='d', history='h')
+        ThankJapanModel.objects.create(name='safe-b', englishname='Hat', englishname_fr='Chapeau', jpname='ぼうし',
+                                       category='fashion', slug='safe-b', description='d', history='h')
+        ThankJapanModel.objects.create(name='safe-c', englishname='Shoes', jpname='くつ', englishname_ko='',
+                                       category='fashion', slug='safe-c', description='d', history='h')
+        ThankJapanModel.objects.create(name='safe-d', englishname='Scarf', jpname='まふらー',
+                                       category='fashion', slug='safe-d', description='d', history='h')
+
+    def test_choices_never_contain_an_empty_answer_in_any_language(self):
+        for lang in LOCALE_QUERY_PARAMS:
+            for word in ThankJapanModel.objects.filter(category='fashion'):
+                for _ in range(10):
+                    with self.subTest(lang=lang, word=word.slug):
+                        built = _build_choices(word, lang)
+                        self.assertTrue(all(c.strip() for c in built['choices']), built)
+                        self.assertTrue(built['answer_text'].strip())
+                        self.assertEqual(built['choices'][built['answer_index']], built['answer_text'])
+
+    def test_english_meaning_is_mandatory_so_an_all_blank_word_cannot_be_saved(self):
+        for model in (ThankJapanModel, ThankJapanPremium):
+            with self.subTest(model=model.__name__):
+                self.assertFalse(model._meta.get_field('englishname').blank)
+        word = ThankJapanModel(name='safe-blank', englishname='', jpname='から', category='fashion',
+                               slug='safe-blank', description='d', history='h')
+        with self.assertRaises(ValidationError) as ctx:
+            word.full_clean()
+        self.assertIn('englishname', ctx.exception.message_dict)
+
+
+# ---------------------------------------------------------------------------
+# 2026-11-20: no stylistic hyphens/dashes in the game wording, and one term
+# for "combo" per Western language (the game screen's word) everywhere.
+# ---------------------------------------------------------------------------
+
+STREAK_RULE_BY_LOCALE = {
+    'de': '⚡ Serienbonus +1 Pkt. ab 3 Richtigen in Folge!', 'fr': "⚡ Bonus de série +1 pt dès 3 bonnes réponses d'affilée !",
+    'es-es': '⚡ ¡Bono de racha +1 pt a partir de 3 aciertos seguidos!', 'es-mx': '⚡ ¡Bono de racha +1 pt a partir de 3 aciertos seguidos!',
+    'it': '⚡ Bonus serie +1 pt da 3 corrette di fila!', 'pt': '⚡ Bônus de sequência +1 pt a partir de 3 acertos seguidos!',
+    'pt-br': '⚡ Bônus de sequência +1 pt a partir de 3 acertos seguidos!', 'vi': '⚡ Thưởng chuỗi +1đ khi trả lời đúng 3 câu liên tiếp trở lên!',
+}
+STREAK_RESULT_LINE_BY_LOCALE = {  # max_combo = 3
+    'de': 'Beste Serie: 3! Serienbonus', 'fr': 'Meilleure série : 3 ! Bonus de série', 'es-es': '¡Mejor racha: 3! Bono de racha',
+    'es-mx': '¡Mejor racha: 3! Bono de racha', 'it': 'Miglior serie: 3! Bonus serie', 'pt': 'Melhor sequência: 3! Bônus de sequência',
+    'pt-br': 'Melhor sequência: 3! Bônus de sequência', 'vi': 'Chuỗi cao nhất: 3! Thưởng chuỗi',
+}
+STREAK_SHARE_BY_LOCALE = {  # mid tier, max_combo = 3
+    'de': '⚡Beste Serie: 3!', 'fr': '⚡Meilleure série : 3 !', 'es-es': '⚡¡Mejor racha: 3!', 'es-mx': '⚡¡Mejor racha: 3!',
+    'it': '⚡Miglior serie: 3!', 'pt': '⚡Melhor sequência: 3!', 'pt-br': '⚡Melhor sequência: 3!', 'vi': '⚡Chuỗi cao nhất 3!',
+}
+STREAK_BADGES_BY_LOCALE = {  # (combo_7, combo_12)
+    'de': ('Serieneinsteiger', 'Serienmeister'), 'fr': ('Débutant de Série', 'Maître des Séries'),
+    'es-es': ('Racha Inicial', 'Maestro de la Racha'), 'es-mx': ('Racha Inicial', 'Maestro de la Racha'),
+    'it': ('Serie Iniziale', 'Maestro della Serie'), 'pt': ('Sequência Iniciante', 'Mestre da Sequência'),
+    'pt-br': ('Sequência Iniciante', 'Mestre da Sequência'), 'vi': ('Khởi Đầu Chuỗi', 'Bậc Thầy Chuỗi'),
+}
+COMBO_KEPT_BY_LOCALE = {'ja': 'コンボ', 'ko': '콤보', 'zh-cn': '连击', 'zh-hant': '連擊', 'th': 'คอมโบ'}
+STREAK_LANGS = list(STREAK_RULE_BY_LOCALE)
+
+
+class WordingConsistencyTests(TestCase):
+    def setUp(self):
+        _create_social_apps()
+        self.word = ThankJapanModel.objects.create(name='wording-word', englishname='Dog', jpname='いぬ',
+                                                   category='animal', slug='wording-word', description='d', history='h')
+
+    def _result(self, client, lang):
+        _start_session_game(client, [self.word])
+        session = client.session
+        session['game_history'] = [{'index': i, 'is_correct': True, 'points': 1, 'question_id': self.word.id,
+                                    'question_model': 'free', 'combo': i + 1, 'combo_bonus': 0,
+                                    'user_input': 'Dog', 'correct_answer': 'Dog'} for i in range(3)]
+        session.save()
+        return client.get(reverse('game_result'), {'lang': lang}).content.decode()
+
+    def test_one_streak_term_on_start_result_share_and_badges(self):
+        user = User.objects.create_user('wording-user', password='pw-for-tests-only')
+        for code in ('combo_7', 'combo_12'):
+            Achievement.objects.create(user=user, code=code)
+        for lang in STREAK_LANGS:
+            with self.subTest(lang=lang):
+                start = Client().get(reverse('game_start'), {'lang': lang}).content.decode()
+                self.assertIn(STREAK_RULE_BY_LOCALE[lang], start)
+                result = self._result(Client(), lang)
+                self.assertIn(STREAK_RESULT_LINE_BY_LOCALE[lang], ' '.join(result.split()))
+                self.assertTrue(build_combo_share_message(lang, 3, 10).startswith(STREAK_SHARE_BY_LOCALE[lang]))
+                for screen in (start, result):
+                    # visible wording only (CSS class names like .combo-bonus are code, not text)
+                    self.assertNotRegex(screen, r'Bonus combo|Bono (de )?combo|Combo-Bonus|Bônus de combo|Thưởng combo')
+        account_urls = {'de': 'account_settingsde', 'fr': 'account_settingsfr', 'es-es': 'account_settingsesES',
+                        'es-mx': 'account_settingsesMX', 'it': 'account_settingsit', 'pt': 'account_settingspt',
+                        'pt-br': 'account_settingsptBR', 'vi': 'account_settingsvi'}
+        client = Client()
+        client.force_login(user)
+        for lang, url_name in account_urls.items():
+            with self.subTest(lang=lang, page='account_settings'):
+                body = client.get(reverse(url_name)).content.decode()
+                for name in STREAK_BADGES_BY_LOCALE[lang]:
+                    self.assertIn(name, body)
+        # the badge *codes* (earned records) are unchanged
+        self.assertEqual(set(Achievement.objects.filter(user=user).values_list('code', flat=True)), {'combo_7', 'combo_12'})
+
+    def test_badge_names_on_the_result_toast(self):
+        user = User.objects.create_user('wording-toast', password='pw-for-tests-only')
+        Profile.objects.filter(user=user).update(best_combo=0)
+        client = Client()
+        client.force_login(user)
+        for lang in STREAK_LANGS:
+            with self.subTest(lang=lang):
+                Achievement.objects.filter(user=user).delete()
+                _start_session_game(client, [self.word])
+                session = client.session
+                session['game_history'] = [{'index': i, 'is_correct': True, 'points': 1, 'question_id': self.word.id,
+                                            'question_model': 'free', 'combo': i + 1, 'combo_bonus': 0,
+                                            'user_input': 'Dog', 'correct_answer': 'Dog'} for i in range(12)]
+                session.pop('achievements_checked', None)
+                session.save()
+                body = client.get(reverse('game_result'), {'lang': lang}).content.decode()
+                toast = body[body.index('id="achievement-toast"'):body.index('</div>\n<script>')]
+                for name in STREAK_BADGES_BY_LOCALE[lang]:
+                    self.assertIn(name, toast)
+
+    def test_asian_languages_keep_their_combo_word(self):
+        for lang, word in COMBO_KEPT_BY_LOCALE.items():
+            with self.subTest(lang=lang):
+                self.assertIn(word, self._result(Client(), lang))
+
+    def test_no_stylistic_hyphens_in_the_reworded_texts(self):
+        removed = ['45-second', '45-Sekunden', '-Sekunden-Challenge', '-Second Challenge', 'er-Serie', 'Level-Up!',
+                   'Reise-Etikette', 'Business-Japanisch', 'Inscrivez-vous pour faire monter',
+                   'Cadastre-se para subir de nível', 'Maximal-Combo', 'Combo-Einsteiger', 'Combo-Meister']
+        for lang in LOCALE_QUERY_PARAMS:
+            with self.subTest(lang=lang):
+                pages = [Client().get(reverse(name), {'lang': lang}).content.decode()
+                         for name in ('game_start', 'player_login', 'premium_infode')]
+                pages.append(self._result(Client(), lang))
+                for tier_combo in (1, 3, 7):
+                    pages.append(build_combo_share_message(lang, tier_combo, 10))
+                for text in removed:
+                    for page in pages:
+                        self.assertNotIn(text, page)
+        # "Premium-Wörter": reworded on How to Play and the premium page; the
+        # older start-screen rule line keeps it (not part of this change)
+        for name in ('player_login', 'premium_infode'):
+            self.assertNotIn('Premium-Wörter', Client().get(reverse(name), {'lang': 'de'}).content.decode())
+        self.assertEqual(ranks.category_short_label('TourismEtiquette', 'de'), '🗺️ Reiseknigge')
+        self.assertEqual(ranks.category_short_label('BusinessJapanese', 'de'), '👔 Japanisch für den Beruf')
+
+    def test_grammatical_hyphens_are_kept(self):
+        _start_session_game(self.client, [self.word])
+        body = self.client.get(reverse('game_play'), {'lang': 'fr'}).content.decode()
+        self.assertIn('Inscrivez-vous', body)       # existing French imperative, untouched
+        pt = self.client.get(reverse('game_play'), {'lang': 'pt'}).content.decode()
+        self.assertIn('Cadastre-se', pt)              # existing Portuguese clitic, untouched
