@@ -1,6 +1,7 @@
 import importlib
 import json
 import re
+import time as time_module
 from datetime import timedelta
 from io import StringIO
 from unittest.mock import MagicMock, patch
@@ -19,6 +20,7 @@ from django.urls import reverse
 from django.utils import timezone
 
 from . import context_processors, ranks, tile_split
+from . import views as tj_views
 from .achievements import ACHIEVEMENT_CATALOG, check_and_unlock_achievements, get_achievement_progress
 from .models import DailyQuestion, Player, Profile, PremiumRenewalReward, ThankJapanModel, ThankJapanPremium, DailyActivitySummary, SiteVisitCounter, WordReviewLog, Achievement
 from .views import (
@@ -1004,13 +1006,13 @@ NO_TIME_LIMIT_BY_LOCALE = {
     'en': 'No Time Limit', 'en-in': 'No Time Limit',
 }
 
-SIXTY_SEC_CHALLENGE_BY_LOCALE = {
-    'ja': '60秒チャレンジ', 'zh-hant': '60秒挑戰', 'zh-cn': '60秒挑战',
-    'ko': '60초 챌린지', 'de': '60-Sekunden-Challenge', 'fr': 'Défi 60 secondes',
-    'es-es': 'Desafío de 60 segundos', 'es-mx': 'Desafío de 60 segundos',
-    'it': 'Sfida di 60 secondi', 'pt': 'Desafio de 60 segundos', 'pt-br': 'Desafio de 60 segundos',
-    'vi': 'Thử thách 60 giây', 'th': 'ท้าทาย 60 วินาที',
-    'en': '60s Challenge', 'en-in': '60s Challenge',
+TIMED_CHALLENGE_BY_LOCALE = {  # game length = views.GAME_TIME_LIMIT_SECONDS (45s since 2026-11-19)
+    'ja': '45秒チャレンジ', 'zh-hant': '45秒挑戰', 'zh-cn': '45秒挑战',
+    'ko': '45초 챌린지', 'de': '45-Sekunden-Challenge', 'fr': 'Défi 45 secondes',
+    'es-es': 'Desafío de 45 segundos', 'es-mx': 'Desafío de 45 segundos',
+    'it': 'Sfida di 45 secondi', 'pt': 'Desafio de 45 segundos', 'pt-br': 'Desafio de 45 segundos',
+    'vi': 'Thử thách 45 giây', 'th': 'ท้าทาย 45 วินาที',
+    'en': '45s Challenge', 'en-in': '45s Challenge',
 }
 
 
@@ -1311,7 +1313,8 @@ class SingleModeReviewReturnsToDetailPageTests(TestCase):
 
 
 class GameResultTimeLimitLabelTests(TestCase):
-    """2026-09-05: the result screen always said '60s Challenge' even for
+    """2026-09-05: the result screen always said '60s Challenge' (45s since
+    2026-11-19) even for
     untimed modes (mode=single practice, and the new first_taste trial) -
     that's just wrong for a game that never had a clock running. The label
     must reflect whether the just-played game actually had a time limit."""
@@ -1326,20 +1329,21 @@ class GameResultTimeLimitLabelTests(TestCase):
         session.save()
         return self.client.get(reverse('game_result'))
 
-    def test_timeattack_shows_60_second_challenge_label(self):
+    def test_timeattack_shows_45_second_challenge_label(self):
         response = self._play_one_question('timeattack')
-        self.assertContains(response, '60s Challenge')
+        self.assertContains(response, '45s Challenge')
+        self.assertNotContains(response, '60s Challenge')
         self.assertNotContains(response, 'No Time Limit')
 
     def test_single_practice_shows_no_time_limit_label(self):
         response = self._play_one_question('single')
         self.assertContains(response, 'No Time Limit')
-        self.assertNotContains(response, '60s Challenge')
+        self.assertNotContains(response, '45s Challenge')
 
     def test_first_taste_shows_no_time_limit_label(self):
         response = self._play_one_question('first_taste')
         self.assertContains(response, 'No Time Limit')
-        self.assertNotContains(response, '60s Challenge')
+        self.assertNotContains(response, '45s Challenge')
 
 
 @override_settings(SECURE_SSL_REDIRECT=False)
@@ -2586,13 +2590,26 @@ GAME_START_DOUBLE_POINTS_TEXT_BY_LOCALE = {
 # Points</strong>') - assert on just the <strong>-wrapped phrase itself
 # rather than the full sentence, since &nbsp;/tag markup between words
 # means the full sentence is never one contiguous substring of the raw HTML.
-PREMIUM_INFO_DOUBLE_POINTS_PHRASE_BY_LOCALE = {
+PREMIUM_INFO_DOUBLE_POINTS_PHRASE_BY_LOCALE = {  # removed from the benefit list 2026-11-19
     'en': 'Double Points', 'ja': '2倍ポイント', 'de': 'doppelte Punkte',
     'en-in': 'Double Points', 'es-es': 'el doble de puntos', 'es-mx': 'el doble de puntos',
     'fr': 'points doublés', 'it': 'punti doppi', 'ko': '2배 포인트',
     'pt': 'pontos em dobro', 'pt-br': 'pontos em dobro',
     'th': 'คะแนน 2 เท่า', 'vi': 'gấp đôi điểm',
     'zh-hant': '雙倍點數', 'zh-cn': '双倍积分',
+}
+PREMIUM_INFO_DETAIL_PAGES_PHRASE_BY_LOCALE = {
+    'en': 'Every Premium Word&nbsp;<strong>Detail Page</strong>', 'en-in': 'Every Premium Word&nbsp;<strong>Detail Page</strong>',
+    'ja': 'プレミアム単語の&nbsp;<strong>詳細ページを全部見られる</strong>',
+    'de': 'Alle Premium-Wörter&nbsp;<strong>im Detail ansehen</strong>',
+    'es-es': 'Todas las palabras premium&nbsp;<strong>en detalle</strong>', 'es-mx': 'Todas las palabras premium&nbsp;<strong>en detalle</strong>',
+    'fr': 'Mots premium :&nbsp;<strong>toutes les fiches détaillées</strong>',
+    'it': 'Parole premium:&nbsp;<strong>tutte le schede dettagliate</strong>',
+    'ko': '프리미엄 단어&nbsp;<strong>상세 페이지 전체 열람</strong>',
+    'pt': 'Todas as palavras premium&nbsp;<strong>em detalhes</strong>', 'pt-br': 'Todas as palavras premium&nbsp;<strong>em detalhes</strong>',
+    'th': 'ดูหน้ารายละเอียดคำศัพท์พรีเมียม&nbsp;<strong>ได้ทั้งหมด</strong>',
+    'vi': 'Xem&nbsp;<strong>toàn bộ trang chi tiết</strong>&nbsp;từ premium',
+    'zh-hant': '進階單字&nbsp;<strong>詳細頁面全部開放</strong>', 'zh-cn': '进阶单词&nbsp;<strong>详情页全部开放</strong>',
 }
 
 
@@ -2609,7 +2626,10 @@ class GameStartAndPremiumInfoDoublePointsDisclosureTests(TestCase):
                 response = self.client.get(reverse('game_start'), {'lang': lang})
                 self.assertContains(response, GAME_START_DOUBLE_POINTS_TEXT_BY_LOCALE[lang])
 
-    def test_premium_info_discloses_double_points_per_locale_both_branches(self):
+    def test_premium_info_lists_detail_pages_not_double_points_per_locale_both_branches(self):
+        # 2026-11-19: with the level system every player gets premium words
+        # (2pt) from Lv8, so "double points" left the subscriber benefit list
+        # in favour of "every premium word detail page".
         for url_name in PREMIUM_INFO_URL_NAMES:
             lang = 'en' if url_name == 'premium_info' else url_name.replace('premium_info', '')
             lang_key = {
@@ -2617,16 +2637,19 @@ class GameStartAndPremiumInfoDoublePointsDisclosureTests(TestCase):
                 'it': 'it', 'ja': 'ja', 'ko': 'ko', 'pt': 'pt', 'ptBR': 'pt-br', 'th': 'th',
                 'vi': 'vi', 'zhHANT': 'zh-hant', 'zhCN': 'zh-cn',
             }.get(lang, 'en')
-            expected = PREMIUM_INFO_DOUBLE_POINTS_PHRASE_BY_LOCALE[lang_key]
+            expected = PREMIUM_INFO_DETAIL_PAGES_PHRASE_BY_LOCALE[lang_key]
+            removed = PREMIUM_INFO_DOUBLE_POINTS_PHRASE_BY_LOCALE[lang_key]
             with self.subTest(url_name=url_name, branch='web'):
                 response = self.client.get(reverse(url_name))
                 self.assertContains(response, expected)
+                self.assertNotContains(response, removed)
             with self.subTest(url_name=url_name, branch='twa'):
                 session = self.client.session
                 session['is_twa'] = True
                 session.save()
                 response = self.client.get(reverse(url_name))
                 self.assertContains(response, expected)
+                self.assertNotContains(response, removed)
                 session = self.client.session
                 del session['is_twa']
                 session.save()
@@ -3655,7 +3678,7 @@ class RenewalMultiLanguageAuditTests(TestCase):
                 response = client.get(reverse('game_result'), {'lang': lang})
                 self.assertIn(NO_TIME_LIMIT_BY_LOCALE[lang], response.content.decode(), msg=f"lang={lang}")
 
-    def test_game_result_60s_challenge_label_per_locale(self):
+    def test_game_result_45s_challenge_label_per_locale(self):
         for lang in LOCALE_QUERY_PARAMS:
             with self.subTest(lang=lang):
                 client = Client()
@@ -3668,7 +3691,7 @@ class RenewalMultiLanguageAuditTests(TestCase):
                 session.save()
 
                 response = client.get(reverse('game_result'), {'lang': lang})
-                self.assertIn(SIXTY_SEC_CHALLENGE_BY_LOCALE[lang], response.content.decode(), msg=f"lang={lang}")
+                self.assertIn(TIMED_CHALLENGE_BY_LOCALE[lang], response.content.decode(), msg=f"lang={lang}")
 
     def test_first_taste_flow_renders_without_error_per_locale(self):
         for i in range(6):
@@ -6846,3 +6869,172 @@ class TopPlayButtonRankTests(TestCase):
         body = Client().get(reverse('toppage')).content.decode()
         self.assertIn('function fitPlayRank()', body)
         self.assertIn('.play-with-rank.rank-below + .play-rank-below { display: block; }', body)
+
+
+# ---------------------------------------------------------------------------
+# 2026-11-19: 45-second time attack (views.GAME_TIME_LIMIT_SECONDS) and the
+# login page's How to Play (rules + rank table from ranks.RANK_LEVELS).
+# ---------------------------------------------------------------------------
+
+
+OLD_60_SECOND_PATTERN = re.compile(
+    r'60 ?秒|60s\b|60-?[Ss]econd|60 sec|60초|60 giây|60 วินาที|60[ -]Sekunden|60 secondes|60 segundos|60 secondi')
+GAME_START_RULE_TIME_BY_LOCALE = {
+    'ja': '⏱ 45秒タイムアタック', 'zh-hant': '⏱ 45秒限時挑戰', 'zh-cn': '⏱ 45秒限时挑战', 'ko': '⏱ 45초 타임어택',
+    'de': '⏱ 45-Sekunden-Time-Attack', 'fr': '⏱ Défi 45 secondes', 'es-es': '⏱ Contrarreloj de 45s',
+    'es-mx': '⏱ Contrarreloj de 45s', 'it': '⏱ Time Attack di 45s', 'pt': '⏱ Desafio de 45s', 'pt-br': '⏱ Desafio de 45s',
+    'vi': '⏱ Thử thách thời gian 45 giây', 'th': '⏱ ท้าทายเวลา 45 วินาที', 'en': '⏱ 45s Time Attack', 'en-in': '⏱ 45s Time Attack',
+}
+GAME_START_META_TIME_BY_LOCALE = {
+    'zh-hant': '45秒學會', 'zh-cn': '45秒学会', 'ko': '45초 만에', 'fr': 'en 45 secondes', 'es-es': 'en 45 segundos',
+    'es-mx': 'en 45 segundos', 'pt': 'em 45 segundos', 'pt-br': 'em 45 segundos', 'de': 'in 45 Sekunden',
+    'it': 'in 45 secondi', 'vi': '45 giây', 'th': '45 วินาที', 'en': 'in 45 seconds', 'en-in': 'in 45 seconds',
+    'ja': '45秒チャレンジ',
+}
+HOW_TO_PLAY_RULES_BY_LOCALE = {  # (time line, points line, levels line)
+    'ja': ('⏱ 45秒タイムアタック', '⭕ 正解で+1pt、💎 プレミアム語は+2pt、⚡ 3連続正解以降は1問ごとに+1pt', '🔓 ランクが上がると、出題されるカテゴリーが増えます'),
+    'zh-hant': ('⏱ 45秒限時挑戰', '⭕ 答對+1分、💎 進階單字+2分', '🔓 等級提升後，出題類別會增加'),
+    'zh-cn': ('⏱ 45秒限时挑战', '⭕ 答对+1分、💎 进阶单词+2分', '🔓 等级提升后，出题类别会增加'),
+    'ko': ('⏱ 45초 타임어택', '⭕ 정답 +1점, 💎 프리미엄 단어 +2점', '🔓 랭크가 오르면 출제되는 카테고리가 늘어나요'),
+    'de': ('⏱ 45-Sekunden-Time-Attack', '⭕ Richtig +1 Pkt., 💎 Premium-Wörter +2 Pkt.', '🔓 Mit jedem Rang kommen neue Fragekategorien hinzu'),
+    'fr': ('⏱ Défi 45 secondes', '⭕ Bonne réponse +1 pt, 💎 mots premium +2 pts', '🔓 Plus votre rang monte'),
+    'es-es': ('⏱ Contrarreloj de 45 s', '⭕ Acierto +1 pt, 💎 palabras premium +2 pts', '🔓 Al subir de rango'),
+    'es-mx': ('⏱ Contrarreloj de 45 s', '⭕ Acierto +1 pt, 💎 palabras premium +2 pts', '🔓 Al subir de rango'),
+    'it': ('⏱ Time Attack di 45 s', '⭕ Risposta giusta +1 pt, 💎 parole premium +2 pt', '🔓 Salendo di rango'),
+    'pt': ('⏱ Desafio de 45 s', '⭕ Acerto +1 pt, 💎 palavras premium +2 pts', '🔓 Ao subir de ranking'),
+    'pt-br': ('⏱ Desafio de 45 s', '⭕ Acerto +1 pt, 💎 palavras premium +2 pts', '🔓 Ao subir de ranking'),
+    'vi': ('⏱ Thử thách 45 giây', '⭕ Trả lời đúng +1 điểm, 💎 từ premium +2 điểm', '🔓 Thăng hạng để mở thêm danh mục câu hỏi'),
+    'th': ('⏱ ท้าทายเวลา 45 วินาที', '⭕ ตอบถูก +1 คะแนน, 💎 คำพรีเมียม +2 คะแนน', '🔓 เมื่ออันดับสูงขึ้น'),
+    'en': ('⏱ 45-second time attack', '⭕ Correct +1pt, 💎 premium words +2pt, ⚡ from 3 in a row, +1pt per question', '🔓 Rank up to unlock more question categories'),
+    'en-in': ('⏱ 45-second time attack', '⭕ Correct +1pt, 💎 premium words +2pt', '🔓 Rank up to unlock more question categories'),
+}
+HOW_TO_PLAY_CLOSE_BY_LOCALE = {
+    'ja': '閉じる ❌', 'zh-hant': '關閉 ❌', 'zh-cn': '关闭 ❌', 'de': 'Schließen ❌', 'fr': 'Fermer ❌',
+    'es-es': 'Cerrar ❌', 'es-mx': 'Cerrar ❌', 'it': 'Chiudi ❌', 'ko': '닫기 ❌', 'pt': 'Fechar ❌', 'pt-br': 'Fechar ❌',
+    'vi': 'Đóng ❌', 'th': 'ปิด ❌', 'en': 'Close Guide ❌', 'en-in': 'Close Guide ❌',
+}
+
+
+def _create_social_apps():
+    """player_login-v2.html renders allauth provider_login_url for these
+    providers, which raises without a SocialApp row - production has real
+    ones, the test DB needs dummies (no real credentials)."""
+    from allauth.socialaccount.models import SocialApp
+    from django.contrib.sites.models import Site
+    site = Site.objects.get_current()
+    for provider in ('google', 'facebook', 'twitter_oauth2'):
+        app = SocialApp.objects.create(provider=provider, name=f'test-{provider}', client_id='test-only', secret='test-only')
+        app.sites.add(site)
+
+
+class GameTimeLimitTests(TestCase):
+    def setUp(self):
+        _create_social_apps()
+        self.word = ThankJapanModel.objects.create(name='tl-word', englishname='Dog', jpname='いぬ',
+                                                   category='animal', slug='tl-word', description='d', history='h')
+
+    def _start(self, client, difficulty='timeattack'):
+        _start_session_game(client, [self.word], difficulty=difficulty)
+
+    def test_constant_is_45_and_extension_is_unchanged(self):
+        self.assertEqual(tj_views.GAME_TIME_LIMIT_SECONDS, 45)
+        self.assertEqual((tj_views.TIME_EXTEND_COST, tj_views.TIME_EXTEND_SECONDS), (10, 10))
+        self.assertEqual(tj_views.DAILY_QUESTION_TIME_LIMIT, 30)
+
+    def test_server_clock_starts_at_the_limit(self):
+        self._start(self.client)
+        data = json.loads(self.client.get(reverse('game_question_data')).content)
+        self.assertIn(data['seconds_left'], (44, 45))
+        end = self.client.session['game_end_time']
+        self.assertAlmostEqual(end - time_module.time(), 45, delta=2)
+
+    def test_untimed_modes_still_have_no_clock(self):
+        self._start(self.client, difficulty='first_taste')
+        data = json.loads(self.client.get(reverse('game_question_data')).content)
+        self.assertIsNone(data['seconds_left'])
+
+    def test_game_screen_timer_reads_the_constant(self):
+        self._start(self.client)
+        body = self.client.get(reverse('game_play')).content.decode()
+        self.assertIn('const TOTAL_TIME = 45;', body)
+        self.assertIn('<div class="ring-num" id="ring-num">45</div>', body)
+
+    def test_everything_follows_the_constant(self):
+        with patch.object(tj_views, 'GAME_TIME_LIMIT_SECONDS', 30):
+            self._start(self.client)
+            self.assertIn('const TOTAL_TIME = 30;', self.client.get(reverse('game_play')).content.decode())
+            data = json.loads(self.client.get(reverse('game_question_data')).content)
+            self.assertIn(data['seconds_left'], (29, 30))
+            self.assertIn('⏱ 30s Time Attack', self.client.get(reverse('game_start')).content.decode())
+            self.assertIn('30-Second Challenge', build_combo_share_message('en', 3, 10))
+            self.assertIn('⏱ 30-second time attack', self.client.get(reverse('player_login')).content.decode())
+
+    def test_no_60_second_wording_left_on_live_screens_per_locale(self):
+        for lang in LOCALE_QUERY_PARAMS:
+            with self.subTest(lang=lang):
+                client = Client()
+                start = client.get(reverse('game_start'), {'lang': lang}).content.decode()
+                self.assertIn(GAME_START_RULE_TIME_BY_LOCALE[lang], start)
+                self.assertIn(GAME_START_META_TIME_BY_LOCALE[lang], start)
+                self.assertIsNone(OLD_60_SECOND_PATTERN.search(start), OLD_60_SECOND_PATTERN.search(start))
+                self._start(client)
+                play = client.get(reverse('game_play'), {'lang': lang}).content.decode()
+                self.assertIsNone(OLD_60_SECOND_PATTERN.search(play))
+                session = client.session
+                session['game_history'] = [{'index': 0, 'is_correct': True, 'points': 1, 'question_id': self.word.id,
+                                            'question_model': 'free', 'combo': 1, 'combo_bonus': 0,
+                                            'user_input': 'Dog', 'correct_answer': 'Dog'}]
+                session.save()
+                result = client.get(reverse('game_result'), {'lang': lang}).content.decode()
+                self.assertIn(TIMED_CHALLENGE_BY_LOCALE[lang], result)
+                self.assertIsNone(OLD_60_SECOND_PATTERN.search(result))
+                login = client.get(reverse('player_login'), {'lang': lang}).content.decode()
+                self.assertIsNone(OLD_60_SECOND_PATTERN.search(login))
+
+    def test_share_texts_say_45_seconds_in_every_language(self):
+        for lang in LOCALE_QUERY_PARAMS:
+            for max_combo in (1, 3, 7):
+                with self.subTest(lang=lang, combo=max_combo):
+                    message = build_combo_share_message(lang, max_combo, 12)
+                    self.assertIn('45', message)
+                    self.assertIsNone(OLD_60_SECOND_PATTERN.search(message))
+                    self.assertIn('12', message)
+
+
+class HowToPlayModalTests(TestCase):
+    def setUp(self):
+        _create_social_apps()
+
+    def _login_page(self, lang):
+        return Client().get(reverse('player_login'), {'lang': lang}).content.decode()
+
+    def test_rank_table_comes_from_ranks_py(self):
+        body = self._login_page('en')
+        table = body[body.index('id="how-to-play-ranks"'):]
+        table = table[:table.index('</div>\n        </div>') if '</div>\n        </div>' in table else len(table)]
+        positions = []
+        for rank in ranks.RANK_LEVELS:
+            row = f"<span>{rank['emoji']} {rank['ja']} {rank['name']}</span><span style=\"color:#d46a00; font-weight:bold;\">{rank['min']}~</span>"
+            self.assertIn(row, body)
+            positions.append(body.index(row))
+        self.assertEqual(positions, sorted(positions, reverse=True))  # Legend first, Villager last
+        for old in ('>2000~<', '>1200~<', '>650~<', '>450~<', '>300~<', '>200~<', '>100~<', '>50~<'):
+            self.assertNotIn(old, body)
+
+    def test_rules_per_locale(self):
+        for lang in LOCALE_QUERY_PARAMS:
+            with self.subTest(lang=lang):
+                body = self._login_page(lang)
+                self.assertIn('id="how-to-play-rules"', body)
+                for fragment in HOW_TO_PLAY_RULES_BY_LOCALE[lang]:
+                    self.assertIn(fragment, body)
+
+    def test_toggle_keeps_both_labels_localized(self):
+        for lang in LOCALE_QUERY_PARAMS:
+            with self.subTest(lang=lang):
+                body = self._login_page(lang)
+                self.assertIn('id="toggle-instruction-open"', body)
+                close = body[body.index('id="toggle-instruction-close"'):]
+                close = close[:close.index('</span>')]
+                self.assertIn(HOW_TO_PLAY_CLOSE_BY_LOCALE[lang], close)
+                self.assertNotIn('toggleBtn.textContent', body)

@@ -508,6 +508,7 @@
         </p>
 
         <button id="toggle-instruction" style="background: transparent; border: 2px solid #d4af37; color: #d4af37; width: auto; padding: 10px 30px; margin-top: 10px;">
+          <span id="toggle-instruction-open">
           {% if lang_code == 'ja' %}
             遊び方 ⚔️
           {% elif lang_code == 'zh-hant' %}
@@ -533,12 +534,88 @@
           {% else %}
             How to Play ⚔️
           {% endif %}
-
+          </span>
+          <span id="toggle-instruction-close" hidden>
+            {% if lang_code == 'ja' %}閉じる ❌
+            {% elif lang_code == 'zh-hant' %}關閉 ❌
+            {% elif lang_code == 'zh-cn' %}关闭 ❌
+            {% elif lang_code == 'de' %}Schließen ❌
+            {% elif lang_code == 'fr' %}Fermer ❌
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Cerrar ❌
+            {% elif lang_code == 'it' %}Chiudi ❌
+            {% elif lang_code == 'ko' %}닫기 ❌
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}Fechar ❌
+            {% elif lang_code == 'vi' %}Đóng ❌
+            {% elif lang_code == 'th' %}ปิด ❌
+            {% else %}Close Guide ❌{% endif %}
+          </span>
         </button>
       </div>
 
       <div id="game-instruction" style="display:none;">
-        <div class="rank-table-card">
+        <div class="rank-table-card" id="how-to-play-rules" style="margin-bottom: 14px;">
+          <div style="background: #1a1a1a; color: #d4af37; padding: 10px; font-weight: bold; text-align: center; border-bottom: 2px solid #d4af37;">
+            {% if lang_code == 'ja' %}🎮 ゲームルール
+            {% elif lang_code == 'zh-hant' %}🎮 遊戲規則
+            {% elif lang_code == 'zh-cn' %}🎮 游戏规则
+            {% elif lang_code == 'de' %}🎮 Spielregeln
+            {% elif lang_code == 'fr' %}🎮 Règles du jeu
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}🎮 Reglas del juego
+            {% elif lang_code == 'it' %}🎮 Regole del gioco
+            {% elif lang_code == 'ko' %}🎮 게임 규칙
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}🎮 Regras do jogo
+            {% elif lang_code == 'vi' %}🎮 Luật chơi
+            {% elif lang_code == 'th' %}🎮 กติกาเกม
+            {% else %}🎮 Game Rules{% endif %}
+          </div>
+          <ul style="list-style: none; margin: 0; padding: 10px 12px; font-size: 0.85rem; line-height: 1.6; text-align: left;">
+            <li style="padding: 5px 0; border-bottom: 1px solid #eee;">
+            {% with t=game_time_limit %}
+            {% if lang_code == 'ja' %}⏱ {{ t }}秒タイムアタック：画像と読み方を見て、正しい意味を3つから選ぼう
+            {% elif lang_code == 'zh-hant' %}⏱ {{ t }}秒限時挑戰：看圖片和讀音，從3個選項中選出正確的意思
+            {% elif lang_code == 'zh-cn' %}⏱ {{ t }}秒限时挑战：看图片和读音，从3个选项中选出正确的意思
+            {% elif lang_code == 'de' %}⏱ {{ t }}-Sekunden-Time-Attack: Sieh dir Bild und Aussprache an und wähle aus 3 Antworten die richtige Bedeutung
+            {% elif lang_code == 'fr' %}⏱ Défi {{ t }} secondes : regarde l'image et la lecture, puis choisis la bonne signification parmi 3
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}⏱ Contrarreloj de {{ t }} s: mira la imagen y la lectura, y elige el significado correcto entre 3
+            {% elif lang_code == 'it' %}⏱ Time Attack di {{ t }} s: guarda l'immagine e la lettura e scegli il significato giusto tra 3
+            {% elif lang_code == 'ko' %}⏱ {{ t }}초 타임어택: 그림과 읽는 법을 보고 3개 중에서 올바른 뜻을 고르세요
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}⏱ Desafio de {{ t }} s: veja a imagem e a leitura e escolha o significado certo entre 3
+            {% elif lang_code == 'vi' %}⏱ Thử thách {{ t }} giây: xem hình và cách đọc, rồi chọn nghĩa đúng trong 3 đáp án
+            {% elif lang_code == 'th' %}⏱ ท้าทายเวลา {{ t }} วินาที: ดูรูปภาพและคำอ่าน แล้วเลือกความหมายที่ถูกต้องจาก 3 ตัวเลือก
+            {% else %}⏱ {{ t }}-second time attack: look at the picture and the reading, then pick the right meaning from 3{% endif %}
+            {% endwith %}
+            </li>
+            <li style="padding: 5px 0; border-bottom: 1px solid #eee;">
+            {% if lang_code == 'ja' %}⭕ 正解で+1pt、💎 プレミアム語は+2pt、⚡ 3連続正解以降は1問ごとに+1pt
+            {% elif lang_code == 'zh-hant' %}⭕ 答對+1分、💎 進階單字+2分、⚡ 連續答對3題起每題再+1分
+            {% elif lang_code == 'zh-cn' %}⭕ 答对+1分、💎 进阶单词+2分、⚡ 连续答对3题起每题再+1分
+            {% elif lang_code == 'de' %}⭕ Richtig +1 Pkt., 💎 Premium-Wörter +2 Pkt., ⚡ ab 3 Richtigen in Folge +1 Pkt. pro Frage
+            {% elif lang_code == 'fr' %}⭕ Bonne réponse +1 pt, 💎 mots premium +2 pts, ⚡ dès 3 bonnes réponses d'affilée, +1 pt par question
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}⭕ Acierto +1 pt, 💎 palabras premium +2 pts, ⚡ desde 3 aciertos seguidos, +1 pt por pregunta
+            {% elif lang_code == 'it' %}⭕ Risposta giusta +1 pt, 💎 parole premium +2 pt, ⚡ da 3 risposte giuste di fila, +1 pt a domanda
+            {% elif lang_code == 'ko' %}⭕ 정답 +1점, 💎 프리미엄 단어 +2점, ⚡ 3연속 정답부터 문제마다 +1점
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}⭕ Acerto +1 pt, 💎 palavras premium +2 pts, ⚡ a partir de 3 acertos seguidos, +1 pt por pergunta
+            {% elif lang_code == 'vi' %}⭕ Trả lời đúng +1 điểm, 💎 từ premium +2 điểm, ⚡ từ 3 câu đúng liên tiếp, mỗi câu +1 điểm
+            {% elif lang_code == 'th' %}⭕ ตอบถูก +1 คะแนน, 💎 คำพรีเมียม +2 คะแนน, ⚡ ตั้งแต่ตอบถูก 3 ข้อติดต่อกัน ข้อละ +1 คะแนน
+            {% else %}⭕ Correct +1pt, 💎 premium words +2pt, ⚡ from 3 in a row, +1pt per question{% endif %}
+            </li>
+            <li style="padding: 5px 0;">
+            {% if lang_code == 'ja' %}🔓 ランクが上がると、出題されるカテゴリーが増えます
+            {% elif lang_code == 'zh-hant' %}🔓 等級提升後，出題類別會增加
+            {% elif lang_code == 'zh-cn' %}🔓 等级提升后，出题类别会增加
+            {% elif lang_code == 'de' %}🔓 Mit jedem Rang kommen neue Fragekategorien hinzu
+            {% elif lang_code == 'fr' %}🔓 Plus votre rang monte, plus il y a de catégories de questions
+            {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}🔓 Al subir de rango, se desbloquean más categorías de preguntas
+            {% elif lang_code == 'it' %}🔓 Salendo di rango si sbloccano nuove categorie di domande
+            {% elif lang_code == 'ko' %}🔓 랭크가 오르면 출제되는 카테고리가 늘어나요
+            {% elif lang_code == 'pt' or lang_code == 'pt-br' %}🔓 Ao subir de ranking, mais categorias de perguntas são liberadas
+            {% elif lang_code == 'vi' %}🔓 Thăng hạng để mở thêm danh mục câu hỏi
+            {% elif lang_code == 'th' %}🔓 เมื่ออันดับสูงขึ้น หมวดหมู่คำถามจะเพิ่มขึ้น
+            {% else %}🔓 Rank up to unlock more question categories{% endif %}
+            </li>
+          </ul>
+        </div>
+        <div class="rank-table-card" id="how-to-play-ranks">
           <div style="background: #1a1a1a; color: #d4af37; padding: 10px; font-weight: bold; text-align: center; border-bottom: 2px solid #d4af37;">
             {% if lang_code == 'ja' %}
               🏆 ランクシステム
@@ -568,16 +645,9 @@
           </div>
           <div style="padding: 10px; font-size: 0.85rem;">
             
-            <div style="display:flex; justify-content:space-between; border-bottom:1px solid #eee; padding:5px;"><span>🗾 伝説 Legend</span><span style="color:#d46a00; font-weight:bold;">2000~</span></div>
-            <div style="display:flex; justify-content:space-between; border-bottom:1px solid #eee; padding:5px;"><span>👑 大将軍 General</span><span style="color:#d46a00; font-weight:bold;">1200~</span></div>
-            <div style="display:flex; justify-content:space-between; border-bottom:1px solid #eee; padding:5px;"><span>🐎 将軍 Shogun</span><span style="color:#d46a00; font-weight:bold;">900~</span></div>
-            <div style="display:flex; justify-content:space-between; border-bottom:1px solid #eee; padding:5px;"><span>🏯 大名 Daimyo</span><span style="color:#d46a00; font-weight:bold;">650~</span></div>
-            <div style="display:flex; justify-content:space-between; border-bottom:1px solid #eee; padding:5px;"><span>🚩 旗本 Hatamoto</span><span style="color:#d46a00; font-weight:bold;">450~</span></div>
-            <div style="display:flex; justify-content:space-between; border-bottom:1px solid #eee; padding:5px;"><span>⚔️ 侍 Samurai</span><span style="color:#d46a00; font-weight:bold;">300~</span></div>
-            <div style="display:flex; justify-content:space-between; border-bottom:1px solid #eee; padding:5px;"><span>🥷 忍者 Ninja</span><span style="color:#d46a00; font-weight:bold;">200~</span></div>
-            <div style="display:flex; justify-content:space-between; border-bottom:1px solid #eee; padding:5px;"><span>🚣 浪人 Ronin</span><span style="color:#d46a00; font-weight:bold;">100~</span></div>
-            <div style="display:flex; justify-content:space-between; border-bottom:1px solid #eee; padding:5px;"><span>🎒 旅人 Traveler</span><span style="color:#d46a00; font-weight:bold;">50~</span></div>
-            <div style="display:flex; justify-content:space-between; padding:5px;"><span>🌾 村人 Villager</span><span style="color:#d46a00; font-weight:bold;">0~</span></div>
+            {% for rank in rank_levels %}
+            <div style="display:flex; justify-content:space-between; {% if not forloop.last %}border-bottom:1px solid #eee; {% endif %}padding:5px;"><span>{{ rank.emoji }} {{ rank.ja }} {{ rank.name }}</span><span style="color:#d46a00; font-weight:bold;">{{ rank.min }}~</span></div>
+            {% endfor %}
           </div>
         </div>
       </div>
@@ -625,13 +695,10 @@
       const toggleBtn = document.getElementById("toggle-instruction");
       const content = document.getElementById("game-instruction");
       toggleBtn.addEventListener("click", function(){
-        if(content.style.display === "none" || content.style.display === ""){
-          content.style.display = "block";
-          toggleBtn.textContent = "Close Guide ❌";
-        } else {
-          content.style.display = "none";
-          toggleBtn.textContent = "How to Play ⚔️";
-        }
+        const opening = content.style.display === "none" || content.style.display === "";
+        content.style.display = opening ? "block" : "none";
+        document.getElementById("toggle-instruction-open").hidden = opening;
+        document.getElementById("toggle-instruction-close").hidden = !opening;
       });
     });
 </script>

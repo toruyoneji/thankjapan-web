@@ -36,7 +36,7 @@ from firebase_admin import messaging
 from .firebase_utils import get_firebase_credentials
 from allauth.socialaccount.views import ConnectionsView
 from .achievements import check_and_unlock_achievements, get_achievement_progress, STREAK_ACHIEVEMENT_CODES
-from .ranks import GUEST_LEVEL, categories_for_level, categories_unlocked_between, category_short_label
+from .ranks import GUEST_LEVEL, RANK_LEVELS, categories_for_level, categories_unlocked_between, category_short_label
 from datetime import date, timedelta
 from dateutil.relativedelta import relativedelta
 import logging
@@ -1651,7 +1651,11 @@ def player_login(request):
             
     return render(request, 'thank_japan_app/player_login-v2.html', {
         'next': next_url,
-        'lang_code': lang_code
+        'lang_code': lang_code,
+        # How to Play: rank table straight from ranks.RANK_LEVELS (highest
+        # first) + the current game length, so neither can drift again.
+        'rank_levels': list(reversed(RANK_LEVELS)),
+        'game_time_limit': GAME_TIME_LIMIT_SECONDS,
     })        
     
 def player_logout(request):
@@ -1720,7 +1724,7 @@ def delete_player(request):
 DIFFICULTY_SETTINGS = {
     'single': {'num_questions': 1, 'model_type': 'free'},
     # First-visit taste flow from the top page: 3 EASY-tier questions, no
-    # difficulty picker (the tile game shares a single 60s timer, see
+    # difficulty picker (the timed game shares one GAME_TIME_LIMIT_SECONDS timer, see
     # game_play's timer setup below).
     # dummy_count left at the default (1 => 2 choices) for first_taste/easy so
     # beginners aren't discouraged; NORMAL and above use 3 (=> 4 choices) so
@@ -1762,10 +1766,15 @@ DIFFICULTY_SETTINGS = {
 # to mean. The picker UI itself (game_start-v2.html) no longer links to any
 # of these tiers.
 
-TILE_GAME_POOL_SIZE = 50  # generous upper bound; the 60s timer always ends the game long before this runs out
+TILE_GAME_POOL_SIZE = 50  # generous upper bound; the game timer always ends the game long before this runs out
 FIRST_TASTE_QUESTION_COUNT = 3  # first-visit guest trial: 3 EASY-tier words, untimed
 TIME_EXTEND_COST = 10  # points spent per "add more time" purchase, no cap on repeat use
 TIME_EXTEND_SECONDS = 10
+# Main timed game (timeattack) length. Everything that shows or enforces it -
+# the server-side end time, the ring timer in game_play-v2.html, the
+# "45-second" wording on the start/result screens, How to Play and the share
+# texts - reads this one constant (2026-11-19: 60 -> 45).
+GAME_TIME_LIMIT_SECONDS = 45
 
 # --- Question format switch (2026-11-19) ---
 # 'choice': image + reading (hiragana/romaji) -> pick the meaning in the
@@ -2037,6 +2046,7 @@ def game_start(request):
         # nudge (same tj_has_played cookie the top page's own CTA uses).
         'has_played': request.COOKIES.get('tj_has_played') == '1',
         'level_info': request.user.profile.rank_progress if request.user.is_authenticated else None,
+        'game_time_limit': GAME_TIME_LIMIT_SECONDS,
     })
 
 
@@ -2075,15 +2085,16 @@ def game_play(request):
         'point_balance': point_balance,
         'time_extend_cost': TIME_EXTEND_COST,
         'time_extend_seconds': TIME_EXTEND_SECONDS,
+        'game_time_limit': GAME_TIME_LIMIT_SECONDS,
         'question_format': GAME_QUESTION_FORMAT,
     })
 
 
 def game_question_data(request):
     """AJAX: current question's shuffled tiles. Also the one place that
-    starts the 60s clock - game_end_time is set the first time this is
+    starts the game clock - game_end_time is set the first time this is
     called for a game, i.e. right after the 3-2-1 countdown finishes on the
-    client, so the countdown doesn't eat into the 60s."""
+    client, so the countdown doesn't eat into GAME_TIME_LIMIT_SECONDS."""
     questions = request.session.get('game_question_ids', [])
     index = request.session.get('game_current_index', 0)
     difficulty = request.session.get('game_difficulty', 'timeattack')
@@ -2096,7 +2107,7 @@ def game_question_data(request):
         current_time = time.time()
         game_end_time = request.session.get('game_end_time')
         if not game_end_time:
-            game_end_time = current_time + 60
+            game_end_time = current_time + GAME_TIME_LIMIT_SECONDS
             request.session['game_end_time'] = game_end_time
         seconds_left = int(game_end_time - current_time)
         if seconds_left <= 0:
@@ -2564,7 +2575,7 @@ def game_restart(request):
 
 DAILY_QUESTION_SESSION_ANSWERED_KEY = 'daily_question_answered_date'
 DAILY_QUESTION_BANNER_DISMISSED_KEY = 'daily_question_banner_dismissed'
-DAILY_QUESTION_TIME_LIMIT = 30  # seconds - a single question doesn't need the main game's 60s
+DAILY_QUESTION_TIME_LIMIT = 30  # seconds - a single question doesn't need the main game's full timer
 
 DAILY_QUESTION_SHARE_LOCALE_ALIAS = {'es-mx': 'es-es', 'pt-br': 'pt', 'en-in': 'en'}
 
@@ -2938,46 +2949,46 @@ def daily_question_view(request):
 
 COMBO_SHARE_ACHIEVEMENTS = {
     'high': {
-        'ja': '🔥{max_combo}連続正解達成！ThankJapanの60秒チャレンジで{score}pt獲得！',
-        'zh-hant': '🔥達成{max_combo}連續正確！在ThankJapan的60秒挑戰中獲得{score}分！',
-        'zh-cn': '🔥达成{max_combo}连续正确！在ThankJapan的60秒挑战中获得{score}分！',
-        'ko': '🔥{max_combo}연속 정답 달성! ThankJapan의 60초 챌린지에서 {score}점 획득!',
-        'de': '🔥{max_combo} Treffer in Folge! {score} Punkte in der ThankJapan 60-Sekunden-Challenge!',
-        'fr': "🔥{max_combo} bonnes réponses d'affilée ! {score} points dans le Défi 60 secondes de ThankJapan !",
-        'es-es': '🔥¡{max_combo} aciertos seguidos! ¡{score} puntos en el Reto de 60 segundos de ThankJapan!',
-        'it': '🔥{max_combo} risposte corrette di fila! {score} punti nella Sfida di 60 secondi di ThankJapan!',
-        'pt': '🔥{max_combo} acertos seguidos! {score} pontos no Desafio de 60 segundos do ThankJapan!',
-        'vi': '🔥Đạt {max_combo} câu đúng liên tiếp! Ghi {score} điểm trong Thử thách 60 giây của ThankJapan!',
-        'th': '🔥ทำได้ {max_combo} คอมโบติดต่อกัน! ได้ {score} คะแนนใน 60-Second Challenge ของ ThankJapan!',
-        'en': '🔥{max_combo}-combo streak! Scored {score}pts in the 60-Second Challenge on ThankJapan!',
+        'ja': '🔥{max_combo}連続正解達成！ThankJapanの{seconds}秒チャレンジで{score}pt獲得！',
+        'zh-hant': '🔥達成{max_combo}連續正確！在ThankJapan的{seconds}秒挑戰中獲得{score}分！',
+        'zh-cn': '🔥达成{max_combo}连续正确！在ThankJapan的{seconds}秒挑战中获得{score}分！',
+        'ko': '🔥{max_combo}연속 정답 달성! ThankJapan의 {seconds}초 챌린지에서 {score}점 획득!',
+        'de': '🔥{max_combo} Treffer in Folge! {score} Punkte in der ThankJapan {seconds}-Sekunden-Challenge!',
+        'fr': "🔥{max_combo} bonnes réponses d'affilée ! {score} points dans le Défi {seconds} secondes de ThankJapan !",
+        'es-es': '🔥¡{max_combo} aciertos seguidos! ¡{score} puntos en el Reto de {seconds} segundos de ThankJapan!',
+        'it': '🔥{max_combo} risposte corrette di fila! {score} punti nella Sfida di {seconds} secondi di ThankJapan!',
+        'pt': '🔥{max_combo} acertos seguidos! {score} pontos no Desafio de {seconds} segundos do ThankJapan!',
+        'vi': '🔥Đạt {max_combo} câu đúng liên tiếp! Ghi {score} điểm trong Thử thách {seconds} giây của ThankJapan!',
+        'th': '🔥ทำได้ {max_combo} คอมโบติดต่อกัน! ได้ {score} คะแนนใน {seconds}-Second Challenge ของ ThankJapan!',
+        'en': '🔥{max_combo}-combo streak! Scored {score}pts in the {seconds}-Second Challenge on ThankJapan!',
     },
     'mid': {
-        'ja': '⚡最高コンボ{max_combo}達成！ThankJapanの60秒チャレンジで{score}pt獲得！',
-        'zh-hant': '⚡最高連擊{max_combo}！在ThankJapan的60秒挑戰中獲得{score}分！',
-        'zh-cn': '⚡最高连击{max_combo}！在ThankJapan的60秒挑战中获得{score}分！',
-        'ko': '⚡최대 콤보 {max_combo}! ThankJapan의 60초 챌린지에서 {score}점 획득!',
-        'de': '⚡Maximal-Combo {max_combo}! {score} Punkte in der ThankJapan 60-Sekunden-Challenge!',
-        'fr': '⚡Combo max {max_combo} ! {score} points dans le Défi 60 secondes de ThankJapan !',
-        'es-es': '⚡¡Combo máximo {max_combo}! ¡{score} puntos en el Reto de 60 segundos de ThankJapan!',
-        'it': '⚡Combo massima {max_combo}! {score} punti nella Sfida di 60 secondi di ThankJapan!',
-        'pt': '⚡Combo máximo {max_combo}! {score} pontos no Desafio de 60 segundos do ThankJapan!',
-        'vi': '⚡Combo tối đa {max_combo}! Ghi {score} điểm trong Thử thách 60 giây của ThankJapan!',
-        'th': '⚡คอมโบสูงสุด {max_combo}! ได้ {score} คะแนนใน 60-Second Challenge ของ ThankJapan!',
-        'en': '⚡Max combo {max_combo}! Scored {score}pts in the 60-Second Challenge on ThankJapan!',
+        'ja': '⚡最高コンボ{max_combo}達成！ThankJapanの{seconds}秒チャレンジで{score}pt獲得！',
+        'zh-hant': '⚡最高連擊{max_combo}！在ThankJapan的{seconds}秒挑戰中獲得{score}分！',
+        'zh-cn': '⚡最高连击{max_combo}！在ThankJapan的{seconds}秒挑战中获得{score}分！',
+        'ko': '⚡최대 콤보 {max_combo}! ThankJapan의 {seconds}초 챌린지에서 {score}점 획득!',
+        'de': '⚡Maximal-Combo {max_combo}! {score} Punkte in der ThankJapan {seconds}-Sekunden-Challenge!',
+        'fr': '⚡Combo max {max_combo} ! {score} points dans le Défi {seconds} secondes de ThankJapan !',
+        'es-es': '⚡¡Combo máximo {max_combo}! ¡{score} puntos en el Reto de {seconds} segundos de ThankJapan!',
+        'it': '⚡Combo massima {max_combo}! {score} punti nella Sfida di {seconds} secondi di ThankJapan!',
+        'pt': '⚡Combo máximo {max_combo}! {score} pontos no Desafio de {seconds} segundos do ThankJapan!',
+        'vi': '⚡Combo tối đa {max_combo}! Ghi {score} điểm trong Thử thách {seconds} giây của ThankJapan!',
+        'th': '⚡คอมโบสูงสุด {max_combo}! ได้ {score} คะแนนใน {seconds}-Second Challenge ของ ThankJapan!',
+        'en': '⚡Max combo {max_combo}! Scored {score}pts in the {seconds}-Second Challenge on ThankJapan!',
     },
     'none': {
-        'ja': 'ThankJapanの60秒チャレンジで{score}pt獲得！日本語、どれだけ知ってる？',
-        'zh-hant': '在ThankJapan的60秒挑戰中獲得{score}分！你懂多少日文？',
-        'zh-cn': '在ThankJapan的60秒挑战中获得{score}分！你懂多少日文？',
-        'ko': 'ThankJapan의 60초 챌린지에서 {score}점 획득! 일본어 얼마나 아세요?',
-        'de': '{score} Punkte in der ThankJapan 60-Sekunden-Challenge! Wie viel Japanisch kannst du?',
-        'fr': 'Défi 60 secondes de ThankJapan : {score} points ! Et toi, combien de japonais connais-tu ?',
-        'es-es': '¡{score} puntos en el Reto de 60 segundos de ThankJapan! ¿Cuánto japonés sabes tú?',
-        'it': '{score} punti nella Sfida di 60 secondi di ThankJapan! Quanto giapponese conosci?',
-        'pt': '{score} pontos no Desafio de 60 segundos do ThankJapan! Quanto japonês você sabe?',
-        'vi': 'Ghi {score} điểm trong Thử thách 60 giây của ThankJapan! Bạn biết bao nhiêu tiếng Nhật?',
-        'th': 'ได้ {score} คะแนนใน 60-Second Challenge ของ ThankJapan! คุณรู้ภาษาญี่ปุ่นแค่ไหน?',
-        'en': 'Scored {score}pts in the 60-Second Challenge on ThankJapan! How much Japanese do you know?',
+        'ja': 'ThankJapanの{seconds}秒チャレンジで{score}pt獲得！日本語、どれだけ知ってる？',
+        'zh-hant': '在ThankJapan的{seconds}秒挑戰中獲得{score}分！你懂多少日文？',
+        'zh-cn': '在ThankJapan的{seconds}秒挑战中获得{score}分！你懂多少日文？',
+        'ko': 'ThankJapan의 {seconds}초 챌린지에서 {score}점 획득! 일본어 얼마나 아세요?',
+        'de': '{score} Punkte in der ThankJapan {seconds}-Sekunden-Challenge! Wie viel Japanisch kannst du?',
+        'fr': 'Défi {seconds} secondes de ThankJapan : {score} points ! Et toi, combien de japonais connais-tu ?',
+        'es-es': '¡{score} puntos en el Reto de {seconds} segundos de ThankJapan! ¿Cuánto japonés sabes tú?',
+        'it': '{score} punti nella Sfida di {seconds} secondi di ThankJapan! Quanto giapponese conosci?',
+        'pt': '{score} pontos no Desafio de {seconds} segundos do ThankJapan! Quanto japonês você sabe?',
+        'vi': 'Ghi {score} điểm trong Thử thách {seconds} giây của ThankJapan! Bạn biết bao nhiêu tiếng Nhật?',
+        'th': 'ได้ {score} คะแนนใน {seconds}-Second Challenge ของ ThankJapan! คุณรู้ภาษาญี่ปุ่นแค่ไหน?',
+        'en': 'Scored {score}pts in the {seconds}-Second Challenge on ThankJapan! How much Japanese do you know?',
     },
 }
 
@@ -3005,7 +3016,7 @@ def build_combo_share_message(lang_code, max_combo, score):
     tier = 'high' if max_combo >= 7 else ('mid' if max_combo >= 3 else 'none')
     achievement = COMBO_SHARE_ACHIEVEMENTS[tier].get(lang, COMBO_SHARE_ACHIEVEMENTS[tier]['en'])
     cta = COMBO_SHARE_CTA.get(lang, COMBO_SHARE_CTA['en'])
-    return f"{achievement.format(max_combo=max_combo, score=score)} {cta}"
+    return f"{achievement.format(max_combo=max_combo, score=score, seconds=GAME_TIME_LIMIT_SECONDS)} {cta}"
 
 
 def game_result(request):
@@ -3154,6 +3165,7 @@ def game_result(request):
         'is_premium_mode': is_premium_mode,
         'unlocked_achievements': [a['code'] for a in unlocked_achievements],
         'level_up': level_up,
+        'game_time_limit': GAME_TIME_LIMIT_SECONDS,
         'level_info': level_info,
         'show_review_prompt': show_review_prompt,
     })
