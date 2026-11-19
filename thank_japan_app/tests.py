@@ -7611,3 +7611,185 @@ class AdvancedWordsRuleTests(TestCase):
                     self.assertTrue(rule)
                     for line in rule:
                         self.assertNotRegex(re.sub(r'<[^>]+>', '', line), '[\u2013\u2014]|\w-\w')
+
+
+# ---------------------------------------------------------------------------
+# 2026-11-20: brackets in the game display (game_display.py). A bracket is
+# dropped only when it repeats the word's reading; type C brackets (part of
+# the meaning), Hangul/Thai values and multi-bracket values stay as stored.
+# Readings lose every bracket. Detail/list pages keep the stored value.
+# ---------------------------------------------------------------------------
+
+from .game_display import game_meaning, strip_brackets, word_game_meaning  # noqa: E402
+
+
+class GameMeaningRuleTests(SimpleTestCase):
+    """Real production values from the 2026-11-20 audit."""
+
+    def test_reading_bracket_is_dropped(self):
+        cases = [
+            ('Colador (Zaru)', 'zaru', 'ざる', 'Colador'),
+            ('漏勺 (Zaru)', 'zaru', 'ざる', '漏勺'),
+            ('入学考试 (Juken)', 'juken', 'じゅけん', '入学考试'),
+            ('Đồn cảnh sát nhỏ (Koban)', 'kouban', 'こうばん', 'Đồn cảnh sát nhỏ'),
+            ('蓬 (よもぎ)', 'yomogi', 'よもぎ', '蓬'),
+            ('蓬（よもぎ）', 'yomogi', 'よもぎ', '蓬'),
+            ('Teeschale (Chawan)', 'chawan', 'ちゃわん', 'Teeschale'),
+        ]
+        for value, romaji, jpname, expected in cases:
+            with self.subTest(value=value):
+                self.assertEqual(game_meaning(value, romaji, jpname), expected)
+
+    def test_romaji_outside_shows_only_the_bracketed_meaning(self):
+        cases = [
+            ('Kyūsu (Théière japonaise)', 'kyuusu', 'きゅうす', 'Théière japonaise'),
+            ('Motsunabe (Offal Hot Pot)', 'motsunabe', 'もつなべ', 'Offal Hot Pot'),
+            ('Katsuobushi (Bonitoflocken)', 'katsuobushi', 'かつおぶし', 'Bonitoflocken'),
+            ('Kyōka Suigetsu (Blume im Spiegel, Mond im Wasser)', 'kyoukasuigetsu', 'きょうかすいげつ',
+             'Blume im Spiegel, Mond im Wasser'),
+        ]
+        for value, romaji, jpname, expected in cases:
+            with self.subTest(value=value):
+                self.assertEqual(game_meaning(value, romaji, jpname), expected)
+
+    def test_meaning_brackets_stay(self):
+        cases = [
+            ('To take (a photo)', 'toru', 'とる'),
+            ('Prendre (une photo)', 'toru', 'とる'),
+            ('Lavare (i denti)', 'migaku', 'みがく'),
+            ('撮る（写真を）', 'toru', 'とる'),
+            ('Hoa cúc họa mi (Marguerite)', 'maagaretto', 'まーがれっと'),
+            ('唱片骑师 (DJ)', 'diijee', 'でぃーじぇー'),
+        ]
+        for value, romaji, jpname in cases:
+            with self.subTest(value=value):
+                self.assertEqual(game_meaning(value, romaji, jpname), value)
+
+    def test_hangul_and_thai_values_are_never_changed(self):
+        cases = [
+            ('미소 (일본식 된장)', 'miso', 'みそ'),
+            ('찻잔 (Chawan)', 'chawan', 'ちゃわん'),  # the bracket matches, but Hangul -> keep
+            ('Chawan (찻잔)', 'chawan', 'ちゃわん'),
+            ('กาน้ำชา (Kyusu)', 'kyuusu', 'きゅうす'),
+        ]
+        for value, romaji, jpname in cases:
+            with self.subTest(value=value):
+                self.assertEqual(game_meaning(value, romaji, jpname), value)
+
+    def test_multiple_or_unbalanced_brackets_stay(self):
+        for value in ('Petit(e) ami(e)', "Recherche active d'un(e) futur(e) époux", '김 (노리', 'Nori (Zaru', 'Zaru) x (y'):
+            with self.subTest(value=value):
+                self.assertEqual(game_meaning(value, 'zaru', 'ざる'), value)
+
+    def test_never_empty_and_whitespace_is_collapsed(self):
+        self.assertEqual(game_meaning('(Zaru)', 'zaru', 'ざる'), 'Zaru')
+        self.assertEqual(game_meaning('()', 'zaru', 'ざる'), '()')
+        self.assertEqual(game_meaning('  Sieb   (Zaru) ', 'zaru', 'ざる'), 'Sieb')
+        self.assertEqual(game_meaning('', 'zaru', 'ざる'), '')
+        self.assertEqual(game_meaning(None, 'zaru', 'ざる'), '')
+
+    def test_reading_brackets_are_all_removed(self):
+        cases = [
+            ('kaki(kudamono)', 'kaki'), ('botan(fashion)', 'botan'), ('Madori (1K, 1LDK, etc.)', 'Madori'),
+            ('Kitchin(kicchin) ga hiroi desu', 'Kitchin ga hiroi desu'), ('kaki（kaisen）', 'kaki'),
+            ('a (b (c)) d', 'a d'), ('(only)', 'only'), ('nori (food', 'nori (food'), ('ramen', 'ramen'), ('', ''),
+        ]
+        for value, expected in cases:
+            with self.subTest(value=value):
+                self.assertEqual(strip_brackets(value), expected)
+
+
+class GameBracketDisplayTests(TestCase):
+    def setUp(self):
+        self.zaru = _make_word('b-zaru', 'Colander (Zaru)', 'ざる', category='householditems', name='zaru(kitchen)',
+                               englishname_fr='Passoire (Zaru)', englishname_ko='소쿠리 (Zaru)')
+        self.kyusu = _make_word('b-kyusu', 'Teapot', 'きゅうす', category='householditems', name='kyuusu',
+                                englishname_fr='Kyūsu (Théière japonaise)')
+        self.take = _make_word('b-take', 'To take (a photo)', 'とる', category='householditems', name='toru')
+        self.shower = _make_word('b-shower', 'To take (a shower)', 'あびる', category='householditems', name='abiru')
+        _make_word('b-pot', 'Pot', 'なべ', category='householditems', name='nabe')
+
+    def test_choices_show_the_game_meaning_in_every_language(self):
+        for lang, col in MEANING_COLUMNS.items():
+            for word in (self.zaru, self.kyusu, self.take, self.shower):
+                with self.subTest(lang=lang, word=word.slug):
+                    built = _build_choices(word, lang)
+                    expected = word_game_meaning(word, col) or word_game_meaning(word, 'englishname')
+                    self.assertEqual(built['answer_text'], expected)
+                    self.assertEqual(built['choices'][built['answer_index']], expected)
+                    shown = ' '.join(c for c in built['choices'] if '소쿠리' not in c)
+                    self.assertNotIn('(Zaru)', shown)
+                    self.assertNotIn('Kyūsu', shown)
+        self.assertEqual(_build_choices(self.zaru, 'en')['answer_text'], 'Colander')
+        self.assertEqual(_build_choices(self.zaru, 'ko')['answer_text'], '소쿠리 (Zaru)')
+        self.assertEqual(_build_choices(self.kyusu, 'fr')['answer_text'], 'Théière japonaise')
+        self.assertEqual(_build_choices(self.take, 'en')['answer_text'], 'To take (a photo)')
+
+    def test_words_that_look_the_same_after_stripping_are_never_shown_together(self):
+        belt = _make_word('b-belt', 'Belt', 'べると', category='fashion', name='beruto', englishname_zh_cn='腰带')
+        obi = _make_word('b-obi', 'Obi', 'おび', category='fashion', name='obi', englishname_zh_cn='腰带 (Obi)')
+        for i in range(3):
+            _make_word(f'b-hat{i}', f'Hat{i}', f'ぼうし{i}', category='fashion', englishname_zh_cn=f'帽子{i}')
+        for word in (belt, obi):
+            for _ in range(30):
+                built = _build_choices(word, 'zh-cn')
+                self.assertEqual(built['choices'].count('腰带'), 1, built)
+                self.assertEqual(len({_meaning_key(c) for c in built['choices']}), 3)
+
+    def test_question_reading_has_no_brackets_and_the_stripped_answer_is_judged_correct(self):
+        _start_session_game(self.client, [self.zaru])
+        data = json.loads(self.client.get(reverse('game_question_data') + '?lang=fr').content)
+        self.assertEqual(data['romaji'], 'zaru')
+        self.assertIn('Passoire', data['choices'])
+        self.assertFalse(any('Zaru' in c for c in data['choices']), data['choices'])
+        result = json.loads(_submit_choice(self.client, data['choices'].index('Passoire')).content)
+        self.assertTrue(result['is_correct'], result)
+
+    def test_premium_romaji_reading_is_stripped(self):
+        word = ThankJapanPremium.objects.create(
+            name='b-madori', englishname='Room layout', jpname='まどり', romaji='Madori (1K, 1LDK, etc.)',
+            category='RealEstateRules', slug='b-madori', description='d', history='h')
+        self.assertEqual(tj_views._reading_for(word), ('まどり', 'Madori'))
+
+    def test_result_review_card_shows_the_reading_without_brackets(self):
+        session = self.client.session
+        session['game_history'] = [{'index': 0, 'is_correct': True, 'points': 1, 'question_id': self.zaru.id,
+                                    'question_model': 'free', 'combo': 1, 'combo_bonus': 0, 'user_input': 'Colander',
+                                    'correct_answer': 'Colander'}]
+        session['game_difficulty'] = 'timeattack'
+        session.save()
+        body = self.client.get(reverse('game_result')).content.decode()
+        self.assertIn('(Zaru)', re.sub(r'\s+', '', body))
+        self.assertNotIn('Zaru(Kitchen)', body)
+        self.assertNotIn('zaru(kitchen)', body)
+
+    def test_detail_page_keeps_the_stored_value(self):
+        response = self.client.get(reverse('category_detail', kwargs={'category': 'householditems', 'slug': 'b-zaru'}))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'Colander (Zaru)')
+
+
+class DailyQuestionBracketTests(TestCase):
+    def setUp(self):
+        self.today = timezone.localdate()
+        self.word = _make_word('dq-zaru', 'Colander (Zaru)', 'ざる', category='householditems', name='zaru(kitchen)',
+                               englishname_fr='Passoire (Zaru)')
+        for i, en in enumerate(['Clock', 'Chair', 'Pen']):
+            _make_word(f'dq-other-{i}', en, f'もの{i}', category='householditems')
+        DailyQuestion.objects.create(date=self.today, word=self.word)
+
+    def test_daily_choices_reading_and_judging_use_the_game_display(self):
+        for lang, expected in (('en', 'Colander'), ('fr', 'Passoire')):
+            with self.subTest(lang=lang):
+                client = Client()
+                response = client.get(reverse('daily_question'), {'lang': lang})
+                choices = response.context['choices']
+                self.assertIn(expected, choices)
+                self.assertEqual(response.context['romaji'], 'zaru')
+                self.assertNotIn('zaru(kitchen)', response.content.decode())
+                result = client.post(reverse('daily_question') + f'?lang={lang}', {'answer_choice': choices.index(expected)})
+                self.assertTrue(result.context['is_correct'])
+                self.assertEqual(result.context['correct_meaning'], expected)
+                body = result.content.decode()
+                self.assertIn('zaru / Colander', body)
+                self.assertNotIn('zaru(kitchen)', body)

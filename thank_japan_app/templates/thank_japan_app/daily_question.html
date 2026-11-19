@@ -329,7 +329,7 @@
                 {% if object.kanji_name %}{{ object.kanji_name|ruby_smart:object.jpname }}{% else %}{{ object.jpname }}{% endif %}
             </div>
             {% if correct_meaning %}<p class="dq-result-meaning">{{ correct_meaning }}</p>{% endif %}
-            <p style="color:rgba(0,0,0,0.6);">{{ object.name }} / {{ object.englishname }}</p>
+            <p style="color:rgba(0,0,0,0.6);">{{ object.name|game_reading }} / {{ object|game_meaning_of:"englishname" }}</p>
         </div>
 
         <a href="https://x.com/intent/tweet?text={{ share_text|urlencode }}&url={{ share_url|urlencode }}&hashtags={{ share_hashtags|urlencode }}"

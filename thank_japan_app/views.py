@@ -11,6 +11,7 @@ from django.core.exceptions import ValidationError
 from django.conf import settings
 from .forms import ContactForm, UsernameForm
 from .tile_split import build_tiles, classify_route
+from .game_display import game_meaning, reading_value, strip_brackets, word_game_meaning
 from django.views.decorators.http import require_POST
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
@@ -1824,9 +1825,17 @@ def _meaning_key(value):
 def _reading_for(question_obj):
     """(hiragana, romaji) shown under the image. ThankJapanPremium has a
     dedicated romaji column; ThankJapanModel's `name` holds the romaji (the
-    same field daily_question.html's result card already shows as such)."""
-    romaji = question_obj.romaji if isinstance(question_obj, ThankJapanPremium) else question_obj.name
-    return question_obj.jpname, romaji or ''
+    same field daily_question.html's result card already shows as such).
+    Brackets are dropped for the game ("kaki(kudamono)" -> "kaki"), see
+    game_display."""
+    return question_obj.jpname, strip_brackets(reading_value(question_obj))
+
+
+def _game_meaning_for(question_obj, lang_code):
+    """The correct meaning as the game shows it: the display language's
+    column, or English when that column is blank."""
+    field = MEANING_FIELD_BY_LANG.get(lang_code, 'englishname')
+    return word_game_meaning(question_obj, field) or word_game_meaning(question_obj, 'englishname')
 
 
 def _build_choices(question_obj, lang_code, correct_position=None):
@@ -1845,10 +1854,11 @@ def _build_choices(question_obj, lang_code, correct_position=None):
     tutorial Q1 only); otherwise the order is shuffled every time."""
     model = type(question_obj)
     field = MEANING_FIELD_BY_LANG.get(lang_code, 'englishname')
-    correct = _clean_meaning(getattr(question_obj, field, None))
+    correct = word_game_meaning(question_obj, field)
     if not correct:
         field = 'englishname'
-        correct = _clean_meaning(question_obj.englishname)
+        correct = word_game_meaning(question_obj, field)
+    reading_field = 'romaji' if model is ThankJapanPremium else 'name'
 
     seen = {_meaning_key(correct)}
     dummies = []
@@ -1857,10 +1867,12 @@ def _build_choices(question_obj, lang_code, correct_position=None):
         model.objects.exclude(category=question_obj.category),
     )
     for qs in pools:
-        candidates = list(qs.values_list(field, flat=True))
+        candidates = list(qs.values_list(field, reading_field, 'jpname'))
         random.shuffle(candidates)
-        for candidate in candidates:
-            text = _clean_meaning(candidate)
+        for candidate, romaji, jpname in candidates:
+            # Displayed (bracket-handled) text, so two words that only
+            # differed inside a reading bracket can't both be shown.
+            text = game_meaning(candidate, romaji, jpname)
             key = _meaning_key(text)
             if not text or key in seen:
                 continue
@@ -2283,8 +2295,7 @@ def game_submit_answer(request):
             submitted_text = choices[choice_index]
         else:
             _, lang_code = get_lang_info(request)
-            field = MEANING_FIELD_BY_LANG.get(lang_code, 'englishname')
-            answer_text = _clean_meaning(getattr(question, field, None)) or _clean_meaning(question.englishname)
+            answer_text = _game_meaning_for(question, lang_code)
             submitted_text = ''
         correct_flag = bool(submitted_text) and _meaning_key(submitted_text) == _meaning_key(answer_text)
     else:
@@ -2770,8 +2781,7 @@ def _daily_question_choices(request, word, today, lang_code):
 
 
 def _daily_question_correct_meaning(word, lang_code):
-    field = MEANING_FIELD_BY_LANG.get(lang_code, 'englishname')
-    return _clean_meaning(getattr(word, field, None)) or _clean_meaning(word.englishname)
+    return _game_meaning_for(word, lang_code)
 
 
 def daily_question_view(request):

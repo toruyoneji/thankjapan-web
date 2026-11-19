@@ -1246,7 +1246,7 @@ tbody td { padding: 8px; border: none; font-size: 0.82rem; color: var(--ink); }
                                     {{ item.object.jpname }}
                                 {% endif %}
                                 <span style="font-size: 0.8em; color: #888; font-weight: normal; margin-left: 5px;">
-                                    ({{ item.object.name|title }})
+                                    ({{ item.object.name|game_reading|title }})
                                 </span>
                             </h3>
                             {% if item.is_correct %}

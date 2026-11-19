@@ -5,6 +5,22 @@ import re
 
 register = template.Library()
 
+
+@register.filter
+def game_reading(value):
+    """A reading (name / romaji) as the game shows it: brackets and their
+    contents removed. See thank_japan_app/game_display.py."""
+    from thank_japan_app.game_display import strip_brackets
+    return strip_brackets(value)
+
+
+@register.filter
+def game_meaning_of(word, field='englishname'):
+    """One meaning column of a word as the game shows it (reading
+    brackets handled). See thank_japan_app/game_display.py."""
+    from thank_japan_app.game_display import word_game_meaning
+    return word_game_meaning(word, field)
+
 @register.filter
 def format_category(value, lang_code='en'):
     if not value:
