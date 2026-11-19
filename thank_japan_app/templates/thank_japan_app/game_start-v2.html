@@ -383,62 +383,62 @@ body::before, body::after { display: none; }
                 画像と読み方を見て、正しい意味を3つの中から選ぼう！<br>
                 <span style="font-size: 0.9em; color: #00bcd4; font-weight: bold;">⏱ {{ game_time_limit }}秒タイムアタック：何問解けるか挑戦！</span><br>
                 <span style="font-size: 0.85em; color: #d4af37; font-weight: bold;">⚡ 3連続正解でコンボボーナス+1pt！</span><br>
-                <span style="font-size: 0.85em; color: #2ec4b6; font-weight: bold;">💎 プレミアム単語は2倍ポイント！</span>
+                <span style="font-size: 0.85em; color: #2ec4b6; font-weight: bold;">💎 上級の単語(Lv{{ advanced_level }}から)は2pt！</span>
             {% elif lang_code == 'zh-hant' %}
                 看圖片和讀音，從3個選項中選出正確的意思！<br>
                 <span style="font-size: 0.9em; color: #00bcd4; font-weight: bold;">⏱ {{ game_time_limit }}秒限時挑戰：看看你能答對多少題！</span><br>
                 <span style="font-size: 0.85em; color: #d4af37; font-weight: bold;">⚡ 連續答對3題可獲得+1分連擊獎勵！</span><br>
-                <span style="font-size: 0.85em; color: #2ec4b6; font-weight: bold;">💎 進階單字可獲得雙倍分數！</span>
+                <span style="font-size: 0.85em; color: #2ec4b6; font-weight: bold;">💎 進階單字（Lv{{ advanced_level }}起）可得2分！</span>
             {% elif lang_code == 'zh-cn' %}
                 看图片和读音，从3个选项中选出正确的意思！<br>
                 <span style="font-size: 0.9em; color: #00bcd4; font-weight: bold;">⏱ {{ game_time_limit }}秒限时挑战：看看你能答对多少题！</span><br>
                 <span style="font-size: 0.85em; color: #d4af37; font-weight: bold;">⚡ 连续答对3题可获得+1分连击奖励！</span><br>
-                <span style="font-size: 0.85em; color: #2ec4b6; font-weight: bold;">💎 进阶单词可获得双倍分数！</span>
+                <span style="font-size: 0.85em; color: #2ec4b6; font-weight: bold;">💎 进阶单词（Lv{{ advanced_level }}起）可得2分！</span>
             {% elif lang_code == 'ko' %}
                 그림과 읽는 법을 보고, 3개 중에서 올바른 뜻을 고르세요！<br>
                 <span style="font-size: 0.9em; color: #00bcd4; font-weight: bold;">⏱ {{ game_time_limit }}초 타임어택：몇 문제나 풀 수 있을까요？</span><br>
                 <span style="font-size: 0.85em; color: #d4af37; font-weight: bold;">⚡ 3연속 정답으로 콤보 보너스 +1점!</span><br>
-                <span style="font-size: 0.85em; color: #2ec4b6; font-weight: bold;">💎 프리미엄 단어는 2배 포인트!</span>
+                <span style="font-size: 0.85em; color: #2ec4b6; font-weight: bold;">💎 상급 단어(Lv{{ advanced_level }}부터)는 2점!</span>
             {% elif lang_code == 'de' %}
                 Sieh dir Bild und Aussprache an und wähle aus 3 Antworten die richtige Bedeutung!<br>
                 <span style="font-size: 0.9em; color: #00bcd4; font-weight: bold;">⏱ {{ game_time_limit }} Sekunden auf Zeit: Wie viele schaffst du?</span><br>
                 <span style="font-size: 0.85em; color: #d4af37; font-weight: bold;">⚡ Serienbonus +1 Pkt. ab 3 Richtigen in Folge!</span><br>
-                <span style="font-size: 0.85em; color: #2ec4b6; font-weight: bold;">💎 Premium-Wörter geben doppelte Punkte!</span>
+                <span style="font-size: 0.85em; color: #2ec4b6; font-weight: bold;">💎 Fortgeschrittene Wörter (ab Lv{{ advanced_level }}) bringen 2 Pkt.!</span>
             {% elif lang_code == 'fr' %}
                 Regarde l'image et la lecture, puis choisis la bonne signification parmi 3 !<br>
                 <span style="font-size: 0.9em; color: #00bcd4; font-weight: bold;">⏱ Défi {{ game_time_limit }} secondes : Combien peux-tu en résoudre ?</span><br>
                 <span style="font-size: 0.85em; color: #d4af37; font-weight: bold;">⚡ Bonus de série +1 pt dès 3 bonnes réponses d'affilée !</span><br>
-                <span style="font-size: 0.85em; color: #2ec4b6; font-weight: bold;">💎 Les mots premium rapportent le double de points !</span>
+                <span style="font-size: 0.85em; color: #2ec4b6; font-weight: bold;">💎 Les mots avancés (dès Lv{{ advanced_level }}) rapportent 2 pts !</span>
             {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}
                 ¡Mira la imagen y la lectura, y elige el significado correcto entre 3 opciones!<br>
                 <span style="font-size: 0.9em; color: #00bcd4; font-weight: bold;">⏱ Contrarreloj de {{ game_time_limit }}s: ¿Cuántas puedes resolver?</span><br>
                 <span style="font-size: 0.85em; color: #d4af37; font-weight: bold;">⚡ ¡Bono de racha +1 pt a partir de 3 aciertos seguidos!</span><br>
-                <span style="font-size: 0.85em; color: #2ec4b6; font-weight: bold;">💎 ¡Las palabras premium dan el doble de puntos!</span>
+                <span style="font-size: 0.85em; color: #2ec4b6; font-weight: bold;">💎 ¡Las palabras avanzadas (desde Lv{{ advanced_level }}) dan 2 pts!</span>
             {% elif lang_code == 'it' %}
                 Guarda l'immagine e la lettura, poi scegli il significato giusto tra 3 opzioni!<br>
                 <span style="font-size: 0.9em; color: #00bcd4; font-weight: bold;">⏱ Time Attack di {{ game_time_limit }}s: Quante ne puoi risolvere?</span><br>
                 <span style="font-size: 0.85em; color: #d4af37; font-weight: bold;">⚡ Bonus serie +1 pt da 3 corrette di fila!</span><br>
-                <span style="font-size: 0.85em; color: #2ec4b6; font-weight: bold;">💎 Le parole premium danno il doppio dei punti!</span>
+                <span style="font-size: 0.85em; color: #2ec4b6; font-weight: bold;">💎 Le parole avanzate (dal Lv{{ advanced_level }}) danno 2 pt!</span>
             {% elif lang_code == 'pt' or lang_code == 'pt-br' %}
                 Veja a imagem e a leitura e escolha o significado certo entre 3 opções!<br>
                 <span style="font-size: 0.9em; color: #00bcd4; font-weight: bold;">⏱ Desafio de {{ game_time_limit }}s: Quantas você consegue resolver?</span><br>
                 <span style="font-size: 0.85em; color: #d4af37; font-weight: bold;">⚡ Bônus de sequência +1 pt a partir de 3 acertos seguidos!</span><br>
-                <span style="font-size: 0.85em; color: #2ec4b6; font-weight: bold;">💎 Palavras premium dão pontos em dobro!</span>
+                <span style="font-size: 0.85em; color: #2ec4b6; font-weight: bold;">💎 Palavras avançadas (a partir do Lv{{ advanced_level }}) valem 2 pts!</span>
             {% elif lang_code == 'vi' %}
                 Xem hình ảnh và cách đọc, rồi chọn nghĩa đúng trong 3 đáp án!<br>
                 <span style="font-size: 0.9em; color: #00bcd4; font-weight: bold;">⏱ Thử thách thời gian {{ game_time_limit }} giây: Bạn giải được bao nhiêu câu?</span><br>
                 <span style="font-size: 0.85em; color: #d4af37; font-weight: bold;">⚡ Thưởng chuỗi +1đ khi trả lời đúng 3 câu liên tiếp trở lên!</span><br>
-                <span style="font-size: 0.85em; color: #2ec4b6; font-weight: bold;">💎 Từ premium được gấp đôi điểm!</span>
+                <span style="font-size: 0.85em; color: #2ec4b6; font-weight: bold;">💎 Từ nâng cao (từ Lv{{ advanced_level }}) được 2 điểm!</span>
             {% elif lang_code == 'th' %}
                 ดูรูปภาพและคำอ่าน แล้วเลือกความหมายที่ถูกต้องจาก 3 ตัวเลือก!<br>
                 <span style="font-size: 0.9em; color: #00bcd4; font-weight: bold;">⏱ ท้าทายเวลา {{ game_time_limit }} วินาที: มาดูกันว่าคุณจะทำได้กี่ข้อ!</span><br>
                 <span style="font-size: 0.85em; color: #d4af37; font-weight: bold;">⚡ โบนัสคอมโบ +1 คะแนน เมื่อตอบถูกติดต่อกัน 3 ข้อขึ้นไป!</span><br>
-                <span style="font-size: 0.85em; color: #2ec4b6; font-weight: bold;">💎 คำศัพท์พรีเมียมได้คะแนนเป็น 2 เท่า!</span>
+                <span style="font-size: 0.85em; color: #2ec4b6; font-weight: bold;">💎 คำศัพท์ระดับสูง (ตั้งแต่ Lv{{ advanced_level }}) ได้ 2 คะแนน!</span>
             {% else %}
                 Look at the picture and the reading, then pick the right meaning from 3 choices!<br>
                 <span style="font-size: 0.9em; color: #00bcd4; font-weight: bold;">⏱ {{ game_time_limit }}s Time Attack: How many can you solve?</span><br>
                 <span style="font-size: 0.85em; color: #d4af37; font-weight: bold;">⚡ Combo bonus +1pt for 3+ correct in a row!</span><br>
-                <span style="font-size: 0.85em; color: #2ec4b6; font-weight: bold;">💎 Premium words earn double points!</span>
+                <span style="font-size: 0.85em; color: #2ec4b6; font-weight: bold;">💎 Advanced words (Lv{{ advanced_level }} and up) earn 2pt!</span>
             {% endif %}
         </p>
     </div>

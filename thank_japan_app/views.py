@@ -36,7 +36,7 @@ from firebase_admin import messaging
 from .firebase_utils import get_firebase_credentials
 from allauth.socialaccount.views import ConnectionsView
 from .achievements import check_and_unlock_achievements, get_achievement_progress, STREAK_ACHIEVEMENT_CODES
-from .ranks import GUEST_LEVEL, RANK_LEVELS, categories_for_level, categories_unlocked_between, category_short_label
+from .ranks import ADVANCED_WORDS_LEVEL, GUEST_LEVEL, RANK_LEVELS, categories_for_level, categories_unlocked_between, category_short_label
 from datetime import date, timedelta
 from dateutil.relativedelta import relativedelta
 import logging
@@ -1656,6 +1656,7 @@ def player_login(request):
         # first) + the current game length, so neither can drift again.
         'rank_levels': list(reversed(RANK_LEVELS)),
         'game_time_limit': GAME_TIME_LIMIT_SECONDS,
+        'advanced_level': ADVANCED_WORDS_LEVEL,
     })        
     
 def player_logout(request):
@@ -2047,6 +2048,7 @@ def game_start(request):
         'has_played': request.COOKIES.get('tj_has_played') == '1',
         'level_info': request.user.profile.rank_progress if request.user.is_authenticated else None,
         'game_time_limit': GAME_TIME_LIMIT_SECONDS,
+        'advanced_level': ADVANCED_WORDS_LEVEL,
     })
 
 

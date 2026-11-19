@@ -39,6 +39,16 @@ RANK_LEVELS = [
      'categories': ['MedicalEmergency', 'RealEstateRules', 'Prefectures']},
 ]
 MAX_LEVEL = RANK_LEVELS[-1]['level']
+
+# Categories stored in ThankJapanPremium - its words score 2pt in the timed
+# game for everyone (not a subscriber perk). The rules text calls them
+# "advanced words" and shows the level they first unlock at, derived here so
+# it follows any change to RANK_LEVELS.
+PREMIUM_TABLE_CATEGORIES = {
+    'DailyConversation', 'TourismEtiquette', 'Entertainment', 'slang', 'LivingInJapan',
+    'RomanceRelationships', 'BusinessJapanese', 'MedicalEmergency', 'RealEstateRules', 'Prefectures',
+}
+ADVANCED_WORDS_LEVEL = next(r['level'] for r in RANK_LEVELS if set(r['categories']) & PREMIUM_TABLE_CATEGORIES)
 GUEST_LEVEL = 1  # guests can't accumulate points, so they always play the Lv1 pool
 
 

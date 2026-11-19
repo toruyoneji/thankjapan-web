@@ -2573,16 +2573,17 @@ class GameStartComboRuleTextTests(TestCase):
                 self.assertNotIn('+3pt', body)
 
 
+# 2026-11-20: reworded from "premium words earn double points" - the 2pt
+# words are served to every player from the level shown (ranks.py), so the
+# rule no longer reads like a subscriber perk.
 GAME_START_DOUBLE_POINTS_TEXT_BY_LOCALE = {
-    'en': 'Premium words earn double points', 'ja': 'プレミアム単語は2倍ポイント',
-    'de': 'Premium-Wörter geben doppelte Punkte', 'en-in': 'Premium words earn double points',
-    'es-es': 'Las palabras premium dan el doble de puntos',
-    'es-mx': 'Las palabras premium dan el doble de puntos',
-    'fr': 'Les mots premium rapportent le double de points',
-    'it': 'Le parole premium danno il doppio dei punti', 'ko': '프리미엄 단어는 2배 포인트',
-    'pt': 'Palavras premium dão pontos em dobro', 'pt-br': 'Palavras premium dão pontos em dobro',
-    'th': 'คำศัพท์พรีเมียมได้คะแนนเป็น 2 เท่า', 'vi': 'Từ premium được gấp đôi điểm',
-    'zh-hant': '進階單字可獲得雙倍分數！', 'zh-cn': '进阶单词可获得双倍分数！',
+    'en': '💎 Advanced words (Lv8 and up) earn 2pt!', 'en-in': '💎 Advanced words (Lv8 and up) earn 2pt!',
+    'ja': '💎 上級の単語(Lv8から)は2pt！', 'zh-hant': '💎 進階單字（Lv8起）可得2分！', 'zh-cn': '💎 进阶单词（Lv8起）可得2分！',
+    'ko': '💎 상급 단어(Lv8부터)는 2점!', 'de': '💎 Fortgeschrittene Wörter (ab Lv8) bringen 2 Pkt.!',
+    'fr': '💎 Les mots avancés (dès Lv8) rapportent 2 pts !', 'es-es': '💎 ¡Las palabras avanzadas (desde Lv8) dan 2 pts!',
+    'es-mx': '💎 ¡Las palabras avanzadas (desde Lv8) dan 2 pts!', 'it': '💎 Le parole avanzate (dal Lv8) danno 2 pt!',
+    'pt': '💎 Palavras avançadas (a partir do Lv8) valem 2 pts!', 'pt-br': '💎 Palavras avançadas (a partir do Lv8) valem 2 pts!',
+    'vi': '💎 Từ nâng cao (từ Lv8) được 2 điểm!', 'th': '💎 คำศัพท์ระดับสูง (ตั้งแต่ Lv8) ได้ 2 คะแนน!',
 }
 
 # premium_info's plan-features <li> wraps the key phrase in <strong> with an
@@ -6892,21 +6893,21 @@ GAME_START_META_TIME_BY_LOCALE = {
     'ja': '45秒チャレンジ',
 }
 HOW_TO_PLAY_RULES_BY_LOCALE = {  # (time line, points line, levels line)
-    'ja': ('⏱ 45秒タイムアタック', '⭕ 正解で+1pt、💎 プレミアム語は+2pt、⚡ 3連続正解以降は1問ごとに+1pt', '🔓 ランクが上がると、出題されるカテゴリーが増えます'),
-    'zh-hant': ('⏱ 45秒限時挑戰', '⭕ 答對+1分、💎 進階單字+2分', '🔓 等級提升後，出題類別會增加'),
-    'zh-cn': ('⏱ 45秒限时挑战', '⭕ 答对+1分、💎 进阶单词+2分', '🔓 等级提升后，出题类别会增加'),
-    'ko': ('⏱ 45초 타임어택', '⭕ 정답 +1점, 💎 프리미엄 단어 +2점', '🔓 랭크가 오르면 출제되는 카테고리가 늘어나요'),
-    'de': ('⏱ 45 Sekunden auf Zeit', '⭕ Richtig +1 Pkt., 💎 Premiumwörter +2 Pkt.', '🔓 Mit jedem Rang kommen neue Fragekategorien hinzu'),
-    'fr': ('⏱ Défi 45 secondes', '⭕ Bonne réponse +1 pt, 💎 mots premium +2 pts', '🔓 Plus votre rang monte'),
-    'es-es': ('⏱ Contrarreloj de 45 s', '⭕ Acierto +1 pt, 💎 palabras premium +2 pts', '🔓 Al subir de rango'),
-    'es-mx': ('⏱ Contrarreloj de 45 s', '⭕ Acierto +1 pt, 💎 palabras premium +2 pts', '🔓 Al subir de rango'),
-    'it': ('⏱ Time Attack di 45 s', '⭕ Risposta giusta +1 pt, 💎 parole premium +2 pt', '🔓 Salendo di rango'),
-    'pt': ('⏱ Desafio de 45 s', '⭕ Acerto +1 pt, 💎 palavras premium +2 pts', '🔓 Ao subir de ranking'),
-    'pt-br': ('⏱ Desafio de 45 s', '⭕ Acerto +1 pt, 💎 palavras premium +2 pts', '🔓 Ao subir de ranking'),
-    'vi': ('⏱ Thử thách 45 giây', '⭕ Trả lời đúng +1 điểm, 💎 từ premium +2 điểm', '🔓 Thăng hạng để mở thêm danh mục câu hỏi'),
-    'th': ('⏱ ท้าทายเวลา 45 วินาที', '⭕ ตอบถูก +1 คะแนน, 💎 คำพรีเมียม +2 คะแนน', '🔓 เมื่ออันดับสูงขึ้น'),
-    'en': ('⏱ Time attack, 45 seconds', '⭕ Correct +1pt, 💎 premium words +2pt, ⚡ from 3 in a row, +1pt per question', '🔓 Rank up to unlock more question categories'),
-    'en-in': ('⏱ Time attack, 45 seconds', '⭕ Correct +1pt, 💎 premium words +2pt', '🔓 Rank up to unlock more question categories'),
+    'ja': ('⏱ 45秒タイムアタック', '⭕ 正解で+1pt、💎 上級の単語(Lv8から)は2pt、⚡ 3連続正解以降は1問ごとに+1pt', '🔓 ランクが上がると、出題されるカテゴリーが増えます'),
+    'zh-hant': ('⏱ 45秒限時挑戰', '⭕ 答對+1分、💎 進階單字（Lv8起）2分', '🔓 等級提升後，出題類別會增加'),
+    'zh-cn': ('⏱ 45秒限时挑战', '⭕ 答对+1分、💎 进阶单词（Lv8起）2分', '🔓 等级提升后，出题类别会增加'),
+    'ko': ('⏱ 45초 타임어택', '⭕ 정답 +1점, 💎 상급 단어(Lv8부터) 2점', '🔓 랭크가 오르면 출제되는 카테고리가 늘어나요'),
+    'de': ('⏱ 45 Sekunden auf Zeit', '⭕ Richtig +1 Pkt., 💎 fortgeschrittene Wörter (ab Lv8) 2 Pkt.', '🔓 Mit jedem Rang kommen neue Fragekategorien hinzu'),
+    'fr': ('⏱ Défi 45 secondes', '⭕ Bonne réponse +1 pt, 💎 mots avancés (dès Lv8) 2 pts', '🔓 Plus votre rang monte'),
+    'es-es': ('⏱ Contrarreloj de 45 s', '⭕ Acierto +1 pt, 💎 palabras avanzadas (desde Lv8) 2 pts', '🔓 Al subir de rango'),
+    'es-mx': ('⏱ Contrarreloj de 45 s', '⭕ Acierto +1 pt, 💎 palabras avanzadas (desde Lv8) 2 pts', '🔓 Al subir de rango'),
+    'it': ('⏱ Time Attack di 45 s', '⭕ Risposta giusta +1 pt, 💎 parole avanzate (dal Lv8) 2 pt', '🔓 Salendo di rango'),
+    'pt': ('⏱ Desafio de 45 s', '⭕ Acerto +1 pt, 💎 palavras avançadas (a partir do Lv8) 2 pts', '🔓 Ao subir de ranking'),
+    'pt-br': ('⏱ Desafio de 45 s', '⭕ Acerto +1 pt, 💎 palavras avançadas (a partir do Lv8) 2 pts', '🔓 Ao subir de ranking'),
+    'vi': ('⏱ Thử thách 45 giây', '⭕ Trả lời đúng +1 điểm, 💎 từ nâng cao (từ Lv8) 2 điểm', '🔓 Thăng hạng để mở thêm danh mục câu hỏi'),
+    'th': ('⏱ ท้าทายเวลา 45 วินาที', '⭕ ตอบถูก +1 คะแนน, 💎 คำศัพท์ระดับสูง (ตั้งแต่ Lv8) 2 คะแนน', '🔓 เมื่ออันดับสูงขึ้น'),
+    'en': ('⏱ Time attack, 45 seconds', '⭕ Correct +1pt, 💎 advanced words (Lv8 and up) 2pt, ⚡ from 3 in a row, +1pt per question', '🔓 Rank up to unlock more question categories'),
+    'en-in': ('⏱ Time attack, 45 seconds', '⭕ Correct +1pt, 💎 advanced words (Lv8 and up) 2pt', '🔓 Rank up to unlock more question categories'),
 }
 HOW_TO_PLAY_CLOSE_BY_LOCALE = {
     'ja': '閉じる ❌', 'zh-hant': '關閉 ❌', 'zh-cn': '关闭 ❌', 'de': 'Schließen ❌', 'fr': 'Fermer ❌',
@@ -7568,3 +7569,45 @@ class WordingConsistencyTests(TestCase):
         self.assertIn('Inscrivez-vous', body)       # existing French imperative, untouched
         pt = self.client.get(reverse('game_play'), {'lang': 'pt'}).content.decode()
         self.assertIn('Cadastre-se', pt)              # existing Portuguese clitic, untouched
+
+
+class AdvancedWordsRuleTests(TestCase):
+    """2026-11-20: the 2pt rule is described as "advanced words (LvN and up)",
+    never as a "premium" perk, with N taken from ranks.py."""
+
+    HTP_BY_LOCALE = {
+        'ja': '💎 上級の単語(Lv8から)は2pt、', 'zh-hant': '💎 進階單字（Lv8起）2分、', 'zh-cn': '💎 进阶单词（Lv8起）2分、',
+        'ko': '💎 상급 단어(Lv8부터) 2점, ', 'de': '💎 fortgeschrittene Wörter (ab Lv8) 2 Pkt., ', 'fr': '💎 mots avancés (dès Lv8) 2 pts, ',
+        'es-es': '💎 palabras avanzadas (desde Lv8) 2 pts, ', 'es-mx': '💎 palabras avanzadas (desde Lv8) 2 pts, ',
+        'it': '💎 parole avanzate (dal Lv8) 2 pt, ', 'pt': '💎 palavras avançadas (a partir do Lv8) 2 pts, ',
+        'pt-br': '💎 palavras avançadas (a partir do Lv8) 2 pts, ', 'vi': '💎 từ nâng cao (từ Lv8) 2 điểm, ',
+        'th': '💎 คำศัพท์ระดับสูง (ตั้งแต่ Lv8) 2 คะแนน, ', 'en': '💎 advanced words (Lv8 and up) 2pt, ',
+        'en-in': '💎 advanced words (Lv8 and up) 2pt, ',
+    }
+    PREMIUM_WORDING = re.compile(r'💎[^<]*(?:[Pp]remium|プレミアム|프리미엄|พรีเมียม|2倍|2배|2 เท่า|雙倍|双倍|doppelte|doble|doppio|dobro|gấp đôi|double)')
+
+    def setUp(self):
+        _create_social_apps()
+
+    def test_level_comes_from_ranks_py(self):
+        self.assertEqual(ranks.ADVANCED_WORDS_LEVEL, 8)
+        first = next(r['level'] for r in ranks.RANK_LEVELS if set(r['categories']) & ranks.PREMIUM_TABLE_CATEGORIES)
+        self.assertEqual(ranks.ADVANCED_WORDS_LEVEL, first)
+        self.assertEqual(ranks.PREMIUM_TABLE_CATEGORIES, set(PREMIUM_CATEGORIES))
+        with patch.object(tj_views, 'ADVANCED_WORDS_LEVEL', 6):
+            self.assertIn('(Lv6 and up)', self.client.get(reverse('game_start')).content.decode())
+            self.assertIn('(Lv6 and up)', self.client.get(reverse('player_login')).content.decode())
+
+    def test_start_screen_and_how_to_play_per_locale(self):
+        for lang in LOCALE_QUERY_PARAMS:
+            with self.subTest(lang=lang):
+                start = Client().get(reverse('game_start'), {'lang': lang}).content.decode()
+                self.assertIn(GAME_START_DOUBLE_POINTS_TEXT_BY_LOCALE[lang], start)
+                login = Client().get(reverse('player_login'), {'lang': lang}).content.decode()
+                self.assertIn(self.HTP_BY_LOCALE[lang], login)
+                for page in (start, login):
+                    self.assertIsNone(self.PREMIUM_WORDING.search(page), self.PREMIUM_WORDING.search(page))
+                    rule = [line for line in page.split('\n') if '💎' in line]
+                    self.assertTrue(rule)
+                    for line in rule:
+                        self.assertNotRegex(re.sub(r'<[^>]+>', '', line), '[\u2013\u2014]|\w-\w')
