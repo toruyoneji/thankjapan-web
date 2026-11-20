@@ -962,6 +962,7 @@ body {
     const IS_CHOICE_FORMAT = '{{ question_format|escapejs }}' === 'choice';
     const HAS_TIMER = {{ has_timer|yesno:'true,false' }};
     const TOTAL_TIME = {{ game_time_limit }};
+    const ROMAJI_REVEAL_CORRECT_DELAY_MS = {{ romaji_reveal_correct_delay_ms }};
     const RING_CIRCUMFERENCE = 175.9;
     const IS_AUTHENTICATED = {{ is_authenticated|yesno:'true,false' }};
     const TIME_EXTEND_COST = {{ time_extend_cost }};
@@ -1404,11 +1405,13 @@ body {
         romajiEl.textContent = hidden ? '\u00a0' : romaji;
     }
 
+    // Returns true when it actually revealed a hidden romaji.
     function revealRomaji(romaji) {
         const romajiEl = document.getElementById('prompt-romaji');
-        if (!romajiEl || !romajiEl.classList.contains('romaji-pending') || !romaji) return;
+        if (!romajiEl || !romajiEl.classList.contains('romaji-pending') || !romaji) return false;
         romajiEl.textContent = romaji;
         romajiEl.classList.remove('romaji-pending');
+        return true;
     }
 
     function renderChoiceBoard(data) {
@@ -1543,7 +1546,7 @@ body {
                 if (res.error) { submitting = false; return; }
                 document.getElementById('score-num').textContent = res.score;
                 updateKiGauge(res.combo);
-                revealRomaji(res.romaji);
+                const romajiRevealed = revealRomaji(res.romaji);
                 // Captured before this question's state gets overwritten by
                 // fetchQuestion()'s eventual renderBoard() call - reflects
                 // whichever tutorial mode (if any) applied to the question
@@ -1590,7 +1593,7 @@ body {
                         playTutorialOverlayAuto('tutorial-overlay-q2-wrong-explain', fetchQuestion);
                     }, 2000);
                 } else {
-                    setTimeout(fetchQuestion, res.is_correct ? 550 : wrongDelayMs);
+                    setTimeout(fetchQuestion, res.is_correct ? (romajiRevealed ? ROMAJI_REVEAL_CORRECT_DELAY_MS : 550) : wrongDelayMs);
                 }
             });
     }

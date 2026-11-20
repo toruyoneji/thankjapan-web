@@ -7988,3 +7988,44 @@ class ClueLevelUpNoticeTests(TestCase):
         body = self._finish(client, 15, 'en')
         self.assertIn('id="level-up-banner"', body)
         self.assertEqual(self._notices(body), [])
+
+
+class RomajiRevealDelayTests(TestCase):
+    """2026-11-21: a correct answer whose romaji was hidden waits
+    ROMAJI_REVEAL_CORRECT_DELAY_MS (not 550ms) before the next question.
+    Only questions that hid the romaji qualify, and only logged-in timed
+    games from Lv4 hide it (see ClueGameplayTests)."""
+
+    def setUp(self):
+        self.word = _make_word('delay-sushi', 'Sushi', 'すし', category='food', name='sushi')
+
+    def _play_page(self, client):
+        return client.get(reverse('game_play')).content.decode()
+
+    def test_one_constant_drives_the_delay(self):
+        self.assertEqual(tj_views.ROMAJI_REVEAL_CORRECT_DELAY_MS, 1200)
+        user = _user_with_score('delay-user', 600)
+        self.client.force_login(user)
+        self.client.get(reverse('game_restart'))
+        body = self._play_page(self.client)
+        self.assertIn('const ROMAJI_REVEAL_CORRECT_DELAY_MS = 1200;', body)
+        self.assertIn('const romajiRevealed = revealRomaji(res.romaji);', body)
+        self.assertIn('setTimeout(fetchQuestion, res.is_correct ? (romajiRevealed ? ROMAJI_REVEAL_CORRECT_DELAY_MS : 550) : wrongDelayMs);', body)
+        # a miss keeps its own pause (1500ms for 3 choices)
+        self.assertIn('}, 1500);', body)
+
+    def test_only_hidden_romaji_questions_qualify(self):
+        # revealRomaji reports a reveal only when the romaji was pending
+        self.client.get(reverse('game_restart'))
+        body = self._play_page(self.client)
+        self.assertIn("if (!romajiEl || !romajiEl.classList.contains('romaji-pending') || !romaji) return false;", body)
+        for level, hidden in ((3, False), (4, True)):
+            with self.subTest(level=level):
+                client = Client()
+                client.force_login(_user_with_score(f'delay-lv{level}', LEVEL_SCORES[level]))
+                client.get(reverse('game_restart'))
+                session = client.session
+                session['game_question_ids'] = [{'id': self.word.id, 'model': 'free'}]
+                session.save()
+                data = json.loads(client.get(reverse('game_question_data')).content)
+                self.assertEqual(data['clue']['romaji'], not hidden)

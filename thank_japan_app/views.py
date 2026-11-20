@@ -1777,6 +1777,11 @@ TIME_EXTEND_SECONDS = 10
 # "45-second" wording on the start/result screens, How to Play and the share
 # texts - reads this one constant (2026-11-19: 60 -> 45).
 GAME_TIME_LIMIT_SECONDS = 45
+# After a CORRECT answer to a question whose romaji was hidden (ranks.CLUE_TIERS:
+# a logged-in player's timed game from Lv4), wait this long before the next
+# question so the romaji shown after answering can be read. Every other
+# correct answer keeps the 550ms pause; misses keep their own pause.
+ROMAJI_REVEAL_CORRECT_DELAY_MS = 1200
 
 # --- Question format switch (2026-11-19) ---
 # 'choice': image + reading (hiragana/romaji) -> pick the meaning in the
@@ -2100,6 +2105,7 @@ def game_play(request):
         'time_extend_cost': TIME_EXTEND_COST,
         'time_extend_seconds': TIME_EXTEND_SECONDS,
         'game_time_limit': GAME_TIME_LIMIT_SECONDS,
+        'romaji_reveal_correct_delay_ms': ROMAJI_REVEAL_CORRECT_DELAY_MS,
         'question_format': GAME_QUESTION_FORMAT,
     })
 
