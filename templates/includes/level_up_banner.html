@@ -19,6 +19,7 @@ already-localized short names of the categories that rise unlocked.
     font-size: 0.9rem; font-weight: 700; padding: 4px 10px; border-radius: 999px;
     background: #fff; border: 1px solid rgba(212,175,55,0.6);
 }
+.level-up-banner .lu-clue { font-size: 0.9rem; font-weight: 700; margin: 10px 0 0; line-height: 1.5; color: #5a4320; }
 </style>
 <div class="level-up-banner" id="level-up-banner">
     <p class="lu-title">🎉
@@ -39,5 +40,38 @@ already-localized short names of the categories that rise unlocked.
     <ul class="lu-cats">
         {% for label in level_up.categories %}<li>{{ label }}</li>{% endfor %}
     </ul>
+    {% for change in level_up.clue_changes %}
+    {% if change == 'romaji' %}{% with n=level_up.romaji_hidden_level %}
+    <p class="lu-clue" data-clue="romaji">💡
+        {% if lang_code == 'ja' %}Lv{{ n }}から、ローマ字は答えたあとに表示されます。
+        {% elif lang_code == 'zh-hant' %}從Lv{{ n }}起，羅馬字會在作答後顯示。
+        {% elif lang_code == 'zh-cn' %}从Lv{{ n }}起，罗马字会在作答后显示。
+        {% elif lang_code == 'ko' %}Lv{{ n }}부터 로마자는 답한 뒤에 표시돼요.
+        {% elif lang_code == 'de' %}Ab Lv{{ n }} erscheint Romaji erst nach deiner Antwort.
+        {% elif lang_code == 'fr' %}À partir du Lv{{ n }}, le romaji s'affiche après ta réponse.
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Desde el Lv{{ n }}, el romaji aparece después de responder.
+        {% elif lang_code == 'it' %}Dal Lv{{ n }}, il romaji appare dopo la risposta.
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}A partir do Lv{{ n }}, o romaji aparece depois da resposta.
+        {% elif lang_code == 'vi' %}Từ Lv{{ n }}, romaji sẽ hiện sau khi bạn trả lời.
+        {% elif lang_code == 'th' %}ตั้งแต่ Lv{{ n }} โรมาจิจะแสดงหลังจากตอบแล้ว
+        {% else %}From Lv{{ n }}, romaji is shown after you answer.{% endif %}
+    </p>
+    {% endwith %}{% elif change == 'image' %}{% with n=level_up.small_image_level %}
+    <p class="lu-clue" data-clue="image">🖼️
+        {% if lang_code == 'ja' %}Lv{{ n }}から、画像が小さくなります。
+        {% elif lang_code == 'zh-hant' %}從Lv{{ n }}起，圖片會變小。
+        {% elif lang_code == 'zh-cn' %}从Lv{{ n }}起，图片会变小。
+        {% elif lang_code == 'ko' %}Lv{{ n }}부터 그림이 작아져요.
+        {% elif lang_code == 'de' %}Ab Lv{{ n }} werden die Bilder kleiner.
+        {% elif lang_code == 'fr' %}À partir du Lv{{ n }}, les images sont plus petites.
+        {% elif lang_code == 'es-es' or lang_code == 'es-mx' %}Desde el Lv{{ n }}, las imágenes son más pequeñas.
+        {% elif lang_code == 'it' %}Dal Lv{{ n }}, le immagini sono più piccole.
+        {% elif lang_code == 'pt' or lang_code == 'pt-br' %}A partir do Lv{{ n }}, as imagens ficam menores.
+        {% elif lang_code == 'vi' %}Từ Lv{{ n }}, hình ảnh sẽ nhỏ hơn.
+        {% elif lang_code == 'th' %}ตั้งแต่ Lv{{ n }} รูปภาพจะเล็กลง
+        {% else %}From Lv{{ n }}, pictures are smaller.{% endif %}
+    </p>
+    {% endwith %}{% endif %}
+    {% endfor %}
 </div>
 {% endif %}

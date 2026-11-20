@@ -81,6 +81,54 @@ def categories_unlocked_between(old_level, new_level):
     return [cat for rank in RANK_LEVELS[old_level:new_level] for cat in rank['categories']]
 
 
+# Clues shown on the main timed game's question card, by level (2026-11-21).
+# Only a logged-in player's timeattack game uses these (the level is fixed
+# when the game starts); guests, the 3-question trial, Daily Question,
+# single-word review and the tutorials always get FULL_CLUES.
+# romaji False: the romaji line is left out of the question and only shown
+# once the player has answered. image 'small': the picture at about 50%.
+CLUE_TIERS = [
+    {'from_level': 1, 'romaji': True, 'image': 'full'},
+    {'from_level': 4, 'romaji': False, 'image': 'full'},
+    {'from_level': 7, 'romaji': False, 'image': 'small'},
+]
+FULL_CLUES = {'romaji': True, 'image': 'full'}
+ROMAJI_HIDDEN_LEVEL = next(t['from_level'] for t in CLUE_TIERS if not t['romaji'])
+SMALL_IMAGE_LEVEL = next(t['from_level'] for t in CLUE_TIERS if t['image'] == 'small')
+
+# Greeting / phrase categories (whole sentences, all unlocked at Lv8 and up)
+# get the next easier tier: Lv8-10 play them like Lv4-6.
+PHRASE_CATEGORIES = {
+    'DailyConversation', 'TourismEtiquette', 'slang', 'LivingInJapan', 'RomanceRelationships',
+    'BusinessJapanese', 'MedicalEmergency', 'RealEstateRules',
+}
+
+
+def _clue_tier_index(level):
+    level = rank_for_level(level)['level']
+    return max(i for i, tier in enumerate(CLUE_TIERS) if level >= tier['from_level'])
+
+
+def clue_rules_for(level, category):
+    """{'romaji': bool, 'image': 'full'|'small'} for one question."""
+    index = _clue_tier_index(level)
+    if category in PHRASE_CATEGORIES:
+        index = max(index - 1, 0)
+    tier = CLUE_TIERS[index]
+    return {'romaji': tier['romaji'], 'image': tier['image']}
+
+
+def clue_changes_between(old_level, new_level):
+    """Which clue changes a level rise crossed, in order: 'romaji' (romaji
+    now shown after answering) and/or 'image' (smaller pictures)."""
+    changes = []
+    if old_level < ROMAJI_HIDDEN_LEVEL <= new_level:
+        changes.append('romaji')
+    if old_level < SMALL_IMAGE_LEVEL <= new_level:
+        changes.append('image')
+    return changes
+
+
 def rank_progress(level, score):
     """Everything the "Lv5 Samurai - 120pt to the next level" displays need.
     level is the player's (never-decreasing) level, which can sit above the

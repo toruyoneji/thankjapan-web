@@ -7793,3 +7793,198 @@ class DailyQuestionBracketTests(TestCase):
                 body = result.content.decode()
                 self.assertIn('zaru / Colander', body)
                 self.assertNotIn('zaru(kitchen)', body)
+
+
+# ---------------------------------------------------------------------------
+# 2026-11-21: clues by level (ranks.CLUE_TIERS). Lv1-3 as before, Lv4-6 no
+# romaji until answered, Lv7-10 also a smaller picture. Phrase categories
+# get the next easier tier. Logged-in timeattack only, level fixed at start.
+# ---------------------------------------------------------------------------
+
+LEVEL_SCORES = {1: 0, 3: 350, 4: 600, 6: 1300, 7: 1800, 8: 2400, 10: 4000}
+CLUE_ROMAJI_NOTICE_BY_LOCALE = {
+    'en': 'From Lv4, romaji is shown after you answer.', 'en-in': 'From Lv4, romaji is shown after you answer.',
+    'ja': 'Lv4から、ローマ字は答えたあとに表示されます。', 'zh-hant': '從Lv4起，羅馬字會在作答後顯示。',
+    'zh-cn': '从Lv4起，罗马字会在作答后显示。', 'ko': 'Lv4부터 로마자는 답한 뒤에 표시돼요.',
+    'de': 'Ab Lv4 erscheint Romaji erst nach deiner Antwort.', 'fr': "À partir du Lv4, le romaji s'affiche après ta réponse.",
+    'es-es': 'Desde el Lv4, el romaji aparece después de responder.', 'es-mx': 'Desde el Lv4, el romaji aparece después de responder.',
+    'it': 'Dal Lv4, il romaji appare dopo la risposta.', 'pt': 'A partir do Lv4, o romaji aparece depois da resposta.',
+    'pt-br': 'A partir do Lv4, o romaji aparece depois da resposta.', 'vi': 'Từ Lv4, romaji sẽ hiện sau khi bạn trả lời.',
+    'th': 'ตั้งแต่ Lv4 โรมาจิจะแสดงหลังจากตอบแล้ว',
+}
+CLUE_IMAGE_NOTICE_BY_LOCALE = {
+    'en': 'From Lv7, pictures are smaller.', 'en-in': 'From Lv7, pictures are smaller.', 'ja': 'Lv7から、画像が小さくなります。',
+    'zh-hant': '從Lv7起，圖片會變小。', 'zh-cn': '从Lv7起，图片会变小。', 'ko': 'Lv7부터 그림이 작아져요.',
+    'de': 'Ab Lv7 werden die Bilder kleiner.', 'fr': 'À partir du Lv7, les images sont plus petites.',
+    'es-es': 'Desde el Lv7, las imágenes son más pequeñas.', 'es-mx': 'Desde el Lv7, las imágenes son más pequeñas.',
+    'it': 'Dal Lv7, le immagini sono più piccole.', 'pt': 'A partir do Lv7, as imagens ficam menores.',
+    'pt-br': 'A partir do Lv7, as imagens ficam menores.', 'vi': 'Từ Lv7, hình ảnh sẽ nhỏ hơn.', 'th': 'ตั้งแต่ Lv7 รูปภาพจะเล็กลง',
+}
+
+
+class ClueRuleDefinitionTests(SimpleTestCase):
+    def test_tiers_by_level_for_word_categories(self):
+        expected = {1: (True, 'full'), 2: (True, 'full'), 3: (True, 'full'), 4: (False, 'full'), 5: (False, 'full'),
+                    6: (False, 'full'), 7: (False, 'small'), 8: (False, 'small'), 9: (False, 'small'), 10: (False, 'small')}
+        for level, (romaji, image) in expected.items():
+            with self.subTest(level=level):
+                self.assertEqual(ranks.clue_rules_for(level, 'food'), {'romaji': romaji, 'image': image})
+
+    def test_phrase_categories_get_the_next_easier_tier(self):
+        for category in ranks.PHRASE_CATEGORIES:
+            for level in (8, 9, 10):
+                with self.subTest(category=category, level=level):
+                    self.assertEqual(ranks.clue_rules_for(level, category), {'romaji': False, 'image': 'full'})
+        self.assertEqual(ranks.clue_rules_for(10, 'Entertainment'), {'romaji': False, 'image': 'small'})
+        self.assertEqual(ranks.clue_rules_for(10, 'Prefectures'), {'romaji': False, 'image': 'small'})
+        self.assertTrue(ranks.PHRASE_CATEGORIES <= set(ranks.categories_for_level(ranks.MAX_LEVEL)))
+
+    def test_levels_and_changes_crossed(self):
+        self.assertEqual((ranks.ROMAJI_HIDDEN_LEVEL, ranks.SMALL_IMAGE_LEVEL), (4, 7))
+        self.assertEqual(ranks.clue_changes_between(3, 4), ['romaji'])
+        self.assertEqual(ranks.clue_changes_between(6, 7), ['image'])
+        self.assertEqual(ranks.clue_changes_between(2, 8), ['romaji', 'image'])
+        self.assertEqual(ranks.clue_changes_between(4, 6), [])
+        self.assertEqual(ranks.clue_changes_between(1, 2), [])
+
+
+class ClueGameplayTests(TestCase):
+    def setUp(self):
+        self.word = _make_word('clue-sushi', 'Sushi', 'すし', category='food', name='sushi(food)')
+        for i, en in enumerate(['Apple', 'Rice', 'Egg']):
+            _make_word(f'clue-other-{i}', en, f'もの{i}', category='food')
+        self.phrase = ThankJapanPremium.objects.create(
+            name='clue-phrase', englishname='Good morning', jpname='おはようございます', romaji='Ohayou gozaimasu',
+            category='DailyConversation', slug='clue-phrase', description='d', history='h')
+
+    def _start(self, client, level, words=None, model='free'):
+        user = _user_with_score(f'clue-user-{level}-{model}-{User.objects.count()}', LEVEL_SCORES[level])
+        client.force_login(user)
+        client.get(reverse('game_restart'))
+        session = client.session
+        session['game_question_ids'] = [{'id': w.id, 'model': model} for w in (words or [self.word])]
+        session.save()
+        return user
+
+    def _question(self, client):
+        return json.loads(client.get(reverse('game_question_data')).content)
+
+    def test_question_clues_follow_the_level(self):
+        expected = {1: ('sushi', 'full'), 3: ('sushi', 'full'), 4: ('', 'full'), 6: ('', 'full'),
+                    7: ('', 'small'), 10: ('', 'small')}
+        for level, (romaji, image) in expected.items():
+            with self.subTest(level=level):
+                client = Client()
+                self._start(client, level)
+                data = self._question(client)
+                self.assertEqual(data['romaji'], romaji)
+                self.assertEqual(data['clue'], {'romaji': bool(romaji), 'image': image})
+                self.assertEqual(data['reading'], 'すし')
+
+    def test_hidden_romaji_is_returned_with_the_answer(self):
+        self._start(self.client, 4)
+        data = self._question(self.client)
+        self.assertEqual(data['romaji'], '')
+        self.assertNotIn('sushi', json.dumps(data))
+        result = json.loads(_submit_choice(self.client, 0).content)
+        self.assertEqual(result['romaji'], 'sushi')
+
+    def test_phrase_category_is_one_tier_easier(self):
+        self._start(self.client, 10, words=[self.phrase], model='premium')
+        data = self._question(self.client)
+        self.assertEqual(data['clue'], {'romaji': False, 'image': 'full'})
+        self.assertEqual(data['romaji'], '')
+
+    def test_level_is_fixed_when_the_game_starts(self):
+        user = self._start(self.client, 3, words=[self.word, self.word])
+        self.assertEqual(self._question(self.client)['clue']['romaji'], True)
+        Profile.objects.filter(user=user).update(total_score=LEVEL_SCORES[7], max_level=7)
+        _submit_choice(self.client, 0)
+        self.assertEqual(self._question(self.client)['clue'], {'romaji': True, 'image': 'full'})
+
+    def test_excluded_modes_always_get_full_clues(self):
+        # guest timed game
+        guest = Client()
+        guest.get(reverse('game_restart'))
+        session = guest.session
+        session['game_question_ids'] = [{'id': self.word.id, 'model': 'free'}]
+        session.save()
+        data = self._question(guest)
+        self.assertEqual((data['romaji'], data['clue']), ('sushi', {'romaji': True, 'image': 'full'}))
+        # 3-question guest trial
+        trial = Client()
+        trial.get(reverse('game_restart'), {'difficulty': 'first_taste'})
+        self.assertEqual(trial.session.get('game_difficulty'), 'first_taste')
+        self.assertIsNone(trial.session.get('game_clue_level'))
+        self.assertEqual(self._question(trial)['clue'], {'romaji': True, 'image': 'full'})
+        # single-word review by a Lv10 player
+        single = Client()
+        single.force_login(_user_with_score('clue-single', LEVEL_SCORES[10]))
+        single.get(reverse('game_restart'), {'mode': 'single', 'slug': self.word.slug})
+        data = self._question(single)
+        self.assertEqual((data['romaji'], data['clue']), ('sushi', {'romaji': True, 'image': 'full'}))
+        # Daily Question for a Lv10 player
+        DailyQuestion.objects.create(date=timezone.localdate(), word=self.word)
+        daily = Client()
+        daily.force_login(_user_with_score('clue-daily', LEVEL_SCORES[10]))
+        self.assertEqual(daily.get(reverse('daily_question'), {'lang': 'en'}).context['romaji'], 'sushi')
+
+    def test_a_timed_game_after_single_review_gets_the_level_again(self):
+        client = Client()
+        client.force_login(_user_with_score('clue-switch', LEVEL_SCORES[7]))
+        client.get(reverse('game_restart'), {'mode': 'single', 'slug': self.word.slug})
+        self.assertIsNone(client.session.get('game_clue_level'))
+        client.get(reverse('game_restart'))
+        self.assertEqual(client.session.get('game_clue_level'), 7)
+
+    def test_play_screen_has_the_clue_hooks(self):
+        self._start(self.client, 7)
+        body = self.client.get(reverse('game_play')).content.decode()
+        for hook in ('id="prompt-card"', '.prompt-card.clue-image-small img', '.prompt-romaji.romaji-pending',
+                     'function applyClues', 'revealRomaji(res.romaji)'):
+            self.assertIn(hook, body)
+
+
+class ClueLevelUpNoticeTests(TestCase):
+    def setUp(self):
+        self.word = ThankJapanModel.objects.create(name='cn-word', englishname='Dog', jpname='いぬ',
+                                                   category='animal', slug='cn-word', description='d', history='h')
+
+    def _finish(self, client, points, lang):
+        session = client.session
+        session['game_history'] = [{'index': 0, 'is_correct': True, 'points': points, 'question_id': self.word.id,
+                                    'question_model': 'free', 'combo': 1, 'combo_bonus': 0,
+                                    'user_input': 'Dog', 'correct_answer': 'Dog'}]
+        session['game_difficulty'] = 'timeattack'
+        session.save()
+        return client.get(reverse('game_result'), {'lang': lang}).content.decode()
+
+    def _notices(self, body):
+        return re.findall(r'<p class="lu-clue" data-clue="(\w+)">(.*?)</p>', body, re.S)
+
+    def test_notice_lines_per_locale_without_hyphens_or_dashes(self):
+        for lang in LOCALE_QUERY_PARAMS:
+            with self.subTest(lang=lang):
+                client = Client()
+                client.force_login(_user_with_score(f'cn-r-{lang}', 590))  # Lv3 -> Lv4
+                notices = self._notices(self._finish(client, 15, lang))
+                self.assertEqual([n[0] for n in notices], ['romaji'])
+                self.assertIn(CLUE_ROMAJI_NOTICE_BY_LOCALE[lang], notices[0][1])
+
+                client = Client()
+                client.force_login(_user_with_score(f'cn-i-{lang}', 1790, max_level=6))  # Lv6 -> Lv7
+                notices = self._notices(self._finish(client, 15, lang))
+                self.assertEqual([n[0] for n in notices], ['image'])
+                self.assertIn(CLUE_IMAGE_NOTICE_BY_LOCALE[lang], notices[0][1])
+        for text in list(CLUE_ROMAJI_NOTICE_BY_LOCALE.values()) + list(CLUE_IMAGE_NOTICE_BY_LOCALE.values()):
+            self.assertIsNone(re.search('[-‐-―−－]', text), text)
+
+    def test_jump_shows_both_and_other_rises_show_none(self):
+        client = Client()
+        client.force_login(_user_with_score('cn-both', 340))  # Lv2 -> Lv8
+        self.assertEqual([n[0] for n in self._notices(self._finish(client, 2100, 'en'))], ['romaji', 'image'])
+        client = Client()
+        client.force_login(_user_with_score('cn-none', 140))  # Lv1 -> Lv2
+        body = self._finish(client, 15, 'en')
+        self.assertIn('id="level-up-banner"', body)
+        self.assertEqual(self._notices(body), [])

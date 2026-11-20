@@ -450,6 +450,22 @@ body {
     .choice-btn { min-height: 84px; font-size: 1.5rem; }
 }
 
+/* Clues by level (ranks.CLUE_TIERS, logged-in timed game only).
+   clue-image-small: the picture at about 50% of each layout's size.
+   romaji-pending: the romaji line keeps its height while hidden, so the
+   choices don't jump when it appears after answering. */
+.prompt-card.clue-image-small img { height: 80px; max-width: 130px; }
+@media (max-height: 700px) and (max-width: 767px) {
+    .prompt-card.clue-image-small img { height: 55px; max-width: 110px; }
+}
+@media (max-height: 600px) and (max-width: 767px) {
+    .prompt-card.clue-image-small img { height: 40px; max-width: 90px; }
+}
+@media (min-width: 768px) and (orientation: portrait) {
+    .prompt-card.clue-image-small img { height: 120px; max-width: 190px; }
+}
+.prompt-romaji.romaji-pending { visibility: hidden; }
+
 /* ---------- time-up / "spend points to extend" modal ---------- */
 #timeup-modal-overlay {
   position: fixed; inset: 0; background: rgba(10,8,4,0.75); z-index: 700;
@@ -798,7 +814,7 @@ body {
         </div>
     </div>
 
-    <div class="prompt-card">
+    <div class="prompt-card" id="prompt-card">
         <img id="prompt-img" src="" alt="">
         {% if question_format == 'choice' %}
         <p class="prompt-reading" id="prompt-reading" lang="ja"></p>
@@ -1377,6 +1393,24 @@ body {
         if (window.confirm(message)) window.location.href = exitDestination();
     });
 
+    // Level clues (ranks.CLUE_TIERS): the server leaves the romaji out when
+    // it's hidden and sends it with the answer instead (revealRomaji).
+    function applyClues(clue, romaji) {
+        const card = document.getElementById('prompt-card');
+        const romajiEl = document.getElementById('prompt-romaji');
+        card.classList.toggle('clue-image-small', clue.image === 'small');
+        const hidden = clue.romaji === false;
+        romajiEl.classList.toggle('romaji-pending', hidden);
+        romajiEl.textContent = hidden ? '\u00a0' : romaji;
+    }
+
+    function revealRomaji(romaji) {
+        const romajiEl = document.getElementById('prompt-romaji');
+        if (!romajiEl || !romajiEl.classList.contains('romaji-pending') || !romaji) return;
+        romajiEl.textContent = romaji;
+        romajiEl.classList.remove('romaji-pending');
+    }
+
     function renderChoiceBoard(data) {
         currentQuestionId = data.question_id;
         currentQuestionModel = data.question_model;
@@ -1393,7 +1427,7 @@ body {
         document.getElementById('score-num').textContent = data.score;
         document.getElementById('prompt-img').src = data.image_url || '';
         document.getElementById('prompt-reading').textContent = data.reading || '';
-        document.getElementById('prompt-romaji').textContent = data.romaji || '';
+        applyClues(data.clue || {}, data.romaji || '');
 
         drawChoices();
 
@@ -1509,6 +1543,7 @@ body {
                 if (res.error) { submitting = false; return; }
                 document.getElementById('score-num').textContent = res.score;
                 updateKiGauge(res.combo);
+                revealRomaji(res.romaji);
                 // Captured before this question's state gets overwritten by
                 // fetchQuestion()'s eventual renderBoard() call - reflects
                 // whichever tutorial mode (if any) applied to the question

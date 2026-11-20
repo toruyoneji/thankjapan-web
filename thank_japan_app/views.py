@@ -37,7 +37,7 @@ from firebase_admin import messaging
 from .firebase_utils import get_firebase_credentials
 from allauth.socialaccount.views import ConnectionsView
 from .achievements import check_and_unlock_achievements, get_achievement_progress, STREAK_ACHIEVEMENT_CODES
-from .ranks import ADVANCED_WORDS_LEVEL, GUEST_LEVEL, RANK_LEVELS, categories_for_level, categories_unlocked_between, category_short_label
+from .ranks import ADVANCED_WORDS_LEVEL, FULL_CLUES, GUEST_LEVEL, RANK_LEVELS, ROMAJI_HIDDEN_LEVEL, SMALL_IMAGE_LEVEL, categories_for_level, categories_unlocked_between, category_short_label, clue_changes_between, clue_rules_for
 from datetime import date, timedelta
 from dateutil.relativedelta import relativedelta
 import logging
@@ -2198,6 +2198,16 @@ def game_question_data(request):
     })
 
 
+def _clue_rules_for_question(request, question):
+    """ranks.clue_rules_for at the level fixed when this game started
+    (game_clue_level, set only for a logged-in player's timeattack game,
+    so every other mode gets FULL_CLUES)."""
+    level = request.session.get('game_clue_level')
+    if not level:
+        return dict(FULL_CLUES)
+    return clue_rules_for(level, question.category)
+
+
 def _choice_question_response(request, question, q, index, seconds_left, is_tutorial_q1, is_tutorial_q2, is_nav_tutorial_q):
     """game_question_data's 3-choice branch. The correct choice is never
     sent to the client except as a tutorial guide target: first_taste Q1
@@ -2223,6 +2233,7 @@ def _choice_question_response(request, question, q, index, seconds_left, is_tuto
     request.session['current_choices'] = built['choices']
 
     hiragana, romaji = _reading_for(question)
+    clue = _clue_rules_for_question(request, question)
     return JsonResponse({
         'game_over': False,
         'format': QUESTION_FORMAT_CHOICE,
@@ -2231,7 +2242,9 @@ def _choice_question_response(request, question, q, index, seconds_left, is_tuto
         'question_model': q['model'],
         'choices': built['choices'],
         'reading': hiragana,
-        'romaji': romaji,
+        # Hidden romaji isn't sent at all; game_submit_answer returns it.
+        'romaji': romaji if clue['romaji'] else '',
+        'clue': clue,
         'tutorial_choice_index': tutorial_choice_index,
         'tutorial_wrong_choice_index': tutorial_wrong_choice_index,
         'seconds_left': seconds_left,
@@ -2376,6 +2389,8 @@ def game_submit_answer(request):
         'correct_answer': answer_text,
         'correct_choice_index': correct_choice_index,
         'score': request.session.get('game_score', 0),
+        # Shown after answering when the question hid it (ranks.CLUE_TIERS).
+        'romaji': _reading_for(question)[1] if GAME_QUESTION_FORMAT == QUESTION_FORMAT_CHOICE else '',
     })
 
     # Nav-tutorial step 7 (see NAV_TUTORIAL_TARGET_SLUG): mark it seen only
@@ -2539,9 +2554,14 @@ def game_restart(request):
         'nav_tutorial_single_active',
         'game_start_counted', 'game_completed_counted',
         'current_answer_index', 'current_answer_text', 'current_choices',
+        'game_clue_level',
     ]
     for key in keys_to_clear:
         request.session.pop(key, None)
+    if game_difficulty == 'timeattack' and request.user.is_authenticated:
+        # Clue level (ranks.CLUE_TIERS) is fixed for the whole game, even if
+        # the player levels up partway through.
+        request.session['game_clue_level'] = _player_level(request)
 
     request.session['game_question_ids'] = questions
     request.session['game_current_index'] = 0
@@ -3099,6 +3119,9 @@ def game_result(request):
                 'level': current_level,
                 'rank': level_profile.rank_info,
                 'categories': [category_short_label(c, lang_code) for c in categories_unlocked_between(previous_level, current_level)],
+                'clue_changes': clue_changes_between(previous_level, current_level),
+                'romaji_hidden_level': ROMAJI_HIDDEN_LEVEL,
+                'small_image_level': SMALL_IMAGE_LEVEL,
             }
         level_info = level_profile.rank_progress
 
